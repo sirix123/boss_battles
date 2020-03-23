@@ -1,0 +1,395 @@
+
+"DOTAAbilities"
+{
+	"Version"		"1"
+
+	//=================================================================================================================
+    // beastmaster bear claw
+    //=================================================================================================================
+    "bear_claw"
+    {
+        "BaseClass"                     "ability_lua"
+        "ScriptFile"                    "bosses/beastmaster/bear_claw"
+        "AbilityTextureName"            "life_stealer_open_wounds"
+
+        "AbilityCastAnimation"          "ACT_DOTA_CAST_ABILITY_3"
+        "AbilityBehavior"               "DOTA_ABILITY_BEHAVIOR_UNIT_TARGET"
+        "AbilityUnitTargetTeam"         "DOTA_UNIT_TARGET_TEAM_ENEMY"
+        "AbilityUnitTargetType"         "DOTA_UNIT_TARGET_HERO | DOTA_UNIT_TARGET_BASIC"
+        "AbilityUnitDamageType"         "DAMAGE_TYPE_MAGICAL"   
+        "SpellImmunityType"             "SPELL_IMMUNITY_ENEMIES_NO"
+        "SpellDispellableType"          "SPELL_DISPELLABLE_NO"
+        "FightRecapLevel"               "1"
+
+        // Casting
+        //-------------------------------------------------------------------------------------------------------------
+        "AbilityCastRange"              "50"
+        "AbilityCastPoint"              "0"
+        
+        // Time     
+        //-------------------------------------------------------------------------------------------------------------
+        "AbilityCooldown"               "20"
+
+        // Cost
+        //-------------------------------------------------------------------------------------------------------------
+        "AbilityManaCost"               "0"
+
+        // Stats
+        //-------------------------------------------------------------------------------------------------------------
+        "AbilityModifierSupportValue"   "0.5"   // Applies multiple modifiers
+        
+        // Special
+        //-------------------------------------------------------------------------------------------------------------
+        "AbilitySpecial"
+        {
+            "01"
+            {
+                "var_type"          "FIELD_FLOAT"
+                "base_damage"     	"1"
+            }
+            "02"
+            {
+                "var_type"          "FIELD_INTEGER"
+                "slow_percent"    	"110"
+            }     
+			"03"
+            {
+                "var_type"          "FIELD_INTEGER"
+                "slow_duration"     "3"
+            }                      
+        }
+    }
+
+	//=================================================================================================================
+    // beastmaster  bear bloodlust
+    //=================================================================================================================
+    "bear_bloodlust"
+    {
+        "BaseClass"                     "ability_lua"
+        "ScriptFile"                    "bosses/beastmaster/bear_bloodlust"
+        "AbilityBehavior"               "DOTA_ABILITY_BEHAVIOR_NO_TARGET | DOTA_ABILITY_BEHAVIOR_IMMEDIATE | DOTA_ABILITY_BEHAVIOR_IGNORE_BACKSWING | DOTA_ABILITY_BEHAVIOR_DONT_CANCEL_MOVEMENT"
+        "SpellDispellableType"          "SPELL_DISPELLABLE_NO"
+        "FightRecapLevel"               "1"
+		"AbilityTextureName"            "bloodseeker_bloodrage"
+
+        // Casting
+        //-------------------------------------------------------------------------------------------------------------
+        "AbilityCastAnimation"          ""
+		"AbilityCastRange"              "0"
+        "AbilityCastPoint"              "0"
+        
+        // Time     
+        //-------------------------------------------------------------------------------------------------------------
+        "AbilityCooldown"               "2"
+
+        // Cost
+        //-------------------------------------------------------------------------------------------------------------
+        "AbilityManaCost"               "0"
+        
+        // Special
+        //-------------------------------------------------------------------------------------------------------------
+        "AbilitySpecial"
+        {
+            "01"
+            {
+                "var_type"          "FIELD_INTEGER"
+                "bloodlust_speed"   "30"
+            }
+            "02"
+            {
+                "var_type"          "FIELD_INTEGER"
+                "duration"    		"40"
+            }   
+			"03"
+            {
+                "var_type"          			"FIELD_INTEGER"
+                "bloodlust_as_speed"    		"20"
+            }                       
+        }
+    }
+
+    //=================================================================================================================
+    // beastmaster mark
+    //=================================================================================================================
+    "beastmaster_mark"
+    {
+        "BaseClass"                     "ability_lua"
+        "ScriptFile"                    "bosses/beastmaster/beastmaster_mark"
+
+        "AbilityCastAnimation"          "ACT_DOTA_CAST_ABILITY_3"
+        "AbilityBehavior"               "DOTA_ABILITY_BEHAVIOR_UNIT_TARGET"
+        "AbilityUnitTargetTeam"         "DOTA_UNIT_TARGET_TEAM_BOTH"
+        "AbilityUnitTargetType"         "DOTA_UNIT_TARGET_HERO | DOTA_UNIT_TARGET_BASIC"
+        "AbilityUnitDamageType"         "DAMAGE_TYPE_MAGICAL"   
+        "SpellImmunityType"             "SPELL_IMMUNITY_ENEMIES_NO"
+        "SpellDispellableType"          "SPELL_DISPELLABLE_NO"
+        "FightRecapLevel"               "1"
+
+        // Casting
+        //-------------------------------------------------------------------------------------------------------------
+        "AbilityCastRange"              "9999"
+        "AbilityCastPoint"              "0.5"
+        
+        // Time     
+        //-------------------------------------------------------------------------------------------------------------
+        "AbilityCooldown"               "35"
+
+        // Cost
+        //-------------------------------------------------------------------------------------------------------------
+        "AbilityManaCost"               "0"
+
+        // Stats
+        //-------------------------------------------------------------------------------------------------------------
+        "AbilityModifierSupportValue"   "0.5"   // Applies multiple modifiers
+        
+        // Special
+        //-------------------------------------------------------------------------------------------------------------
+        "AbilitySpecial"
+        {
+            "01"
+            {
+                "var_type"      "FIELD_FLOAT"
+                "duration"     	"30"
+            }                    
+        }
+
+        
+    }
+
+    //=================================================================================================================
+    //quill boar puddle
+    //=================================================================================================================
+    "quilboar_puddle"
+    {
+        "BaseClass"                     "ability_lua"
+        "ScriptFile"                    "bosses/beastmaster/quilboar_puddle"
+
+        "AbilityCastAnimation"          "ACT_DOTA_ATTACK"
+        "AbilityBehavior"               "DOTA_ABILITY_BEHAVIOR_AOE | DOTA_ABILITY_BEHAVIOR_POINT"
+        "AbilityUnitTargetTeam"         "DOTA_UNIT_TARGET_TEAM_BOTH"
+        "AbilityUnitTargetType"         "DOTA_UNIT_TARGET_HERO | DOTA_UNIT_TARGET_BASIC"
+        "AbilityUnitDamageType"         "DAMAGE_TYPE_MAGICAL"   
+        "SpellImmunityType"             "SPELL_IMMUNITY_ENEMIES_NO"
+        "SpellDispellableType"          "SPELL_DISPELLABLE_NO"
+        "FightRecapLevel"               "1"
+
+        // Casting
+        //-------------------------------------------------------------------------------------------------------------
+        "AbilityCastRange"              "9999"
+        "AbilityCastPoint"              "0"
+        
+        // Time     
+        //-------------------------------------------------------------------------------------------------------------
+        "AbilityCooldown"               "10"
+
+        // Cost
+        //-------------------------------------------------------------------------------------------------------------
+        "AbilityManaCost"               "0"
+
+        // Stats
+        //-------------------------------------------------------------------------------------------------------------
+        "AbilityModifierSupportValue"   "0.5"   // Applies multiple modifiers
+        
+        // Special
+        //-------------------------------------------------------------------------------------------------------------
+        "AbilitySpecial"
+        {
+            "01"
+            {
+                "var_type"      "FIELD_FLOAT"
+                "radius"     	"100"
+            }        
+            "02"
+            {
+                "var_type"      "FIELD_FLOAT"
+                "duration"     	"360"
+            }   
+            "03"
+            {
+                "var_type"      "FIELD_FLOAT"
+                "projectile_speed"     	"800"
+            }               
+        }  
+    }
+
+    //=================================================================================================================
+    //beastmaster net
+    //=================================================================================================================
+    "beastmaster_net"
+    {
+        "BaseClass"                     "ability_lua"
+        "ScriptFile"                    "bosses/beastmaster/beastmaster_net"
+        "AbilityTextureName"            "meepo_earthbind"
+
+        "AbilityCastAnimation"          "ACT_DOTA_CAST_ABILITY_1"
+        "AbilityBehavior"               "DOTA_ABILITY_BEHAVIOR_AOE | DOTA_ABILITY_BEHAVIOR_POINT"
+        "AbilityUnitTargetTeam"         "DOTA_UNIT_TARGET_TEAM_BOTH"
+        "AbilityUnitTargetType"         "DOTA_UNIT_TARGET_HERO | DOTA_UNIT_TARGET_BASIC"
+        "AbilityUnitDamageType"         "DAMAGE_TYPE_MAGICAL"   
+        "SpellImmunityType"             "SPELL_IMMUNITY_ENEMIES_NO"
+        "FightRecapLevel"               "1"
+
+        // Casting
+        //-------------------------------------------------------------------------------------------------------------
+        "AbilityCastRange"              "9000"
+        "AbilityCastPoint"              "0.5"
+        
+        // Time     
+        //-------------------------------------------------------------------------------------------------------------
+        "AbilityCooldown"               "1"
+
+        // Cost
+        //-------------------------------------------------------------------------------------------------------------
+        "AbilityManaCost"               "0"
+
+        // Stats
+        //-------------------------------------------------------------------------------------------------------------
+        "AbilityModifierSupportValue"   "0.5"   // Applies multiple modifiers
+        
+        // Special
+        //-------------------------------------------------------------------------------------------------------------
+        "AbilitySpecial"
+        {
+            "01"
+            {
+                "var_type"      "FIELD_FLOAT"
+                "radius"     	"250"
+            }        
+            "02"
+            {
+                "var_type"      "FIELD_FLOAT"
+                "duration"     	"1"
+            }   
+            "03"
+            {
+                "var_type"              "FIELD_FLOAT"
+                "projectile_speed"     	"2000"
+            }               
+        }  
+    }
+
+    //=================================================================================================================
+    // beast master summon_bear
+    // edit number of bear summons in the code
+    // edit CD of bear here
+    //=================================================================================================================
+    "summon_bear"
+    {
+        "BaseClass"                     "ability_lua"
+        "ScriptFile"                    "bosses/beastmaster/summon_bear"
+
+        "AbilityCastAnimation"          "ACT_DOTA_VICTORY"
+        "AbilityBehavior"               "DOTA_ABILITY_BEHAVIOR_NO_TARGET"
+
+        // Casting
+        //-------------------------------------------------------------------------------------------------------------
+        "AbilityCastPoint"              "0.4"
+        
+        // Time     
+        //-------------------------------------------------------------------------------------------------------------
+        "AbilityCooldown"               "0"
+
+        // Cost
+        //-------------------------------------------------------------------------------------------------------------
+        "AbilityManaCost"               "0"
+
+        // Stats
+        //-------------------------------------------------------------------------------------------------------------
+        "AbilityModifierSupportValue"   "0.5"   // Applies multiple modifiers
+        
+        // Special
+        //-------------------------------------------------------------------------------------------------------------
+        "AbilitySpecial"
+        {  
+        }  
+    }
+
+    //=================================================================================================================
+    // beast master quillboar
+    // edit number of quillbaors in the code
+    // edit CD of quillboar here
+    //=================================================================================================================
+    "summon_quillboar"
+    {
+        "BaseClass"                     "ability_lua"
+        "ScriptFile"                    "bosses/beastmaster/summon_quillboar"
+
+        "AbilityCastAnimation"          "ACT_DOTA_CAST_ABILITY_1"
+        "AbilityBehavior"               "DOTA_ABILITY_BEHAVIOR_NO_TARGET"
+
+        // Casting
+        //-------------------------------------------------------------------------------------------------------------
+        "AbilityCastPoint"              "0.4"
+        
+        // Time     
+        //-------------------------------------------------------------------------------------------------------------
+        "AbilityCooldown"               "1"
+
+        // Cost
+        //-------------------------------------------------------------------------------------------------------------
+        "AbilityManaCost"               "0"
+
+        // Stats
+        //-------------------------------------------------------------------------------------------------------------
+        "AbilityModifierSupportValue"   "0.5"   // Applies multiple modifiers
+        
+        // Special
+        //-------------------------------------------------------------------------------------------------------------
+        "AbilitySpecial"
+        {  
+        }  
+    }
+
+    //=================================================================================================================
+    // beastmaster armor break
+    //=================================================================================================================
+    "beastmaster_break"
+    {
+        "BaseClass"                     "ability_lua"
+        "ScriptFile"                    "bosses/beastmaster/beastmaster_break"
+        "AbilityTextureName"            "meepo_geostrike"
+
+        "AbilityCastAnimation"          "attack3_kick_anim"
+        "AbilityBehavior"               "DOTA_ABILITY_BEHAVIOR_AOE | DOTA_ABILITY_BEHAVIOR_POINT"
+        "AbilityUnitTargetTeam"         "DOTA_UNIT_TARGET_TEAM_ENEMY"
+        "AbilityUnitTargetType"         "DOTA_UNIT_TARGET_HERO | DOTA_UNIT_TARGET_BASIC"
+        "AbilityUnitDamageType"         "DAMAGE_TYPE_MAGICAL"   
+        "SpellImmunityType"             "SPELL_IMMUNITY_ENEMIES_NO"
+        "SpellDispellableType"          "SPELL_DISPELLABLE_NO"
+        "FightRecapLevel"               "1"
+
+        // Casting
+        //-------------------------------------------------------------------------------------------------------------
+        "AbilityCastRange"              "50"
+        "AbilityCastPoint"              "0.7"
+        
+        // Time     
+        //-------------------------------------------------------------------------------------------------------------
+        "AbilityCooldown"               "3"
+
+        // Cost
+        //-------------------------------------------------------------------------------------------------------------
+        "AbilityManaCost"               "0"
+
+        // Stats
+        //-------------------------------------------------------------------------------------------------------------
+        "AbilityModifierSupportValue"   "0.5"   // Applies multiple modifiers
+        
+        // Special
+        //-------------------------------------------------------------------------------------------------------------
+        "AbilitySpecial"
+        {
+            "01"
+            {
+                "var_type"          "FIELD_FLOAT"
+                "duration"     	    "20"
+            }
+            "02"
+            {
+                "var_type"          "FIELD_INTEGER"
+                "armor_reduce"    	"-2"
+            }        
+        }
+    }
+}
+

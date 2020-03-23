@@ -1,0 +1,16 @@
+// energy ssytems
+#base "core/rage.txt"
+#base "core/energy.txt"
+
+// beastmaster
+#base "bosses/beastmaster/abilities/beastmaster.txt"
+
+// player
+#base "players/warrior/abilities.txt"
+
+
+"DOTAAbilities"
+{
+
+}
+

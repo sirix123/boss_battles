@@ -1,0 +1,43 @@
+
+"DOTAAbilities"
+{
+    //=================================================================================================================
+    // rage system
+    //=================================================================================================================
+    "barbarian_rage" 
+    {
+    "BaseClass"                         "ability_datadriven"
+    "AbilityTextureName"	            "barbarian_rage"
+    "MaxLevel"                          "1"
+    "AbilityBehavior"	                "DOTA_ABILITY_BEHAVIOR_PASSIVE| DOTA_ABILITY_BEHAVIOR_HIDDEN"
+
+        "Modifiers"
+        { 
+            "rage_modifier"
+            {
+                "Passive"	                "1"	//Auto apply this modifier when the spell is learned
+                "IsBuff"	                "1"	//Display as a green modifier
+                "IsHidden"          	    "1"	//Show in the UI
+
+                "OnCreated"
+                {
+                    "RunScript"
+                    {
+                        "ScriptFile"        "core/barbarian.lua"
+                        "Function"	        "ZeroManaOnSpawn"
+                    }
+                }
+
+                "OnTakeDamage"
+                {
+                    "RunScript"
+                    {
+                        "ScriptFile"        "core/barbarian.lua"
+                        "Function"	        "ManaOnAttacked"
+                    }
+                }
+            }
+        }
+    }
+}
+

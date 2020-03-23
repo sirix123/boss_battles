@@ -1,0 +1,109 @@
+
+"DOTAAbilities"
+{
+	"swing_sword"
+	{
+		"BaseClass"						"ability_lua"
+		"ScriptFile"					"core/warrior/swing_sword"
+		"MaxLevel"						"1"
+
+		"AbilityTextureName"			"swing_sword"
+		"AbilityUnitTargetTeam"			"DOTA_UNIT_TARGET_TEAM_ENEMY"
+		"AbilityUnitDamageType"			"DAMAGE_TYPE_PHYSICAL"	
+		"SpellImmunityType"				"SPELL_IMMUNITY_ENEMIES_YES"
+        "AbilityBehavior"				"DOTA_ABILITY_BEHAVIOR_POINT"
+		"AbilityCastRange" 				"110"
+        "AbilityCooldown"				"1.0"
+        "AbilityCastPoint"              "0.1"
+        "AbilityCastAnimation"          "ACT_DOTA_CAST_ABILITY_2"
+        
+		"AbilitySpecial"
+		{
+			"01"{ "var_type"	"FIELD_INTEGER"		"hitbox"					"110" }
+            "02"{ "var_type"	"FIELD_INTEGER"		"attack_damage"				"20" }
+			"03"{ "var_type"	"FIELD_INTEGER"		"duration"					"5" }
+			"04"{ "var_type"	"FIELD_INTEGER"		"mana_gain_pct"			 	"7" }
+		}
+	}
+
+
+	"shield_wall"
+	{
+		"BaseClass"						"ability_lua"
+		"ScriptFile"					"core/warrior/shield_wall"
+		"MaxLevel"						"1"
+
+		"AbilityTextureName"			"shield_wall"	
+        "AbilityBehavior"				"DOTA_ABILITY_BEHAVIOR_POINT"
+        "AbilityCooldown"				"1.0"
+        "AbilityCastPoint"              "0.1"
+        "AbilityCastAnimation"          "ACT_DOTA_CHANNEL_ABILITY_1"
+        
+		"AbilitySpecial"
+		{
+			"01"{ "var_type"	"FIELD_INTEGER"		"duration"					"5" }
+			"02"{ "var_type"	"FIELD_INTEGER"		"pctDmgReduction"			"30" }
+			"03"{ "var_type"	"FIELD_INTEGER"		"minMovespeed"				"200" }
+			"04"{ "var_type"	"FIELD_INTEGER"		"radius"					"2000" }
+			"05"{ "var_type"	"FIELD_INTEGER"		"increaseDurationPerStack"  "1.0" }
+		}
+	}
+
+	"aoe_taunt"
+	{
+		"BaseClass"						"ability_lua"
+		"ScriptFile"					"core/warrior/aoe_taunt"
+		"MaxLevel"						"1"
+
+		"AbilityTextureName"			"aoe_taunt"	
+        "AbilityBehavior"				"DOTA_ABILITY_BEHAVIOR_NO_TARGET"
+        "AbilityCooldown"				"1.0"
+        "AbilityCastPoint"              "0.1"
+        "AbilityCastAnimation"          "ACT_DOTA_CHANNEL_ABILITY_1"
+        
+		"AbilitySpecial"
+		{
+			"01"{ "var_type"	"FIELD_INTEGER"		"duration"					"30" }
+			"02"{ "var_type"	"FIELD_INTEGER"		"reduceDmg"					"-30" }
+			"03"{ "var_type"	"FIELD_INTEGER"		"radius"					"2000" }
+		}
+	}
+
+	"charge"
+	{
+		"BaseClass"						"ability_lua"
+		"ScriptFile"					"core/warrior/charge"
+		"MaxLevel"						"1"
+
+		"AbilityTextureName"			"charge"	
+        "AbilityBehavior"				"DOTA_ABILITY_BEHAVIOR_POINT" 
+        "AbilityCooldown"				"1.0"
+        "AbilityCastPoint"              "0.2"
+        "AbilityCastAnimation"          "ACT_DOTA_CAST_ABILITY_2"
+        
+		"AbilitySpecial"
+		{
+			"01"{ "var_type"	"FIELD_INTEGER"		"speed"					"400" }
+			"02"{ "var_type"	"FIELD_INTEGER"		"radius"				"2000" }
+		}
+	}
+
+	"frenzy"
+	{
+		"BaseClass"						"ability_lua"
+		"ScriptFile"					"core/warrior/frenzy"
+		"MaxLevel"						"1"
+
+		"AbilityTextureName"			"frenzy"	
+        "AbilityBehavior"				"DOTA_ABILITY_BEHAVIOR_NO_TARGET" 
+        "AbilityCooldown"				"1.0"
+        "AbilityCastPoint"              "0.1"
+        "AbilityCastAnimation"          "ACT_DOTA_CAST_ABILITY_2"
+        
+		"AbilitySpecial"
+		{
+			"01"{ "var_type"	"FIELD_INTEGER"		"duration"							"5" }
+			"02"{ "var_type"	"FIELD_INTEGER"		"durationPerStack"					"3" }
+		}
+	}
+}
