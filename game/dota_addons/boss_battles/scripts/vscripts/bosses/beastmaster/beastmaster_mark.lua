@@ -1,4 +1,4 @@
-
+-- Test. 
 beastmaster_mark = class({})
 LinkLuaModifier("beastmaster_mark_modifier", "bosses/beastmaster/beastmaster_mark_modifier", LUA_MODIFIER_MOTION_NONE)
 
