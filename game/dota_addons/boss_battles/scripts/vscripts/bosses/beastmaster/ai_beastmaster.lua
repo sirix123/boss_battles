@@ -107,7 +107,7 @@ function Phase_1()
 
 	CastBeastmasterMark()
 
-	CastBreakArmor()
+	--CastBreakArmor()
 
 end
 --------------------------------------------------------------------------------
@@ -149,8 +149,6 @@ end
  stampede phase
 ]]--
 function Phase_3()
-
-	print("Beastmaster Starting Phase 3 ...")
 
 	-- handles summon quill boars, summons the first set of boars after x gametime
 	-- handles summoning the second+ sets
@@ -245,15 +243,6 @@ function AttackClosest()
 		Queue = false,
 	})
 
-	-- apply break armor 
-	ExecuteOrderFromTable({
-		UnitIndex = thisEntity:entindex(),
-		OrderType = DOTA_UNIT_ORDER_CAST_TARGET,
-		TargetIndex = hTarget:entindex(),
-		AbilityIndex = thisEntity.beastmaster_break:entindex(),
-		Queue = false,
-	})
-
 	return 0.5
 end
 
@@ -314,7 +303,6 @@ function SummonBear()
 	-- have we hit the limit?
 	if #thisEntity.BEAST_MASTER_SUMMONED_BEARS < thisEntity.MAX_BEARS then 
 		if thisEntity.summon_bear ~= nil and thisEntity.summon_bear:IsFullyCastable() then
-			print('summoing bear')
 			return CastSummonBear()
 		end
 	end

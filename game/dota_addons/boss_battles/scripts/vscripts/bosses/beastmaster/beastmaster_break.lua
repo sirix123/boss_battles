@@ -51,7 +51,7 @@ function beastmaster_break:OnSpellStart()
 						ability = self,
 					}
 					ApplyDamage( damageInfo )
-					unit:AddNewModifier( self:GetCaster(), self, "beastmaster_break_modifier", { duration = self:GetSpecialValueFor("duration")n } )
+					unit:AddNewModifier( self:GetCaster(), self, "beastmaster_break_modifier", { duration = self:GetSpecialValueFor("duration")} )
 					local hBuff = unit:FindModifierByName( "beastmaster_break_modifier" )
 					hBuff:IncrementStackCount()
 				end
