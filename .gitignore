@@ -1,0 +1,6 @@
+# Any files flagged as backup
+*.bak
+
+# Dota 2 compiled files
+*.vpk
+
