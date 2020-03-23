@@ -19,6 +19,7 @@ function Precache( context )
   
 end
 
+-- hello moomoo
 -- Create the game mode when we activate
 function Activate()
   GameRules.GameMode = GameMode()
