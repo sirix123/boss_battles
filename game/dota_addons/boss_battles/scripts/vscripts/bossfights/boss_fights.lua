@@ -75,7 +75,7 @@ function GameMode:StartRaid()
     GameMode:IntermissionHandler()
 
     -- move players to boss 1 arena
-    --GameMode:MoveHeroesToArea(raid_tables.beastmaster.arena)
+    GameMode:MoveHeroesToArea(raid_tables.beastmaster.arena)
     -- freezer players
     -- FUNCTION
     -- spawn boss
