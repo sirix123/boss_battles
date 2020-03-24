@@ -1,0 +1,8 @@
+arena_6x6
+{
+	material materials/overviews/arena_6x6.vmat
+	pos_x -16384
+	pos_y 16384
+	scale 32.000
+}
+

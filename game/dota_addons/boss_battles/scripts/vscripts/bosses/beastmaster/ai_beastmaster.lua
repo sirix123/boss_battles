@@ -107,7 +107,7 @@ function Phase_1()
 
 	CastBeastmasterMark()
 
-	--CastBreakArmor()
+	BreakArmor()
 
 end
 --------------------------------------------------------------------------------
@@ -137,6 +137,8 @@ function Phase_2()
 	local delayBeforeFirstNet = 0
 	local delayAfterLastNet = 10
 	NetCastingTime(delayBeforeFirstNet, delayAfterLastNet)
+
+	CastBeastmasterMark()
 
 	BreakArmor()
 
@@ -250,24 +252,27 @@ end
 function BreakArmor()
 
 	-- find all players in the entire map
-	local enemies = FindUnitsInRadius( DOTA_TEAM_BADGUYS, thisEntity:GetOrigin(), nil, FIND_UNITS_EVERYWHERE , DOTA_UNIT_TARGET_TEAM_ENEMY, DOTA_UNIT_TARGET_ALL, DOTA_UNIT_TARGET_FLAG_NONE, FIND_CLOSEST, false )
+	local enemies = FindUnitsInRadius( DOTA_TEAM_BADGUYS, thisEntity:GetOrigin(), nil, FIND_UNITS_EVERYWHERE , DOTA_UNIT_TARGET_TEAM_ENEMY, DOTA_UNIT_TARGET_ALL, DOTA_UNIT_TARGET_FLAG_NONE, FIND_ANY_ORDER, false )
 	if #enemies == 0 then
 		return 0.5
 	end
 
-	local vTargetPos = nil
+	--local hTarget = enemies[ RandomInt( 1, #enemies ) ]
+	print(enemies[ RandomInt( 1, #enemies ) ])
+	local vTargetPos = enemies[ RandomInt( 1, #enemies ) ]:GetAbsOrigin()
+	--print(hTarget, vTargetPos)
 
-	if thisEntity.beastmaster_break ~= nil and thisEntity.beastmaster_break:IsFullyCastable() then
-		for key, enemy in pairs(enemies) do
-			vTargetPos = enemy:GetAbsOrigin()
-		end
+	if vTargetPos ~= nil then
+		--local fabilityRangeCheck = ( thisEntity.beastmaster_break:GetCastRange(thisEntity:GetAbsOrigin(), hTarget) ):Length2D()
+		local fRangeToTarget = ( thisEntity:GetOrigin() - vTargetPos ):Length2D()
 
-		if vTargetPos ~= nil then
+		-- hard coded the value for the range as passing the function getcastrange a handle is what exactly???????
+		local fabilityRangeCheck = 50
+		print("break range = ", fabilityRangeCheck, "fRangeToTarget = ", fRangeToTarget)
+
+		if fabilityRangeCheck < fRangeToTarget then
 			return CastBreakArmor( vTargetPos )
-		else
-			return 0.5
 		end
-
 	end
 	return 0.5
 end

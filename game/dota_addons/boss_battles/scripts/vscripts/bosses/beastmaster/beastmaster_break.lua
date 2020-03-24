@@ -28,7 +28,7 @@ function beastmaster_break:OnSpellStart()
 		{
 			EffectName = "particles/units/heroes/hero_invoker/invoker_chaos_meteor.vpcf",
 			vSpawnOrigin = origin + Vector(projectile_direction.x * offset, projectile_direction.y * offset, 0),
-			fDistance = fRangeToTarget + 600 , -- self:GetSpecialValueFor("projectile_distance") ~= 0 and self:GetSpecialValueFor("projectile_distance") or self:GetCastRange(Vector(0,0,0), nil),
+			fDistance = fRangeToTarget, -- self:GetSpecialValueFor("projectile_distance") ~= 0 and self:GetSpecialValueFor("projectile_distance") or self:GetCastRange(Vector(0,0,0), nil),
 			fStartRadius = 50,
 			fEndRadius = 50,
 			--fUniqueRadius = self:GetSpecialValueFor("hitbox"),
