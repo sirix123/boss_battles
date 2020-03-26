@@ -39,6 +39,16 @@ function Spawn( entityKeyValues )
 	thisEntity.firstNet = true
 	thisEntity.lastNet = 0
 
+	-- the gametime beastmaster was spawned
+	thisEntity.beastMasterSpawnTime = GameRules:GetGameTime()
+
+	-- phase setup variables 
+	PHASE_1_DURATION = 60.0
+	PHASE_2_DURATION = 30.0 
+	PHASE_ONE = 1
+	PHASE_TWO = 2
+	thisEntity.Phase = PHASE_ONE
+
 	thisEntity:SetContextThink( "Beastmaster", BeastmasterThink, 1 )
 end
 
@@ -57,17 +67,7 @@ function BeastmasterThink()
 		return 0.5
 	end
 	
-	-- overall phase transitions
-	local phase1Duration = 60
-
-	if (GameRules:GetGameTime() < phase1Duration) then
-		Phase_1()
-	elseif (GameRules:GetGameTime() > phase1Duration) then
-		Phase_2()
-	end
-	--elseif (GameRules:GetGameTime() > phase1Duration and thisEntity) then
-		--Phase_3()
-	--end
+	Phase_1()
 	
 	-- if animals die remove them from the table
 	ClearAnimals()
@@ -87,14 +87,14 @@ function Phase_1()
 
 	-- handles bear summoning, summons first bear after x gametime
 	-- summons second+ bear after x time, LastBearDeath is populated in the ClearAnimals() function
-	local delayBeforeFirstBear = 10
+	local delayBeforeFirstBear = 5
 	local delayAfterBearDeath = 120
 	BearCastingTiming(delayBeforeFirstBear, delayAfterBearDeath)
 
 	-- handles summon quill boars, summons the first set of boars after x gametime
 	-- handles summoning the second+ sets
 	-- summons 3 boars initially then every x seconds will replace dead boars with new ones based on delayAfterLastBoarDeath 
-	local delayBeforeFirstBoarSet = 15
+	local delayBeforeFirstBoarSet = 20
 	local delayAfterLastBoarDeath = 50
 	BoarCastingTiming(delayBeforeFirstBoarSet, delayAfterLastBoarDeath)
 
@@ -105,9 +105,9 @@ function Phase_1()
 	local delayAfterLastNet = 20
 	NetCastingTime(delayBeforeFirstNet, delayAfterLastNet)
 
-	CastBeastmasterMark()
+	--
 
-	BreakArmor()
+	--BreakArmor()
 
 end
 --------------------------------------------------------------------------------
@@ -118,84 +118,40 @@ end
 ]]--
 function Phase_2()
 
-	-- handles bear summoning, summons first bear after x gametime
-	-- summons second+ bear after x time, LastBearDeath is populated in the ClearAnimals() function
-	local delayBeforeFirstBear = 0
-	local delayAfterBearDeath = 60
-	BearCastingTiming(delayBeforeFirstBear, delayAfterBearDeath)
-
-	-- handles summon quill boars, summons the first set of boars after x gametime
-	-- handles summoning the second+ sets
-	-- summons 3 boars initially then every x seconds will replace dead boars with new ones based on delayAfterLastBoarDeath 
-	local delayBeforeFirstBoarSet = 0
-	local delayAfterLastBoarDeath = 30
-	BoarCastingTiming(delayBeforeFirstBoarSet, delayAfterLastBoarDeath)
-
-	-- handles the spear throw logic
-	-- phase one spears start x time in to the fight
-	-- time between spears is longer then other phases
-	local delayBeforeFirstNet = 0
-	local delayAfterLastNet = 10
-	NetCastingTime(delayBeforeFirstNet, delayAfterLastNet)
-
-	CastBeastmasterMark()
-
-	BreakArmor()
-
-end
-
---------------------------------------------------------------------------------
-
--- phase 3
---[[
- stampede phase
-]]--
-function Phase_3()
-
-	-- handles summon quill boars, summons the first set of boars after x gametime
-	-- handles summoning the second+ sets
-	-- summons 3 boars initially then every x seconds will replace dead boars with new ones based on delayAfterLastBoarDeath 
-	local delayBeforeFirstBoarSet = 15
-	local delayAfterLastBoarDeath = 30
-	BoarCastingTiming(delayBeforeFirstBoarSet, delayAfterLastBoarDeath)
-
-	-- handles the spear throw logic
-	-- phase one spears start x time in to the fight
-	-- time between spears is longer then other phases
-	local delayBeforeFirstNet = 30
-	local delayAfterLastNet = 5
-	NetCastingTime(delayBeforeFirstNet, delayAfterLastNet)
+----- stampede phase bb
 
 end
 
 --------------------------------------------------------------------------------
 function NetCastingTime(delayBeforeFirstNet, delayAfterLastNet)
-	if (GameRules:GetGameTime() > delayBeforeFirstNet) and thisEntity.firstNet == true then
-		CastBeastmasterNet()
+	if GameRules:GetGameTime() > ( thisEntity.beastMasterSpawnTime + delayBeforeFirstNet ) and thisEntity.firstNet == true then
+		BeastmasterNet()
 		thisEntity.firstNet = false
-	elseif GameRules:GetGameTime() > (thisEntity.lastNet + delayAfterLastNet) then
+	elseif thisEntity.beastMasterSpawnTime > (thisEntity.lastNet + delayAfterLastNet) then
 		thisEntity.lastNet = GameRules:GetGameTime()
-		CastBeastmasterNet()
+		BeastmasterNet()
 	end
 end
 
 --------------------------------------------------------------------------------
 function BoarCastingTiming(delayBeforeFirstBoarSet, delayAfterLastBoarDeath)
-	if (GameRules:GetGameTime() > delayBeforeFirstBoarSet) and thisEntity.firstBoar  == true then
+	if GameRules:GetGameTime() > ( thisEntity.beastMasterSpawnTime + delayBeforeFirstBoarSet ) and thisEntity.firstBoar  == true then
 		SummonQuillBoar()
 		thisEntity.firstBoar  = false
-	elseif GameRules:GetGameTime() > (thisEntity.lastBoarDeath + delayAfterLastBoarDeath) then
+	elseif thisEntity.beastMasterSpawnTime > (thisEntity.lastBoarDeath + delayAfterLastBoarDeath) then
 		SummonQuillBoar()
 	end
 end
 
 --------------------------------------------------------------------------------
 function BearCastingTiming(delayBeforeFirstBear, delayAfterBearDeath)
-	if (GameRules:GetGameTime() > delayBeforeFirstBear) and thisEntity.firstBear == true then
+	if GameRules:GetGameTime() > ( thisEntity.beastMasterSpawnTime + delayBeforeFirstBear ) and thisEntity.firstBear == true then
 		SummonBear()
+		MarkTarget()
 		thisEntity.firstBear = false
-	elseif GameRules:GetGameTime() > (thisEntity.lastBearDeath + delayAfterBearDeath) then
+	elseif thisEntity.beastMasterSpawnTime > (thisEntity.lastBearDeath + delayAfterBearDeath) then
 		SummonBear()
+		MarkTarget()
 	end 
 end
 
@@ -211,39 +167,9 @@ function MarkTarget()
 	-- select random enemy 
 	local hTarget = enemies[ RandomInt( 1, #enemies ) ]
 
-	-- cast mark on target
-	ExecuteOrderFromTable({
-		UnitIndex = thisEntity:entindex(),
-		OrderType = DOTA_UNIT_ORDER_CAST_TARGET,
-		TargetIndex = hTarget:entindex(),
-		AbilityIndex = thisEntity.beastmaster_mark:entindex(),
-		Queue = false,
-	})
-
-	return 1.0
-end
-
-
-
---------------------------------------------------------------------------------
-function AttackClosest()
-	
-	-- find all players in the entire map
-	local enemies = FindUnitsInRadius( DOTA_TEAM_BADGUYS, thisEntity:GetOrigin(), nil, FIND_UNITS_EVERYWHERE , DOTA_UNIT_TARGET_TEAM_ENEMY, DOTA_UNIT_TARGET_ALL, DOTA_UNIT_TARGET_FLAG_NONE, FIND_CLOSEST, false )
-	if #enemies == 0 then
-		return 0.5
+	if hTarget ~= nil then
+		return CastMarkTarget(hTarget)
 	end
-
-	-- select random enemy 
-	local hTarget = enemies[ RandomInt( 1, #enemies ) ]
-
-	-- attack cloest on target
-	ExecuteOrderFromTable({
-		UnitIndex = thisEntity:entindex(),
-		OrderType = DOTA_UNIT_ORDER_ATTACK_TARGET ,
-		TargetIndex = hTarget:entindex(),
-		Queue = false,
-	})
 
 	return 0.5
 end
@@ -257,18 +183,12 @@ function BreakArmor()
 		return 0.5
 	end
 
-	--local hTarget = enemies[ RandomInt( 1, #enemies ) ]
-	print(enemies[ RandomInt( 1, #enemies ) ])
 	local vTargetPos = enemies[ RandomInt( 1, #enemies ) ]:GetAbsOrigin()
-	--print(hTarget, vTargetPos)
 
 	if vTargetPos ~= nil then
-		--local fabilityRangeCheck = ( thisEntity.beastmaster_break:GetCastRange(thisEntity:GetAbsOrigin(), hTarget) ):Length2D()
+		local fabilityRangeCheck = thisEntity.beastmaster_break:GetCastRange(vTargetPos, nil)
 		local fRangeToTarget = ( thisEntity:GetOrigin() - vTargetPos ):Length2D()
-
-		-- hard coded the value for the range as passing the function getcastrange a handle is what exactly???????
-		local fabilityRangeCheck = 50
-		print("break range = ", fabilityRangeCheck, "fRangeToTarget = ", fRangeToTarget)
+		--print("break range = ", fabilityRangeCheck, "fRangeToTarget = ", fRangeToTarget)
 
 		if fabilityRangeCheck < fRangeToTarget then
 			return CastBreakArmor( vTargetPos )
@@ -361,7 +281,7 @@ end
 
 -----------------------------------------------------------------------------------
 
-function CastBeastmasterNet()
+function BeastmasterNet()
 
 	-- shoot net/spear at enemy player
 	-- find all players in the entire map
@@ -378,7 +298,8 @@ function CastBeastmasterNet()
 		end
 
 		if vTargetPos ~= nil then
-			return LaunchNet( vTargetPos )
+			thisEntity.lastNet = GameRules:GetGameTime()
+			return CastLaunchNet( vTargetPos )
 		else
 			return 0.5
 		end
@@ -394,13 +315,14 @@ function CastSummonBear()
 		UnitIndex = thisEntity:entindex(),
 		OrderType = DOTA_UNIT_ORDER_CAST_NO_TARGET,
 		AbilityIndex = thisEntity.summon_bear:entindex(),
+		Queue = 0,
 	})
 	return 0.5
 end
 
 --------------------------------------------------------------------------------
 
-function LaunchNet(vTargetPos)
+function CastLaunchNet(vTargetPos)
 	ExecuteOrderFromTable({
 		UnitIndex = thisEntity:entindex(),
 		OrderType = DOTA_UNIT_ORDER_CAST_POSITION,
@@ -418,6 +340,7 @@ function CastSummonQuillboar()
 		UnitIndex = thisEntity:entindex(),
 		OrderType = DOTA_UNIT_ORDER_CAST_NO_TARGET,
 		AbilityIndex = thisEntity.summon_quillboar:entindex(),
+		Queue = false,
 	})
 	return 0.5
 end
@@ -431,6 +354,19 @@ function CastBreakArmor(vTargetPos)
 		AbilityIndex = thisEntity.beastmaster_break:entindex(),
 		Position = vTargetPos,
 		Queue = false,
+	})
+	return 0.5
+end
+
+--------------------------------------------------------------------------------
+function CastMarkTarget(hTarget)
+
+	ExecuteOrderFromTable({
+		UnitIndex = thisEntity:entindex(),
+		OrderType = DOTA_UNIT_ORDER_CAST_TARGET,
+		TargetIndex = hTarget:entindex(),
+		AbilityIndex = thisEntity.beastmaster_mark:entindex(),
+		Queue = 1,
 	})
 	return 0.5
 end
