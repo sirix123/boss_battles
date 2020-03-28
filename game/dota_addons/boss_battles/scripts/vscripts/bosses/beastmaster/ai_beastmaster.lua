@@ -26,6 +26,8 @@ function Spawn( entityKeyValues )
 	thisEntity.summon_quillboar = thisEntity:FindAbilityByName( "summon_quillboar" )
 	thisEntity.beastmaster_net = thisEntity:FindAbilityByName( "beastmaster_net" )
 	thisEntity.beastmaster_break = thisEntity:FindAbilityByName( "beastmaster_break" )
+	thisEntity.change_to_phase_2 = thisEntity:FindAbilityByName( "change_to_phase_2" )
+	thisEntity.change_to_phase_1 = thisEntity:FindAbilityByName( "change_to_phase_1" )
 
 	-- used for bear summoning logic 
 	thisEntity.firstBear = true
@@ -43,11 +45,15 @@ function Spawn( entityKeyValues )
 	thisEntity.beastMasterSpawnTime = GameRules:GetGameTime()
 
 	-- phase setup variables 
-	PHASE_1_DURATION = 60.0
-	PHASE_2_DURATION = 30.0 
+	PHASE_1_DURATION = 5
+	PHASE_2_DURATION = 5
 	PHASE_ONE = 1
 	PHASE_TWO = 2
+	TRIGGER_PHASE_CD = 2
 	thisEntity.Phase = PHASE_ONE
+	thisEntity.flPhaseOneTriggerEndTime = 0
+	thisEntity.flPhaseTwoTriggerEndTime = 0
+	thisEntity.flNextPhaseTime = nil
 
 	thisEntity:SetContextThink( "Beastmaster", BeastmasterThink, 1 )
 end
@@ -66,13 +72,52 @@ function BeastmasterThink()
 	if GameRules:IsGamePaused() == true then
 		return 0.5
 	end
+
+	if thisEntity.flNextPhaseTime == nil then
+		thisEntity.flNextPhaseTime = GameRules:GetGameTime() + TRIGGER_PHASE_CD
+	end
 	
-	Phase_1()
+	-- might need a seperaet function here to cast 'enter phase1 / phase2'
+	if thisEntity.Phase == PHASE_ONE then
+		Phase_1()
+	elseif thisEntity.Phase == PHASE_TWO then
+		Phase_2()
+	end
+
+	-- check if we need to change phases 
+	CheckPhaseChange()
 	
 	-- if animals die remove them from the table
 	ClearAnimals()
 
 	return 0.5
+end
+
+--------------------------------------------------------------------------------
+function CheckPhaseChange()
+
+	if thisEntity.flNextPhaseTime > GameRules:GetGameTime() then
+		return false
+	end
+
+	thisEntity.flPhaseOneTriggerEndTime = GameRules:GetGameTime() + PHASE_1_DURATION
+	thisEntity.flPhaseTwoTriggerEndTime = GameRules:GetGameTime() + PHASE_2_DURATION
+
+	if thisEntity.Phase == PHASE_ONE then 
+		if thisEntity.flPhaseOneTriggerEndTime > GameRules:GetGameTime() then
+			CastChangeToPhase2()
+			thisEntity.flNextPhaseTime = GameRules:GetGameTime() + TRIGGER_PHASE_CD + PHASE_2_DURATION
+			thisEntity.Phase = PHASE_TWO
+		end
+	elseif thisEntity.Phase == PHASE_TWO then 
+		if thisEntity.flPhaseTwoTriggerEndTime > GameRules:GetGameTime() then
+			CastChangeToPhase1()
+			thisEntity.flNextPhaseTime = GameRules:GetGameTime() + TRIGGER_PHASE_CD + PHASE_1_DURATION
+			thisEntity.Phase = PHASE_ONE
+		end
+	end
+	
+	return thisEntity.Phase
 end
 
 --------------------------------------------------------------------------------
@@ -89,25 +134,29 @@ function Phase_1()
 	-- summons second+ bear after x time, LastBearDeath is populated in the ClearAnimals() function
 	local delayBeforeFirstBear = 5
 	local delayAfterBearDeath = 120
-	BearCastingTiming(delayBeforeFirstBear, delayAfterBearDeath)
+	--BearCastingTiming(delayBeforeFirstBear, delayAfterBearDeath)
 
 	-- handles summon quill boars, summons the first set of boars after x gametime
 	-- handles summoning the second+ sets
 	-- summons 3 boars initially then every x seconds will replace dead boars with new ones based on delayAfterLastBoarDeath 
 	local delayBeforeFirstBoarSet = 20
 	local delayAfterLastBoarDeath = 50
-	BoarCastingTiming(delayBeforeFirstBoarSet, delayAfterLastBoarDeath)
+	--BoarCastingTiming(delayBeforeFirstBoarSet, delayAfterLastBoarDeath)
 
 	-- handles the spear throw logic
 	-- phase one spears start x time in to the fight
 	-- time between spears is longer then other phases
 	local delayBeforeFirstNet = 30
 	local delayAfterLastNet = 20
-	NetCastingTime(delayBeforeFirstNet, delayAfterLastNet)
+	--NetCastingTime(delayBeforeFirstNet, delayAfterLastNet)
 
-	--
+	-- casts mark on CD as well 
+	--CastBeastmasterMark()
 
+	-- will only try and cast breakarmor on a targets postion if in range 
 	--BreakArmor()
+
+	-- attack move? attack highest HP hero?
 
 end
 --------------------------------------------------------------------------------
@@ -120,6 +169,7 @@ function Phase_2()
 
 ----- stampede phase bb
 
+
 end
 
 --------------------------------------------------------------------------------
@@ -127,7 +177,7 @@ function NetCastingTime(delayBeforeFirstNet, delayAfterLastNet)
 	if GameRules:GetGameTime() > ( thisEntity.beastMasterSpawnTime + delayBeforeFirstNet ) and thisEntity.firstNet == true then
 		BeastmasterNet()
 		thisEntity.firstNet = false
-	elseif thisEntity.beastMasterSpawnTime > (thisEntity.lastNet + delayAfterLastNet) then
+	elseif GameRules:GetGameTime() > ( thisEntity.lastNet + delayAfterLastNet ) then
 		thisEntity.lastNet = GameRules:GetGameTime()
 		BeastmasterNet()
 	end
@@ -138,7 +188,7 @@ function BoarCastingTiming(delayBeforeFirstBoarSet, delayAfterLastBoarDeath)
 	if GameRules:GetGameTime() > ( thisEntity.beastMasterSpawnTime + delayBeforeFirstBoarSet ) and thisEntity.firstBoar  == true then
 		SummonQuillBoar()
 		thisEntity.firstBoar  = false
-	elseif thisEntity.beastMasterSpawnTime > (thisEntity.lastBoarDeath + delayAfterLastBoarDeath) then
+	elseif GameRules:GetGameTime() > ( thisEntity.lastBoarDeath + delayAfterLastBoarDeath ) then
 		SummonQuillBoar()
 	end
 end
@@ -147,31 +197,12 @@ end
 function BearCastingTiming(delayBeforeFirstBear, delayAfterBearDeath)
 	if GameRules:GetGameTime() > ( thisEntity.beastMasterSpawnTime + delayBeforeFirstBear ) and thisEntity.firstBear == true then
 		SummonBear()
-		MarkTarget()
+		CastBeastmasterMark()
 		thisEntity.firstBear = false
-	elseif thisEntity.beastMasterSpawnTime > (thisEntity.lastBearDeath + delayAfterBearDeath) then
+	elseif GameRules:GetGameTime() > ( thisEntity.lastBearDeath + delayAfterBearDeath ) then
 		SummonBear()
-		MarkTarget()
+		CastBeastmasterMark()
 	end 
-end
-
---------------------------------------------------------------------------------
-function MarkTarget()
-	
-	-- find all players in the entire map
-	local enemies = FindUnitsInRadius( DOTA_TEAM_BADGUYS, thisEntity:GetOrigin(), nil, FIND_UNITS_EVERYWHERE , DOTA_UNIT_TARGET_TEAM_ENEMY, DOTA_UNIT_TARGET_ALL, DOTA_UNIT_TARGET_FLAG_NONE, FIND_ANY_ORDER, false )
-	if #enemies == 0 then
-		return 0.5
-	end
-
-	-- select random enemy 
-	local hTarget = enemies[ RandomInt( 1, #enemies ) ]
-
-	if hTarget ~= nil then
-		return CastMarkTarget(hTarget)
-	end
-
-	return 0.5
 end
 
 --------------------------------------------------------------------------------
@@ -188,7 +219,6 @@ function BreakArmor()
 	if vTargetPos ~= nil then
 		local fabilityRangeCheck = thisEntity.beastmaster_break:GetCastRange(vTargetPos, nil)
 		local fRangeToTarget = ( thisEntity:GetOrigin() - vTargetPos ):Length2D()
-		--print("break range = ", fabilityRangeCheck, "fRangeToTarget = ", fRangeToTarget)
 
 		if fabilityRangeCheck < fRangeToTarget then
 			return CastBreakArmor( vTargetPos )
@@ -256,24 +286,37 @@ function CastBeastmasterMark()
 
 	local bHasModifier = nil
 
+	-- find all players in the entire map
+	local enemies = FindUnitsInRadius( DOTA_TEAM_BADGUYS, thisEntity:GetOrigin(), nil, FIND_UNITS_EVERYWHERE , DOTA_UNIT_TARGET_TEAM_ENEMY, DOTA_UNIT_TARGET_ALL, DOTA_UNIT_TARGET_FLAG_NONE, FIND_ANY_ORDER, false )
+	if #enemies == 0 then
+		return 0.5
+	end
+
+	-- select random enemy 
+	local hTarget = enemies[ RandomInt( 1, #enemies ) ]
+
 	-- find all friendlies in the entire map
 	local friendlies = FindUnitsInRadius( DOTA_TEAM_BADGUYS, thisEntity:GetOrigin(), nil, FIND_UNITS_EVERYWHERE , DOTA_UNIT_TARGET_TEAM_FRIENDLY, DOTA_UNIT_TARGET_ALL, DOTA_UNIT_TARGET_FLAG_NONE, FIND_ANY_ORDER, false )
 	if #friendlies == 0 then
 		return 0.5
 	end
 
-	-- cast beastmasterMarkTarget, remove blodo lust stacks on the bear
+	-- if BM cd is ready  
 	if thisEntity.beastmaster_mark ~= nil and thisEntity.beastmaster_mark:IsCooldownReady() then
 		-- search for bear with lust stacks
 		for key, friendly in pairs(friendlies) do 
 			bHasModifier = friendly:HasModifier("bear_bloodlust_modifier")
+			-- set lust stacks to 0
 			if friendly:HasModifier("bear_bloodlust_modifier") then
 				bearWithBloodlust = friendly
 				bearWithBloodlust:SetModifierStackCount("bear_bloodlust_modifier", bearWithBloodlust, 0)
 			end
-		end
 
-		return MarkTarget()
+			-- if enemey selected is not nil, cast mark target on target
+			if hTarget ~= nil then
+				return CastMarkTarget(hTarget)
+			end
+		end
 	end
 
 	return 0.5
@@ -367,6 +410,30 @@ function CastMarkTarget(hTarget)
 		TargetIndex = hTarget:entindex(),
 		AbilityIndex = thisEntity.beastmaster_mark:entindex(),
 		Queue = 1,
+	})
+	return 0.5
+end
+
+--------------------------------------------------------------------------------
+function CastChangeToPhase2()
+
+	ExecuteOrderFromTable({
+		UnitIndex = thisEntity:entindex(),
+		OrderType = DOTA_UNIT_ORDER_CAST_NO_TARGET,
+		AbilityIndex = thisEntity.change_to_phase_2:entindex(),
+		Queue = false,
+	})
+	return 0.5
+end
+
+--------------------------------------------------------------------------------
+function CastChangeToPhase1()
+
+	ExecuteOrderFromTable({
+		UnitIndex = thisEntity:entindex(),
+		OrderType = DOTA_UNIT_ORDER_CAST_NO_TARGET,
+		AbilityIndex = thisEntity.change_to_phase_1:entindex(),
+		Queue = false,
 	})
 	return 0.5
 end

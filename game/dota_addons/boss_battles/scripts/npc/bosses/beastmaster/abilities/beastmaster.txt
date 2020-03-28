@@ -391,5 +391,71 @@
             }        
         }
     }
+
+    //=================================================================================================================
+    // beastmaster change phase ability (1 -> 2)
+    //=================================================================================================================
+    "change_to_phase_2"
+    {
+        "BaseClass"                     "ability_lua"
+        "ScriptFile"                    "bosses/beastmaster/change_to_phase_2"
+        "AbilityTextureName"            ""
+
+        "AbilityCastAnimation"          "ACT_DOTA_TELEPORT"
+        "AbilityBehavior"               "DOTA_ABILITY_BEHAVIOR_NO_TARGET | DOTA_ABILITY_BEHAVIOR_CHANNELLED | DOTA_ABILITY_BEHAVIOR_DONT_RESUME_ATTACK"
+        "AbilityUnitTargetType"         "DOTA_UNIT_TARGET_FLAG_NONE "
+
+        // Casting
+        //-------------------------------------------------------------------------------------------------------------
+        "AbilityCastRange"              "9999"
+        "AbilityCastPoint"              "0.2"
+        "AbilityChannelTime"			"2"
+        
+        // Time     
+        //-------------------------------------------------------------------------------------------------------------
+        "AbilityCooldown"               "1"
+
+        // Cost
+        //-------------------------------------------------------------------------------------------------------------
+        "AbilityManaCost"               "0"
+
+        // Stats
+        //-------------------------------------------------------------------------------------------------------------
+        "AbilityModifierSupportValue"   "0.5"   // Applies multiple modifiers
+        
+    }
+
+    //=================================================================================================================
+    // beastmaster change phase ability (2 -> 1)
+    //=================================================================================================================
+    "change_to_phase_1"
+    {
+        "BaseClass"                     "ability_lua"
+        "ScriptFile"                    "bosses/beastmaster/change_to_phase_1"
+        "AbilityTextureName"            ""
+
+        "AbilityCastAnimation"          "ACT_DOTA_TELEPORT"
+        "AbilityBehavior"               "DOTA_ABILITY_BEHAVIOR_NO_TARGET | DOTA_ABILITY_BEHAVIOR_CHANNELLED | DOTA_ABILITY_BEHAVIOR_DONT_RESUME_ATTACK"
+        "AbilityUnitTargetType"         "DOTA_UNIT_TARGET_FLAG_NONE "
+
+        // Casting
+        //-------------------------------------------------------------------------------------------------------------
+        "AbilityCastRange"              "9999"
+        "AbilityCastPoint"              "0.2"
+        "AbilityChannelTime"			"2"
+        
+        // Time     
+        //-------------------------------------------------------------------------------------------------------------
+        "AbilityCooldown"               "1"
+
+        // Cost
+        //-------------------------------------------------------------------------------------------------------------
+        "AbilityManaCost"               "0"
+
+        // Stats
+        //-------------------------------------------------------------------------------------------------------------
+        "AbilityModifierSupportValue"   "0.5"   // Applies multiple modifiers
+        
+    }
 }
 
