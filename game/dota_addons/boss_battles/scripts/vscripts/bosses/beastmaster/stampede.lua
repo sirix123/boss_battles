@@ -1,112 +1,88 @@
-require('libs/timers')
+--require('libraries/timers')
 
-
+stampede = class({})
 
 -- new class design:
 
 --GLOBAL VARS:
 
---TODO pick locations based on map
-CHANNELING_LOC = Vector(0,0,0) --The location the hero teleports to before/while casting stampede 
-STAMPEDE_START_LOC Vector(0,0,0) --The location the stampede units spawn at. Actually their spwan pos is calced from this, not exactly at this 
-STAMPEDE_END_LOC Vector(0,0,0) --The location the stampede run toward. Actually the loc is calced from this, not exactly at this 
+-- --TODO pick locations based on map
+-- CHANNELING_LOC = Vector(0,0,0) --The location the hero teleports to before/while casting stampede 
+-- STAMPEDE_START_LOC Vector(0,0,0) --The location the stampede units spawn at. Actually their spwan pos is calced from this, not exactly at this 
+-- STAMPEDE_END_LOC Vector(0,0,0) --The location the stampede run toward. Actually the loc is calced from this, not exactly at this 
 
-STAMPEDE_ORIENTATION = "HORIZ" --"HORIZ" or "VERT". The orientation the wave is spread along. HORIZ for waves going north/south, VERT for east/west
-
-
-STAMPEDE_DURATION = 30 --seconds
-WAVES_AMOUNT = 10 --
-WAVE_INTERVAL = STAMPEDE_DURATION / WAVES_AMOUNT --seconds between waves
-WAVE_SPACING = 150 -- The amount of distance between units in a stampede wave. 
-UNITS_PER_WAVE = 10
+-- STAMPEDE_ORIENTATION = "HORIZ" --"HORIZ" or "VERT". The orientation the wave is spread along. HORIZ for waves going north/south, VERT for east/west
 
 
+-- STAMPEDE_DURATION = 30 --seconds
+-- WAVES_AMOUNT = 10 --
+-- WAVE_INTERVAL = STAMPEDE_DURATION / WAVES_AMOUNT --seconds between waves
+-- WAVE_SPACING = 150 -- The amount of distance between units in a stampede wave. 
+-- UNITS_PER_WAVE = 10
 
-START_SPAWN_LOCS = calculateSpawnLocations(STAMPEDE_START_LOC, STAMPEDE_ORIENTATION, WAVE_SPACING, UNITS_PER_WAVE)
-END_SPAWN_LOCS = calculateSpawnLocations(STAMPEDE_END_LOC, STAMPEDE_ORIENTATION, WAVE_SPACING, UNITS_PER_WAVE)
+-- START_SPAWN_LOCS = calculateSpawnLocations(STAMPEDE_START_LOC, STAMPEDE_ORIENTATION, WAVE_SPACING, UNITS_PER_WAVE)
+-- END_SPAWN_LOCS = calculateSpawnLocations(STAMPEDE_END_LOC, STAMPEDE_ORIENTATION, WAVE_SPACING, UNITS_PER_WAVE)
 
 
---Given a <location>, returns an array of Vectors centered on that location, spaced and aligned along an orientation
-function calculateSpawnLocations(loc, orientation, spacing, amount)
-	spawnLocs = {}
+-- --Given a <location>, returns an array of Vectors centered on that location, spaced and aligned along an orientation
+-- function stampede:calculateSpawnLocations(loc, orientation, spacing, amount)
+-- 	spawnLocs = {}
 
-	--perhaps 1 off? might need amount+1, TODO: test/verify
-	for i = 1, amount, 1 do
+-- 	--perhaps 1 off? might need amount+1, TODO: test/verify
+-- 	for i = 1, amount, 1 do
 
-		--algo: if loc is center point, if amount is odd, then middle unit will be on the loc, if amount is even, no unit will be at loc
-			-- when amount is odd then spawnLoc[(amount+1)/2] should be equal to loc
-			-- when amount is even, no unit will be on the loc, they'll be either side, spacing/2 away from it
+-- 		--algo: if loc is center point, if amount is odd, then middle unit will be on the loc, if amount is even, no unit will be at loc
+-- 			-- when amount is odd then spawnLoc[(amount+1)/2] should be equal to loc
+-- 			-- when amount is even, no unit will be on the loc, they'll be either side, spacing/2 away from it
 
-		local posInWave = i - (amount+1) /2	--The units position in the wave, negative is to the left/above, position is to the right/below.
-		if orientation == "HORIZ" then
-			local xLoc = (posInWave * spacing) + loc.x 
-			spawnLocs[i] = Vector(xLoc, loc.y, loc.z)
-		elseif orientation == "VERT" then
-			local yLoc = (posInWave * spacing) + loc.y
-			spawnLocs[i] = Vector(loc.x, yLoc, loc.z)
-		end
-	end
+-- 		local posInWave = i - (amount+1) /2	--The units position in the wave, negative is to the left/above, position is to the right/below.
+-- 		if orientation == "HORIZ" then
+-- 			local xLoc = (posInWave * spacing) + loc.x 
+-- 			spawnLocs[i] = Vector(xLoc, loc.y, loc.z)
+-- 		elseif orientation == "VERT" then
+-- 			local yLoc = (posInWave * spacing) + loc.y
+-- 			spawnLocs[i] = Vector(loc.x, yLoc, loc.z)
+-- 		end
+-- 	end
 	
-	return spawnLocs;	
-end
+-- 	return spawnLocs;	
+-- end
 
 
---Spawn funcs:
+-- --Spawn funcs:
 
-	--spawnUnit(spawnLoc, moveToLoc, ?)
-		-- need to set a timer to check for collisions
-	--spawnWave(spawnLocs, moveToLocs, ?)
+-- 	--spawnUnit(spawnLoc, moveToLoc, ?)
+-- 		-- need to set a timer to check for collisions
+-- 	--spawnWave(spawnLocs, moveToLocs, ?)
 
-	--Stampede loops and calls spawnWave every WAVE_INTERVAL
-	--Spawn wave loops #spawnLocs and calls spawnUnit each time.
+-- 	--Stampede loops and calls spawnWave every WAVE_INTERVAL
+-- 	--Spawn wave loops #spawnLocs and calls spawnUnit each time.
 
---Other funcs:
-	--OnCollision(stampUnit, unitHit)
-		--do dmg to unitHit, apply mod
-		-- destroy stampUnit
-
-
+-- --Other funcs:
+-- 	--OnCollision(stampUnit, unitHit)
+-- 		--do dmg to unitHit, apply mod
+-- 		-- destroy stampUnit
 
 
+-- --Stampede onSpellStart, triggers a stampede which lasts for STAMPEDE_DURATION seconds
+-- --Algo: 
+-- --Hero teleports to CHANNELING_LOC
+-- --Sound event and animation. 
+-- 	--TODO: pick sound and animation for channeling
 
+-- --Calc spawn locations etc and load them into a table so they can be iterated
 
-
---Stampede onSpellStart, triggers a stampede which lasts for STAMPEDE_DURATION seconds
---Algo: 
---Hero teleports to CHANNELING_LOC
---Sound event and animation. 
-	--TODO: pick sound and animation for channeling
-
---Calc spawn locations etc and load them into a table so they can be iterated
-
---Loop: 
-	--Spawn a wave, each unit at x[i] and move to y[i]
-	--Start a timer for each unit to check collision
-		--On collision... dmg? explode unit, debuff for stacking dmg
-			--E.g first hit does 20% hp, next 30% hp, 40% etc. 
+-- --Loop: 
+-- 	--Spawn a wave, each unit at x[i] and move to y[i]
+-- 	--Start a timer for each unit to check collision
+-- 		--On collision... dmg? explode unit, debuff for stacking dmg
+-- 			--E.g first hit does 20% hp, next 30% hp, 40% etc. 
 
 
 
 
 
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-stampede = class({})
 summonLocs = {}
 
 MOVE_INTERVAL = 0.5 --interval in seconds
@@ -125,13 +101,10 @@ function stampede:OnSpellStart()
     local cursorLoc = self:GetCursorPosition()
     local casterLoc = caster:GetOrigin()
 
-    --New code:
-	--any way to asssign all these in a single loop? Not easily..
-
 	--Spawn to South, then head North.
 	local offset = 800
 	local spawnDistance = 800
-	local spacing = 300
+	local spacing = 400
 	local max = 10
 
 	--Spawn to south, in horizontal line:
@@ -152,9 +125,9 @@ function stampede:OnSpellStart()
 	--TODO: test once? 
 	--self:spawnStampedeAndMoveTo(southRow, northRow)
 
-	local interval = 3 --5 seconds between waves
+	local interval = 1.5 --seconds between waves
 	local count = 1 --current wave
-	local waves = 8 -- max waves
+	local waves = 15 -- max waves
 
 
      Timers:CreateTimer(function()
@@ -215,7 +188,7 @@ end
 function stampede:spawnStampedeAndMoveTo(spawnLoc, moveLoc)
 	stampedeUnits = {}
 	for i = 1, #spawnLoc, 1 do
-			local stampedeUnit = CreateUnitByName( "npc_dota_neutral_centaur_outrunner", spawnLoc[i], true, self:GetCaster(), self:GetCaster():GetOwner(), self:GetCaster():GetTeamNumber() )
+			local stampedeUnit = CreateUnitByName( "npc_stampede_unit", spawnLoc[i], true, self:GetCaster(), self:GetCaster():GetOwner(), self:GetCaster():GetTeamNumber() )
 			stampedeUnits[i] = stampedeUnit
 
 		--Move to the position
@@ -262,7 +235,7 @@ function stampede:createStampedeUnitsAtLocations(locations)
 	stampedeUnits = {}
 	for i = 1, #locations, 1 do
 		--Create units for the stampede
-		local stampedeUnit = CreateUnitByName( "npc_dota_neutral_centaur_outrunner", locations[i], true, self:GetCaster(), self:GetCaster():GetOwner(), self:GetCaster():GetTeamNumber() )
+		local stampedeUnit = CreateUnitByName( "npc_stampede_unit", locations[i], true, self:GetCaster(), self:GetCaster():GetOwner(), self:GetCaster():GetTeamNumber() )
 		stampedeUnits[i] = stampedeUnit
 
 		print("createStampedeUnitsAtLocations, created units")
@@ -330,94 +303,96 @@ end
 --Make one timer which triggers a new wave, every maybe 3-5 seconds
 --Then another timer which 'unit'/circle/projectile along it's line
 
-function stampede:spawnWaves(direction, waves, color)
-	print("spawnWaves main timer tick ")
-    Timers:CreateTimer(function()
-    	print("spawnWaves internal timer tick ")
-    	return self:moveWave(direction, waves[waveIncrement], color)
-     end
-	 )
+-- function stampede:spawnWaves(direction, waves, color)
+-- 	print("spawnWaves main timer tick ")
+--     Timers:CreateTimer(function()
+--     	print("spawnWaves internal timer tick ")
+--     	return self:moveWave(direction, waves[waveIncrement], color)
+--      end
+-- 	 )
 
 
-    waveIncrement = waveIncrement +1
-    return WAVE_INTERVAL
-end
+--     waveIncrement = waveIncrement +1
+--     return WAVE_INTERVAL
+-- end
 
-function stampede:spawnWave(direction, summonLocs, color)
-	print("spawnWave main timer tick")
-
-
-	--TODO: make a copy of the table before sending it in. 
-	dupe = shallowcopy(summonLocs)
-
-	spawnedWaves[#spawnedWaves] = dupe --store a ref to this so it doesnt get garbage collected 
-	--NO IDEA IF THAT WORKS!
+-- function stampede:spawnWave(direction, summonLocs, color)
+-- 	print("spawnWave main timer tick")
 
 
-    Timers:CreateTimer(function()
-    	print("spawnWave internal timer tick")
-    	return self:moveWave(direction, dupe, color)
-     end
-	 )
+-- 	--TODO: make a copy of the table before sending it in. 
+-- 	dupe = shallowcopy(summonLocs)
+
+-- 	spawnedWaves[#spawnedWaves] = dupe --store a ref to this so it doesnt get garbage collected 
+-- 	--NO IDEA IF THAT WORKS!
+
+
+--     Timers:CreateTimer(function()
+--     	print("spawnWave internal timer tick")
+--     	return self:moveWave(direction, dupe, color)
+--      end
+-- 	 )
 	
 
-	return WAVE_INTERVAL
-end
+-- 	return WAVE_INTERVAL
+-- end
 
 
     
-function stampede:timerTick()
-	--TODO: move each thing a little on the y?
-	for i = 1, #summonLocs, 1 do
-		summonLocs[i] = summonLocs[i] + Vector(0, 20,0)
-		--Debug:
-		DebugDrawCircle(summonLocs[i], Vector(0,255,0),128,DEBUG_DRAW_RAD,true,DEBUG_DRAW_DURATION)
-	end
+-- function stampede:timerTick()
+-- 	--TODO: move each thing a little on the y?
+-- 	for i = 1, #summonLocs, 1 do
+-- 		summonLocs[i] = summonLocs[i] + Vector(0, 20,0)
+-- 		--Debug:
+-- 		DebugDrawCircle(summonLocs[i], Vector(0,255,0),128,DEBUG_DRAW_RAD,true,DEBUG_DRAW_DURATION)
+-- 	end
 
-	return MOVE_INTERVAL
+-- 	return MOVE_INTERVAL
 
-end
+-- end
 
 
---TODO, need to 
-function stampede:moveWave(direction, summonLocs, color)
-	--direction = "N","E","S","W" or something else...
-	distance = 20
-	if (direction == "N") then
-			for i = 1, #summonLocs, 1 do
-				summonLocs[i] = summonLocs[i] + Vector(0, distance,0)	-- + on the y coord to go north
-				--Debug:
-				DebugDrawCircle(summonLocs[i], color,128,DEBUG_DRAW_RAD,true,DEBUG_DRAW_DURATION)
-			end
-	end
-	if (direction == "E") then
-			for i = 1, #summonLocs, 1 do
-				summonLocs[i] = summonLocs[i] + Vector(distance, 0,0)	-- + on the x coord to go east
-				--Debug:
-				DebugDrawCircle(summonLocs[i], color,128,DEBUG_DRAW_RAD,true,DEBUG_DRAW_DURATION)
-			end
-	end
-	if (direction == "S") then
-			for i = 1, #summonLocs, 1 do
-				summonLocs[i] = summonLocs[i] - Vector(0, distance,0)	-- - on the y coord to go south
-				--Debug:
-				DebugDrawCircle(summonLocs[i], color,128,DEBUG_DRAW_RAD,true,DEBUG_DRAW_DURATION)
-			end
-	end
-	if (direction == "W") then
-			for i = 1, #summonLocs, 1 do
-				summonLocs[i] = summonLocs[i] - Vector(distance, 0,0)	-- - on the x coord to go west
-				--Debug:
-				DebugDrawCircle(summonLocs[i], color,128,DEBUG_DRAW_RAD,true,DEBUG_DRAW_DURATION)
-			end
-	end
 
-	--TODO: other directions;
-		--Circle, waypoint, ...
+-- function stampede:moveWave(direction, summonLocs, color)
+-- 	--direction = "N","E","S","W" or something else...
+-- 	distance = 20
+-- 	if (direction == "N") then
+-- 			for i = 1, #summonLocs, 1 do
+-- 				summonLocs[i] = summonLocs[i] + Vector(0, distance,0)	-- + on the y coord to go north
+-- 				--Debug:
+-- 				DebugDrawCircle(summonLocs[i], color,128,DEBUG_DRAW_RAD,true,DEBUG_DRAW_DURATION)
+-- 			end
+-- 	end
+-- 	if (direction == "E") then
+-- 			for i = 1, #summonLocs, 1 do
+-- 				summonLocs[i] = summonLocs[i] + Vector(distance, 0,0)	-- + on the x coord to go east
+-- 				--Debug:
+-- 				DebugDrawCircle(summonLocs[i], color,128,DEBUG_DRAW_RAD,true,DEBUG_DRAW_DURATION)
+-- 			end
+-- 	end
+-- 	if (direction == "S") then
+-- 			for i = 1, #summonLocs, 1 do
+-- 				summonLocs[i] = summonLocs[i] - Vector(0, distance,0)	-- - on the y coord to go south
+-- 				--Debug:
+-- 				DebugDrawCircle(summonLocs[i], color,128,DEBUG_DRAW_RAD,true,DEBUG_DRAW_DURATION)
+-- 			end
+-- 	end
+-- 	if (direction == "W") then
+-- 			for i = 1, #summonLocs, 1 do
+-- 				summonLocs[i] = summonLocs[i] - Vector(distance, 0,0)	-- - on the x coord to go west
+-- 				--Debug:
+-- 				DebugDrawCircle(summonLocs[i], color,128,DEBUG_DRAW_RAD,true,DEBUG_DRAW_DURATION)
+-- 			end
+-- 	end
 
-	return MOVE_INTERVAL
-end
+-- 	--TODO: other directions;
+-- 		--Circle, waypoint, ...
 
+-- 	return MOVE_INTERVAL
+-- end
+
+
+--UTILS:
 
 --TODO put this in utils file
 function copyTable(obj, seen)
