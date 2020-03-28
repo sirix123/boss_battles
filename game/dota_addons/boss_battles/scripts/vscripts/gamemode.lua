@@ -129,7 +129,7 @@ function GameMode:OnAllPlayersLoaded()
         -- GameMode:StartRandomGame()
       else
         -- this should be used for a playground (generic boss arena for testing)
-        GameMode:StartRaid()
+        
       end
     end)
 
@@ -165,6 +165,8 @@ end
 ]]
 function GameMode:OnGameInProgress()
   DebugPrint("[BAREBONES] The game has officially begun")
+
+  GameMode:StartRaid()
 end
 
 
