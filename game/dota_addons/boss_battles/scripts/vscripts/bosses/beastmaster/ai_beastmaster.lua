@@ -29,6 +29,10 @@ function Spawn( entityKeyValues )
 	thisEntity.change_to_phase_2 = thisEntity:FindAbilityByName( "change_to_phase_2" )
 	thisEntity.change_to_phase_1 = thisEntity:FindAbilityByName( "change_to_phase_1" )
 
+	thisEntity.stampede = thisEntity:FindAbilityByName( "stampede" )
+
+
+
 	-- used for bear summoning logic 
 	thisEntity.firstBear = true
 	thisEntity.lastBearDeath = 0
@@ -76,16 +80,20 @@ function BeastmasterThink()
 	if thisEntity.flNextPhaseTime == nil then
 		thisEntity.flNextPhaseTime = GameRules:GetGameTime() + TRIGGER_PHASE_CD
 	end
-	
-	-- might need a seperaet function here to cast 'enter phase1 / phase2'
-	if thisEntity.Phase == PHASE_ONE then
-		Phase_1()
-	elseif thisEntity.Phase == PHASE_TWO then
-		Phase_2()
-	end
 
 	-- check if we need to change phases 
 	CheckPhaseChange()
+	
+	-- might need a seperaet function here to cast 'enter phase1 / phase2'
+	if thisEntity.Phase == PHASE_ONE then
+		print("Calling Phase_1()")
+		Phase_1()
+	elseif thisEntity.Phase == PHASE_TWO then
+		print("Calling Phase_2()")
+		Phase_2()
+	end
+
+	
 	
 	-- if animals die remove them from the table
 	ClearAnimals()
@@ -162,13 +170,21 @@ end
 --------------------------------------------------------------------------------
 
 -- phase 2
---[[
 
-]]--
+ isStampedeInProgress = false
 function Phase_2()
+	print("Phase_2()")
 
------ stampede phase bb
+	if not isStampedeInProgress then
+		print("Stampede not in progress. Starting Stampede")
+		isStampedeInProgress = true
+		ChannelStampede() 
 
+	end
+	if isStampedeInProgress then
+		print("Stampede in progress")
+	end
+	
 
 end
 
@@ -350,6 +366,30 @@ function BeastmasterNet()
 	end
 	return 0.5
 end
+
+---------------------------------------------------------------------------------
+
+function ChannelStampede()
+	print("ChannelStampede()")
+	--TELEPORT BM
+	--PERFORM CHANNELING ANIMATION
+	--NO OTHER ACTIONS WHILE GOING
+
+	
+	CastStampede()
+end
+
+function CastStampede()
+	print("CastStampede()")
+	ExecuteOrderFromTable({
+		UnitIndex = thisEntity:entindex(),
+		OrderType = DOTA_UNIT_ORDER_CAST_NO_TARGET,
+		AbilityIndex = thisEntity.stampede:entindex(),
+		Queue = false,
+	})
+	return 0.5
+end
+
 
 --------------------------------------------------------------------------------
 
