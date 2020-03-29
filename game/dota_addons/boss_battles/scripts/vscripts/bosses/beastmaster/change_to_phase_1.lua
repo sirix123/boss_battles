@@ -3,7 +3,6 @@ change_to_phase_1 = class({})
 --------------------------------------------------------------------------------
 
 function change_to_phase_1:OnSpellStart() 
-
     if IsServer() then
         local caster = self:GetCaster()
 

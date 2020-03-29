@@ -26,6 +26,7 @@ function Spawn( entityKeyValues )
 	thisEntity.summon_quillboar = thisEntity:FindAbilityByName( "summon_quillboar" )
 	thisEntity.beastmaster_net = thisEntity:FindAbilityByName( "beastmaster_net" )
 	thisEntity.beastmaster_break = thisEntity:FindAbilityByName( "beastmaster_break" )
+	thisEntity.stampede = thisEntity:FindAbilityByName( "stampede" )
 	thisEntity.change_to_phase_2 = thisEntity:FindAbilityByName( "change_to_phase_2" )
 	thisEntity.change_to_phase_1 = thisEntity:FindAbilityByName( "change_to_phase_1" )
 
@@ -85,7 +86,7 @@ function BeastmasterThink()
 	end
 
 	-- check if we need to change phases 
-	CheckPhaseChange()
+	--CheckPhaseChange()
 	
 	-- if animals die remove them from the table
 	ClearAnimals()
@@ -146,9 +147,9 @@ function Phase_1()
 	-- handles the spear throw logic
 	-- phase one spears start x time in to the fight
 	-- time between spears is longer then other phases
-	local delayBeforeFirstNet = 30
-	local delayAfterLastNet = 20
-	--NetCastingTime(delayBeforeFirstNet, delayAfterLastNet)
+	local delayBeforeFirstNet = 1
+	local delayAfterLastNet = 1
+	NetCastingTime(delayBeforeFirstNet, delayAfterLastNet)
 
 	-- casts mark on CD as well 
 	--CastBeastmasterMark()
@@ -168,7 +169,7 @@ end
 function Phase_2()
 
 ----- stampede phase bb
-
+	--CastStampede(Vector(0,0,0))
 
 end
 
@@ -433,6 +434,19 @@ function CastChangeToPhase1()
 		UnitIndex = thisEntity:entindex(),
 		OrderType = DOTA_UNIT_ORDER_CAST_NO_TARGET,
 		AbilityIndex = thisEntity.change_to_phase_1:entindex(),
+		Queue = false,
+	})
+	return 0.5
+end
+
+--------------------------------------------------------------------------------
+function CastStampede(vTargetPos)
+
+	ExecuteOrderFromTable({
+		UnitIndex = thisEntity:entindex(),
+		OrderType = DOTA_UNIT_ORDER_CAST_POSITION,
+		AbilityIndex = thisEntity.stampede:entindex(),
+		Position = vTargetPos,
 		Queue = false,
 	})
 	return 0.5

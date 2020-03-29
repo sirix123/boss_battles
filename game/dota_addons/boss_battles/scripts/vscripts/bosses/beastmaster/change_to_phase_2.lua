@@ -2,11 +2,15 @@
 change_to_phase_2 = class({})
 --------------------------------------------------------------------------------
 
-function change_to_phase_2:OnSpellStart() 
+PHASE_COUNT = 0
 
+function change_to_phase_2:OnSpellStart()
     if IsServer() then
         local caster = self:GetCaster()
-
+        local hSpell =  caster:FindAbilityByName("stampede")
+        
+        PHASE_COUNT = PHASE_COUNT + 1
+        hSpell:SetLevel(PHASE_COUNT)
     end
 end
 
