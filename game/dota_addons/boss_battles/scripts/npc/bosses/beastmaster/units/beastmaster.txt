@@ -113,9 +113,15 @@
 		"Ability3"					"summon_quillboar"			// Ability 3
 		"Ability4"					"beastmaster_net"			// Ability 4
 		"Ability5"					"beastmaster_break"			// Ability 5
+<<<<<<< HEAD
 		"Ability6"					"change_to_phase_2"			// Ability 6
 		"Ability7"					"change_to_phase_1"			// Ability 7
 		"Ability8"					"stampede"					// Ability 8
+=======
+		"Ability6"					"change_to_phase_2"				// Ability 6
+		"Ability7"					"change_to_phase_1"				// Ability 7
+		"Ability8"					"stampede"				
+>>>>>>> beae5369fd165a23dad52ea74f22fe25d42fd8de
 		
 
 		// Armor

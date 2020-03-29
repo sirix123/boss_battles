@@ -187,9 +187,16 @@ end
 
 function stampede:spawnStampedeAndMoveTo(spawnLoc, moveLoc)
 	stampedeUnits = {}
+
 	for i = 1, #spawnLoc, 1 do
-			local stampedeUnit = CreateUnitByName( "npc_stampede_unit", spawnLoc[i], true, self:GetCaster(), self:GetCaster():GetOwner(), self:GetCaster():GetTeamNumber() )
+			--summonBear: local hBear = CreateUnitByName("npc_beastmaster_bear", vSpawnArea, true, nil, nil, DOTA_TEAM_BADGUYS)
+			--summonBoar:                 local hQuillboar = CreateUnitByName("npc_quilboar", vSpawnArea, true, self:GetCaster(), self:GetCaster(), DOTA_TEAM_BADGUYS)
+			local stampedeUnit = CreateUnitByName( "npc_stampede_unit", spawnLoc[i], true, self:GetCaster(), self:GetCaster(), DOTA_TEAM_BADGUYS )
 			stampedeUnits[i] = stampedeUnit
+
+			print("Attempted to create npc_stampede_unit")
+			print(stampedeUnit)
+
 
 		--Move to the position
 		  Timers:CreateTimer({
@@ -212,15 +219,12 @@ function stampede:spawnStampedeAndMoveTo(spawnLoc, moveLoc)
 		    end
 		  })			
 
-
-		  
-		  
 		
 		--Check whether the unit has collided with anything
 	     Timers:CreateTimer(function()
 	    	local count = 1 	
 	     	return self:collisionCheck(stampedeUnits[i], count)
-
+	     	return 5
 	      end
 		  )
 
@@ -231,40 +235,45 @@ function stampede:spawnStampedeAndMoveTo(spawnLoc, moveLoc)
 end
 
 
-function stampede:createStampedeUnitsAtLocations(locations)
-	stampedeUnits = {}
-	for i = 1, #locations, 1 do
-		--Create units for the stampede
-		local stampedeUnit = CreateUnitByName( "npc_stampede_unit", locations[i], true, self:GetCaster(), self:GetCaster():GetOwner(), self:GetCaster():GetTeamNumber() )
-		stampedeUnits[i] = stampedeUnit
+-- function stampede:createStampedeUnitsAtLocations(locations)
+-- 	stampedeUnits = {}
+-- 	for i = 1, #locations, 1 do
+-- 		--Create units for the stampede
+-- 		local stampedeUnit = CreateUnitByName( "npc_stampede_unit", locations[i], true, self:GetCaster(), self:GetCaster():GetOwner(), self:GetCaster():GetTeamNumber() )
+-- 		stampedeUnits[i] = stampedeUnit
 
-		print("createStampedeUnitsAtLocations, created units")
+-- 		print("createStampedeUnitsAtLocations, created units")
 
-		--Move to the first position, then the next. 
-		  Timers:CreateTimer({
-		    endTime = 1, -- when this timer should first execute, you can omit this if you want it to run first on the next frame
-		    callback = function()
-		    --queue up move commands
+-- 		--Move to the first position, then the next. 
+-- 		  Timers:CreateTimer({
+-- 		    endTime = 1, -- when this timer should first execute, you can omit this if you want it to run first on the next frame
+-- 		    callback = function()
+-- 		    --queue up move commands
 
-		    print("createStampedeUnitsAtLocations, inside timer, execut")
-			ExecuteOrderFromTable({ UnitIndex = stampedeUnit:entindex(), OrderType = DOTA_UNIT_ORDER_MOVE_TO_POSITION, Position = Vector(locations[i].x, locations[i].y - 1000, locations[i].z), Queue = true})
-			ExecuteOrderFromTable({ UnitIndex = stampedeUnit:entindex(), OrderType = DOTA_UNIT_ORDER_MOVE_TO_POSITION, Position = Vector(locations[i].x, locations[i].y, locations[i].z), Queue = true})
-		    end
-		  })
+-- 		    print("createStampedeUnitsAtLocations, inside timer, execut")
+-- 			ExecuteOrderFromTable({ UnitIndex = stampedeUnit:entindex(), OrderType = DOTA_UNIT_ORDER_MOVE_TO_POSITION, Position = Vector(locations[i].x, locations[i].y - 1000, locations[i].z), Queue = true})
+-- 			ExecuteOrderFromTable({ UnitIndex = stampedeUnit:entindex(), OrderType = DOTA_UNIT_ORDER_MOVE_TO_POSITION, Position = Vector(locations[i].x, locations[i].y, locations[i].z), Queue = true})
+-- 		    end
+-- 		  })
 
-		  --Check whether the unit has collided with anything
-	     Timers:CreateTimer(function()
-	     	local count = 1
-	     	return self:collisionCheck(stampedeUnits[i], count)
-	      end
-		  )
+-- 		  --Check whether the unit has collided with anything
+-- 	     Timers:CreateTimer(function()
+-- 	     	local count = 1
+-- 	     	return self:collisionCheck(stampedeUnits[i], count)
+-- 	      end
+-- 		  )
 
-	end
+-- 	end
 
-end
+-- end
 
 
 function stampede:collisionCheck(unit,count)
+	if unit == nil then
+		print("collisionCheck() unit is nil")
+		return
+	end
+
 	if count == 200 then
 		print("collisionCheck reached count")
 		return
@@ -272,7 +281,7 @@ function stampede:collisionCheck(unit,count)
 	count = count + 1 
 
 	local collisionRadius = 100
-	direUnits = FindUnitsInRadius(DOTA_TEAM_BADGUYS,
+	direUnits = FindUnitsInRadius(DOTA_TEAM_GOODGUYS,
                               unit:GetOrigin(),
                               nil,
                               collisionRadius,
@@ -289,7 +298,9 @@ function stampede:collisionCheck(unit,count)
 		 --ParticleManager:SetParticleControl( p, 4, target:GetOrigin() )
 		-- ParticleManager:ReleaseParticleIndex( p )
 
-	   UTIL_Remove(collidedUnit)
+	   --TODO: deal dmg to goodguy
+
+	   --UTIL_Remove(collidedUnit)
 
 	end
 
