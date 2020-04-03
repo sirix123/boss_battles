@@ -1,189 +1,245 @@
 --require('libraries/timers')
-
 stampede = class({})
 
--- new class design:
-
 --GLOBAL VARS:
-
 -- --TODO pick locations based on map
 -- CHANNELING_LOC = Vector(0,0,0) --The location the hero teleports to before/while casting stampede 
 -- STAMPEDE_START_LOC Vector(0,0,0) --The location the stampede units spawn at. Actually their spwan pos is calced from this, not exactly at this 
 -- STAMPEDE_END_LOC Vector(0,0,0) --The location the stampede run toward. Actually the loc is calced from this, not exactly at this 
 
--- STAMPEDE_ORIENTATION = "HORIZ" --"HORIZ" or "VERT". The orientation the wave is spread along. HORIZ for waves going north/south, VERT for east/west
-
-
--- STAMPEDE_DURATION = 30 --seconds
--- WAVES_AMOUNT = 10 --
--- WAVE_INTERVAL = STAMPEDE_DURATION / WAVES_AMOUNT --seconds between waves
--- WAVE_SPACING = 150 -- The amount of distance between units in a stampede wave. 
--- UNITS_PER_WAVE = 10
+STAMPEDE_ORIENTATION = "HORIZ" --"HORIZ" or "VERT". The orientation the wave is spread along. HORIZ for waves going north/south, VERT for east/west
+STAMPEDE_DURATION = 30 --seconds
+WAVES_AMOUNT = 10 --
+WAVE_INTERVAL = STAMPEDE_DURATION / WAVES_AMOUNT --seconds between waves
+WAVE_SPACING = 150 -- The amount of distance between units in a stampede wave. 
+UNITS_PER_WAVE = 10
 
 -- START_SPAWN_LOCS = calculateSpawnLocations(STAMPEDE_START_LOC, STAMPEDE_ORIENTATION, WAVE_SPACING, UNITS_PER_WAVE)
 -- END_SPAWN_LOCS = calculateSpawnLocations(STAMPEDE_END_LOC, STAMPEDE_ORIENTATION, WAVE_SPACING, UNITS_PER_WAVE)
 
+ --Given a location, returns an array of Vectors centered on that location, spaced and aligned along an orientation
+ function stampede:calculateSpawnLocations(loc, orientation, spacing, amount)
+	spawnLocs = {}
+	--perhaps 1 off? might need amount+1, TODO: test/verify
+	for i = 1, amount, 1 do
 
--- --Given a <location>, returns an array of Vectors centered on that location, spaced and aligned along an orientation
--- function stampede:calculateSpawnLocations(loc, orientation, spacing, amount)
--- 	spawnLocs = {}
-
--- 	--perhaps 1 off? might need amount+1, TODO: test/verify
--- 	for i = 1, amount, 1 do
-
--- 		--algo: if loc is center point, if amount is odd, then middle unit will be on the loc, if amount is even, no unit will be at loc
--- 			-- when amount is odd then spawnLoc[(amount+1)/2] should be equal to loc
--- 			-- when amount is even, no unit will be on the loc, they'll be either side, spacing/2 away from it
-
--- 		local posInWave = i - (amount+1) /2	--The units position in the wave, negative is to the left/above, position is to the right/below.
--- 		if orientation == "HORIZ" then
--- 			local xLoc = (posInWave * spacing) + loc.x 
--- 			spawnLocs[i] = Vector(xLoc, loc.y, loc.z)
--- 		elseif orientation == "VERT" then
--- 			local yLoc = (posInWave * spacing) + loc.y
--- 			spawnLocs[i] = Vector(loc.x, yLoc, loc.z)
--- 		end
--- 	end
+		--algo: if loc is center point, if amount is odd, then middle unit will be on the loc, if amount is even, no unit will be at loc
+			-- when amount is odd then spawnLoc[(amount+1)/2] should be equal to loc
+			-- when amount is even, no unit will be on the loc, they'll be either side, spacing/2 away from it
+		local posInWave = i - (amount+1) /2	--The units position in the wave, negative is to the left/above, position is to the right/below.
+		if orientation == "HORIZ" then
+			local xLoc = (posInWave * spacing) + loc.x 
+			spawnLocs[i] = Vector(xLoc, loc.y, loc.z)
+		elseif orientation == "VERT" then
+			local yLoc = (posInWave * spacing) + loc.y
+			spawnLocs[i] = Vector(loc.x, yLoc, loc.z)
+		end
+	end
 	
--- 	return spawnLocs;	
--- end
+	return spawnLocs;	
+end
 
 
--- --Spawn funcs:
+-- Spawns a stampede unit at spawnLoc and moves the unit to moveToLoc
+function stampede:spawnUnit(spawnLoc, moveToLoc)
+	--spawn unit
+	local stampedeUnit = CreateUnitByName( "npc_stampede_unit", spawnLoc[i], true, self:GetCaster(), self:GetCaster(), DOTA_TEAM_BADGUYS )
 
--- 	--spawnUnit(spawnLoc, moveToLoc, ?)
--- 		-- need to set a timer to check for collisions
--- 	--spawnWave(spawnLocs, moveToLocs, ?)
+	--Move to the position
+	Timers:CreateTimer({
+		endTime = 0.2, -- when this timer should first execute, you can omit this if you want it to run first on the next frame
+		callback = function()
+		ExecuteOrderFromTable({ UnitIndex = stampedeUnit:entindex(), OrderType = DOTA_UNIT_ORDER_MOVE_TO_POSITION, Position = moveLoc[i], Queue = true})
+		--try to attach an animation
+		local p = ParticleManager:CreateParticle( "particles/units/heroes/hero_spirit_breaker/spirit_breaker_charge_tree_c.vpcf", PATTACH_ABSORIGIN_FOLLOW, stampedeUnit )
+	end
+	})
 
--- 	--Stampede loops and calls spawnWave every WAVE_INTERVAL
--- 	--Spawn wave loops #spawnLocs and calls spawnUnit each time.
+	--collision check
+	Timers:CreateTimer(function()
+		self:checkAndHandleCollision(stampedeUnits[i], 1)
+		return 0.1
+	end
+	)
 
--- --Other funcs:
--- 	--OnCollision(stampUnit, unitHit)
--- 		--do dmg to unitHit, apply mod
--- 		-- destroy stampUnit
+	--TODO: make a func to check if units pos is near the endPos. If at end pos then remove unit
+	Timers:CreateTimer(function()
+		--TOOD: checkAndHandleUnitAtEnd
+		return 0.1
+	end
+	)
+end
 
+--spawns a row/col of stampede units. 
+function stampede:spawnWave(spawnLocs, moveToLocs, unitsPerWave)
+	for i =1, unitsPerWave, 1 do
+		self:spawnUnit(spawnLocs[i], moveToLocs[i])
+	end
+end
 
--- --Stampede onSpellStart, triggers a stampede which lasts for STAMPEDE_DURATION seconds
--- --Algo: 
--- --Hero teleports to CHANNELING_LOC
--- --Sound event and animation. 
--- 	--TODO: pick sound and animation for channeling
+function stampede:checkAndHandleCollision(unit,count)
+	--TODO: need a better way to determine when to stop this timer...
+	if count == 200 then
+		print("collisionCheck reached count")
+		return
+	end
+	count = count + 1 
 
--- --Calc spawn locations etc and load them into a table so they can be iterated
+	local collisionRadius = 100
+	units = FindUnitsInRadius(DOTA_TEAM_GOODGUYS,
+                              unit:GetOrigin(),
+                              nil,
+                              collisionRadius,
+                              DOTA_UNIT_TARGET_TEAM_FRIENDLY,
+                              DOTA_UNIT_TARGET_ALL,
+                              DOTA_UNIT_TARGET_FLAG_NONE,
+                              FIND_ANY_ORDER,
+                              false)
 
--- --Loop: 
--- 	--Spawn a wave, each unit at x[i] and move to y[i]
--- 	--Start a timer for each unit to check collision
--- 		--On collision... dmg? explode unit, debuff for stacking dmg
--- 			--E.g first hit does 20% hp, next 30% hp, 40% etc. 
-
-
-
-
-
-
-summonLocs = {}
-
-MOVE_INTERVAL = 0.5 --interval in seconds
-WAVE_INTERVAL = 5
-DEBUG_DRAW_DURATION = 1;
-DEBUG_DRAW_RAD = 50;
-
-projectile_name = "particles/units/heroes/hero_mirana/mirana_spell_arrow.vpcf"
---projectile_direction = (Vector( point.x-origin.x, point.y-origin.y, 0 )):Normalized()
-
-spawnedWaves = {}
-waveIncrement = 1
-
-function stampede:OnSpellStart()
-	local caster = self:GetCaster()
-    local cursorLoc = self:GetCursorPosition()
-    local casterLoc = caster:GetOrigin()
-
-	--Spawn to South, then head North.
-	local offset = 800
-	local spawnDistance = 800
-	local spacing = 400
-	local max = 10
-
-	--Spawn to south, in horizontal line:
-	southRow = {}
-	for i = 1, max, 1 do
-		local x = casterLoc.x 
-		southRow[i] = Vector(casterLoc.x + (i * spacing) - ( ( spacing * max ) / 2), casterLoc.y - spawnDistance,0)
+	-- Make the found units move to (0, 0, 0)
+	for _,collidedUnit in pairs(units) do
+   		print("collision detected")
+	    local p = ParticleManager:CreateParticle( "particles/econ/items/bloodseeker/bloodseeker_eztzhok_weapon/bloodseeker_bloodbath_eztzhok_burst.vpcf", PATTACH_ABSORIGIN, unit )
+	   --TODO: deal dmg to collidedUnit
 	end
 
-	northRow = {}
-	for i = 1, max, 1 do
-		local x = casterLoc.x 
-		northRow[i] = Vector(casterLoc.x + (i * spacing) - ( ( spacing * max ) / 2), casterLoc.y + spawnDistance,0)
-	end	
-
-
-	--TODO: now spawn that wave multiple times
-	--TODO: test once? 
-	--self:spawnStampedeAndMoveTo(southRow, northRow)
-
-	local interval = 1.5 --seconds between waves
-	local count = 1 --current wave
-	local waves = 15 -- max waves
-
-
-     Timers:CreateTimer(function()
- 		if (count <= waves) then 
- 			print("Spawning a new wave")
-			self:spawnStampedeAndMoveTo(southRow, northRow)
-			count = count + 1
-		else 
-			print("Fininshed all waves, returning 999")
-			return 999
-			
- 		end
-     	return interval
-      end
-	  )
-
-
-
-
-
-	--TODO: test in a timer looping.
-
-	-- print("Debugging: ")
-	-- for i=1, max, 1 do
-	-- 	print("southRow[i]:", southRow[i])
-	-- 	print("northRow[i]:", northRow[i])
-	-- end
-
-
-	-- stampedeUnits = {}
-	-- for i = 1, #southRow, 1 do
-	-- 		local stampedeUnit = CreateUnitByName( "npc_dota_neutral_centaur_outrunner", southRow[i], true, self:GetCaster(), self:GetCaster():GetOwner(), self:GetCaster():GetTeamNumber() )
-	-- 		stampedeUnits[i] = stampedeUnit
-
-	-- 	--Move to the position
-	-- 	print("before move command issued")
-	-- 	  Timers:CreateTimer({
-	-- 	    endTime = 2, -- when this timer should first execute, you can omit this if you want it to run first on the next frame
-	-- 	    callback = function()
-	-- 	    --queue up move commands
-	-- 	    print("Move commands issued")
-	-- 		ExecuteOrderFromTable({ UnitIndex = stampedeUnit:entindex(), OrderType = DOTA_UNIT_ORDER_MOVE_TO_POSITION, Position = northRow[i], Queue = true})
-	-- 		ExecuteOrderFromTable({ UnitIndex = stampedeUnit:entindex(), OrderType = DOTA_UNIT_ORDER_MOVE_TO_POSITION, Position = southRow[i], Queue = true})
-	-- 	    end
-	-- 	  })			
-
-	-- 	--Check whether the unit has collided with anything
-	--      Timers:CreateTimer(function()
-	--      	local count = 1
-	--      	return self:collisionCheck(stampedeUnits[i], count)
-	--       end
-	-- 	  )
-
-	-- end
-
+	return 0.1	--
 end
+
+function stampede:OnSpellStartNew()
+	--TODO: teleport hero to location
+	--TODO: sound event and animation
+	--TODO invul hero
+
+	--getWaveLocs
+	--one set of start poses
+	origin = Vector(0,-1000,0)
+
+	local start1 = calculateSpawnLocations(origin, STAMPEDE_ORIENTATION, WAVE_SPACING, UNITS_PER_WAVE)
+	local start2 = calculateSpawnLocations(origin + Vector(WAVE_SPACING/2,0,0), STAMPEDE_ORIENTATION, WAVE_SPACING, UNITS_PER_WAVE)
+	local end1 = calculateSpawnLocations(origin + Vector(0,1000,0), STAMPEDE_ORIENTATION, WAVE_SPACING, UNITS_PER_WAVE)
+	local end2 = calculateSpawnLocations(origin + Vector(WAVE_SPACING/2,1000,0), STAMPEDE_ORIENTATION, WAVE_SPACING, UNITS_PER_WAVE)
+
+
+	--Start stampede:
+	count = 1
+	Timers:CreateTimer(function()
+		--alternate between waves so they are staggered
+		if count % 2 == 0 then
+			self:spawnWave(start1, end1)
+		else
+			self:spawnWave(start2, end2)
+		end
+		return WAVE_INTERVAL
+	end
+	)
+end
+
+
+
+------------------------------------------------------------------------
+-----------------------------OLD CODE:----------------------------------
+
+
+-- summonLocs = {}
+
+-- MOVE_INTERVAL = 0.5 --interval in seconds
+-- WAVE_INTERVAL = 5
+-- DEBUG_DRAW_DURATION = 1;
+-- DEBUG_DRAW_RAD = 50;
+
+-- projectile_name = "particles/units/heroes/hero_mirana/mirana_spell_arrow.vpcf"
+-- --projectile_direction = (Vector( point.x-origin.x, point.y-origin.y, 0 )):Normalized()
+
+-- spawnedWaves = {}
+-- waveIncrement = 1
+
+-- function stampede:OnSpellStart()
+-- 	local caster = self:GetCaster()
+--     local cursorLoc = self:GetCursorPosition()
+--     local casterLoc = caster:GetOrigin()
+
+-- 	--Spawn to South, then head North.
+-- 	local offset = 800
+-- 	local spawnDistance = 800
+-- 	local spacing = 400
+-- 	local max = 10
+
+-- 	--Spawn to south, in horizontal line:
+-- 	southRow = {}
+-- 	for i = 1, max, 1 do
+-- 		local x = casterLoc.x 
+-- 		southRow[i] = Vector(casterLoc.x + (i * spacing) - ( ( spacing * max ) / 2), casterLoc.y - spawnDistance,0)
+-- 	end
+
+-- 	northRow = {}
+-- 	for i = 1, max, 1 do
+-- 		local x = casterLoc.x 
+-- 		northRow[i] = Vector(casterLoc.x + (i * spacing) - ( ( spacing * max ) / 2), casterLoc.y + spawnDistance,0)
+-- 	end	
+
+
+-- 	--TODO: now spawn that wave multiple times
+-- 	--TODO: test once? 
+-- 	--self:spawnStampedeAndMoveTo(southRow, northRow)
+
+-- 	local interval = 1.5 --seconds between waves
+-- 	local count = 1 --current wave
+-- 	local waves = 15 -- max waves
+
+
+--      Timers:CreateTimer(function()
+--  		if (count <= waves) then 
+--  			print("Spawning a new wave")
+-- 			self:spawnStampedeAndMoveTo(southRow, northRow)
+-- 			count = count + 1
+-- 		else 
+-- 			print("Fininshed all waves, returning 999")
+-- 			return 999
+			
+--  		end
+--      	return interval
+--       end
+-- 	  )
+
+
+
+-- 	--TODO: test in a timer looping.
+
+-- 	-- print("Debugging: ")
+-- 	-- for i=1, max, 1 do
+-- 	-- 	print("southRow[i]:", southRow[i])
+-- 	-- 	print("northRow[i]:", northRow[i])
+-- 	-- end
+
+
+-- 	-- stampedeUnits = {}
+-- 	-- for i = 1, #southRow, 1 do
+-- 	-- 		local stampedeUnit = CreateUnitByName( "npc_dota_neutral_centaur_outrunner", southRow[i], true, self:GetCaster(), self:GetCaster():GetOwner(), self:GetCaster():GetTeamNumber() )
+-- 	-- 		stampedeUnits[i] = stampedeUnit
+
+-- 	-- 	--Move to the position
+-- 	-- 	print("before move command issued")
+-- 	-- 	  Timers:CreateTimer({
+-- 	-- 	    endTime = 2, -- when this timer should first execute, you can omit this if you want it to run first on the next frame
+-- 	-- 	    callback = function()
+-- 	-- 	    --queue up move commands
+-- 	-- 	    print("Move commands issued")
+-- 	-- 		ExecuteOrderFromTable({ UnitIndex = stampedeUnit:entindex(), OrderType = DOTA_UNIT_ORDER_MOVE_TO_POSITION, Position = northRow[i], Queue = true})
+-- 	-- 		ExecuteOrderFromTable({ UnitIndex = stampedeUnit:entindex(), OrderType = DOTA_UNIT_ORDER_MOVE_TO_POSITION, Position = southRow[i], Queue = true})
+-- 	-- 	    end
+-- 	-- 	  })			
+
+-- 	-- 	--Check whether the unit has collided with anything
+-- 	--      Timers:CreateTimer(function()
+-- 	--      	local count = 1
+-- 	--      	return self:collisionCheck(stampedeUnits[i], count)
+-- 	--       end
+-- 	-- 	  )
+
+-- 	-- end
+
+-- end
 
 function stampede:spawnStampedeAndMoveTo(spawnLoc, moveLoc)
 	stampedeUnits = {}
