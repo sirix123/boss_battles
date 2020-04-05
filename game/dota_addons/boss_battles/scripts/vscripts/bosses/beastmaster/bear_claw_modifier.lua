@@ -10,13 +10,13 @@ end
 -----------------------------------------------------------------------------
 
 function bear_claw_modifier:GetEffectName()
-	return "particles/units/heroes/hero_winter_wyvern/wyvern_arctic_burn_slow.vpcf"
+	return "particles/econ/items/lifestealer/ls_ti9_immortal/ls_ti9_open_wounds.vpcf"
 end
 
 -----------------------------------------------------------------------------
 
 function bear_claw_modifier:GetStatusEffectName()
-	return "particles/status_fx/status_effect_wyvern_arctic_burn.vpcf"
+	return "particles/econ/items/lifestealer/ls_ti9_immortal/ls_ti9_open_wounds.vpcf"
 end
 
 -----------------------------------------------------------------------------

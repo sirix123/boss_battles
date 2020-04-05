@@ -38,7 +38,7 @@ function bear_claw:OnSpellStart()
 
 		-- adds particle effect and sound
 		ParticleManager:CreateParticle( "particles/econ/items/lifestealer/ls_ti9_immortal/ls_ti9_open_wounds_impact.vpcf", PATTACH_ABSORIGIN_FOLLOW, aggroTarget )
-		--EmitSoundOn( "n_creep_Ursa.Clap", self:GetCaster() )
+		EmitSoundOn( "n_creep_Ursa.Clap", self:GetCaster() )
 
 		-- applies claw dmg
 		--print("bear_claw target_damage: " .. self.base_damage .. " slow_percent: " .. self.slow_percent)

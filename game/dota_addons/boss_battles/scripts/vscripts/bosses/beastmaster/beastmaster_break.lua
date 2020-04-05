@@ -26,7 +26,7 @@ function beastmaster_break:OnSpellStart()
 
 		local projectile = 
 		{
-			EffectName = "particles/units/heroes/hero_invoker/invoker_chaos_meteor.vpcf",
+			EffectName = "",
 			vSpawnOrigin = origin + Vector(projectile_direction.x * offset, projectile_direction.y * offset, 0),
 			fDistance = fRangeToTarget, -- self:GetSpecialValueFor("projectile_distance") ~= 0 and self:GetSpecialValueFor("projectile_distance") or self:GetCastRange(Vector(0,0,0), nil),
 			fStartRadius = 50,
@@ -57,9 +57,34 @@ function beastmaster_break:OnSpellStart()
 				end
 			end,
 			OnFinish = function(_self, pos) end,
+				--self:PlayEffectsOnFinish(pos)
 		}
 		
 		-- Cast projectile
 		Projectiles:CreateProjectile(projectile)
 	end
+end
+
+
+-- On Projectile Finish
+function beastmaster_break:PlayEffectsOnFinish( pos )
+	local caster = self:GetCaster()
+	local offset = 40
+	local origin = caster:GetOrigin()
+	local direction = (pos - origin):Normalized()
+	local final_position = origin + Vector(direction.x * offset, direction.y * offset, 0)
+
+	-- Create Particles
+	local particle_cast = "particles/units/heroes/hero_mars/mars_shield_bash_crit.vpcf"
+	local effect_cast = ParticleManager:CreateParticle( particle_cast, PATTACH_POINT, caster )
+	ParticleManager:SetParticleControl( effect_cast, 0, final_position )
+	ParticleManager:SetParticleControlForward(effect_cast, 0, direction)	
+	ParticleManager:ReleaseParticleIndex( effect_cast )
+end
+
+function beastmaster_break:PlayEffectsOnImpact( hTarget )
+
+
+
+	return
 end

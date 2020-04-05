@@ -17,8 +17,16 @@ function bear_bloodlust:OnSpellStart()
 		-- add stack
 		local hBuff = self:GetCaster():FindModifierByName( "bear_bloodlust_modifier" )
 		hBuff:IncrementStackCount()
+
+		self:Effects(self:GetCaster())
+		EmitSoundOn( "sounds/weapons/hero/ogre_magi/bloodlust_target.vsnd", self:GetCaster() )
 	end
 end
 
---------------------------------------------------------------------------------
+---------------------------------------------------------------------------
 
+function bear_bloodlust:Effects(hTarget)
+	local nFXIndex = ParticleManager:CreateParticle( "particles/units/heroes/hero_ogre_magi/ogre_magi_bloodlust_buff.vpcf", PATTACH_CUSTOMORIGIN, nil )
+	ParticleManager:SetParticleControlEnt( nFXIndex, 0, hTarget, PATTACH_OVERHEAD_FOLLOW, "attach_hitloc", hTarget:GetOrigin(), true )
+	ParticleManager:ReleaseParticleIndex( nFXIndex )
+end

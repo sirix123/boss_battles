@@ -1,6 +1,6 @@
 
 quilboar_puddle = class({})
-
+LinkLuaModifier( "quillboar_puddle_modifier", "bosses/beastmaster/quillboar_puddle_modifier", LUA_MODIFIER_MOTION_NONE )
 
 --------------------------------------------------------------------------------
 
@@ -12,8 +12,6 @@ end
 
 function quilboar_puddle:OnSpellStart()
 	if IsServer() then
-
-		self.radius = self:GetSpecialValueFor( "radius" )
 		self.duration = self:GetSpecialValueFor( "duration" )
 		self.projectile_speed = self:GetSpecialValueFor( "projectile_speed" )
 
@@ -57,9 +55,6 @@ end
 ---------------------------------------------------------------------------
 
 function quilboar_puddle:OnProjectileHit( hTarget, vLocation )
-
-	local duration = self:GetSpecialValueFor( "duration" )
-	CreateModifierThinker( self:GetCaster(), self, "modifier_viper_nethertoxin_thinker", { duration }, vLocation, self:GetCaster():GetTeamNumber(), false )
-
+	CreateModifierThinker( self:GetCaster(), self, "quillboar_puddle_modifier", { self:GetSpecialValueFor( "duration" ) }, vLocation, self:GetCaster():GetTeamNumber(), false )
 	return true
 end

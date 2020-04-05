@@ -80,7 +80,7 @@
         
         // Time     
         //-------------------------------------------------------------------------------------------------------------
-        "AbilityCooldown"               "2"
+        "AbilityCooldown"               "10"
 
         // Cost
         //-------------------------------------------------------------------------------------------------------------
@@ -115,6 +115,7 @@
     {
         "BaseClass"                     "ability_lua"
         "ScriptFile"                    "bosses/beastmaster/beastmaster_mark"
+        //"AbilityTextureName"            "bloodseeker_bloodrage"
 
         "AbilityCastAnimation"          "ACT_DOTA_CAST_ABILITY_3"
         "AbilityBehavior"               "DOTA_ABILITY_BEHAVIOR_UNIT_TARGET"
@@ -197,18 +198,28 @@
             "01"
             {
                 "var_type"      "FIELD_FLOAT"
-                "radius"     	"100"
+                "radius"     	"50"
             }        
             "02"
             {
                 "var_type"      "FIELD_FLOAT"
-                "duration"     	"360"
+                "duration"     	"2"
             }   
             "03"
             {
-                "var_type"      "FIELD_FLOAT"
+                "var_type"              "FIELD_FLOAT"
                 "projectile_speed"     	"800"
-            }               
+            }
+            "04"
+            {
+                "var_type"              "FIELD_FLOAT"
+                "damage"     	        "10"
+            }
+            "05"
+            {
+                "var_type"              "FIELD_FLOAT"
+                "tick_rate"     	    "1"
+            }                         
         }  
     }
 
@@ -236,7 +247,7 @@
         
         // Time     
         //-------------------------------------------------------------------------------------------------------------
-        "AbilityCooldown"               "1"
+        "AbilityCooldown"               "0"
 
         // Cost
         //-------------------------------------------------------------------------------------------------------------
@@ -264,7 +275,22 @@
             {
                 "var_type"              "FIELD_FLOAT"
                 "projectile_speed"     	"2000"
-            }               
+            }
+            "04"
+            {
+                "var_type"              "FIELD_FLOAT"
+                "duration_dot"     	        "10"
+            }
+            "05"
+            {
+                "var_type"              "FIELD_FLOAT"
+                "damage_bear"     	        "100"
+            }
+            "06"
+            {
+                "var_type"              "FIELD_FLOAT"
+                "player_dot_damage"     	        "1"
+            }                             
         }  
     }
 
@@ -349,7 +375,7 @@
         "ScriptFile"                    "bosses/beastmaster/beastmaster_break"
         "AbilityTextureName"            "meepo_geostrike"
 
-        "AbilityCastAnimation"          "ACT_DOTA_CAST_ABILITY_1"
+        "AbilityCastAnimation"          "ACT_DOTA_CAST_ABILITY_2"
         "AbilityBehavior"               "DOTA_ABILITY_BEHAVIOR_AOE | DOTA_ABILITY_BEHAVIOR_POINT"
         "AbilityUnitTargetTeam"         "DOTA_UNIT_TARGET_TEAM_ENEMY"
         "AbilityUnitTargetType"         "DOTA_UNIT_TARGET_HERO | DOTA_UNIT_TARGET_BASIC"
@@ -365,7 +391,7 @@
         
         // Time     
         //-------------------------------------------------------------------------------------------------------------
-        "AbilityCooldown"               "3"
+        "AbilityCooldown"               "5"
 
         // Cost
         //-------------------------------------------------------------------------------------------------------------

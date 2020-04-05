@@ -11,12 +11,12 @@
 
 		// General
 		//----------------------------------------------------------------
-		"Model"						"models/items/lone_druid/bear/iron_claw_spirit_bear/iron_claw_spirit_bear.vmdl"	// Model.
+		"Model"						"models/items/lone_druid/bear/dark_wood_bear_brown/dark_wood_bear_brown.vmdl"	// Model.
 		"BaseClass"					"npc_dota_creature"
 		"SoundSet"					"n_creep_Melee"
-		"GameSoundsFile"			"soundevents/game_sounds_creeps.vsndevts"
+		"GameSoundsFile"			"soundevents/game_sounds_heroes/game_sounds_beastmaster.vsndevts"
 		"Level"						"1"
-		"ModelScale" 				"1.5"
+		"ModelScale" 				"1"
 
 		// Abilities
 		//----------------------------------------------------------------
@@ -113,15 +113,9 @@
 		"Ability3"					"summon_quillboar"			// Ability 3
 		"Ability4"					"beastmaster_net"			// Ability 4
 		"Ability5"					"beastmaster_break"			// Ability 5
-<<<<<<< HEAD
 		"Ability6"					"change_to_phase_2"			// Ability 6
 		"Ability7"					"change_to_phase_1"			// Ability 7
-		"Ability8"					"stampede"					// Ability 8
-=======
-		"Ability6"					"change_to_phase_2"				// Ability 6
-		"Ability7"					"change_to_phase_1"				// Ability 7
-		"Ability8"					"stampede"				
->>>>>>> beae5369fd165a23dad52ea74f22fe25d42fd8de
+		//"Ability8"					"stampede"					// Ability 8
 		
 
 		// Armor
@@ -198,7 +192,7 @@
 
 		// General
 		//----------------------------------------------------------------
-		"Model"						"models/items/beastmaster/boar/beast_heart_marauder_beast_heart_marauder_warhound/beast_heart_marauder_beast_heart_marauder_warhound.vmdl"	// Model.
+		"Model"						"models/items/beastmaster/boar/ti9_cache_beast_master_dinosaurs_telepathy_beast/ti9_cache_beast_master_dinosaurs_telepathy_beast.vmdl"	// Model.
 		"BaseClass"					"npc_dota_creature"
 		"SoundSet"					"n_creep_Melee"
 		"GameSoundsFile"			"soundevents/game_sounds_creeps.vsndevts"

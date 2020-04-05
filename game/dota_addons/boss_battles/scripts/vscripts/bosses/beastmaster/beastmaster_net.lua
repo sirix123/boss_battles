@@ -1,6 +1,9 @@
 
 beastmaster_net = class({})
 LinkLuaModifier( "modifier_beastmaster_net", "bosses/beastmaster/modifier_beastmaster_net", LUA_MODIFIER_MOTION_NONE )
+LinkLuaModifier( "modifier_beastmaster_net_dot", "bosses/beastmaster/modifier_beastmaster_net_dot", LUA_MODIFIER_MOTION_NONE )
+LinkLuaModifier( "modifier_beastmaster_net_dot_player", "bosses/beastmaster/modifier_beastmaster_net_dot_player", LUA_MODIFIER_MOTION_NONE )
+
 
 --------------------------------------------------------------------------------
 
@@ -9,6 +12,9 @@ function beastmaster_net:OnSpellStart()
 
 		-- should emit sound when cast so players know a net has been cast...
 		EmitSoundOn( "Hero_Tusk.IceShards.Projectile", self:GetCaster() )
+
+
+		self.nPreviewFX = ParticleManager:CreateParticle( "particles/econ/events/ti9/rock_golem_tower/radiant_tower_attack_explode.vpcf", PATTACH_ABSORIGIN_FOLLOW, self:GetCaster() )
 
 		local radius = self:GetSpecialValueFor( "radius" )
 		local projectile_speed = self:GetSpecialValueFor( "projectile_speed" )
@@ -31,7 +37,7 @@ function beastmaster_net:OnSpellStart()
 			EffectName = "particles/econ/items/mars/mars_ti9_immortal/mars_ti9_immortal_spear.vpcf",
 			vSpawnOrigin = origin + Vector(projectile_direction.x * offset, projectile_direction.y * offset, 0),
 			fDistance = fRangeToTarget + 9000, -- self:GetSpecialValueFor("projectile_distance") ~= 0 and self:GetSpecialValueFor("projectile_distance") or self:GetCastRange(Vector(0,0,0), nil),
-			fStartRadius = 10,
+			fStartRadius = 100,
 			fEndRadius = radius,
 			--fUniqueRadius = self:GetSpecialValueFor("hitbox"),
 			Source = caster,
@@ -43,10 +49,19 @@ function beastmaster_net:OnSpellStart()
 			GroundBehavior = PROJECTILES_NOTHING,
 			fGroundOffset = 0,
 			draw = true,
-			UnitTest = function(_self, unit) return unit:GetUnitName() ~= "npc_dummy_unit" and unit:GetTeamNumber() ~= hero:GetTeamNumber() end,
+			UnitTest = function(_self, unit) return unit:GetUnitName() == "npc_beastmaster_bear" or unit:GetTeamNumber() ~= hero:GetTeamNumber() end,
 			OnUnitHit = function(_self, unit) 
 				if unit ~= nil and (unit:GetUnitName() ~= nil) then
 					unit:AddNewModifier( self:GetCaster(), self, "modifier_beastmaster_net", { duration = self:GetSpecialValueFor( "duration" ) } )
+
+					if unit == "npc_beastmaster_bear" then
+						unit:AddNewModifier( self:GetCaster(), self, "modifier_beastmaster_net_dot", { duration = self:GetSpecialValueFor( "duration_dot" ) } )
+					end
+
+					if unit ~= "npc_beastmaster_bear" then
+						unit:AddNewModifier( self:GetCaster(), self, "modifier_beastmaster_net_dot_player", { duration = self:GetSpecialValueFor( "duration_dot" ) } )
+					end
+
 					self:OnSpearHitTarget(unit)
 				end
 			end,
@@ -79,13 +94,10 @@ function beastmaster_net:OnSpearDestroy(pos)
 end
 
 ---------------------------------------------------------------------------
-function beastmaster_net:OnSpearHitTarget(hTarget)
-	local nFXIndex = ParticleManager:CreateParticle( "particles/econ/items/batrider/batrider_ti8_immortal_mount/batrider_ti8_immortal_firefly.vpcf", PATTACH_CUSTOMORIGIN, nil )
-	ParticleManager:SetParticleControlEnt( nFXIndex, 0, hTarget, PATTACH_POINT_FOLLOW, "attach_hitloc", hTarget:GetOrigin(), true )
-	ParticleManager:SetParticleControl( nFXIndex, 1, hTarget:GetOrigin() )
-	if self:GetCaster() then
-		ParticleManager:SetParticleControlForward( nFXIndex, 1, -self:GetCaster():GetForwardVector() )
-	end
-	ParticleManager:SetParticleControlEnt( nFXIndex, 10, hTarget, PATTACH_ABSORIGIN_FOLLOW, nil, hTarget:GetOrigin(), true )
+function beastmaster_net:OnSpearHitTarget(unit)
+	ParticleManager:DestroyParticle( self.nPreviewFX, false )
+	local particle_cast = "particles/beastmaster/radiant_tower_attack_explode.vpcf"
+	local nFXIndex = ParticleManager:CreateParticle( particle_cast, PATTACH_ABSORIGIN    , self:GetCaster()  )
+	ParticleManager:SetParticleControl( nFXIndex, 0, unit:GetOrigin() )
 	ParticleManager:ReleaseParticleIndex( nFXIndex )
 end

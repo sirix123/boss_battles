@@ -50,12 +50,14 @@ function Spawn( entityKeyValues )
 	thisEntity.beastMasterSpawnTime = GameRules:GetGameTime()
 
 	-- phase setup variables 
-	PHASE_1_DURATION = 5
-	PHASE_2_DURATION = 5
+	PHASE_1_DURATION = 10
+	PHASE_2_DURATION = 10
 	PHASE_ONE = 1
 	PHASE_TWO = 2
-	TRIGGER_PHASE_CD = 2
+	TRIGGER_PHASE_CD = 5
+
 	thisEntity.Phase = PHASE_ONE
+	thisEntity.CurrentPhase = nil
 	thisEntity.flPhaseOneTriggerEndTime = 0
 	thisEntity.flPhaseTwoTriggerEndTime = 0
 	thisEntity.flNextPhaseTime = nil
@@ -83,14 +85,16 @@ function BeastmasterThink()
 	end
 
 	-- check if we need to change phases 
-	CheckPhaseChange()
+	--CheckPhaseChange()
 	
 	-- might need a seperaet function here to cast 'enter phase1 / phase2'
 	if thisEntity.Phase == PHASE_ONE then
 		print("Calling Phase_1()")
+		thisEntity.CurrentPhase = PHASE_ONE
 		Phase_1()
 	elseif thisEntity.Phase == PHASE_TWO then
 		print("Calling Phase_2()")
+		thisEntity.CurrentPhase = PHASE_TWO
 		Phase_2()
 	end
 	
@@ -146,19 +150,19 @@ function Phase_1()
 	-- handles summon quill boars, summons the first set of boars after x gametime
 	-- handles summoning the second+ sets
 	-- summons 3 boars initially then every x seconds will replace dead boars with new ones based on delayAfterLastBoarDeath 
-	local delayBeforeFirstBoarSet = 20
+	local delayBeforeFirstBoarSet = 5
 	local delayAfterLastBoarDeath = 50
 	--BoarCastingTiming(delayBeforeFirstBoarSet, delayAfterLastBoarDeath)
 
 	-- handles the spear throw logic
 	-- phase one spears start x time in to the fight
 	-- time between spears is longer then other phases
-	local delayBeforeFirstNet = 1
-	local delayAfterLastNet = 1
+	local delayBeforeFirstNet = 5
+	local delayAfterLastNet = 5
 	NetCastingTime(delayBeforeFirstNet, delayAfterLastNet)
 
 	-- casts mark on CD as well 
-	--CastBeastmasterMark()
+	--BeastmasterMark()
 
 	-- will only try and cast breakarmor on a targets postion if in range 
 	--BreakArmor()
@@ -172,12 +176,12 @@ end
 
  isStampedeInProgress = false
 function Phase_2()
-	print("Phase_2()")
+	--print("Phase_2()")
 
 	if not isStampedeInProgress then
 		print("Stampede not in progress. Starting Stampede")
 		isStampedeInProgress = true
-		ChannelStampede() 
+		--ChannelStampede() 
 
 	end
 	if isStampedeInProgress then
@@ -212,11 +216,11 @@ end
 function BearCastingTiming(delayBeforeFirstBear, delayAfterBearDeath)
 	if GameRules:GetGameTime() > ( thisEntity.beastMasterSpawnTime + delayBeforeFirstBear ) and thisEntity.firstBear == true then
 		SummonBear()
-		CastBeastmasterMark()
+		BeastmasterMark()
 		thisEntity.firstBear = false
 	elseif GameRules:GetGameTime() > ( thisEntity.lastBearDeath + delayAfterBearDeath ) then
 		SummonBear()
-		CastBeastmasterMark()
+		BeastmasterMark()
 	end 
 end
 
@@ -229,7 +233,7 @@ function BreakArmor()
 		return 0.5
 	end
 
-	local vTargetPos = enemies[ RandomInt( 1, #enemies ) ]:GetAbsOrigin()
+	local vTargetPos = enemies[ RandomInt( 1, #enemies ) ]:GetOrigin()
 
 	if vTargetPos ~= nil then
 		local fabilityRangeCheck = thisEntity.beastmaster_break:GetCastRange(vTargetPos, nil)
@@ -297,7 +301,7 @@ end
 
 ------------------------------------------------------------------------------------------------------------
 
-function CastBeastmasterMark()
+function BeastmasterMark()
 
 	local bHasModifier = nil
 
@@ -352,7 +356,7 @@ function BeastmasterNet()
 
 	if thisEntity.beastmaster_net ~= nil and thisEntity.beastmaster_net:IsFullyCastable() then
 		for key, enemy in pairs(enemies) do
-			vTargetPos = enemy:GetAbsOrigin()
+			vTargetPos = enemy:GetOrigin()
 		end
 
 		if vTargetPos ~= nil then
@@ -422,7 +426,7 @@ function CastSummonQuillboar()
 		UnitIndex = thisEntity:entindex(),
 		OrderType = DOTA_UNIT_ORDER_CAST_NO_TARGET,
 		AbilityIndex = thisEntity.summon_quillboar:entindex(),
-		Queue = false,
+		Queue = 0,
 	})
 	return 0.5
 end
@@ -435,7 +439,7 @@ function CastBreakArmor(vTargetPos)
 		OrderType = DOTA_UNIT_ORDER_CAST_POSITION,
 		AbilityIndex = thisEntity.beastmaster_break:entindex(),
 		Position = vTargetPos,
-		Queue = false,
+		Queue = 4,
 	})
 	return 0.5
 end
@@ -448,7 +452,7 @@ function CastMarkTarget(hTarget)
 		OrderType = DOTA_UNIT_ORDER_CAST_TARGET,
 		TargetIndex = hTarget:entindex(),
 		AbilityIndex = thisEntity.beastmaster_mark:entindex(),
-		Queue = 1,
+		Queue = 2,
 	})
 	return 0.5
 end
@@ -460,7 +464,7 @@ function CastChangeToPhase2()
 		UnitIndex = thisEntity:entindex(),
 		OrderType = DOTA_UNIT_ORDER_CAST_NO_TARGET,
 		AbilityIndex = thisEntity.change_to_phase_2:entindex(),
-		Queue = false,
+		Queue = 0,
 	})
 	return 0.5
 end
@@ -472,7 +476,7 @@ function CastChangeToPhase1()
 		UnitIndex = thisEntity:entindex(),
 		OrderType = DOTA_UNIT_ORDER_CAST_NO_TARGET,
 		AbilityIndex = thisEntity.change_to_phase_1:entindex(),
-		Queue = false,
+		Queue = 0,
 	})
 	return 0.5
 end
@@ -485,7 +489,7 @@ function CastStampede(vTargetPos)
 		OrderType = DOTA_UNIT_ORDER_CAST_POSITION,
 		AbilityIndex = thisEntity.stampede:entindex(),
 		Position = vTargetPos,
-		Queue = false,
+		Queue = 1,
 	})
 	return 0.5
 end
