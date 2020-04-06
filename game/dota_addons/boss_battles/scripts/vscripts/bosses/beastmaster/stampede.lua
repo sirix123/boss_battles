@@ -11,14 +11,46 @@ STAMPEDE_ORIENTATION = "HORIZ" --"HORIZ" or "VERT". The orientation the wave is 
 STAMPEDE_DURATION = 30 --seconds
 WAVES_AMOUNT = 10 --
 WAVE_INTERVAL = STAMPEDE_DURATION / WAVES_AMOUNT --seconds between waves
-WAVE_SPACING = 150 -- The amount of distance between units in a stampede wave. 
+UNIT_SPACING = 300 -- The amount of distance between units in a stampede wave. 
 UNITS_PER_WAVE = 10
 
--- START_SPAWN_LOCS = calculateSpawnLocations(STAMPEDE_START_LOC, STAMPEDE_ORIENTATION, WAVE_SPACING, UNITS_PER_WAVE)
--- END_SPAWN_LOCS = calculateSpawnLocations(STAMPEDE_END_LOC, STAMPEDE_ORIENTATION, WAVE_SPACING, UNITS_PER_WAVE)
+-- START_SPAWN_LOCS = calculateSpawnLocations(STAMPEDE_START_LOC, STAMPEDE_ORIENTATION, UNIT_SPACING, UNITS_PER_WAVE)
+-- END_SPAWN_LOCS = calculateSpawnLocations(STAMPEDE_END_LOC, STAMPEDE_ORIENTATION, UNIT_SPACING, UNITS_PER_WAVE)
+
+function stampede:OnSpellStart()
+	print("\t stampede OnSpellStart()")
+	--TODO: teleport hero to location
+	--TODO: sound event and animation
+	--TODO invul hero
+
+	--Spawn the stampede units 1000px to the south of the caster
+	origin = self:GetCaster():GetOrigin() + Vector(0,-1000,0)
+
+	local start1 = self:calculateSpawnLocations(origin, STAMPEDE_ORIENTATION, UNIT_SPACING, UNITS_PER_WAVE)
+	local start2 = self:calculateSpawnLocations(origin + Vector(UNIT_SPACING/2,0,0), STAMPEDE_ORIENTATION, UNIT_SPACING, UNITS_PER_WAVE)
+	local end1 = self:calculateSpawnLocations(origin + Vector(0,1000,0), STAMPEDE_ORIENTATION, UNIT_SPACING, UNITS_PER_WAVE)
+	local end2 = self:calculateSpawnLocations(origin + Vector(UNIT_SPACING/2,1000,0), STAMPEDE_ORIENTATION, UNIT_SPACING, UNITS_PER_WAVE)
+
+
+	--Start stampede:
+	count = 1
+	Timers:CreateTimer(function()
+		--alternate between waves so they are staggered
+		if count % 2 == 0 then
+			self:spawnWave(start1, end1, UNITS_PER_WAVE)
+		else
+			self:spawnWave(start2, end2, UNITS_PER_WAVE)
+		end
+		count = count + 1
+		return WAVE_INTERVAL
+	end
+	)
+end
+
 
  --Given a location, returns an array of Vectors centered on that location, spaced and aligned along an orientation
  function stampede:calculateSpawnLocations(loc, orientation, spacing, amount)
+ 	print("calculateSpawnLocations")
 	spawnLocs = {}
 	--perhaps 1 off? might need amount+1, TODO: test/verify
 	for i = 1, amount, 1 do
@@ -43,13 +75,13 @@ end
 -- Spawns a stampede unit at spawnLoc and moves the unit to moveToLoc
 function stampede:spawnUnit(spawnLoc, moveToLoc)
 	--spawn unit
-	local stampedeUnit = CreateUnitByName( "npc_stampede_unit", spawnLoc[i], true, self:GetCaster(), self:GetCaster(), DOTA_TEAM_BADGUYS )
+	local stampedeUnit = CreateUnitByName( "npc_stampede_unit", spawnLoc, true, self:GetCaster(), self:GetCaster(), DOTA_TEAM_BADGUYS )
 
 	--Move to the position
 	Timers:CreateTimer({
 		endTime = 0.2, -- when this timer should first execute, you can omit this if you want it to run first on the next frame
 		callback = function()
-		ExecuteOrderFromTable({ UnitIndex = stampedeUnit:entindex(), OrderType = DOTA_UNIT_ORDER_MOVE_TO_POSITION, Position = moveLoc[i], Queue = true})
+		ExecuteOrderFromTable({ UnitIndex = stampedeUnit:entindex(), OrderType = DOTA_UNIT_ORDER_MOVE_TO_POSITION, Position = moveToLoc, Queue = true})
 		--try to attach an animation
 		local p = ParticleManager:CreateParticle( "particles/units/heroes/hero_spirit_breaker/spirit_breaker_charge_tree_c.vpcf", PATTACH_ABSORIGIN_FOLLOW, stampedeUnit )
 	end
@@ -57,17 +89,17 @@ function stampede:spawnUnit(spawnLoc, moveToLoc)
 
 	--collision check
 	Timers:CreateTimer(function()
-		self:checkAndHandleCollision(stampedeUnits[i], 1)
+		self:checkAndHandleCollision(stampedeUnit, 1)
 		return 0.1
 	end
 	)
 
 	--TODO: make a func to check if units pos is near the endPos. If at end pos then remove unit
-	Timers:CreateTimer(function()
-		--TOOD: checkAndHandleUnitAtEnd
-		return 0.1
-	end
-	)
+	-- Timers:CreateTimer(function()
+	-- 	--TOOD: checkAndHandleUnitAtEnd
+	-- 	return 0.1
+	-- end
+	-- )
 end
 
 --spawns a row/col of stampede units. 
@@ -106,34 +138,7 @@ function stampede:checkAndHandleCollision(unit,count)
 	return 0.1	--
 end
 
-function stampede:OnSpellStartNew()
-	--TODO: teleport hero to location
-	--TODO: sound event and animation
-	--TODO invul hero
 
-	--getWaveLocs
-	--one set of start poses
-	origin = Vector(0,-1000,0)
-
-	local start1 = calculateSpawnLocations(origin, STAMPEDE_ORIENTATION, WAVE_SPACING, UNITS_PER_WAVE)
-	local start2 = calculateSpawnLocations(origin + Vector(WAVE_SPACING/2,0,0), STAMPEDE_ORIENTATION, WAVE_SPACING, UNITS_PER_WAVE)
-	local end1 = calculateSpawnLocations(origin + Vector(0,1000,0), STAMPEDE_ORIENTATION, WAVE_SPACING, UNITS_PER_WAVE)
-	local end2 = calculateSpawnLocations(origin + Vector(WAVE_SPACING/2,1000,0), STAMPEDE_ORIENTATION, WAVE_SPACING, UNITS_PER_WAVE)
-
-
-	--Start stampede:
-	count = 1
-	Timers:CreateTimer(function()
-		--alternate between waves so they are staggered
-		if count % 2 == 0 then
-			self:spawnWave(start1, end1)
-		else
-			self:spawnWave(start2, end2)
-		end
-		return WAVE_INTERVAL
-	end
-	)
-end
 
 
 
@@ -393,7 +398,7 @@ end
 -- 	--NO IDEA IF THAT WORKS!
 
 
---     Timers:CreateTimer(function()
+--     Timers:CreateTimer(function()7
 --     	print("spawnWave internal timer tick")
 --     	return self:moveWave(direction, dupe, color)
 --      end

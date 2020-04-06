@@ -83,11 +83,13 @@ function BeastmasterThink()
 	end
 
 	-- check if we need to change phases 
-	--CheckPhaseChange()
+	CheckPhaseChange()
+
+
 	
 	-- might need a seperaet function here to cast 'enter phase1 / phase2'
 	if thisEntity.Phase == PHASE_ONE then
-		print("Calling Phase_1()")
+		--print("Calling Phase_1()")
 		thisEntity.CurrentPhase = PHASE_ONE
 		Phase_1()
 	elseif thisEntity.Phase == PHASE_TWO then
@@ -179,7 +181,7 @@ function Phase_2()
 	if not isStampedeInProgress then
 		print("Stampede not in progress. Starting Stampede")
 		isStampedeInProgress = true
-		--ChannelStampede() 
+		ChannelStampede() 
 
 	end
 	if isStampedeInProgress then
@@ -484,10 +486,9 @@ function CastStampede(vTargetPos)
 
 	ExecuteOrderFromTable({
 		UnitIndex = thisEntity:entindex(),
-		OrderType = DOTA_UNIT_ORDER_CAST_POSITION,
+		OrderType = DOTA_UNIT_ORDER_CAST_NO_TARGET,
 		AbilityIndex = thisEntity.stampede:entindex(),
-		Position = vTargetPos,
-		Queue = 1,
+		Queue = true,
 	})
 	return 0.5
 end
