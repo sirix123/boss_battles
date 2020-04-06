@@ -13,7 +13,6 @@ function beastmaster_net:OnSpellStart()
 		-- should emit sound when cast so players know a net has been cast...
 		EmitSoundOn( "Hero_Tusk.IceShards.Projectile", self:GetCaster() )
 
-
 		self.nPreviewFX = ParticleManager:CreateParticle( "particles/econ/events/ti9/rock_golem_tower/radiant_tower_attack_explode.vpcf", PATTACH_ABSORIGIN_FOLLOW, self:GetCaster() )
 
 		local radius = self:GetSpecialValueFor( "radius" )
@@ -34,8 +33,9 @@ function beastmaster_net:OnSpellStart()
 		local fRangeToTarget = ( self:GetCaster():GetOrigin() - vTargetPos ):Length2D()
 
 		local projectile = {
-			EffectName = "particles/econ/items/mars/mars_ti9_immortal/mars_ti9_immortal_spear.vpcf",
-			vSpawnOrigin = origin + Vector(projectile_direction.x * offset, projectile_direction.y * offset, 0),
+			EffectName = "particles/units/heroes/hero_lina/lina_spell_dragon_slave.vpcf", --"particles/econ/items/mars/mars_ti9_immortal/mars_ti9_immortal_crimson_spear.vpcf",--"particles/units/heroes/hero_meepo/meepo_earthbind_projectile_fx.vpcf",
+			vSpawnOrigin = origin + Vector(projectile_direction.x * offset, projectile_direction.y * offset, 80),
+			--hero:GetAbsOrigin(), attach="attach_attack1", offset=Vector(0,0,0), 
 			fDistance = fRangeToTarget + 9000, -- self:GetSpecialValueFor("projectile_distance") ~= 0 and self:GetSpecialValueFor("projectile_distance") or self:GetCastRange(Vector(0,0,0), nil),
 			fStartRadius = 100,
 			fEndRadius = radius,
@@ -46,8 +46,8 @@ function beastmaster_net:OnSpellStart()
 			bMultipleHits = true,
 			TreeBehavior = PROJECTILES_NOTHING,
 			WallBehavior = PROJECTILES_DESTROY,
-			GroundBehavior = PROJECTILES_NOTHING,
-			fGroundOffset = 0,
+			GroundBehavior = PROJECTILES_FOLLOW,
+			fGroundOffset = 80,
 			draw = true,
 			UnitTest = function(_self, unit) return unit:GetUnitName() == "npc_beastmaster_bear" or unit:GetTeamNumber() ~= hero:GetTeamNumber() end,
 			OnUnitHit = function(_self, unit) 
@@ -74,6 +74,11 @@ function beastmaster_net:OnSpellStart()
 		}
 		-- Cast projectile
 		Projectiles:CreateProjectile(projectile)
+		-- testttttttttttt
+		--local pos = 
+		--local unit = 
+		--local dir = 
+		--Projectiles:CalcSlope(pos, unit, dir)
 	end
 end
 

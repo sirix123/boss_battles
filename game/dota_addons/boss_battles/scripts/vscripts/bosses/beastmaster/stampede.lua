@@ -280,7 +280,6 @@ function stampede:spawnStampedeAndMoveTo(spawnLoc, moveLoc)
 	     Timers:CreateTimer(function()
 	    	local count = 1 	
 	     	return self:collisionCheck(stampedeUnits[i], count)
-	     	return 5
 	      end
 		  )
 
