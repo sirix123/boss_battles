@@ -26,11 +26,11 @@ function stampede:OnSpellStart()
 	--Spawn the stampede units 1000px to the south of the caster
 	origin = self:GetCaster():GetOrigin() + Vector(0,-1000,0)
 
+	--TODO: add comments to explain this...
 	local start1 = self:calculateSpawnLocations(origin, STAMPEDE_ORIENTATION, UNIT_SPACING, UNITS_PER_WAVE)
 	local start2 = self:calculateSpawnLocations(origin + Vector(UNIT_SPACING/2,0,0), STAMPEDE_ORIENTATION, UNIT_SPACING, UNITS_PER_WAVE)
-	local end1 = self:calculateSpawnLocations(origin + Vector(0,1000,0), STAMPEDE_ORIENTATION, UNIT_SPACING, UNITS_PER_WAVE)
-	local end2 = self:calculateSpawnLocations(origin + Vector(UNIT_SPACING/2,1000,0), STAMPEDE_ORIENTATION, UNIT_SPACING, UNITS_PER_WAVE)
-
+	local end1 = self:calculateSpawnLocations(origin + Vector(0,2000,0), STAMPEDE_ORIENTATION, UNIT_SPACING, UNITS_PER_WAVE)
+	local end2 = self:calculateSpawnLocations(origin + Vector(UNIT_SPACING/2,2000,0), STAMPEDE_ORIENTATION, UNIT_SPACING, UNITS_PER_WAVE)
 
 	--Start stampede:
 	count = 1
@@ -94,13 +94,15 @@ function stampede:spawnUnit(spawnLoc, moveToLoc)
 	end
 	)
 
-	--TODO: make a func to check if units pos is near the endPos. If at end pos then remove unit
-	-- Timers:CreateTimer(function()
-	-- 	--TOOD: checkAndHandleUnitAtEnd
-	-- 	return 0.1
-	-- end
-	-- )
+	--TODO: make a func to check if units pos is near the endPos. If at end pos then remove unit		
+	 Timers:CreateTimer(function()
+		self:checkAndHandleUnitAtEnd(stampedeUnit, moveToLoc, 50)
+	 	return 0.1
+	 end
+	 )
 end
+
+
 
 --spawns a row/col of stampede units. 
 function stampede:spawnWave(spawnLocs, moveToLocs, unitsPerWave)
@@ -134,11 +136,27 @@ function stampede:checkAndHandleCollision(unit,count)
 	    local p = ParticleManager:CreateParticle( "particles/econ/items/bloodseeker/bloodseeker_eztzhok_weapon/bloodseeker_bloodbath_eztzhok_burst.vpcf", PATTACH_ABSORIGIN, unit )
 	   --TODO: deal dmg to collidedUnit
 	end
-
 	return 0.1	--
 end
 
+-- Check if the stampedeUnit is at or near enough (nearnessThreshold) to moveToLoc. Once there despawn the unit
+function stampede:checkAndHandleUnitAtEnd(stampedeUnit, moveToLoc, nearnessThreshold)
+	local dist =  getDistance(stampedeUnit:GetOrigin(), moveToLoc)
+	if dist < nearnessThreshold then
+		UTIL_Remove(stampedeUnit)
+		return
+	end
+	return 0.3
 
+end
+
+function getDistance(objA, objB)
+    -- Get the length for each of the components x and y
+    local xDist = objB.x - objA.x
+    local yDist = objB.y - objA.y
+
+    return math.sqrt( (xDist ^ 2) + (yDist ^ 2) ) 
+end
 
 
 
@@ -255,8 +273,8 @@ function stampede:spawnStampedeAndMoveTo(spawnLoc, moveLoc)
 			local stampedeUnit = CreateUnitByName( "npc_stampede_unit", spawnLoc[i], true, self:GetCaster(), self:GetCaster(), DOTA_TEAM_BADGUYS )
 			stampedeUnits[i] = stampedeUnit
 
-			print("Attempted to create npc_stampede_unit")
-			print(stampedeUnit)
+			--print("Attempted to create npc_stampede_unit")
+			--print(stampedeUnit)
 
 
 		--Move to the position
@@ -264,7 +282,7 @@ function stampede:spawnStampedeAndMoveTo(spawnLoc, moveLoc)
 		    endTime = 0.2, -- when this timer should first execute, you can omit this if you want it to run first on the next frame
 		    callback = function()
 		    --queue up move commands
-	    	print("insider move timer")
+	    	--print("insider move timer")
 			ExecuteOrderFromTable({ UnitIndex = stampedeUnit:entindex(), OrderType = DOTA_UNIT_ORDER_MOVE_TO_POSITION, Position = moveLoc[i], Queue = true})
 			--ExecuteOrderFromTable({ UnitIndex = stampedeUnit:entindex(), OrderType = DOTA_UNIT_ORDER_MOVE_TO_POSITION, Position = moveLoc[i], Queue = true})
 
