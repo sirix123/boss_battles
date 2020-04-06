@@ -20,6 +20,7 @@ function Precache( context )
   PrecacheResource("soundfile", "sounds/vo/beastmaster/beas_ability_summonsboar_05.vsnd", context)
   PrecacheResource("soundfile", "sounds/weapons/hero/crystal_maiden/frostbite.vsnd", context)
   
+  -- test mrege
 
   
 end
