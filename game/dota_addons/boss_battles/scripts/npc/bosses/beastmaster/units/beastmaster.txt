@@ -115,7 +115,7 @@
 		"Ability5"					"beastmaster_break"			// Ability 5
 		"Ability6"					"change_to_phase_2"			// Ability 6
 		"Ability7"					"change_to_phase_1"			// Ability 7
-		//"Ability8"					"stampede"					// Ability 8
+		"Ability8"					"stampede"					// Ability 8
 		
 
 		// Armor
