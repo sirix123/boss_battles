@@ -49,7 +49,7 @@ function Spawn( entityKeyValues )
 
 	-- phase setup variables 
 	PHASE_1_DURATION = 10
-	PHASE_2_DURATION = 10
+	PHASE_2_DURATION = 20
 	PHASE_ONE = 1
 	PHASE_TWO = 2
 	TRIGGER_PHASE_CD = 5
@@ -85,11 +85,9 @@ function BeastmasterThink()
 	-- check if we need to change phases 
 	CheckPhaseChange()
 
-
-	
 	-- might need a seperaet function here to cast 'enter phase1 / phase2'
 	if thisEntity.Phase == PHASE_ONE then
-		--print("Calling Phase_1()")
+		print("Calling Phase_1()")
 		thisEntity.CurrentPhase = PHASE_ONE
 		Phase_1()
 	elseif thisEntity.Phase == PHASE_TWO then
@@ -157,15 +155,15 @@ function Phase_1()
 	-- handles the spear throw logic
 	-- phase one spears start x time in to the fight
 	-- time between spears is longer then other phases
-	local delayBeforeFirstNet = 1
-	local delayAfterLastNet = 2
-	NetCastingTime(delayBeforeFirstNet, delayAfterLastNet)
+	local delayBeforeFirstNet = 15
+	local delayAfterLastNet = 5
+	--NetCastingTime(delayBeforeFirstNet, delayAfterLastNet)
 
 	-- casts mark on CD as well 
 	--BeastmasterMark()
 
 	-- will only try and cast breakarmor on a targets postion if in range 
-	--BreakArmor()
+	BreakArmor()
 
 	-- attack move? attack highest HP hero?
 
@@ -176,7 +174,7 @@ end
 
  isStampedeInProgress = false
 function Phase_2()
-	--print("Phase_2()")
+	print("Phase_2()")
 
 	if not isStampedeInProgress then
 		print("Stampede not in progress. Starting Stampede")
@@ -195,8 +193,9 @@ end
 function NetCastingTime(delayBeforeFirstNet, delayAfterLastNet)
 	if GameRules:GetGameTime() > ( thisEntity.beastMasterSpawnTime + delayBeforeFirstNet ) and thisEntity.firstNet == true then
 		BeastmasterNet()
+		thisEntity.lastNet = GameRules:GetGameTime()
 		thisEntity.firstNet = false
-	elseif GameRules:GetGameTime() > ( thisEntity.lastNet + delayAfterLastNet ) then
+	elseif GameRules:GetGameTime() > ( thisEntity.lastNet + delayAfterLastNet ) and thisEntity.firstNet == false then
 		thisEntity.lastNet = GameRules:GetGameTime()
 		BeastmasterNet()
 	end
@@ -228,13 +227,15 @@ end
 function BreakArmor()
 
 	-- find all players in the entire map
-	local enemies = FindUnitsInRadius( DOTA_TEAM_BADGUYS, thisEntity:GetOrigin(), nil, FIND_UNITS_EVERYWHERE , DOTA_UNIT_TARGET_TEAM_ENEMY, DOTA_UNIT_TARGET_ALL, DOTA_UNIT_TARGET_FLAG_NONE, FIND_ANY_ORDER, false )
+	local enemies = FindUnitsInRadius( DOTA_TEAM_BADGUYS, thisEntity:GetOrigin(), nil, FIND_UNITS_EVERYWHERE , DOTA_UNIT_TARGET_TEAM_ENEMY, DOTA_UNIT_TARGET_ALL, DOTA_UNIT_TARGET_FLAG_NONE, FIND_CLOSEST, false )
 	if #enemies == 0 then
 		return 0.5
 	end
 
 	local vTargetPos = enemies[ RandomInt( 1, #enemies ) ]:GetOrigin()
 
+	CastBreakArmor( vTargetPos )
+	--[[
 	if vTargetPos ~= nil then
 		local fabilityRangeCheck = thisEntity.beastmaster_break:GetCastRange(vTargetPos, nil)
 		local fRangeToTarget = ( thisEntity:GetOrigin() - vTargetPos ):Length2D()
@@ -242,7 +243,7 @@ function BreakArmor()
 		if fabilityRangeCheck < fRangeToTarget then
 			return CastBreakArmor( vTargetPos )
 		end
-	end
+	end]]
 	return 0.5
 end
 
@@ -477,18 +478,6 @@ function CastChangeToPhase1()
 		OrderType = DOTA_UNIT_ORDER_CAST_NO_TARGET,
 		AbilityIndex = thisEntity.change_to_phase_1:entindex(),
 		Queue = 0,
-	})
-	return 0.5
-end
-
---------------------------------------------------------------------------------
-function CastStampede(vTargetPos)
-
-	ExecuteOrderFromTable({
-		UnitIndex = thisEntity:entindex(),
-		OrderType = DOTA_UNIT_ORDER_CAST_NO_TARGET,
-		AbilityIndex = thisEntity.stampede:entindex(),
-		Queue = true,
 	})
 	return 0.5
 end

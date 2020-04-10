@@ -247,7 +247,7 @@
         
         // Time     
         //-------------------------------------------------------------------------------------------------------------
-        "AbilityCooldown"               "0"
+        "AbilityCooldown"               "1"
 
         // Cost
         //-------------------------------------------------------------------------------------------------------------
@@ -256,6 +256,13 @@
         // Stats
         //-------------------------------------------------------------------------------------------------------------
         "AbilityModifierSupportValue"   "0.5"   // Applies multiple modifiers
+
+        // precache effects used
+        "precache"
+        {
+            "particle"  "particles/beastmaster/radiant_tower_attack_explode.vpcf"
+            "particle"  "particles/beastmaster/meepo_earthbind_projectile_fx_net.vpcf"
+        }
         
         // Special
         //-------------------------------------------------------------------------------------------------------------
@@ -264,7 +271,7 @@
             "01"
             {
                 "var_type"      "FIELD_FLOAT"
-                "radius"     	"250"
+                "radius"     	"50"
             }        
             "02"
             {
@@ -274,7 +281,7 @@
             "03"
             {
                 "var_type"              "FIELD_FLOAT"
-                "projectile_speed"     	"400"
+                "projectile_speed"     	"1500"
             }
             "04"
             {

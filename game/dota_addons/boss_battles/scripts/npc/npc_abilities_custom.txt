@@ -15,7 +15,7 @@
     "abs_coord_debug"
     { 
         "BaseClass"                     "ability_lua"
-        "ScriptFile"                    "abs_coord_debug"
+        "ScriptFile"                    "examples\abs_coord_debug.lua"
 
         // General
         //-------------------------------------------------------------------------------------------------------------

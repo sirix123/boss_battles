@@ -105,6 +105,11 @@
 		"GameSoundsFile"			"soundevents/game_sounds_heroes/game_sounds_beastmaster.vsndevts"
 		"Level"						"10"
 		"ModelScale" 				"1.5"
+		"precache"
+		{
+			"particle_folder"		"particles/units/heroes/hero_beastmaster"
+			"soundfile"				"soundevents/game_sounds_heroes/game_sounds_beastmaster.vsndevts"
+		}
 
 		// Abilities
 		//----------------------------------------------------------------
@@ -179,6 +184,16 @@
 			"MoveSpeedGain"				"1"
 			"BountyGain"				"3"
 			"XPGain"					"15"
+		}
+
+		"AttachWearables"
+		{
+			"Wearable1" { "ItemDef" "5934" }
+			"Wearable2" { "ItemDef" "5935" }
+			"Wearable3" { "ItemDef" "5936" }
+			"Wearable4" { "ItemDef" "5937" }
+			"Wearable5" { "ItemDef" "5938" }
+			"Wearable6"	{ "ItemDef" "5939" }
 		}
 	}
 

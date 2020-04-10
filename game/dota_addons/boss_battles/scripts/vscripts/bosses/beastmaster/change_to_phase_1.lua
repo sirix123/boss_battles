@@ -12,7 +12,7 @@ end
 function change_to_phase_1:OnChannelFinish()
 
     local caster = self:GetCaster()
-    FindClearSpaceForUnit(caster, Vector(4000,6000,0), true)
+    FindClearSpaceForUnit(caster, Vector(13212,14902,256), true)
     caster:SetAngles(0, 0, 0)
 
 end

@@ -59,6 +59,7 @@ end
 -- this also needs to call the move to intermission between each boss and the 'startbossfight'
 -- function. 
 function GameMode:StartRaid()
+
     -- flow..
     -- check if players are ready to start raid
     -- look at table and find the first bossfight

@@ -33,11 +33,11 @@ function beastmaster_net:OnSpellStart()
 		local fRangeToTarget = ( self:GetCaster():GetOrigin() - vTargetPos ):Length2D()
 
 		local projectile = {
-			EffectName = "particles/units/heroes/hero_lina/lina_spell_dragon_slave.vpcf", --"particles/econ/items/mars/mars_ti9_immortal/mars_ti9_immortal_crimson_spear.vpcf",--"particles/units/heroes/hero_meepo/meepo_earthbind_projectile_fx.vpcf",
+			EffectName = "particles/econ/items/mars/mars_ti9_immortal/mars_ti9_immortal_crimson_spear.vpcf",--"particles/units/heroes/hero_meepo/meepo_earthbind_projectile_fx.vpcf",--"particles/units/heroes/hero_meepo/meepo_earthbind_projectile_fx.vpcf", --"particles/econ/items/mars/mars_ti9_immortal/mars_ti9_immortal_crimson_spear.vpcf",--"particles/units/heroes/hero_meepo/meepo_earthbind_projectile_fx.vpcf",
 			vSpawnOrigin = origin + Vector(projectile_direction.x * offset, projectile_direction.y * offset, 80),
 			--hero:GetAbsOrigin(), attach="attach_attack1", offset=Vector(0,0,0), 
 			fDistance = fRangeToTarget + 9000, -- self:GetSpecialValueFor("projectile_distance") ~= 0 and self:GetSpecialValueFor("projectile_distance") or self:GetCastRange(Vector(0,0,0), nil),
-			fStartRadius = 100,
+			fStartRadius = radius,
 			fEndRadius = radius,
 			--fUniqueRadius = self:GetSpecialValueFor("hitbox"),
 			Source = caster,
@@ -62,7 +62,7 @@ function beastmaster_net:OnSpellStart()
 						unit:AddNewModifier( self:GetCaster(), self, "modifier_beastmaster_net_dot_player", { duration = self:GetSpecialValueFor( "duration_dot" ) } )
 					end
 
-					self:OnSpearHitTarget(unit)
+					self:OnSpearHitTarget(_self, unit)
 				end
 			end,
 			OnWallHit = function(self, gnvPos) 
@@ -95,14 +95,14 @@ function beastmaster_net:OnSpearDestroy(pos)
 	ParticleManager:SetParticleControl( effect_cast, 0, final_position )
 	ParticleManager:SetParticleControlForward(effect_cast, 0, direction)	
 	ParticleManager:ReleaseParticleIndex( effect_cast )
-
 end
 
 ---------------------------------------------------------------------------
-function beastmaster_net:OnSpearHitTarget(unit)
+function beastmaster_net:OnSpearHitTarget(_self ,unit)
 	ParticleManager:DestroyParticle( self.nPreviewFX, false )
 	local particle_cast = "particles/beastmaster/radiant_tower_attack_explode.vpcf"
-	local nFXIndex = ParticleManager:CreateParticle( particle_cast, PATTACH_ABSORIGIN    , self:GetCaster()  )
-	ParticleManager:SetParticleControl( nFXIndex, 0, unit:GetOrigin() )
+	local nFXIndex = ParticleManager:CreateParticle( particle_cast, PATTACH_ABSORIGIN_FOLLOW , _self) --self:GetCaster()  )
+	ParticleManager:SetParticleControl( nFXIndex, 0, unit:GetAbsOrigin() )
+	ParticleManager:SetParticleControl( nFXIndex, 1, Vector(0,0,0) )
 	ParticleManager:ReleaseParticleIndex( nFXIndex )
 end
