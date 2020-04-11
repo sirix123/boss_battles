@@ -148,22 +148,22 @@ function Phase_1()
 	-- handles summon quill boars, summons the first set of boars after x gametime
 	-- handles summoning the second+ sets
 	-- summons 3 boars initially then every x seconds will replace dead boars with new ones based on delayAfterLastBoarDeath 
-	local delayBeforeFirstBoarSet = 10
+	local delayBeforeFirstBoarSet = 15
 	local delayAfterLastBoarDeath = 50
 	BoarCastingTiming(delayBeforeFirstBoarSet, delayAfterLastBoarDeath)
 
 	-- handles the spear throw logic
 	-- phase one spears start x time in to the fight
 	-- time between spears is longer then other phases
-	local delayBeforeFirstNet = 15
-	local delayAfterLastNet = 5
-	NetCastingTime(delayBeforeFirstNet, delayAfterLastNet)
+	local delayBeforeFirstNet = 5
+	local delayAfterLastNet = 2
+	--NetCastingTime(delayBeforeFirstNet, delayAfterLastNet)
 
 	-- casts mark on CD as well 
 	BeastmasterMark()
 
 	-- will only try and cast breakarmor on a targets postion if in range 
-	BreakArmor()
+	--BreakArmor()
 
 	-- attack move? attack highest HP hero?
 

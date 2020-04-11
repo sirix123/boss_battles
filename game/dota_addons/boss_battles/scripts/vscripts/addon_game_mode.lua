@@ -15,13 +15,14 @@ function Precache( context )
   ]]
 
   DebugPrint("[BAREBONES] Performing pre-load precache")
+  PrecacheResource("soundfile", "soundevents/game_sounds_heroes/game_sounds_tusk.vsndevts", context)
 
-  PrecacheResource("soundfile", "sounds/vo/beastmaster/beas_ability_summonsboar_05.vsnd", context)
-  PrecacheResource("soundfile", "sounds/vo/beastmaster/beas_ability_summonsboar_05.vsnd", context)
-  PrecacheResource("soundfile", "sounds/weapons/hero/crystal_maiden/frostbite.vsnd", context)
-  
+  PrecacheResource("soundfile", "soundevents/game_sounds_heroes/game_sounds_beastmaster.vsndevts", context)
+  PrecacheResource("soundfile", "soundevents/voscripts/game_sounds_vo_beastmaster.vsndevts", context)
 
-  
+  PrecacheResource("soundfile", "soundevents/voscripts/game_sounds_vo_lone_druid.vsndevts", context)
+  PrecacheResource("soundfile", "soundevents/game_sounds_heroes/game_sounds_lone_druid.vsndevts", context)
+
 end
 
 -- hello moomoo

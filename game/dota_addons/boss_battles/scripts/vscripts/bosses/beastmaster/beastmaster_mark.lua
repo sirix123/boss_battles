@@ -12,6 +12,9 @@ end
 
 function beastmaster_mark:OnSpellStart()
 	if IsServer() then
+
+		EmitSoundOn( "beastmaster_beas_ability_callwild_04", self:GetCaster() )
+
 		-- get duration
 		self.duration = self:GetSpecialValueFor("duration")
 
@@ -23,7 +26,5 @@ function beastmaster_mark:OnSpellStart()
 
 		-- adds mark to target
 		markTarget:AddNewModifier( self:GetCaster(), self, "beastmaster_mark_modifier", { duration = self.duration } )
-		
-		EmitSoundOn( "sounds/vo/beastmaster/beas_ability_summonsboar_05.vsnd", self:GetCaster() )
 	end
 end

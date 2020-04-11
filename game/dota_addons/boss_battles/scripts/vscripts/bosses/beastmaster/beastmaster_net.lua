@@ -10,7 +10,6 @@ LinkLuaModifier( "modifier_beastmaster_net_dot_player", "bosses/beastmaster/modi
 function beastmaster_net:OnSpellStart()
 	if IsServer() then
 
-		-- should emit sound when cast so players know a net has been cast...
 		EmitSoundOn( "Hero_Tusk.IceShards.Projectile", self:GetCaster() )
 
 		self.nPreviewFX = ParticleManager:CreateParticle( "particles/econ/events/ti9/rock_golem_tower/radiant_tower_attack_explode.vpcf", PATTACH_ABSORIGIN_FOLLOW, self:GetCaster() )

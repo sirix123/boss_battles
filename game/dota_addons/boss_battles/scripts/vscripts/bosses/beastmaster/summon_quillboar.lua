@@ -7,7 +7,7 @@ function summon_quillboar:OnSpellStart()
     if IsServer() then
         local nQuilboarSpawns = 3
 
-        EmitSoundOn("sounds/vo/lone_druid/lone_druid_kill_13.vsnd", self:GetCaster())
+        EmitSoundOn("lone_druid_lone_druid_kill_13", self:GetCaster())
         
         for i = 0, nQuilboarSpawns do
             if #self:GetCaster().BEAST_MASTER_SUMMONED_QUILBOARS < self:GetCaster().MAX_QUILBOARS then
