@@ -9,7 +9,7 @@ stampede = class({})
 
 STAMPEDE_ORIENTATION = "HORIZ" --"HORIZ" or "VERT". The orientation the wave is spread along. HORIZ for waves going north/south, VERT for east/west
 STAMPEDE_DURATION = 30 --seconds
-WAVES_AMOUNT = 10 --
+WAVES_AMOUNT = 2 --
 WAVE_INTERVAL = STAMPEDE_DURATION / WAVES_AMOUNT --seconds between waves
 UNIT_SPACING = 300 -- The amount of distance between units in a stampede wave. 
 UNITS_PER_WAVE = 10
@@ -87,17 +87,18 @@ function stampede:spawnUnit(spawnLoc, moveToLoc)
 	end
 	})
 
+	local tickCount = 1
 	--collision check
 	Timers:CreateTimer(function()
-		self:checkAndHandleCollision(stampedeUnit, 1)
-		return 0.1
+		tickCount = tickCount +1
+
+		return self:checkAndHandleCollision(stampedeUnit, tickCount)
 	end
 	)
 
 	--TODO: make a func to check if units pos is near the endPos. If at end pos then remove unit		
 	 Timers:CreateTimer(function()
-		self:checkAndHandleUnitAtEnd(stampedeUnit, moveToLoc, 50)
-	 	return 0.1
+		return self:checkAndHandleUnitAtEnd(stampedeUnit, moveToLoc, 50)
 	 end
 	 )
 end
@@ -112,12 +113,14 @@ function stampede:spawnWave(spawnLocs, moveToLocs, unitsPerWave)
 end
 
 function stampede:checkAndHandleCollision(unit,count)
+	print("checking for collision. Count = ", count)
 	--TODO: need a better way to determine when to stop this timer...
-	if count == 200 then
-		print("collisionCheck reached count")
+	if count == 50 then
+		print("count threshold reached. Despawning unit")
+		print("Stopping timer")
+		UTIL_Remove(unit)
 		return
 	end
-	count = count + 1 
 
 	local collisionRadius = 100
 	units = FindUnitsInRadius(DOTA_TEAM_GOODGUYS,
@@ -141,12 +144,23 @@ end
 
 -- Check if the stampedeUnit is at or near enough (nearnessThreshold) to moveToLoc. Once there despawn the unit
 function stampede:checkAndHandleUnitAtEnd(stampedeUnit, moveToLoc, nearnessThreshold)
-	local dist =  getDistance(stampedeUnit:GetOrigin(), moveToLoc)
-	if dist < nearnessThreshold then
-		UTIL_Remove(stampedeUnit)
+	if stampedeUnit == nil then
+		print("StampedeUnit is nil. Stopping timer")
 		return
 	end
-	return 0.3
+
+	if stampedeUnit ~= nill then
+		local dist =  getDistance(stampedeUnit:GetOrigin(), moveToLoc)
+			if dist < nearnessThreshold then
+				UTIL_Remove(stampedeUnit)
+				return
+			end
+			return 0.3
+	end
+
+	print("checkAndHandleUnitAtEnd, stampede unit is nil")
+	return 
+	
 
 end
 
