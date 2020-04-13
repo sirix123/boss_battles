@@ -83,7 +83,7 @@ function BeastmasterThink()
 	end
 
 	-- check if we need to change phases 
-	CheckPhaseChange()
+	--CheckPhaseChange()
 
 	-- might need a seperaet function here to cast 'enter phase1 / phase2'
 	if thisEntity.Phase == PHASE_ONE then
@@ -143,27 +143,27 @@ function Phase_1()
 	-- summons second+ bear after x time, LastBearDeath is populated in the ClearAnimals() function
 	local delayBeforeFirstBear = 5
 	local delayAfterBearDeath = 120
-	--BearCastingTiming(delayBeforeFirstBear, delayAfterBearDeath)
+	BearCastingTiming(delayBeforeFirstBear, delayAfterBearDeath)
 
 	-- handles summon quill boars, summons the first set of boars after x gametime
 	-- handles summoning the second+ sets
 	-- summons 3 boars initially then every x seconds will replace dead boars with new ones based on delayAfterLastBoarDeath 
-	local delayBeforeFirstBoarSet = 10
+	local delayBeforeFirstBoarSet = 15
 	local delayAfterLastBoarDeath = 50
-	--BoarCastingTiming(delayBeforeFirstBoarSet, delayAfterLastBoarDeath)
+	BoarCastingTiming(delayBeforeFirstBoarSet, delayAfterLastBoarDeath)
 
 	-- handles the spear throw logic
 	-- phase one spears start x time in to the fight
 	-- time between spears is longer then other phases
-	local delayBeforeFirstNet = 15
-	local delayAfterLastNet = 5
+	local delayBeforeFirstNet = 5
+	local delayAfterLastNet = 2
 	--NetCastingTime(delayBeforeFirstNet, delayAfterLastNet)
 
 	-- casts mark on CD as well 
-	--BeastmasterMark()
+	BeastmasterMark()
 
 	-- will only try and cast breakarmor on a targets postion if in range 
-	BreakArmor()
+	--BreakArmor()
 
 	-- attack move? attack highest HP hero?
 
@@ -227,12 +227,14 @@ end
 function BreakArmor()
 
 	-- find all players in the entire map
-	local enemies = FindUnitsInRadius( DOTA_TEAM_BADGUYS, thisEntity:GetOrigin(), nil, FIND_UNITS_EVERYWHERE , DOTA_UNIT_TARGET_TEAM_ENEMY, DOTA_UNIT_TARGET_ALL, DOTA_UNIT_TARGET_FLAG_NONE, FIND_CLOSEST, false )
+	local enemies = FindUnitsInRadius( DOTA_TEAM_BADGUYS, thisEntity:GetOrigin(), nil, FIND_UNITS_EVERYWHERE , DOTA_UNIT_TARGET_TEAM_ENEMY, DOTA_UNIT_TARGET_ALL, DOTA_UNIT_TARGET_FLAG_NONE, FIND_ANY_ORDER, false )
 	if #enemies == 0 then
 		return 0.5
 	end
 
 	local vTargetPos = enemies[ RandomInt( 1, #enemies ) ]:GetOrigin()
+
+	print("Got target for breakamour",GameRules:GetGameTime())
 
 	CastBreakArmor( vTargetPos )
 	--[[
@@ -435,12 +437,14 @@ end
 --------------------------------------------------------------------------------
 function CastBreakArmor(vTargetPos)
 
+	print("Casting breakamour",GameRules:GetGameTime())
+
 	ExecuteOrderFromTable({
 		UnitIndex = thisEntity:entindex(),
 		OrderType = DOTA_UNIT_ORDER_CAST_POSITION,
 		AbilityIndex = thisEntity.beastmaster_break:entindex(),
 		Position = vTargetPos,
-		Queue = 4,
+		Queue = false,
 	})
 	return 0.5
 end

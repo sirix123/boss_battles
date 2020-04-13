@@ -7,7 +7,7 @@ function summon_bear:OnSpellStart()
     if IsServer() then
         local nBearSpawns = 1
 
-        EmitSoundOn("sounds/vo/lone_druid/lone_druid_kill_13.vsnd", self:GetCaster())
+        EmitSoundOn("lone_druid_lone_druid_spawn_01", self:GetCaster())
         
         for i = 0, nBearSpawns do
             if #self:GetCaster().BEAST_MASTER_SUMMONED_BEARS < self:GetCaster().MAX_BEARS then

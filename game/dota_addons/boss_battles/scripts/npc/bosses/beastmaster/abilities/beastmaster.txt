@@ -256,13 +256,6 @@
         // Stats
         //-------------------------------------------------------------------------------------------------------------
         "AbilityModifierSupportValue"   "0.5"   // Applies multiple modifiers
-
-        // precache effects used
-        "precache"
-        {
-            "particle"  "particles/beastmaster/radiant_tower_attack_explode.vpcf"
-            "particle"  "particles/beastmaster/meepo_earthbind_projectile_fx_net.vpcf"
-        }
         
         // Special
         //-------------------------------------------------------------------------------------------------------------
@@ -393,8 +386,8 @@
 
         // Casting
         //-------------------------------------------------------------------------------------------------------------
-        "AbilityCastRange"              "50"
-        "AbilityCastPoint"              "0.7"
+        "AbilityCastRange"              "100"
+        "AbilityCastPoint"              "0"
         
         // Time     
         //-------------------------------------------------------------------------------------------------------------

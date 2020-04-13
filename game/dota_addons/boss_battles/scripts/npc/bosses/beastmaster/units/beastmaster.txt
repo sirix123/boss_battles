@@ -105,11 +105,6 @@
 		"GameSoundsFile"			"soundevents/game_sounds_heroes/game_sounds_beastmaster.vsndevts"
 		"Level"						"10"
 		"ModelScale" 				"1.5"
-		"precache"
-		{
-			"particle_folder"		"particles/units/heroes/hero_beastmaster"
-			"soundfile"				"soundevents/game_sounds_heroes/game_sounds_beastmaster.vsndevts"
-		}
 
 		// Abilities
 		//----------------------------------------------------------------
