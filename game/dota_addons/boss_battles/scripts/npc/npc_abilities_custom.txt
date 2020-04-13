@@ -4,6 +4,7 @@
 
 // beastmaster
 #base "bosses/beastmaster/abilities/beastmaster.txt"
+#base "bosses/gyrocopter/abilities/gyrocopter.txt"
 
 // player
 #base "players/warrior/abilities.txt"

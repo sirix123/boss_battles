@@ -1,5 +1,27 @@
 gyrocopter = class({})
 
+--ANIMATIONS/DEBUG DRAW Spells
+
+function gyrocopter:Spawn( entityKeyValues )
+	print("Gyrocopter Spawn called")
+
+	if not IsServer() then
+		return
+	end
+
+	if thisEntity == nil then
+		return
+	end
+
+	thisEntity.radar_scan = thisEntity:FindAbilityByName( "radar_scan" )
+	thisEntity:SetContextThink( "Gyrocopter", GyrocopterThink, 1 )
+end
+
+function gyrocopter:GyrocopterThink()
+	print("gyrocopter:GyrocopterThink")
+end
+
+
 --TODO: Write funcs for my abilities
 --Code it up first logically, then add the dota components in
 

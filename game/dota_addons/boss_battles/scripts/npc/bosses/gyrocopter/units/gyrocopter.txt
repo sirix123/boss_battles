@@ -22,7 +22,7 @@
 
 		// Abilities
 		//----------------------------------------------------------------
-		"Ability1"					"stampede"			// Ability 1
+		"Ability1"					"radar_scan"			// Ability 1
 
 		
 

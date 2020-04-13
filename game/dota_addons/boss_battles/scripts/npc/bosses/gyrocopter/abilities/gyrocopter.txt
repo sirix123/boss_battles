@@ -3,12 +3,12 @@
 {
 	"Version"		"1"
     //=================================================================================================================
-    // Gyrocopter: Stampede
+    // Gyrocopter: RadarScan
     //=================================================================================================================
-    "stampede"
+    "radar_scan"
     { 
         "BaseClass"                     "ability_lua"
-        "ScriptFile"                    "bosses/beastmaster/stampede"
+        "ScriptFile"                    "bosses/gyrocopter/radar_scan"
 
 
         // General

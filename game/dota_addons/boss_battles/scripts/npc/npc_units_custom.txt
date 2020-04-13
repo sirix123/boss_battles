@@ -1,4 +1,5 @@
 #base "bosses/beastmaster/units/beastmaster.txt"
+#base "bosses/beastmaster/units/gyrocopter.txt"
 
 "DOTAUnits"
 {
