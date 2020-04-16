@@ -14,13 +14,96 @@ function gyrocopter:Spawn( entityKeyValues )
 	end
 
 	thisEntity.radar_scan = thisEntity:FindAbilityByName( "radar_scan" )
+	thisEntity.radar_scan = thisEntity:FindAbilityByName( "homing_missile" )
+
 	thisEntity:SetContextThink( "Gyrocopter", GyrocopterThink, 1 )
+
+	thisEntity:SetContextThink( "TestThinker", TestThinkerThink, 1 )
+
+	--thisEntity:SetContextThink( "PhaseCheck", PhaseCheckThink, 1 )
+
+
+
+
 end
 
 function gyrocopter:GyrocopterThink()
 	print("gyrocopter:GyrocopterThink")
+	return 1 --time between next tick?
+
 end
 
+function gyrocopter:TestThinkerThink()
+	print("gyrocopter:TestThinkerThink")
+	return 1
+end
+
+
+--WROTE THIS FOR BM BUT USEFUL TEMPLATE FOR ANY PHASE CHANGE
+
+-- function BeastmasterThink()
+-- 	if not IsServer() then
+-- 		return
+-- 	end
+-- 	if ( not thisEntity:IsAlive() ) then
+-- 		return -1
+-- 	end
+-- 	-- Almost all code should not run when the game is paused. Keep this near the top so we return early.
+-- 	if GameRules:IsGamePaused() == true then
+-- 		return 0.5
+-- 	end
+
+-- 	doPhaseChange = CheckPhaseChange() --sets newPhase to a PHASE if we should phase change
+
+-- 	-- Do any actions if flagged. The other of the below methods is important, that's the order they'll be queue up to do if there are multiple. 
+-- 		-- Unless you execute a command that is not queued, Queued false will interupt everything and happen instantly:
+-- 		--		ExecuteOrderFromTable({
+-- 		--			AbilityIndex = thisEntity.beastmaster_net:entindex(),
+-- 		--			Queue = false,
+-- 		--
+-- 		--		})
+
+-- 	--Change between phases, happens once per phase
+-- 	if doPhaseChange then
+-- 		--Check what current phase we're in and do any wrap up / clean up before changing to new phase
+-- 		if currentPhase == PHASE.ONE then
+-- 			EndPhase1()
+-- 		end
+-- 		if currentPhase == PHASE.TWO then
+-- 			EndPhase2()
+-- 		end
+
+-- 		--Check what phase to change into and 
+-- 		if newPhase == PHASE.ONE then
+-- 			StartPhase1()
+			
+-- 			-- finished changing phase. Set all vars that manage/track phaseChange state.
+-- 			previousPhase = currentPhase
+-- 			currentPhase = newPhase
+-- 			newPhase = PHASE.NONE --do no phase change. can't set newPhase = nil because then it will crash on if checks
+-- 		end
+-- 		if newPhase == PHASE.TWO then
+-- 			StartPhase2()
+
+-- 			previousPhase = currentPhase
+-- 			currentPhase = newPhase
+-- 			newPhase = PHASE.NONE 
+-- 		end
+-- 		doPhaseChange = false;	-- set to false so this code doesn't run again unless flagged too
+-- 	end
+
+
+
+
+-- 	-- Do other actions that happen throughout each phase
+-- 	if currentPhase == PHASE.ONE then
+-- 		DoPhase1() -- Check conditions then execute any spells/events 
+-- 	end
+-- 	if currentPhase == PHASE.TWO then
+-- 		DoPhase2() -- Check conditions then execute any spells/events 
+-- 	end
+
+-- end --end func
 
 --TODO: Write funcs for my abilities
 --Code it up first logically, then add the dota components in
