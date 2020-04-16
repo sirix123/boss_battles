@@ -54,40 +54,42 @@ function GameMode:IntermissionHandler()
             -- if theyre ready send to next boss
 end
 
--- need a 'raid handler' reads a table defined in a file that determines the bossfights that 
--- make up a raid. Raid 'table' needs to have a spawner for each raid and a boss it spawns.
--- this also needs to call the move to intermission between each boss and the 'startbossfight'
--- function. 
 function GameMode:StartRaid()
 
-    -- flow..
-    -- check if players are ready to start raid
-    -- look at table and find the first bossfight
-    -- pull data from the first bossifght 
-    -- boss npc to spawn, arena, etc
-    -- move players to boss arena
-    -- listen event somewheer else... (if players dead do x, if boss dead do y)
-    -- move to intermission
-    -- find next boss in table and repeat
+    --[[
+            Intermission area  
 
-    -- move to intermission arena
-    --GameMode:MoveHeroesToArea(raid_tables.intermission.arena)
-    -- wait until players are ready to leave
-    GameMode:IntermissionHandler()
+    ]]--
 
-    -- move players to boss 1 arena
+
+    --[[
+            Beastmaster  
+
+    ]]--
+
     GameMode:MoveHeroesToArea(raid_tables.beastmaster.arena)
-    -- freezer players
-    -- FUNCTION
-    -- spawn boss
     GameMode:SpawnBoss(raid_tables.beastmaster.bossNPC, raid_tables.beastmaster.spawnLocation)
-    -- freeze boss
-    -- FUNCTION
-    -- display countodwn notificaiton etc...
-    -- FUNCTION
-    -- when notification ends unfreeeze boss and players
 
-    -- listeners will exist to constantly check if something happens but here we explicting
-    -- FUNCTION ARE PLAYERS ALIVE OR BOSS DEAD? 
-    -- i think we need to go into a thinker function here.... FightThinker?
+    --[[
+            Timber  
+
+    ]]--
+
+
+    --[[
+            Clock  
+
+    ]]--
+
+
+    --[[
+            Gyro  
+
+    ]]--
+
+    --[[
+            Tinker  
+
+    ]]--
+
 end

@@ -1,27 +1,18 @@
-// energy ssytems
-#base "core/rage.txt"
-#base "core/energy.txt"
-
-// mechanical raid
-#base "bosses/beastmaster/abilities/beastmaster.txt"
-#base "bosses/gyrocopter/abilities/gyrocopter.txt"
-#base "bosses/timber/abilities/timber.txt"
-
-// player
-#base "players/warrior/abilities.txt"
-
 
 "DOTAAbilities"
 {
-
-    "abs_coord_debug"
+	"Version"		"1"
+    //=================================================================================================================
+    // Timber: Saw Blade
+    //=================================================================================================================
+    "saw_blade"
     { 
         "BaseClass"                     "ability_lua"
-        "ScriptFile"                    "examples\abs_coord_debug.lua"
+        "ScriptFile"                    "bosses/timber/saw_blade"
 
         // General
         //-------------------------------------------------------------------------------------------------------------
-        "AbilityBehavior"               "DOTA_ABILITY_BEHAVIOR_POINT"
+        "AbilityBehavior"               "DOTA_ABILITY_BEHAVIOR_NO_TARGET"
         "AbilityUnitDamageType"         "DAMAGE_TYPE_PHYSICAL"  
 
         // Casting
@@ -37,8 +28,5 @@
         "AbilityManaCost"               "10"
 
     }
-
-
-
 }
 
