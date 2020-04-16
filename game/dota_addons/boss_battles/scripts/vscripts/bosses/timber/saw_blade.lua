@@ -6,12 +6,16 @@
 
 ]]
 LinkLuaModifier( "saw_blade_thinker", "bosses/timber/saw_blade_thinker", LUA_MODIFIER_MOTION_NONE )
+LinkLuaModifier( "saw_blade_modifier", "bosses/timber/saw_blade_thinker", LUA_MODIFIER_MOTION_NONE )
+
 
 saw_blade = class({})
 
 function saw_blade:OnSpellStart()
     local caster = self:GetCaster()
     local point = self:GetCursorPosition()
+
+    -- need to create a table here to store each thinker.. they can't all use the same thinker...
 
     CreateModifierThinker(
         caster,

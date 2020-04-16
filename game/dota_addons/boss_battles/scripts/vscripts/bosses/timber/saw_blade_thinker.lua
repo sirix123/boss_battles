@@ -47,11 +47,12 @@ function saw_blade_thinker:OnCreated( kv )
     self.mode = MODE_MOVE
 	self.move_interval = FrameTime()
 	self.bFirstBlade = true
-	self.proximity = 10
+	self.proximity = 80
 	
 	-- get position for second + move
 	-- seperate into second function for more complex mvoment etc
-	self.position = Vector( 1, 1, kv.target_z )
+	self.currentTarget = Vector( 0, 0, 0 )
+	self.currentSawbladeLocation = 0
 
     -- init mode
     self:StartIntervalThink( self.move_interval )
@@ -74,15 +75,16 @@ end
 --------------------------------------------------------------------------------
 
 function saw_blade_thinker:MoveThink()
-	local origin = self.parent:GetOrigin()
+	self.currentSawbladeLocation = self.parent:GetAbsOrigin()
 
 	-- move logic
-	local close = self:MoveLogic( origin )
+	local close = self:MoveLogic( self.currentSawbladeLocation )
 
 	-- if close, switch to stay mode
 	if close then
 		LAST_MOVE_TIME = GameRules:GetGameTime()
 		self.mode = MODE_STAY
+		-- making this really small does good stuff. 0.1 eventually it will get there, 0.01 it gets there straight away, it only moves a couple map units per frame.
 		self:StartIntervalThink( self.interval )
 		self:OnIntervalThink()
 
@@ -108,10 +110,8 @@ end
 --------------------------------------------------------------------------------
 
 function saw_blade_thinker:MovePlusThink()
-
-	local origin = self.parent:GetOrigin()
 	-- move logic
-	local close = self:MovePlusThink(  )
+	local close = self:MovePlusLogic(self.currentSawbladeLocation)
 
 	-- if close, switch to stay mode
 	if close then
@@ -127,18 +127,15 @@ function saw_blade_thinker:MovePlusThink()
 end
 --------------------------------------------------------------------------------
 
-function saw_blade_thinker:MoveLogic(origin)
+function saw_blade_thinker:MoveLogic(previousSawbladeLocation)
 	-- move to the cursor point for the first blade
-	print("moving (firstmove).. ")
-	print("movelogic, origin = ", origin)
-	local direction = (self.point - origin):Normalized()
-	local target = origin + direction * self.speed * self.move_interval
+	local direction = (self.point - previousSawbladeLocation):Normalized()
+	self.currentSawbladeLocation = previousSawbladeLocation + direction * self.speed * self.move_interval
 
-	self.parent:SetOrigin( target )
-
+	self.parent:SetAbsOrigin( self.currentSawbladeLocation )
 	self.bFirstBlade = false
 
-	return ( target - self.point ):Length2D() < self.proximity
+	return ( self.currentSawbladeLocation - self.point ):Length2D() < self.proximity
 end
 --------------------------------------------------------------------------------
 
@@ -146,24 +143,24 @@ function saw_blade_thinker:StayLogic()
 	FlStayTriggerEndTime = LAST_MOVE_TIME + self.stay_duration
 	print(FlStayTriggerEndTime,"  ",GameRules:GetGameTime())
 
-	self.secondOrigin = self.parent:GetOrigin()
+	self.currentTarget = Vector( 14082, 14744, 255 )
 
 	return GameRules:GetGameTime() > FlStayTriggerEndTime
 end
 --------------------------------------------------------------------------------
 
-function saw_blade_thinker:MovePlusThink()
-	print("position = ",self.position)
-	print("origin = ", origin)
-	local direction = (self.position - self.secondOrigin):Normalized()
-	print("direction = ", direction)
-	local target = self.secondOrigin + direction * self.speed * self.move_interval
+function saw_blade_thinker:MovePlusLogic(previousSawbladeLocation)
+	local direction = (self.currentTarget - previousSawbladeLocation):Normalized()
+	self.currentSawbladeLocation = previousSawbladeLocation + direction * self.speed * self.move_interval
 
-	self.parent:SetOrigin( target )
+	self.parent:SetAbsOrigin( self.currentSawbladeLocation )
 
-	print("trying to move to.... ", target )
+	print("where are we?.... ", self.currentSawbladeLocation )
+	print("trying to move to.... ", self.currentTarget )
 
-	return ( target - self.position ):Length2D() < self.proximity
+	if ( self.currentSawbladeLocation - self.currentTarget ):Length2D() < self.proximity then
+		return true
+	end
 end
 --------------------------------------------------------------------------------
 
@@ -173,7 +170,7 @@ function saw_blade_thinker:IsAura()
 end
 
 function saw_blade_thinker:GetModifierAura()
-	return --aura mod here if we wanna slow while inside etc
+	return --"saw_blade_modifier"
 	-- might aid with code readability if we use this new modifier to do damage as well? keep timing/moving in this file only?
 end
 
@@ -217,6 +214,10 @@ end
 --------------------------------------------------------------------------------
 
 function saw_blade_thinker:PlayStayEffects()
+
+	DebugDrawCircle(self.currentSawbladeLocation, Vector(255,0,0), 128, 50, true, 60)
+	DebugDrawCircle(self.currentTarget, Vector(0,0,255), 128, 100, true, 60)
+
 	-- destroy previous particle
 	ParticleManager:DestroyParticle( self.effect_cast, false )
 	ParticleManager:ReleaseParticleIndex( self.effect_cast )
@@ -240,7 +241,7 @@ function saw_blade_thinker:PlayMoveEffects2()
     local particle_cast = "particles/units/heroes/hero_shredder/shredder_chakram.vpcf"
 	local sound_cast = "Hero_Shredder.Chakram"
 
-	local direction = ( self.point - self.parent:GetOrigin() )
+	local direction = ( self.currentTarget - self.parent:GetOrigin() )
 	direction.z = 0
 	direction = direction:Normalized()
 
