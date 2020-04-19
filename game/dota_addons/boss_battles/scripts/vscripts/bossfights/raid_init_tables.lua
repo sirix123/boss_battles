@@ -35,11 +35,11 @@ tRAID_INIT_TABLE = {
 		bossNPC = "npc_beastmaster",
 	},
 
-	dragon = {
-		name = "Dragon",
+	timber = {
+		name = "Timber",
 		description = "MANY ANIMALS",
-		arena = "dragonspawn",
-		spawnLocation = "beastmaster_boss_spawn",
+		arena = "timberPlayerSpawn",
+		spawnLocation = "timberBossSpawn",
 		bossNPC = "npc_viper",
 	},
 
