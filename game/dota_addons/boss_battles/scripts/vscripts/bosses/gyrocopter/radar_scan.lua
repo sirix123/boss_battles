@@ -1,5 +1,7 @@
 radar_scan = class({})
+LinkLuaModifier( "radar_scan_modifier", "bosses/gyrocopter/radar_scan_modifier", LUA_MODIFIER_MOTION_NONE )
 
+local radScan_radius = 1200 --todo: put this in the ability txt file
 
 function radar_scan:OnSpellStart()
 
@@ -13,6 +15,13 @@ function radar_scan:OnSpellStart()
 	--self:DebugHightlightEnemiesInArea(origin, 800)
 
 
+	--TODO: forget about animation for now.
+	--Spell effect: Target every player within radius and deal dmg, apply mod /effect to ground to dmg units who don't move. 
+	local enemies = FindUnitsInRadius( DOTA_TEAM_BADGUYS, origin, nil, radScan_radius , DOTA_UNIT_TARGET_TEAM_ENEMY, DOTA_UNIT_TARGET_ALL, DOTA_UNIT_TARGET_FLAG_NONE, FIND_ANY_ORDER, false )
+	--Create a bunch of modifier thinkers, one for each player found in radius. 
+	for _,enemy in pairs(enemies) do
+   		--CreateModifierThinker( self:GetCaster(), self, "quillboar_puddle_modifier", { self:GetSpecialValueFor( "duration" ) }, vLocation, self:GetCaster():GetTeamNumber(), false )
+	end
 
 end
 
@@ -21,6 +30,8 @@ function radar_scan:DebugRadarScanSweep(origin)
 	local radius = 800 
 	local duration = 0.5 --seconds
 	local tickDuration = 0.5 / 360
+
+
 
 	
 

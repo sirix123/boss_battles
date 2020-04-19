@@ -25,5 +25,49 @@ homing_missile = class({})
 
 	
 
+local currentTarget = nil
 
 
+
+--todo: DOTA_ABILITY_BEHAVIOR_UNIT_TARGET
+function homing_missile:OnSpellStart()
+    local caster = self:GetCaster()
+    local cursorLoc = self:GetCursorPosition() --should be same as target.GetOrigin()?
+
+		-- gets target for ability
+		local target = self:GetCursorTarget()
+		--print("bear has aqquired claw target")
+ 		if target == nil then
+ 			--print("bear_claw could not get aggro target, getting first available")
+ 			return
+ 		end
+
+		local damageInfo = 
+		{
+			victim = target,
+			attacker = self:GetCaster(),
+			damage = self.base_damage,
+			damage_type = self:GetAbilityDamageType(),
+			ability = self,
+		}
+
+    --Target?
+
+    --Somehow get targe4t? or calculate which target to shoot at?
+
+end
+
+
+--Function is called each interval/timer tick
+--Gets the target/players location and updates the location missile is aiming for
+function homing_missile:Tick()
+
+
+end
+
+
+
+function homing_missile:FindNearestEnemy()
+
+
+end
