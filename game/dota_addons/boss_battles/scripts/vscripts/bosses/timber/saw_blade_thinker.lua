@@ -7,16 +7,19 @@
         Movement direction and location
         Movement speed
         Damage + tick rate
-        Radius
-        Duration
-        Destroying trees 
+		Destroying trees
+		
+		TODO 
+		Radius
+		mana on tree death modifier or generic usable function
+
+		Ask doran about thinker table and modifier for tree death mana mention radius size + particle effect
 ]]
 
 saw_blade_thinker = class({})
 
 local MODE_MOVE = 0
 local MODE_STAY = 1
-local MODE_MOVE_PLUS = 2
 
 -- init globals
 local LAST_MOVE_TIME = 0
@@ -36,25 +39,28 @@ function saw_blade_thinker:OnCreated( kv )
 
     -- ref eventually replace these with values from kv
     self.speed = 400
-    self.interval = 1
-	self.radius = 100
-	self.stay_duration = 5
+	self.interval = 1
+	-- 200 raidus is the spell particle effect, if we change this number we need to change particle effect
+	self.radius = 200
+	self.stay_duration = 3
+	self.damage = 10
+	self.manaAmount = 0.5
 
     -- ref from kv
-    self.point = Vector( kv.target_x, kv.target_y, kv.target_z )
+    self.currentTarget = Vector( kv.target_x, kv.target_y, kv.target_z )
 
     -- init vars
     self.mode = MODE_MOVE
 	self.move_interval = FrameTime()
 	self.bFirstBlade = true
-	self.proximity = 80
-	
-	-- get position for second + move
-	-- seperate into second function for more complex mvoment etc
-	self.currentTarget = Vector( 0, 0, 0 )
+	self.proximity = 40
 	self.currentSawbladeLocation = 0
+	self.damageTable = {
+		attacker = self.caster,
+		damage = self.damage ,
+		damage_type = self:GetAbility():GetAbilityDamageType(),
+	}
 
-    -- init mode
     self:StartIntervalThink( self.move_interval )
     
     self:PlayMoveEffects()
@@ -68,15 +74,19 @@ function saw_blade_thinker:OnIntervalThink()
 		self:MoveThink()
 	elseif self.mode == MODE_STAY then
 		self:StayThink()
-	elseif self.mode == MODE_MOVE_PLUS then
-		self:MovePlusThink()
 	end
 end
 --------------------------------------------------------------------------------
 
 function saw_blade_thinker:MoveThink()
-	self.currentSawbladeLocation = self.parent:GetAbsOrigin()
 
+	if self.bFirstBlade == true then
+		self.currentSawbladeLocation = self.parent:GetAbsOrigin()
+	end
+
+	self:DestroyTrees()
+	self:ApplySawBladeDamage()
+	
 	-- move logic
 	local close = self:MoveLogic( self.currentSawbladeLocation )
 
@@ -84,9 +94,6 @@ function saw_blade_thinker:MoveThink()
 	if close then
 		LAST_MOVE_TIME = GameRules:GetGameTime()
 		self.mode = MODE_STAY
-		-- making this really small does good stuff. 0.1 eventually it will get there, 0.01 it gets there straight away, it only moves a couple map units per frame.
-		self:StartIntervalThink( self.interval )
-		self:OnIntervalThink()
 
 		-- play effects
 		self:PlayStayEffects()
@@ -96,71 +103,92 @@ end
 
 function saw_blade_thinker:StayThink()
 
+	self:DestroyTrees()
+	self:ApplySawBladeDamage()
+
 	-- check if we need to end the stay think and start moving again
 	local endStay = self:StayLogic()
 
 	if endStay then
-		self:PlayMoveEffects2()
-		self.mode = MODE_MOVE_PLUS
-		self:StartIntervalThink( self.interval )
-		self:OnIntervalThink()
+		self:PlayMoveEffects()
+		self.mode = MODE_MOVE
 	end
-end
-
---------------------------------------------------------------------------------
-
-function saw_blade_thinker:MovePlusThink()
-	-- move logic
-	local close = self:MovePlusLogic(self.currentSawbladeLocation)
-
-	-- if close, switch to stay mode
-	if close then
-		LAST_MOVE_TIME = GameRules:GetGameTime()
-		self.mode = MODE_STAY
-		self:StartIntervalThink( self.interval )
-		self:OnIntervalThink()
-
-		-- play effects
-		self:PlayStayEffects()
-	end
-
 end
 --------------------------------------------------------------------------------
 
 function saw_blade_thinker:MoveLogic(previousSawbladeLocation)
-	-- move to the cursor point for the first blade
-	local direction = (self.point - previousSawbladeLocation):Normalized()
+	local direction = (self.currentTarget - previousSawbladeLocation):Normalized()
 	self.currentSawbladeLocation = previousSawbladeLocation + direction * self.speed * self.move_interval
 
 	self.parent:SetAbsOrigin( self.currentSawbladeLocation )
 	self.bFirstBlade = false
 
-	return ( self.currentSawbladeLocation - self.point ):Length2D() < self.proximity
+	if ( self.currentSawbladeLocation - self.currentTarget ):Length2D() < self.proximity then
+		return true
+	end
 end
 --------------------------------------------------------------------------------
 
 function saw_blade_thinker:StayLogic()
 	FlStayTriggerEndTime = LAST_MOVE_TIME + self.stay_duration
-	print(FlStayTriggerEndTime,"  ",GameRules:GetGameTime())
 
-	self.currentTarget = Vector( 14082, 14744, 255 )
+	self.currentTarget = self:NewPositionLogic()
 
 	return GameRules:GetGameTime() > FlStayTriggerEndTime
 end
 --------------------------------------------------------------------------------
 
-function saw_blade_thinker:MovePlusLogic(previousSawbladeLocation)
-	local direction = (self.currentTarget - previousSawbladeLocation):Normalized()
-	self.currentSawbladeLocation = previousSawbladeLocation + direction * self.speed * self.move_interval
+function saw_blade_thinker:NewPositionLogic()
+	local vNewPosition = Vector(0,0,0)
 
-	self.parent:SetAbsOrigin( self.currentSawbladeLocation )
+	-- ideas
+	-- 		the numbers in the X Y are the map diemensions
+	-- 		at level 1 when arena is small only move them in a smaller raidus around the an origin (boss location). DO WE NEED LOGIC FOR EARLY FIGHT AND LATE FIGHT?
+	local vNewPositionX = RandomInt(6590, 10467) + 200
+	local vNewPositionY = RandomInt(11248, 15090) + 200
+	vNewPosition = Vector(vNewPositionX, vNewPositionY, 255)
 
-	print("where are we?.... ", self.currentSawbladeLocation )
-	print("trying to move to.... ", self.currentTarget )
+	return vNewPosition
+end
+--------------------------------------------------------------------------------
 
-	if ( self.currentSawbladeLocation - self.currentTarget ):Length2D() < self.proximity then
-		return true
+function saw_blade_thinker:DestroyTrees()
+
+	if self.currentSawbladeLocation ~= 0 then
+		local sound_tree = "Hero_Shredder.Chakram.Tree"
+		local trees = GridNav:GetAllTreesAroundPoint( self.currentSawbladeLocation, self.radius, true )
+		for _,tree in pairs(trees) do
+			EmitSoundOnLocationWithCaster( tree:GetOrigin(), sound_tree, self.parent )
+			self.caster:GiveMana(self.manaAmount)
+		end
+		GridNav:DestroyTreesAroundPoint( self.currentSawbladeLocation, self.radius, true )
 	end
+end
+--------------------------------------------------------------------------------
+
+function saw_blade_thinker:ApplySawBladeDamage()
+
+	if self.currentSawbladeLocation ~= 0 then
+		-- find enemies
+		local enemies = FindUnitsInRadius(
+			self.caster:GetTeamNumber(),	-- int, your team number
+			self.currentSawbladeLocation,	-- point, center point
+			nil,	-- handle, cacheUnit. (not known)
+			self.radius,	-- float, radius. or use FIND_UNITS_EVERYWHERE
+			DOTA_UNIT_TARGET_TEAM_FRIENDLY,	-- int, team filter
+			DOTA_UNIT_TARGET_HERO + DOTA_UNIT_TARGET_BASIC,	-- int, type filter
+			0,	-- int, flag filter
+			0,	-- int, order filter
+			false	-- bool, can grow cache
+		)
+
+		for _,enemy in pairs(enemies) do
+			-- damage
+			self.damageTable.victim = enemy
+			ApplyDamage( self.damageTable )
+		end
+	end
+
 end
 --------------------------------------------------------------------------------
 
@@ -197,12 +225,21 @@ end
 
 function saw_blade_thinker:PlayMoveEffects()
 
+	-- need to destroy the previouys playeffect on second move but not on the first cast from the boss
+	if self.bFirstBlade ~= true then
+		ParticleManager:DestroyParticle( self.effect_cast, false )
+		ParticleManager:ReleaseParticleIndex( self.effect_cast )
+		StopSoundOn( sound_cast, self.parent )
+	end
+
     local particle_cast = "particles/units/heroes/hero_shredder/shredder_chakram.vpcf"
 	local sound_cast = "Hero_Shredder.Chakram"
 
-	local direction = ( self.point - self.parent:GetOrigin() )
+	local direction = ( self.currentTarget - self.parent:GetOrigin() )
 	direction.z = 0
 	direction = direction:Normalized()
+
+	DebugDrawCircle(self.currentTarget, Vector(0,0,255), 128, 100, true, 60)
 
 	self.effect_cast = ParticleManager:CreateParticle( particle_cast, PATTACH_ABSORIGIN_FOLLOW, self.parent )
 	ParticleManager:SetParticleControl( self.effect_cast, 0, self:GetParent():GetOrigin() )
@@ -216,9 +253,8 @@ end
 function saw_blade_thinker:PlayStayEffects()
 
 	DebugDrawCircle(self.currentSawbladeLocation, Vector(255,0,0), 128, 50, true, 60)
-	DebugDrawCircle(self.currentTarget, Vector(0,0,255), 128, 100, true, 60)
 
-	-- destroy previous particle
+	-- destroy previous particle and stop previous sound
 	ParticleManager:DestroyParticle( self.effect_cast, false )
 	ParticleManager:ReleaseParticleIndex( self.effect_cast )
 
@@ -230,27 +266,6 @@ function saw_blade_thinker:PlayStayEffects()
 	ParticleManager:SetParticleControl( self.effect_cast, 0, self.parent:GetOrigin() )
 	ParticleManager:SetParticleControl( self.effect_cast, 16, Vector( 0, 0, 0 ) )
 
-end
---------------------------------------------------------------------------------
-
-function saw_blade_thinker:PlayMoveEffects2()
-	-- destroy previous particle
-	ParticleManager:DestroyParticle( self.effect_cast, false )
-	ParticleManager:ReleaseParticleIndex( self.effect_cast )
-
-    local particle_cast = "particles/units/heroes/hero_shredder/shredder_chakram.vpcf"
-	local sound_cast = "Hero_Shredder.Chakram"
-
-	local direction = ( self.currentTarget - self.parent:GetOrigin() )
-	direction.z = 0
-	direction = direction:Normalized()
-
-	self.effect_cast = ParticleManager:CreateParticle( particle_cast, PATTACH_ABSORIGIN_FOLLOW, self.parent )
-	ParticleManager:SetParticleControl( self.effect_cast, 0, self:GetParent():GetOrigin() )
-	ParticleManager:SetParticleControl( self.effect_cast, 1, direction * self.speed )
-    ParticleManager:SetParticleControl( self.effect_cast, 16, Vector( 0, 0, 0 ) )
-    
-    EmitSoundOn( sound_cast, self.parent )
 end
 --------------------------------------------------------------------------------
 

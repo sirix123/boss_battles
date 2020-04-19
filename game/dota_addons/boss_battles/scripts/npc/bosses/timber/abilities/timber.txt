@@ -12,7 +12,44 @@
 
         // General
         //-------------------------------------------------------------------------------------------------------------
-        "AbilityBehavior"               "DOTA_ABILITY_BEHAVIOR_NO_TARGET"
+        "AbilityBehavior"               "DOTA_ABILITY_BEHAVIOR_POINT | DOTA_ABILITY_BEHAVIOR_AOE | DOTA_ABILITY_BEHAVIOR_IGNORE_BACKSWING"
+        "AbilityUnitDamageType"         "DAMAGE_TYPE_PHYSICAL"  
+ 
+		"precache"
+		{
+			"soundfile"	"soundevents/game_sounds_heroes/game_sounds_shredder.vsndevts"
+			"particle"	"particles/units/heroes/hero_shredder/shredder_chakram.vpcf"
+			"particle"	"particles/units/heroes/hero_shredder/shredder_chakram_stay.vpcf"
+			"particle"	"particles/units/heroes/hero_shredder/shredder_chakram_return.vpcf"
+		}
+
+        // Casting
+        //-------------------------------------------------------------------------------------------------------------
+        "AbilityCastPoint"              "0.0 0.0 0.0 0.0"
+
+        // Time     
+        //-------------------------------------------------------------------------------------------------------------
+        "AbilityCooldown"               "1.0 1.0 1.0 1.0"
+
+        // Cost
+        //-------------------------------------------------------------------------------------------------------------
+        "AbilityManaCost"               "100"
+
+        // Special
+        //-------------------------------------------------------------------------------------------------------------
+    }
+
+    //=================================================================================================================
+    // Timber: Chain
+    //=================================================================================================================
+    "saw_blade"
+    { 
+        "BaseClass"                     "ability_lua"
+        "ScriptFile"                    "bosses/timber/chain"
+
+        // General
+        //-------------------------------------------------------------------------------------------------------------
+        "AbilityBehavior"               "DOTA_ABILITY_BEHAVIOR_POINT | DOTA_ABILITY_BEHAVIOR_AOE | DOTA_ABILITY_BEHAVIOR_IGNORE_BACKSWING"
         "AbilityUnitDamageType"         "DAMAGE_TYPE_PHYSICAL"  
 
         // Casting
@@ -25,8 +62,10 @@
 
         // Cost
         //-------------------------------------------------------------------------------------------------------------
-        "AbilityManaCost"               "10"
+        "AbilityManaCost"               "0"
 
+        // Special
+        //-------------------------------------------------------------------------------------------------------------
     }
 }
 
