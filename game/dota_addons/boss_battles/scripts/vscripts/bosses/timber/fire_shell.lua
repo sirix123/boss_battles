@@ -58,45 +58,43 @@ function fire_shell:OnSpellStart()
 
 		tProjectilesLocation = {	vFrontRightLocation, vFrontLeftLocation, vBackRightLocation, vBackLeftLocation,
 									vFrontLocation, vBackLocation, vRightLocation, vLeftLocation						}
-		
-		for _, direction in ipairs(tProjectilesDirection) do
-			for _, location in ipairs(tProjectilesLocation) do
+
+		--Loop over both the Direction and Location and create a projectile for each direction/location combination
+		--as long as tProjectilesDirection and tProjectilesLocation have the same count and are in the same order this will work. 
+		for i = 1, #tProjectilesDirection, 1 do
 				local hProjectile = {
-					EffectName = "particles/units/heroes/hero_dragon_knight/dragon_knight_breathe_fire.vpcf", --"particles/econ/items/mars/mars_ti9_immortal/mars_ti9_immortal_spear.vpcf",
-					vSpawnOrigin = location,
-					fDistance = 2000, 
-					fStartRadius = radius,
-					fEndRadius = radius,
-					Source = caster,
-					vVelocity = direction * projectile_speed,
-					UnitBehavior = PROJECTILES_NOTHING,
-					bMultipleHits = true,
-					-- investigate this treebehavior and see what we can do
-					TreeBehavior = PROJECTILES_NOTHING,
-					WallBehavior = PROJECTILES_DESTROY,
-					GroundBehavior = PROJECTILES_FOLLOW,
-					fGroundOffset = 80,
-					draw = true,
-					UnitTest = function(_self, unit) return unit:GetTeamNumber() ~= hero:GetTeamNumber() end,
-					OnUnitHit = function(_self, unit) 
-						if unit ~= nil and (unit:GetUnitName() ~= nil) then
+				EffectName = "particles/units/heroes/hero_dragon_knight/dragon_knight_breathe_fire.vpcf", --"particles/econ/items/mars/mars_ti9_immortal/mars_ti9_immortal_spear.vpcf",
+				vSpawnOrigin = tProjectilesLocation[i],
+				fDistance = 2000, 
+				fStartRadius = radius,
+				fEndRadius = radius,
+				Source = caster,
+				vVelocity = tProjectilesDirection[i] * projectile_speed,
+				UnitBehavior = PROJECTILES_NOTHING,
+				bMultipleHits = true,
+				-- investigate this treebehavior and see what we can do
+				TreeBehavior = PROJECTILES_NOTHING,
+				WallBehavior = PROJECTILES_DESTROY,
+				GroundBehavior = PROJECTILES_FOLLOW,
+				fGroundOffset = 80,
+				draw = true,
+				UnitTest = function(_self, unit) return unit:GetTeamNumber() ~= hero:GetTeamNumber() end,
+				OnUnitHit = function(_self, unit) 
+					if unit ~= nil and (unit:GetUnitName() ~= nil) then
 
-						end
-					end,
-					OnWallHit = function(self, gnvPos) 
-						
-					end,
-					OnFinish = function(_self, pos)
-						
-					end,
-					OnTreeHit = function(self, tree) 
+					end
+				end,
+				OnWallHit = function(self, gnvPos) 
 					
-					end,
-				}
-
-				table.insert(tProjectile, hProjectile)
-
-			end
+				end,
+				OnFinish = function(_self, pos)
+					
+				end,
+				OnTreeHit = function(self, tree) 
+				
+				end,
+			}
+			table.insert(tProjectile, hProjectile)
 		end
 
 		for _, projectile in ipairs(tProjectile) do
