@@ -26,6 +26,9 @@ end
 function saw_blade_thinker:OnCreated( kv )
 	if not IsServer() then return end
 
+	print("kv.sub = ", kv.sub)
+	print("kv.target_x = ", kv.target_x)
+
     -- init
     self.parent = self:GetParent()
 	self.caster = self:GetCaster()
@@ -42,6 +45,8 @@ function saw_blade_thinker:OnCreated( kv )
 
     -- ref from kv
     self.currentTarget = Vector( kv.target_x, kv.target_y, kv.target_z )
+
+    self.sub = kv.sub
 
     -- init vars
     self.mode = MODE_MOVE
@@ -327,26 +332,11 @@ end
 function saw_blade_thinker:OnDestroy()
 	if not IsServer() then return end
 
-	-- swap ability back, then remove sub
-	local main = self:GetAbility()
-	if main and (not main:IsNull()) and (not self.sub:IsNull()) then
-		-- check if main is hidden (due to scepter or stolen)
-		local active = main:IsActivated()
-
-		self.caster:SwapAbilities(
-			main:GetAbilityName(),
-			self.sub:GetAbilityName(),
-			active,
-			false
-		)
-	end
-	self.caster:RemoveAbilityByHandle( self.sub )
-
+	--below code is causing errors to be thrown and doesnt seem to help in removing particles
 	-- stop effects
-	self:StopEffects()
-
+	--self:StopEffects()
 	-- remove
-	UTIL_Remove( self.parent )
+	--UTIL_Remove( self.parent )
 end
 --------------------------------------------------------------------------------
 
