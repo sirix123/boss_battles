@@ -26,8 +26,8 @@ end
 function saw_blade_thinker:OnCreated( kv )
 	if not IsServer() then return end
 
-	print("kv.sub = ", kv.sub)
-	print("kv.target_x = ", kv.target_x)
+	--print("kv.sub = ", kv.sub)
+	--print("kv.target_x = ", kv.target_x)
 
     -- init
     self.parent = self:GetParent()
@@ -125,6 +125,7 @@ function saw_blade_thinker:ReturnThink()
 	self:ApplySawBladeDamage()
 	
 	-- move logic
+	self.currentTarget = self.caster:GetAbsOrigin()
 	local close = self:MoveLogic( self.currentSawbladeLocation )
 
 	-- if close, switch to stay mode
@@ -147,6 +148,7 @@ end
 --------------------------------------------------------------------------------
 
 function saw_blade_thinker:MoveLogic(previousSawbladeLocation)
+	--DebugDrawCircle(previousSawbladeLocation, Vector(0,0,255), 128, 100, true, 60)
 	local direction = (self.currentTarget - previousSawbladeLocation):Normalized()
 	self.currentSawbladeLocation = previousSawbladeLocation + direction * self.speed * self.move_interval
 
@@ -171,9 +173,7 @@ end
 function saw_blade_thinker:NewPositionLogic()
 	local vNewPosition = Vector(0,0,0)
 
-	-- ideas
-	-- 		the numbers in the X Y are the map diemensions
-	-- 		at level 1 when arena is small only move them in a smaller raidus around the an origin (boss location). DO WE NEED LOGIC FOR EARLY FIGHT AND LATE FIGHT?
+	--	the numbers in the X Y are the map diemensions
 	local vNewPositionX = RandomInt(6590, 10467) + 200
 	local vNewPositionY = RandomInt(11248, 15090) + 200
 	vNewPosition = Vector(vNewPositionX, vNewPositionY, 255)
@@ -269,7 +269,7 @@ function saw_blade_thinker:PlayMoveEffects()
 	direction.z = 0
 	direction = direction:Normalized()
 
-	DebugDrawCircle(self.currentTarget, Vector(0,0,255), 128, 100, true, 60)
+	--DebugDrawCircle(self.currentTarget, Vector(0,0,255), 128, 100, true, 60)
 
 	self.effect_cast = ParticleManager:CreateParticle( particle_cast, PATTACH_ABSORIGIN_FOLLOW, self.parent )
 	ParticleManager:SetParticleControl( self.effect_cast, 0, self:GetParent():GetOrigin() )
@@ -282,7 +282,7 @@ end
 
 function saw_blade_thinker:PlayStayEffects()
 
-	DebugDrawCircle(self.currentSawbladeLocation, Vector(255,0,0), 128, 50, true, 60)
+	--DebugDrawCircle(self.currentSawbladeLocation, Vector(255,0,0), 128, 50, true, 60)
 
 	-- destroy previous particle and stop previous sound
 	ParticleManager:DestroyParticle( self.effect_cast, false )
@@ -304,7 +304,7 @@ function saw_blade_thinker:PlayEffectsReturn()
 	ParticleManager:DestroyParticle( self.effect_cast, false )
 	ParticleManager:ReleaseParticleIndex( self.effect_cast )
 
-	DebugDrawCircle(self.currentSawbladeLocation, Vector(0,255,0), 128, 50, true, 60)
+	--DebugDrawCircle(self.currentSawbladeLocation, Vector(0,255,0), 128, 50, true, 60)
 
 	-- Get Resources
 	local particle_cast = "particles/units/heroes/hero_shredder/shredder_chakram_return.vpcf"
@@ -332,7 +332,6 @@ end
 function saw_blade_thinker:OnDestroy()
 	if not IsServer() then return end
 
-	--below code is causing errors to be thrown and doesnt seem to help in removing particles
 	-- stop effects
 	self:StopEffects()
 	-- remove

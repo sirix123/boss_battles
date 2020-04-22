@@ -25,9 +25,9 @@ saw_blade.sub_name = "return_saw_blades"
 
 
 function saw_blade:OnSpellStart()
-    print("saw_blade OnSpellStart")
-    print("self:GetAbilityName() = ", self:GetAbilityName())
-    print("#tSummonedSawBlades = ", #tSummonedSawBlades)
+    --print("saw_blade OnSpellStart")
+    --print("self:GetAbilityName() = ", self:GetAbilityName())
+    --print("#tSummonedSawBlades = ", #tSummonedSawBlades)
     local caster = self:GetCaster()
     local point = self:GetCursorPosition()
 
