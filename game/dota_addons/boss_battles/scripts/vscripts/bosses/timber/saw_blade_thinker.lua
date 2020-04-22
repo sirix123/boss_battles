@@ -334,9 +334,9 @@ function saw_blade_thinker:OnDestroy()
 
 	--below code is causing errors to be thrown and doesnt seem to help in removing particles
 	-- stop effects
-	--self:StopEffects()
+	self:StopEffects()
 	-- remove
-	--UTIL_Remove( self.parent )
+	UTIL_Remove( self.parent )
 end
 --------------------------------------------------------------------------------
 
