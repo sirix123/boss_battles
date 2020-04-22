@@ -28,6 +28,7 @@ function Precache( context )
   PrecacheResource("soundfile", "soundevents/game_sounds_heroes/game_sounds_shredder.vsndevts", context)
   PrecacheResource("particle", "particles/units/heroes/hero_shredder/shredder_chakram.vpcf", context)
   PrecacheResource("particle", "particles/units/heroes/hero_shredder/shredder_chakram_stay.vpcf", context)
+  PrecacheResource("particle",	"particles/units/heroes/hero_shredder/shredder_chakram_return.vpcf", context) 
   
 
 end

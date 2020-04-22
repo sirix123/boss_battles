@@ -8,22 +8,15 @@
         Movement speed
         Damage + tick rate
 		Destroying trees
-		
-		TODO 
 		Radius
 		mana on tree death modifier or generic usable function
-
-		Ask doran about thinker table and modifier for tree death mana mention radius size + particle effect
 ]]
 
 saw_blade_thinker = class({})
 
 local MODE_MOVE = 0
 local MODE_STAY = 1
-
--- init globals
-local LAST_MOVE_TIME = 0
-local FlStayTriggerEndTime = 0
+local MODE_RETURN = 2
 
 function saw_blade_thinker:IsHidden()
 	return true
@@ -35,16 +28,17 @@ function saw_blade_thinker:OnCreated( kv )
 
     -- init
     self.parent = self:GetParent()
-    self.caster = self:GetCaster()
+	self.caster = self:GetCaster()
 
     -- ref eventually replace these with values from kv
     self.speed = 400
 	self.interval = 1
-	-- 200 raidus is the spell particle effect, if we change this number we need to change particle effect
+	-- 200 radius is the spell particle effect, if we change this number we need to change particle effect
+	self.destroy_tree_radius = 50
 	self.radius = 200
-	self.stay_duration = 3
-	self.damage = 10
-	self.manaAmount = 0.5
+	self.stay_duration = 5
+	self.damage = 0
+	self.manaAmount = 2
 
     -- ref from kv
     self.currentTarget = Vector( kv.target_x, kv.target_y, kv.target_z )
@@ -55,6 +49,8 @@ function saw_blade_thinker:OnCreated( kv )
 	self.bFirstBlade = true
 	self.proximity = 40
 	self.currentSawbladeLocation = 0
+	self.last_move_time = 0
+	self.fl_staytrigger_end_time = 0
 	self.damageTable = {
 		attacker = self.caster,
 		damage = self.damage ,
@@ -74,6 +70,8 @@ function saw_blade_thinker:OnIntervalThink()
 		self:MoveThink()
 	elseif self.mode == MODE_STAY then
 		self:StayThink()
+	elseif self.mode == MODE_RETURN then
+		self:ReturnThink()
 	end
 end
 --------------------------------------------------------------------------------
@@ -92,7 +90,7 @@ function saw_blade_thinker:MoveThink()
 
 	-- if close, switch to stay mode
 	if close then
-		LAST_MOVE_TIME = GameRules:GetGameTime()
+		self.last_move_time = GameRules:GetGameTime()
 		self.mode = MODE_STAY
 
 		-- play effects
@@ -116,6 +114,33 @@ function saw_blade_thinker:StayThink()
 end
 --------------------------------------------------------------------------------
 
+function saw_blade_thinker:ReturnThink()
+
+	self:DestroyTrees()
+	self:ApplySawBladeDamage()
+	
+	-- move logic
+	local close = self:MoveLogic( self.currentSawbladeLocation )
+
+	-- if close, switch to stay mode
+	if close then
+		self:Destroy()
+	end
+end
+--------------------------------------------------------------------------------
+
+function saw_blade_thinker:ReturnChakram()
+	-- if already returning, do nothing
+	if self.mode == MODE_RETURN then return end
+
+	-- switch mode
+	self.mode = MODE_RETURN
+
+	-- play effects
+	self:PlayEffectsReturn()
+end
+--------------------------------------------------------------------------------
+
 function saw_blade_thinker:MoveLogic(previousSawbladeLocation)
 	local direction = (self.currentTarget - previousSawbladeLocation):Normalized()
 	self.currentSawbladeLocation = previousSawbladeLocation + direction * self.speed * self.move_interval
@@ -130,11 +155,11 @@ end
 --------------------------------------------------------------------------------
 
 function saw_blade_thinker:StayLogic()
-	FlStayTriggerEndTime = LAST_MOVE_TIME + self.stay_duration
+	self.fl_staytrigger_end_time = self.last_move_time + self.stay_duration
 
 	self.currentTarget = self:NewPositionLogic()
 
-	return GameRules:GetGameTime() > FlStayTriggerEndTime
+	return GameRules:GetGameTime() > self.fl_staytrigger_end_time
 end
 --------------------------------------------------------------------------------
 
@@ -156,12 +181,12 @@ function saw_blade_thinker:DestroyTrees()
 
 	if self.currentSawbladeLocation ~= 0 then
 		local sound_tree = "Hero_Shredder.Chakram.Tree"
-		local trees = GridNav:GetAllTreesAroundPoint( self.currentSawbladeLocation, self.radius, true )
+		local trees = GridNav:GetAllTreesAroundPoint( self.currentSawbladeLocation, self.destroy_tree_radius, true )
 		for _,tree in pairs(trees) do
 			EmitSoundOnLocationWithCaster( tree:GetOrigin(), sound_tree, self.parent )
 			self.caster:GiveMana(self.manaAmount)
 		end
-		GridNav:DestroyTreesAroundPoint( self.currentSawbladeLocation, self.radius, true )
+		GridNav:DestroyTreesAroundPoint( self.currentSawbladeLocation, self.destroy_tree_radius, true )
 	end
 end
 --------------------------------------------------------------------------------
@@ -269,8 +294,68 @@ function saw_blade_thinker:PlayStayEffects()
 end
 --------------------------------------------------------------------------------
 
+function saw_blade_thinker:PlayEffectsReturn()
+	-- destroy previous particle
+	ParticleManager:DestroyParticle( self.effect_cast, false )
+	ParticleManager:ReleaseParticleIndex( self.effect_cast )
+
+	DebugDrawCircle(self.currentSawbladeLocation, Vector(0,255,0), 128, 50, true, 60)
+
+	-- Get Resources
+	local particle_cast = "particles/units/heroes/hero_shredder/shredder_chakram_return.vpcf"
+	local sound_cast = "Hero_Shredder.Chakram.Return"
+	-- Create Particle
+	self.effect_cast = ParticleManager:CreateParticle( particle_cast, PATTACH_ABSORIGIN_FOLLOW, self.parent )
+	ParticleManager:SetParticleControl( self.effect_cast, 0, self:GetParent():GetOrigin() )
+	ParticleManager:SetParticleControlEnt(
+		self.effect_cast,
+		1,
+		self.caster,
+		PATTACH_ABSORIGIN_FOLLOW,
+		nil,
+		self.caster:GetOrigin(), -- unknown
+		true -- unknown, true
+	)
+	ParticleManager:SetParticleControl( self.effect_cast, 2, Vector( self.speed, 0, 0 ) )
+	ParticleManager:SetParticleControl( self.effect_cast, 16, Vector( 0, 0, 0 ) )
+
+	-- Create Sound
+	EmitSoundOn( sound_cast, self.parent )
+end
+--------------------------------------------------------------------------------
+
 function saw_blade_thinker:OnDestroy()
+	if not IsServer() then return end
+
+	-- swap ability back, then remove sub
+	local main = self:GetAbility()
+	if main and (not main:IsNull()) and (not self.sub:IsNull()) then
+		-- check if main is hidden (due to scepter or stolen)
+		local active = main:IsActivated()
+
+		self.caster:SwapAbilities(
+			main:GetAbilityName(),
+			self.sub:GetAbilityName(),
+			active,
+			false
+		)
+	end
+	self.caster:RemoveAbilityByHandle( self.sub )
+
+	-- stop effects
+	self:StopEffects()
+
 	-- remove
 	UTIL_Remove( self.parent )
 end
 --------------------------------------------------------------------------------
+
+function saw_blade_thinker:StopEffects()
+	-- destroy previous particle
+	ParticleManager:DestroyParticle( self.effect_cast, false )
+	ParticleManager:ReleaseParticleIndex( self.effect_cast )
+
+	-- stop sound
+	local sound_cast = "Hero_Shredder.Chakram"
+	StopSoundOn( sound_cast, self.parent )
+end
