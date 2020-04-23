@@ -30,7 +30,10 @@
 	"npc_dota_hero_gyrocopter_template"
 	{
 		"override_hero"				"npc_dota_hero_gyrocopter"					// Hero to override
-		"Ability1"					"radar_scan"								// Ability 1
+		"Ability1"					"radar_scan"			
+		"Ability2"					"homing_missile"			
+		"Ability3"					"rocket_barrage"			
+		"Ability4"					"flak_cannon"		
 	}
 
 

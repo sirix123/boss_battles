@@ -5,6 +5,8 @@ gyrocopter = class({})
 function gyrocopter:Spawn( entityKeyValues )
 	print("Gyrocopter Spawn called")
 
+
+
 	if not IsServer() then
 		return
 	end
@@ -13,14 +15,14 @@ function gyrocopter:Spawn( entityKeyValues )
 		return
 	end
 
-	thisEntity.radar_scan = thisEntity:FindAbilityByName( "radar_scan" )
-	thisEntity.radar_scan = thisEntity:FindAbilityByName( "homing_missile" )
+	self.radar_scan = thisEntity:FindAbilityByName( "radar_scan" )
+	self.homing_missile = thisEntity:FindAbilityByName( "homing_missile" )
+	self.flak_cannon = thisEntity:FindAbilityByName( "flak_cannon" )
+	self.rocket_barrage = thisEntity:FindAbilityByName( "rocket_barrage" )
+
 
 	thisEntity:SetContextThink( "Gyrocopter", GyrocopterThink, 1 )
-
 	thisEntity:SetContextThink( "TestThinker", TestThinkerThink, 1 )
-
-	--thisEntity:SetContextThink( "PhaseCheck", PhaseCheckThink, 1 )
 
 
 
@@ -153,6 +155,7 @@ end
 --Ulti 
 	--Targetting AI is important
 	--The rest is pretty similiar to Dota. Maybe add a indicator using DebugDraw
+
 
 
 
