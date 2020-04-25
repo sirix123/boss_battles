@@ -150,7 +150,10 @@ function chain_modifier:UpdateHorizontalMotion( me, dt )
 		self:Destroy()
 	end
 
+	GridNav:DestroyTreesAroundPoint( self:GetParent():GetOrigin(), 20, true )
+
 	-- destroy if reached target
+	-- does something here when he reaches destination? 
 	if (self.point-origin):Length2D()<self.proximity then
 		-- destroy tree
 		GridNav:DestroyTreesAroundPoint( self:GetParent():GetOrigin(), 20, true )

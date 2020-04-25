@@ -14,13 +14,19 @@ chain = class({})
 function chain:OnSpellStart()
 	-- unit identifier
 	local caster = self:GetCaster()
-	local point = self:GetCursorPosition()
+	--self.point = self:GetCursorPosition()
+
+	if self:GetCursorTarget() then
+		self.point = self:GetCursorTarget():GetOrigin()
+	else
+		self.point = self:GetCursorPosition()
+	end
 
 	-- load data
 	local projectile_speed = self:GetSpecialValueFor( "speed" )
 	local projectile_distance = self:GetSpecialValueFor( "range" )
 	local projectile_radius = self:GetSpecialValueFor( "radius" )
-	local projectile_direction = point-caster:GetOrigin()
+	local projectile_direction = self.point-caster:GetOrigin()
 	projectile_direction.z = 0
 	projectile_direction = projectile_direction:Normalized()
 
@@ -67,13 +73,13 @@ chain.projectiles = {}
 function chain:OnProjectileThinkHandle( handle )
 	-- get data
 	local ExtraData = self.projectiles[ handle ]
-	local location = ProjectileManager:GetLinearProjectileLocation( handle )
+	--local location = ProjectileManager:GetLinearProjectileLocation( handle )
 
 	-- search for tree
-	local trees = GridNav:GetAllTreesAroundPoint( location, ExtraData.radius, false )
+	--local trees = GridNav:GetAllTreesAroundPoint( location, ExtraData.radius, false )
 
-	if #trees>0 then
-		local point = trees[1]:GetOrigin()
+	--if #trees>0 then
+		--local point = trees[1]:GetOrigin()
 
 		-- snag
 		self:GetCaster():AddNewModifier(
@@ -81,23 +87,23 @@ function chain:OnProjectileThinkHandle( handle )
 			self, -- ability source
 			"chain_modifier", -- modifier name
 			{
-				point_x = point.x,
-				point_y = point.y,
-				point_Z = point.z,
+				point_x = self.point.x,
+				point_y = self.point.y,
+				point_z = self.point.z,
 				effect = ExtraData.effect,
 			} -- kv
 		)
 
 		-- modify effects
-		self:ModifyEffects2( ExtraData.effect, point )
+		self:ModifyEffects2( ExtraData.effect, self.point )
 
 		-- destroy projectile
 		ProjectileManager:DestroyLinearProjectile( handle )
 		self.projectiles[ handle ] = nil
 
 		-- add vision
-		AddFOWViewer( self:GetCaster():GetTeamNumber(), point, 400, 1, true )
-	end
+		AddFOWViewer( self:GetCaster():GetTeamNumber(), self.point, 400, 1, true )
+	--end
 end
 
 function chain:OnProjectileHitHandle( target, location, handle )

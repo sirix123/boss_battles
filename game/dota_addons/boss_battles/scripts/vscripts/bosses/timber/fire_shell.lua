@@ -6,7 +6,7 @@
 
 
 ]]
---LinkLuaModifier( "", "", LUA_MODIFIER_MOTION_NONE )
+LinkLuaModifier( "fire_shell_thinker", "bosses/timber/fire_shell_thinker", LUA_MODIFIER_MOTION_NONE )
 
 fire_shell = class({})
 
@@ -15,8 +15,14 @@ function fire_shell:OnSpellStart()
 
         -- init 
 		local caster = self:GetCaster()
-		local origin = caster:GetOrigin()
-		local hero = self:GetCaster()
+		local origin = caster:GetAbsOrigin()
+
+		-- init vars for proj movement 
+		-- can link to KV
+		-- raidus needs to match projectile 100 is not worked out
+		local radius = 100
+		local projectile_speed = 500
+		self.destroy_tree_radius = 50
 
 		-- get directions 
 		local vFrontRightDirection = caster:GetForwardVector() + caster:GetRightVector()
@@ -41,15 +47,10 @@ function fire_shell:OnSpellStart()
 		local vBackLocation 		= 	origin + 	( - vFrontDirection 	* offset )
 		local vRightLocation 		= 	origin +	( vRightDirection  		* offset )
 		local vLeftLocation 		= 	origin + 	( - vRightDirection  	* offset )
-
-        -- init vars for proj movement 
-		-- can link to KV
-		-- raidus needs to match projectile 100 is not worked out
-		local radius = 100
-		local projectile_speed = 300
 		
 		-- table init
 		local tProjectile = {}
+		self.tProjectileId = {}
 		local tProjectilesDirection = {}
 		local tProjectilesLocation = {}
 
@@ -62,45 +63,45 @@ function fire_shell:OnSpellStart()
 		--Loop over both the Direction and Location and create a projectile for each direction/location combination
 		--as long as tProjectilesDirection and tProjectilesLocation have the same count and are in the same order this will work. 
 		for i = 1, #tProjectilesDirection, 1 do
-				local hProjectile = {
-				EffectName = "particles/units/heroes/hero_dragon_knight/dragon_knight_breathe_fire.vpcf", --"particles/econ/items/mars/mars_ti9_immortal/mars_ti9_immortal_spear.vpcf",
+			local hProjectile = {
+				Source = caster,
+				Ability = self,
 				vSpawnOrigin = tProjectilesLocation[i],
-				fDistance = 2000, 
+				bDeleteOnHit = false,
+				iUnitTargetTeam = DOTA_UNIT_TARGET_TEAM_ENEMY,
+				iUnitTargetFlags = DOTA_UNIT_TARGET_FLAG_NONE,
+				iUnitTargetType = DOTA_UNIT_TARGET_HERO + DOTA_UNIT_TARGET_BASIC,
+				EffectName = "particles/econ/items/mars/mars_ti9_immortal/mars_ti9_immortal_spear.vpcf", --"particles/units/heroes/hero_dragon_knight/dragon_knight_breathe_fire.vpcf", 
+				fDistance = 9000,
 				fStartRadius = radius,
 				fEndRadius = radius,
-				Source = caster,
-				vVelocity = tProjectilesDirection[i] * projectile_speed,
-				UnitBehavior = PROJECTILES_NOTHING,
-				bMultipleHits = true,
-				-- investigate this treebehavior and see what we can do
-				TreeBehavior = PROJECTILES_NOTHING,
-				WallBehavior = PROJECTILES_DESTROY,
-				GroundBehavior = PROJECTILES_FOLLOW,
-				fGroundOffset = 80,
-				draw = true,
-				UnitTest = function(_self, unit) return unit:GetTeamNumber() ~= hero:GetTeamNumber() end,
-				OnUnitHit = function(_self, unit) 
-					if unit ~= nil and (unit:GetUnitName() ~= nil) then
-
-					end
-				end,
-				OnWallHit = function(self, gnvPos) 
-					
-				end,
-				OnFinish = function(_self, pos)
-					
-				end,
-				OnTreeHit = function(self, tree) 
-				
-				end,
+				vVelocity = tProjectilesDirection[i] * projectile_speed,		
+				bHasFrontalCone = false,
+				bReplaceExisting = false,
+				fExpireTime = GameRules:GetGameTime() + 30.0,
+				bProvidesVision = true,
+				iVisionRadius = 200,
+				iVisionTeamNumber = caster:GetTeamNumber(),
 			}
+
 			table.insert(tProjectile, hProjectile)
 		end
 
 		for _, projectile in ipairs(tProjectile) do
-			Projectiles:CreateProjectile(projectile)
+			self.projectileId = ProjectileManager:CreateLinearProjectile(projectile)
+			table.insert(self.tProjectileId, self.projectileId)
 		end
     end
 end
 
+function fire_shell:OnProjectileThink( vLocation )
+	GridNav:DestroyTreesAroundPoint( vLocation, self.destroy_tree_radius, true )
+
+	local zLocation = GetGroundPosition(vLocation, self.hProjectile)
+	if zLocation.z > 256 then
+		for _, projectileId in ipairs(self.tProjectileId) do 
+			ProjectileManager:DestroyLinearProjectile( projectileId )
+		end
+	end
+end
 

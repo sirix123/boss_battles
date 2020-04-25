@@ -63,7 +63,7 @@ function saw_blade_thinker:OnCreated( kv )
 	}
 
     self:StartIntervalThink( self.move_interval )
-    
+  
     self:PlayMoveEffects()
 
 end
@@ -89,7 +89,7 @@ function saw_blade_thinker:MoveThink()
 
 	self:DestroyTrees()
 	self:ApplySawBladeDamage()
-	
+
 	-- move logic
 	local close = self:MoveLogic( self.currentSawbladeLocation )
 
@@ -151,6 +151,11 @@ function saw_blade_thinker:MoveLogic(previousSawbladeLocation)
 	--DebugDrawCircle(previousSawbladeLocation, Vector(0,0,255), 128, 100, true, 60)
 	local direction = (self.currentTarget - previousSawbladeLocation):Normalized()
 	self.currentSawbladeLocation = previousSawbladeLocation + direction * self.speed * self.move_interval
+
+	--print(self.currentSawbladeLocation.z)
+	--if self.currentSawbladeLocation.z > 500 then
+		--print("YO IM REALLY HIGH UP")
+	--end
 
 	self.parent:SetAbsOrigin( self.currentSawbladeLocation )
 	self.bFirstBlade = false
