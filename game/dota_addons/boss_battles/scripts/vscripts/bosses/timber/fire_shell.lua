@@ -10,6 +10,8 @@ LinkLuaModifier( "fire_shell_thinker", "bosses/timber/fire_shell_thinker", LUA_M
 
 fire_shell = class({})
 
+local tProjectileData = {}
+
 function fire_shell:OnSpellStart()
     if IsServer() then
 
@@ -22,7 +24,7 @@ function fire_shell:OnSpellStart()
 		-- raidus needs to match projectile 100 is not worked out
 		local radius = 100
 		local projectile_speed = 500
-		self.destroy_tree_radius = 50
+		self.destroy_tree_radius = 150
 
 		-- get directions 
 		local vFrontRightDirection = caster:GetForwardVector() + caster:GetRightVector()
@@ -49,10 +51,10 @@ function fire_shell:OnSpellStart()
 		local vLeftLocation 		= 	origin + 	( - vRightDirection  	* offset )
 		
 		-- table init
-		local tProjectile = {}
-		self.tProjectileId = {}
+		local nWaves = 10
 		local tProjectilesDirection = {}
 		local tProjectilesLocation = {}
+
 
 		tProjectilesDirection = {	vFrontRightDirection, vFrontLeftDirection, vBackRightDirection, vBackLeftDirection,
 									vFrontDirection, vBackDirection, vRightDirection, vLeftDirection			}
@@ -62,46 +64,86 @@ function fire_shell:OnSpellStart()
 
 		--Loop over both the Direction and Location and create a projectile for each direction/location combination
 		--as long as tProjectilesDirection and tProjectilesLocation have the same count and are in the same order this will work. 
-		for i = 1, #tProjectilesDirection, 1 do
-			local hProjectile = {
-				Source = caster,
-				Ability = self,
-				vSpawnOrigin = tProjectilesLocation[i],
-				bDeleteOnHit = false,
-				iUnitTargetTeam = DOTA_UNIT_TARGET_TEAM_ENEMY,
-				iUnitTargetFlags = DOTA_UNIT_TARGET_FLAG_NONE,
-				iUnitTargetType = DOTA_UNIT_TARGET_HERO + DOTA_UNIT_TARGET_BASIC,
-				EffectName = "particles/econ/items/mars/mars_ti9_immortal/mars_ti9_immortal_spear.vpcf", --"particles/units/heroes/hero_dragon_knight/dragon_knight_breathe_fire.vpcf", 
-				fDistance = 9000,
-				fStartRadius = radius,
-				fEndRadius = radius,
-				vVelocity = tProjectilesDirection[i] * projectile_speed,		
-				bHasFrontalCone = false,
-				bReplaceExisting = false,
-				fExpireTime = GameRules:GetGameTime() + 30.0,
-				bProvidesVision = true,
-				iVisionRadius = 200,
-				iVisionTeamNumber = caster:GetTeamNumber(),
-			}
+		--for j = 1, nWaves, 1 do
+			for i = 1, #tProjectilesDirection, 1 do
+				
+				local hProjectile = {
+					Source = caster,
+					Ability = self,
+					vSpawnOrigin = tProjectilesLocation[i],
+					bDeleteOnHit = false,
+					iUnitTargetTeam = DOTA_UNIT_TARGET_TEAM_ENEMY,
+					iUnitTargetFlags = DOTA_UNIT_TARGET_FLAG_NONE,
+					iUnitTargetType = DOTA_UNIT_TARGET_HERO + DOTA_UNIT_TARGET_BASIC,
+					EffectName = "particles/econ/items/mars/mars_ti9_immortal/mars_ti9_immortal_crimson_spear.vpcf", --"particles/units/heroes/hero_tidehunter/tidehunter_gush_upgrade.vpcf", 
+					fDistance = 9000,
+					fStartRadius = radius,
+					fEndRadius = radius,
+					vVelocity = tProjectilesDirection[i] * projectile_speed,
+					bHasFrontalCone = false,
+					bReplaceExisting = false,
+					fExpireTime = GameRules:GetGameTime() + 30.0,
+					bProvidesVision = true,
+					iVisionRadius = 200,
+					iVisionTeamNumber = caster:GetTeamNumber(),
+				}
 
-			table.insert(tProjectile, hProjectile)
-		end
+				local projectileId = ProjectileManager:CreateLinearProjectile(hProjectile)
 
-		for _, projectile in ipairs(tProjectile) do
-			self.projectileId = ProjectileManager:CreateLinearProjectile(projectile)
-			table.insert(self.tProjectileId, self.projectileId)
-		end
-    end
+                local projectileInfo  = {
+                    projectile = projectileId,
+                    position = tProjectilesLocation[i],
+					velocity = tProjectilesDirection[i] * projectile_speed,
+					handleProjectile = hProjectile
+                }
+
+                table.insert(tProjectileData, projectileInfo)
+			end
+		--end
+	end
+
+	self:StartThinkLoop()
+
 end
+------------------------------------------------------------------------------------------------
 
-function fire_shell:OnProjectileThink( vLocation )
+function fire_shell:OnProjectileThink(vLocation)
 	GridNav:DestroyTreesAroundPoint( vLocation, self.destroy_tree_radius, true )
 
-	local zLocation = GetGroundPosition(vLocation, self.hProjectile)
-	if zLocation.z > 256 then
-		for _, projectileId in ipairs(self.tProjectileId) do 
-			ProjectileManager:DestroyLinearProjectile( projectileId )
-		end
-	end
 end
+------------------------------------------------------------------------------------------------
 
+function fire_shell:StartThinkLoop()
+	--[[
+
+		this is a thinker, it will grab the proj ground pos every iteration and check to see if it is above the map floor (z256) 
+		if it is it will destroy it
+
+		current issues: you need to wait for the cast to resolve before casting again... obviously a problem for the wave mechanic i had in mind
+		seems to create multiple timers and they get sped up? the range on the proj gets very small
+
+	]]
+
+	Timers:CreateTimer(1, function()
+	if not tProjectileData or #tProjectileData == 0 then
+		return false
+	end
+
+	--print(#tProjectileData)
+	--print("is the timer still running?")
+
+	for k, projectileInfo in pairs(tProjectileData) do
+		projectileInfo.position = projectileInfo.position + projectileInfo.velocity
+
+		DebugDrawCircle(projectileInfo.position, Vector(0,0,255), 128, 100, true, 60)
+
+        if GetGroundPosition(projectileInfo.position, handleProjectile).z > 256 then
+			ProjectileManager:DestroyLinearProjectile(projectileInfo.projectile)
+			table.remove(tProjectileData, k)
+		end
+
+	end
+
+	return 1.5
+	end)
+end
