@@ -58,9 +58,8 @@ end
 
 function fire_shell_thinker:DestroyLogic()
 
-	print("YO IM REALLY HIGH UP")
-	self:Destroy()
-	self.parent:Destroy()
+   
+
 end
 
 --------------------------------------------------------------------------------
@@ -69,22 +68,13 @@ function fire_shell_thinker:MoveLogic(previousFireShellLocation)
 	self.currentFireShellLocation = previousFireShellLocation + self.direction * self.speed * self.move_interval
 
 	--print(self.currentFireShellLocation.z)
-	local zLocation = GetGroundPosition( self.currentFireShellLocation, nil )
-	--print(GetGroundPosition( self.currentFireShellLocation, nil ))
-	--if zLocation.z > 256 then
-		--print("YO IM REALLY HIGH UP")
-	--end
+	if self.currentFireShellLocation.z > 256 then
+		print("YO IM REALLY HIGH UP")
+	end
 
 	self.parent:SetAbsOrigin( self.currentFireShellLocation )
 
-	if ( zLocation.z  > 256 ) then
+	if ( self.currentFireShellLocation.z  > self.zLimit ) then
 		return true
 	end
-end
-
-function fire_shell_thinker:OnDestroy()
-	if not IsServer() then return end
-
-	-- remove
-	UTIL_Remove( self.parent )
 end
