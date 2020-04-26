@@ -49,10 +49,13 @@ function fire_shell:OnSpellStart()
 		local vLeftLocation 		= 	origin + 	( - vRightDirection  	* offset )
 		
 		-- table init
-		local tProjectile = {}
-		self.tProjectileId = {}
+		--local tProjectile = {}
+		local nWaves = 10
+		--self.tProjectileId = {}
 		local tProjectilesDirection = {}
 		local tProjectilesLocation = {}
+
+		self.tProjectileData = {}
 
 		tProjectilesDirection = {	vFrontRightDirection, vFrontLeftDirection, vBackRightDirection, vBackLeftDirection,
 									vFrontDirection, vBackDirection, vRightDirection, vLeftDirection			}
@@ -62,46 +65,62 @@ function fire_shell:OnSpellStart()
 
 		--Loop over both the Direction and Location and create a projectile for each direction/location combination
 		--as long as tProjectilesDirection and tProjectilesLocation have the same count and are in the same order this will work. 
-		for i = 1, #tProjectilesDirection, 1 do
-			local hProjectile = {
-				Source = caster,
-				Ability = self,
-				vSpawnOrigin = tProjectilesLocation[i],
-				bDeleteOnHit = false,
-				iUnitTargetTeam = DOTA_UNIT_TARGET_TEAM_ENEMY,
-				iUnitTargetFlags = DOTA_UNIT_TARGET_FLAG_NONE,
-				iUnitTargetType = DOTA_UNIT_TARGET_HERO + DOTA_UNIT_TARGET_BASIC,
-				EffectName = "particles/econ/items/mars/mars_ti9_immortal/mars_ti9_immortal_spear.vpcf", --"particles/units/heroes/hero_dragon_knight/dragon_knight_breathe_fire.vpcf", 
-				fDistance = 9000,
-				fStartRadius = radius,
-				fEndRadius = radius,
-				vVelocity = tProjectilesDirection[i] * projectile_speed,		
-				bHasFrontalCone = false,
-				bReplaceExisting = false,
-				fExpireTime = GameRules:GetGameTime() + 30.0,
-				bProvidesVision = true,
-				iVisionRadius = 200,
-				iVisionTeamNumber = caster:GetTeamNumber(),
-			}
+		--for j = 1, nWaves, 1 do
+			for i = 1, #tProjectilesDirection, 1 do
+				
+				local hProjectile = {
+					Source = caster,
+					Ability = self,
+					vSpawnOrigin = tProjectilesLocation[i],
+					bDeleteOnHit = false,
+					iUnitTargetTeam = DOTA_UNIT_TARGET_TEAM_ENEMY,
+					iUnitTargetFlags = DOTA_UNIT_TARGET_FLAG_NONE,
+					iUnitTargetType = DOTA_UNIT_TARGET_HERO + DOTA_UNIT_TARGET_BASIC,
+					EffectName = "particles/units/heroes/hero_tidehunter/tidehunter_gush_upgrade.vpcf", --"particles/units/heroes/hero_dragon_knight/dragon_knight_breathe_fire.vpcf", 
+					fDistance = 9000,
+					fStartRadius = radius,
+					fEndRadius = radius,
+					vVelocity = tProjectilesDirection[i] * projectile_speed,
+					bHasFrontalCone = false,
+					bReplaceExisting = false,
+					fExpireTime = GameRules:GetGameTime() + 30.0,
+					bProvidesVision = true,
+					iVisionRadius = 200,
+					iVisionTeamNumber = caster:GetTeamNumber(),
+				}
 
-			table.insert(tProjectile, hProjectile)
-		end
+				local projectileId = ProjectileManager:CreateLinearProjectile(hProjectile)
 
-		for _, projectile in ipairs(tProjectile) do
-			self.projectileId = ProjectileManager:CreateLinearProjectile(projectile)
-			table.insert(self.tProjectileId, self.projectileId)
-		end
-    end
-end
+                local projectileInfo  = {
+                    projectile = projectileId,
+                    position = tProjectilesLocation[i],
+                    velocity = tProjectilesDirection[i] * projectile_speed
+                }
 
-function fire_shell:OnProjectileThink( vLocation )
-	GridNav:DestroyTreesAroundPoint( vLocation, self.destroy_tree_radius, true )
-
-	local zLocation = GetGroundPosition(vLocation, self.hProjectile)
-	if zLocation.z > 256 then
-		for _, projectileId in ipairs(self.tProjectileId) do 
-			ProjectileManager:DestroyLinearProjectile( projectileId )
-		end
+                table.insert(self.tProjectileData, projectileInfo)
+			end
+		--end
 	end
-end
 
+	self:StartThinkLoop()
+
+end
+------------------------------------------------------------------------------------------------
+
+function fire_shell:StartThinkLoop()
+  Timers:CreateTimer(1, function()
+    if not self.tProjectileData or self.tProjectileData == {} then return false end
+
+	for k, projectileInfo in pairs(self.tProjectileData) do
+		projectileInfo.position = projectileInfo.position + projectileInfo.velocity
+
+        if GetGroundPosition(projectileInfo.position, nil).z > 256 then
+			ProjectileManager:DestroyLinearProjectile(projectileInfo.projectile)
+			table.remove(self.tProjectileData, k)
+		end
+
+	end
+
+	return 1
+	end)
+end
