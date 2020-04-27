@@ -3,30 +3,20 @@
     This script needs to handle the following: 
         Initial cast location 
         Handle thinkers
-
-
-]]
-LinkLuaModifier( "fire_shell_thinker", "bosses/timber/fire_shell_thinker", LUA_MODIFIER_MOTION_NONE )
-
-fire_shell = class({})
-
-local tProjectileData = {}
-
-function fire_shell:OnSpellStart()
-    if IsServer() then
-
-        -- init 
-		local caster = self:GetCaster()
-		local origin = caster:GetAbsOrigin()
-
-		-- init vars for proj movement 
-		-- can link to KV
-		-- raidus needs to match projectile 100 is not worked out
-		local radius = 100
-		local projectile_speed = 500
-		self.destroy_tree_radius = 150
-
+	
 		-- get directions 
+			forward = 0,1,0
+			back = 0,-1,0
+			right = 1,0,0
+			left = -1,0,0
+
+			frontright = 0	->	1, 0   ->	1
+			frontleft = -1 -> 0, 0 -> 1
+			backright = 0 -> 1, -1 -> 0
+			backleft = -1 -> 0, -1 -> 0
+
+			RandomFloat(float float_1, float float_2)
+
 		local vFrontRightDirection = caster:GetForwardVector() + caster:GetRightVector()
 		local vFrontLeftDirection = caster:GetForwardVector() - caster:GetRightVector()
 		local vBackRightDirection = - caster:GetForwardVector() + caster:GetRightVector()
@@ -36,37 +26,86 @@ function fire_shell:OnSpellStart()
 		local vBackDirection = -caster:GetForwardVector()
 		local vRightDirection = caster:GetRightVector()
 		local vLeftDirection = -caster:GetRightVector()
+]]
 
-		-- get proj spawn locations
+
+LinkLuaModifier( "fire_shell_thinker", "bosses/timber/fire_shell_thinker", LUA_MODIFIER_MOTION_NONE )
+
+fire_shell = class({})
+
+local tProjectileData = {}
+
+function fire_shell:OnSpellStart()
+    if IsServer() then
+
+        -- init
+		local caster = self:GetCaster()
+		local origin = caster:GetAbsOrigin()
+
+		-- init (KV)
+		local radius = 100
+		local projectile_speed = 500
+		self.destroy_tree_radius = 150
+
+		-- init vars for proj
 		local offset = 80
 
-		local vFrontRightLocation 	= 	origin + 	(( vFrontDirection 		+ vRightDirection ) 	* offset )
-		local vFrontLeftLocation 	= 	origin + 	(( vFrontDirection 		+ vLeftDirection ) 		* offset )
-		local vBackRightLocation 	= 	origin + 	(( - vFrontDirection 	+ vRightDirection ) 	* offset )
-		local vBackLeftLocation 	= 	origin + 	(( - vFrontDirection 	+ vLeftDirection ) 		* offset )
-
-		local vFrontLocation 		= 	origin + 	( vFrontDirection 		* offset )
-		local vBackLocation 		= 	origin + 	( - vFrontDirection 	* offset )
-		local vRightLocation 		= 	origin +	( vRightDirection  		* offset )
-		local vLeftLocation 		= 	origin + 	( - vRightDirection  	* offset )
-		
 		-- table init
-		local nWaves = 10
 		local tProjectilesDirection = {}
 		local tProjectilesLocation = {}
 
+		-- wave init (KV)
+		local nWaves = 0
+		local nMaxWaves = 5
+		local fTimeBetweenWaves = 1.5
 
-		tProjectilesDirection = {	vFrontRightDirection, vFrontLeftDirection, vBackRightDirection, vBackLeftDirection,
-									vFrontDirection, vBackDirection, vRightDirection, vLeftDirection			}
+		-- start of the main loop
+		Timers:CreateTimer(1, function()
+			if nWaves == nMaxWaves then
+				return false
+			end
 
-		tProjectilesLocation = {	vFrontRightLocation, vFrontLeftLocation, vBackRightLocation, vBackLeftLocation,
-									vFrontLocation, vBackLocation, vRightLocation, vLeftLocation						}
+			-- new wave init
+			nWaves = nWaves + 1
 
-		--Loop over both the Direction and Location and create a projectile for each direction/location combination
-		--as long as tProjectilesDirection and tProjectilesLocation have the same count and are in the same order this will work. 
-		--for j = 1, nWaves, 1 do
+			local vFrontRightDirection 	=	Vector(	RandomFloat( 0 	, 1 ), RandomFloat( 0 , 1 ), 0 )
+			local vFrontLeftDirection 	=	Vector(	RandomFloat( -1 , 0 ), RandomFloat( 0 , 1 ), 0 )
+			local vBackRightDirection 	=	Vector(	RandomFloat( 0 	, 1 ), RandomFloat( -1 , 0 ), 0 )
+			local vBackLeftDirection 	=	Vector(	RandomFloat( -1 , 0 ), RandomFloat( -1 , 0 ), 0 )
+
+			local vFrontDirection 		=	Vector(	RandomFloat( -1 , 1 ), 1, 0 )
+			local vBackDirection 		=	Vector(	RandomFloat( -1 , 1 ), -1, 0 )
+			local vRightDirection 		=	Vector(	1, RandomFloat( -1 , 1 ), 0 )
+			local vLeftDirection 		=	Vector(	-1, RandomFloat( -1 , 1 ), 0 )
+
+			local vFrontRightLocation 	= 	origin + 	(( vFrontDirection 		+ vRightDirection ) 	* offset )
+			local vFrontLeftLocation 	= 	origin + 	(( vFrontDirection 		+ vLeftDirection ) 		* offset )
+			local vBackRightLocation 	= 	origin + 	(( - vFrontDirection 	+ vRightDirection ) 	* offset )
+			local vBackLeftLocation 	= 	origin + 	(( - vFrontDirection 	+ vLeftDirection ) 		* offset )
+
+			local vFrontLocation 		= 	origin + 	( vFrontDirection 		* offset )
+			local vBackLocation 		= 	origin + 	( - vFrontDirection 	* offset )
+			local vRightLocation 		= 	origin +	( vRightDirection  		* offset )
+			local vLeftLocation 		= 	origin + 	( - vRightDirection  	* offset )
+
+			tProjectilesDirection =
+			{
+				vFrontRightDirection, vFrontLeftDirection, vBackRightDirection, vBackLeftDirection,
+				vFrontDirection, vBackDirection, vRightDirection, vLeftDirection
+			}
+
+			tProjectilesLocation =
+			{
+				vFrontRightLocation, vFrontLeftLocation, vBackRightLocation, vBackLeftLocation,
+				vFrontLocation, vBackLocation, vRightLocation, vLeftLocation
+			}
+
+			print("is the timer runinng")
+
+			--Loop over both the Direction and Location and create a projectile for each direction/location combination
+			--as long as tProjectilesDirection and tProjectilesLocation have the same count and are in the same order this will work. 
 			for i = 1, #tProjectilesDirection, 1 do
-				
+
 				local hProjectile = {
 					Source = caster,
 					Ability = self,
@@ -90,16 +129,19 @@ function fire_shell:OnSpellStart()
 
 				local projectileId = ProjectileManager:CreateLinearProjectile(hProjectile)
 
-                local projectileInfo  = {
-                    projectile = projectileId,
-                    position = tProjectilesLocation[i],
+				local projectileInfo  = {
+					projectile = projectileId,
+					position = tProjectilesLocation[i],
 					velocity = tProjectilesDirection[i] * projectile_speed,
 					handleProjectile = hProjectile
-                }
+				}
 
-                table.insert(tProjectileData, projectileInfo)
+				table.insert(tProjectileData, projectileInfo)
+				
 			end
-		--end
+
+			return fTimeBetweenWaves
+		end)
 	end
 
 	self:StartThinkLoop()
@@ -119,9 +161,6 @@ function fire_shell:StartThinkLoop()
 		this is a thinker, it will grab the proj ground pos every iteration and check to see if it is above the map floor (z256) 
 		if it is it will destroy it
 
-		current issues: you need to wait for the cast to resolve before casting again... obviously a problem for the wave mechanic i had in mind
-		seems to create multiple timers and they get sped up? the range on the proj gets very small
-
 	]]
 
 	Timers:CreateTimer(1, function()
@@ -135,7 +174,7 @@ function fire_shell:StartThinkLoop()
 	for k, projectileInfo in pairs(tProjectileData) do
 		projectileInfo.position = projectileInfo.position + projectileInfo.velocity
 
-		DebugDrawCircle(projectileInfo.position, Vector(0,0,255), 128, 100, true, 60)
+		--DebugDrawCircle(projectileInfo.position, Vector(0,0,255), 128, 100, true, 60)
 
         if GetGroundPosition(projectileInfo.position, handleProjectile).z > 256 then
 			ProjectileManager:DestroyLinearProjectile(projectileInfo.projectile)
@@ -144,6 +183,6 @@ function fire_shell:StartThinkLoop()
 
 	end
 
-	return 1.5
+		return 1.5
 	end)
 end
