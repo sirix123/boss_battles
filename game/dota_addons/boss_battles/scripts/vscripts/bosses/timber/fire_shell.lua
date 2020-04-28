@@ -26,6 +26,16 @@
 		local vBackDirection = -caster:GetForwardVector()
 		local vRightDirection = caster:GetRightVector()
 		local vLeftDirection = -caster:GetRightVector()
+
+		local vFrontRightLocation 	= 	origin + 	(( vFrontDirection 		+ vRightDirection ) 	* offset )
+		local vFrontLeftLocation 	= 	origin + 	(( vFrontDirection 		+ vLeftDirection ) 		* offset )
+		local vBackRightLocation 	= 	origin + 	(( - vFrontDirection 	+ vRightDirection ) 	* offset )
+		local vBackLeftLocation 	= 	origin + 	(( - vFrontDirection 	+ vLeftDirection ) 		* offset )
+
+		local vFrontLocation 		= 	origin + 	( vFrontDirection 		* offset )
+		local vBackLocation 		= 	origin + 	( - vFrontDirection 	* offset )
+		local vRightLocation 		= 	origin +	( vRightDirection  		* offset )
+		local vLeftLocation 		= 	origin + 	( - vRightDirection  	* offset )
 ]]
 
 
@@ -44,8 +54,8 @@ function fire_shell:OnSpellStart()
 
 		-- init (KV)
 		local radius = 100
-		local projectile_speed = 500
-		self.destroy_tree_radius = 150
+		local projectile_speed = 800
+		self.destroy_tree_radius = 100
 
 		-- init vars for proj
 		local offset = 80
@@ -57,7 +67,8 @@ function fire_shell:OnSpellStart()
 		-- wave init (KV)
 		local nWaves = 0
 		local nMaxWaves = 5
-		local fTimeBetweenWaves = 1.5
+		local fTimeBetweenWaves = 3
+		local firstWave = true
 
 		-- start of the main loop
 		Timers:CreateTimer(1, function()
@@ -65,28 +76,35 @@ function fire_shell:OnSpellStart()
 				return false
 			end
 
+			-- start timer to track proj z axis 
+			if firstWave == true then
+				firstWave = false
+				self:StartThinkLoop()
+			end
+
 			-- new wave init
 			nWaves = nWaves + 1
 
-			local vFrontRightDirection 	=	Vector(	RandomFloat( 0 	, 1 ), RandomFloat( 0 , 1 ), 0 )
-			local vFrontLeftDirection 	=	Vector(	RandomFloat( -1 , 0 ), RandomFloat( 0 , 1 ), 0 )
-			local vBackRightDirection 	=	Vector(	RandomFloat( 0 	, 1 ), RandomFloat( -1 , 0 ), 0 )
-			local vBackLeftDirection 	=	Vector(	RandomFloat( -1 , 0 ), RandomFloat( -1 , 0 ), 0 )
+			local vFrontRightDirection 	=	Vector(	RandomFloat( 0 	, 1 ), RandomFloat( 0 , 1 ), 0 ):Normalized()
+			local vFrontLeftDirection 	=	Vector(	RandomFloat( -1 , 0 ), RandomFloat( 0 , 1 ), 0 ):Normalized()
+			local vBackRightDirection 	=	Vector(	RandomFloat( 0 	, 1 ), RandomFloat( -1 , 0 ), 0 ):Normalized()
+			local vBackLeftDirection 	=	Vector(	RandomFloat( -1 , 0 ), RandomFloat( -1 , 0 ), 0 ):Normalized()
 
-			local vFrontDirection 		=	Vector(	RandomFloat( -1 , 1 ), 1, 0 )
-			local vBackDirection 		=	Vector(	RandomFloat( -1 , 1 ), -1, 0 )
-			local vRightDirection 		=	Vector(	1, RandomFloat( -1 , 1 ), 0 )
-			local vLeftDirection 		=	Vector(	-1, RandomFloat( -1 , 1 ), 0 )
+			local vFrontDirection 		=	Vector(	RandomFloat( -1 , 1 ), 1, 0 ):Normalized()
+			local vBackDirection 		=	Vector(	RandomFloat( -1 , 1 ), -1, 0 ):Normalized()
+			local vRightDirection 		=	Vector(	1, RandomFloat( -1 , 1 ), 0 ):Normalized()
+			local vLeftDirection 		=	Vector(	-1, RandomFloat( -1 , 1 ), 0 ):Normalized()
 
-			local vFrontRightLocation 	= 	origin + 	(( vFrontDirection 		+ vRightDirection ) 	* offset )
-			local vFrontLeftLocation 	= 	origin + 	(( vFrontDirection 		+ vLeftDirection ) 		* offset )
-			local vBackRightLocation 	= 	origin + 	(( - vFrontDirection 	+ vRightDirection ) 	* offset )
-			local vBackLeftLocation 	= 	origin + 	(( - vFrontDirection 	+ vLeftDirection ) 		* offset )
-
-			local vFrontLocation 		= 	origin + 	( vFrontDirection 		* offset )
-			local vBackLocation 		= 	origin + 	( - vFrontDirection 	* offset )
-			local vRightLocation 		= 	origin +	( vRightDirection  		* offset )
-			local vLeftLocation 		= 	origin + 	( - vRightDirection  	* offset )
+			-- problem is these bad boys....  works with normal non-randomised directions
+			local vFrontRightLocation 	= 	origin + 	vFrontRightDirection 	* offset
+			local vFrontLeftLocation 	= 	origin + 	vFrontLeftDirection 	* offset
+			local vBackRightLocation 	= 	origin + 	vBackRightDirection 	* offset
+			local vBackLeftLocation 	= 	origin + 	vBackLeftDirection 		* offset
+	
+			local vFrontLocation 		= 	origin + 	vFrontDirection 		* offset
+			local vBackLocation 		= 	origin + 	vBackDirection 			* offset
+			local vRightLocation 		= 	origin +	vRightDirection  		* offset
+			local vLeftLocation 		= 	origin + 	vLeftDirection  		* offset
 
 			tProjectilesDirection =
 			{
@@ -100,8 +118,6 @@ function fire_shell:OnSpellStart()
 				vFrontLocation, vBackLocation, vRightLocation, vLeftLocation
 			}
 
-			print("is the timer runinng")
-
 			--Loop over both the Direction and Location and create a projectile for each direction/location combination
 			--as long as tProjectilesDirection and tProjectilesLocation have the same count and are in the same order this will work. 
 			for i = 1, #tProjectilesDirection, 1 do
@@ -114,7 +130,7 @@ function fire_shell:OnSpellStart()
 					iUnitTargetTeam = DOTA_UNIT_TARGET_TEAM_ENEMY,
 					iUnitTargetFlags = DOTA_UNIT_TARGET_FLAG_NONE,
 					iUnitTargetType = DOTA_UNIT_TARGET_HERO + DOTA_UNIT_TARGET_BASIC,
-					EffectName = "particles/econ/items/mars/mars_ti9_immortal/mars_ti9_immortal_crimson_spear.vpcf", --"particles/units/heroes/hero_tidehunter/tidehunter_gush_upgrade.vpcf", 
+					EffectName = "particles/units/heroes/hero_tidehunter/tidehunter_gush_upgrade.vpcf", --"particles/econ/items/mars/mars_ti9_immortal/mars_ti9_immortal_crimson_spear.vpcf"
 					fDistance = 9000,
 					fStartRadius = radius,
 					fEndRadius = radius,
@@ -143,9 +159,6 @@ function fire_shell:OnSpellStart()
 			return fTimeBetweenWaves
 		end)
 	end
-
-	self:StartThinkLoop()
-
 end
 ------------------------------------------------------------------------------------------------
 
@@ -158,7 +171,7 @@ end
 function fire_shell:StartThinkLoop()
 	--[[
 
-		this is a thinker, it will grab the proj ground pos every iteration and check to see if it is above the map floor (z256) 
+		this is a thinker, it will grab the proj ground pos every iteration and check to see if it is above the map floor (z256)
 		if it is it will destroy it
 
 	]]
@@ -169,12 +182,12 @@ function fire_shell:StartThinkLoop()
 	end
 
 	--print(#tProjectileData)
-	--print("is the timer still running?")
+	print("is the timer still running?")
 
 	for k, projectileInfo in pairs(tProjectileData) do
 		projectileInfo.position = projectileInfo.position + projectileInfo.velocity
 
-		--DebugDrawCircle(projectileInfo.position, Vector(0,0,255), 128, 100, true, 60)
+		DebugDrawCircle(projectileInfo.position, Vector(0,0,255), 128, 50, true, 60)
 
         if GetGroundPosition(projectileInfo.position, handleProjectile).z > 256 then
 			ProjectileManager:DestroyLinearProjectile(projectileInfo.projectile)
