@@ -46,7 +46,7 @@ fire_shell = class({})
 local tProjectileData = {}
 
 function fire_shell:OnSpellStart()
-    if IsServer() then
+	if IsServer() then
 
         -- init
 		local caster = self:GetCaster()
@@ -70,11 +70,20 @@ function fire_shell:OnSpellStart()
 		local fTimeBetweenWaves = 3
 		local firstWave = true
 
+		-- play sound on spell start
+		--EmitSoundOn("lone_druid_lone_druid_kill_13", self:GetCaster())
+		EmitSoundOn("shredder_timb_kill_16", caster)
+
 		-- start of the main loop
 		Timers:CreateTimer(1, function()
 			if nWaves == nMaxWaves then
 				return false
 			end
+
+			if nWaves == math.ceil(nMaxWaves / 2) then
+				EmitSoundOn("shredder_timb_chakram_06", caster)
+			end
+
 
 			-- start timer to track proj z axis 
 			if firstWave == true then
@@ -130,7 +139,7 @@ function fire_shell:OnSpellStart()
 					iUnitTargetTeam = DOTA_UNIT_TARGET_TEAM_ENEMY,
 					iUnitTargetFlags = DOTA_UNIT_TARGET_FLAG_NONE,
 					iUnitTargetType = DOTA_UNIT_TARGET_HERO + DOTA_UNIT_TARGET_BASIC,
-					EffectName = "particles/units/heroes/hero_tidehunter/tidehunter_gush_upgrade.vpcf", --"particles/econ/items/mars/mars_ti9_immortal/mars_ti9_immortal_crimson_spear.vpcf"
+					EffectName = "particles/timber/napalm_wave_basedtidehuntergushupgrade.vpcf", --"particles/econ/items/mars/mars_ti9_immortal/mars_ti9_immortal_crimson_spear.vpcf"
 					fDistance = 9000,
 					fStartRadius = radius,
 					fEndRadius = radius,
@@ -178,11 +187,12 @@ function fire_shell:StartThinkLoop()
 
 	Timers:CreateTimer(1, function()
 	if not tProjectileData or #tProjectileData == 0 then
+		-- return bIsFireShellResolved = true to AI file and check if == true before casting, set to false at the top of this file
 		return false
 	end
 
 	--print(#tProjectileData)
-	print("is the timer still running?")
+	--print("is the timer still running?")
 
 	for k, projectileInfo in pairs(tProjectileData) do
 		projectileInfo.position = projectileInfo.position + projectileInfo.velocity
