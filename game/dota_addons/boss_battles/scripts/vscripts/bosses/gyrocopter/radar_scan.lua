@@ -10,6 +10,8 @@ function radar_scan:OnSpellStart()
 	--Not working correctly because of lua tables :(
 	self:DebugRadarScanSweep(origin)
 
+	self:NewDebugRadarScanSweep()
+
 	--self:DebugRadarScanPulse(origin)
 	
 	--self:DebugHightlightEnemiesInArea(origin, 800)
@@ -23,6 +25,25 @@ function radar_scan:OnSpellStart()
 		print("found a nearby enemy")
    		--CreateModifierThinker( self:GetCaster(), self, "quillboar_puddle_modifier", { self:GetSpecialValueFor( "duration" ) }, vLocation, self:GetCaster():GetTeamNumber(), false )
 	end
+
+end
+
+
+
+--NEED TO KNOW:
+-- Total frames
+-- Current frame
+
+-- Current hero location
+-- Circle radius, angle, 
+
+--vars used to persist across NewDebugRadarScanSweep function calls
+local currentFrame = 1
+local totalframes = 120
+
+function radar_scan:NewDebugRadarScanSweep()
+	local origin = self:GetCaster():GetOrigin()
+
 
 end
 

@@ -35,6 +35,7 @@ end
 
 -- handles spawning the boss, pass boss from table and a location
 function GameMode:SpawnBoss(boss, location)
+    print("GameMode: SpawnBoss")
     local bossSpawnLocation = Entities:FindByName(nil, location):GetAbsOrigin()
 
     CreateUnitByName(boss, bossSpawnLocation, true, nil, nil, DOTA_TEAM_BADGUYS)
@@ -66,9 +67,10 @@ function GameMode:StartRaid()
             Beastmaster  
 
     ]]--
-
-    GameMode:MoveHeroesToArea(raid_tables.beastmaster.arena)
-    GameMode:SpawnBoss(raid_tables.beastmaster.bossNPC, raid_tables.beastmaster.spawnLocation)
+    print("GameMode: StartRaid")
+    GameMode:MoveHeroesToArea(raid_tables.gyrocopter.arena)
+    GameMode:SpawnBoss(raid_tables.gyrocopter.bossNPC, raid_tables.beastmaster.spawnLocation)
+    --GameMode:SpawnBoss(raid_tables.beastmaster.bossNPC, raid_tables.beastmaster.spawnLocation)
 
     --[[
             Timber  
@@ -84,7 +86,8 @@ function GameMode:StartRaid()
 
     --[[
             Gyro  
-
+        GameMode:MoveHeroesToArea(raid_tables.beastmaster.arena)
+        GameMode:SpawnBoss(raid_tables.beastmaster.bossNPC, raid_tables.beastmaster.spawnLocation)
     ]]--
 
     --[[

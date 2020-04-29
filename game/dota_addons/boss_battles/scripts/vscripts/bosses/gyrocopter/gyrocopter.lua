@@ -2,6 +2,32 @@ gyrocopter = class({})
 
 --ANIMATIONS/DEBUG DRAW Spells
 
+
+--Global vars, but local to this file, to persist state 
+
+local currentPhase = 1
+
+--
+--calc 8 points
+
+--we want to shoot 8 fire shells around the boss. 360 degrees / 8 = 45ish
+function gyrocopter:calcFireShell()
+  --local testPoint = caster:GetAbsOrigin() + RotatePosition(Vector(0,0,0), QAngle(0,35,0), caster:GetForwardVector()) * (radius - 50)
+  local forwardVec = caster:GetForwardVector()
+
+
+  local angelIncrement = 45
+  local currentAngel = 0
+  for i = 1, 8, 1 do
+  	tProjectilesDirection[i] = caster:GetAbsOrigin() + RotatePosition(Vector(0,0,0), QAngle(0,currentAngel,0), caster:GetForwardVector()) 
+  	currentAngel = currentAngel + angelIncrement
+  end
+
+
+end
+
+
+
 function gyrocopter:Spawn( entityKeyValues )
 	print("Gyrocopter Spawn called")
 
@@ -23,8 +49,6 @@ function gyrocopter:Spawn( entityKeyValues )
 
 	thisEntity:SetContextThink( "Gyrocopter", GyrocopterThink, 1 )
 	thisEntity:SetContextThink( "TestThinker", TestThinkerThink, 1 )
-
-
 
 
 end

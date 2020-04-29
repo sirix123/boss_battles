@@ -59,6 +59,14 @@ tRAID_INIT_TABLE = {
 		bossNPC = "npc_viper",
 	},
 
+	gyrocopter = {
+		name = "Gyrocopter",
+		description = "gyrocopter boss description",
+		arena = "beastmasterspawn",
+		spawnLocation = "beastmaster_boss_spawn",
+		bossNPC = "npc_gyrocopter",
+	},
+
 }
 
 return tRAID_INIT_TABLE

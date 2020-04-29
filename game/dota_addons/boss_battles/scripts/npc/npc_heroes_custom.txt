@@ -25,6 +25,7 @@
 		"override_hero"				"npc_dota_hero_kunkka"						// Hero to override
 		"Ability1"					"stampede"									// Ability 1
 		"Ability2"					"abs_coord_debug"							// Ability 2
+		"Ability3"					"vaal_fireball"
 		"movementspeed" 				"500"	
 	}
 
