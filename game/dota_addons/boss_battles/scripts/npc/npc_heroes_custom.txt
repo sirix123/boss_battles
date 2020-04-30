@@ -16,7 +16,8 @@
 		"Ability1"					"saw_blade"									// Ability 1
 		"Ability2"					"chain"										// Ability 2
 		"Ability3"					"fire_shell"								// Ability 3
-		"Ability4"					"vector_info"								// Ability 4
+		"Ability4"					"stun_droid_zap"							// Ability 4
+		"Ability5"					"smelter_droid_enhance"						// Ability 5
 		"VisionNighttimeRange"		"1800"										// Range of vision at night time.
 	}
 
