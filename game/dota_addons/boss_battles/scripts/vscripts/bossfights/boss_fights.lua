@@ -38,7 +38,7 @@ function GameMode:SpawnBoss(boss, location)
     print("GameMode: SpawnBoss")
     local bossSpawnLocation = Entities:FindByName(nil, location):GetAbsOrigin()
 
-    CreateUnitByName(boss, bossSpawnLocation, true, nil, nil, DOTA_TEAM_BADGUYS)
+    CreateUnitByName("npc_dota_hero_shredder", bossSpawnLocation, true, nil, nil, DOTA_TEAM_BADGUYS)
     --CreateUnitByName("npc_dota_hero_rubick", Vector(200, 300, 0), true, nil, nil, DOTA_TEAM_GOODGUYS)
     --CreateUnitByName("npc_dota_hero_viper", Vector(600, 300, 0), true, nil, nil, DOTA_TEAM_GOODGUYS)
     --CreateUnitByName("npc_dota_hero_riki", Vector(800, 300, 0), true, nil, nil, DOTA_TEAM_GOODGUYS)
@@ -67,9 +67,9 @@ function GameMode:StartRaid()
             Beastmaster  
 
     ]]--
-    print("GameMode: StartRaid")
-    GameMode:MoveHeroesToArea(raid_tables.gyrocopter.arena)
-    GameMode:SpawnBoss(raid_tables.gyrocopter.bossNPC, raid_tables.beastmaster.spawnLocation)
+    --print("GameMode: StartRaid")
+    --GameMode:MoveHeroesToArea(raid_tables.gyrocopter.arena)
+    --GameMode:SpawnBoss(raid_tables.gyrocopter.bossNPC, raid_tables.beastmaster.spawnLocation)
 
     --GameMode:MoveHeroesToArea(raid_tables.beastmaster.arena)
     --GameMode:SpawnBoss(raid_tables.beastmaster.bossNPC, raid_tables.beastmaster.spawnLocation)
@@ -80,7 +80,7 @@ function GameMode:StartRaid()
     ]]--
 
     GameMode:MoveHeroesToArea(raid_tables.timber.arena)
-
+    GameMode:SpawnBoss(raid_tables.timber.bossNPC, raid_tables.timber.spawnLocation)
 
     --[[
             Clock  
