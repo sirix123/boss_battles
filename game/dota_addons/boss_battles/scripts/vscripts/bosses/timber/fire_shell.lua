@@ -40,6 +40,7 @@
 
 
 LinkLuaModifier( "fire_shell_thinker", "bosses/timber/fire_shell_thinker", LUA_MODIFIER_MOTION_NONE )
+LinkLuaModifier( "fire_shell_modifier", "bosses/timber/fire_shell_modifier", LUA_MODIFIER_MOTION_NONE )
 
 fire_shell = class({})
 
@@ -54,7 +55,7 @@ function fire_shell:OnSpellStart()
 
 		-- init (KV)
 		local radius = 100
-		local projectile_speed = 800
+		local projectile_speed = 1000
 		self.destroy_tree_radius = 100
 
 		-- init vars for proj
@@ -67,8 +68,10 @@ function fire_shell:OnSpellStart()
 		-- wave init (KV)
 		local nWaves = 0
 		local nMaxWaves = 5
-		local fTimeBetweenWaves = 3
+		local fTimeBetweenWaves = 2
 		local firstWave = true
+
+		caster:AddNewModifier( caster, self, "fire_shell_modifier", { duration = 1 + (nMaxWaves * fTimeBetweenWaves) } )
 
 		-- play sound on spell start
 		--EmitSoundOn("lone_druid_lone_druid_kill_13", self:GetCaster())
@@ -83,7 +86,6 @@ function fire_shell:OnSpellStart()
 			if nWaves == math.ceil(nMaxWaves / 2) then
 				EmitSoundOn("shredder_timb_chakram_06", caster)
 			end
-
 
 			-- start timer to track proj z axis 
 			if firstWave == true then
@@ -104,7 +106,6 @@ function fire_shell:OnSpellStart()
 			local vRightDirection 		=	Vector(	1, RandomFloat( -1 , 1 ), 0 ):Normalized()
 			local vLeftDirection 		=	Vector(	-1, RandomFloat( -1 , 1 ), 0 ):Normalized()
 
-			-- problem is these bad boys....  works with normal non-randomised directions
 			local vFrontRightLocation 	= 	origin + 	vFrontRightDirection 	* offset
 			local vFrontLeftLocation 	= 	origin + 	vFrontLeftDirection 	* offset
 			local vBackRightLocation 	= 	origin + 	vBackRightDirection 	* offset

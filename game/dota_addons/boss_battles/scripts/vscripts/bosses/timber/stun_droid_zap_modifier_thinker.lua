@@ -1,0 +1,168 @@
+
+-- particle effect
+-- 
+
+stun_droid_zap_modifier_thinker = class ({})
+
+function stun_droid_zap_modifier_thinker:OnCreated( kv )
+	-- references
+	self.interval = 0.1--self:GetAbility():GetSpecialValueFor( "tick_rate" )
+	self.speed = 40--self:GetAbility():GetSpecialValueFor( "movespeed_bonus_pct" )
+	self.radius = 300--self:GetAbility():GetSpecialValueFor( "radius" )
+	self.base_stun = 5--self:GetAbility():GetSpecialValueFor( "debuff_duration" )
+
+	if IsServer() then
+		-- Start interval
+		self:StartIntervalThink( self.interval )
+
+		-- play effects
+		self:PlayEffects1()
+	end
+end
+----------------------------------------------------------------------------------------------------------------
+
+function stun_droid_zap_modifier_thinker:OnIntervalThink()
+	-- find enemies
+	local enemies = FindUnitsInRadius(
+		self:GetCaster():GetTeamNumber(),	-- int, your team number
+		self:GetParent():GetOrigin(),	-- point, center point
+		nil,	-- handle, cacheUnit. (not known)
+		self.radius,	-- float, radius. or use FIND_UNITS_EVERYWHERE
+		DOTA_UNIT_TARGET_TEAM_ENEMY,	-- int, team filter
+		DOTA_UNIT_TARGET_HERO + DOTA_UNIT_TARGET_BASIC,	-- int, type filter
+		0,	-- int, flag filter
+		0,	-- int, order filter
+		false	-- bool, can grow cache
+	)
+
+	for _,enemy in pairs(enemies) do
+
+		-- play effects
+		self:PlayEffects2( enemy )
+	end
+end
+----------------------------------------------------------------------------------------------------------------
+
+function stun_droid_zap_modifier_thinker:OnDestroy( kv )
+	if IsServer() then
+		-- find enemies
+		local enemies = FindUnitsInRadius(
+			self:GetCaster():GetTeamNumber(),	-- int, your team number
+			self:GetParent():GetOrigin(),	-- point, center point
+			nil,	-- handle, cacheUnit. (not known)
+			self.radius,	-- float, radius. or use FIND_UNITS_EVERYWHERE
+			DOTA_UNIT_TARGET_TEAM_ENEMY,	-- int, team filter
+			DOTA_UNIT_TARGET_HERO + DOTA_UNIT_TARGET_BASIC,	-- int, type filter
+			0,	-- int, flag filter
+			0,	-- int, order filter
+			false	-- bool, can grow cache
+		)
+		
+		for _,enemy in pairs(enemies) do
+			-- stun
+			enemy:AddNewModifier(
+				self:GetCaster(), -- player source
+				self:GetAbility(), -- ability source
+				"modifier_generic_stunned", -- modifier name
+				{ duration = self.base_stun } -- kv
+			)
+		end
+
+		-- play effects
+        self:PlayEffects3()
+        
+        -- destroy droid
+        UTIL_Remove( self:GetParent() )
+ 
+	end
+end
+----------------------------------------------------------------------------------------------------------------
+
+-- Modifier Effects
+function stun_droid_zap_modifier_thinker:DeclareFunctions()
+	local funcs = {
+		MODIFIER_PROPERTY_MOVESPEED_BONUS_PERCENTAGE,
+	}
+
+	return funcs
+end
+----------------------------------------------------------------------------------------------------------------
+
+function stun_droid_zap_modifier_thinker:GetModifierMoveSpeedBonus_Percentage()
+	return self.speed
+end
+----------------------------------------------------------------------------------------------------------------
+
+function stun_droid_zap_modifier_thinker:PlayEffects1()
+	-- Get Resources
+	local particle_cast = "particles/timber/droid_stun_zap_grimstroke_ink_swell_buff.vpcf"
+
+	-- Create Particle
+	local effect_cast = ParticleManager:CreateParticle( particle_cast, PATTACH_OVERHEAD_FOLLOW, self:GetParent() )
+	ParticleManager:SetParticleControl( effect_cast, 2, Vector( self.radius, self.radius, self.radius ) )
+	ParticleManager:SetParticleControlEnt(
+		effect_cast,
+		3,
+		self:GetParent(),
+		PATTACH_ABSORIGIN_FOLLOW,
+		nil,
+		self:GetParent():GetOrigin(), -- unknown
+		true -- unknown, true
+	)
+
+	-- buff particle
+	self:AddParticle(
+		effect_cast,
+		false,
+		false,
+		-1,
+		false,
+		true
+	)
+end
+----------------------------------------------------------------------------------------------------------------
+
+function stun_droid_zap_modifier_thinker:PlayEffects2( target )
+	-- Get Resources
+	local particle_cast = "particles/timber/droid_stun_grimstroke_ink_swell_tick_damage.vpcf"
+
+	-- Create Particle
+	local effect_cast = ParticleManager:CreateParticle( particle_cast, PATTACH_ABSORIGIN_FOLLOW, self:GetParent() )
+	ParticleManager:SetParticleControlEnt(
+		effect_cast,
+		0,
+		self:GetParent(),
+		PATTACH_POINT_FOLLOW,
+		"attach_hitloc",
+		Vector(0,0,0), -- unknown
+		true -- unknown, true
+	)
+	ParticleManager:SetParticleControlEnt(
+		effect_cast,
+		1,
+		target,
+		PATTACH_POINT_FOLLOW,
+		"attach_hitloc",
+		Vector(0,0,0), -- unknown
+		true -- unknown, true
+	)
+	ParticleManager:ReleaseParticleIndex( effect_cast )
+end
+
+----------------------------------------------------------------------------------------------------------------
+
+function stun_droid_zap_modifier_thinker:PlayEffects3()
+	-- Get Resources
+    local particle_cast = "particles/timber/droid_stun_grimstroke_ink_swell_aoe.vpcf"
+    local sound_target = "Hero_Alchemist.UnstableConcoction.Stun"
+
+	-- Create Particle
+	local effect_cast = ParticleManager:CreateParticle( particle_cast, PATTACH_ABSORIGIN_FOLLOW, self:GetParent() )
+	ParticleManager:SetParticleControl( effect_cast, 2, Vector( self.radius, self.radius, self.radius ) )
+    ParticleManager:ReleaseParticleIndex( effect_cast )
+    
+    EmitSoundOn( sound_target, self:GetParent() )
+
+    -- kill parent
+    self:GetParent():ForceKill( false )
+end

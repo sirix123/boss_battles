@@ -59,6 +59,18 @@ function chain:OnSpellStart()
 		iVisionTeamNumber = caster:GetTeamNumber(),
 	}
 
+	-- play random sound effect on cast
+	local tSoundEffects =
+	{
+		"shredder_timb_timberchain_02",
+		"shredder_timb_timberchain_05",
+		"shredder_timb_timberchain_07",
+		"shredder_timb_timberchain_09"
+	}
+
+	EmitSoundOn(tSoundEffects[ RandomInt( 1, #tSoundEffects ) ], caster)
+
+
 	-- register projectile
 	local projectile = ProjectileManager:CreateLinearProjectile(info)
 	local ExtraData = {

@@ -41,7 +41,17 @@ function saw_blade:OnSpellStart()
         subAbility:SetLevel( 1 )
     else
         --ability already known
-    end   
+    end
+
+    	-- play random sound effect on cast
+	local tSoundEffects =
+	{
+		"shredder_timb_attack_03",
+		"shredder_timb_attack_04",
+		"shredder_timb_attack_06",
+    }
+
+    EmitSoundOn(tSoundEffects[ RandomInt( 1, #tSoundEffects ) ], caster)
 
     if #tSummonedSawBlades < nMaxSawBlades then
         self.thinkerSawBlade = CreateModifierThinker(
@@ -57,11 +67,11 @@ function saw_blade:OnSpellStart()
             caster:GetTeamNumber(),
             false 
         )
-        
+ 
         local sound_cast = "Hero_Shredder.Chakram.Cast"
         EmitSoundOn( sound_cast, caster )
     end
-    
+
     table.insert(tSummonedSawBlades,  self.thinkerSawBlade:FindModifierByName( "saw_blade_thinker" ))
     local modifier = self.thinkerSawBlade:FindModifierByName( "saw_blade_thinker" )
 
