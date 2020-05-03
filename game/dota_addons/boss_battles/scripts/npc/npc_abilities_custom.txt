@@ -84,6 +84,12 @@
         //-------------------------------------------------------------------------------------------------------------
         "AbilityManaCost"               "10"
 
+        "precache"
+        {
+            "soundfile" "soundevents/voscripts/game_sounds_vo_shredder.vsndevts"
+            "particle"  "particles/timber/napalm_wave_basedtidehuntergushupgrade.vpcf"
+        }
+
     }
 
 
