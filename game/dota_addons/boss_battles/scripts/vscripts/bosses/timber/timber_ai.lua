@@ -1,7 +1,7 @@
 timber = class({})
 
 function Spawn( entityKeyValues )
-	print("timber Spawn called")
+	--print("timber Spawn called")
 
 	if not IsServer() then
 		return
@@ -28,7 +28,7 @@ function TimberThink()
 		return 0.5
 	end
 
-	print("timber thinking...")
+	--print("timber thinking...")
 
 	return 0.5
 end

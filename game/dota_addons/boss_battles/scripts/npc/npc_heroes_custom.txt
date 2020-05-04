@@ -19,6 +19,8 @@
 		"Ability4"					"stun_droid_zap"							// Ability 4
 		"Ability5"					"smelter_droid_enhance"						// Ability 5
 		"Ability6"					"mine_droid_laymine"						// Ability 6
+		"Ability7"					"timber_droid_support"						// Ability 7
+		
 		"VisionNighttimeRange"		"1800"										// Range of vision at night time.
 	}
 

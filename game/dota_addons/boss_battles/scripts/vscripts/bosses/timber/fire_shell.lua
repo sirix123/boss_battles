@@ -50,13 +50,21 @@ function fire_shell:OnSpellStart()
 	if IsServer() then
 
         -- init
-		local caster = self:GetCaster()
-		local origin = caster:GetAbsOrigin()
+		self.caster = self:GetCaster()
+		local origin = self.caster:GetAbsOrigin()
 
 		-- init (KV)
-		local radius = 100
+		self.radius = 250
 		local projectile_speed = 1000
-		self.destroy_tree_radius = 100
+		self.destroy_tree_radius = 150
+		self.damage = 100
+
+		-- init dmg table
+		self.damageTable = {
+			attacker = self.caster,
+			damage = self.damage,
+			damage_type = DAMAGE_TYPE_MAGICAL,
+		}
 
 		-- init vars for proj
 		local offset = 80
@@ -67,15 +75,15 @@ function fire_shell:OnSpellStart()
 
 		-- wave init (KV)
 		local nWaves = 0
-		local nMaxWaves = 5
-		local fTimeBetweenWaves = 2
+		local nMaxWaves = 10
+		local fTimeBetweenWaves = 0.5
 		local firstWave = true
 
-		caster:AddNewModifier( caster, self, "fire_shell_modifier", { duration = 1 + (nMaxWaves * fTimeBetweenWaves) } )
+		self.caster:AddNewModifier( self.caster, self, "fire_shell_modifier", { duration = 1 + (nMaxWaves * fTimeBetweenWaves) } )
 
 		-- play sound on spell start
 		--EmitSoundOn("lone_druid_lone_druid_kill_13", self:GetCaster())
-		EmitSoundOn("shredder_timb_kill_16", caster)
+		EmitSoundOn("shredder_timb_kill_16", self.caster)
 
 		-- start of the main loop
 		Timers:CreateTimer(1, function()
@@ -84,7 +92,7 @@ function fire_shell:OnSpellStart()
 			end
 
 			if nWaves == math.ceil(nMaxWaves / 2) then
-				EmitSoundOn("shredder_timb_chakram_06", caster)
+				EmitSoundOn("shredder_timb_chakram_06", self.caster)
 			end
 
 			-- start timer to track proj z axis 
@@ -133,7 +141,7 @@ function fire_shell:OnSpellStart()
 			for i = 1, #tProjectilesDirection, 1 do
 
 				local hProjectile = {
-					Source = caster,
+					Source = self.caster,
 					Ability = self,
 					vSpawnOrigin = tProjectilesLocation[i],
 					bDeleteOnHit = false,
@@ -142,15 +150,15 @@ function fire_shell:OnSpellStart()
 					iUnitTargetType = DOTA_UNIT_TARGET_HERO + DOTA_UNIT_TARGET_BASIC,
 					EffectName = "particles/timber/napalm_wave_basedtidehuntergushupgrade.vpcf", --"particles/econ/items/mars/mars_ti9_immortal/mars_ti9_immortal_crimson_spear.vpcf"
 					fDistance = 9000,
-					fStartRadius = radius,
-					fEndRadius = radius,
+					fStartRadius = self.radius,
+					fEndRadius = self.radius,
 					vVelocity = tProjectilesDirection[i] * projectile_speed,
 					bHasFrontalCone = false,
 					bReplaceExisting = false,
 					fExpireTime = GameRules:GetGameTime() + 30.0,
 					bProvidesVision = true,
 					iVisionRadius = 200,
-					iVisionTeamNumber = caster:GetTeamNumber(),
+					iVisionTeamNumber = self.caster:GetTeamNumber(),
 				}
 
 				local projectileId = ProjectileManager:CreateLinearProjectile(hProjectile)
@@ -171,6 +179,29 @@ function fire_shell:OnSpellStart()
 	end
 end
 ------------------------------------------------------------------------------------------------
+function fire_shell:OnProjectileHit(hTarget, vLocation)
+
+	local enemies = FindUnitsInRadius(
+		self.caster:GetTeamNumber(),	-- int, your team number
+		vLocation,	-- point, center point
+		nil,	-- handle, cacheUnit. (not known)
+		self.radius,	-- float, radius. or use FIND_UNITS_EVERYWHERE
+		DOTA_UNIT_TARGET_TEAM_ENEMY,	-- int, team filter
+		DOTA_UNIT_TARGET_HERO + DOTA_UNIT_TARGET_BASIC,	-- int, type filter
+		0,	-- int, flag filter
+		0,	-- int, order filter
+		false	-- bool, can grow cache
+	)
+
+	for _, enemy in pairs(enemies) do
+		-- damage
+		self.damageTable.victim = enemy
+		ApplyDamage( self.damageTable )
+	end
+
+end
+------------------------------------------------------------------------------------------------
+
 
 function fire_shell:OnProjectileThink(vLocation)
 	GridNav:DestroyTreesAroundPoint( vLocation, self.destroy_tree_radius, true )

@@ -1,0 +1,70 @@
+
+--------------------------------------------------------------------------------
+
+function Spawn( entityKeyValues )
+	if not IsServer() then return end
+
+    thisEntity.smelter_droid_enhance = thisEntity:FindAbilityByName( "smelter_droid_enhance" )
+
+	thisEntity:SetContextThink( "DroidThink", DroidThink, 0.5 )
+
+end
+--------------------------------------------------------------------------------
+
+function DroidThink()
+	if not IsServer() then return end
+
+	if ( not thisEntity:IsAlive() ) then
+		return -1
+	end
+
+	if GameRules:IsGamePaused() == true then
+		return 0.5
+	end
+
+	-- find timber
+	local friendlies = FindUnitsInRadius(
+		DOTA_TEAM_BADGUYS,
+		thisEntity:GetAbsOrigin(),
+		nil, 
+		FIND_UNITS_EVERYWHERE,
+		DOTA_UNIT_TARGET_TEAM_FRIENDLY,
+		DOTA_UNIT_TARGET_ALL,
+		DOTA_UNIT_TARGET_FLAG_NONE,
+		FIND_ANY_ORDER,
+		false )
+
+	if #friendlies == 0 then
+		return 0.5
+	end
+
+	-- find timber
+	for _, friendly in pairs(friendlies) do
+		if friendly:GetUnitName() == "npc_timber" then
+
+			-- distance from droid to timber 
+			thisEntity.distanceFromTimber = ( thisEntity:GetAbsOrigin() - friendly:GetAbsOrigin() ):Length2D()
+
+			-- cast enhance
+			if thisEntity.smelter_droid_enhance:IsCooldownReady() and ( thisEntity.distanceFromTimber < 400 ) then
+				CastEnhance()
+			elseif thisEntity.distanceFromTimber > 400 then
+				thisEntity:MoveToPosition( friendly:GetAbsOrigin() )
+			end
+		end
+	end
+
+	return 1.0
+end
+--------------------------------------------------------------------------------
+
+function CastEnhance()
+		ExecuteOrderFromTable({
+			UnitIndex = thisEntity:entindex(),
+			OrderType = DOTA_UNIT_ORDER_CAST_NO_TARGET,
+			AbilityIndex = thisEntity.smelter_droid_enhance:entindex(),
+			Queue = false,
+	})
+	return 1
+end
+--------------------------------------------------------------------------------

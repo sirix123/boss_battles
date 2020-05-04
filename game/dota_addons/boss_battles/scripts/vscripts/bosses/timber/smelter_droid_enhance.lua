@@ -11,7 +11,7 @@ function smelter_droid_enhance:OnSpellStart()
 
     -- kv reference
     local duration = 5
-    local radius = 500
+	local radius = 500 -- replace with cast range
 
     -- find enemies
 	local friendlies = FindUnitsInRadius(
@@ -19,7 +19,7 @@ function smelter_droid_enhance:OnSpellStart()
 		origin,	-- point, center point
 		nil,	-- handle, cacheUnit. (not known)
 		radius,	-- float, radius. or use FIND_UNITS_EVERYWHERE
-		DOTA_UNIT_TARGET_TEAM_BOTH,	-- int, team filter
+		DOTA_UNIT_TARGET_TEAM_FRIENDLY,	-- int, team filter
 		DOTA_UNIT_TARGET_HERO + DOTA_UNIT_TARGET_BASIC,	-- int, type filter
 		0,	-- int, flag filter
 		0,	-- int, order filter
@@ -29,9 +29,11 @@ function smelter_droid_enhance:OnSpellStart()
     -- find friendly boss
     for _, friend in pairs(friendlies) do
 		-- check if already hit
-        if friend:GetName()  == "npc_dota_hero_shredder" then
+		if friend:GetUnitName()  == "npc_timber" then
             -- create modifier
-            self.modifier = friend:AddNewModifier(caster, self, "smelter_droid_enhance_modifier_thinker", {duration = duration})
+			self.modifier = friend:AddNewModifier(caster, self, "smelter_droid_enhance_modifier_thinker", {duration = duration})
+		else
+			return
         end
 	end
 

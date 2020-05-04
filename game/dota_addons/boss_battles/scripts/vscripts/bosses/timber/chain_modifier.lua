@@ -252,12 +252,12 @@ function chain_modifier:WhirlingDeathStart()
 	end
 
 	-- Play effects
-	self:PlayEffects( wd_radius, hashero )
+	self:wd_PlayEffects( wd_radius, hashero )
 
 end
 
 --------------------------------------------------------------------------------
-function chain_modifier:PlayEffects( wd_radius, hashero )
+function chain_modifier:wd_PlayEffects( wd_radius, hashero )
 	-- Get Resources
 	local particle_cast = "particles/units/heroes/hero_shredder/shredder_whirling_death.vpcf"
 	local sound_cast = "Hero_Shredder.WhirlingDeath.Cast"

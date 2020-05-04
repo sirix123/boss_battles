@@ -18,6 +18,9 @@ function smelter_droid_enhance_modifier_thinker:IsPurgable()
 	return false
 end
 
+function smelter_droid_enhance_modifier_thinker:GetAttributes()
+	return MODIFIER_ATTRIBUTE_MULTIPLE
+end
 --------------------------------------------------------------------------------
 -- Initializations
 function smelter_droid_enhance_modifier_thinker:OnCreated( kv )
@@ -77,9 +80,6 @@ function smelter_droid_enhance_modifier_thinker:OnIntervalThink()
 		self.sound_cast = "shredder_timb_reactivearmor_04"
 		EmitGlobalSound(self.sound_cast)
 	elseif nStackCount == 25 then
-		self.sound_cast = "shredder_timb_reactivearmor_05"
-		EmitGlobalSound(self.sound_cast)
-	elseif nStackCount > 30 then
 		self.sound_cast = "shredder_timb_reactivearmor_05"
 		EmitGlobalSound(self.sound_cast)
 	end

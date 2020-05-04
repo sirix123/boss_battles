@@ -3,7 +3,7 @@
 	_class = "CParticleSystemDefinition"
 	m_bShouldHitboxesFallbackToRenderBounds = false
 	m_nMaxParticles = 1
-	m_flConstantRadius = 240.0
+	m_flConstantRadius = 250.0
 	m_bShouldSort = false
 	m_Renderers = 
 	[
@@ -141,7 +141,7 @@
 			m_ChildRef = resource:"particles\\timber\\tidehunter_gush_upgrade_end.vpcf"
 		},
 	]
-	m_ConstantColor = [ 152, 228, 255, 255 ]
+	m_ConstantColor = [ 248, 125, 80, 255 ]
 	m_nBehaviorVersion = 5
 	m_nFirstMultipleOverride_BackwardCompat = 4
 	m_controlPointConfigurations = 
