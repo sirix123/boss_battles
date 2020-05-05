@@ -1,68 +1,113 @@
+
 gyrocopter = class({})
-
 --ANIMATIONS/DEBUG DRAW Spells
-
-
 --Global vars, but local to this file, to persist state 
 
 local currentPhase = 1
 
---
---calc 8 points
+local COOLDOWN_RADARSCAN = 7
 
---we want to shoot 8 fire shells around the boss. 360 degrees / 8 = 45ish
-function gyrocopter:calcFireShell()
-  --local testPoint = caster:GetAbsOrigin() + RotatePosition(Vector(0,0,0), QAngle(0,35,0), caster:GetForwardVector()) * (radius - 50)
-  local forwardVec = caster:GetForwardVector()
+function Spawn( entityKeyValues )
+	print("Spawn called")
 
+	thisEntity.radar_scan = thisEntity:FindAbilityByName( "radar_scan" )
+	thisEntity.homing_missile = thisEntity:FindAbilityByName( "homing_missile" )
+	thisEntity.flak_cannon = thisEntity:FindAbilityByName( "flak_cannon" )
+	thisEntity.rocket_barrage = thisEntity:FindAbilityByName( "rocket_barrage" )
 
-  local angelIncrement = 45
-  local currentAngel = 0
-  for i = 1, 8, 1 do
-  	tProjectilesDirection[i] = caster:GetAbsOrigin() + RotatePosition(Vector(0,0,0), QAngle(0,currentAngel,0), caster:GetForwardVector()) 
-  	currentAngel = currentAngel + angelIncrement
-  end
-
-
+	--TODO: if any of these are nill
+	thisEntity:SetContextThink( "MainThinker", MainThinker, 1 )
 end
 
+local tickCount = 0
+function MainThinker()
+	tickCount = tickCount + 1
 
-
-function gyrocopter:Spawn( entityKeyValues )
-	print("Gyrocopter Spawn called")
-
-
-
-	if not IsServer() then
-		return
+	-- Almost all code should not run when the game is paused. Keep this near the top so we return early.
+	if GameRules:IsGamePaused() == true then
+		return 0.5
 	end
 
 	if thisEntity == nil then
 		return
 	end
 
-	self.radar_scan = thisEntity:FindAbilityByName( "radar_scan" )
-	self.homing_missile = thisEntity:FindAbilityByName( "homing_missile" )
-	self.flak_cannon = thisEntity:FindAbilityByName( "flak_cannon" )
-	self.rocket_barrage = thisEntity:FindAbilityByName( "rocket_barrage" )
+	--COOLDOWNS, modulus the tickCount
+	if tickCount % COOLDOWN_RADARSCAN == 0 then
+		CastRadarScan()
+	end
 
 
-	thisEntity:SetContextThink( "Gyrocopter", GyrocopterThink, 1 )
-	thisEntity:SetContextThink( "TestThinker", TestThinkerThink, 1 )
+	--TODO: Phase check logic
+		--Maybe HP based or time? Just implement one of them and can change it later
 
 
+	--TODO: Phase init, once off, on phase change
+		-- Set bool true on phase change, do these once off things and then set to false
+	--TODO: Phase tick, every tick, e.g do these things if PHASE.ONE
+	--TODO: Make ability queue structure? does lua have stack and queue?
+
+	--PHASE 0 / INIT:
+		-- Initial Radar Scan, then start timer for next.
+		-- Initial homing rocket,then start timer for next.
+		-- Target one of the players being targeted by a rocket.
+
+	--PHASE 1:
+		-- Upgrade spells lvl.
+		-- Learn Flak Cannon
+
+	-- PHASE 2:
+		-- Upgrade spells lvl
+
+	--	Think about this stuff later, for now just write code for basic functions
+
+	return 1 
 end
 
-function gyrocopter:GyrocopterThink()
-	print("gyrocopter:GyrocopterThink")
-	return 1 --time between next tick?
 
+
+function CastRadarScan()
+	ExecuteOrderFromTable({
+		UnitIndex = thisEntity:entindex(),
+		OrderType = DOTA_UNIT_ORDER_CAST_NO_TARGET,
+		AbilityIndex = thisEntity.radar_scan:entindex(),
+		--Position = vTargetPos,
+		Queue = true,
+	})
 end
 
-function gyrocopter:TestThinkerThink()
-	print("gyrocopter:TestThinkerThink")
-	return 1
+--TODO: how does homingMissile get it's target?
+	--Surely I determine that here and 
+function CastHomingMissile(target)
+	ExecuteOrderFromTable({
+		UnitIndex = thisEntity:entindex(),
+		OrderType = DOTA_UNIT_ORDER_CAST_NO_TARGET,
+		AbilityIndex = thisEntity.homing_missile:entindex(),
+		Queue = true,
+	})
 end
+
+function CastFlakCannon()
+	ExecuteOrderFromTable({
+		UnitIndex = thisEntity:entindex(),
+		OrderType = DOTA_UNIT_ORDER_CAST_NO_TARGET,
+		AbilityIndex = thisEntity.flak_cannon:entindex(),
+		Queue = true,
+	})
+end
+
+function CastRocketBarrage()
+	ExecuteOrderFromTable({
+		UnitIndex = thisEntity:entindex(),
+		OrderType = DOTA_UNIT_ORDER_CAST_NO_TARGET,
+		AbilityIndex = thisEntity.rocket_barrage:entindex(),
+		Queue = true,
+	})
+end
+
+
+
+
 
 
 --WROTE THIS FOR BM BUT USEFUL TEMPLATE FOR ANY PHASE CHANGE
@@ -86,7 +131,6 @@ end
 -- 		--		ExecuteOrderFromTable({
 -- 		--			AbilityIndex = thisEntity.beastmaster_net:entindex(),
 -- 		--			Queue = false,
--- 		--
 -- 		--		})
 
 -- 	--Change between phases, happens once per phase
@@ -179,9 +223,4 @@ end
 --Ulti 
 	--Targetting AI is important
 	--The rest is pretty similiar to Dota. Maybe add a indicator using DebugDraw
-
-
-
-
-
 

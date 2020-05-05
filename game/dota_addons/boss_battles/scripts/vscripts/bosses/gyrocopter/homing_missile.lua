@@ -1,6 +1,5 @@
 homing_missile = class({})
 
-
 --Logic based on level:
 
 --lvl 1:
@@ -23,19 +22,14 @@ homing_missile = class({})
 	--Hits to destroy: 5
 	--Slightly faster ms than player	
 
-	
-
 local currentTarget = nil
-
-
 
 --todo: DOTA_ABILITY_BEHAVIOR_UNIT_TARGET
 function homing_missile:OnSpellStart()
     local caster = self:GetCaster()
     local cursorLoc = self:GetCursorPosition() --should be same as target.GetOrigin()?
-
-		-- gets target for ability
-		local target = self:GetCursorTarget()
+	-- gets target for ability
+	local target = self:GetCursorTarget()
 		--print("bear has aqquired claw target")
  		if target == nil then
  			--print("bear_claw could not get aggro target, getting first available")
