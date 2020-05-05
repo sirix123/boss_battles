@@ -4,28 +4,15 @@ LinkLuaModifier( "radar_scan_modifier", "bosses/gyrocopter/radar_scan_modifier",
 local radScan_radius = 1200 --todo: put this in the ability txt file
 
 function radar_scan:OnSpellStart()
-
+	print("radar_scan:OnSpellStart()")
 	local origin = self:GetCaster():GetOrigin()
 
-	--Not working correctly because of lua tables :(
-	self:DebugRadarScanSweep(origin)
-
+	--Lvl 1 of spell: 80% WIP
 	self:NewDebugRadarScanSweep()
 
+	--Lvl 2 of spell: 50% WIP
+		--TODO: utilise "enemiesScanned"
 	--self:DebugRadarScanPulse(origin)
-	
-	--self:DebugHightlightEnemiesInArea(origin, 800)
-
-
-	--TODO: forget about animation for now.
-	--Spell effect: Target every player within radius and deal dmg, apply mod /effect to ground to dmg units who don't move. 
-	local enemies = FindUnitsInRadius( DOTA_TEAM_BADGUYS, origin, nil, radScan_radius , DOTA_UNIT_TARGET_TEAM_ENEMY, DOTA_UNIT_TARGET_ALL, DOTA_UNIT_TARGET_FLAG_NONE, FIND_ANY_ORDER, false )
-	--Create a bunch of modifier thinkers, one for each player found in radius. 
-	for _,enemy in pairs(enemies) do
-		print("found a nearby enemy")
-   		--CreateModifierThinker( self:GetCaster(), self, "quillboar_puddle_modifier", { self:GetSpecialValueFor( "duration" ) }, vLocation, self:GetCaster():GetTeamNumber(), false )
-	end
-
 end
 
 
@@ -41,110 +28,102 @@ end
 local currentFrame = 1
 local totalframes = 120
 
+enemiesScanned = {}
 function radar_scan:NewDebugRadarScanSweep()
 	local origin = self:GetCaster():GetOrigin()
 
+	--TODO: Make a new smoother radar scan sweep.
+	--I had an idea but I can't remember it now...
+	--I think go through a timer and draw the next 5-10 lines each tick
+	--Because the timer can't run fast enough increase the amount of lines per tick until it looks smoother
+	--Perhaps I stagger their duration to create an illusion.
 
-end
-
---Draws a radar scan, a sweeping around the circle
-function radar_scan:DebugRadarScanSweep(origin)
 	local radius = 800 
 	local duration = 1 --seconds
 	local tickDuration = 0.5 / 360
 
-	--draw: run a timer and every tick draw a new line
+
+	--Get all enemies that are in the current radius... 
+	--TODO: somehow change this so they get highlighted when "hit" by the line...
+	--THOUGHTS: Perhaps as you loop through and draw the lines, check each enemies location and somehow see if it intersects with the line
+		-- Need to track which enemies I have already "hit" so we only do them once per revolution of the radar
+		-- I think line intersect logic is expensive to do every tick, 
+			--HACK: use FindUNitsInRadius and check it every nth line, maybe 12 times per revolution
+	-- local enemies = FindUnitsInRadius( DOTA_TEAM_BADGUYS, origin, nil, radius , DOTA_UNIT_TARGET_TEAM_ENEMY, DOTA_UNIT_TARGET_ALL, DOTA_UNIT_TARGET_FLAG_NONE, FIND_ANY_ORDER, false )
+	-- for _,enemy in pairs(enemies) do
+	-- 	print("found a nearby enemy")
+	-- 	--TODO: Create Modifier, create animation
+ --   		--CreateModifierThinker( self:GetCaster(), self, "quillboar_puddle_modifier", { self:GetSpecialValueFor( "duration" ) }, vLocation, self:GetCaster():GetTeamNumber(), false )
+ --   		DebugDrawCircle(enemy:GetOrigin(), Vector(0,255,0), 128, 100, true, 5)
+
+	-- end
+
+	--DOTA API LINE INTERSECT:
+
+	-- table FindUnitsInLine(int teamNumber, Vector vStartPos, Vector vEndPos, handle cacheUnit, float width, int teamFilter, int typeFilter, int flagFilter)
 	local i = 1
-	local j = 1.5	
-	local k = 1.25	
-	local l = 1.75	
-
-	--maybe a timer isn't needed if I just do it in a loop. But then can't control the time...
-	-- for j = 1, 360, 1 do
-	-- 	local angle = j * 0.0174532925
-	-- 	local x = radius * math.cos(angle)
-	-- 	local y = radius * math.sin(angle)
-	-- 	DebugDrawLine(origin, Vector(x,y,0) + origin, 255,0,0, true, duration)
-	-- end
-
-	-- Timers:CreateTimer(function()
-	-- 	--360, 720, 1080, 1440
-	-- 	if i == 1440 then
-	-- 		print("sweep stop")	
-	-- 		return false
-	-- 	end
-	-- 	print("sweep tick ", i)
-	-- 	--TODO:
-
-	-- 	--Perhaps radians is needed?
-	-- 	local angle = i * 0.0174532925 /4
-	-- 	local x = radius * math.cos(angle)
-	-- 	local y = radius * math.sin(angle)
-
-	-- 	DebugDrawLine(origin, Vector(x,y,0) + origin, 255,0,0, true, duration)
-	-- 	i = i+1
-	-- 	return 0;
-	-- end
-	-- )
-
-
 	Timers:CreateTimer(function()
 		if i > 360 then
+			Clear(enemiesScanned)
 			return false
 		end
-		--radians is needed not degrees
-		local angle = i * 0.0174532925 
-		local x = radius * math.cos(angle)
-		local y = radius * math.sin(angle)
-		DebugDrawLine(origin, Vector(x,y,0) + origin, 255,0,0, true, duration)
-		i = i+2
-		return 0;
-	end
-	)
+		if i < -360 then
+			Clear(enemiesScanned)
+			return false
+		end
 
-	Timers:CreateTimer(function()
-		if j > 360 then
-			return false
-		end
-		--radians is needed not degrees
-		local angle = j * 0.0174532925 
-		local x = radius * math.cos(angle)
-		local y = radius * math.sin(angle)
-		DebugDrawLine(origin, Vector(x,y,0) + origin, 255,0,0, true, duration)
-		j = j+2
-		return 0;
-	end
-	)
+		--draw n lines at once
+		for j = 1, 3, 1 do
+			--radians is needed not degrees
+			local angle = i * 0.0174532925 
+			local x = radius * math.cos(angle)
+			local y = radius * math.sin(angle)
+			DebugDrawLine(origin, Vector(x,y,0) + origin, 255,0,0, true, duration)
 
-	Timers:CreateTimer(function()
-		if l > 360 then
-			return false
-		end
-		--radians is needed not degrees
-		local angle = l * 0.0174532925 
-		local x = radius * math.cos(angle)
-		local y = radius * math.sin(angle)
-		DebugDrawLine(origin, Vector(x,y,0) + origin, 255,0,0, true, duration)
-		l = l+2
-		return 0;
-	end
-	)
+			--https://developer.valvesoftware.com/wiki/Dota_2_Workshop_Tools/Scripting/API/Global.FindUnitsInLine
 
-	Timers:CreateTimer(function()
-		if k > 360 then
-			return false
+			local enemies = FindUnitsInLine(DOTA_TEAM_BADGUYS, origin, Vector(x,y,0) + origin, self:GetCaster(), 1, DOTA_UNIT_TARGET_TEAM_ENEMY, DOTA_UNIT_TARGET_HERO, DOTA_UNIT_TARGET_FLAG_INVULNERABLE )
+			for _,enemy in pairs(enemies) do
+				print("Line intersects with an enemy")
+				--TODO: check if enemy has already been hit
+				--if not then hit enemy and add to hit list
+
+				if Contains(enemiesScanned, enemy) then
+					print("already hit this enemy")
+				else
+					print("New enemy hit")
+					DebugDrawCircle(enemy:GetOrigin(), Vector(0,255,0), 128, 100, true, 5)
+					enemiesScanned[enemy] = true --little hack so Contains works 
+				end
+			end
+			i = i-1
 		end
-		--radians is needed not degrees
-		local angle = k * 0.0174532925 
-		local x = radius * math.cos(angle)
-		local y = radius * math.sin(angle)
-		DebugDrawLine(origin, Vector(x,y,0) + origin, 255,0,0, true, duration)
-		k = k+2
-		return 0;
+		return tickDuration;
 	end
 	)
 
 end
+
+-----------------------------------------------------------------------------------------------
+--Table/Set/List functions
+
+-- Remove/Clear the whole set
+function Clear(set)
+	for k,v in pairs(set) do
+		set[k] = nil
+	end
+end
+
+-- Remove this key from the set
+function Remove(set, key)
+	set[key] = nil
+end
+
+-- Check if the set contains this key
+function Contains(set, key)
+    return set[key] ~= nil
+end
+
 
 --Draws a radar pulse, an expanind circle
 function radar_scan:DebugRadarScanPulse(origin)

@@ -5,12 +5,10 @@ gyrocopter = class({})
 
 local currentPhase = 1
 
-local gyro_boss 
+local COOLDOWN_RADARSCAN = 7
 
 function Spawn( entityKeyValues )
 	print("Spawn called")
-
-
 
 	thisEntity.radar_scan = thisEntity:FindAbilityByName( "radar_scan" )
 	thisEntity.homing_missile = thisEntity:FindAbilityByName( "homing_missile" )
@@ -25,8 +23,6 @@ local tickCount = 0
 function MainThinker()
 	tickCount = tickCount + 1
 
-	print("MainThinker")
-	
 	-- Almost all code should not run when the game is paused. Keep this near the top so we return early.
 	if GameRules:IsGamePaused() == true then
 		return 0.5
@@ -36,31 +32,15 @@ function MainThinker()
 		return
 	end
 
-	--TODO: test abilities:
-	if tickCount == 3 then
-		print("Calling CastRadarScan")
+	--COOLDOWNS, modulus the tickCount
+	if tickCount % COOLDOWN_RADARSCAN == 0 then
 		CastRadarScan()
 	end
 
-	if tickCount == 10 then
-		print("Calling CastHomingMissile")
-		CastHomingMissile()
-	end
-
-	--flak_cannon
-	if tickCount == 15 then
-		print("Calling CastFlakCannon")
-		CastFlakCannon()
-	end
-
-	--rocket_barrage
-	if tickCount == 20 then
-		print("Calling CastRocketBarrage")
-		CastRocketBarrage()
-	end
 
 	--TODO: Phase check logic
 		--Maybe HP based or time? Just implement one of them and can change it later
+
 
 	--TODO: Phase init, once off, on phase change
 		-- Set bool true on phase change, do these once off things and then set to false
