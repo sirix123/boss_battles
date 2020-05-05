@@ -13,7 +13,7 @@
 
 		// General
 		//----------------------------------------------------------------
-		"Model"						"models/heroes/beastmaster/beastmaster.vmdl"	// Model.
+		"Model"						"models/heroes/shredder/shredder.vmdl"	// Model.
 		"BaseClass"					"npc_dota_creature"
 		"SoundSet"					"n_creep_Melee"
 		"GameSoundsFile"			"soundevents/game_sounds_heroes/game_sounds_shredder.vsndevts"
@@ -22,9 +22,8 @@
 
 		// Abilities
 		//----------------------------------------------------------------
-		//"Ability1"					"radar_scan"			// Ability 1
-
-		
+		"Ability1"					"saw_blade"					// Ability 1
+		"Ability2"					"saw_blade_return"			// Ability 1
 
 		// Armor
 		//----------------------------------------------------------------

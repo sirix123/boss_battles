@@ -35,11 +35,11 @@ end
 
 -- handles spawning the boss, pass boss from table and a location
 function GameMode:SpawnBoss(boss, location)
-    print("GameMode: SpawnBoss")
+    --print("GameMode: SpawnBoss")
     local bossSpawnLocation = Entities:FindByName(nil, location):GetAbsOrigin()
 
-    CreateUnitByName("npc_dota_hero_shredder", bossSpawnLocation, true, nil, nil, DOTA_TEAM_BADGUYS)
-    --CreateUnitByName("npc_dota_hero_rubick", Vector(200, 300, 0), true, nil, nil, DOTA_TEAM_GOODGUYS)
+    --CreateUnitByName("npc_timber", bossSpawnLocation, true, nil, nil, DOTA_TEAM_BADGUYS)
+    --CreateUnitByName("npc_dota_hero_rubick", bossSpawnLocation, true, nil, nil, DOTA_TEAM_GOODGUYS)
     --CreateUnitByName("npc_dota_hero_viper", Vector(600, 300, 0), true, nil, nil, DOTA_TEAM_GOODGUYS)
     --CreateUnitByName("npc_dota_hero_riki", Vector(800, 300, 0), true, nil, nil, DOTA_TEAM_GOODGUYS)
     --CreateUnitByName("npc_dota_hero_rubick", bossSpawnLocation, true, nil, nil, DOTA_TEAM_BADGUYS)

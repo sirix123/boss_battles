@@ -167,6 +167,9 @@ function chain_modifier:UpdateHorizontalMotion( me, dt )
 
 		-- cast whirling death
 		self:WhirlingDeathStart()
+
+		TEST123 = 2
+
 	end
 end
 

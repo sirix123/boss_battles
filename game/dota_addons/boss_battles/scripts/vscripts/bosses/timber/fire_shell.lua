@@ -50,40 +50,28 @@ function fire_shell:OnSpellStart()
 	if IsServer() then
 
         -- init
-		self.caster = self:GetCaster()
-		local origin = self.caster:GetAbsOrigin()
+		local caster = self:GetCaster()
+		local origin = caster:GetAbsOrigin()
 
 		-- init (KV)
-		self.radius = 250
+		local radius = 100
 		local projectile_speed = 1000
-		self.destroy_tree_radius = 150
-		self.damage = 100
-
-		-- init dmg table
-		self.damageTable = {
-			attacker = self.caster,
-			damage = self.damage,
-			damage_type = DAMAGE_TYPE_MAGICAL,
-		}
-
-		-- init vars for proj
-		local offset = 80
+		self.destroy_tree_radius = 100
 
 		-- table init
 		local tProjectilesDirection = {}
-		local tProjectilesLocation = {}
 
 		-- wave init (KV)
 		local nWaves = 0
-		local nMaxWaves = 10
-		local fTimeBetweenWaves = 0.5
+		local nMaxWaves = 8
+		local fTimeBetweenWaves = 4
 		local firstWave = true
 
-		self.caster:AddNewModifier( self.caster, self, "fire_shell_modifier", { duration = 1 + (nMaxWaves * fTimeBetweenWaves) } )
+		caster:AddNewModifier( caster, self, "fire_shell_modifier", { duration = 1 + (nMaxWaves * fTimeBetweenWaves) } )
 
 		-- play sound on spell start
 		--EmitSoundOn("lone_druid_lone_druid_kill_13", self:GetCaster())
-		EmitSoundOn("shredder_timb_kill_16", self.caster)
+		EmitSoundOn("shredder_timb_kill_16", caster)
 
 		-- start of the main loop
 		Timers:CreateTimer(1, function()
@@ -92,7 +80,7 @@ function fire_shell:OnSpellStart()
 			end
 
 			if nWaves == math.ceil(nMaxWaves / 2) then
-				EmitSoundOn("shredder_timb_chakram_06", self.caster)
+				EmitSoundOn("shredder_timb_chakram_06", caster)
 			end
 
 			-- start timer to track proj z axis 
@@ -104,68 +92,44 @@ function fire_shell:OnSpellStart()
 			-- new wave init
 			nWaves = nWaves + 1
 
-			local vFrontRightDirection 	=	Vector(	RandomFloat( 0 	, 1 ), RandomFloat( 0 , 1 ), 0 ):Normalized()
-			local vFrontLeftDirection 	=	Vector(	RandomFloat( -1 , 0 ), RandomFloat( 0 , 1 ), 0 ):Normalized()
-			local vBackRightDirection 	=	Vector(	RandomFloat( 0 	, 1 ), RandomFloat( -1 , 0 ), 0 ):Normalized()
-			local vBackLeftDirection 	=	Vector(	RandomFloat( -1 , 0 ), RandomFloat( -1 , 0 ), 0 ):Normalized()
+			-- generate random directions, fill table with them
+			local nProjectilesPerWave = RandomInt(6, 9)
 
-			local vFrontDirection 		=	Vector(	RandomFloat( -1 , 1 ), 1, 0 ):Normalized()
-			local vBackDirection 		=	Vector(	RandomFloat( -1 , 1 ), -1, 0 ):Normalized()
-			local vRightDirection 		=	Vector(	1, RandomFloat( -1 , 1 ), 0 ):Normalized()
-			local vLeftDirection 		=	Vector(	-1, RandomFloat( -1 , 1 ), 0 ):Normalized()
-
-			local vFrontRightLocation 	= 	origin + 	vFrontRightDirection 	* offset
-			local vFrontLeftLocation 	= 	origin + 	vFrontLeftDirection 	* offset
-			local vBackRightLocation 	= 	origin + 	vBackRightDirection 	* offset
-			local vBackLeftLocation 	= 	origin + 	vBackLeftDirection 		* offset
-	
-			local vFrontLocation 		= 	origin + 	vFrontDirection 		* offset
-			local vBackLocation 		= 	origin + 	vBackDirection 			* offset
-			local vRightLocation 		= 	origin +	vRightDirection  		* offset
-			local vLeftLocation 		= 	origin + 	vLeftDirection  		* offset
-
-			tProjectilesDirection =
-			{
-				vFrontRightDirection, vFrontLeftDirection, vBackRightDirection, vBackLeftDirection,
-				vFrontDirection, vBackDirection, vRightDirection, vLeftDirection
-			}
-
-			tProjectilesLocation =
-			{
-				vFrontRightLocation, vFrontLeftLocation, vBackRightLocation, vBackLeftLocation,
-				vFrontLocation, vBackLocation, vRightLocation, vLeftLocation
-			}
+			for i = 1, nProjectilesPerWave, 1 do
+				local vRandomDirection = Vector(	RandomFloat( -1 	, 1 ), RandomFloat( -1 , 1 ), 0 ):Normalized()
+				table.insert(tProjectilesDirection, vRandomDirection)
+			end
 
 			--Loop over both the Direction and Location and create a projectile for each direction/location combination
 			--as long as tProjectilesDirection and tProjectilesLocation have the same count and are in the same order this will work. 
 			for i = 1, #tProjectilesDirection, 1 do
 
 				local hProjectile = {
-					Source = self.caster,
+					Source = caster,
 					Ability = self,
-					vSpawnOrigin = tProjectilesLocation[i],
+					vSpawnOrigin = origin,
 					bDeleteOnHit = false,
 					iUnitTargetTeam = DOTA_UNIT_TARGET_TEAM_ENEMY,
 					iUnitTargetFlags = DOTA_UNIT_TARGET_FLAG_NONE,
 					iUnitTargetType = DOTA_UNIT_TARGET_HERO + DOTA_UNIT_TARGET_BASIC,
 					EffectName = "particles/timber/napalm_wave_basedtidehuntergushupgrade.vpcf", --"particles/econ/items/mars/mars_ti9_immortal/mars_ti9_immortal_crimson_spear.vpcf"
 					fDistance = 9000,
-					fStartRadius = self.radius,
-					fEndRadius = self.radius,
+					fStartRadius = radius,
+					fEndRadius = radius,
 					vVelocity = tProjectilesDirection[i] * projectile_speed,
 					bHasFrontalCone = false,
 					bReplaceExisting = false,
 					fExpireTime = GameRules:GetGameTime() + 30.0,
 					bProvidesVision = true,
 					iVisionRadius = 200,
-					iVisionTeamNumber = self.caster:GetTeamNumber(),
+					iVisionTeamNumber = caster:GetTeamNumber(),
 				}
 
 				local projectileId = ProjectileManager:CreateLinearProjectile(hProjectile)
 
 				local projectileInfo  = {
 					projectile = projectileId,
-					position = tProjectilesLocation[i],
+					position = origin,
 					velocity = tProjectilesDirection[i] * projectile_speed,
 					handleProjectile = hProjectile
 				}
@@ -179,29 +143,6 @@ function fire_shell:OnSpellStart()
 	end
 end
 ------------------------------------------------------------------------------------------------
-function fire_shell:OnProjectileHit(hTarget, vLocation)
-
-	local enemies = FindUnitsInRadius(
-		self.caster:GetTeamNumber(),	-- int, your team number
-		vLocation,	-- point, center point
-		nil,	-- handle, cacheUnit. (not known)
-		self.radius,	-- float, radius. or use FIND_UNITS_EVERYWHERE
-		DOTA_UNIT_TARGET_TEAM_ENEMY,	-- int, team filter
-		DOTA_UNIT_TARGET_HERO + DOTA_UNIT_TARGET_BASIC,	-- int, type filter
-		0,	-- int, flag filter
-		0,	-- int, order filter
-		false	-- bool, can grow cache
-	)
-
-	for _, enemy in pairs(enemies) do
-		-- damage
-		self.damageTable.victim = enemy
-		ApplyDamage( self.damageTable )
-	end
-
-end
-------------------------------------------------------------------------------------------------
-
 
 function fire_shell:OnProjectileThink(vLocation)
 	GridNav:DestroyTreesAroundPoint( vLocation, self.destroy_tree_radius, true )
