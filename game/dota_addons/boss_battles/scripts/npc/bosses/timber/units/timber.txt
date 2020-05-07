@@ -17,13 +17,13 @@
 		"BaseClass"					"npc_dota_creature"
 		"SoundSet"					"n_creep_Melee"
 		"GameSoundsFile"			"soundevents/game_sounds_heroes/game_sounds_shredder.vsndevts"
-		"Level"						"10"
+		"Level"						"1"
 		"ModelScale" 				"1.5"
 
 		// Abilities
 		//----------------------------------------------------------------
 		"Ability1"					"saw_blade"					// Ability 1
-		"Ability2"					"saw_blade_return"			// Ability 1
+		"Ability2"					"return_saw_blades"			// Ability 2
 
 		// Armor
 		//----------------------------------------------------------------

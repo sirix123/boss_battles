@@ -8,6 +8,8 @@
 
 chain_modifier = class({})
 
+LinkLuaModifier( "modifier_generic_silenced", "core/modifier_generic_silenced", LUA_MODIFIER_MOTION_NONE )
+
 --------------------------------------------------------------------------------
 -- Classifications
 function chain_modifier:IsHidden()
@@ -40,7 +42,7 @@ function chain_modifier:OnCreated( kv )
 
 	-- precache damage
 	self.damageTable = {
-		-- victim = target,
+		--victim = target,
 		attacker = self:GetCaster(),
 		damage = damage,
 		damage_type = self:GetAbility():GetAbilityDamageType(),
@@ -168,8 +170,6 @@ function chain_modifier:UpdateHorizontalMotion( me, dt )
 		-- cast whirling death
 		self:WhirlingDeathStart()
 
-		TEST123 = 2
-
 	end
 end
 
@@ -218,7 +218,7 @@ function chain_modifier:WhirlingDeathStart()
 	local damageTable = {
 		-- victim = target,
 		attacker = caster,
-		damage = damage,
+		damage = wd_damage,
 		damage_type = DAMAGE_TYPE_PHYSICAL,
 		ability = self, --Optional.
 	}

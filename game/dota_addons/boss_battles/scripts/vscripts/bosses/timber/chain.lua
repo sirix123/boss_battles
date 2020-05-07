@@ -12,8 +12,6 @@ chain = class({})
 
 -- Ability Start
 function chain:OnSpellStart()
-	TEST123 = 0
-	print(TEST123)
 	-- unit identifier
 	local caster = self:GetCaster()
 	--self.point = self:GetCursorPosition()

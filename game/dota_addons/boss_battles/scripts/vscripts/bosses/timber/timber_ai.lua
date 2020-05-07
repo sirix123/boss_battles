@@ -1,4 +1,4 @@
-timber = class({})
+timber_ai = class({})
 
 function Spawn( entityKeyValues )
 
@@ -10,14 +10,19 @@ function Spawn( entityKeyValues )
 		return
 	end
 
+	-- saw blade references and init
 	thisEntity.saw_blade = thisEntity:FindAbilityByName( "saw_blade" )
-	thisEntity.saw_blade_return = thisEntity:FindAbilityByName( "saw_blade_return" )
+	thisEntity.nMaxSawBlades = thisEntity.saw_blade:GetLevelSpecialValueFor("nMaxSawBlades", thisEntity.saw_blade:GetLevel())
+	thisEntity.nCurrentSawBlades = 0
+
+	thisEntity.return_saw_blades = thisEntity:FindAbilityByName( "return_saw_blades" )
+
+
 	thisEntity.chain = thisEntity:FindAbilityByName( "chain" )
 	thisEntity.fire_shell = thisEntity:FindAbilityByName( "fire_shell" )
 	thisEntity.timber_droid_support = thisEntity:FindAbilityByName( "timber_droid_support" )
 
 	thisEntity.timberSpawnTime = GameRules:GetGameTime()
-	thisEntity.switchToReturnSawBlade = 0
 
 	thisEntity:SetContextThink( "Timber", TimberThink, 0.5 )
 end
@@ -36,17 +41,14 @@ function TimberThink()
 		return 0.5
 	end
 
-	if thisEntity.saw_blade ~= nil and thisEntity.saw_blade:IsFullyCastable() and thisEntity.switchToReturnSawBlade ~= 5 then
-		thisEntity.switchToReturnSawBlade = thisEntity.switchToReturnSawBlade + 1
-		print("casting sawblades....")
-		print(thisEntity.switchToReturnSawBlade)
-		CastSawBlade()
-	elseif thisEntity.switchToReturnSawBlade == 5 then
-		print("casting return sawblades....")
-		thisEntity.switchToReturnSawBlade = 0
-		CastReturnSawBlade()
+	-- saw blade cast logic
+	if thisEntity:GetHealthPercent() < 95 and thisEntity.saw_blade ~= nil and thisEntity.saw_blade:IsFullyCastable() and thisEntity.nCurrentSawBlades < thisEntity.nMaxSawBlades then
+		thisEntity.nCurrentSawBlades = thisEntity.nCurrentSawBlades + 1
+		return CastSawBlade()
+	elseif thisEntity.return_saw_blades ~= nil and thisEntity.saw_blade:IsFullyCastable() and thisEntity.nCurrentSawBlades == thisEntity.nMaxSawBlades then
+		thisEntity.nCurrentSawBlades = 0
+		return CastReturnSawBlade()
 	end
-
 
 	return 0.5
 end
@@ -63,29 +65,29 @@ function CastSawBlade()
 		DOTA_UNIT_TARGET_TEAM_ENEMY,
 		DOTA_UNIT_TARGET_ALL,
 		DOTA_UNIT_TARGET_FLAG_NONE,
-		FIND_CLOSEST,
+		FIND_ANY_ORDER,
 		false )
 
-    -- get closet enemy location
-	thisEntity.vLocation = enemies[1]:GetAbsOrigin()
+    -- get a random enemy location
+	thisEntity.vLocation = enemies[RandomInt(1,#enemies)]:GetAbsOrigin()
 
 	ExecuteOrderFromTable({
 		UnitIndex = thisEntity:entindex(),
 		OrderType = DOTA_UNIT_ORDER_CAST_POSITION,
 		AbilityIndex = thisEntity.saw_blade:entindex(),
 		Position = thisEntity.vLocation,
-		Queue = false,
+		Queue = 0,
 	})
-	return 2.0
+	return 0.5
 end
 --------------------------------------------------------------------------------
 
 function CastReturnSawBlade()
 	ExecuteOrderFromTable({
 		UnitIndex = thisEntity:entindex(),
-		OrderType = DOTA_ABILITY_BEHAVIOR_NO_TARGET,
-		AbilityIndex = thisEntity.saw_blade_return:entindex(),
-		Queue = false,
+		OrderType = DOTA_UNIT_ORDER_CAST_NO_TARGET,
+		AbilityIndex = thisEntity.return_saw_blades:entindex(),
+		Queue = 0,
 	})
-	return 10.0
+	return 2.0
 end

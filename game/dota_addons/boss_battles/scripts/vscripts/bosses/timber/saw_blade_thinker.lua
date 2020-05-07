@@ -33,19 +33,18 @@ function saw_blade_thinker:OnCreated( kv )
     self.parent = self:GetParent()
 	self.caster = self:GetCaster()
 
-    -- ref eventually replace these with values from kv
-    self.speed = 400
-	self.interval = 1
+	-- ref eventually replace these with values from kv
+	self.speed = self:GetAbility():GetSpecialValueFor("speed")
 	-- 200 radius is the spell particle effect, if we change this number we need to change particle effect
-	self.destroy_tree_radius = 50
-	self.radius = 200
-	self.stay_duration = 5
-	self.damage = 0
-	self.manaAmount = 2
+	self.destroy_tree_radius = self:GetAbility():GetSpecialValueFor("destroy_tree_radius")
+	self.radius = self:GetAbility():GetSpecialValueFor("radius")
+	self.stay_duration = self:GetAbility():GetSpecialValueFor("stay_duration")
+	self.damage = self:GetAbility():GetSpecialValueFor("damage")
+	self.manaAmount = self:GetAbility():GetSpecialValueFor("manaAmount")
 
-    -- ref from kv
+    -- ref from main ability
     self.currentTarget = Vector( kv.target_x, kv.target_y, kv.target_z )
-
+	self.interval = 1
     self.sub = kv.sub
 
     -- init vars
@@ -58,7 +57,7 @@ function saw_blade_thinker:OnCreated( kv )
 	self.fl_staytrigger_end_time = 0
 	self.damageTable = {
 		attacker = self.caster,
-		damage = self.damage ,
+		damage = self.damage,
 		damage_type = self:GetAbility():GetAbilityDamageType(),
 	}
 
@@ -210,7 +209,7 @@ function saw_blade_thinker:ApplySawBladeDamage()
 			self.currentSawbladeLocation,	-- point, center point
 			nil,	-- handle, cacheUnit. (not known)
 			self.radius,	-- float, radius. or use FIND_UNITS_EVERYWHERE
-			DOTA_UNIT_TARGET_TEAM_FRIENDLY,	-- int, team filter
+			DOTA_UNIT_TARGET_TEAM_ENEMY,	-- int, team filter
 			DOTA_UNIT_TARGET_HERO + DOTA_UNIT_TARGET_BASIC,	-- int, type filter
 			0,	-- int, flag filter
 			0,	-- int, order filter
@@ -224,37 +223,6 @@ function saw_blade_thinker:ApplySawBladeDamage()
 		end
 	end
 
-end
---------------------------------------------------------------------------------
-
--- Aura Effects
-function saw_blade_thinker:IsAura()
-	return self.mode==MODE_STAY
-end
-
-function saw_blade_thinker:GetModifierAura()
-	return --"saw_blade_modifier"
-	-- might aid with code readability if we use this new modifier to do damage as well? keep timing/moving in this file only?
-end
-
-function saw_blade_thinker:GetAuraRadius()
-	return self.radius
-end
-
-function saw_blade_thinker:GetAuraDuration()
-	return 0.3
-end
-
-function saw_blade_thinker:GetAuraSearchTeam()
-	return DOTA_UNIT_TARGET_TEAM_ENEMY
-end
-
-function saw_blade_thinker:GetAuraSearchType()
-	return DOTA_UNIT_TARGET_HERO + DOTA_UNIT_TARGET_BASIC
-end
-
-function saw_blade_thinker:GetAuraSearchFlags()
-	return DOTA_UNIT_TARGET_FLAG_NONE
 end
 --------------------------------------------------------------------------------
 
