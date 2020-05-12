@@ -96,6 +96,7 @@ function saw_blade_thinker:MoveThink()
 	if close then
 		self.last_move_time = GameRules:GetGameTime()
 		self.mode = MODE_STAY
+		--self:StartIntervalThink( self.interval )
 
 		-- play effects
 		self:PlayStayEffects()
@@ -122,7 +123,7 @@ function saw_blade_thinker:ReturnThink()
 
 	self:DestroyTrees()
 	self:ApplySawBladeDamage()
-	
+
 	-- move logic
 	self.currentTarget = self.caster:GetAbsOrigin()
 	local close = self:MoveLogic( self.currentSawbladeLocation )
@@ -220,9 +221,16 @@ function saw_blade_thinker:ApplySawBladeDamage()
 			-- damage
 			self.damageTable.victim = enemy
 			ApplyDamage( self.damageTable )
+
+			-- particle effect on player hit 
+			-- particles/econ/items/lifestealer/ls_ti9_immortal/ls_ti9_open_wounds_blood_spray.vpcf
+			local particle = "particles/timber/ls_ti9_open_wounds_blood_spray_sawblade_blood.vpcf"
+
+			local particle_cast = ParticleManager:CreateParticle(particle, PATTACH_ABSORIGIN_FOLLOW, enemy)
+
+			ParticleManager:ReleaseParticleIndex( particle_cast )
 		end
 	end
-
 end
 --------------------------------------------------------------------------------
 

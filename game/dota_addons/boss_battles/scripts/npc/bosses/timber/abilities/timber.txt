@@ -67,7 +67,7 @@
             "06"
 			{
 				"var_type"			                "FIELD_INTEGER"
-				"damage"		                    "0 0 0 0"
+				"damage"		                    "3 0 0 0"
 			}
             "07"
 			{
@@ -133,12 +133,12 @@
 
         // Casting
         //-------------------------------------------------------------------------------------------------------------
-        "AbilityCastPoint"              "0.5 0.2 0.2 0.2"
+        "AbilityCastPoint"              "0.2 0.2 0.2 0.2"
         "AbilityCastRange"				"10000 10000 10000 10000"
 
         // Time     
         //-------------------------------------------------------------------------------------------------------------
-        "AbilityCooldown"               "0 10 5 5"
+        "AbilityCooldown"               "0 8 8 8"
 
         // Cost
         //-------------------------------------------------------------------------------------------------------------
@@ -159,22 +159,42 @@
 			"02"
 			{
 				"var_type"			"FIELD_INTEGER"
-				"range"				"850 1050 1250 1450"
+				"range"				"10000 10000 10000 10000"
 			}
 			"03"
 			{
 				"var_type"			"FIELD_INTEGER"
-				"radius"		"225 225 225 225"
+				"radius"		    "225 225 225 225"
 			}
 			"04"
 			{	
 				"var_type"			"FIELD_INTEGER"
-				"speed"				"1600 2000 2400 2800"
+				"speed"				"2500 2000 2000 2000"
 			}
 			"05"
 			{	
 				"var_type"			"FIELD_INTEGER"
 				"damage"			"100 140 180 220"
+			}
+            "06"
+			{
+				"var_type"			"FIELD_INTEGER"
+				"wd_radius"		    "300 300 300 300"
+			}
+			"07"
+			{
+				"var_type"			"FIELD_INTEGER"
+				"wd_damage"		    "10 10 10 10"
+			}
+			"08"
+			{	
+				"var_type"			"FIELD_INTEGER"
+				"wd_duration"		"10 10 10 10"
+			}
+			"09"
+			{	
+				"var_type"			"FIELD_INTEGER"
+				"wd_tree_damage"	"10 10 10 10"
 			}
 		}
     }
@@ -339,6 +359,41 @@
             "soundfile" "soundevents/voscripts/game_sounds_vo_tinker.vsndevts"
 			"particle"	"particles/units/heroes/hero_invoker/invoker_sun_strike.vpcf"
             "particle"	"particles/units/heroes/hero_invoker/invoker_sun_strike_team.vpcf"
+		}
+
+        // Casting
+        //-------------------------------------------------------------------------------------------------------------
+        "AbilityCastPoint"              "0.0 0.0 0.0 0.0"
+
+        // Time     
+        //-------------------------------------------------------------------------------------------------------------
+        "AbilityCooldown"               "1.0 1.0 1.0 1.0"
+
+        // Cost
+        //-------------------------------------------------------------------------------------------------------------
+        "AbilityManaCost"               "0"
+
+        // Special
+        //-------------------------------------------------------------------------------------------------------------
+    }
+
+    //=================================================================================================================
+    // Timber: Blast Wave
+    //=================================================================================================================
+    "blast_wave"
+    { 
+        "BaseClass"                     "ability_lua"
+        "ScriptFile"                    "bosses/timber/blast_wave"
+
+        // General
+        //-------------------------------------------------------------------------------------------------------------
+        "AbilityBehavior"               "DOTA_ABILITY_BEHAVIOR_NO_TARGET"
+        "AbilityUnitDamageType"         "DAMAGE_TYPE_PHYSICAL"  
+ 
+		"precache"
+		{
+			"soundfile"	"soundevents/voscripts/game_sounds_vo_shredder.vsndevts"
+			"particle"	"particles/timber/napalm_wave_basedtidehuntergushupgrade.vpcf"
 		}
 
         // Casting

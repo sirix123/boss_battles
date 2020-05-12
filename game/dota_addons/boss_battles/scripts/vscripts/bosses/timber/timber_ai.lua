@@ -14,11 +14,13 @@ function Spawn( entityKeyValues )
 	thisEntity.saw_blade = thisEntity:FindAbilityByName( "saw_blade" )
 	thisEntity.nMaxSawBlades = thisEntity.saw_blade:GetLevelSpecialValueFor("nMaxSawBlades", thisEntity.saw_blade:GetLevel())
 	thisEntity.nCurrentSawBlades = 0
-
 	thisEntity.return_saw_blades = thisEntity:FindAbilityByName( "return_saw_blades" )
 
-
+	-- chain references and init
 	thisEntity.chain = thisEntity:FindAbilityByName( "chain" )
+
+
+
 	thisEntity.fire_shell = thisEntity:FindAbilityByName( "fire_shell" )
 	thisEntity.timber_droid_support = thisEntity:FindAbilityByName( "timber_droid_support" )
 
@@ -49,6 +51,13 @@ function TimberThink()
 		thisEntity.nCurrentSawBlades = 0
 		return CastReturnSawBlade()
 	end
+
+	-- chain cast logic
+	-- if health < 95 and .. and ..
+	-- return castchain 
+	-- chain inside 
+	-- find units... in cloest to furtherst 
+	-- if enemy[last 2index] > 300 yards away then cast chain on them 
 
 	return 0.5
 end
@@ -89,5 +98,5 @@ function CastReturnSawBlade()
 		AbilityIndex = thisEntity.return_saw_blades:entindex(),
 		Queue = 0,
 	})
-	return 2.0
+	return 10.0
 end

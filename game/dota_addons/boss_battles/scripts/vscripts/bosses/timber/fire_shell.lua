@@ -53,18 +53,27 @@ function fire_shell:OnSpellStart()
 		local caster = self:GetCaster()
 		local origin = caster:GetAbsOrigin()
 
+		self.damage = 100
+
+		-- init dmg table
+		self.damageTable = {
+			attacker = self.caster,
+			damage = self.damage,
+			damage_type = DAMAGE_TYPE_MAGICAL,
+		}
+
 		-- init (KV)
-		local radius = 100
+		local radius = 300
 		local projectile_speed = 1000
-		self.destroy_tree_radius = 100
+		self.destroy_tree_radius = 50
 
 		-- table init
 		local tProjectilesDirection = {}
 
 		-- wave init (KV)
 		local nWaves = 0
-		local nMaxWaves = 8
-		local fTimeBetweenWaves = 4
+		local nMaxWaves = 4
+		local fTimeBetweenWaves = 0.8
 		local firstWave = true
 
 		caster:AddNewModifier( caster, self, "fire_shell_modifier", { duration = 1 + (nMaxWaves * fTimeBetweenWaves) } )
@@ -93,7 +102,7 @@ function fire_shell:OnSpellStart()
 			nWaves = nWaves + 1
 
 			-- generate random directions, fill table with them
-			local nProjectilesPerWave = RandomInt(6, 9)
+			local nProjectilesPerWave = RandomInt(4, 6)
 
 			for i = 1, nProjectilesPerWave, 1 do
 				local vRandomDirection = Vector(	RandomFloat( -1 	, 1 ), RandomFloat( -1 , 1 ), 0 ):Normalized()
@@ -146,6 +155,14 @@ end
 
 function fire_shell:OnProjectileThink(vLocation)
 	GridNav:DestroyTreesAroundPoint( vLocation, self.destroy_tree_radius, true )
+
+end
+------------------------------------------------------------------------------------------------
+
+function fire_shell:OnProjectileHit(hTarget, vLocation)
+
+	self.damageTable.victim = hTarget
+	ApplyDamage( self.damageTable )
 
 end
 ------------------------------------------------------------------------------------------------

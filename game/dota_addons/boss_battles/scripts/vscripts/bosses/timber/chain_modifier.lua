@@ -206,19 +206,19 @@ function chain_modifier:WhirlingDeathStart()
 	local caster = self:GetCaster()
 
 	-- load data
-	local wd_radius = 300
-	local wd_damage = 10
-	local wd_duration = 10
-	local wd_tree_damage = 10
+	self.wd_radius = self:GetAbility():GetSpecialValueFor( "wd_radius" )
+	self.wd_damage = self:GetAbility():GetSpecialValueFor( "wd_damage" )
+	self.wd_duration = self:GetAbility():GetSpecialValueFor( "wd_duration" )
+	self.wd_tree_damage = self:GetAbility():GetSpecialValueFor( "wd_tree_damage" )
 
-	local trees = GridNav:GetAllTreesAroundPoint( caster:GetOrigin(), wd_radius, false )
-	GridNav:DestroyTreesAroundPoint( caster:GetOrigin(), wd_radius, false )
+	local trees = GridNav:GetAllTreesAroundPoint( caster:GetOrigin(), self.wd_radius, false )
+	GridNav:DestroyTreesAroundPoint( caster:GetOrigin(), self.wd_radius, false )
 
-	wd_damage = wd_damage + #trees * wd_tree_damage
+	self.wd_damage = self.wd_damage + (#trees * self.wd_tree_damage)
 	local damageTable = {
 		-- victim = target,
 		attacker = caster,
-		damage = wd_damage,
+		damage = self.wd_damage,
 		damage_type = DAMAGE_TYPE_PHYSICAL,
 		ability = self, --Optional.
 	}
@@ -227,7 +227,7 @@ function chain_modifier:WhirlingDeathStart()
 		caster:GetTeamNumber(),	-- int, your team number
 		caster:GetOrigin(),	-- point, center point
 		nil,	-- handle, cacheUnit. (not known)
-		wd_radius,	-- float, radius. or use FIND_UNITS_EVERYWHERE
+		self.wd_radius,	-- float, radius. or use FIND_UNITS_EVERYWHERE
 		DOTA_UNIT_TARGET_TEAM_ENEMY,	-- int, team filter
 		DOTA_UNIT_TARGET_HERO + DOTA_UNIT_TARGET_BASIC,	-- int, type filter
 		0,	-- int, flag filter
@@ -243,7 +243,7 @@ function chain_modifier:WhirlingDeathStart()
 				caster, -- player source
 				self, -- ability source
 				"modifier_generic_silenced", -- modifier name
-				{ duration = wd_duration } -- kv
+				{ duration = self.wd_duration } -- kv
 			)
 
 			hashero = true
@@ -255,7 +255,7 @@ function chain_modifier:WhirlingDeathStart()
 	end
 
 	-- Play effects
-	self:wd_PlayEffects( wd_radius, hashero )
+	self:wd_PlayEffects( self.wd_radius, hashero )
 
 end
 

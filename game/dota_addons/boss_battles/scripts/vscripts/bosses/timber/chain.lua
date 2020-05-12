@@ -35,6 +35,13 @@ function chain:OnSpellStart()
 
 	-- create effect
 	local effect = self:PlayEffects( caster:GetOrigin() + projectile_direction * projectile_distance, projectile_speed, projectile_distance/projectile_speed )
+		--[[
+	local timber_particle = ParticleManager:CreateParticle("particles/units/heroes/hero_shredder/shredder_timberchain.vpcf", PATTACH_CUSTOMORIGIN, self:GetCaster())
+	ParticleManager:SetParticleControlEnt(timber_particle, 0, self:GetCaster(), PATTACH_POINT_FOLLOW, "attach_attack1", self:GetCaster():GetAbsOrigin(), true)
+	ParticleManager:SetParticleControl(timber_particle, 1, self:GetCaster():GetAbsOrigin() + ((self:GetCursorPosition() - self:GetCaster():GetAbsOrigin()):Normalized() * (self:GetTalentSpecialValueFor("range") + self:GetCaster():GetCastRangeBonus())))
+	ParticleManager:SetParticleControl(timber_particle, 2, Vector(self:GetSpecialValueFor("speed"), 0, 0 ))
+	ParticleManager:SetParticleControl(timber_particle, 3, Vector(((self:GetTalentSpecialValueFor("range") + self:GetCaster():GetCastRangeBonus()) / self:GetSpecialValueFor("speed")) * 2, 0, 0 ))
+]]
 
 	-- create projectile
 	local info = {
@@ -85,14 +92,10 @@ chain.projectiles = {}
 function chain:OnProjectileThinkHandle( handle )
 	-- get data
 	local ExtraData = self.projectiles[ handle ]
-	--local location = ProjectileManager:GetLinearProjectileLocation( handle )
+	local location = ProjectileManager:GetLinearProjectileLocation( handle )
+	local dist = (location - Vector(self.point.x,self.point.y,self.point.z)):Length2D()
 
-	-- search for tree
-	--local trees = GridNav:GetAllTreesAroundPoint( location, ExtraData.radius, false )
-
-	--if #trees>0 then
-		--local point = trees[1]:GetOrigin()
-
+	if dist < 50 then
 		-- snag
 		self:GetCaster():AddNewModifier(
 			self:GetCaster(), -- player source
@@ -115,7 +118,7 @@ function chain:OnProjectileThinkHandle( handle )
 
 		-- add vision
 		AddFOWViewer( self:GetCaster():GetTeamNumber(), self.point, 400, 1, true )
-	--end
+	end
 end
 
 function chain:OnProjectileHitHandle( target, location, handle )
@@ -139,14 +142,14 @@ function chain:PlayEffects( point, speed, duration )
 	local sound_cast = "Hero_Shredder.TimberChain.Cast"
 
 	-- Create Particle
-	local effect_cast = ParticleManager:CreateParticle( particle_cast, PATTACH_ABSORIGIN_FOLLOW, self:GetCaster() )
+	local effect_cast = ParticleManager:CreateParticle( particle_cast, PATTACH_CUSTOMORIGIN, self:GetCaster() )
 	ParticleManager:SetParticleControlEnt(
 		effect_cast,
 		0,
 		self:GetCaster(),
 		PATTACH_POINT_FOLLOW,
 		"attach_attack1",
-		Vector(0,0,0), -- unknown
+		self:GetCaster():GetAbsOrigin(), -- unknown
 		true -- unknown, true
 	)
 	ParticleManager:SetParticleControl( effect_cast, 1, point )
@@ -157,6 +160,13 @@ function chain:PlayEffects( point, speed, duration )
 	-- Create Sound
 	EmitSoundOn( sound_cast, self:GetCaster() )
 
+	--[[
+	local timber_particle = ParticleManager:CreateParticle("particles/units/heroes/hero_shredder/shredder_timberchain.vpcf", PATTACH_CUSTOMORIGIN, self:GetCaster())
+	ParticleManager:SetParticleControlEnt(timber_particle, 0, self:GetCaster(), PATTACH_POINT_FOLLOW, "attach_attack1", self:GetCaster():GetAbsOrigin(), true)
+	ParticleManager:SetParticleControl(timber_particle, 1, self:GetCaster():GetAbsOrigin() + ((self:GetCursorPosition() - self:GetCaster():GetAbsOrigin()):Normalized() * (self:GetTalentSpecialValueFor("range") + self:GetCaster():GetCastRangeBonus())))
+	ParticleManager:SetParticleControl(timber_particle, 2, Vector(self:GetSpecialValueFor("speed"), 0, 0 ))
+	ParticleManager:SetParticleControl(timber_particle, 3, Vector(((self:GetTalentSpecialValueFor("range") + self:GetCaster():GetCastRangeBonus()) / self:GetSpecialValueFor("speed")) * 2, 0, 0 ))
+]]
 	return effect_cast
 end
 
