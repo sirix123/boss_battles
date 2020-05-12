@@ -24,6 +24,9 @@
 		//----------------------------------------------------------------
 		"Ability1"					"saw_blade"					// Ability 1
 		"Ability2"					"return_saw_blades"			// Ability 2
+		"Ability3"					"chain"						// Ability 3
+		"Ability4"					"fire_shell"				// Ability 4
+		"Ability5"					"energy_start_zero"			// Ability 5
 
 		// Armor
 		//----------------------------------------------------------------
@@ -47,13 +50,13 @@
 		// Movement
 		//----------------------------------------------------------------
 		"MovementCapabilities"		"DOTA_UNIT_CAP_MOVE_GROUND"
-		"MovementSpeed"				"1"					
+		"MovementSpeed"				"300"					
 
 		// Status
 		//----------------------------------------------------------------
 		"StatusHealth"				"500"		// Base health.
 		"StatusHealthRegen"			"0.5"		// Health regeneration rate.
-		"StatusMana"				"0"			// Base mana.
+		"StatusMana"				"100"		// Base mana.
 		"StatusManaRegen"			"0.0"		// Mana regeneration rate.		 
 		
 		// Vision

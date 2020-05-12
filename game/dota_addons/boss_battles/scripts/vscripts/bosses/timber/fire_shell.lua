@@ -53,13 +53,13 @@ function fire_shell:OnSpellStart()
 		local caster = self:GetCaster()
 		local origin = caster:GetAbsOrigin()
 
-		self.damage = 100
+		self.damage = 200
 
 		-- init dmg table
 		self.damageTable = {
 			attacker = self.caster,
 			damage = self.damage,
-			damage_type = DAMAGE_TYPE_MAGICAL,
+			damage_type = DAMAGE_TYPE_PHYSICAL,
 		}
 
 		-- init (KV)
@@ -163,6 +163,8 @@ function fire_shell:OnProjectileHit(hTarget, vLocation)
 
 	self.damageTable.victim = hTarget
 	ApplyDamage( self.damageTable )
+
+	DebugDrawCircle(vLocation, Vector(0,255,255), 128, 50, true, 60)
 
 end
 ------------------------------------------------------------------------------------------------

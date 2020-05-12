@@ -119,33 +119,6 @@ function chain_modifier:UpdateHorizontalMotion( me, dt )
 	local target = origin + direction * self.speed * dt
 	me:SetOrigin( target )
 
-	-- find enemies
-	local enemies = FindUnitsInRadius(
-		me:GetTeamNumber(),	-- int, your team number
-		origin,	-- point, center point
-		nil,	-- handle, cacheUnit. (not known)
-		self.radius,	-- float, radius. or use FIND_UNITS_EVERYWHERE
-		DOTA_UNIT_TARGET_TEAM_ENEMY,	-- int, team filter
-		DOTA_UNIT_TARGET_HERO + DOTA_UNIT_TARGET_BASIC,	-- int, type filter
-		0,	-- int, flag filter
-		0,	-- int, order filter
-		false	-- bool, can grow cache
-	)
-
-	for _,enemy in pairs(enemies) do
-		-- check if already hit
-		if not self.caught_enemies[enemy] then
-			self.caught_enemies[enemy] = true
-
-			-- damage
-			self.damageTable.victim = enemy
-			ApplyDamage( self.damageTable )
-
-			-- play effects
-			self:PlayEffects( enemy )
-		end
-	end
-
 	-- destroy if stunned
 	if me:IsStunned() then
 		me:RemoveHorizontalMotionController( self )
