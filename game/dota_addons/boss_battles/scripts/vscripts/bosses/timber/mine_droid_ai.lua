@@ -28,7 +28,7 @@ function DroidThink()
 	local enemies = FindUnitsInRadius(
 		DOTA_TEAM_BADGUYS,
 		thisEntity:GetAbsOrigin(),
-		nil, 
+		nil,
 		FIND_UNITS_EVERYWHERE,
 		DOTA_UNIT_TARGET_TEAM_ENEMY,
 		DOTA_UNIT_TARGET_ALL,
@@ -39,18 +39,15 @@ function DroidThink()
 	if #enemies == 0 then
 		return 0.5
 	end
-    
-    -- find cloest player
-	for _, enemy in pairs(enemies) do
-        -- distance from droid to timber
-        thisEntity.distanceFromPlayer = ( thisEntity:GetAbsOrigin() - enemy:GetAbsOrigin() ):Length2D()
 
-        -- cast enhance
-        if thisEntity.mine_droid_laymine:IsCooldownReady() and ( thisEntity.distanceFromPlayer < 400 ) then
-            CastLayMine( enemy:GetAbsOrigin() )
-        elseif thisEntity.distanceFromPlayer > 400 then
-            thisEntity:MoveToPosition( enemy:GetAbsOrigin() )
-        end
+	-- distance from droid to timber
+	thisEntity.distanceFromPlayer = ( thisEntity:GetAbsOrigin() - enemies[1]:GetAbsOrigin() ):Length2D()
+
+	-- cast enhance
+	if thisEntity.mine_droid_laymine:IsCooldownReady() and ( thisEntity.distanceFromPlayer < 400 ) then
+		CastLayMine( enemies[1]:GetAbsOrigin() )
+	elseif thisEntity.distanceFromPlayer > 400 then
+		thisEntity:MoveToPosition( enemies[1]:GetAbsOrigin() )
 	end
 
 	return 1.0

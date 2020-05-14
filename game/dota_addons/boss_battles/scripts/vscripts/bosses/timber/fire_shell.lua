@@ -53,18 +53,9 @@ function fire_shell:OnSpellStart()
 		local caster = self:GetCaster()
 		local origin = caster:GetAbsOrigin()
 
-		self.damage = 200
-
-		-- init dmg table
-		self.damageTable = {
-			attacker = self.caster,
-			damage = self.damage,
-			damage_type = DAMAGE_TYPE_PHYSICAL,
-		}
-
 		-- init (KV)
-		local radius = 300
-		local projectile_speed = 1000
+		local radius = self:GetSpecialValueFor( "radius" )
+		local projectile_speed = self:GetSpecialValueFor( "projectile_speed" )
 		self.destroy_tree_radius = 50
 
 		-- table init
@@ -72,9 +63,12 @@ function fire_shell:OnSpellStart()
 
 		-- wave init (KV)
 		local nWaves = 0
-		local nMaxWaves = 4
-		local fTimeBetweenWaves = 0.8
+		local nMaxWaves = self:GetSpecialValueFor( "nMaxWaves" )
+		print(nMaxWaves)
+		local fTimeBetweenWaves = self:GetSpecialValueFor( "fTimeBetweenWaves" )
 		local firstWave = true
+		local nMinProjPerWave = self:GetSpecialValueFor( "nMinProjPerWave" )
+		local nMaxProjPerWave = self:GetSpecialValueFor( "nMaxProjPerWave" )
 
 		caster:AddNewModifier( caster, self, "fire_shell_modifier", { duration = 1 + (nMaxWaves * fTimeBetweenWaves) } )
 
@@ -102,7 +96,7 @@ function fire_shell:OnSpellStart()
 			nWaves = nWaves + 1
 
 			-- generate random directions, fill table with them
-			local nProjectilesPerWave = RandomInt(4, 6)
+			local nProjectilesPerWave = RandomInt(nMinProjPerWave, nMaxProjPerWave)
 
 			for i = 1, nProjectilesPerWave, 1 do
 				local vRandomDirection = Vector(	RandomFloat( -1 	, 1 ), RandomFloat( -1 , 1 ), 0 ):Normalized()
@@ -155,16 +149,28 @@ end
 
 function fire_shell:OnProjectileThink(vLocation)
 	GridNav:DestroyTreesAroundPoint( vLocation, self.destroy_tree_radius, true )
-
+	--DebugDrawCircle(vLocation, Vector(0,255,255), 128, 150, true, 60)
 end
 ------------------------------------------------------------------------------------------------
 
 function fire_shell:OnProjectileHit(hTarget, vLocation)
 
-	self.damageTable.victim = hTarget
-	ApplyDamage( self.damageTable )
+	local caster = self:GetCaster()
 
-	DebugDrawCircle(vLocation, Vector(0,255,255), 128, 50, true, 60)
+	local damage = self:GetSpecialValueFor( "damage" )
+
+	-- init dmg table
+	local damageTable = {
+		victim = hTarget,
+		attacker = caster,
+		damage = damage,
+		damage_type = DAMAGE_TYPE_PHYSICAL,
+	}
+
+	ApplyDamage( damageTable )
+
+	--DebugDrawCircle(vLocation, Vector(0,255,255), 128, 150, true, 60)
+	--DebugDrawSphere(vLocation, Vector(0,255,255), 128, 50, true, 60)
 
 end
 ------------------------------------------------------------------------------------------------
@@ -189,7 +195,7 @@ function fire_shell:StartThinkLoop()
 	for k, projectileInfo in pairs(tProjectileData) do
 		projectileInfo.position = projectileInfo.position + projectileInfo.velocity
 
-		DebugDrawCircle(projectileInfo.position, Vector(0,0,255), 128, 50, true, 60)
+		--DebugDrawCircle(projectileInfo.position, Vector(0,0,255), 128, 50, true, 60)
 
         if GetGroundPosition(projectileInfo.position, handleProjectile).z > 256 then
 			ProjectileManager:DestroyLinearProjectile(projectileInfo.projectile)

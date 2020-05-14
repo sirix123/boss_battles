@@ -25,8 +25,8 @@ end
 -- Initializations
 function smelter_droid_enhance_modifier_thinker:OnCreated( kv )
 	-- references
-	self.radius = 1000
-	local interval = 1
+	self.radius = 600
+	local interval = 1.5
 
 	if IsServer() then
 		self.parent = self:GetParent()
@@ -61,7 +61,7 @@ function smelter_droid_enhance_modifier_thinker:OnIntervalThink()
 	local target = self:GetParent()
 
 	-- add buff
-	target:AddNewModifier( target, self, "smelter_droid_enhance_modifier", { duration = 1000 } )
+	target:AddNewModifier( target, self, "smelter_droid_enhance_modifier", { duration = 5 } )
 	-- add stack
 	local hBuff = target:FindModifierByName( "smelter_droid_enhance_modifier" )
 	hBuff:IncrementStackCount()

@@ -7,9 +7,8 @@ stun_droid_zap_modifier_thinker = class ({})
 function stun_droid_zap_modifier_thinker:OnCreated( kv )
 	-- references
 	self.interval = 0.1--self:GetAbility():GetSpecialValueFor( "tick_rate" )
-	self.speed = 40--self:GetAbility():GetSpecialValueFor( "movespeed_bonus_pct" )
-	self.radius = 300--self:GetAbility():GetSpecialValueFor( "radius" )
-	self.base_stun = 5--self:GetAbility():GetSpecialValueFor( "debuff_duration" )
+	self.radius = self:GetAbility():GetSpecialValueFor( "radius" )
+	self.base_stun = self:GetAbility():GetSpecialValueFor( "debuff_duration" )
 
 	if IsServer() then
 		-- Start interval
@@ -75,21 +74,6 @@ function stun_droid_zap_modifier_thinker:OnDestroy( kv )
         UTIL_Remove( self:GetParent() )
  
 	end
-end
-----------------------------------------------------------------------------------------------------------------
-
--- Modifier Effects
-function stun_droid_zap_modifier_thinker:DeclareFunctions()
-	local funcs = {
-		MODIFIER_PROPERTY_MOVESPEED_BONUS_PERCENTAGE,
-	}
-
-	return funcs
-end
-----------------------------------------------------------------------------------------------------------------
-
-function stun_droid_zap_modifier_thinker:GetModifierMoveSpeedBonus_Percentage()
-	return self.speed
 end
 ----------------------------------------------------------------------------------------------------------------
 

@@ -4,12 +4,12 @@ LinkLuaModifier( "timber_droid_support_thinker", "bosses/timber/timber_droid_sup
 function timber_droid_support:OnSpellStart()
 
 	-- number of cast locations per cast, level up every phase?
-	self.numberLocations = 2
+	self.numberLocations = self:GetSpecialValueFor( "numberLocations" )
 
-	-- init 
+	-- init
 	local caster = self:GetCaster()
 	local delay = 2
-	
+
 	self.tPositions = {}
 
 	for i = 1, self.numberLocations, 1 do
@@ -18,7 +18,7 @@ function timber_droid_support:OnSpellStart()
 		table.insert(self.tPositions, Vector(vNewPositionX, vNewPositionY, 255))
 	end
 
-    
+
 	for i = 1, #self.tPositions, 1 do
 		-- create modifier thinker
 		CreateModifierThinker(

@@ -9,9 +9,10 @@ function smelter_droid_enhance:OnSpellStart()
     local caster = self:GetCaster()
     local origin = caster:GetAbsOrigin()
 
-    -- kv reference
+	-- kv reference
     local duration = 5
-	local radius = 500 -- replace with cast range
+	local radius = 500
+	--local radius = 500 -- replace with cast range
 
     -- find enemies
 	local friendlies = FindUnitsInRadius(

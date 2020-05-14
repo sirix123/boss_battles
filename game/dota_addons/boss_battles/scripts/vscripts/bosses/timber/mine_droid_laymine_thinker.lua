@@ -138,10 +138,10 @@ function mine_droid_laymine_thinker:Explode()
     end
 
     local mines = FindUnitsInRadius(
-        DOTA_TEAM_GOODGUYS,
-        self.currentPosition,
+        DOTA_TEAM_BADGUYS,
+        self:GetParent():GetAbsOrigin(),
         nil,
-        1,
+        5,
         DOTA_UNIT_TARGET_TEAM_FRIENDLY,
         DOTA_UNIT_TARGET_ALL,
         DOTA_UNIT_TARGET_FLAG_NONE,
@@ -151,10 +151,12 @@ function mine_droid_laymine_thinker:Explode()
     for _, mine in pairs(mines) do
         if mine:GetUnitName() == "npc_dota_techies_land_mine" then
             local mine_health = mine:GetHealth()
+            print(mine_health)
             if mine_health > 1 then
                 mine:SetHealth(mine_health - 1)
             else
                 mine:ForceKill(false)
+                mine:Kill(self.ability, attacker)
             end
         end
     end
@@ -164,7 +166,6 @@ end
 
 function mine_droid_laymine_thinker:OnDestroy()
     if not IsServer() then return end
-
     self.parent:ForceKill(false)
     UTIL_Remove( self.parent )
 end

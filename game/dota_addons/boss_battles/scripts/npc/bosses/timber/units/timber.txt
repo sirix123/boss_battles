@@ -27,6 +27,8 @@
 		"Ability3"					"chain"						// Ability 3
 		"Ability4"					"fire_shell"				// Ability 4
 		"Ability5"					"energy_start_zero"			// Ability 5
+		"Ability6"					"timber_droid_support"		// Ability 6
+		"Ability7"					"blast_wave"				// Ability 7
 
 		// Armor
 		//----------------------------------------------------------------
@@ -38,9 +40,9 @@
 		"AttackDamageMin"			"1"		
 		"AttackDamageMax"			"2"		
 		"AttackRate"				"0"		// Speed of attack.
-		"AttackAnimationPoint"		"0.4"		// Normalized time in animation cycle to attack.
-		"AttackAcquisitionRange"	"1"		// Range within a target can be acquired.
-		"AttackRange"				"1"		
+		"AttackAnimationPoint"		"0.8"		// Normalized time in animation cycle to attack.
+		"AttackAcquisitionRange"	"10000"		// Range within a target can be acquired.
+		"AttackRange"				"50"		
 
 		// Bounds
 		//----------------------------------------------------------------
@@ -50,7 +52,7 @@
 		// Movement
 		//----------------------------------------------------------------
 		"MovementCapabilities"		"DOTA_UNIT_CAP_MOVE_GROUND"
-		"MovementSpeed"				"300"					
+		"MovementSpeed"				"350"					
 
 		// Status
 		//----------------------------------------------------------------
@@ -120,7 +122,7 @@
 
 		// Status
 		//----------------------------------------------------------------
-		"StatusHealth"				"50"		// Base health.
+		"StatusHealth"				"500"		// Base health.
 		"StatusHealthRegen"			"0.5"		// Health regeneration rate.
 		"StatusMana"				"0"			// Base mana.
 		"StatusManaRegen"			"0.0"		// Mana regeneration rate.		 
@@ -194,7 +196,7 @@
 
 		// Status
 		//----------------------------------------------------------------
-		"StatusHealth"				"50"		// Base health.
+		"StatusHealth"				"500"		// Base health.
 		"StatusHealthRegen"			"0.5"		// Health regeneration rate.
 		"StatusMana"				"0"			// Base mana.
 		"StatusManaRegen"			"0.0"		// Mana regeneration rate.		 
@@ -268,7 +270,7 @@
 
 		// Status
 		//----------------------------------------------------------------
-		"StatusHealth"				"50"		// Base health.
+		"StatusHealth"				"500"		// Base health.
 		"StatusHealthRegen"			"0.5"		// Health regeneration rate.
 		"StatusMana"				"0"			// Base mana.
 		"StatusManaRegen"			"0.0"		// Mana regeneration rate.		 

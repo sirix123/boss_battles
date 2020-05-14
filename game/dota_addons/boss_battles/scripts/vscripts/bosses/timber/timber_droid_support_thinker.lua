@@ -14,8 +14,8 @@ end
 -- Initializations
 function timber_droid_support_thinker:OnCreated( kv )
     if IsServer() then
-        -- references
-        self.droidsPerLocation = 2
+		-- references
+		self.droidsPerLocation = self:GetAbility():GetSpecialValueFor( "droidsPerLocation" )
 
         --init
         self.parent = self:GetParent()
@@ -37,7 +37,7 @@ function timber_droid_support_thinker:OnDestroy( kv )
 
 		-- Play effects
         self:PlayEffects2()
-        GridNav:DestroyTreesAroundPoint( self.parentOrgin, 100, true )
+        GridNav:DestroyTreesAroundPoint( self.parentOrgin, 500, true )
         
         -- summon random droid
         for i = 1, #self.tDroidToSummon, 1 do
