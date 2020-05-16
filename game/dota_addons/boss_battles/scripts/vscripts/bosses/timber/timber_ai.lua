@@ -29,7 +29,6 @@ function Spawn( entityKeyValues )
 
 	-- blast wave references and init
 	thisEntity.blast_wave = thisEntity:FindAbilityByName( "blast_wave" )
-	thisEntity.hardMode = false
 
 	thisEntity.timberSpawnTime = GameRules:GetGameTime()
 
@@ -53,10 +52,7 @@ function TimberThink()
 		return 0.5
 	end
 
-	-- make all abilities = to level 1
-	--LevelUpAbilities()
-
-	-- find cloest player and attack if nothing else can be cast...
+	-- find cloest player and attack if nothing else can be cast... add everything not ready?
 	-- GetAggroTarget
 	if thisEntity:GetAttackTarget() == nil then
 		AttackClosestPlayer()
@@ -82,21 +78,42 @@ function TimberThink()
 	end
 
 	-- droid support logic
-	if thisEntity:GetHealthPercent() < 60 and thisEntity.timber_droid_support ~= nil and thisEntity.timber_droid_support:IsFullyCastable() then
+	if thisEntity:GetHealthPercent() < 75 and thisEntity.timber_droid_support ~= nil and thisEntity.timber_droid_support:IsFullyCastable() then
 		return CastDroidSupport()
 	end
 
-	-- blast wave (hardmode) logic
-	if thisEntity.blast_wave ~= nil and thisEntity.blast_wave:IsFullyCastable() then
+	-- blast wave (hardmode) logic 
+	if thisEntity.blast_wave ~= nil and thisEntity.blast_wave:IsFullyCastable() and HardModeCheck() == true then
 		return CastBlastWave()
 	end
 
 	-- level up abilities at certain hp %ers
-	-- see miro board / notes for boss flow
-	--LevelUpAbilities()
-
+	if thisEntity:GetHealthPercent() < 99 and thisEntity.levelTracker == 0 then
+		LevelUpAbilities() -- forces all abilities to be level 1
+	end
+	if thisEntity:GetHealthPercent() < 80 and thisEntity.levelTracker == 1 then
+		LevelUpAbilities() -- forces all abilities to be level 2
+	end
+	if thisEntity:GetHealthPercent() < 60 and thisEntity.levelTracker == 2 then
+		LevelUpAbilities() -- forces all abilities to be level 3
+	end
+	if thisEntity:GetHealthPercent() < 40 and thisEntity.levelTracker == 3 then
+		LevelUpAbilities() -- forces all abilities to be level 4
+	end
 
 	return 0.5
+end
+--------------------------------------------------------------------------------
+
+function HardModeCheck()
+
+	local trees = GridNav:GetAllTreesAroundPoint( thisEntity:GetAbsOrigin(), 10000, true )
+
+	if #trees < 1 then
+		return true
+	else
+		return false
+	end
 end
 --------------------------------------------------------------------------------
 

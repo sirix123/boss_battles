@@ -27,7 +27,7 @@ function stun_droid_zap_modifier_thinker:OnIntervalThink()
 		self:GetParent():GetOrigin(),	-- point, center point
 		nil,	-- handle, cacheUnit. (not known)
 		self.radius,	-- float, radius. or use FIND_UNITS_EVERYWHERE
-		DOTA_UNIT_TARGET_TEAM_ENEMY,	-- int, team filter
+		DOTA_UNIT_TARGET_TEAM_BOTH,	-- int, team filter
 		DOTA_UNIT_TARGET_HERO + DOTA_UNIT_TARGET_BASIC,	-- int, type filter
 		0,	-- int, flag filter
 		0,	-- int, order filter
@@ -50,7 +50,7 @@ function stun_droid_zap_modifier_thinker:OnDestroy( kv )
 			self:GetParent():GetOrigin(),	-- point, center point
 			nil,	-- handle, cacheUnit. (not known)
 			self.radius,	-- float, radius. or use FIND_UNITS_EVERYWHERE
-			DOTA_UNIT_TARGET_TEAM_ENEMY,	-- int, team filter
+			DOTA_UNIT_TARGET_TEAM_BOTH,	-- int, team filter
 			DOTA_UNIT_TARGET_HERO + DOTA_UNIT_TARGET_BASIC,	-- int, type filter
 			0,	-- int, flag filter
 			0,	-- int, order filter

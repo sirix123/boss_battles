@@ -7,7 +7,7 @@ LinkLuaModifier( "modifier_generic_stunned", "core/modifier_generic_stunned", LU
 function stun_droid_zap:OnSpellStart()
     local caster = self:GetCaster()
 
-    local duration = 3
+    local duration = self:GetSpecialValueFor( "duration" )
 
     caster:AddNewModifier(caster, self, "stun_droid_zap_modifier_thinker", {duration = duration})
 

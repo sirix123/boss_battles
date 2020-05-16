@@ -39,7 +39,7 @@ function blast_wave:OnSpellStart()
             iUnitTargetTeam = DOTA_UNIT_TARGET_TEAM_ENEMY,
             iUnitTargetFlags = DOTA_UNIT_TARGET_FLAG_NONE,
             iUnitTargetType = DOTA_UNIT_TARGET_HERO + DOTA_UNIT_TARGET_BASIC,
-            EffectName = "particles/timber/napalm_wave_basedtidehuntergushupgrade.vpcf",
+            EffectName = "particles/timber/blast_wave.vpcf",
             fDistance = 2000,
             fStartRadius = self.radius,
             fEndRadius = self.radius,
