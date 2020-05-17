@@ -324,16 +324,6 @@
 				"duration"   		"3 3 3 3"
             }
 		}
-
-		"AttachWearables"
-		{
-			"Wearable1" 	{ "ItemDef" "9545" }
-			"Wearable2" 	{ "ItemDef" "9550" }
-			"Wearable3" 	{ "ItemDef" "9552" }
-			"Wearable4" 	{ "ItemDef" "9543" }
-			"Wearable5" 	{ "ItemDef" "9542" }
-			"Wearable6"		{ "ItemDef" "9547" }
-		}
     }
 
 	//=================================================================================================================

@@ -72,7 +72,19 @@
 		"CombatClassAttack"			"DOTA_COMBAT_CLASS_ATTACK_PIERCE"
 		"CombatClassDefend"			"DOTA_COMBAT_CLASS_DEFEND_BASIC"
 		"UnitRelationshipClass"		"DOTA_NPC_UNIT_RELATIONSHIP_TYPE_DEFAULT"
-		
+
+		"Creature"
+		{
+			"AttachWearables"
+			{
+				"Wearable1" 	{ "ItemDef" "9545" }
+				"Wearable2" 	{ "ItemDef" "9550" }
+				"Wearable3" 	{ "ItemDef" "9552" }
+				"Wearable4" 	{ "ItemDef" "9543" }
+				"Wearable5" 	{ "ItemDef" "9542" }
+				"Wearable6"		{ "ItemDef" "9547" }
+			}
+		}
 	}
 
 	//=================================================================================	
@@ -136,15 +148,17 @@
 		//----------------------------------------------------------------
 		"TeamName"					"DOTA_TEAM_BADGUYS"						// Team name.
 
-
-		"AttachWearables"
+		"Creature"
 		{
-			//"Wearable1" { "ItemDef" "5934" }
-			//"Wearable2" { "ItemDef" "5935" }
-			//"Wearable3" { "ItemDef" "5936" }
-			//"Wearable4" { "ItemDef" "5937" }
-			//"Wearable5" { "ItemDef" "5938" }
-			//"Wearable6"	{ "ItemDef" "5939" }
+			"AttachWearables"
+			{
+				"Wearable1" { "ItemDef" "5934" }
+				"Wearable2" { "ItemDef" "5935" }
+				"Wearable3" { "ItemDef" "5936" }
+				"Wearable4" { "ItemDef" "5937" }
+				"Wearable5" { "ItemDef" "5938" }
+				"Wearable6" { "ItemDef" "5939" }
+			}
 		}
 
 	}
@@ -211,14 +225,17 @@
 		"TeamName"					"DOTA_TEAM_BADGUYS"						// Team name.
 
 
-		"AttachWearables"
+		"Creature"
 		{
-			//"Wearable1" { "ItemDef" "5934" }
-			//"Wearable2" { "ItemDef" "5935" }
-			//"Wearable3" { "ItemDef" "5936" }
-			//"Wearable4" { "ItemDef" "5937" }
-			//"Wearable5" { "ItemDef" "5938" }
-			//"Wearable6"	{ "ItemDef" "5939" }
+			"AttachWearables"
+			{
+				"Wearable1" { "ItemDef" "5934" }
+				"Wearable2" { "ItemDef" "5935" }
+				"Wearable3" { "ItemDef" "5936" }
+				"Wearable4" { "ItemDef" "5937" }
+				"Wearable5" { "ItemDef" "5938" }
+				"Wearable6" { "ItemDef" "5939" }
+			}
 		}
 
 	}
@@ -285,15 +302,17 @@
 		"TeamName"					"DOTA_TEAM_BADGUYS"						// Team name.
 
 
-		"AttachWearables"
+		"Creature"
 		{
-			//"Wearable1" { "ItemDef" "5934" }
-			//"Wearable2" { "ItemDef" "5935" }
-			//"Wearable3" { "ItemDef" "5936" }
-			//"Wearable4" { "ItemDef" "5937" }
-			//"Wearable5" { "ItemDef" "5938" }
-			//"Wearable6"	{ "ItemDef" "5939" }
+			"AttachWearables"
+			{
+				"Wearable1" { "ItemDef" "5934" }
+				"Wearable2" { "ItemDef" "5935" }
+				"Wearable3" { "ItemDef" "5936" }
+				"Wearable4" { "ItemDef" "5937" }
+				"Wearable5" { "ItemDef" "5938" }
+				"Wearable6" { "ItemDef" "5939" }
+			}
 		}
-
 	}
 }
