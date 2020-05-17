@@ -1,10 +1,13 @@
 
+LinkLuaModifier( "droid_colour_modifier_green", "bosses/timber/droid_colour_modifier_green", LUA_MODIFIER_MOTION_NONE )
 --------------------------------------------------------------------------------
 
 function Spawn( entityKeyValues )
 	if not IsServer() then return end
 
-    thisEntity.smelter_droid_enhance = thisEntity:FindAbilityByName( "smelter_droid_enhance" )
+	thisEntity.smelter_droid_enhance = thisEntity:FindAbilityByName( "smelter_droid_enhance" )
+
+	thisEntity:AddNewModifier(thisEntity, self, "droid_colour_modifier_green", {duration = 9000})
 
 	thisEntity:SetContextThink( "DroidThink", DroidThink, 0.5 )
 

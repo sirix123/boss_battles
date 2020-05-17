@@ -1,12 +1,16 @@
 
 mine_droid_ai = class({})
 
+LinkLuaModifier( "droid_colour_modifier_red", "bosses/timber/droid_colour_modifier_red", LUA_MODIFIER_MOTION_NONE )
+
 --------------------------------------------------------------------------------
 
 function Spawn( entityKeyValues )
 	if not IsServer() then return end
 
-    thisEntity.mine_droid_laymine = thisEntity:FindAbilityByName( "mine_droid_laymine" )
+	thisEntity.mine_droid_laymine = thisEntity:FindAbilityByName( "mine_droid_laymine" )
+
+	thisEntity:AddNewModifier(thisEntity, self, "droid_colour_modifier_red", {duration = 9000})
 
 	thisEntity:SetContextThink( "DroidThink", DroidThink, 0.5 )
 

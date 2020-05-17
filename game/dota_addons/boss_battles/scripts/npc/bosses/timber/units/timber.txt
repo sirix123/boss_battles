@@ -15,7 +15,7 @@
 		//----------------------------------------------------------------
 		"Model"						"models/heroes/shredder/shredder.vmdl"	// Model.
 		"BaseClass"					"npc_dota_creature"
-		"SoundSet"					"n_creep_Melee"
+		"SoundSet"					"Hero_Shredder"
 		"GameSoundsFile"			"soundevents/game_sounds_heroes/game_sounds_shredder.vsndevts"
 		"Level"						"1"
 		"ModelScale" 				"1.5"
@@ -39,8 +39,8 @@
 		"AttackCapabilities"		"DOTA_UNIT_CAP_MELEE_ATTACK"
 		"AttackDamageMin"			"1"		
 		"AttackDamageMax"			"2"		
-		"AttackRate"				"0.5"		// Speed of attack.
-		"AttackAnimationPoint"		"0.8"		// Normalized time in animation cycle to attack.
+		"AttackRate"				"1.6"		// Speed of attack.
+		"AttackAnimationPoint"		"0.9"		// Normalized time in animation cycle to attack.
 		"AttackAcquisitionRange"	"10000"		// Range within a target can be acquired.
 		"AttackRange"				"50"		
 
@@ -99,10 +99,10 @@
 		//----------------------------------------------------------------
 		"Model"						"models/heroes/rattletrap/rattletrap.vmdl"	// Model.
 		"BaseClass"					"npc_dota_creature"
-		"SoundSet"					"n_creep_Melee"
+		"SoundSet"					"Hero_Rattletrap"
 		"GameSoundsFile"			"soundevents/game_sounds_heroes/game_sounds_shredder.vsndevts"
 		"Level"						"1"
-		"ModelScale" 				"0.7"
+		"ModelScale" 				"0.9"
 
 		// Abilities
 		//----------------------------------------------------------------
@@ -117,8 +117,8 @@
 		"AttackCapabilities"		"DOTA_UNIT_CAP_MELEE_ATTACK"
 		"AttackDamageMin"			"1"		
 		"AttackDamageMax"			"1"		
-		"AttackRate"				"0"			// Speed of attack.
-		"AttackAnimationPoint"		"0.4"		// Normalized time in animation cycle to attack.
+		"AttackRate"				"1.7"			// Speed of attack.
+		"AttackAnimationPoint"		"0.6"		// Normalized time in animation cycle to attack.
 		"AttackAcquisitionRange"	"100"		// Range within a target can be acquired.
 		"AttackRange"				"100"		
 
@@ -175,10 +175,10 @@
 		//----------------------------------------------------------------
 		"Model"						"models/heroes/rattletrap/rattletrap.vmdl"	// Model.
 		"BaseClass"					"npc_dota_creature"
-		"SoundSet"					"n_creep_Melee"
+		"SoundSet"					"Hero_Rattletrap"
 		"GameSoundsFile"			"soundevents/game_sounds_heroes/game_sounds_shredder.vsndevts"
 		"Level"						"1"
-		"ModelScale" 				"0.7"
+		"ModelScale" 				"0.9"
 
 		// Abilities
 		//----------------------------------------------------------------
@@ -193,8 +193,8 @@
 		"AttackCapabilities"		"DOTA_UNIT_CAP_MELEE_ATTACK"
 		"AttackDamageMin"			"1"		
 		"AttackDamageMax"			"1"		
-		"AttackRate"				"0"			// Speed of attack.
-		"AttackAnimationPoint"		"0.4"		// Normalized time in animation cycle to attack.
+		"AttackRate"				"1.7"			// Speed of attack.
+		"AttackAnimationPoint"		"0.6"		// Normalized time in animation cycle to attack.
 		"AttackAcquisitionRange"	"0"		// Range within a target can be acquired.
 		"AttackRange"				"0"		
 
@@ -252,10 +252,10 @@
 		//----------------------------------------------------------------
 		"Model"						"models/heroes/rattletrap/rattletrap.vmdl"	// Model.
 		"BaseClass"					"npc_dota_creature"
-		"SoundSet"					"n_creep_Melee"
+		"SoundSet"					"Hero_Rattletrap"
 		"GameSoundsFile"			"soundevents/game_sounds_heroes/game_sounds_shredder.vsndevts"
 		"Level"						"1"
-		"ModelScale" 				"0.7"
+		"ModelScale" 				"0.9"
 
 		// Abilities
 		//----------------------------------------------------------------
@@ -270,8 +270,8 @@
 		"AttackCapabilities"		"DOTA_UNIT_CAP_MELEE_ATTACK"
 		"AttackDamageMin"			"1"		
 		"AttackDamageMax"			"1"		
-		"AttackRate"				"0"			// Speed of attack.
-		"AttackAnimationPoint"		"0.4"		// Normalized time in animation cycle to attack.
+		"AttackRate"				"1.7"			// Speed of attack.
+		"AttackAnimationPoint"		"0.6"		// Normalized time in animation cycle to attack.
 		"AttackAcquisitionRange"	"100"		// Range within a target can be acquired.
 		"AttackRange"				"100"		
 

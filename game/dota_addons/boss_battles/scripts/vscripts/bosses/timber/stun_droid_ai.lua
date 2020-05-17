@@ -1,12 +1,16 @@
 
 stun_droid_ai = class({})
 
+LinkLuaModifier( "droid_colour_modifier_blue", "bosses/timber/droid_colour_modifier_blue", LUA_MODIFIER_MOTION_NONE )
+
 --------------------------------------------------------------------------------
 
 function Spawn( entityKeyValues )
 	if not IsServer() then return end
 
-    thisEntity.stun_droid_zap = thisEntity:FindAbilityByName( "stun_droid_zap" )
+	thisEntity.stun_droid_zap = thisEntity:FindAbilityByName( "stun_droid_zap" )
+	
+	thisEntity:AddNewModifier(thisEntity, self, "droid_colour_modifier_blue", {duration = 9000})
 
 	thisEntity:SetContextThink( "DroidThink", DroidThink, 0.5 )
 
