@@ -11,6 +11,14 @@ function stun_droid_zap:OnSpellStart()
 
     caster:AddNewModifier(caster, self, "stun_droid_zap_modifier_thinker", {duration = duration})
 
+    local config = {
+        progressBarType = "duration",
+        reversedProgress = false,
+        style = "ProgressBar",
+    }
+
+    ProgressBars:AddProgressBar(caster, "stun_droid_zap_modifier_thinker", config)
+
     self:PlayEffects()
 
 end
