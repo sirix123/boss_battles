@@ -56,13 +56,13 @@ end
 function GameMode:StartRaid()
 
     --[[
-            Intermission area  
+            Intermission area
 
     ]]--
 
 
     --[[
-            Beastmaster  
+            Beastmaster
 
     ]]--
     --print("GameMode: StartRaid")
