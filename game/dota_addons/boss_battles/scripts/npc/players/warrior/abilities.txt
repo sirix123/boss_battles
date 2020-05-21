@@ -4,7 +4,7 @@
 	"swing_sword"
 	{
 		"BaseClass"						"ability_lua"
-		"ScriptFile"					"core/warrior/swing_sword"
+		"ScriptFile"					"player/warrior/swing_sword"
 		"MaxLevel"						"1"
 
 		"AbilityTextureName"			"swing_sword"
@@ -30,7 +30,7 @@
 	"shield_wall"
 	{
 		"BaseClass"						"ability_lua"
-		"ScriptFile"					"core/warrior/shield_wall"
+		"ScriptFile"					"player/warrior/shield_wall"
 		"MaxLevel"						"1"
 
 		"AbilityTextureName"			"shield_wall"	
@@ -52,7 +52,7 @@
 	"aoe_taunt"
 	{
 		"BaseClass"						"ability_lua"
-		"ScriptFile"					"core/warrior/aoe_taunt"
+		"ScriptFile"					"player/warrior/aoe_taunt"
 		"MaxLevel"						"1"
 
 		"AbilityTextureName"			"aoe_taunt"	
@@ -72,7 +72,7 @@
 	"charge"
 	{
 		"BaseClass"						"ability_lua"
-		"ScriptFile"					"core/warrior/charge"
+		"ScriptFile"					"player/warrior/charge"
 		"MaxLevel"						"1"
 
 		"AbilityTextureName"			"charge"	
@@ -91,7 +91,7 @@
 	"frenzy"
 	{
 		"BaseClass"						"ability_lua"
-		"ScriptFile"					"core/warrior/frenzy"
+		"ScriptFile"					"player/warrior/frenzy"
 		"MaxLevel"						"1"
 
 		"AbilityTextureName"			"frenzy"	

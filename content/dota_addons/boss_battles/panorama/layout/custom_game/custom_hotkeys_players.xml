@@ -1,0 +1,13 @@
+<root>
+	<styles>
+		<include src="file://{resources}/styles/custom_game/custom_hotkeys_players.css" />
+	</styles>
+
+	<scripts>
+		<include src="file://{resources}/scripts/custom_game/custom_hotkeys_players.js" />
+	</scripts>
+
+	<Panel>
+
+	</Panel>
+</root>

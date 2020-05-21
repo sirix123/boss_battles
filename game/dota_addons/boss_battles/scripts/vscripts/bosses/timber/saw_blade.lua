@@ -35,7 +35,7 @@ function saw_blade:OnSpellStart()
                 self.caster,
                 self,
                 "saw_blade_thinker",
-                { 
+                {
                     target_x = point.x,
                     target_y = point.y,
                     target_z = point.z,

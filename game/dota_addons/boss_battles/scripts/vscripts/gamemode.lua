@@ -39,7 +39,7 @@ require('utility_functions')
 
 
 -- bossfight handler
-require('bossfights/boss_fights')
+require('managers/boss_fights')
 
 -- core functions
 require('core/core_functions')

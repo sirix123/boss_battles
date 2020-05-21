@@ -1,0 +1,11 @@
+<root>
+	<script>
+
+	</script>
+		
+	<Panel>
+		<CustomUIElement type="HudTopBar"			layoutfile="file://{resources}/layout/custom_game/custom_hotkeys_players.xml" />
+	</Panel>
+</root>
+
+

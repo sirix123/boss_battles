@@ -1,3 +1,19 @@
 "AddonInfo"
 {
+"TeamCount" "4"
+  "maps"    "arena_6x6"
+  "IsPlayable"  "1"
+  "arena_6x6"
+  {
+          "MaxPlayers"  "4"
+  }
+  "Default_Keys"
+    {
+        "01"
+        {
+            "Key"       "S"
+            "Command"   "+CustomGameExecuteAbility1"
+            "Name"      "Execute Ability 1"
+        }
+    }
 }
