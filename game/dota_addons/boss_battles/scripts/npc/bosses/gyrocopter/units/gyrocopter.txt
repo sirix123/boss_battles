@@ -12,7 +12,6 @@
 
 		// General
 		//----------------------------------------------------------------
-		//"Model"						"models/heroes/beastmaster/beastmaster.vmdl"	// Model.
 		"Model"						"models/heroes/gyro/gyro.vmdl"	// Model.
 		"BaseClass"					"npc_dota_creature"
 		"SoundSet"					"n_creep_Melee"
@@ -79,16 +78,20 @@
 		"CombatClassDefend"			"DOTA_COMBAT_CLASS_DEFEND_BASIC"
 		"UnitRelationshipClass"		"DOTA_NPC_UNIT_RELATIONSHIP_TYPE_DEFAULT"
 
-		"AttachWearables"
+		"Creature"
 		{
-			"Wearable1" { "ItemDef" "126" }
-			"Wearable2" { "ItemDef" "131" }
-			"Wearable3" { "ItemDef" "176" }
-			"Wearable4" { "ItemDef" "177" }
-			"Wearable5" { "ItemDef" "178" }
-			"Wearable6"	{ "ItemDef" "179" }
-			"Wearable7"	{ "ItemDef" "527" }
+			"AttachWearables" //https://github.com/TheEnigmaBlade/dota2-unit-asset-data/blob/master/wearables.txt
+			{
+				"Wearable1" { "ItemDef" "126" }
+				"Wearable2" { "ItemDef" "131" }
+				"Wearable3" { "ItemDef" "176" }
+				"Wearable4" { "ItemDef" "177" }
+				"Wearable5" { "ItemDef" "178" }
+				"Wearable6"	{ "ItemDef" "179" }
+				"Wearable7"	{ "ItemDef" "527" }
+			}
 		}
+		
 
 	}
 }

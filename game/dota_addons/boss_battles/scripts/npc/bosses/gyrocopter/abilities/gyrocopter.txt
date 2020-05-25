@@ -41,12 +41,15 @@
 
         // General
         //-------------------------------------------------------------------------------------------------------------
-        "AbilityBehavior"               "DOTA_ABILITY_BEHAVIOR_NO_TARGET"
-        "AbilityUnitDamageType"         "DAMAGE_TYPE_PHYSICAL"  
+        "AbilityBehavior"               "DOTA_ABILITY_BEHAVIOR_UNIT_TARGET"
+        "AbilityUnitTargetTeam"         "DOTA_UNIT_TARGET_TEAM_ENEMY"
+        "AbilityUnitTargetType"         "DOTA_UNIT_TARGET_HERO | DOTA_UNIT_TARGET_BASIC"
+        "AbilityUnitDamageType"         "DAMAGE_TYPE_MAGICAL"
 
         // Casting
         //-------------------------------------------------------------------------------------------------------------
         "AbilityCastPoint"              "0.0 0.0 0.0 0.0"
+        "AbilityCastRange"              "2000"        
 
         // Time     
         //-------------------------------------------------------------------------------------------------------------
@@ -55,6 +58,23 @@
         // Cost
         //-------------------------------------------------------------------------------------------------------------
         "AbilityManaCost"               "0"
+
+        //FOUND EXAMPLE OF HOMING MISSILE: 
+        //https://github.com/Pizzalol/SpellLibrary/blob/6ae510089a7515adf0582d06a444f027f95af040/game/scripts/npc/abilities/gyrocopter/homing_missile_datadriven.txt
+
+        "AbilityTextureName"            "gyrocopter_homing_missile"
+
+        "precache"
+        {
+            "particle"      "particles/units/heroes/hero_gyrocopter/gyro_guided_missile_target.vpcf"
+            "particle"      "particles/units/heroes/hero_gyrocopter/gyro_guided_missile_death.vpcf"
+            "particle"      "particles/units/heroes/hero_gyrocopter/gyro_guided_missile_explosion.vpcf"
+            "particle"      "particles/units/heroes/hero_gyrocopter/gyro_homing_missile_fuse.vpcf"
+            "soundfile"     "sounds/weapons/hero/gyrocopter/homing_missile.vsnd"
+            "soundfile"     "sounds/weapons/hero/gyrocopter/homing_missile_enemy.vsnd"
+            "soundfile"     "sounds/weapons/hero/gyrocopter/homing_missile_destroy.vsnd"
+            "soundfile"     "sounds/weapons/hero/gyrocopter/homing_missile_target.vsnd"
+        }
 
     }
 
