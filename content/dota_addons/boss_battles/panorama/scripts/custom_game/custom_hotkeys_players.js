@@ -8,11 +8,11 @@ function MyCallBack(){
     //Abilities.GetKeybind( integer nAbilityEntIndex )
 
     var playerId = Players.GetLocalPlayer();
-    $.Msg(playerId)
+    //$.Msg(playerId)
     var playerHero = Players.GetPlayerHeroEntityIndex( playerId );
-    $.Msg(playerHero)
+    //$.Msg(playerHero)
     var abilityIndex = Entities.GetAbility( playerHero, 4 )
-    $.Msg(abilityIndex)
+    //$.Msg(abilityIndex)
     
     Abilities.ExecuteAbility( abilityIndex, playerHero, false );
 
@@ -27,11 +27,31 @@ function MyCallBack(){
 function EmptyCallBack(){
 
 }
+//order, direction
+function Move(){
+
+    var playerId = Players.GetLocalPlayer();
+    var heroIndex = Players.GetPlayerHeroEntityIndex(playerId);
+    
+    GameEvents.SendCustomGameEventToServer("MoveUnit", { entityIndex: heroIndex, direction: "up" });
+    //GameEvents.SendCustomGameEventToServer(order, { entityIndex: heroIndex, direction: direction });
+    $.Msg("Sent game event...")
+}
+
+function MoveUnit(){
+
+}
 
 (function()
 {
-    Game.AddCommand( "+CustomGameExecuteAbility1", MyCallBack, "", 0 );
-    Game.AddCommand( "-CustomGameExecuteAbility1", EmptyCallBack, "", 0 );
+    Game.AddCommand( "+S", MyCallBack, "", 0 );
+    Game.AddCommand( "-S", EmptyCallBack, "", 0 );
+
+    Game.AddCommand( "+W", Move, "", 0 );
+    Game.AddCommand( "-W", EmptyCallBack, "", 0 );
+
+    //Game.OnPressW =     function(){ Move( "MoveUnit", "up" ) }
+    //Game.OnReleaseW =   function(){ Move( "StopUnit", "up" ) }
 
 })();
 

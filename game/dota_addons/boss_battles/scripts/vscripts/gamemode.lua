@@ -38,8 +38,12 @@ require('events')
 require('utility_functions')
 
 
--- bossfight handler
-require('managers/boss_fights')
+-- game handler
+require('managers/game_manager')
+
+-- player handler / core player scripts
+require('managers/player_manager')
+LinkLuaModifier( "movement_modifier_thinker", "player/generic/movement_modifier_thinker", LUA_MODIFIER_MOTION_NONE )
 
 -- core functions
 require('core/core_functions')
@@ -82,6 +86,7 @@ end
 ]]
 function GameMode:OnFirstPlayerLoaded()
   DebugPrint("[BAREBONES] First Player has loaded")
+  GameMode:SetUpMovement()
 end
 
 --[[
@@ -150,6 +155,9 @@ end
 
 function GameMode:OnHeroInGame(hero)
   DebugPrint("[BAREBONES] Hero spawned in game for first time -- " .. hero:GetUnitName())
+
+  hero:AddNewModifier( hero,  nil, "movement_modifier_thinker", { } )
+
   Timers:CreateTimer(.03, function()
     for i=0,8 do
       local item = hero:GetItemInSlot(i)
@@ -168,7 +176,7 @@ end
 ]]
 function GameMode:OnGameInProgress()
   DebugPrint("[BAREBONES] The game has officially begun")
-
+  
   GameMode:StartRaid()
 end
 
@@ -196,6 +204,8 @@ function GameMode:InitGameMode()
   GameRules.round = 0
   GameRules.num_players = 0
   GameRules.MAX_ROUNDS = 10
+
+  
 
 end
 
