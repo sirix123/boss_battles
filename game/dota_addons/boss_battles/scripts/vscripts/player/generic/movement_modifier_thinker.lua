@@ -47,7 +47,6 @@ function movement_modifier_thinker:Move()
     local origin = self.parent:GetAbsOrigin()
     local direction = nil
 
-    -- notes, xxx.direction.x = nil and parent.x = nil.. why..
     direction = Vector( self.parent.direction.x, self.parent.direction.y, self.parent:GetForwardVector().z )
 
     if self.parent:IsWalking() == true then

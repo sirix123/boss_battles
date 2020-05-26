@@ -1,6 +1,5 @@
 function GameMode:SetUpMovement()
     CustomGameEventManager:RegisterListener('MoveUnit', function(eventSourceIndex, args)
-        --local direction = args.direction
 
         --for k, v in pairs(args) do
             --print("k = ",k,"v = ",v)
@@ -9,12 +8,12 @@ function GameMode:SetUpMovement()
         local unit = EntIndexToHScript(args.entityIndex)
 
         if unit == nil then return end
-        if unit.direction == nil then return end--then
-            --unit.direction = {
-             --   y = 0,
-             --   x = 0
-            --}
-      --  end
+        if unit.direction == nil then
+            unit.direction = {
+                y = 0,
+                x = 0
+            }
+        end
 
         --print(unit:GetUnitName())
         --print(unit.direction.y)

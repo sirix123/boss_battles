@@ -3,11 +3,11 @@ function CDOTA_BaseNPC:Initialize(data)
   self.direction.x = 0
   self.direction.y = 0
   self.direction.z = 0
-  print("cdotastarted")
+
 end
 
 function CDOTA_BaseNPC:GetDirection()
-
+  print("cdotastarted")
   return Vector(self.direction.x, self.direction.y, nil)
 end
 
