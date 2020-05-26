@@ -25,6 +25,9 @@ function GameMode:OnNPCSpawned(keys)
   DebugPrintTable(keys)
 
   local npc = EntIndexToHScript(keys.entindex)
+  local data = {}
+  npc:Initialize(data) --can pass table param as data
+
   local heroName = npc:GetUnitName()
 
   if heroName == "npc_dota_hero_dragon_knight" then
