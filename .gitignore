@@ -3,5 +3,5 @@
 
 # Dota 2 compiled files
 *.vpk
-*_c
+*.vjs_c
 
