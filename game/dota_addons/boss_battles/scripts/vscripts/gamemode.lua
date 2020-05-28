@@ -44,6 +44,8 @@ require('managers/game_manager')
 -- player handler / core player scripts
 require('managers/player_manager')
 LinkLuaModifier( "movement_modifier_thinker", "player/generic/movement_modifier_thinker", LUA_MODIFIER_MOTION_NONE )
+LinkLuaModifier( "remove_attack_modifier", "player/generic/remove_attack_modifier", LUA_MODIFIER_MOTION_NONE )
+
 
 -- core functions
 require('core/core_functions')
@@ -157,6 +159,7 @@ function GameMode:OnHeroInGame(hero)
   DebugPrint("[BAREBONES] Hero spawned in game for first time -- " .. hero:GetUnitName())
 
   hero:AddNewModifier( hero,  nil, "movement_modifier_thinker", { } )
+  hero:AddNewModifier( hero,  nil, "remove_attack_modifier", { } )
 
   Timers:CreateTimer(.03, function()
     for i=0,8 do

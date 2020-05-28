@@ -69,7 +69,7 @@ function fire_shell_thinker:MoveLogic(previousFireShellLocation)
 
 	--print(self.currentFireShellLocation.z)
 	if self.currentFireShellLocation.z > 256 then
-		print("YO IM REALLY HIGH UP")
+		--print("YO IM REALLY HIGH UP")
 	end
 
 	self.parent:SetAbsOrigin( self.currentFireShellLocation )

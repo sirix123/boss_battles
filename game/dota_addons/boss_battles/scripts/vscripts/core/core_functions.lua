@@ -7,7 +7,7 @@ function CDOTA_BaseNPC:Initialize(data)
 end
 
 function CDOTA_BaseNPC:GetDirection()
-  print("cdotastarted")
+
   return Vector(self.direction.x, self.direction.y, nil)
 end
 
