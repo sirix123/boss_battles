@@ -89,6 +89,7 @@ end
 function GameMode:OnFirstPlayerLoaded()
   DebugPrint("[BAREBONES] First Player has loaded")
   GameMode:SetUpMovement()
+  GameMode:SetUpMouseUpdater()
 end
 
 --[[

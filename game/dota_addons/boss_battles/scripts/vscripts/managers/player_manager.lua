@@ -41,3 +41,14 @@ function GameMode:SetUpMovement()
 
     end) -- end of MoveUnit listener
 end
+
+function GameMode:SetUpMouseUpdater()
+    CustomGameEventManager:RegisterListener('MousePosition', function(eventSourceIndex, args)
+        self.mouse_positions = {}
+
+        local mouse_position = Vector(args.x, args.y, args.z)
+
+        self.mouse_positions[args.playerID] = mouse_position
+
+    end) -- end of MoveUnit listener
+end

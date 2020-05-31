@@ -67,7 +67,7 @@ function OnPressA() {
 function OnReleaseA() {
     $.Msg("Javascript: OnReleaseA()...")
     var heroIndex = Players.GetPlayerHeroEntityIndex(Players.GetLocalPlayer());
-    GameEvents.SendCustomGameEventToServer("MoveUnit", { entityIndex: heroIndex, direction: "", keyPressed: "a",  keyState: "up" });
+    GameEvents.SendCustomGameEventToServer("MoveUnit", { entityIndex: heroIndex, direction: "left", keyPressed: "a",  keyState: "up" });
 }
 
 function OnLeftButtonPressed()
@@ -75,9 +75,10 @@ function OnLeftButtonPressed()
     AbilityToCast(0);
     (function tic()
     {
-        if ( GameUI.IsMouseDown( 0 ) ){
+        if ( GameUI.IsMouseDown( 0 ) )
+        {
             AbilityToCast(0);
-            $.Schedule( 0.1, tic );
+            $.Schedule( 0.5, tic );
         }
     })();
 }
@@ -121,12 +122,32 @@ GameUI.SetMouseCallback( function( eventName, arg ){
     }
 	if ( eventName === "doublepressed" ){ return CONSUME_EVENT }
 	return CONTINUE_PROCESSING_EVENT;
-}); 
+});
+
+function GetMouseCastPosition(  )
+{
+    var mouse_position_screen = GameUI.GetCursorPosition();
+    var mouse_position = Game.ScreenXYToWorld(mouse_position_screen[0], mouse_position_screen[1])
+
+	GameEvents.SendCustomGameEventToServer("MousePosition", {
+        playerID: Players.GetLocalPlayer(), 
+        x: mouse_position[0], 
+        y: mouse_position[1],
+        z: mouse_position[2],
+    });
+}
+
+(function tic()
+	{
+
+        $.Schedule( 1.0/30.0, tic );
+        GetMouseCastPosition()
+
+	})();
 
 // handles keyboard hotkeys
 (function()
 {
-
     Game.AddCommand( "+W", OnPressW, "", 0 );
     Game.AddCommand( "-W", OnReleaseW, "", 0 );   
     
@@ -154,7 +175,7 @@ GameUI.SetMouseCallback( function( eventName, arg ){
 
     // Spacebar Movement Ability
     Game.AddCommand( "+Space", function(){ AbilityToCast(5) }, "", 0 );
-    Game.AddCommand( "-Space", EmptyCallBack, "", 0 );   
+    Game.AddCommand( "-Space", EmptyCallBack, "", 0 );
 
 })();   
 

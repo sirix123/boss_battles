@@ -1,5 +1,6 @@
 #base "players\warrior\warrior.txt"
 #base "players\rogue\rogue.txt"
+#base "players\icemage\icemage.txt"
 
 #base "bosses\beastmaster\abilities\beastmaster.txt"
 #base "bosses\gyrocopter\abilities\gyrocopter.txt"
