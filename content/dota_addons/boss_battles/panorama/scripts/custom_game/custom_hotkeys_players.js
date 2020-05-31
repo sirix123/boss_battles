@@ -14,7 +14,7 @@ function AbilityToCast(abilityNumber){
     }
     else{
         //$.Msg("[custom_hotkeys_players] casting ability", abilityIndex)
-        Abilities.ExecuteAbility( abilityIndex, playerHero, false );
+        Abilities.ExecuteAbility( abilityIndex, playerHero, true );
     }
 }
 
@@ -70,44 +70,58 @@ function OnReleaseA() {
     GameEvents.SendCustomGameEventToServer("MoveUnit", { entityIndex: heroIndex, direction: "", keyPressed: "a",  keyState: "up" });
 }
 
-// handles mouse hotkeys
+function OnLeftButtonPressed()
+{
+    AbilityToCast(0);
+    (function tic()
+    {
+        if ( GameUI.IsMouseDown( 0 ) ){
+            AbilityToCast(0);
+            $.Schedule( 0.1, tic );
+        }
+    })();
+}
+
+function OnRightButtonPressed()
+{
+    AbilityToCast(1);
+}
+
 GameUI.SetMouseCallback( function( eventName, arg ){
-    var mouseButton = arg
-    var CONSUME_EVENT = true;
+	var nMouseButton = arg;
+	var CONSUME_EVENT = true;
     var CONTINUE_PROCESSING_EVENT = false;
     
-	if ( GameUI.GetClickBehaviors() !== CLICK_BEHAVIORS.DOTA_CLICK_BEHAVIOR_NONE )
-		return CONTINUE_PROCESSING_EVENT;
-
-    if ( eventName == "pressed" )
-    {
-        if ( mouseButton === 0 ) 
-        { 
-            AbilityToCast(0)
-            $.Msg("leftclick")
-            return CONSUME_EVENT;
-        }
-        if ( mouseButton === 1 ) 
-        { 
-            AbilityToCast(1)
-            $.Msg("rightclick")
-            return CONSUME_EVENT;
-        }
+	if ( GameUI.GetClickBehaviors() !== CLICK_BEHAVIORS.DOTA_CLICK_BEHAVIOR_NONE ){
+        return CONTINUE_PROCESSING_EVENT;
     }
 
-    if ( eventName == "released" )
-    {
-        $.Msg("released")
-        EmptyCallBack()
-    }
-
-    if ( eventName === "doublepressed" )
+    if ( eventName === "pressed" )
 	{
-		return CONSUME_EVENT;
+		if ( nMouseButton === 0 )
+		{
+            OnLeftButtonPressed();
+            $.Msg("Javascript: OnLeftButtonPressed()...")
+            return CONSUME_EVENT;
+		}
+
+		if ( nMouseButton === 1 )
+		{
+            $.Msg("Javascript: OnRightButtonPressed()...")
+			OnRightButtonPressed();
+			return CONSUME_EVENT;
+        }
     }
-    
-    return CONTINUE_PROCESSING_EVENT;
-});
+    if (eventName === "released"){
+        if ( nMouseButton === 1 )
+		{
+			EmptyCallBack();
+			return CONSUME_EVENT;
+        }
+    }
+	if ( eventName === "doublepressed" ){ return CONSUME_EVENT }
+	return CONTINUE_PROCESSING_EVENT;
+}); 
 
 // handles keyboard hotkeys
 (function()
@@ -142,5 +156,6 @@ GameUI.SetMouseCallback( function( eventName, arg ){
     Game.AddCommand( "+Space", function(){ AbilityToCast(5) }, "", 0 );
     Game.AddCommand( "-Space", EmptyCallBack, "", 0 );   
 
-})();
+})();   
+
 

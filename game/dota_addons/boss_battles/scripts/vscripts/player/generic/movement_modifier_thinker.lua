@@ -43,14 +43,21 @@ end
 --------------------------------------------------------------------------------
 
 function movement_modifier_thinker:Move()
-    local speed = self.parent:GetIdealSpeed() / 76.5
+    local speed = self.parent:GetIdealSpeed() / 30
     local origin = self.parent:GetAbsOrigin()
     local direction = nil
 
     direction = Vector( self.parent.direction.x, self.parent.direction.y, self.parent:GetForwardVector().z )
 
     if self.parent:IsWalking() == true then
-        self.parent:SetForwardVector(direction)
+        local abilityBeingCast = self.parent:GetCurrentActiveAbility()
+
+        if abilityBeingCast ~= nil then
+            if abilityBeingCast:IsInAbilityPhase() == false then
+                self.parent:SetForwardVector(direction)
+            end
+        end
+
         local future_position = origin + direction * speed
         self.parent:SetAbsOrigin(future_position)
     end

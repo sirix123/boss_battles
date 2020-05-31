@@ -228,5 +228,10 @@ function GameMode:ExampleConsoleCommand()
 end
 
 function GameMode:CustomGameSetup()
+
   return
 end
+
+
+
+
