@@ -4,4 +4,5 @@
 # Dota 2 compiled files
 *.vpk
 *.vjs_c
+tools_thumbnail_cache.bin
 
