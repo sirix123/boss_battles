@@ -22,6 +22,40 @@ function EmptyCallBack(){
 
 }
 
+function ExecuteAbilityNamed(abilityName) {
+    var heroIndex = Players.GetPlayerHeroEntityIndex(Players.GetLocalPlayer());
+    //var abilityIndex = Entities.GetAbility( playerHero, abilityNumber )
+    var ability = Entities.GetAbilityByName( heroIndex, abilityName);
+
+    if (!ability) {
+        $.Msg("custom_hotkeys_players.js cannot find abilityName = " + abilityName);
+    }
+    else {
+        $.Msg("custom_hotkeys_players.js found abilityName = " + abilityName) ;  
+    }
+
+    //ability.state = "stateFromJS";
+
+    Abilities.ExecuteAbility( ability, heroIndex, true );
+}
+
+//Javscript timer example:
+// (function tic()
+// {
+//     if ( GameUI.IsMouseDown( 0 ) ){
+//         AbilityToCast(0);
+//         $.Schedule( 0.1, tic );
+//     }
+// })();
+
+function OnPressPowerShot() {
+    ExecuteAbilityNamed("powerShot")
+}
+
+function OnReleasePowerShot() {
+    ExecuteAbilityNamed("powerShot")
+}
+
 function OnPressW(){
     $.Msg("Javascript: OnPressW()...")
     var heroIndex = Players.GetPlayerHeroEntityIndex(Players.GetLocalPlayer());
@@ -88,7 +122,51 @@ function OnRightButtonPressed()
     AbilityToCast(1);
 }
 
+
+
+//A slingshot like ability.
+//You click a point on the screen, while holding the mouse down you drag back
+//When you release the mouse it flings a projectile outwards ...
+    //In the direction your pulled backwards 
+
+function ClickPullBack()
+{
+    //Get the first click position, 
+    //Then poll 
+    var clickPos = GameUI.GetCursorPosition()
+    var finalDragPos = GameUI.GetCursorPosition() //not sure what to init these two vars too
+    var calcedEndPoint = GameUI.GetCursorPosition() //not sure what to init these two vars too
+
+
+    //start an ability, which will do the DebugDraw...
+        //abilityName = clickpullback.lua
+
+    (function tick()
+    {
+        if ( GameUI.IsMouseDown( 0 ) ){
+            //mouse down, keep updating cursorPos
+            finalDragPos = GameUI.GetCursorPosition()
+            $.Schedule( 0.1, tick );
+
+
+        }
+        else 
+        {
+            //Mouse lifted. calc the distance between click and pullback location
+            //Actually you don't inverse it... you take this line and add origin to the end point to get the new endpoint
+            //Not sure if this is correct...
+            calcedEndPoint = clickPos + (clickPos - finalDragPos)
+            //call ability again
+        }
+
+    })();
+}
+
+
 GameUI.SetMouseCallback( function( eventName, arg ){
+
+    $.Msg("Javascript: SetMouseCallback ")
+
 	var nMouseButton = arg;
 	var CONSUME_EVENT = true;
     var CONTINUE_PROCESSING_EVENT = false;
@@ -150,7 +228,9 @@ function GetMouseCastPosition(  )
 {
     Game.AddCommand( "+W", OnPressW, "", 0 );
     Game.AddCommand( "-W", OnReleaseW, "", 0 );   
+
     
+
     Game.AddCommand( "+A", OnPressA, "", 0 );
     Game.AddCommand( "-A", OnReleaseA, "", 0 );   
     
@@ -173,9 +253,14 @@ function GetMouseCastPosition(  )
     Game.AddCommand( "+3", function(){AbilityToCast(4) }, "", 0 );
     Game.AddCommand( "-3", EmptyCallBack, "", 0 );   
 
+
+    //TESTING: Ability Powershot ability on Kunkka, press and hold SPACE to charge up, release to fire
+    Game.AddCommand( "+Space", OnPressPowerShot, "", 0 );
+    Game.AddCommand( "-Space", OnReleasePowerShot, "", 0 );
+
     // Spacebar Movement Ability
-    Game.AddCommand( "+Space", function(){ AbilityToCast(5) }, "", 0 );
-    Game.AddCommand( "-Space", EmptyCallBack, "", 0 );
+    // Game.AddCommand( "+Space", function(){ AbilityToCast(5) }, "", 0 );
+    // Game.AddCommand( "-Space", EmptyCallBack, "", 0 );
 
 })();   
 
