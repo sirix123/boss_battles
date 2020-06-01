@@ -376,21 +376,37 @@ local _CODE_TO_ANIMATION_TRANSLATE = {
 
 function modifier_animation:OnCreated(keys) 
   self.keys = keys
-  if not IsServer() then
-    local stack = keys.stack_count
-    local activity = bit.band(stack, 0x07FF)
-    local rate = bit.rshift(bit.band(stack, 0x7F800), 11)
-    local rest = bit.rshift(bit.band(stack, 0xFFF80000), 19)
-    self.activity = activity
-    self.rate = rate / 20 
-    self.rest = rest
-    --print(self.activity)
-    --print(self.rate)
-    --print(self.rest)
+  self.base = keys.base
 
-    self.translate = _CODE_TO_ANIMATION_TRANSLATE[self.rest]
+  if not IsServer() then
+      local stack = keys.stack_count
+      local activity = bit.band(stack, 0x07FF)
+      local rate = bit.rshift(bit.band(stack, 0x7F800), 11)
+      local rest = bit.rshift(bit.band(stack, 0xFFF80000), 19)
+      self.activity = activity
+      self.rate = rate / 20 
+      self.rest = rest
+      self.translate = _CODE_TO_ANIMATION_TRANSLATE[self.rest]
   else
-    self.translate = keys.translate
+      self.translate = keys.translate
+  end
+end
+
+function modifier_animation:OnRefresh(keys)
+  self.keys = keys
+  self.base = keys.base
+
+  if not IsServer() then
+      local stack = keys.stack_count
+      local activity = bit.band(stack, 0x07FF)
+      local rate = bit.rshift(bit.band(stack, 0x7F800), 11)
+      local rest = bit.rshift(bit.band(stack, 0xFFF80000), 19)
+      self.activity = activity
+      self.rate = rate / 20 
+      self.rest = rest
+      self.translate = _CODE_TO_ANIMATION_TRANSLATE[self.rest]
+  else
+      self.translate = keys.translate
   end
 end
 

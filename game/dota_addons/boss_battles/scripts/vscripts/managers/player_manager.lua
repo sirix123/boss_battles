@@ -53,3 +53,8 @@ function GameMode:SetUpMouseUpdater()
 
     end) -- end of SetupMouseUpdater listener
 end
+---------------------------------------------------------------------------------------------------
+
+-- indicators
+-- cast bar 
+-- 
