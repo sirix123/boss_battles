@@ -1,6 +1,6 @@
 movement_modifier_thinker = class({})
 
-local DEBUG = true
+local DEBUG = false
 
 local RADIUS_BIG = 40
 local RADIUS_MINI = 10
@@ -76,28 +76,37 @@ end
 --------------------------------------------------------------------------------
 
 function movement_modifier_thinker:Move()
+    -- animation init
     local current_animation_modifier = self.parent:FindModifierByName("modifier_animation")
     local current_animation = "not_walking"
-    --print(current_animation)
 
+    -- 
     if current_animation_modifier ~= nil then
         if current_animation_modifier.keys.base ~= nil then
-            print("do we get in here?")
             if current_animation_modifier.keys.base == 1 then
                 current_animation = "walking"
-                print(current_animation)
 			end
 		end
     end
 
+    -- variable init
     local future_position = nil
     local origin = self.parent:GetAbsOrigin()
     local speed = self.parent:GetIdealSpeed() / 30
     --local abilityBeingCast = self.parent:GetCurrentActiveAbility()
 
+    -- get parent vector and store in an array
+    local direction = nil
+    direction = Vector(
+        self.parent.direction.x,
+        self.parent.direction.y,
+        self.parent:GetForwardVector().z
+    )
+
+    -- set forward vector as the mouse location
     local mouse = GameMode.mouse_positions[self.parent:GetPlayerID()]
-    local direction = (mouse - self.parent:GetOrigin()):Normalized()
-    self.parent:SetForwardVector(Vector(direction.x, direction.y, self.parent:GetForwardVector().z ))
+    local mouseDirection = (mouse - self.parent:GetOrigin()):Normalized()
+    self.parent:SetForwardVector(Vector(mouseDirection.x, mouseDirection.y, self.parent:GetForwardVector().z ))
 
     -- moving
     if self.parent:IsWalking() == true then
@@ -107,19 +116,15 @@ function movement_modifier_thinker:Move()
             speed = speed * 0.75
         end
 
-        future_position = origin + Vector( self.parent.direction.x, self.parent.direction.y, self.parent:GetForwardVector().z ) * speed
+        future_position = origin + direction * speed
         future_position.z = GetGroundPosition(future_position, self.parent).z
-        --self.parent:SetAbsOrigin(future_position)
 
         -- test future position for colliding
         local test_position_front = origin + direction * speed * COLLIDE_OFFSET
         local colliding = self:GetColliding(test_position_front, origin.z, GREEN)
 
-        if --math.abs(GetGroundPosition(test_position_front, self.parent).z - origin.z) < MAX_Z_DIFF and
-            not colliding[EAST] and
-            not colliding[WEST] and
-            not colliding[NORTH] and
-            not colliding[SOUTH]
+        -- check if colliding in all of these directions
+        if not colliding[EAST] and not colliding[WEST] and not colliding[NORTH] and not colliding[SOUTH]
         then
             self.parent:SetAbsOrigin(future_position)
         else
@@ -131,7 +136,6 @@ function movement_modifier_thinker:Move()
                 self:SubMove(colliding, origin, speed, SOUTH, EAST, COLLIDE_SLOW_FACTOR)
             elseif direction == SOUTH_WEST then
                 self:SubMove(colliding, origin, speed, SOUTH, WEST, COLLIDE_SLOW_FACTOR)
-
 
             elseif direction == EAST then
                 self:SubMove(colliding, origin, speed, SOUTH, NORTH, COLLIDE_SUPER_SLOW_FACTOR)
@@ -161,8 +165,6 @@ function movement_modifier_thinker:Move()
     -- not moving
     else
         if current_animation == "walking" then
-            print("trying to stop walking animiation")
-            print(current_animation)
             GameRules.EndAnimation(self.parent)
             self.frame = 0.00
         end
@@ -232,6 +234,7 @@ function movement_modifier_thinker:GetColliding(test_position_front, actual_z, c
 
 	return colliding
 end
+--------------------------------------------------------------------------------
 
 function movement_modifier_thinker:GetCollidingWithObjects(test_position)
 	if self.parent:IsPhased() then
@@ -260,6 +263,7 @@ function movement_modifier_thinker:GetCollidingWithObjects(test_position)
 
 	return false
 end
+--------------------------------------------------------------------------------
 
 function movement_modifier_thinker:SubMove(colliding, origin, speed, direction_a, direction_b, slow)
 	if colliding[direction_a] then
@@ -279,4 +283,17 @@ function movement_modifier_thinker:SubMove(colliding, origin, speed, direction_a
 			self.parent:SetAbsOrigin(sub_future_position)
 		end
 	end
+end
+--------------------------------------------------------------------------------
+
+function movement_modifier_thinker:DeclareFunctions()
+	local funcs = {
+		MODIFIER_PROPERTY_IGNORE_MOVESPEED_LIMIT,
+	}
+
+	return funcs
+end
+
+function movement_modifier_thinker:GetModifierIgnoreMovespeedLimit( params )
+    return 1
 end
