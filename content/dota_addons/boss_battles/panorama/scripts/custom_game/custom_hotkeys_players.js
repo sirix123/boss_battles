@@ -73,14 +73,14 @@ function OnReleaseA() {
 function OnLeftButtonPressed()
 {
     AbilityToCast(0);
-    (function tic()
+    /*(function tic()
     {
         if ( GameUI.IsMouseDown( 0 ) )
         {
+            $.Schedule( 1.0/30.0, tic );
             AbilityToCast(0);
-            $.Schedule( 0.5, tic );
         }
-    })();
+    })();*/
 }
 
 function OnRightButtonPressed()

@@ -12,6 +12,7 @@ function CDOTA_BaseNPC:GetDirection()
 end
 
 function CDOTA_BaseNPC:IsWalking()
+	local is_walking = false
 	local direction = self:GetDirection()
 
 	if direction.x ~= 0 or direction.y ~= 0 then

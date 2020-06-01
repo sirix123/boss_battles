@@ -9,14 +9,14 @@ function m1_iceshot:OnSpellStart()
         local projectile_speed = 500
 
         local vTargetPos = nil
-        vTargetPos = self:GetCursorPosition()
+        vTargetPos = GameMode.mouse_positions[self.caster:GetPlayerID()]
 
         local projectile_direction = (Vector( vTargetPos.x-origin.x, vTargetPos.y-origin.y, 0 )):Normalized()
 
         local hProjectile = {
             Source = self.caster,
             Ability = self,
-            vSpawnOrigin = origin,
+            vSpawnOrigin = origin + Vector(0, 0, 100),
             bDeleteOnHit = true,
             iUnitTargetTeam = DOTA_UNIT_TARGET_TEAM_ENEMY,
             iUnitTargetFlags = DOTA_UNIT_TARGET_FLAG_NONE,
