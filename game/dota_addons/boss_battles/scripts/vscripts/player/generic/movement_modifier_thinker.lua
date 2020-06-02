@@ -1,4 +1,5 @@
 movement_modifier_thinker = class({})
+LinkLuaModifier("modifier_hero_movement", "player/generic/modifier_hero_movement", LUA_MODIFIER_MOTION_NONE)
 
 local DEBUG = false
 
@@ -77,17 +78,9 @@ end
 
 function movement_modifier_thinker:Move()
     -- animation init
-    local current_animation_modifier = self.parent:FindModifierByName("modifier_animation")
-    local current_animation = "not_walking"
-
-    -- 
-    if current_animation_modifier ~= nil then
-        if current_animation_modifier.keys.base ~= nil then
-            if current_animation_modifier.keys.base == 1 then
-                current_animation = "walking"
-			end
-		end
-    end
+	if self.parent:IsAnimating() then
+		self.parent:RemoveModifierByName("modifier_hero_movement")
+	end
 
     -- variable init
     local future_position = nil
@@ -149,25 +142,15 @@ function movement_modifier_thinker:Move()
         end
 
         -- If not animating
-        if current_animation_modifier == nil then
-			self.frame = self.frame + 0.01
-			if self.frame >= 0.1 then
-				self:Animate( speed, self.parent )
+		if not self.parent:IsAnimating() then
+			if not self.parent:HasModifier("modifier_hero_movement") then
+				self.parent:AddNewModifier(self.parent, nil, "modifier_hero_movement", {})
 			end
-		elseif current_animation_modifier == "walking" then
-			-- Check for running annimation
-			if self.previous_speed ~= speed then
-				self:Animate( speed, self.parent )
-				self.previous_speed = speed
-			end
-        end
+		end
 
     -- not moving
     else
-        if current_animation == "walking" then
-            GameRules.EndAnimation(self.parent)
-            self.frame = 0.00
-        end
+		self.parent:RemoveModifierByName("modifier_hero_movement")
     end
 end
 --------------------------------------------------------------------------------
