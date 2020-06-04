@@ -4,6 +4,8 @@ function CDOTA_BaseNPC:Initialize(data)
   self.direction.y = 0
   self.direction.z = 0
 
+  self.animation_modifiers = 		{}
+
 end
 
 function CDOTA_BaseNPC:GetDirection()
