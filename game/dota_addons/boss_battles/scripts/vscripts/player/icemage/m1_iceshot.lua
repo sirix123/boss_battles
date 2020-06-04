@@ -11,7 +11,7 @@ function m1_iceshot:OnSpellStart()
         local vTargetPos = nil
         vTargetPos = GameMode.mouse_positions[self.caster:GetPlayerID()]
 
-        local projectile_direction = (Vector( vTargetPos.x-origin.x, vTargetPos.y-origin.y, 0 )):Normalized()
+        local projectile_direction = (Vector( vTargetPos.x - origin.x, vTargetPos.y - origin.y, 0 )):Normalized()
 
         local hProjectile = {
             Source = self.caster,

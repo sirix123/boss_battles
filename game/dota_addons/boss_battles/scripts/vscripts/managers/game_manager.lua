@@ -39,7 +39,7 @@ function GameMode:SpawnBoss(boss, location)
     local bossSpawnLocation = Entities:FindByName(nil, location):GetAbsOrigin()
 
     --CreateUnitByName("npc_timber", bossSpawnLocation, true, nil, nil, DOTA_TEAM_BADGUYS)
-    --CreateUnitByName("npc_dota_hero_rubick", Vector(7180,14604,0), true, nil, nil, DOTA_TEAM_GOODGUYS)
+    --CreateUnitByName("npc_dota_hero_rubick", bossSpawnLocation, true, nil, nil, DOTA_TEAM_GOODGUYS)
     --CreateUnitByName("npc_dota_hero_viper", Vector(9821,14288,0), true, nil, nil, DOTA_TEAM_GOODGUYS)
     --CreateUnitByName("npc_dota_hero_riki", Vector(7342,12003,0), true, nil, nil, DOTA_TEAM_GOODGUYS)
     --CreateUnitByName("npc_dota_hero_tidehunter", Vector(9786,12013,0), true, nil, nil, DOTA_TEAM_GOODGUYS)
@@ -78,7 +78,7 @@ function GameMode:StartRaid()
     ]]--
 
     GameMode:MoveHeroesToArea(raid_tables.beastmaster.arena)
-    GameMode:SpawnBoss(raid_tables.timber.bossNPC, raid_tables.timber.spawnLocation)
+    GameMode:SpawnBoss(raid_tables.timber.bossNPC, raid_tables.beastmaster.spawnLocation)
 
     --[[
             Clock  
