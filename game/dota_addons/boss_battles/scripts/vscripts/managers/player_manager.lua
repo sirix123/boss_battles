@@ -1,3 +1,5 @@
+LinkLuaModifier("casting_modifier_thinker", "player/generic/casting_modifier_thinker", LUA_MODIFIER_MOTION_NONE )
+
 local pressDuration = 0 -- number of ticks key was held for
 local isTimerRunning 
 local timerInterval = 0.1

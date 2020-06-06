@@ -62,39 +62,40 @@ function movement_modifier_thinker:Move()
         self.parent:GetForwardVector().z
     )
 
-    -- init mouse locations
-    local mouse = GameMode.mouse_positions[self.parent:GetPlayerID()]
-	local mouseDirection = (mouse - self.parent:GetOrigin()):Normalized()
-
-	-- set forward vector as the mouse location also handle spell casting...
-	-- current problem if moving and casting the casting animations cancels if standing still works good
-	--local abilityBeingCast = self.parent:GetCurrentActiveAbility()
-	self.parent:SetForwardVector(Vector(mouseDirection.x, mouseDirection.y, self.parent:GetForwardVector().z ))
-	self.parent:FaceTowards(self.parent:GetAbsOrigin() + Vector(mouseDirection.x, mouseDirection.y, self.parent:GetForwardVector().z ))
-
     -- moving
 	if self.parent:IsWalking() == true then
-		local offset = 7
+
+		-- set hero facing towards moving vector unless casting
+		local abilityBeingCast = self.parent:GetCurrentActiveAbility()
+		if self.parent:HasModifier("casting_modifier_thinker") == false and abilityBeingCast == nil then
+			self.parent:SetForwardVector(Vector(direction.x, direction.y, self.parent:GetForwardVector().z ))
+			self.parent:FaceTowards(self.parent:GetAbsOrigin() + Vector(direction.x, direction.y, self.parent:GetForwardVector().z ))
+		end
 
         -- needed to not give speed boost on diagonal
         if self.parent.direction.x ~= 0 and self.parent.direction.y ~= 0 then
             speed = speed * 0.75
         end
 
+		-- next postion where the player will move to
         future_position = origin + direction * speed
 		future_position.z = GetGroundPosition(future_position, self.parent).z
 
-		-- new colliding code (checks for colliding on a wall - units - objects)
+		-- tests the future postion of the player with an offset to detect colliding (trees, walls and units)
+		-- offset is distance between player and object if <offset player won't move
+		local offset = 7
 		local test_position_front = origin + direction * speed * offset
 		test_position_front.z = GetGroundPosition(future_position, self.parent).z
 
 		if GridNav:IsTraversable(test_position_front) then
 			if not self.parent:IsPhased() then
+
+				-- find untis in radius around future postion 
 				local units = FindUnitsInRadius( 
 					self.parent:GetTeamNumber(), -- int, your team number
 					test_position_front, -- point, center point
 					nil, -- handle, cacheUnit. (not known)
-					5, -- float, radius. or use FIND_UNITS_EVERYWHERE
+					offset, -- float, radius. or use FIND_UNITS_EVERYWHERE
 					DOTA_UNIT_TARGET_TEAM_BOTH, -- int, team filter
 					DOTA_UNIT_TARGET_HERO + DOTA_UNIT_TARGET_BASIC,	-- int, type filter
 					DOTA_UNIT_TARGET_FLAG_NONE, -- int, flag filter
@@ -102,13 +103,13 @@ function movement_modifier_thinker:Move()
 					false -- bool, can grow cache
 				)
 
-				local trees = GridNav:GetAllTreesAroundPoint( test_position_front, 1, true )
-				print(#trees)
+				-- find trees around fuuture position if finds trees dont allow movement 
+				local trees = GridNav:GetAllTreesAroundPoint( test_position_front, offset, true )
 				if #trees > 0 then
-					print("tree here")
 					return false
 				end
 
+				-- find players around fuuture position if finds players and no-one is phased then dont allow movement 
 				for _,unit in pairs(units) do
 					if unit ~= self.parent then
 						if not unit:IsPhased() then
@@ -117,10 +118,17 @@ function movement_modifier_thinker:Move()
 					end
 				end
 
-				if not self.parent:IsAnimating() then
-					if not self.parent:HasModifier("modifier_hero_movement") then
-						self.parent:AddNewModifier(self.parent, nil, "modifier_hero_movement", {})
-					end
+				-- if not playing the moving animation start it
+				if not self.parent:HasModifier("modifier_hero_movement") then
+					self.parent:AddNewModifier(self.parent, nil, "modifier_hero_movement", {})
+
+				-- if playing the moving animation and we are casting then remove the animation 
+				-- (top and bottom animations are not seperate in dota, cant do both running and casting at the same time)
+				elseif self.parent:HasModifier("casting_modifier_thinker") == true
+					and abilityBeingCast ~= nil
+					and self.parent:HasModifier("modifier_hero_movement") == true then
+
+					self.parent:RemoveModifierByName("modifier_hero_movement")
 				end
 
 				self.parent:SetAbsOrigin(future_position)
