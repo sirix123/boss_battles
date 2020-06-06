@@ -124,41 +124,54 @@ function OnRightButtonPressed()
 
 
 
-//A slingshot like ability.
-//You click a point on the screen, while holding the mouse down you drag back
-//When you release the mouse it flings a projectile outwards ...
-    //In the direction your pulled backwards 
+//Powershot works by clicking and holding the mouse, the code calls the ability twice, once on mouse click ( isMouseDown() ) and again on release ( !isMouseDown() )
 
-function ClickPullBack()
+var powerShotFirstClick = true
+function PowerShotManager()
 {
-    //Get the first click position, 
-    //Then poll 
-    var clickPos = GameUI.GetCursorPosition()
-    var finalDragPos = GameUI.GetCursorPosition() //not sure what to init these two vars too
-    var calcedEndPoint = GameUI.GetCursorPosition() //not sure what to init these two vars too
-
-
-    //start an ability, which will do the DebugDraw...
-        //abilityName = clickpullback.lua
+    $.Msg("Javascript: PowerShotManager()...")
+    if (powerShotFirstClick == true) {
+        powerShotFirstClick = false;
+        ExecuteAbilityNamed("powerShot")
+    }
 
     (function tick()
     {
-        if ( GameUI.IsMouseDown( 0 ) ){
-            //mouse down, keep updating cursorPos
-            finalDragPos = GameUI.GetCursorPosition()
+        //Mouse button down
+        if ( GameUI.IsMouseDown( 1 ) )
             $.Schedule( 0.1, tick );
-
-
-        }
+        //Mouse lifted        
         else 
         {
-            //Mouse lifted. calc the distance between click and pullback location
-            //Actually you don't inverse it... you take this line and add origin to the end point to get the new endpoint
-            //Not sure if this is correct...
-            calcedEndPoint = clickPos + (clickPos - finalDragPos)
-            //call ability again
+            ExecuteAbilityNamed("powerShot")
+            powerShotFirstClick = true
         }
+    })();
 
+}
+
+
+//Powershot works by calling the ability twice, once at the start charging up, second time to fire the ability.
+var slingShotFirstClick = true
+function slingShotManager()
+{
+    $.Msg("Javascript: slingShotManager()...")
+
+    if (slingShotFirstClick == true) {
+        slingShotFirstClick = false;
+        ExecuteAbilityNamed("slingShot")
+    }
+
+    (function tick()
+    {
+        if ( GameUI.IsMouseDown( 0 ) )
+            $.Schedule( 0.1, tick );
+        //Mouse lifted. calc the distance between click and pullback location
+        else 
+        {
+            ExecuteAbilityNamed("slingShot")
+            slingShotFirstClick = true
+        }
     })();
 }
 
@@ -175,19 +188,26 @@ GameUI.SetMouseCallback( function( eventName, arg ){
         return CONTINUE_PROCESSING_EVENT;
     }
 
+    if (GameUI.GetClickBehaviors() !== CLICK_BEHAVIORS.DOTA_CLICK_BEHAVIOR_DRAG) {
+        $.Msg("Javascript: SetMouseCallback() DRAG event ")
+    }
+
+
     if ( eventName === "pressed" )
 	{
 		if ( nMouseButton === 0 )
 		{
             OnLeftButtonPressed();
-            $.Msg("Javascript: OnLeftButtonPressed()...")
+            //GetMouseCastPosition();
+            //slingShotManager();
+            
             return CONSUME_EVENT;
 		}
 
 		if ( nMouseButton === 1 )
 		{
-            $.Msg("Javascript: OnRightButtonPressed()...")
 			OnRightButtonPressed();
+            //PowerShotManager();
 			return CONSUME_EVENT;
         }
     }
@@ -202,8 +222,17 @@ GameUI.SetMouseCallback( function( eventName, arg ){
 	return CONTINUE_PROCESSING_EVENT;
 });
 
+
+function GetCursorPosition()
+{
+    var screenCursorPosition = GameUI.GetCursorPosition();
+    return Game.ScreenXYToWorld(screenCursorPosition[0], screenCursorPosition[1]);
+}
+
+//this should be two functions
 function GetMouseCastPosition(  )
 {
+
     var mouse_position_screen = GameUI.GetCursorPosition();
     var mouse_position = Game.ScreenXYToWorld(mouse_position_screen[0], mouse_position_screen[1])
 
