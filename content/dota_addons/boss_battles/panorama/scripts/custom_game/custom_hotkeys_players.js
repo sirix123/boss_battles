@@ -192,14 +192,13 @@ GameUI.SetMouseCallback( function( eventName, arg ){
         $.Msg("Javascript: SetMouseCallback() DRAG event ")
     }
 
-
     if ( eventName === "pressed" )
 	{
 		if ( nMouseButton === 0 )
 		{
-            OnLeftButtonPressed();
+            //OnLeftButtonPressed();
             //GetMouseCastPosition();
-            //slingShotManager();
+            slingShotManager();
             
             return CONSUME_EVENT;
 		}
