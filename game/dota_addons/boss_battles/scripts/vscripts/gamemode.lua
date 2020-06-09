@@ -41,6 +41,8 @@ require('utility_functions')
 -- game handler
 require('managers/game_manager')
 
+require('player/generic/targeting_indicator')
+
 -- player handler / core player scripts
 require('managers/player_manager')
 LinkLuaModifier( "movement_modifier_thinker", "player/generic/movement_modifier_thinker", LUA_MODIFIER_MOTION_NONE )

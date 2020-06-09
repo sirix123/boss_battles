@@ -15,6 +15,11 @@
         "AbilityCooldown"				"0"
         "AbilityCastPoint"              "0.8"
         //"AbilityCastAnimation"          "ACT_DOTA_ATTACK"//"ACT_DOTA_CAST_ABILITY_1"
+
+		"TargetingIndicator"
+		{
+			"Type"						"TARGETING_INDICATOR_LINE"
+		}
         
 		"AbilitySpecial"
 		{

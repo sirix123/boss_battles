@@ -44,11 +44,6 @@ end
 --------------------------------------------------------------------------------
 
 function movement_modifier_thinker:Move()
-    -- animation init
-	if self.parent:IsAnimating() then
-		self.parent:RemoveModifierByName("modifier_hero_movement")
-	end
-
     -- variable init
     local future_position = nil
     local origin = self.parent:GetAbsOrigin()

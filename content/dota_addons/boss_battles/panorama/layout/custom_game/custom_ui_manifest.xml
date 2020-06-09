@@ -1,10 +1,11 @@
 <root>
 	<script>
-
+		<include src="file://{resources}/scripts/custom_game/util.js" />
 	</script>
 		
 	<Panel>
 		<CustomUIElement type="HudTopBar"			layoutfile="file://{resources}/layout/custom_game/custom_hotkeys_players.xml" />
+		<CustomUIElement type="HudTopBar"			layoutfile="file://{resources}/layout/custom_game/target_indicator.xml" />
 	</Panel>
 </root>
 
