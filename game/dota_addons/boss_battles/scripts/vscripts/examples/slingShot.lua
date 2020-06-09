@@ -24,17 +24,25 @@ function slingShot:OnSpellStart()
 
 		--Show where the user clicked, and is now dragging there mouse. do this with 2 circles and a line. 
 		--BUG: This doesn't work because self:GetCursorPosition() is returning an empty vector when inside a timer.. weird..just use a modifer thinker..
-		-- Timers:CreateTimer(function() 
-		-- 	print("self:GetCursorPosition() = ", self:GetCursorPosition())
-		-- 	DebugDrawCircle(clickLocation, Vector(0,0,255), 128, 100, true, timerInterval) -- blue circ at clickLocation
-		-- 	DebugDrawLine(clickLocation, self:GetCursorPosition() + origin, 0,255,0, true, timerInterval)
-		-- 	DebugDrawCircle(self:GetCursorPosition() + origin, Vector(0,0,255), 128, 100, true, timerInterval) -- blue circ at current cursor
-		-- 	--stop once the mouse has been released
-		-- 	if slingShotState == "clicked" then
-		-- 		return
-		-- 	end
-		-- 	return timerInterval
-		-- end)
+		Timers:CreateTimer(function() 
+			local cursorPos = GameMode.mouse_positions[self:GetCaster():GetPlayerID()]
+			--draw current location
+			DebugDrawCircle(clickLocation, Vector(0,0,255), 128, 100, true, timerInterval) -- blue circ at clickLocation
+			DebugDrawLine(clickLocation, cursorPos, 0,255,0, true, timerInterval)
+			DebugDrawCircle(cursorPos, Vector(0,0,255), 128, 100, true, timerInterval) -- blue circ at current cursor
+
+			--draw target indicator
+			local distance =  clickLocation	- cursorPos
+			local target =  clickLocation + distance -- not sure this is correct
+			DebugDrawCircle(target, Vector(255,0,0), 128, 100, true, timerInterval) -- blue circ at current cursor
+
+
+			--stop once the mouse has been released
+			if slingShotState == "clicked" then
+				return
+			end
+			return timerInterval
+		end)
 
 		return
 	end
