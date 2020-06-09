@@ -1,69 +1,53 @@
 gyrocopter = class({})
 
-local currentPhase = 1
-local COOLDOWN_RADARSCAN = 5
-
 --Global used in; gyrocopter.lua, homing_missile.lua, ...
 _G.ScannedEnemyLocations = {}
 
 function Spawn( entityKeyValues )
-	print("Spawn called")
-
+	print("Gyrocopter Spawned!")
 	thisEntity.homing_missile = thisEntity:FindAbilityByName( "homing_missile" )
 	thisEntity.flak_cannon = thisEntity:FindAbilityByName( "flak_cannon" )
 	thisEntity.rocket_barrage = thisEntity:FindAbilityByName( "rocket_barrage" )
 	--TODO: if any of these are nil, we got a problem
 
 	thisEntity:SetContextThink( "MainThinker", MainThinker, 1 )
-
 end
 
+local COOLDOWN_RADARSCAN = 10
 local tickCount = 0
 function MainThinker()
-
-	if _G.ScannedEnemyLocations ~= nil then
-		--print("MainThinker. #_G.ScannedEnemyLocations = ", #_G.ScannedEnemyLocations)
-	end
-
-	tickCount = tickCount + 1
-
 	-- Almost all code should not run when the game is paused. Keep this near the top so we return early.
 	if GameRules:IsGamePaused() == true then
 		return 0.5
 	end
-
 	if thisEntity == nil then
 		return
 	end
 
+	tickCount = tickCount + 1
+
 	--COOLDOWNS, modulus the tickCount
-	--if tickCount % COOLDOWN_RADARSCAN == 0 then --cast repeatedly
-	if tickCount == 10 then --cast once
+	if tickCount % COOLDOWN_RADARSCAN == 0 then --cast repeatedly
+	--if tickCount == 10 then --cast once
 		print("calling NewRadarSweep()")
 		--RadarSweep()	--radar sweep will scan for enemies, finding one it will shoot a homing rocket. 
 		NewRadarSweep()
 	end
 
-
+	-- If/when a missile hit's a target do this action:
+	-- TODO: Use Swoop ability and then Rocket Barrage
+	--TODO: setup some cooldown for this
+	--if _G.HOMING_MISSILE_HIT_TARGET ~= nil and timeSinceLast > 10 then	
 	if _G.HOMING_MISSILE_HIT_TARGET ~= nil then
+		print("A Homing missile hit it's target")
 		local tempTarget = _G.HOMING_MISSILE_HIT_TARGET
+		print("Moving Gyro to it's location")
+		FindClearSpaceForUnit(thisEntity, tempTarget:GetAbsOrigin(), true)
 		_G.HOMING_MISSILE_HIT_TARGET = nil
 	end
 
 	return 1 
 end
-
-
-
-
-
-
-
-
-
-
-
-
 
 -------------------------------------------------------------------------------
 -- Radar Scan Abilities,
