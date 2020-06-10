@@ -196,9 +196,9 @@ GameUI.SetMouseCallback( function( eventName, arg ){
 	{
 		if ( nMouseButton === 0 )
 		{
-            //OnLeftButtonPressed();
+            OnLeftButtonPressed();
             //GetMouseCastPosition();
-            slingShotManager();
+            //slingShotManager();
             
             return CONSUME_EVENT;
 		}

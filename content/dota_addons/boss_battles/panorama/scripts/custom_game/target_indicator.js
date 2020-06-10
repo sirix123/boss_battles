@@ -40,9 +40,8 @@ function UpdateTargetIndicator(){
 
             if(data.Type == "TARGETING_INDICATOR_LINE" ){
                 if(!particle_line){
-                    particle_line = Particles.CreateParticle("particles/ui_mouseactions/range_finder_tower_line.vpcf", ParticleAttachment_t.PATTACH_WORLDORIGIN, heroIndex);
+                    particle_line = Particles.CreateParticle("particles/targeting/line_marker.vpcf", ParticleAttachment_t.PATTACH_WORLDORIGIN, heroIndex);
                 }
-
                 var max_range = Abilities.GetCastRange(active);
                 var min_range = Abilities.GetSpecialValueFor(active, "min_range");
                 var radius = Abilities.GetSpecialValueFor(active, "radius")
@@ -88,15 +87,32 @@ function UpdateTargetIndicator(){
 
 UpdateTargetIndicator();
 
-targetingIndicators = CustomNetTables.GetTableValue("main", "targetingIndicators");
-$.Msg(targetingIndicators)
-
 function Clamp(num, min, max) {
     return num < min ? min : num > max ? max : num;
 }
 
-//SubscribeToNetTableKey("main", "targetingIndicators", true, function(data){
-  //  targetingIndicators = data;
-//});
+function SubscribeToNetTableKey(table, key, loadNow, callback){
+    var listener = CustomNetTables.SubscribeNetTableListener(table, function(table, tableKey, data){
+        if (key == tableKey){
+            if (!data) {
+                return;
+            }
 
-//$.Msg("hello")
+            callback(data, false);
+        }
+    });
+
+    if (loadNow){
+        var data = CustomNetTables.GetTableValue(table, key);
+
+        if (data) {
+            callback(data, true);
+        }
+    }
+
+    return listener;
+}
+
+SubscribeToNetTableKey("main", "targetingIndicators", true, function(data){
+    targetingIndicators = data;
+});

@@ -19,6 +19,7 @@
 		"TargetingIndicator"
 		{
 			"Type"						"TARGETING_INDICATOR_LINE"
+			"Fixed"						"1"
 		}
         
 		"AbilitySpecial"
