@@ -57,49 +57,49 @@ function OnReleasePowerShot() {
 }
 
 function OnPressW(){
-    $.Msg("Javascript: OnPressW()...")
+    //$.Msg("Javascript: OnPressW()...")
     var heroIndex = Players.GetPlayerHeroEntityIndex(Players.GetLocalPlayer());
     GameEvents.SendCustomGameEventToServer("MoveUnit", { entityIndex: heroIndex, direction: "up", keyPressed: "w", keyState: "down" });
 }
 
 function OnReleaseW(){
-    $.Msg("Javascript: OnReleaseW()...")
+    //$.Msg("Javascript: OnReleaseW()...")
     var heroIndex = Players.GetPlayerHeroEntityIndex(Players.GetLocalPlayer());
     GameEvents.SendCustomGameEventToServer("MoveUnit", { entityIndex: heroIndex, direction: "up", keyPressed: "w",  keyState: "up" });
 }
 
 function OnPressD() {
-    $.Msg("Javascript: OnPressD()...")
+    //$.Msg("Javascript: OnPressD()...")
     var heroIndex = Players.GetPlayerHeroEntityIndex(Players.GetLocalPlayer());
     GameEvents.SendCustomGameEventToServer("MoveUnit", { entityIndex: heroIndex, direction: "right", keyPressed: "d",  keyState: "down" });
 }
 
 function OnReleaseD() {
-    $.Msg("Javascript: OnReleaseD()...")
+    //$.Msg("Javascript: OnReleaseD()...")
     var heroIndex = Players.GetPlayerHeroEntityIndex(Players.GetLocalPlayer());
     GameEvents.SendCustomGameEventToServer("MoveUnit", { entityIndex: heroIndex, direction: "right", keyPressed: "d",  keyState: "up" });
 }
 
 function OnPressS() {
-    $.Msg("Javascript: OnPressS()...")
+    //$.Msg("Javascript: OnPressS()...")
     var heroIndex = Players.GetPlayerHeroEntityIndex(Players.GetLocalPlayer());
     GameEvents.SendCustomGameEventToServer("MoveUnit", { entityIndex: heroIndex, direction: "down", keyPressed: "s",  keyState: "down" });
 }
 
 function OnReleaseS() {
-    $.Msg("Javascript: OnReleaseS()...")
+    //$.Msg("Javascript: OnReleaseS()...")
     var heroIndex = Players.GetPlayerHeroEntityIndex(Players.GetLocalPlayer());
     GameEvents.SendCustomGameEventToServer("MoveUnit", { entityIndex: heroIndex, direction: "down", keyPressed: "s",  keyState: "up" });
 }
 
 function OnPressA() {
-    $.Msg("Javascript: OnPressA()...")
+    //$.Msg("Javascript: OnPressA()...")
     var heroIndex = Players.GetPlayerHeroEntityIndex(Players.GetLocalPlayer());
     GameEvents.SendCustomGameEventToServer("MoveUnit", { entityIndex: heroIndex, direction: "left", keyPressed: "a",  keyState: "down" });
 }
 
 function OnReleaseA() {
-    $.Msg("Javascript: OnReleaseA()...")
+    //$.Msg("Javascript: OnReleaseA()...")
     var heroIndex = Players.GetPlayerHeroEntityIndex(Players.GetLocalPlayer());
     GameEvents.SendCustomGameEventToServer("MoveUnit", { entityIndex: heroIndex, direction: "left", keyPressed: "a",  keyState: "up" });
 }
@@ -178,7 +178,7 @@ function slingShotManager()
 
 GameUI.SetMouseCallback( function( eventName, arg ){
 
-    $.Msg("Javascript: SetMouseCallback ")
+    //$.Msg("Javascript: SetMouseCallback ")
 
 	var nMouseButton = arg;
 	var CONSUME_EVENT = true;
@@ -189,7 +189,7 @@ GameUI.SetMouseCallback( function( eventName, arg ){
     }
 
     if (GameUI.GetClickBehaviors() !== CLICK_BEHAVIORS.DOTA_CLICK_BEHAVIOR_DRAG) {
-        $.Msg("Javascript: SetMouseCallback() DRAG event ")
+        //$.Msg("Javascript: SetMouseCallback() DRAG event ")
     }
 
     if ( eventName === "pressed" )

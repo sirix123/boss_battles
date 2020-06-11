@@ -9,17 +9,15 @@ var particle_line = null;
 function UpdateTargetIndicator(){
     var active = null;
     
-    //var playerEnt = Players.GetPlayerHeroEntityIndex( playerId );
-    //var abilityCount = Entities.GetAbilityCount( playerEnt )
-    //$.Msg(abilityCount)
-
     if(!heroIndex){
         heroIndex = Players.GetPlayerHeroEntityIndex(playerId);
+        heroIndex = Players.GetSelectedEntities(playerId)[0];
         $.Schedule(1/144, UpdateTargetIndicator);
         return
     }
 
-    for(var i = 0; i < 10; i++){
+    // replace number with total abilities a player will have
+    for(var i = 0; i < 1; i++){
         var abilityIndex = Entities.GetAbility(heroIndex, i);
         if(Abilities.IsInAbilityPhase(abilityIndex)){
             active = abilityIndex;
@@ -40,7 +38,7 @@ function UpdateTargetIndicator(){
 
             if(data.Type == "TARGETING_INDICATOR_LINE" ){
                 if(!particle_line){
-                    particle_line = Particles.CreateParticle("particles/targeting/line_marker.vpcf", ParticleAttachment_t.PATTACH_WORLDORIGIN, heroIndex);
+                    particle_line = Particles.CreateParticle("particles/targeting/line.vpcf", ParticleAttachment_t.PATTACH_WORLDORIGIN, heroIndex);
                 }
                 var max_range = Abilities.GetCastRange(active);
                 var min_range = Abilities.GetSpecialValueFor(active, "min_range");
@@ -85,8 +83,6 @@ function UpdateTargetIndicator(){
     $.Schedule(1/144, UpdateTargetIndicator);
 }
 
-UpdateTargetIndicator();
-
 function Clamp(num, min, max) {
     return num < min ? min : num > max ? max : num;
 }
@@ -112,6 +108,8 @@ function SubscribeToNetTableKey(table, key, loadNow, callback){
 
     return listener;
 }
+
+UpdateTargetIndicator();
 
 SubscribeToNetTableKey("main", "targetingIndicators", true, function(data){
     targetingIndicators = data;

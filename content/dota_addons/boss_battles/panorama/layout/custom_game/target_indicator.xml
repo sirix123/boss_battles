@@ -1,6 +1,6 @@
 <root>
 	<styles>
-		<include src="file://{resources}/styles/custom_game/target_indicator.css" />
+		
 	</styles>
 
 	<scripts>
@@ -8,6 +8,6 @@
 	</scripts>
 
 	<Panel>
-
+		hittest="false"
 	</Panel>
 </root>

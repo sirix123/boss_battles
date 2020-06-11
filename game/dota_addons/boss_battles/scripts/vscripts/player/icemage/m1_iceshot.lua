@@ -57,7 +57,7 @@ function m1_iceshot:OnSpellStart()
             iUnitTargetFlags = DOTA_UNIT_TARGET_FLAG_NONE,
             iUnitTargetType = DOTA_UNIT_TARGET_HERO + DOTA_UNIT_TARGET_BASIC,
             EffectName = "particles/econ/items/mars/mars_ti9_immortal/mars_ti9_immortal_crimson_spear.vpcf",
-            fDistance = 1500,
+            fDistance = self:GetCastRange(origin, nil),
             fStartRadius = 50,
             fEndRadius = 50,
             vVelocity = projectile_direction * projectile_speed,
