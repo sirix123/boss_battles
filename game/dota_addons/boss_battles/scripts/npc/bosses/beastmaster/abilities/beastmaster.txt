@@ -1,7 +1,5 @@
-
 "DOTAAbilities"
 {
-	"Version"		"1"
 
 	//=================================================================================================================
     // beastmaster bear claw
@@ -429,7 +427,6 @@
 
         "AbilityCastAnimation"          "ACT_DOTA_TELEPORT"
         "AbilityBehavior"               "DOTA_ABILITY_BEHAVIOR_NO_TARGET | DOTA_ABILITY_BEHAVIOR_CHANNELLED | DOTA_ABILITY_BEHAVIOR_DONT_RESUME_ATTACK"
-        "AbilityUnitTargetType"         "DOTA_UNIT_TARGET_FLAG_NONE "
 
         // Casting
         //-------------------------------------------------------------------------------------------------------------
@@ -461,7 +458,6 @@
 
         "AbilityCastAnimation"          "ACT_DOTA_TELEPORT"
         "AbilityBehavior"               "DOTA_ABILITY_BEHAVIOR_NO_TARGET | DOTA_ABILITY_BEHAVIOR_CHANNELLED | DOTA_ABILITY_BEHAVIOR_DONT_RESUME_ATTACK"
-        "AbilityUnitTargetType"         "DOTA_UNIT_TARGET_FLAG_NONE "
 
         // Casting
         //-------------------------------------------------------------------------------------------------------------

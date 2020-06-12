@@ -113,4 +113,5 @@ UpdateTargetIndicator();
 
 SubscribeToNetTableKey("main", "targetingIndicators", true, function(data){
     targetingIndicators = data;
+    $.Msg(targetingIndicators)
 });

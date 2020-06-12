@@ -3,9 +3,8 @@ if not TargetingIndicator then
 end
 
 function TargetingIndicator:Load()
-    local abilities_kv = LoadKeyValues("scripts/npc/players/icemage/abilities.txt")
+    local abilities_kv = LoadKeyValues("scripts/npc/npc_abilities_custom.txt")
     local targetingIndicators = {}
-    local hoverIndicators = {}
 
     for key, ability in pairs(abilities_kv) do
         if ability.TargetingIndicator then
