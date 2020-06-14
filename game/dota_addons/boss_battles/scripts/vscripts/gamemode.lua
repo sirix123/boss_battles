@@ -40,6 +40,7 @@ require('utility_functions')
 
 -- game handler
 require('managers/game_manager')
+require('filters')
 
 require('player/generic/targeting_indicator')
 
@@ -59,6 +60,14 @@ if GetMapName() == "playground" then
 end
 
 --require("examples/worldpanelsExample")
+
+-- functions here are called in the main game cycle below
+function GameMode:SetupFilters()
+  Filters:Activate(GameMode, self)
+
+  local mode = GameRules:GetGameModeEntity()
+  mode:SetExecuteOrderFilter(Dynamic_Wrap(GameMode, "ExecuteOrderFilter" ), GameMode)
+end
 
 --[[
   This function should be used to set up Async precache calls at the beginning of the gameplay.
@@ -192,6 +201,8 @@ end
 function GameMode:InitGameMode()
   GameMode = self
   DebugPrint('[BAREBONES] Starting to load Barebones gamemode...')
+
+  self:SetupFilters()
 
   -- Commands can be registered for debugging purposes or as functions that can be called by the custom Scaleform UI
   Convars:RegisterCommand( "command_example", Dynamic_Wrap(GameMode, 'ExampleConsoleCommand'), "A console command example", FCVAR_CHEAT )

@@ -4,7 +4,10 @@ var playerId = Players.GetLocalPlayer();
 var heroIndex = null;
 var mouse_position_screen = null;
 var mouse_position = null;
+
+var particle_half_circle = null;
 var particle_line = null;
+var particle_aoe = null;
 
 function UpdateTargetIndicator(){
     var active = null;
@@ -16,8 +19,8 @@ function UpdateTargetIndicator(){
         return
     }
 
-    // replace number with total abilities a player will have
-    for(var i = 0; i < 1; i++){
+    // replace number with total abilities a player will have!
+    for(var i = 0; i < 2; i++){
         var abilityIndex = Entities.GetAbility(heroIndex, i);
         if(Abilities.IsInAbilityPhase(abilityIndex)){
             active = abilityIndex;
@@ -70,13 +73,81 @@ function UpdateTargetIndicator(){
                 Particles.SetParticleControl(particle_line, 1, target);
                 Particles.SetParticleControl(particle_line, 2, target_offset);
             }
+
+            if(data.Type == "TARGETING_INDICATOR_HALF_CIRCLE"){
+                if(!particle_half_circle){
+                    particle_half_circle = Particles.CreateParticle("particles/targeting/half_circle.vpcf", ParticleAttachment_t.PATTACH_WORLDORIGIN, heroIndex);
+                }
+
+                var max_range = Abilities.GetCastRange(active);
+                var min_range = Abilities.GetSpecialValueFor(active, "min_range");
+                var radius = Abilities.GetSpecialValueFor(active, "radius");
+                var length = 0;
+                var target = [];
+                
+                if(data.Fixed == "1"){
+                    length = max_range;
+                } else {
+                    length = Clamp(Game.Length2D(mouse_position, heroOrigin), min_range, max_range);
+                }
+
+                var target = [
+                    heroOrigin[0] + (direction[0] * length),
+                    heroOrigin[1] + (direction[1] * length),
+                    heroOrigin[2] + (direction[2] * length)
+                ]
+
+                Particles.SetParticleControl(particle_half_circle, 0, heroOrigin)
+                Particles.SetParticleControl(particle_half_circle, 1, target)
+                Particles.SetParticleControl(particle_half_circle, 2, [radius, 0, 0])
+            }
+
+            if(data.Type == "TARGETING_INDICATOR_AOE"){
+                if(!particle_aoe){
+                    particle_aoe = Particles.CreateParticle("particles/ui_mouseactions/range_finder_aoe.vpcf", ParticleAttachment_t.PATTACH_WORLDORIGIN, heroIndex);
+                }
+                var max_range = Abilities.GetCastRange(active)
+                var min_range = Abilities.GetSpecialValueFor(active, "min_range")
+                var radius = Abilities.GetSpecialValueFor(active, "radius")
+                var length = 0;
+                var target = [];
+                
+                if(data.Fixed == "1"){
+                    length = max_range;
+                } else {
+                    length = Clamp(Game.Length2D(mouse_position, heroOrigin), min_range, max_range);
+                }
+
+                var target = [
+                    heroOrigin[0] + (direction[0] * length),
+                    heroOrigin[1] + (direction[1] * length),
+                    heroOrigin[2] + (direction[2] * length)
+                ]
+                
+                Particles.SetParticleControl(particle_aoe, 0, target)
+                Particles.SetParticleControl(particle_aoe, 2, target)
+                Particles.SetParticleControl(particle_aoe, 3, [radius, 0, 0]);
+            }
         }
     } else 
     {
-        if(particle_line){
+        if(particle_line)
+        {
             Particles.DestroyParticleEffect(particle_line, false)
             Particles.ReleaseParticleIndex(particle_line)
             particle_line = null
+        }
+        if(particle_half_circle)
+        {
+            Particles.DestroyParticleEffect(particle_half_circle, false)
+            Particles.ReleaseParticleIndex(particle_half_circle)
+            particle_half_circle = null
+        }
+        if(particle_aoe)
+        {
+            Particles.DestroyParticleEffect(particle_aoe, false)
+            Particles.ReleaseParticleIndex(particle_aoe)
+            particle_aoe = null
         }
     }
     
@@ -113,5 +184,5 @@ UpdateTargetIndicator();
 
 SubscribeToNetTableKey("main", "targetingIndicators", true, function(data){
     targetingIndicators = data;
-    $.Msg(targetingIndicators)
+    //$.Msg(targetingIndicators)
 });

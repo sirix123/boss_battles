@@ -12,9 +12,9 @@
 		"SpellImmunityType"				"SPELL_IMMUNITY_ENEMIES_YES"
         "AbilityBehavior"				"DOTA_ABILITY_BEHAVIOR_POINT"
 		"AbilityCastRange" 				"750"
-        "AbilityCooldown"				"0"
+        "AbilityCooldown"				"0.0"
         "AbilityCastPoint"              "0.8"
-        //"AbilityCastAnimation"          "ACT_DOTA_ATTACK"//"ACT_DOTA_CAST_ABILITY_1"
+
 
 		"TargetingIndicator"
 		{
@@ -25,6 +25,33 @@
 		"AbilitySpecial"
 		{
 			//"01"{ "var_type"	"FIELD_INTEGER"		"hitbox"					"110" }
+		}
+	}
+
+	"m2_icefall"
+	{
+		"BaseClass"						"ability_lua"
+		"ScriptFile"					"player/icemage/m2_icefall"
+		"MaxLevel"						"1"
+
+		"AbilityTextureName"			"m2_icefall"
+		"AbilityUnitTargetTeam"			"DOTA_UNIT_TARGET_TEAM_ENEMY"
+		"AbilityUnitDamageType"			"DAMAGE_TYPE_PHYSICAL"	
+		"SpellImmunityType"				"SPELL_IMMUNITY_ENEMIES_YES"
+        "AbilityBehavior"				"DOTA_ABILITY_BEHAVIOR_POINT"
+		"AbilityCastRange" 				"750"
+        "AbilityCooldown"				"0"
+        "AbilityCastPoint"              "1"
+
+		"TargetingIndicator"
+		{
+			"Type"						"TARGETING_INDICATOR_AOE"
+			//"Fixed"						"1"
+		}
+        
+		"AbilitySpecial"
+		{
+			"01"{ "var_type"			"FIELD_INTEGER"		"radius"	"400" }
 		}
 	}
 }

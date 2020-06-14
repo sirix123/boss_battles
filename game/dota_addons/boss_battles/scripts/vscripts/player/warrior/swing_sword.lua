@@ -2,70 +2,71 @@ swing_sword = class({})
 LinkLuaModifier("rage_stacks_modifier", "player/warrior/rage_stacks_modifier", LUA_MODIFIER_MOTION_NONE)
 --------------------------------------------------------------------------------
 
+function swing_sword:OnAbilityPhaseStart()
+    if IsServer() then
+
+        -- start casting animation
+        -- the 1 below is imporant if set incorrectly the animation will stutter (second variable in startgesture is the playback override)
+        self:GetCaster():StartGestureWithPlaybackRate(ACT_DOTA_ATTACK, 1)
+
+        -- add casting modifier
+        self:GetCaster():AddNewModifier(self:GetCaster(), self, "casting_modifier_thinker",
+        {
+            duration = self:GetCastPoint(),
+        })
+
+        return true
+    end
+end
+---------------------------------------------------------------------------
+
+function swing_sword:OnAbilityPhaseInterrupted()
+    if IsServer() then
+
+        -- remove casting animation
+        self:GetCaster():FadeGesture(ACT_DOTA_ATTACK)
+
+        -- remove casting modifier
+        self:GetCaster():RemoveModifierByName("casting_modifier_thinker")
+
+    end
+end
+---------------------------------------------------------------------------
 function swing_sword:OnSpellStart()
 	local caster = self:GetCaster()
-	local point = self:GetCursorPosition()
 	local origin = caster:GetOrigin()
-	local attack_damage = self:GetSpecialValueFor("attack_damage")
-	local mana_gain_pct = self:GetSpecialValueFor("mana_gain_pct")
 
-	-- i think these need to be dynamic... keeping the same until this works
-	local player = PlayerResource:GetPlayer(0)
-	local hero = player:GetAssignedHero()
+	-- remove casting animation
+	self:GetCaster():FadeGesture(ACT_DOTA_ATTACK)
 
-	local projectile_speed = 2000
-	local projectile_direction = ( Vector( point.x - origin.x, point.y - origin.y, 0)):Normalized()
-	local offset = 50
+	-- function in utility_functions
+	local point = Clamp(origin, self:GetCursorPosition(), self:GetCastRange(Vector(0,0,0), nil), self:GetCastRange(Vector(0,0,0), nil))
 
-	local projectile = {
-		vSpawnOrigin = origin + Vector(projectile_direction.x * offset, projectile_direction.y * offset, 0),
-		fDistance = self:GetSpecialValueFor("projectile_distance") ~= 0 and self:GetSpecialValueFor("projectile_distance") or self:GetCastRange(Vector(0,0,0), nil),
-		fUniqueRadius = self:GetSpecialValueFor("hitbox"),
-		Source = caster,
-		vVelocity = projectile_direction * projectile_speed,
-		UnitBehavior = PROJECTILES_NOTHING,
-		bMultipleHits = true,
-		TreeBehavior = PROJECTILES_NOTHING,
-		WallBehavior = PROJECTILES_DESTROY,
-		GroundBehavior = PROJECTILES_NOTHING,
-		fGroundOffset = 0,
-		-- not sure what this does (unittest)
-		UnitTest = function(_self, unit) return unit:GetUnitName() ~= "npc_dummy_unit" and unit:GetTeamNumber() ~= hero:GetTeamNumber() end,
-		OnUnitHit = function(_self, unit) 
-			local damageInfo = 
-			{
-				victim = unit,
-				attacker = caster,
-				damage = attack_damage,
-				damage_type = DAMAGE_TYPE_PHYSICAL,
-			}
+	local radius = self:GetSpecialValueFor("radius")
+	local direction = (Vector(point.x-origin.x, point.y-origin.y, 0)):Normalized()
 
-			ApplyDamage( damageInfo )
+	-- function in utility_functions
+	local enemies = FindUnitsInCone(
+		caster:GetTeamNumber(),
+		direction,
+		0,
+		origin,
+		radius,
+		nil,
+		DOTA_UNIT_TARGET_TEAM_ENEMY,
+		DOTA_UNIT_TARGET_HERO + DOTA_UNIT_TARGET_BASIC,
+		DOTA_UNIT_TARGET_FLAG_NONE,
+		FIND_CLOSEST,
+		false
+	)
 
-			caster:AddNewModifier( caster, self, "rage_stacks_modifier", { duration = self:GetSpecialValueFor("duration") } )
-			-- add stack
-			local hBuff = caster:FindModifierByName( "rage_stacks_modifier" )
-			local mStacks = 5
-			if hBuff:GetStackCount() < mStacks then
-				hBuff:IncrementStackCount()
-			end
-			
-			caster:GiveManaPercent(mana_gain_pct, unit)
-
-		  end,
-		OnFinish = function(_self, pos)
-			self:PlayEffectsOnFinish(pos)
-		end,
-	}
-
-	-- Cast projectile
-	Projectiles:CreateProjectile(projectile)
-	self:PlayEffectsOnCast()
+	for _, enemy in pairs(enemies) do
+		print(enemy:GetUnitName())
+	end
 end
-
 --------------------------------------------------------------------------------
--- Graphics & sounds
 
+-- Graphics & sounds
 -- On Projectile Finish
 function swing_sword:PlayEffectsOnFinish( pos )
 	local caster = self:GetCaster()
@@ -97,7 +98,7 @@ function swing_sword:OnUpgrade()
 	if self:GetLevel()==1 then
 		local caster = self:GetCaster()
 		-- Gain mana
-		caster:AddNewModifier(caster, self , "modifier_mana_on_attack", {})
+		--caster:AddNewModifier(caster, self , "modifier_mana_on_attack", {})
 	end
 end
 

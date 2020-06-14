@@ -1,20 +1,52 @@
 "use strict";
 
-function AbilityToCast(abilityNumber){
-    //$.Msg("we even trying to cast?")
+function AbilityToCast(abilityNumber, showEffects){
     var playerId = Players.GetLocalPlayer();
     var playerHero = Players.GetPlayerHeroEntityIndex( playerId );
     var abilityIndex = Entities.GetAbility( playerHero, abilityNumber )
     
     if (playerHero == -1){
         $.Msg("[custom_hotkeys_players] no hero assigned")
+        return
     }
-    else if (!abilityIndex){
+
+    if (!abilityIndex){
         $.Msg("[custom_hotkeys_players] no ability found")
+        return
     }
-    else{
-        //$.Msg("[custom_hotkeys_players] casting ability", abilityIndex)
-        Abilities.ExecuteAbility( abilityIndex, playerHero, true );
+
+    //Abilities.ExecuteAbility( abilityIndex, playerHero, quickCast );
+    if(!Abilities.IsInAbilityPhase(abilityIndex))
+    {
+        var mouse_position_screen = GameUI.GetCursorPosition();
+        var mouse_position = Game.ScreenXYToWorld(mouse_position_screen[0], mouse_position_screen[1])
+
+        var abilityBehavior = Abilities.GetBehavior(abilityIndex)
+        if(abilityBehavior & DOTA_ABILITY_BEHAVIOR.DOTA_ABILITY_BEHAVIOR_POINT)
+        {
+            var order = 
+            {
+                OrderType : dotaunitorder_t.DOTA_UNIT_ORDER_CAST_POSITION,
+                TargetIndex : playerHero,
+                Position : mouse_position,
+                QueueBehavior : OrderQueueBehavior_t.DOTA_ORDER_QUEUE_NEVER,
+                ShowEffects : showEffects,
+                AbilityIndex : abilityIndex,
+            };
+            Game.PrepareUnitOrders(order);
+        }
+        if(abilityBehavior & DOTA_ABILITY_BEHAVIOR.DOTA_ABILITY_BEHAVIOR_NO_TARGET)
+        {
+            var order = 
+            {
+                OrderType : dotaunitorder_t.DOTA_UNIT_ORDER_CAST_NO_TARGET,
+                TargetIndex : playerHero,
+                QueueBehavior : OrderQueueBehavior_t.DOTA_ORDER_QUEUE_NEVER,
+                ShowEffects : showEffects,
+                AbilityIndex : abilityIndex,
+            };
+            Game.PrepareUnitOrders(order);
+        }
     }
 }
 
@@ -106,23 +138,20 @@ function OnReleaseA() {
 
 function OnLeftButtonPressed()
 {
-    AbilityToCast(0);
-    /*(function tic()
-    {
-        if ( GameUI.IsMouseDown( 0 ) )
-        {
-            $.Schedule( 1.0/30.0, tic );
-            AbilityToCast(0);
+    AbilityToCast(0, true);
+
+    $.Schedule(0.1, function tic(){
+        if (GameUI.IsMouseDown(0)){
+            AbilityToCast(0, false);
+            $.Schedule(0.1, tic);
         }
-    })();*/
+    })
 }
 
 function OnRightButtonPressed()
 {
-    AbilityToCast(1);
+    AbilityToCast(1, true);
 }
-
-
 
 //Powershot works by clicking and holding the mouse, the code calls the ability twice, once on mouse click ( isMouseDown() ) and again on release ( !isMouseDown() )
 
@@ -181,11 +210,9 @@ GameUI.SetMouseCallback( function( eventName, arg ){
     //$.Msg("Javascript: SetMouseCallback ")
 
 	var nMouseButton = arg;
-	var CONSUME_EVENT = true;
-    var CONTINUE_PROCESSING_EVENT = false;
     
 	if ( GameUI.GetClickBehaviors() !== CLICK_BEHAVIORS.DOTA_CLICK_BEHAVIOR_NONE ){
-        return CONTINUE_PROCESSING_EVENT;
+        return false;
     }
 
     if (GameUI.GetClickBehaviors() !== CLICK_BEHAVIORS.DOTA_CLICK_BEHAVIOR_DRAG) {
@@ -199,26 +226,29 @@ GameUI.SetMouseCallback( function( eventName, arg ){
             OnLeftButtonPressed();
             //GetMouseCastPosition();
             //slingShotManager();
-            
-            return CONSUME_EVENT;
+
+            if(GameUI.IsControlDown()){
+                return false;
+            }
+            return true;
 		}
 
 		if ( nMouseButton === 1 )
 		{
 			OnRightButtonPressed();
             //PowerShotManager();
-			return CONSUME_EVENT;
+			return true;
         }
     }
     if (eventName === "released"){
         if ( nMouseButton === 1 )
 		{
 			EmptyCallBack();
-			return CONSUME_EVENT;
+			return true;
         }
     }
-	if ( eventName === "doublepressed" ){ return CONSUME_EVENT }
-	return CONTINUE_PROCESSING_EVENT;
+	if ( eventName === "doublepressed" ){ return true }
+	return false;
 });
 
 
@@ -257,8 +287,6 @@ function GetMouseCastPosition(  )
     Game.AddCommand( "+W", OnPressW, "", 0 );
     Game.AddCommand( "-W", OnReleaseW, "", 0 );   
 
-    
-
     Game.AddCommand( "+A", OnPressA, "", 0 );
     Game.AddCommand( "-A", OnReleaseA, "", 0 );   
     
@@ -270,15 +298,15 @@ function GetMouseCastPosition(  )
 
     // ability index in kv starts at 0... but says 1... dont be confused... :)
     // 1 
-    Game.AddCommand( "+1", function(){ AbilityToCast(2) }, "", 0 );
+    Game.AddCommand( "+1", function(){ AbilityToCast(2, true) }, "", 0 );
     Game.AddCommand( "-1", EmptyCallBack, "", 0 );   
 
     // 2
-    Game.AddCommand( "+2", function(){ AbilityToCast(3) }, "", 0 );
+    Game.AddCommand( "+2", function(){ AbilityToCast(3, true) }, "", 0 );
     Game.AddCommand( "-2", EmptyCallBack, "", 0 );   
 
     // 3
-    Game.AddCommand( "+3", function(){AbilityToCast(4) }, "", 0 );
+    Game.AddCommand( "+3", function(){AbilityToCast(4, true) }, "", 0 );
     Game.AddCommand( "-3", EmptyCallBack, "", 0 );   
 
 

@@ -138,3 +138,53 @@ function SetTimer( time )
     print( "Set the timer to: " .. time )
     nCOUNTDOWNTIMER = time
 end
+
+-- find units in a cone
+-- fMinProjection is a value from -1 to 1, 1 when the unit is aligned with vDirection, -1 is the vector opposite to vDirection
+function FindUnitsInCone(nTeamNumber, vDirection, fMinProjection, vCenterPos, fRadius, hCacheUnit, nTeamFilter, nTypeFilter, nFlagFilter, nOrderFilter, bCanGrowCache)
+	local units = FindUnitsInRadius(
+		nTeamNumber,	-- int, your team number
+		vCenterPos,	-- point, center point
+		hCacheUnit,	-- handle, cacheUnit. (not known)
+		fRadius,	-- float, radius. or use FIND_UNITS_EVERYWHERE
+		nTeamFilter,	-- int, team filter
+		nTypeFilter,	-- int, type filter
+		nFlagFilter,	-- int, flag filter
+		nOrderFilter,	-- int, order filter
+		bCanGrowCache	-- bool, can grow cache
+	)
+
+	-- Filter within cone
+	local targets = {}
+	for _,unit in pairs(units) do
+		local direction = (unit:GetAbsOrigin() - vCenterPos):Normalized()
+		local projection = direction.x * vDirection.x + direction.y * vDirection.y
+
+		if projection >= fMinProjection then
+			table.insert(targets, unit)
+		end
+	end
+
+	return targets
+end
+
+-- clamps target point
+function Clamp(origin, point, max_range, min_range)
+	local direction = (point - origin):Normalized()
+	local distance = (point - origin):Length2D()
+	local output_point = point
+
+	if max_range then
+		if distance > max_range then
+			output_point = origin + direction * max_range
+		end
+	end
+
+	if min_range then
+		if distance < min_range then
+			output_point = origin + direction * min_range
+		end
+	end
+
+	return output_point
+end
