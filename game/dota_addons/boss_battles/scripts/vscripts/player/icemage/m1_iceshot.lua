@@ -5,7 +5,7 @@ function m1_iceshot:OnAbilityPhaseStart()
 
         -- start casting animation
         -- the 1 below is imporant if set incorrectly the animation will stutter (second variable in startgesture is the playback override)
-        self:GetCaster():StartGestureWithPlaybackRate(ACT_DOTA_CAST_ABILITY_1, 1)
+        self:GetCaster():StartGestureWithPlaybackRate(ACT_DOTA_ATTACK, 1)
 
         -- add casting modifier
         self:GetCaster():AddNewModifier(self:GetCaster(), self, "casting_modifier_thinker",
@@ -22,7 +22,7 @@ function m1_iceshot:OnAbilityPhaseInterrupted()
     if IsServer() then
 
         -- remove casting animation
-        self:GetCaster():FadeGesture(ACT_DOTA_CAST_ABILITY_1)
+        self:GetCaster():FadeGesture(ACT_DOTA_ATTACK)
 
         -- remove casting modifier
         self:GetCaster():RemoveModifierByName("casting_modifier_thinker")
@@ -35,12 +35,12 @@ function m1_iceshot:OnSpellStart()
     if IsServer() then
 
         -- when spell starts fade gesture
-        self:GetCaster():FadeGesture(ACT_DOTA_CAST_ABILITY_1)
+        self:GetCaster():FadeGesture(ACT_DOTA_ATTACK)
 
         -- init
 		self.caster = self:GetCaster()
         local origin = self.caster:GetAbsOrigin()
-        local projectile_speed = 500
+        local projectile_speed = 800
 
         -- set player forward vector to mouse postion while spell is casting
         local vTargetPos = nil
@@ -51,12 +51,12 @@ function m1_iceshot:OnSpellStart()
         local hProjectile = {
             Source = self.caster,
             Ability = self,
-            vSpawnOrigin = origin + Vector(0, 0, 100),
+            vSpawnOrigin = origin + Vector(0, 0, 10),
             bDeleteOnHit = true,
             iUnitTargetTeam = DOTA_UNIT_TARGET_TEAM_ENEMY,
             iUnitTargetFlags = DOTA_UNIT_TARGET_FLAG_NONE,
             iUnitTargetType = DOTA_UNIT_TARGET_HERO + DOTA_UNIT_TARGET_BASIC,
-            EffectName = "particles/econ/items/mars/mars_ti9_immortal/mars_ti9_immortal_crimson_spear.vpcf",
+            EffectName = "particles/icemage/icemage_m1_maiden_base_attack.vpcf",
             fDistance = self:GetCastRange(origin, nil),
             fStartRadius = 50,
             fEndRadius = 50,
@@ -69,7 +69,25 @@ function m1_iceshot:OnSpellStart()
             iVisionTeamNumber = self.caster:GetTeamNumber(),
         }
 
-        ProjectileManager:CreateLinearProjectile(hProjectile)
+        self.projId = ProjectileManager:CreateLinearProjectile(hProjectile)
 
 	end
+end
+----------------------------------------------------------------------------------------------------------------
+
+function m1_iceshot:OnProjectileHit(hTarget, vLocation)
+
+    if hTarget ~= nil then
+
+        local dmgTable = {
+            victim = hTarget,
+            attacker = self.caster,
+            damage = self:GetSpecialValueFor( "dmg" ),
+            damage_type = self:GetAbilityDamageType(),
+        }
+
+        ApplyDamage( dmgTable )
+        EmitSoundOn("hero_Crystal.projectileImpact", self.caster)
+        ProjectileManager:DestroyLinearProjectile(self.projId)
+    end
 end

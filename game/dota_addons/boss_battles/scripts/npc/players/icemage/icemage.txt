@@ -22,8 +22,8 @@
         "Ability14"             ""
         "Ability15"             ""
 
-        "ArmorPhysical"             "0"
-        "MagicalResistance"         "0"
+        "ArmorPhysical"             "100"
+        "MagicalResistance"         "90"
 
         "AttackCapabilities"        "DOTA_UNIT_CAP_MELEE_ATTACK"
         "AttackDamageMin"           "1"
@@ -45,7 +45,7 @@
         "MovementSpeed"             "300"
         "MovementTurnRate"          "1.0"
 
-        "StatusHealth"              "100"
+        "StatusHealth"              "9000"
         "StatusHealthRegen"         "0.0"
         "StatusMana"                "100"
         "StatusManaRegen"           "20.0"

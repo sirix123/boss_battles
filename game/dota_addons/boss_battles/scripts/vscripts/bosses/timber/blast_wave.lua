@@ -27,7 +27,7 @@ function blast_wave:OnSpellStart()
 
         self.damageTable = {
             attacker = self.caster,
-            damage = self.damage,
+            damage = self.damage_1,
             damage_type = DAMAGE_TYPE_PHYSICAL,
         }
 

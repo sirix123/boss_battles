@@ -16,6 +16,7 @@ function Precache( context )
   ]]
 
   DebugPrint("[BAREBONES] Performing pre-load precache")
+
   PrecacheResource("soundfile", "soundevents/game_sounds_heroes/game_sounds_tusk.vsndevts", context)
 
   PrecacheResource("soundfile", "soundevents/game_sounds_heroes/game_sounds_beastmaster.vsndevts", context)
@@ -49,10 +50,10 @@ function Precache( context )
 
   -- droids unit precache
   --PrecacheUnitByNameSync(string string_1, handle handle_2, int int_3)
-  PrecacheUnitByNameSync("npc_dota_hero_shredder", context)
-  PrecacheUnitByNameSync("npc_dota_hero_viper", context)
-  PrecacheUnitByNameSync("npc_dota_hero_rubick", context)
-
+  PrecacheUnitByNameSync("npc_timber", context)
+  PrecacheUnitByNameSync("npc_mine_droid", context)
+  PrecacheUnitByNameSync("npc_stun_droid", context)
+  PrecacheUnitByNameSync("npc_smelter_droid", context)
 
 end
 

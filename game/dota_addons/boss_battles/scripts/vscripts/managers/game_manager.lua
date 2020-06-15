@@ -66,35 +66,31 @@ function GameMode:StartRaid()
             Beastmaster
 
     ]]--
-    --print("GameMode: StartRaid")
+    GameMode:MoveHeroesToArea(raid_tables.beastmaster.arena)
+    GameMode:SpawnBoss(raid_tables.beastmaster.bossNPC, raid_tables.beastmaster.spawnLocation)
+
+    --[[
+            Timber
+
+    ]]--
+    --GameMode:MoveHeroesToArea(raid_tables.timber.arena)
+    --GameMode:SpawnBoss(raid_tables.timber.bossNPC, raid_tables.timber.spawnLocation)
+
+    --[[
+            Clock
+
+    ]]--
+
+
+    --[[
+            Gyro
+
+    ]]--
     --GameMode:MoveHeroesToArea(raid_tables.gyrocopter.arena)
     --GameMode:SpawnBoss(raid_tables.gyrocopter.bossNPC, raid_tables.beastmaster.spawnLocation)
 
-    --GameMode:MoveHeroesToArea(raid_tables.beastmaster.arena)
-    --GameMode:SpawnBoss(raid_tables.beastmaster.bossNPC, raid_tables.beastmaster.spawnLocation)
-
     --[[
-            Timber  
-
-    ]]--
-
-    GameMode:MoveHeroesToArea(raid_tables.beastmaster.arena)
-    GameMode:SpawnBoss(raid_tables.timber.bossNPC, raid_tables.beastmaster.spawnLocation)
-
-    --[[
-            Clock  
-
-    ]]--
-
-
-    --[[
-            Gyro  
-        GameMode:MoveHeroesToArea(raid_tables.beastmaster.arena)
-        GameMode:SpawnBoss(raid_tables.beastmaster.bossNPC, raid_tables.beastmaster.spawnLocation)
-    ]]--
-
-    --[[
-            Tinker  
+            Tinker
 
     ]]--
 
