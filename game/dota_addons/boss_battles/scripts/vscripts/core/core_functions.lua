@@ -18,7 +18,11 @@ function CDOTA_BaseNPC:IsWalking()
 	local direction = self:GetDirection()
 
 	if direction.x ~= 0 or direction.y ~= 0 then
-		return true
+		if self:IsStunned() or self:IsCommandRestricted() or self:IsRooted() then
+			return false
+		else
+			return true
+		end
 	else
 		return false
 	end

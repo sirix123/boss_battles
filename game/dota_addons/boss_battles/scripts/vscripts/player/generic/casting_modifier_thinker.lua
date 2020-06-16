@@ -31,3 +31,11 @@ function casting_modifier_thinker:OnIntervalThink()
     self.parent:FaceTowards(self.parent:GetAbsOrigin() + Vector(mouseDirection.x, mouseDirection.y, self.parent:GetForwardVector().z ))
 
 end
+
+function casting_modifier_thinker:DeclareFunctions()
+	return { MODIFIER_PROPERTY_MOVESPEED_BONUS_PERCENTAGE }
+end
+
+function casting_modifier_thinker:GetModifierMoveSpeedBonus_Percentage()
+	return -50
+end
