@@ -64,13 +64,6 @@ function movement_modifier_thinker:OnIntervalThink()
 	-- moving
 	if self.parent:IsWalking() == true then
 
-		-- set hero facing towards moving vector unless casting
-		local abilityBeingCast = self.parent:GetCurrentActiveAbility()
-		if self.parent:HasModifier("casting_modifier_thinker") == false and abilityBeingCast == nil then
-			self.parent:SetForwardVector(Vector(direction.x, direction.y, self.parent:GetForwardVector().z ))
-			self.parent:FaceTowards(self.parent:GetAbsOrigin() + Vector(direction.x, direction.y, self.parent:GetForwardVector().z ))
-		end
-
 		-- needed to not give speed boost on diagonal
 		if self.parent.direction.x ~= 0 and self.parent.direction.y ~= 0 then
 			speed = speed * 0.75
@@ -79,11 +72,17 @@ function movement_modifier_thinker:OnIntervalThink()
 		if self:Move(direction, speed) == false then
 			local alternative_directions = self:AlternatieDirections(direction)
 
-			for _,alt_direction in pairs(alternative_directions) do
-				if self:Move(alt_direction, speed/2) then
+			for _, alt_direction in pairs(alternative_directions) do
+				if self:Move(alt_direction, speed/2) == true then
 					break
 				end
 			end
+		end
+
+		-- set hero facing towards moving vector unless casting
+		if self.parent:HasModifier("casting_modifier_thinker") == false then
+			self.parent:SetForwardVector(Vector(direction.x, direction.y, self.parent:GetForwardVector().z ))
+			self.parent:FaceTowards(self.parent:GetAbsOrigin() + Vector(direction.x, direction.y, self.parent:GetForwardVector().z ))
 		end
 
 	-- not moving
@@ -95,17 +94,14 @@ end
 
 function movement_modifier_thinker:Move(direction, speed)
 	-- variable init
-	local future_position = nil
-    local origin = self.parent:GetAbsOrigin()
+	local origin = self.parent:GetAbsOrigin()
+	local offset = 7
 
 	-- next postion where the player will move to
-	future_position = origin + direction * speed
+	local future_position = origin + direction * speed
 	future_position.z = GetGroundPosition(future_position, self.parent).z
 
-	-- tests the future postion of the player with an offset to detect colliding (trees, walls and units)
-	-- offset is distance between player and object if <offset player won't move
-	local offset = 7
-	local test_position_front = origin + direction * speed * offset
+	local test_position_front = future_position + direction * offset
 	test_position_front.z = GetGroundPosition(future_position, self.parent).z
 
 	if GridNav:IsTraversable(test_position_front) then
@@ -145,11 +141,11 @@ function movement_modifier_thinker:Move(direction, speed)
 
 			-- if playing the moving animation and we are casting then remove the animation 
 			-- (top and bottom animations are not seperate in dota, cant do both running and casting at the same time)
-			elseif self.parent:HasModifier("casting_modifier_thinker") == true
-				and abilityBeingCast ~= nil
-				and self.parent:HasModifier("modifier_hero_movement") == true then
+			--elseif self.parent:HasModifier("casting_modifier_thinker") == true
+			--	and abilityBeingCast ~= nil
+			--	and self.parent:HasModifier("modifier_hero_movement") == true then
 
-				self.parent:RemoveModifierByName("modifier_hero_movement")
+			--	self.parent:RemoveModifierByName("modifier_hero_movement")
 			end
 
 			self.parent:SetAbsOrigin(future_position)

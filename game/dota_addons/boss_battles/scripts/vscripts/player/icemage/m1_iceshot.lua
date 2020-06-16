@@ -5,7 +5,7 @@ function m1_iceshot:OnAbilityPhaseStart()
 
         -- start casting animation
         -- the 1 below is imporant if set incorrectly the animation will stutter (second variable in startgesture is the playback override)
-        self:GetCaster():StartGestureWithPlaybackRate(ACT_DOTA_ATTACK, 1)
+        self:GetCaster():StartGestureWithPlaybackRate(ACT_DOTA_ATTACK, 1.2)
 
         -- add casting modifier
         self:GetCaster():AddNewModifier(self:GetCaster(), self, "casting_modifier_thinker",
@@ -31,6 +31,8 @@ function m1_iceshot:OnAbilityPhaseInterrupted()
 end
 ---------------------------------------------------------------------------
 
+local tProjectileData = {}
+
 function m1_iceshot:OnSpellStart()
     if IsServer() then
 
@@ -42,52 +44,42 @@ function m1_iceshot:OnSpellStart()
         local origin = self.caster:GetAbsOrigin()
         local projectile_speed = 800
 
-        -- set player forward vector to mouse postion while spell is casting
+        -- set proj direction to mouse location
         local vTargetPos = nil
         vTargetPos = GameMode.mouse_positions[self.caster:GetPlayerID()]
-
         local projectile_direction = (Vector( vTargetPos.x - origin.x, vTargetPos.y - origin.y, 0 )):Normalized()
 
-        local hProjectile = {
-            Source = self.caster,
-            Ability = self,
-            vSpawnOrigin = origin + Vector(0, 0, 10),
-            bDeleteOnHit = true,
-            iUnitTargetTeam = DOTA_UNIT_TARGET_TEAM_ENEMY,
-            iUnitTargetFlags = DOTA_UNIT_TARGET_FLAG_NONE,
-            iUnitTargetType = DOTA_UNIT_TARGET_HERO + DOTA_UNIT_TARGET_BASIC,
+        local projectile = {
             EffectName = "particles/icemage/icemage_m1_maiden_base_attack.vpcf",
-            fDistance = self:GetCastRange(origin, nil),
-            fStartRadius = 50,
-            fEndRadius = 50,
+            vSpawnOrigin = origin + Vector(0, 0, 100),
+            fDistance = self:GetCastRange(Vector(0,0,0), nil),
+            fUniqueRadius = 50,
+            Source = self.caster,
             vVelocity = projectile_direction * projectile_speed,
-            bHasFrontalCone = false,
-            bReplaceExisting = false,
-            fExpireTime = GameRules:GetGameTime() + 30.0,
-            bProvidesVision = true,
-            iVisionRadius = 200,
-            iVisionTeamNumber = self.caster:GetTeamNumber(),
+            UnitBehavior = PROJECTILES_DESTROY,
+            TreeBehavior = PROJECTILES_DESTROY,
+            WallBehavior = PROJECTILES_DESTROY,
+            GroundBehavior = PROJECTILES_NOTHING,
+            fGroundOffset = 80,
+            UnitTest = function(_self, unit) return unit:GetTeamNumber() ~= self.caster:GetTeamNumber() end,
+            OnUnitHit = function(_self, unit)
+                local dmgTable = {
+                    victim = unit,
+                    attacker = self.caster,
+                    damage = self:GetSpecialValueFor( "dmg" ),
+                    damage_type = self:GetAbilityDamageType(),
+                }
+
+                ApplyDamage(dmgTable)
+                EmitSoundOn("hero_Crystal.projectileImpact", self.caster)
+            end,
+            OnFinish = function(_self, pos)
+
+            end,
         }
 
-        self.projId = ProjectileManager:CreateLinearProjectile(hProjectile)
+        Projectiles:CreateProjectile(projectile)
 
 	end
 end
 ----------------------------------------------------------------------------------------------------------------
-
-function m1_iceshot:OnProjectileHit(hTarget, vLocation)
-
-    if hTarget ~= nil then
-
-        local dmgTable = {
-            victim = hTarget,
-            attacker = self.caster,
-            damage = self:GetSpecialValueFor( "dmg" ),
-            damage_type = self:GetAbilityDamageType(),
-        }
-
-        ApplyDamage( dmgTable )
-        EmitSoundOn("hero_Crystal.projectileImpact", self.caster)
-        ProjectileManager:DestroyLinearProjectile(self.projId)
-    end
-end
