@@ -20,9 +20,11 @@ function UpdateTargetIndicator(){
     }
 
     // replace number with total abilities a player will have!
-    for(var i = 0; i < 2; i++){
+    for(var i = 0; i < 5; i++){
         var abilityIndex = Entities.GetAbility(heroIndex, i);
-        if(Abilities.IsInAbilityPhase(abilityIndex)){
+        //var abilityBehavior = Abilities.GetBehavior(abilityIndex)
+
+        if( Abilities.IsInAbilityPhase(abilityIndex) ){
             active = abilityIndex;
         }
     }

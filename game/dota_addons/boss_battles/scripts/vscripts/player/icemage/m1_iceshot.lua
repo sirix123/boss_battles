@@ -31,8 +31,6 @@ function m1_iceshot:OnAbilityPhaseInterrupted()
 end
 ---------------------------------------------------------------------------
 
-local tProjectileData = {}
-
 function m1_iceshot:OnSpellStart()
     if IsServer() then
 
