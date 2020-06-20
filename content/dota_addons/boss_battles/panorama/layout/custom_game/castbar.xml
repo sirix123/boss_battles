@@ -1,19 +1,19 @@
 <root>
 	<scripts>
-		<include src="file://{resources}/scripts/custom_game/util.js" />
+		<include src="file://{resources}/scripts/custom_game/castbar.js" />
 	</scripts>
 
 	<styles>
 		<include src="file://{resources}/styles/custom_game/castbar.css" />
 	</styles>
 		
-	<Panel>
-		<Panel class="castbar-container">
-			<Panel class="castbar-activePortion"> 
+	<Panel class="fullscreen-container">
+		<Panel class="castbar-container" id="castbar-container">
+			<Panel class="castbar-activePortion" id="castbar-activePortion"> 
 				<Label id="castbar-spellTitle" class="castbar-spellTitle" text="Fireball!" /> <!--TODO: Remove that text after initial test, set the text in JS -->
 			</Panel>
-			<Panel class="castbar-backgroundPortion">
-				
+			<Panel class="castbar-backgroundPortion" id="castbar-backgroundPortion">
+
 			</Panel>
 		</Panel>
 	</Panel>

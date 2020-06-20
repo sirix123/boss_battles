@@ -138,8 +138,11 @@ function OnReleaseA() {
 
 function OnLeftButtonPressed()
 {
-    AbilityToCast(0, true);
+    var heroEntity = Players.GetPlayerHeroEntityIndex(Players.GetLocalPlayer());
+    var playerEntity = Players.GetLocalPlayer();
+    GameEvents.SendCustomGameEventToServer("customEvent_abilityCast", {heroEntity: heroEntity, playerEntity: playerEntity});
 
+    AbilityToCast(0, true);
     $.Schedule(0.1, function tic(){
         if (GameUI.IsMouseDown(0)){
             AbilityToCast(0, false);

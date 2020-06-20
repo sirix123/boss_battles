@@ -5,73 +5,63 @@ local isTimerRunning
 local timerInterval = 0.1
 
 function GameMode:SetUpMovement()
-
-    CustomGameEventManager:RegisterListener('grenade', function(eventSourceIndex, args)
-    print("myFunction called!")
-        --DEBUG: print all args passed in
-        for k, v in pairs(args) do
-            print("k = ",k,"v = ",v)
-        end
+    -- TODO: Move this code elsewhere. Shouldn't be doing this here.. maybe GameMode:SetUpCastBars()
+    -- Catch an event at serverside and then send to client side JS.
+    CustomGameEventManager:RegisterListener('customEvent_abilityCast', function(eventSourceIndex, args)
+        print("GameMode:SetUpMovement() customEvent_abilityCast event")
 
 
-        local keyState = args.keyState
-        local unit = EntIndexToHScript(args.entityIndex)
-        if unit == nil then return end
+--Using Almouse ProgressBars Library: https://gitlab.com/ZSmith/dota2-modding-libraries/-/tree/master/ProgressBars
+------------------------------------------------------------------------------------------------------------------
+        local config = {
+            progressBarType = "duration",
+            reversedProgress = false, --figure out which way true/false go.
+
+            --style = "EnrageStacks", --style by almouse
+            style = "Hacking", --style by almouse
+            --style = "castBar" --style by mitch. NOT YET IMPLEMENTED!
+
+            --TODO: Find out where to update this text
+            text = "1.0",
+            textSuffix = "s"
+
+            --for combo points or stacking de/buff 
+            --stacks = 0,
+            --maxStacks = 100,
+
+        }
+        local heroEntity = EntIndexToHScript(args.heroEntity)
+        -- via lua:
+        ProgressBars:AddProgressBar(heroEntity, "casting_modifier_thinker", config)
+        -- OR via js, doesn't work atm : 
+        --CustomGameEventManager:Send_ServerToAllClients("progress_bar", config)
 
 
-        local unitAbilityBeingCast = unit:GetCurrentActiveAbility()
-        print("unitAbilityBeingCast = ", unitAbilityBeingCast)
+-- Sending an event to JS. castbar.js has subscribed listener on customEvent_abilityCast
+----------------------------------------------------------------------------------------
+        --WIP: My attempt at ProgressBar animation. 
 
+        -- local playerEntity = args.playerEntity
+        -- local heroEntity = EntIndexToHScript(args.heroEntity)
+        -- local heroEntityOrig = args.heroEntity
 
-        local abilityBeingCast = self:GetCurrentActiveAbility()
-        print("abilityBeingCast = ", abilityBeingCast)
+        -- -- TODO: Send the event to the player casting it. 
+        -- --I can't get any of the three parameters to work.
+        -- local data_toPlayer = {}
+        -- data_toPlayer.method = "Send_ServerToPlayer"
+        -- --CustomGameEventManager:Send_ServerToPlayer( playerEntity, "customEvent_abilityCast", data_toPlayer )
+        -- --CustomGameEventManager:Send_ServerToPlayer( heroEntity, "customEvent_abilityCast", data_toPlayer )
+        -- --CustomGameEventManager:Send_ServerToPlayer( heroEntityOrig, "customEvent_abilityCast", data_toPlayer )
 
-        local abCursor = abilityBeingCast:GetCursorPosition()
-        print("abCursor = ", abCursor)
-
-
-        
-        local origin = unit:GetAbsOrigin()
-        local cursor = Vector(args.cursor[0], args.cursor[1],0)
-        print("cursor = ", cursor)
-
-        local shouldStopTimer = false
-        if  keyState == "up" then
-            shouldStopTimer = true
-        end
-
-        if  keyState == "down" then
-            Timers:CreateTimer(function()
-                if shouldStopTimer then
-                    print("shouldStopTimer = true, stopping the timer")
-                    print("TODO Cast grenade spell")
-                    return 
-                end
-
-                pressDuration = pressDuration + 1
-
-                local vec_distance = cursor - origin
-                print("vec_distance = ", vec_distance)
-                local direction = (vec_distance):Length2D():Normalized()
-
-                print("direction = ", direction)
-                --now unNormalize for the line
-                local vecPowerShot = Vector(direction.x * pressDuration, direction.y * pressDuration, 0)
-
-                DebugDrawLine(origin, vecPowerShot, 255,0,0, true, timerInterval)
-                --Draw the current state/progress
-                --just draw a line... a box is hard because of rotation?
-            
-            end) -- end of timer
-        end
-
-    
-    end) --end grenade listener
-
-
+        -- -- HACK-WorkAround: Send the event to all clients, for testing purposes this is okay
+        -- local data_toAllClients = {}
+        -- data_toAllClients.method = "Send_ServerToPlayer"
+        -- CustomGameEventManager:Send_ServerToAllClients("customEvent_abilityCast", data_toAllClients)
+    end)
 
 
     CustomGameEventManager:RegisterListener('MoveUnit', function(eventSourceIndex, args)
+        --print("GameMode:SetUpMovement(): MoveUnit event caught")
         local direction = args.direction
         local keyPressed = args.keyPressed
         local keyState = args.keyState

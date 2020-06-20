@@ -1,4 +1,3 @@
---TODO: make a modifier thinker so I can draw the current state of the mouse during the drag portion. Timer won't allow me to GetCursorPosition.
 --TODO: parametize "clicked" and "released" if these are two STATES then define them somewhere. 
 --TODO: Make projectile spawn at origin instead of pullBackLocation. But need to update the target and direction math. 
 	--Currently the projectile is spawning at pullBackLocation and moving to clickLocation.

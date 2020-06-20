@@ -73,8 +73,21 @@ function homing_missile:OnSpellStart()
     		if ( distance < collisionDistance  ) then
     			_G.HOMING_MISSILE_HIT_TARGET = rocket.target
     			--TODO: deal dmg, destroy missle
+    			--TODO: --dmg based on the tickCount, aka how long the missile has been alive, how far the missile has travelled
+				local damageInfo = 
+				{
+					victim = rocket.target,
+					attacker = self:GetCaster(),
+					damage = 100, --TODO: calculate the dmg properly.
+					damage_type = 1, --DAMAGE_TYPE_PHYSICAL = 1, DAMAGE_TYPE_MAGICAL = 2
+					ability = self,
+				}
+				ApplyDamage(damageInfo)
+
+    			
     			local p = ParticleManager:CreateParticle( "particles/econ/items/bloodseeker/bloodseeker_eztzhok_weapon/bloodseeker_bloodbath_eztzhok_burst.vpcf", PATTACH_POINT, rocket.target )
 				UTIL_Remove(missile)
+
     			return --TODO: confirm this ends the timer
     		end
 

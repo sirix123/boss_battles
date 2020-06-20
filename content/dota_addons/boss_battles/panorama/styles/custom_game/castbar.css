@@ -1,21 +1,25 @@
-.castbar-container {
-	width: 800px;
-	height: 200px;
-	border: 2px solid black;
+.fullscreen_container {
 
-	/* Don't think this exists in panorama css. Lookup alternative way to achieve this */
-	display: flex;
-	flex-direction: row;
+}
+
+.castbar-container {
+	position: 25% 60% 0px;
+	width: 50%;
+	height: 5%;
+	border: 2px solid black;
+	flow-children: right;	
 }
 
 .castbar-activePortion {
 	height: 100%;
-	border-right: 2px solid black;
-	background-color: #18b0ba;
+	width: 20%;
+	border-right: 2px solid #18b0ba;
+	background-color: #18b0ba; /* blue */
 }
 
 .castbar-backgroundPortion {
 	height: 100%;
-	width: 100%
-	background-color: #abbabb;	
+	width: 80%;
+	background-color: #abbabb;	/* grey? */
+	border: 1px solid #ffffff;
 }
