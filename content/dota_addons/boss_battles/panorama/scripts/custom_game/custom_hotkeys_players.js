@@ -4,7 +4,7 @@ function AbilityToCast(abilityNumber, showEffects){
     var playerId = Players.GetLocalPlayer();
     var playerHero = Players.GetPlayerHeroEntityIndex( playerId );
     var abilityIndex = Entities.GetAbility( playerHero, abilityNumber )
-    
+
     if (playerHero == -1){
         $.Msg("[custom_hotkeys_players] no hero assigned")
         return
@@ -301,16 +301,16 @@ function GetMouseCastPosition(  )
 
     // ability index in kv starts at 0... but says 1... dont be confused... :)
     // 1 
-    Game.AddCommand( "+1", function(){ AbilityToCast(2, true) }, "", 0 );
-    Game.AddCommand( "-1", EmptyCallBack, "", 0 );   
+    Game.AddCommand( "+Q", function(){ AbilityToCast(2, true) }, "", 0 );
+    Game.AddCommand( "-Q", EmptyCallBack, "", 0 );   
 
     // 2
-    Game.AddCommand( "+2", function(){ AbilityToCast(3, true) }, "", 0 );
-    Game.AddCommand( "-2", EmptyCallBack, "", 0 );   
+    Game.AddCommand( "+E", function(){ AbilityToCast(3, true) }, "", 0 );
+    Game.AddCommand( "-E", EmptyCallBack, "", 0 );   
 
     // 3
-    Game.AddCommand( "+3", function(){AbilityToCast(4, true) }, "", 0 );
-    Game.AddCommand( "-3", EmptyCallBack, "", 0 );   
+    Game.AddCommand( "+R", function(){AbilityToCast(4, true) }, "", 0 );
+    Game.AddCommand( "-R", EmptyCallBack, "", 0 );   
 
 
     //TESTING: Ability Powershot ability on Kunkka, press and hold SPACE to charge up, release to fire

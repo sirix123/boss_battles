@@ -25,16 +25,16 @@
 			Command = "+D"
 		},
 		{
-			Key = "1"
-			Command = "+1"
+			Key = "Q"
+			Command = "+Q"
 		},
 		{
-			Key = "2"
-			Command = "+2"
+			Key = "E"
+			Command = "+E"
 		},
 		{
-			Key = "3"
-			Command = "+3"
+			Key = "R"
+			Command = "+R"
 		},
 		{
 			Key = "SPACE"

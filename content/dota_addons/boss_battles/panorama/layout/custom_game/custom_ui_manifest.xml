@@ -1,10 +1,11 @@
 <root>
 	<scripts>
 		<include src="file://{resources}/scripts/custom_game/util.js" />
+		<include src="file://{resources}/scripts/custom_game/camera.js" />
 	</scripts>
 
 	<styles>
-		<include src="file://{resources}/styles/custom_game/global.css" />
+		<!-- <include src="file://{resources}/styles/custom_game/global.css" /> -->
 	</styles>
 		
 	<Panel>
