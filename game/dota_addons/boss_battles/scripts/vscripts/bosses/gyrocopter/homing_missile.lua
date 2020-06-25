@@ -1,6 +1,5 @@
 homing_missile = class({})
 
-LinkLuaModifier( "missile_thinker", "bosses/gyrocopter/missile_thinker", LUA_MODIFIER_MOTION_NONE )
 --Logic based on level:
 
 --lvl 1:
@@ -23,7 +22,6 @@ LinkLuaModifier( "missile_thinker", "bosses/gyrocopter/missile_thinker", LUA_MOD
 	--Hits to destroy: 5
 	--Slightly faster ms than player	
 
-
 local tracking_interval = 0.1
 function homing_missile:OnSpellStart()
 	print("homing_missile:OnSpellStart()")
@@ -44,7 +42,7 @@ function homing_missile:OnSpellStart()
 	-- make a copy of the targets location coords, when the targets moves these coords remain the same
 	targetLocationCopy = shallowcopy(target:GetAbsOrigin())	
     local rocket = {
-    	speed = 5,
+    	speed = 25,
     	location = self:GetCaster():GetAbsOrigin(),
     	target = target,
     	target_lastKnownLocation = targetLocationCopy,
@@ -53,23 +51,31 @@ function homing_missile:OnSpellStart()
 
 	local missile = CreateUnitByName("npc_dota_gyrocopter_homing_missile", caster:GetAbsOrigin(), true, self:GetCaster(), self:GetCaster(), self:GetCaster():GetTeamNumber())
 
-
-
-
     local tickCount = 0
     local collisionDistance = 100
     Timers:CreateTimer(function()     		
     		tickCount = tickCount +1
-			--print("Timer tick ", tickCount)
+
+			--need to delay 3 seconds for the 'prepare' animation the missile does
+			local waitAmount = 3.2 / tracking_interval  
+			if tickCount < waitAmount then
+				return tracking_interval;  --do nothing until the missile animation is ready to be moved.
+			end				
 
 			--update rocket's location
 			rocket.location = rocket.location + rocket.direction * rocket.speed
-			--print("missile:SetAbsOrigin(rocket.location)")
 			missile:SetAbsOrigin(rocket.location)			
 			missile:SetForwardVector(rocket.direction)
-
-    		-- check for collision with target
+    		
+    		--Missile detonating at target, destroy missile, check if enemy near to apply damage.
     		distance = (rocket.target_lastKnownLocation - rocket.location):Length2D()
+
+    		if distance < collisionDistance * 1.5 then
+    			--just used any sound for now. 
+    			--TODO: find the techies mine nearby sound
+				EmitSoundOn( "techies_tech_mineblowsup_01", self:GetCaster() )
+			end
+
     		if ( distance < collisionDistance  ) then
     			_G.HOMING_MISSILE_HIT_TARGET = rocket.target
     			--TODO: deal dmg, destroy missle
@@ -94,7 +100,7 @@ function homing_missile:OnSpellStart()
 			-- blue = rocket's target
 			DebugDrawCircle(rocket.target_lastKnownLocation, Vector(0,0,255), 128, 20, true, tracking_interval)
 
-			--only update the rocket if an enemy has been scanned
+			--only update the rocket if an enemy has been scanned, otherwise continue on current course/direction
 			if #_G.ScannedEnemyLocations > 0 then
 				--update the rockets target if there is a 'new' scan of this particular enemy
 				for i = 1, #_G.ScannedEnemyLocations, 1 do
@@ -145,13 +151,3 @@ function shallowcopy(orig)
     end
     return copy
 end
-
-
--- local damageInfo = 
--- {
--- 	victim = target,
--- 	attacker = self:GetCaster(),
--- 	damage = self.base_damage,
--- 	damage_type = self:GetAbilityDamageType(),
--- 	ability = self,
--- }
