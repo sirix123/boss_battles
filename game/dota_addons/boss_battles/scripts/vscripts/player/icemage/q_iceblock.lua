@@ -40,17 +40,46 @@ function q_iceblock:OnSpellStart()
         self:GetCaster():FadeGesture(ACT_DOTA_CAST_ABILITY_2)
 
         -- init
-		self.caster = self:GetCaster()
-        local target = self:GetCursorTarget()
-        local duration = self:GetSpecialValueFor("duration")
+        local caster = self:GetCaster()
+        local duration = 5
 
-        self.modifier = target:AddNewModifier(
+        -- target
+        -- this is a really bad implementation tbh... edge cases? phasing players... somehow closely packed players...
+        -- ALSO? IF ITS NOT A TARGET IT GOES ON CD? need logic in interupt?
+            -- add that code to onabilityphase start?
+        local vTargetPos = nil
+        vTargetPos = GameMode.mouse_positions[caster:GetPlayerID()]
+        local target = self:GetCursorTarget()
+
+        --[[local friendly = FindUnitsInRadius(
+            DOTA_TEAM_GOODGUYS,
+            vTargetPos,
+            nil,
+            50,
+            DOTA_UNIT_TARGET_TEAM_FRIENDLY,
+            DOTA_UNIT_TARGET_ALL,
+            DOTA_UNIT_TARGET_FLAG_NONE,
+            FIND_CLOSEST,
+            false )
+        
+        if #friendly ~= 0 and friendly ~= nil then
+            friendly[1]:AddNewModifier(
+                caster, -- player source
+                self, -- ability source
+                "q_iceblock_modifier", -- modifier name
+                { duration = duration } -- kv
+            )
+        end]]
+
+        target:AddNewModifier(
             caster, -- player source
             self, -- ability source
             "q_iceblock_modifier", -- modifier name
             { duration = duration } -- kv
         )
 
+
+        --DebugDrawCircle(vTargetPos, Vector(0,0,255), 128, 10, true, 60)
 	end
 end
 ----------------------------------------------------------------------------------------------------------------

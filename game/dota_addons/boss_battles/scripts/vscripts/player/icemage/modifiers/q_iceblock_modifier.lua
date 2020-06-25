@@ -21,6 +21,7 @@ function q_iceblock_modifier:OnCreated( kv )
 	if IsServer() then
         --self.ms_slow = -200
         --self.as_slow = -50
+        print("modifier created")
     end
 end
 ----------------------------------------------------------------------------

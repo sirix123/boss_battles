@@ -4,6 +4,9 @@ function AbilityToCast(abilityNumber, showEffects){
     var playerId = Players.GetLocalPlayer();
     var playerHero = Players.GetPlayerHeroEntityIndex( playerId );
     var abilityIndex = Entities.GetAbility( playerHero, abilityNumber )
+    
+    // testing cursor targeting unit API calls
+    var queryTarget = Players.GetQueryUnit(playerId)
 
     if (playerHero == -1){
         $.Msg("[custom_hotkeys_players] no hero assigned")
@@ -41,6 +44,18 @@ function AbilityToCast(abilityNumber, showEffects){
             {
                 OrderType : dotaunitorder_t.DOTA_UNIT_ORDER_CAST_NO_TARGET,                       
                 TargetIndex : playerHero,
+                QueueBehavior : OrderQueueBehavior_t.DOTA_ORDER_QUEUE_NEVER,
+                ShowEffects : showEffects,
+                AbilityIndex : abilityIndex,
+            };
+            Game.PrepareUnitOrders(order);
+        }
+        if(abilityBehavior & DOTA_ABILITY_BEHAVIOR.DOTA_ABILITY_BEHAVIOR_UNIT_TARGET)
+        {
+            var order = 
+            {
+                OrderType : dotaunitorder_t.DOTA_UNIT_ORDER_CAST_TARGET,                       
+                TargetIndex : queryTarget,
                 QueueBehavior : OrderQueueBehavior_t.DOTA_ORDER_QUEUE_NEVER,
                 ShowEffects : showEffects,
                 AbilityIndex : abilityIndex,
