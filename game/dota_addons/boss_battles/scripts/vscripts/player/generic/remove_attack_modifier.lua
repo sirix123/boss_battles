@@ -2,7 +2,7 @@ remove_attack_modifier = class ({})
 
 --- Misc 
 function remove_attack_modifier:IsHidden()
-    return false
+    return true
 end
 
 function remove_attack_modifier:DestroyOnExpire()

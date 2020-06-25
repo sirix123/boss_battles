@@ -1,4 +1,6 @@
 m1_iceshot = class({})
+LinkLuaModifier("chill_modifier", "player/icemage/modifiers/chill_modifier", LUA_MODIFIER_MOTION_NONE)
+LinkLuaModifier("shatter_modifier", "player/icemage/modifiers/shatter_modifier", LUA_MODIFIER_MOTION_NONE)
 
 function m1_iceshot:OnAbilityPhaseStart()
     if IsServer() then
@@ -40,7 +42,7 @@ function m1_iceshot:OnSpellStart()
         -- init
 		self.caster = self:GetCaster()
         local origin = self.caster:GetAbsOrigin()
-        local projectile_speed = 800
+        local projectile_speed = self:GetSpecialValueFor( "proj_speed" )
 
         -- set proj direction to mouse location
         local vTargetPos = nil
@@ -51,7 +53,7 @@ function m1_iceshot:OnSpellStart()
             EffectName = "particles/icemage/icemage_m1_maiden_base_attack.vpcf",
             vSpawnOrigin = origin + Vector(0, 0, 100),
             fDistance = self:GetCastRange(Vector(0,0,0), nil),
-            fUniqueRadius = 50,
+            fUniqueRadius = self:GetSpecialValueFor( "hit_box" ),
             Source = self.caster,
             vVelocity = projectile_direction * projectile_speed,
             UnitBehavior = PROJECTILES_DESTROY,
@@ -59,7 +61,9 @@ function m1_iceshot:OnSpellStart()
             WallBehavior = PROJECTILES_DESTROY,
             GroundBehavior = PROJECTILES_NOTHING,
             fGroundOffset = 80,
-            UnitTest = function(_self, unit) return unit:GetTeamNumber() ~= self.caster:GetTeamNumber() end,
+            UnitTest = function(_self, unit)
+                return unit:GetTeamNumber() ~= self.caster:GetTeamNumber()
+            end,
             OnUnitHit = function(_self, unit)
                 local dmgTable = {
                     victim = unit,
@@ -68,11 +72,23 @@ function m1_iceshot:OnSpellStart()
                     damage_type = self:GetAbilityDamageType(),
                 }
 
+                -- adds chill modifier
+                unit:AddNewModifier(self.caster, self, "chill_modifier", { duration = self:GetSpecialValueFor( "chill_duration") })
+
+                -- adds shatter and stack logic
+                self.caster:AddNewModifier(self.caster, self, "shatter_modifier", { duration = self:GetSpecialValueFor( "shatter_duration"), max_shatter_stacks = self:GetSpecialValueFor( "max_shatter_stacks") })
+
                 ApplyDamage(dmgTable)
                 EmitSoundOn("hero_Crystal.projectileImpact", self.caster)
+
             end,
             OnFinish = function(_self, pos)
-
+                -- add projectile explode particle effect here on the pos it finishes at
+                local particle_cast = "particles/units/heroes/hero_crystalmaiden/maiden_base_attack_explosion.vpcf"
+                local effect_cast = ParticleManager:CreateParticle(particle_cast, PATTACH_WORLDORIGIN, nil)
+                ParticleManager:SetParticleControl(effect_cast, 0, pos)
+                ParticleManager:SetParticleControl(effect_cast, 3, pos)
+                ParticleManager:ReleaseParticleIndex(effect_cast)
             end,
         }
 

@@ -14,7 +14,7 @@ local SOUTH_WEST = Vector(-1, -1, 0)
 
 --------------------------------------------------------------------------------
 function movement_modifier_thinker:IsHidden()
-	return false
+	return true
 end
 
 function movement_modifier_thinker:IsDebuff()

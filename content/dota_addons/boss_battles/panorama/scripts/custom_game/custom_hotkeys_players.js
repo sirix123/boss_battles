@@ -39,7 +39,7 @@ function AbilityToCast(abilityNumber, showEffects){
         {
             var order = 
             {
-                OrderType : dotaunitorder_t.DOTA_UNIT_ORDER_CAST_NO_TARGET,
+                OrderType : dotaunitorder_t.DOTA_UNIT_ORDER_CAST_NO_TARGET,                       
                 TargetIndex : playerHero,
                 QueueBehavior : OrderQueueBehavior_t.DOTA_ORDER_QUEUE_NEVER,
                 ShowEffects : showEffects,
