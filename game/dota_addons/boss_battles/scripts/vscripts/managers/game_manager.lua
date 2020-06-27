@@ -35,16 +35,16 @@ end
 
 -- handles spawning the boss, pass boss from table and a location
 function GameMode:SpawnBoss(boss, location)
-    --print("GameMode: SpawnBoss")
-    --local bossSpawnLocation = Entities:FindByName(nil, location):GetAbsOrigin()
-    local testspawn = Entities:FindByName(nil, raid_tables.beastmaster.spawnLocation):GetAbsOrigin()
+    print("GameMode: SpawnBoss")
+    local bossSpawnLocation = Entities:FindByName(nil, location):GetAbsOrigin()
+    --local testspawn = Entities:FindByName(nil, raid_tables.beastmaster.spawnLocation):GetAbsOrigin()
 
-    --CreateUnitByName("npc_timber", bossSpawnLocation, true, nil, nil, DOTA_TEAM_BADGUYS)
+    CreateUnitByName(boss, bossSpawnLocation, true, nil, nil, DOTA_TEAM_BADGUYS)
     --CreateUnitByName("npc_dota_hero_rubick", bossSpawnLocation, true, nil, nil, DOTA_TEAM_GOODGUYS)
     --CreateUnitByName("npc_dota_hero_viper", Vector(9821,14288,0), true, nil, nil, DOTA_TEAM_GOODGUYS)
     --CreateUnitByName("npc_dota_hero_riki", Vector(7342,12003,0), true, nil, nil, DOTA_TEAM_GOODGUYS)
-    CreateUnitByName("npc_dota_creature_gnoll_assassin", testspawn, true, nil, nil, DOTA_TEAM_BADGUYS)
-    CreateUnitByName("npc_dota_creature_gnoll_assassin", testspawn, true, nil, nil, DOTA_TEAM_GOODGUYS)
+    --CreateUnitByName("npc_dota_creature_gnoll_assassin", testspawn, true, nil, nil, DOTA_TEAM_BADGUYS)
+    --CreateUnitByName("npc_stun_droid", testspawn, true, nil, nil, DOTA_TEAM_BADGUYS)
 end
 
 -- Intermission handler 
@@ -56,6 +56,7 @@ function GameMode:IntermissionHandler()
 end
 
 function GameMode:StartRaid()
+    print("GameMode: StartRaid()")
 
     --[[
             Intermission area
@@ -67,8 +68,8 @@ function GameMode:StartRaid()
             Beastmaster
 
     ]]--
-    GameMode:MoveHeroesToArea(raid_tables.beastmaster.arena)
-    GameMode:SpawnBoss(raid_tables.beastmaster.bossNPC, raid_tables.beastmaster.spawnLocation)
+    --GameMode:MoveHeroesToArea(raid_tables.beastmaster.arena)
+    --GameMode:SpawnBoss(raid_tables.beastmaster.bossNPC, raid_tables.beastmaster.spawnLocation)
 
     --[[
             Timber
@@ -83,12 +84,8 @@ function GameMode:StartRaid()
     ]]--
 
 
-    --[[
-            Gyro
-
-    ]]--
-    --GameMode:MoveHeroesToArea(raid_tables.gyrocopter.arena)
-    --GameMode:SpawnBoss(raid_tables.gyrocopter.bossNPC, raid_tables.beastmaster.spawnLocation)
+    GameMode:MoveHeroesToArea(raid_tables.gyrocopter.arena)
+    GameMode:SpawnBoss(raid_tables.gyrocopter.bossNPC, raid_tables.gyrocopter.spawnLocation)
 
     --[[
             Tinker

@@ -9,7 +9,6 @@
 	</styles>
 		
 	<Panel>
-		<CustomUIElement type="Hud"			layoutfile="file://{resources}/layout/custom_game/castbar.xml" />
 		<CustomUIElement type="Hud"			layoutfile="file://{resources}/layout/custom_game/custom_hotkeys_players.xml" />
 		<CustomUIElement type="Hud"			layoutfile="file://{resources}/layout/custom_game/target_indicator.xml" />
 		<CustomUIElement type="Hud" 		layoutfile="file://{resources}/layout/custom_game/progress_bars.xml" />
