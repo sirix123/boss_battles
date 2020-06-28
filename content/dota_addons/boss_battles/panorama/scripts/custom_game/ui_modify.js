@@ -1,3 +1,7 @@
+function HideDefaults(){
+    GameUI.SetDefaultUIEnabled(DotaDefaultUIElement_t.DOTA_DEFAULT_UI_ACTION_MINIMAP, false);
+}
+
 
 function ModifyHotkeyBox(top_panel) {
     if(!ModifyHotkeyText(top_panel, "Ability0", "L-Mouse")){ return false; }
@@ -39,5 +43,6 @@ function ModifyHotkeyBoxes(top_panel){
     }
 
     ModifyHotkeyBoxes(top_panel);
+    HideDefaults();
 
 })();
