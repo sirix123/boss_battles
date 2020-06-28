@@ -4,9 +4,6 @@ function AbilityToCast(abilityNumber, showEffects){
     var playerId = Players.GetLocalPlayer();
     var playerHero = Players.GetPlayerHeroEntityIndex( playerId );
     var abilityIndex = Entities.GetAbility( playerHero, abilityNumber )
-    
-    // testing cursor targeting unit API calls
-    var queryTarget = Players.GetQueryUnit(playerId)
 
     if (playerHero == -1){
         $.Msg("[custom_hotkeys_players] no hero assigned")
@@ -52,15 +49,33 @@ function AbilityToCast(abilityNumber, showEffects){
         }
         if(abilityBehavior & DOTA_ABILITY_BEHAVIOR.DOTA_ABILITY_BEHAVIOR_UNIT_TARGET)
         {
+
+            Abilities.ExecuteAbility( abilityIndex, playerHero, false );
+
+           /* $.Msg(Players.GetLocalPlayerPortraitUnit())
+
+            var target = Players.GetLocalPlayerPortraitUnit()
+
+            //var mouse_position_screen = GameUI.GetCursorPosition();
+            //var target = GameUI.FindScreenEntities(mouse_position_screen)
+
+            if (target == null)
+            {
+                $.Msg("[custom_hotkeys_players] no entity found on cursor location")
+                return
+            }
+            
+            $.Msg(GameUI.FindScreenEntities(mouse_position_screen))
+            
             var order = 
             {
                 OrderType : dotaunitorder_t.DOTA_UNIT_ORDER_CAST_TARGET,                       
-                TargetIndex : queryTarget,
+                TargetIndex : target,
                 QueueBehavior : OrderQueueBehavior_t.DOTA_ORDER_QUEUE_NEVER,
                 ShowEffects : showEffects,
                 AbilityIndex : abilityIndex,
             };
-            Game.PrepareUnitOrders(order);
+            Game.PrepareUnitOrders(order);*/
         }
     }
 }
@@ -282,7 +297,7 @@ function GetMouseCastPosition(  )
 
     var mouse_position_screen = GameUI.GetCursorPosition();
     var mouse_position = Game.ScreenXYToWorld(mouse_position_screen[0], mouse_position_screen[1])
-
+    //$.Msg(GameUI.FindScreenEntities(mouse_position_screen))
 	GameEvents.SendCustomGameEventToServer("MousePosition", {
         playerID: Players.GetLocalPlayer(), 
         x: mouse_position[0], 

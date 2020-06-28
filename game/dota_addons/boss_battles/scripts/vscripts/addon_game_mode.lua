@@ -55,6 +55,10 @@ function Precache( context )
   PrecacheUnitByNameSync("npc_stun_droid", context)
   PrecacheUnitByNameSync("npc_smelter_droid", context)
 
+  -- ice mage prcache
+  PrecacheResource("particle",	"particles/units/heroes/hero_winter_wyvern/wyvern_cold_embrace_buff.vpcf", context)
+  PrecacheResource("soundfile", "soundevents/game_sounds_heroes/game_sounds_winter_wyvern.vsndevts", context)
+
 end
 
 -- hello moomoo

@@ -9,7 +9,7 @@
 		"Ability1"              "m1_iceshot" 
         "Ability2"              "m2_icelance" 
         "Ability3"              "q_iceblock" 
-        "Ability4"              ""
+        "Ability4"              "e_icefall"
         "Ability5"              ""
         "Ability6"              ""
         "Ability7"              ""

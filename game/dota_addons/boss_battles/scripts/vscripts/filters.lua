@@ -34,6 +34,11 @@ function Filters:Activate(GameMode, this)
         end
 
         --
+        if order_type == DOTA_UNIT_ORDER_CAST_TARGET then
+
+        end
+
+        --
         if order_type == DOTA_UNIT_ORDER_STOP or order_type == DOTA_UNIT_ORDER_HOLD_POSITION then
             local caster = EntIndexToHScript(filter_table.units["0"])
             local ability = caster:GetCurrentActiveAbility()

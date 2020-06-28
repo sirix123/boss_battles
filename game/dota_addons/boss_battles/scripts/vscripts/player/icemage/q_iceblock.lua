@@ -1,6 +1,5 @@
 q_iceblock = class({})
 LinkLuaModifier("q_iceblock_modifier", "player/icemage/modifiers/q_iceblock_modifier", LUA_MODIFIER_MOTION_NONE)
-LinkLuaModifier("q_iceblock_modifier_thinker", "player/icemage/modifiers/q_iceblock_modifier_thinker", LUA_MODIFIER_MOTION_NONE)
 
 function q_iceblock:OnAbilityPhaseStart()
     if IsServer() then
@@ -40,46 +39,36 @@ function q_iceblock:OnSpellStart()
         self:GetCaster():FadeGesture(ACT_DOTA_CAST_ABILITY_2)
 
         -- init
-        local caster = self:GetCaster()
-        local duration = 5
-
-        -- target
-        -- this is a really bad implementation tbh... edge cases? phasing players... somehow closely packed players...
-        -- ALSO? IF ITS NOT A TARGET IT GOES ON CD? need logic in interupt?
-            -- add that code to onabilityphase start?
-        local vTargetPos = nil
-        vTargetPos = GameMode.mouse_positions[caster:GetPlayerID()]
+        self.caster = self:GetCaster()
+        local duration = self:GetSpecialValueFor( "duration" )
         local target = self:GetCursorTarget()
 
-        --[[local friendly = FindUnitsInRadius(
-            DOTA_TEAM_GOODGUYS,
-            vTargetPos,
-            nil,
-            50,
-            DOTA_UNIT_TARGET_TEAM_FRIENDLY,
-            DOTA_UNIT_TARGET_ALL,
-            DOTA_UNIT_TARGET_FLAG_NONE,
-            FIND_CLOSEST,
-            false )
-        
-        if #friendly ~= 0 and friendly ~= nil then
-            friendly[1]:AddNewModifier(
-                caster, -- player source
-                self, -- ability source
-                "q_iceblock_modifier", -- modifier name
-                { duration = duration } -- kv
-            )
-        end]]
-
         target:AddNewModifier(
-            caster, -- player source
+            self.caster, -- player source
             self, -- ability source
             "q_iceblock_modifier", -- modifier name
             { duration = duration } -- kv
         )
 
+        self:PlayEffects(target)
 
-        --DebugDrawCircle(vTargetPos, Vector(0,0,255), 128, 10, true, 60)
 	end
+end
+----------------------------------------------------------------------------------------------------------------
+
+function q_iceblock:PlayEffects(target)
+
+    -- Get Resources
+    local particle_cast = "particles/units/heroes/hero_winter_wyvern/wyvern_cold_embrace_buff.vpcf"
+    local sound_cast = "Hero_Winter_Wyvern.ColdEmbrace.Cast"
+
+    -- Create Particle
+    local effect_cast = ParticleManager:CreateParticle( particle_cast, PATTACH_ABSORIGIN, nil )
+    ParticleManager:SetParticleControl( effect_cast, 0, target:GetAbsOrigin() )
+    ParticleManager:ReleaseParticleIndex( effect_cast )
+
+    -- Create Sound
+    EmitSoundOnLocationWithCaster( target:GetAbsOrigin(), sound_cast, self:GetCaster() )
+
 end
 ----------------------------------------------------------------------------------------------------------------

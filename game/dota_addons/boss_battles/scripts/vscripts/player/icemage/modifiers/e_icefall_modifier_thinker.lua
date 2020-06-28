@@ -1,82 +1,58 @@
-m2_icefall_modifier_thinker = class({})
+e_icefall_modifier_thinker = class({})
+LinkLuaModifier("chill_modifier", "player/icemage/modifiers/chill_modifier", LUA_MODIFIER_MOTION_NONE)
 
-function m2_icefall_modifier_thinker:IsHidden()
+function e_icefall_modifier_thinker:IsHidden()
 	return false
 end
 
-function m2_icefall_modifier_thinker:IsDebuff()
+function e_icefall_modifier_thinker:IsDebuff()
 	return false
 end
 
-function m2_icefall_modifier_thinker:IsPurgable()
+function e_icefall_modifier_thinker:IsPurgable()
 	return false
 end
 ---------------------------------------------------------------------------
 
-function m2_icefall_modifier_thinker:OnCreated( kv )
+function e_icefall_modifier_thinker:OnCreated( kv )
     if IsServer() then
         self.parent = self:GetParent()
         self.caster = self:GetCaster()
-        self.trackingSpeed = self:GetAbility():GetSpecialValueFor("speed")
         self.radius = self:GetAbility():GetSpecialValueFor("radius")
         self.dmg = self:GetAbility():GetSpecialValueFor( "dmg" )
         self.bSpawn = true
-        self.currentIceFallLocation = 0
         self.quartal = -1
-        self.counter = 0
         self.stopDamageLoop = false
+        self.damage_interval = self:GetAbility():GetSpecialValueFor( "dmg_interval" )
 
         -- ref from spell 
         self.currentTarget = Vector( kv.target_x, kv.target_y, kv.target_z )
-        self.interval = FrameTime()
 
+        self.interval = 0.03
+        self:StartApplyDamageLoop()
         self:StartIntervalThink( self.interval )
 	end
 end
 ---------------------------------------------------------------------------
 
-function m2_icefall_modifier_thinker:OnIntervalThink()
+function e_icefall_modifier_thinker:OnIntervalThink()
     if IsServer() then
-        if self.bSpawn == true then
-            self:StartApplyDamageLoop()
-            self.currentIceFallLocation = self.currentTarget
-        else
-            local mouseLoc = GameMode.mouse_positions[self.caster:GetPlayerID()]
-            self.currentTarget = Vector(mouseLoc.x, mouseLoc.y, self.parent:GetForwardVector().z )
-        end
-
         -- play effects
         self:PlayEffects()
-
-        self:MoveLogic( self.currentIceFallLocation )
-
     end
 end
 ---------------------------------------------------------------------------
 
-function m2_icefall_modifier_thinker:MoveLogic(previousIcefall)
-    --DebugDrawCircle(previousIcefall, Vector(0,0,255), 60, self.radius, true, 60)
-
-	local direction = (self.currentTarget - previousIcefall):Normalized()
-	self.currentIceFallLocation = previousIcefall + direction * self.trackingSpeed * self.interval
-
-	self.parent:SetAbsOrigin( self.currentIceFallLocation )
-    self.bSpawn = false
-
-end
---------------------------------------------------------------------------------
-
-function m2_icefall_modifier_thinker:StartApplyDamageLoop()
+function e_icefall_modifier_thinker:StartApplyDamageLoop()
 
     Timers:CreateTimer(0.5, function()
-
-	    if self.stopDamageLoop == true or _G.stopApplyDamageTimer == true then
+	    if self.stopDamageLoop == true then
 		    return false
         end
 
         local enemies = FindUnitsInRadius(
             self:GetCaster():GetTeamNumber(),	-- int, your team number
-            self.parent:GetAbsOrigin(),	-- point, center point
+            self.currentTarget,	-- point, center point
             nil,	-- handle, cacheUnit. (not known)
             self.radius,	-- float, radius. or use FIND_UNITS_EVERYWHERE
             DOTA_UNIT_TARGET_TEAM_ENEMY,	-- int, team filter
@@ -87,6 +63,14 @@ function m2_icefall_modifier_thinker:StartApplyDamageLoop()
         )
 
         for _, enemy in pairs(enemies) do
+
+            -- check boss table... if enmey is in this table then do something else...
+            if enemy:GetUnitName() == raid_tables.captain.bossNPC then
+                print("boss found")
+                print(enemy:GetUnitName())
+                return
+            end
+
             self.dmgTable = {
                 victim = enemy,
                 attacker = self.caster,
@@ -95,35 +79,33 @@ function m2_icefall_modifier_thinker:StartApplyDamageLoop()
             }
 
             ApplyDamage(self.dmgTable)
+
+            enemy:AddNewModifier(self.caster, self, "chill_modifier", { duration = self:GetAbility():GetSpecialValueFor( "chill_duration") })
         end
 
-        --DebugDrawCircle(self.parent:GetAbsOrigin(), Vector(0,0,255), 60, self.radius, true, 60)
+        --DebugDrawCircle(self.currentTarget, Vector(0,0,255), 60, self.radius, true, 60)
 
-		return 0.5
+		return self.damage_interval
 	end)
 end
 --------------------------------------------------------------------------------
 
-function m2_icefall_modifier_thinker:PlayEffects()
+function e_icefall_modifier_thinker:PlayEffects()
     if IsServer() then
         if self.bSpawn == true then
             -- create particple effect (particle 1)
             local particle_cast_1 = "particles/icemage/m2_icefall_maiden_freezing_field_snow.vpcf"
-            self.effect_cast_1 = ParticleManager:CreateParticle( particle_cast_1, PATTACH_ABSORIGIN_FOLLOW, self.parent )
+            self.effect_cast_1 = ParticleManager:CreateParticle( particle_cast_1, PATTACH_WORLDORIGIN, self.parent )
 
             -- Play sound 1
             self.sound_cast_1 = "hero_Crystal.freezingField.wind"
             EmitSoundOn( self.sound_cast_1, self.parent )
-
+            self.bSpawn = false
         end
-
-        local direction = ( self.currentTarget - self.parent:GetOrigin() )
-        direction.z = 0
-        direction = direction:Normalized()
 
         -- effect 1
         ParticleManager:SetParticleControl( self.effect_cast_1, 1, Vector( self.radius, self.radius, 1 ) )
-        ParticleManager:SetParticleControl( self.effect_cast_1, 2, direction * self.trackingSpeed )
+        ParticleManager:SetParticleControl( self.effect_cast_1, 2, self.currentTarget )
 
         -- effect 2
         local particle_cast_2 = "particles/units/heroes/hero_crystalmaiden/maiden_freezing_field_explosion.vpcf"
@@ -138,7 +120,7 @@ function m2_icefall_modifier_thinker:PlayEffects()
         local point = Vector( math.cos(a), math.sin(a), 0 ):Normalized() * r
 
         -- actual position
-        point = self.parent:GetOrigin() + point
+        point = self.currentTarget + point
 
         self.effect_cast_2 = ParticleManager:CreateParticle( particle_cast_2, PATTACH_WORLDORIGIN, nil )
         ParticleManager:SetParticleControl( self.effect_cast_2, 0, point )
@@ -150,7 +132,7 @@ function m2_icefall_modifier_thinker:PlayEffects()
 end
 ---------------------------------------------------------------------------
 
-function m2_icefall_modifier_thinker:StopEffects()
+function e_icefall_modifier_thinker:StopEffects()
     if IsServer() then
         StopSoundOn( self.sound_cast_1, self.parent )
         StopSoundOn( self.sound_cast_2, self.parent )
@@ -158,7 +140,7 @@ function m2_icefall_modifier_thinker:StopEffects()
 end
 ---------------------------------------------------------------------------
 
-function m2_icefall_modifier_thinker:OnDestroy( kv )
+function e_icefall_modifier_thinker:OnDestroy( kv )
     if IsServer() then
         self.stopDamageLoop = true
         self:StopEffects()
