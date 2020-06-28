@@ -43,7 +43,7 @@ function q_iceblock:OnSpellStart()
         local duration = self:GetSpecialValueFor( "duration" )
         local target = self:GetCursorTarget()
 
-        target:AddNewModifier(
+        self.modifier = target:AddNewModifier(
             self.caster, -- player source
             self, -- ability source
             "q_iceblock_modifier", -- modifier name
@@ -52,20 +52,71 @@ function q_iceblock:OnSpellStart()
 
         self:PlayEffects(target)
 
+        -- swap abilities to end iceblock
+        local end_ability = self.caster:FindAbilityByName("cancel_iceblock")
+        if not end_ability then
+		    end_ability = self.caster:AddAbility( "cancel_iceblock" )
+		    self.add = end_ability
+        end
+
+	    end_ability:SetLevel( 1 )
+	    end_ability.parent = self
+
+	    -- set layout
+        self:SetLayout( false )
+
 	end
+end
+----------------------------------------------------------------------------------------------------------------
+
+function q_iceblock:SetLayout(main)
+	if self.layout_main~=main then
+		local ability_main = "q_iceblock"
+		local ability_sub = "cancel_iceblock"
+
+		-- swap
+		self:GetCaster():SwapAbilities( ability_main, ability_sub, main, (not main) )
+		self.layout_main = main
+	end
+end
+----------------------------------------------------------------------------------------------------------------
+function q_iceblock:CancelIceblock( forced )
+	-- remove modifier
+	if forced then
+		self.modifier:Destroy()
+	end
+	self.modifier = nil
+
+	-- reset layout
+	self:SetLayout( true )
+
+	-- remove ability if stolen
+	if self.add then
+		self:GetCaster():RemoveAbility( "cancel_iceblock" )
+	end
+end
+----------------------------------------------------------------------------------------------------------------
+
+function q_iceblock:OnOwnerDied()
+
+    self:CancelIceblock( true )
+    
+end
+----------------------------------------------------------------------------------------------------------------
+
+-- Helper Ability
+cancel_iceblock = class({})
+function cancel_iceblock:OnSpellStart()
+
+    self.parent:CancelIceblock( true )
+
 end
 ----------------------------------------------------------------------------------------------------------------
 
 function q_iceblock:PlayEffects(target)
 
-    -- Get Resources
-    local particle_cast = "particles/units/heroes/hero_winter_wyvern/wyvern_cold_embrace_buff.vpcf"
-    local sound_cast = "Hero_Winter_Wyvern.ColdEmbrace.Cast"
+    -- add voiceover
 
-    -- Create Particle
-    local effect_cast = ParticleManager:CreateParticle( particle_cast, PATTACH_ABSORIGIN, nil )
-    ParticleManager:SetParticleControl( effect_cast, 0, target:GetAbsOrigin() )
-    ParticleManager:ReleaseParticleIndex( effect_cast )
 
     -- Create Sound
     EmitSoundOnLocationWithCaster( target:GetAbsOrigin(), sound_cast, self:GetCaster() )

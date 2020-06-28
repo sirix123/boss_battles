@@ -1,5 +1,28 @@
+function HideOther(top_panel){
+    var tp_scroll = top_panel.FindChildTraverse("inventory_tpscroll_container");
+    tp_scroll.style.visibility = "collapse";
+
+    var neutral_item = top_panel.FindChildTraverse("inventory_neutral_slot_container");
+    neutral_item.style.visibility = "collapse";
+
+    var talents = top_panel.FindChildTraverse("StatBranch");
+    talents.style.visibility = "collapse";
+
+    var guides = top_panel.FindChildTraverse("GuideFlyout");
+    guides.style.visibility = "collapse";
+}
+
 function HideDefaults(){
     GameUI.SetDefaultUIEnabled(DotaDefaultUIElement_t.DOTA_DEFAULT_UI_ACTION_MINIMAP, false);
+    GameUI.SetDefaultUIEnabled(DotaDefaultUIElement_t.DOTA_DEFAULT_UI_FLYOUT_SCOREBOARD, false);
+    GameUI.SetDefaultUIEnabled(DotaDefaultUIElement_t.DOTA_DEFAULT_UI_TOP_TIMEOFDAY, false);
+    GameUI.SetDefaultUIEnabled(DotaDefaultUIElement_t.DOTA_DEFAULT_UI_TOP_HEROES, false);
+    GameUI.SetDefaultUIEnabled(DotaDefaultUIElement_t.DOTA_DEFAULT_UI_HERO_SELECTION_TEAMS, false);
+    //GameUI.SetDefaultUIEnabled(DotaDefaultUIElement_t.DOTA_DEFAULT_UI_INVENTORY_SHOP, false);
+    GameUI.SetDefaultUIEnabled(DotaDefaultUIElement_t.DOTA_DEFAULT_UI_INVENTORY_QUICKBUY, false);
+    GameUI.SetDefaultUIEnabled(DotaDefaultUIElement_t.DOTA_DEFAULT_UI_INVENTORY_PROTECT, false);
+    GameUI.SetDefaultUIEnabled(DotaDefaultUIElement_t.DOTA_DEFAULT_UI_INVENTORY_COURIER, false); 
+    
 }
 
 
@@ -44,5 +67,6 @@ function ModifyHotkeyBoxes(top_panel){
 
     ModifyHotkeyBoxes(top_panel);
     HideDefaults();
+    HideOther(top_panel);
 
 })();

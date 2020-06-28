@@ -47,7 +47,7 @@ end
 
 function q_iceblock_modifier:OnDestroy()
 	if IsServer() then
-
+		self:GetAbility():CancelIceblock( false )
     end
 end
 ----------------------------------------------------------------------------
