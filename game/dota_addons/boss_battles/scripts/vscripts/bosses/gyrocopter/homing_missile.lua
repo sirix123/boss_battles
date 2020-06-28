@@ -1,26 +1,5 @@
 homing_missile = class({})
 
---Logic based on level:
-
---lvl 1:
-	--Get the players location and moves toward it, exploding upon impact
-	--Hits to destroy: 3
-	--Same ms as player
-
---lvl 2:
-	--Gets the players location every 2-3 seconds and moves toward it, exploding upon impact
-	--Hits to destroy: 5
-	--Slightly faster ms than player
-
---lvl 3:
-	--Gets the players location rapidly and moves toward it, exploding upon impact 
-	--Hits to destroy: 5
-	--Slightly faster ms than player	
-
---lvl 4:
-	--Gets the players location and moves toward it. Checks if any other players are closer, if so it will change targets.
-	--Hits to destroy: 5
-	--Slightly faster ms than player	
 
 local tracking_interval = 0.1
 function homing_missile:OnSpellStart()
@@ -55,7 +34,6 @@ function homing_missile:OnSpellStart()
     local collisionDistance = 100
     Timers:CreateTimer(function()     		
     		tickCount = tickCount +1
-
 			--need to delay 3 seconds for the 'prepare' animation the missile does
 			local waitAmount = 3.2 / tracking_interval  
 			if tickCount < waitAmount then
@@ -68,6 +46,8 @@ function homing_missile:OnSpellStart()
 			missile:SetForwardVector(rocket.direction)
     		
     		--Missile detonating at target, destroy missile, check if enemy near to apply damage.
+
+    		-- check for collision with target. Deal damage and destroy missile
     		distance = (rocket.target_lastKnownLocation - rocket.location):Length2D()
 
     		if distance < collisionDistance * 1.5 then
@@ -77,27 +57,23 @@ function homing_missile:OnSpellStart()
 			end
 
     		if ( distance < collisionDistance  ) then
-    			_G.HOMING_MISSILE_HIT_TARGET = rocket.target
-    			--TODO: deal dmg, destroy missle
-    			--TODO: --dmg based on the tickCount, aka how long the missile has been alive, how far the missile has travelled
+    			_G.HOMING_MISSILE_HIT_TARGET = rocket.target_lastKnownLocation
 				local damageInfo = 
 				{
 					victim = rocket.target,
 					attacker = self:GetCaster(),
-					damage = 100, --TODO: calculate the dmg properly.
+					damage = 100, --TODO: calculate the dmg properly based on duration/distance.
 					damage_type = 1, --DAMAGE_TYPE_PHYSICAL = 1, DAMAGE_TYPE_MAGICAL = 2
 					ability = self,
 				}
 				ApplyDamage(damageInfo)
-
     			
     			local p = ParticleManager:CreateParticle( "particles/econ/items/bloodseeker/bloodseeker_eztzhok_weapon/bloodseeker_bloodbath_eztzhok_burst.vpcf", PATTACH_POINT, rocket.target )
 				UTIL_Remove(missile)
-
-    			return --TODO: confirm this ends the timer
+    			return 
     		end
 
-			-- blue = rocket's target
+			-- DEBUG: display rocket's target. blue circle 
 			DebugDrawCircle(rocket.target_lastKnownLocation, Vector(0,0,255), 128, 20, true, tracking_interval)
 
 			--only update the rocket if an enemy has been scanned, otherwise continue on current course/direction
@@ -135,6 +111,47 @@ function homing_missile:FindNearestEnemy()
 		FIND_CLOSEST,
 		false )
 end
+
+
+
+--lvl 1:
+	--Get the players location and moves toward it, exploding upon impact
+	--Hits to destroy: 3
+	--Same ms as player
+function homing_missile:LevelOne()
+
+end
+
+--lvl 2:
+	--Gets the players location every 2-3 seconds and moves toward it, exploding upon impact
+	--Hits to destroy: 5
+	--Slightly faster ms than player
+function homing_missile:LevelTwo()
+
+end
+
+--lvl 3:
+	--Gets the players location rapidly and moves toward it, exploding upon impact 
+	--Hits to destroy: 5
+	--Slightly faster ms than player	
+function homing_missile:LevelThree()
+
+end
+--lvl 4:
+	--Gets the players location and moves toward it. Checks if any other players are closer, if so it will change targets.
+	--Hits to destroy: 5
+	--Slightly faster ms than player	
+function homing_missile:LevelFour()
+
+end
+
+
+
+
+
+
+
+
 
 -- some function I found on stackoverflow to:
 -- pass in a table (orig) and it copys the table by value instead of by reference and returns the copied table

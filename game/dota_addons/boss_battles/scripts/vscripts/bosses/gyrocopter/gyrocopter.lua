@@ -1,5 +1,10 @@
 gyrocopter = class({})
 
+local currentPhase = 1
+local COOLDOWN_RADARSCAN = 10
+local swooping = false
+local swoopDuration = 0
+
 --Global used in; gyrocopter.lua, homing_missile.lua, ...
 _G.ScannedEnemyLocations = {}
 
@@ -16,6 +21,12 @@ end
 local COOLDOWN_RADARSCAN = 10
 local tickCount = 0
 function MainThinker()
+	if _G.ScannedEnemyLocations ~= nil then
+		--print("MainThinker. #_G.ScannedEnemyLocations = ", #_G.ScannedEnemyLocations)
+	end
+
+	tickCount = tickCount + 1
+
 	-- Almost all code should not run when the game is paused. Keep this near the top so we return early.
 	if GameRules:IsGamePaused() == true then
 		return 0.5
@@ -28,22 +39,34 @@ function MainThinker()
 
 	--COOLDOWNS, modulus the tickCount
 	if tickCount % COOLDOWN_RADARSCAN == 0 then --cast repeatedly
-	--if tickCount == 10 then --cast once
-		print("calling NewRadarSweep()")
-		--RadarSweep()	--radar sweep will scan for enemies, finding one it will shoot a homing rocket. 
-		NewRadarSweep()
+		RadarSweep()
+		--RadarPulse()
 	end
 
+	
+	--SWOOP:
+	if swooping then
+		print("Swooping!")
+		swoopDuration = swoopDuration +1
+		--Check if at destination, if so then thisEntity:SetBaseMoveSpeed(0)
+
+		if swoopDuration > 5 then
+			thisEntity:SetBaseMoveSpeed(300)
+			swooping = false
+		end	
+	end
+
+	
 	-- If/when a missile hit's a target do this action:
-	-- TODO: Use Swoop ability and then Rocket Barrage
-	--TODO: setup some cooldown for this
-	--if _G.HOMING_MISSILE_HIT_TARGET ~= nil and timeSinceLast > 10 then	
 	if _G.HOMING_MISSILE_HIT_TARGET ~= nil then
-		print("A Homing missile hit it's target")
-		local tempTarget = _G.HOMING_MISSILE_HIT_TARGET
-		print("Moving Gyro to it's location")
-		FindClearSpaceForUnit(thisEntity, tempTarget:GetAbsOrigin(), true)
+		local targetLocation = _G.HOMING_MISSILE_HIT_TARGET
 		_G.HOMING_MISSILE_HIT_TARGET = nil
+		thisEntity:SetBaseMoveSpeed(600)
+		swooping = true
+
+		--TODO: Ideally he doesn't move exactly onto the target, but moves toward them and stops just short
+		thisEntity:MoveToPosition(targetLocation)
+
 	end
 
 	return 1 
@@ -55,8 +78,7 @@ end
 
 -- Basically build up a list of targets through various methods
 enemiesScanned = {}
-
-function NewRadarSweep()
+function RadarSweep()
 	local origin = thisEntity:GetAbsOrigin()
 	local spellDuration = 3 --seconds
 	local radius = 1500
@@ -72,11 +94,10 @@ function NewRadarSweep()
 	local endAngle = pieSize
 	local startAngle = 0
 
-	Timers:CreateTimer(function()
-		--print("NewRadarSweep Timer tick")
+	Timers:CreateTimer(function()	
+		--print("RadarSweep Timer tick")
 		currentFrame = currentFrame +1
 		if currentFrame >= totalFrames then
-			print("NewRadarSweep Timer Finished. Returning")
 			Clear(enemiesScanned)
 			return
 		end	
@@ -103,7 +124,6 @@ function NewRadarSweep()
 				if Contains(enemiesScanned, enemy) then -- already hit this enemy
 					--do nothing
 				else -- first time hitting this enemy
-					print("Enemy hit!")
 					DebugDrawCircle(enemy:GetAbsOrigin(), Vector(0,255,0), 128, 100, true, 5)
 					enemiesScanned[enemy] = true --little hack so Contains works 
 
@@ -129,11 +149,9 @@ function NewRadarSweep()
 					end
 					
 					--Shoot a homing missile at this target:
-					print("Casting homing missile")
 					CastHomingMissile(enemy)
 				end
 			end
-
 		end
 		
 		endAngle = endAngle - degreesPerFrame
@@ -143,43 +161,39 @@ end
 
 
 
--- TODO: make a new versionof this which only draws the line for 1 frame or whatever, then they all disapear and it draws the next set of frames... might be laggy?
-function RadarSweep()
-	--print("thisEntity:GetCaster():GetOrigin() = ", thisEntity:GetOrigin())
-	local origin = thisEntity:GetAbsOrigin()
+enemiesPulsed = {}
+--Scan for CallDown targets
+--Basically a growing circle, highlight players that get detected
+function RadarPulse()
+	local radius = 200
+	local endRadius = 2500
+	local radiusGrowthRate = 25
 
-	local radius = 1800 
-	local duration = 1 --seconds
-	local tickDuration = 0.5 / 360 -- TK 
-	local i = 1
+	local frameDuration = 0.1
 
-	Timers:CreateTimer(function()
-		origin = thisEntity:GetAbsOrigin()
 
-		if i > 360 then
-			Clear(enemiesScanned)
-			return false
+	Timers:CreateTimer(function()	
+		--update model
+		local origin = thisEntity:GetAbsOrigin()
+		if radius < endRadius then
+			radius = radius + radiusGrowthRate
 		end
-		if i < -360 then
-			Clear(enemiesScanned)
-			return false
-		end
+		
+		--draw 
+		DebugDrawCircle(origin, Vector(255,0,0), 0, radius, true, frameDuration)		
+		DebugDrawCircle(origin, Vector(255,0,0), 0, radius-1, true, frameDuration)		
 
-		--draw n lines at once
-		for j = 1, 3, 1 do
-			--radians is needed not degrees
-			local angle = i * 0.0174532925 
-			local x = radius * math.cos(angle)
-			local y = radius * math.sin(angle)
-			DebugDrawLine(origin, Vector(x,y,0) + origin, 255,0,0, true, duration)
 
-			local enemies = FindUnitsInLine(DOTA_TEAM_BADGUYS, origin, Vector(x,y,0) + origin, thisEntity, 1, DOTA_UNIT_TARGET_TEAM_ENEMY, DOTA_UNIT_TARGET_HERO, DOTA_UNIT_TARGET_FLAG_INVULNERABLE )
-			for _,enemy in pairs(enemies) do
-				if Contains(enemiesScanned, enemy) then
-					-- already hit this enemy
-				else -- first time hitting this enemy
+		--check for hits
+		local enemies = FindUnitsInRadius(DOTA_TEAM_BADGUYS, thisEntity:GetAbsOrigin(), nil, radius,
+		DOTA_UNIT_TARGET_TEAM_ENEMY, DOTA_UNIT_TARGET_ALL, DOTA_UNIT_TARGET_FLAG_NONE, FIND_CLOSEST, false )
+
+		for _,enemy in pairs(enemies) do
+				if Contains(enemiesPulsed, enemy) then -- already hit this enemy
+					--do nothing
+				else -- first time hitting this enemy 
 					DebugDrawCircle(enemy:GetAbsOrigin(), Vector(0,255,0), 128, 100, true, 5)
-					enemiesScanned[enemy] = true --little hack so Contains works 
+					enemiesPulsed[enemy] = true --little hack so Contains works 
 
 					scannedEnemy = {}
 					scannedEnemy.Location = shallowcopy(enemy:GetAbsOrigin())
@@ -187,11 +201,11 @@ function RadarSweep()
 
 					-- check if this enemy is already in the list... we don't want to keep adding them we just want to update the location
 					local isNewEnemy = true
-					if #_G.ScannedEnemyLocations > 0 then 
-						for i = 1, #_G.ScannedEnemyLocations, 1 do
+					if #_G.PulsedEnemyLocations > 0 then 
+						for i = 1, #_G.PulsedEnemyLocations, 1 do
 							-- already scanned this enemy, update their location
-							if enemy == _G.ScannedEnemyLocations[i].Enemy then
-								_G.ScannedEnemyLocations[i].Location = shallowcopy(enemy:GetAbsOrigin())
+							if enemy == _G.PulsedEnemyLocations[i].Enemy then
+								_G.PulsedEnemyLocations[i].Location = shallowcopy(enemy:GetAbsOrigin())
 								isNewEnemy = false
 							end
 						end
@@ -199,20 +213,22 @@ function RadarSweep()
 
 					-- first time scanning this enemy, add a new entry for them
 					if isNewEnemy then
-						_G.ScannedEnemyLocations[#_G.ScannedEnemyLocations +1] = scannedEnemy	
+						_G.PulsedEnemyLocations[#_G.PulsedEnemyLocations +1] = scannedEnemy	
 					end
 					
-					--Shoot a homing missile at this target:
-					CastHomingMissile(enemy)
+					--Do a call down at this location
+					
 				end
-			end
-			i = i-1
 		end
-		return tickDuration;
-	end
-	)
+
+		return frameDuration
+	end) --end timer
 
 end
+
+
+
+
 
 -----------------------------------------------------------------------------------------------
 --Table/Set/List functions

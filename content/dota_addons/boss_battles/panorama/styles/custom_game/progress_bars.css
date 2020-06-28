@@ -69,6 +69,47 @@
 }
 
 
+
+/* MITCHS Castbar Styles */
+.Castbar.ProgressBarParent
+{
+    transform: translate3d(-1px, -75px, 0px) scale3d(1, -1, 1);
+    width: 100%; 
+}
+
+.Castbar .ProgressBar
+{
+    height: 100%;
+    border: 1px solid #999999;
+    background-color: #000000BB;
+}
+
+.Castbar .ProgressBarProgress
+{
+    background-color: gradient( radial, 0% 0%, 0% 0%, 80% 80%, from( #3C8DD3 ), to( #0061B4 ) );
+}
+
+.Castbar .ProgressBarLabel
+{
+    margin-bottom: -16px;
+    transform: scale3d(1, -1, 1);
+    text-align: center;
+    border-radius: 8px;
+    z-index: 3;
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
 /* ------------------------------------- */
 /* --------- SM Related Stuff ---------- */
 /* ------------------------------------- */

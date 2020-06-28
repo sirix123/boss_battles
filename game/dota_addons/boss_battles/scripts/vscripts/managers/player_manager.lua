@@ -10,7 +10,6 @@ function GameMode:SetUpMovement()
     CustomGameEventManager:RegisterListener('customEvent_abilityCast', function(eventSourceIndex, args)
         print("GameMode:SetUpMovement() customEvent_abilityCast event")
 
-
 --Using Almouse ProgressBars Library: https://gitlab.com/ZSmith/dota2-modding-libraries/-/tree/master/ProgressBars
 ------------------------------------------------------------------------------------------------------------------
         local config = {
@@ -18,7 +17,7 @@ function GameMode:SetUpMovement()
             reversedProgress = false, --figure out which way true/false go.
 
             --style = "EnrageStacks", --style by almouse
-            style = "Hacking", --style by almouse
+            style = "CastBar", --style by almouse
             --style = "castBar" --style by mitch. NOT YET IMPLEMENTED!
 
             --TODO: Find out where to update this text
@@ -28,11 +27,11 @@ function GameMode:SetUpMovement()
             --for combo points or stacking de/buff 
             --stacks = 0,
             --maxStacks = 100,
-
         }
         local heroEntity = EntIndexToHScript(args.heroEntity)
         -- via lua:
         ProgressBars:AddProgressBar(heroEntity, "casting_modifier_thinker", config)
+        
         -- OR via js, doesn't work atm : 
         --CustomGameEventManager:Send_ServerToAllClients("progress_bar", config)
 
