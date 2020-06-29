@@ -35,6 +35,27 @@ function Filters:Activate(GameMode, this)
 
         --
         if order_type == DOTA_UNIT_ORDER_CAST_TARGET then
+            local ability = EntIndexToHScript(filter_table.entindex_ability)
+            local caster = EntIndexToHScript(filter_table.units["0"])
+            local target = EntIndexToHScript(filter_table.entindex_target)
+            local direction = (target:GetAbsOrigin() - caster:GetAbsOrigin()):Normalized()
+            local max_range = ability:GetCastRange(Vector(0,0,0), nil)
+            local current_range = (target:GetAbsOrigin() - caster:GetAbsOrigin()):Length2D()
+
+            --[[for k, v in pairs(filter_table) do
+                print("key = ",k,"value = ",v)
+            end
+            print("target = ",target:GetAbsOrigin())]]
+
+            if ability:GetBehavior() ~= DOTA_ABILITY_BEHAVIOR_IMMEDIATE then
+                caster:FaceTowards(direction)
+                caster:SetForwardVector(direction)
+            end
+
+            --[[if current_range > max_range then
+                print("out of range")
+                return false
+            end]]
 
         end
 

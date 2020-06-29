@@ -91,6 +91,16 @@ function UpdatePosition()
             camera_distance_actual = camera_distance_actual - camera_distance_lerp;
         }
 
+        /*if (camera_position[0] < 8500){
+            $.Msg("-----------------------------")
+            $.Msg("camera pos: ", camera_position[0])
+            $.Msg("pos_x: ", pos_x)
+            $.Msg("hero_screen_x: ", hero_screen_x)
+            $.Msg("distance_x: ", distance_x)
+            $.Msg("mouse_position[0]: ", mouse_position[0])
+            $.Msg("camera_distance_actual: ", camera_distance_actual)
+        }*/
+        
         GameUI.SetCameraTargetPosition(camera_position, camera_position_lerp);
         GameUI.SetCameraLookAtPositionHeightOffset(camera_distance_actual);
 

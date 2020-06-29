@@ -49,33 +49,50 @@ function AbilityToCast(abilityNumber, showEffects){
         }
         if(abilityBehavior & DOTA_ABILITY_BEHAVIOR.DOTA_ABILITY_BEHAVIOR_UNIT_TARGET)
         {
+            var mouse_position_screen = GameUI.GetCursorPosition();
+            var cursor_targets = GameUI.FindScreenEntities(mouse_position_screen)
+            var target = []
 
-            Abilities.ExecuteAbility( abilityIndex, playerHero, false );
-
-           /* $.Msg(Players.GetLocalPlayerPortraitUnit())
-
-            var target = Players.GetLocalPlayerPortraitUnit()
-
-            //var mouse_position_screen = GameUI.GetCursorPosition();
-            //var target = GameUI.FindScreenEntities(mouse_position_screen)
-
-            if (target == null)
+            for ( var entity of cursor_targets )
             {
+                if ( !entity.accurateCollision )
+                    continue
+                target = entity.entityIndex
+            }
+            $.Msg("target = ",target)
+            if (target == null || target == [])
+            {
+                // add must have a targert to cast red bubble here
                 $.Msg("[custom_hotkeys_players] no entity found on cursor location")
                 return
             }
-            
-            $.Msg(GameUI.FindScreenEntities(mouse_position_screen))
-            
-            var order = 
+
+            if (target.length != 0)
             {
-                OrderType : dotaunitorder_t.DOTA_UNIT_ORDER_CAST_TARGET,                       
-                TargetIndex : target,
-                QueueBehavior : OrderQueueBehavior_t.DOTA_ORDER_QUEUE_NEVER,
-                ShowEffects : showEffects,
-                AbilityIndex : abilityIndex,
-            };
-            Game.PrepareUnitOrders(order);*/
+                var max_range = Abilities.GetCastRange(abilityIndex);
+                var target_origin = Entities.GetAbsOrigin(target)
+                var player_origin = Entities.GetAbsOrigin(playerHero)
+                var dist = Game.Length2D(target_origin, player_origin)
+
+                // if out of range popup red bubble
+                if (dist > max_range)
+                {
+                    // add must have a targert to cast red bubble here
+                    //$.Msg("out of range")
+                    GameUI.SendCustomHUDError( "cstring pszErrorText", "" ) 
+                    return
+                }
+                
+                var order = 
+                {
+                    OrderType : dotaunitorder_t.DOTA_UNIT_ORDER_CAST_TARGET,                       
+                    TargetIndex : target,
+                    QueueBehavior : OrderQueueBehavior_t.DOTA_ORDER_QUEUE_NEVER,
+                    ShowEffects : showEffects,
+                    AbilityIndex : abilityIndex,
+                };
+                Game.PrepareUnitOrders(order);
+            }
         }
     }
 }
