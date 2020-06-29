@@ -1,5 +1,6 @@
 q_iceblock = class({})
 LinkLuaModifier("q_iceblock_modifier", "player/icemage/modifiers/q_iceblock_modifier", LUA_MODIFIER_MOTION_NONE)
+LinkLuaModifier("bonechill_modifier", "player/icemage/modifiers/bonechill_modifier", LUA_MODIFIER_MOTION_NONE)
 
 function q_iceblock:OnAbilityPhaseStart()
     if IsServer() then
@@ -49,6 +50,19 @@ function q_iceblock:OnSpellStart()
             "q_iceblock_modifier", -- modifier name
             { duration = duration } -- kv
         )
+
+        if self.caster:FindModifierByNameAndCaster("bonechill_modifier", self.caster) then
+
+            self.caster:RemoveModifierByNameAndCaster("bonechill_modifier", self.caster)
+
+            target:AddNewModifier(
+                self.caster, -- player source
+                self, -- ability source
+                "bonechill_modifier", -- modifier name
+                { duration = duration } -- kv
+            )
+
+        end
 
         self:PlayEffects(target)
 

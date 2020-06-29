@@ -344,12 +344,12 @@ function GetMouseCastPosition(  )
 
 
     //TESTING: Ability Powershot ability on Kunkka, press and hold SPACE to charge up, release to fire
-    Game.AddCommand( "+Space", OnPressPowerShot, "", 0 );
-    Game.AddCommand( "-Space", OnReleasePowerShot, "", 0 );
+    //Game.AddCommand( "+Space", OnPressPowerShot, "", 0 );
+    //Game.AddCommand( "-Space", OnReleasePowerShot, "", 0 );
 
     // Spacebar Movement Ability
-    // Game.AddCommand( "+Space", function(){ AbilityToCast(5) }, "", 0 );
-    // Game.AddCommand( "-Space", EmptyCallBack, "", 0 );
+    Game.AddCommand( "+Space", function(){ AbilityToCast(5, true) }, "", 0 );
+    Game.AddCommand( "-Space", EmptyCallBack, "", 0 );
 
 })();   
 

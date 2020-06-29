@@ -5,8 +5,8 @@ function HideOther(top_panel){
     var neutral_item = top_panel.FindChildTraverse("inventory_neutral_slot_container");
     neutral_item.style.visibility = "collapse";
 
-    var talents = top_panel.FindChildTraverse("StatBranch");
-    talents.style.visibility = "collapse";
+    //var talents = top_panel.FindChildTraverse("StatBranch");
+    //talents.style.visibility = "collapse";
 
     var guides = top_panel.FindChildTraverse("GuideFlyout");
     guides.style.visibility = "collapse";

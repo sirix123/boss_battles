@@ -45,7 +45,7 @@ end
 
 function e_icefall_modifier_thinker:StartApplyDamageLoop()
 
-    Timers:CreateTimer(0.5, function()
+    Timers:CreateTimer(self.damage_interval, function()
 	    if self.stopDamageLoop == true then
 		    return false
         end
