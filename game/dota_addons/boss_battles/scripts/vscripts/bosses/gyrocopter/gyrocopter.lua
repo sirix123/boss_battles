@@ -1,7 +1,31 @@
 gyrocopter = class({})
 
+--Modifier examples:
+LinkLuaModifier( "flak_cannon_modifier", "bosses/gyrocopter/flak_cannon_modifier", LUA_MODIFIER_MOTION_NONE )
+
+
+	--Set modifier stacks:
+	--bearWithBloodlust:SetModifierStackCount("bear_bloodlust_modifier", bearWithBloodlust, 0)
+
+	--Has modifier: HasModifier("bear_bloodlust_modifier")
+
+	--Add new modifier:
+	-- self:GetCaster():AddNewModifier(
+	-- self:GetCaster(), -- player source
+	-- self, -- ability source
+	-- "chain_modifier", -- modifier name
+	-- {
+	-- 	point_x = self.point.x,
+	-- 	point_y = self.point.y,
+	-- 	point_z = self.point.z,
+	-- 	effect = ExtraData.effect,
+	-- })
+
+
+
 local currentPhase = 1
-local COOLDOWN_RADARSCAN = 10
+local COOLDOWN_RADARSCAN = 100
+local COOLDOWN_FLAKCANNON = 10
 local swooping = false
 local swoopDuration = 0
 
@@ -35,21 +59,30 @@ function MainThinker()
 		return
 	end
 
+
+
 	tickCount = tickCount + 1
 
 	--COOLDOWNS, modulus the tickCount
+
+	--RADAR, 
 	if tickCount % COOLDOWN_RADARSCAN == 0 then --cast repeatedly
 		RadarSweep()
 		--RadarPulse()
 	end
 
+	-- FLAK CANNON,
+	if tickCount % COOLDOWN_FLAKCANNON == 0 then --cast repeatedly
+		print("FLAK CANNON!")
+		ApplyFlakCannonModifier()
+	end
+	
+
 	
 	--SWOOP:
 	if swooping then
-		print("Swooping!")
 		swoopDuration = swoopDuration +1
 		--Check if at destination, if so then thisEntity:SetBaseMoveSpeed(0)
-
 		if swoopDuration > 5 then
 			thisEntity:SetBaseMoveSpeed(300)
 			swooping = false
@@ -227,6 +260,38 @@ function RadarPulse()
 end
 
 
+function ApplyFlakCannonModifier()
+	local ability = thisEntity:FindAbilityByName( "flak_cannon" )
+	thisEntity:AddNewModifier(thisEntity, ability, "flak_cannon_modifier", {duration = 10})
+
+	AttackClosestPlayer()
+	
+end
+
+function AttackClosestPlayer()
+	print("AttackClosestPlayer!")
+	-- find closet player
+	local enemies = FindUnitsInRadius(
+		DOTA_TEAM_BADGUYS,
+		thisEntity:GetAbsOrigin(),
+		nil,
+		FIND_UNITS_EVERYWHERE,
+		DOTA_UNIT_TARGET_TEAM_ENEMY,
+		DOTA_UNIT_TARGET_ALL,
+		DOTA_UNIT_TARGET_FLAG_NONE,
+		FIND_CLOSEST,
+		false )
+	if #enemies == 0 then
+		return 0.5
+	end
+	ExecuteOrderFromTable({
+		UnitIndex = thisEntity:entindex(),
+		OrderType = DOTA_UNIT_ORDER_ATTACK_MOVE,
+		TargetIndex = enemies[1]:entindex(),
+		Queue = 0,
+	})
+	return 0.5
+end
 
 
 
