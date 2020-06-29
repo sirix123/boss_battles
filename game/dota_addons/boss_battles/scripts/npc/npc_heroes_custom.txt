@@ -28,7 +28,6 @@
 	"npc_dota_hero_kunkka_template"
 	{
 		"override_hero"				"npc_dota_hero_kunkka"						// Hero to override
-		"Ability1"					"abs_coord_debug"
 		"Ability2"					"powerShot"							// Ability 2
 		"Ability3"					"slingShot"
 		"movementspeed" 				"500"	

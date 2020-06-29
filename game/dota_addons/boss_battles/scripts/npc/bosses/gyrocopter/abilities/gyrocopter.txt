@@ -112,11 +112,12 @@
     { 
         "BaseClass"                     "ability_lua"
         "ScriptFile"                    "bosses/gyrocopter/flak_cannon"
+        "MaxLevel"                      "1"
 
 
         // General
         //-------------------------------------------------------------------------------------------------------------
-        "AbilityBehavior"               "DOTA_ABILITY_BEHAVIOR_NO_TARGET"
+        "AbilityBehavior"               "DOTA_ABILITY_BEHAVIOR_NO_TARGET | DOTA_ABILITY_BEHAVIOR_IMMEDIATE"
         "AbilityUnitDamageType"         "DAMAGE_TYPE_PHYSICAL"  
 
         // Casting
@@ -130,6 +131,25 @@
         // Cost
         //-------------------------------------------------------------------------------------------------------------
         "AbilityManaCost"               "0"
+
+        // Special
+        // Will read these values from our lua files
+        "AbilitySpecial"
+        {
+            "01"
+            {
+                "var_type"                      "FIELD_INTEGER"
+                "maxStacks"                     "2 3 4 5"
+            }
+            "02"
+            {
+                "var_type"                          "FIELD_INTEGER"
+                "duration"                             "10 12 14 16"
+            }
+            "03"{ "var_type"            "FIELD_INTEGER"     "radius"                    "2000"   }
+
+        }
+
 
     }    
 
