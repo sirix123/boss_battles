@@ -6,7 +6,7 @@
 		"ScriptFile"					"player/icemage/m1_iceshot"
 		"MaxLevel"						"1"
 
-		"AbilityTextureName"			"m1_iceshot"
+		"AbilityTextureName"			"lich_chain_frost"
 		"AbilityUnitTargetTeam"			"DOTA_UNIT_TARGET_TEAM_ENEMY"
 		"AbilityUnitDamageType"			"DAMAGE_TYPE_PHYSICAL"	
 		"SpellImmunityType"				"SPELL_IMMUNITY_ENEMIES_YES"
@@ -28,7 +28,7 @@
 			"02"{ "var_type"			"FIELD_INTEGER"		"hit_box"						"80" }
 			"03"{ "var_type"			"FIELD_INTEGER"		"proj_speed"					"800" }
 			"04"{ "var_type"			"FIELD_INTEGER"		"chill_duration"				"5" }
-			"05"{ "var_type"			"FIELD_INTEGER"		"shatter_duration"				"5" }
+			"05"{ "var_type"			"FIELD_INTEGER"		"shatter_duration"				"60" }
 			"06"{ "var_type"			"FIELD_INTEGER"		"max_shatter_stacks"			"3" }
 		}
 	}
@@ -39,7 +39,7 @@
 		"ScriptFile"					"player/icemage/m2_icelance"
 		"MaxLevel"						"1"
 
-		"AbilityTextureName"			"m2_icelance"
+		"AbilityTextureName"			"winter_wyvern_splinter_blast"
 		"AbilityUnitTargetTeam"			"DOTA_UNIT_TARGET_TEAM_ENEMY"
 		"AbilityUnitDamageType"			"DAMAGE_TYPE_PHYSICAL"
         "AbilityBehavior"				"DOTA_ABILITY_BEHAVIOR_POINT"
@@ -59,8 +59,8 @@
 			"02"{ "var_type"			"FIELD_INTEGER"		"hit_box"						"80" 	}
 			"03"{ "var_type"			"FIELD_INTEGER"		"proj_speed"					"800" 	}
 			"04"{ "var_type"			"FIELD_INTEGER"		"max_shatter_stacks"			"3" 	}
-			"05"{ "var_type"			"FIELD_INTEGER"		"shatter_radius"				"300" 	}
-			"06"{ "var_type"			"FIELD_INTEGER"		"bone_chill_duration"			"5" 	}
+			"05"{ "var_type"			"FIELD_INTEGER"		"shatter_radius"				"500" 	}
+			"06"{ "var_type"			"FIELD_INTEGER"		"bone_chill_duration"			"60" 	}
 			"07"{ "var_type"			"FIELD_INTEGER"		"base_shatter_dmg"				"100" 	}
 			"08"{ "var_type"			"FIELD_INTEGER"		"shatter_dmg_xStacks"			"50" 	}
 		}
@@ -72,11 +72,10 @@
 		"ScriptFile"					"player/icemage/q_iceblock"
 		"MaxLevel"						"1"
 
-		"AbilityTextureName"			"q_iceblock"
+		"AbilityTextureName"			"winter_wyvern_cold_embrace"
 		"AbilityUnitTargetTeam"			"DOTA_UNIT_TARGET_TEAM_FRIENDLY"
         "AbilityBehavior"				"DOTA_ABILITY_BEHAVIOR_UNIT_TARGET"
 		"AbilityUnitTargetType"			"DOTA_UNIT_TARGET_HERO | DOTA_UNIT_TARGET_CREEP"
-		//"AbilityCastAnimation"          "ACT_DOTA_CAST_ABILITY_2"
 		"AbilityCastRange" 				"750"
         "AbilityCooldown"				"0"
         "AbilityCastPoint"              "0.5"
@@ -89,10 +88,18 @@
         
 		"AbilitySpecial"
 		{
-			//"01"{ "var_type"			"FIELD_INTEGER"		"radius"		"200" }
-			//"02"{ "var_type"			"FIELD_INTEGER"		"speed"			"300" }
-			//"03"{ "var_type"			"FIELD_INTEGER"		"dmg"			"100" }
+			"01"{ "var_type"			"FIELD_INTEGER"		"duration"				"5" }
+			"02"{ "var_type"			"FIELD_INTEGER"		"armor_bonus"			"30" }
+			"03"{ "var_type"			"FIELD_INTEGER"		"magic_res_bonus"		"30" }
+			"03"{ "var_type"			"FIELD_INTEGER"		"health_regen_percent"	"30" }
 		}
+
+		"precache"
+		{
+			"soundfile"	"soundevents/game_sounds_heroes/game_sounds_winter_wyvern.vsndevts"
+			"particle"	"particles/units/heroes/hero_winter_wyvern/wyvern_cold_embrace_buff.vpcf"
+		}
+
 	}
 
 	"cancel_iceblock"
@@ -101,14 +108,9 @@
 		"ScriptFile"					"player/icemage/q_iceblock"
 		"MaxLevel"						"1"
 
-		"AbilityTextureName"			"q_iceblock"
-		"AbilityUnitTargetTeam"			"DOTA_UNIT_TARGET_TEAM_ENEMY"
-		"AbilityUnitDamageType"			"DAMAGE_TYPE_PHYSICAL"	
-		"SpellImmunityType"				"SPELL_IMMUNITY_ENEMIES_YES"
-        "AbilityBehavior"				"DOTA_ABILITY_BEHAVIOR_UNIT_TARGET"
-		"AbilityCastAnimation"          "ACT_DOTA_CAST_ABILITY_4"
-		"AbilityCastRange" 				"750"
-        "AbilityCooldown"				"0"
+		"AbilityTextureName"			"winter_wyvern_cold_embrace"
+		"AbilityBehavior"				"DOTA_ABILITY_BEHAVIOR_NO_TARGET | DOTA_ABILITY_BEHAVIOR_HIDDEN | DOTA_ABILITY_BEHAVIOR_IMMEDIATE | DOTA_ABILITY_BEHAVIOR_IGNORE_PSEUDO_QUEUE"
+		"AbilityCastPoint"				"0"
 	}
 
 	"e_icefall"
@@ -117,17 +119,12 @@
 		"ScriptFile"					"player/icemage/e_icefall"
 		"MaxLevel"						"1"
 
-		"AbilityTextureName"			"e_icefall"
-		"AbilityUnitTargetTeam"			"DOTA_UNIT_TARGET_TEAM_ENEMY"
+		"AbilityTextureName"			"crystal_maiden_freezing_field"
 		"AbilityUnitDamageType"			"DAMAGE_TYPE_PHYSICAL"	
-		"SpellImmunityType"				"SPELL_IMMUNITY_ENEMIES_YES"
-        "AbilityBehavior"				"DOTA_ABILITY_BEHAVIOR_POINT | DOTA_ABILITY_BEHAVIOR_CHANNELLED"
-		"AbilityCastAnimation"          "ACT_DOTA_CAST_ABILITY_4"
+        "AbilityBehavior"				"DOTA_ABILITY_BEHAVIOR_POINT"
 		"AbilityCastRange" 				"750"
         "AbilityCooldown"				"0"
-        "AbilityCastPoint"              "0.3"
-		"AbilityChannelTime"			"5"
-		//"AbilityDuration"				"5"
+        "AbilityCastPoint"              "0.8"
 
 		"TargetingIndicator"
 		{
@@ -137,9 +134,11 @@
         
 		"AbilitySpecial"
 		{
-			"01"{ "var_type"			"FIELD_INTEGER"		"radius"		"200" }
-			"02"{ "var_type"			"FIELD_INTEGER"		"speed"			"300" }
-			"03"{ "var_type"			"FIELD_INTEGER"		"dmg"			"100" }
+			"01"{ "var_type"			"FIELD_INTEGER"		"radius"			"200" }
+			"02"{ "var_type"			"FIELD_INTEGER"		"dmg"				"100" }
+			"03"{ "var_type"			"FIELD_INTEGER"		"duration"			"5" }
+			"04"{ "var_type"			"FIELD_FLOAT"		"dmg_interval"		"0.5" }
+			"05"{ "var_type"			"FIELD_INTEGER"		"chill_duration"	"5" }
 		}
 	}
 
@@ -149,17 +148,54 @@
 		"ScriptFile"					"player/icemage/r_frostbomb"
 		"MaxLevel"						"1"
 
-		"AbilityTextureName"			"r_frostbomb"
+		"AbilityTextureName"			"crystal_maiden_crystal_nova"
+		"AbilityUnitDamageType"			"DAMAGE_TYPE_PHYSICAL"	
+        "AbilityBehavior"				"DOTA_ABILITY_BEHAVIOR_POINT"
+		"AbilityCastRange" 				"1000"
+        "AbilityCooldown"				"0"
+        "AbilityCastPoint"              "0.5"
+
+		"TargetingIndicator"
+		{
+			"Type"						"TARGETING_INDICATOR_AOE"
+			//"Fixed"						"1"
+		}
+        
+		"AbilitySpecial"
+		{
+			"01"{ "var_type"			"FIELD_INTEGER"		"delay"							"2" }
+			"02"{ "var_type"			"FIELD_INTEGER"		"radius"						"200" }
+			"03"{ "var_type"			"FIELD_INTEGER"		"fb_bse_dmg"					"100" }
+			"04"{ "var_type"			"FIELD_INTEGER"		"fb_base_duration"				"2" }
+			"05"{ "var_type"			"FIELD_INTEGER"		"fb_bonechill_extra_duration"	"3" }
+			"06"{ "var_type"			"FIELD_FLOAT"		"damage_interval"				"0.5" }
+			"07"{ "var_type"			"FIELD_INTEGER"		"fb_dmg_per_shatter_stack"		"20" }
+			"08"{ "var_type"			"FIELD_INTEGER"		"chill_duration"				"5" }
+		}
+
+		"precache"
+		{
+			"soundfile"	"soundevents/game_sounds_heroes/game_sounds_invoker.vsndevts"
+			"particle"	"particles/units/heroes/hero_invoker/invoker_sun_strike.vpcf"
+			"particle"	"particles/icemage/r_frostbomb_invoker_sun_strike_team_immortal1.vpcf"
+		}
+	}
+
+	"space_frostblink"
+	{
+		"BaseClass"						"ability_lua"
+		"ScriptFile"					"player/icemage/space_frostblink"
+		"MaxLevel"						"1"
+
+		"AbilityTextureName"			"wisp_relocate"
 		"AbilityUnitTargetTeam"			"DOTA_UNIT_TARGET_TEAM_ENEMY"
 		"AbilityUnitDamageType"			"DAMAGE_TYPE_PHYSICAL"	
 		"SpellImmunityType"				"SPELL_IMMUNITY_ENEMIES_YES"
         "AbilityBehavior"				"DOTA_ABILITY_BEHAVIOR_POINT"
-		"AbilityCastAnimation"          "ACT_DOTA_CAST_ABILITY_4"
+		"AbilityCastAnimation"          "ACT_DOTA_CAST_ABILITY_1"
 		"AbilityCastRange" 				"750"
         "AbilityCooldown"				"0"
-        "AbilityCastPoint"              "0.3"
-		"AbilityChannelTime"			"5"
-		//"AbilityDuration"				"5"
+        "AbilityCastPoint"              "1.0"
 
 		"TargetingIndicator"
 		{

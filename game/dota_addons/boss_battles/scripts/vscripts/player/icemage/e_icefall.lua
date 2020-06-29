@@ -1,17 +1,15 @@
-m2_icefall = class({})
-LinkLuaModifier( "m2_icefall_modifier_thinker", "player/icemage/modifiers/m2_icefall_modifier_thinker", LUA_MODIFIER_MOTION_NONE )
+e_icefall = class({})
+LinkLuaModifier( "e_icefall_modifier_thinker", "player/icemage/modifiers/e_icefall_modifier_thinker", LUA_MODIFIER_MOTION_NONE )
 
-_G.stopApplyDamageTimer = false
-
-function m2_icefall:OnAbilityPhaseStart()
+function e_icefall:OnAbilityPhaseStart()
     if IsServer() then
 
-        self.caster = self:GetCaster()
+        self:GetCaster():StartGestureWithPlaybackRate(ACT_DOTA_CAST_ABILITY_2, 0.8)
 
         -- add casting modifier
         self:GetCaster():AddNewModifier(self:GetCaster(), self, "casting_modifier_thinker",
         {
-            duration = self:GetCastPoint() + self:GetChannelTime(),
+            duration = self:GetCastPoint(),
         })
 
         return true
@@ -19,7 +17,24 @@ function m2_icefall:OnAbilityPhaseStart()
 end
 ---------------------------------------------------------------------------
 
-function m2_icefall:OnSpellStart()
+function e_icefall:OnAbilityPhaseInterrupted()
+    if IsServer() then
+
+        -- remove casting animation
+        self:GetCaster():FadeGesture(ACT_DOTA_CAST_ABILITY_2)
+
+        -- remove casting modifier
+        self:GetCaster():RemoveModifierByName("casting_modifier_thinker")
+
+    end
+end
+---------------------------------------------------------------------------
+
+function e_icefall:OnSpellStart()
+
+    self:GetCaster():RemoveGesture(ACT_DOTA_CAST_ABILITY_2)
+
+    self.caster = self:GetCaster()
 
     local point = nil
     point = Clamp(self.caster:GetOrigin(), GameMode.mouse_positions[self.caster:GetPlayerID()], self:GetCastRange(Vector(0,0,0), nil), 0)
@@ -27,9 +42,9 @@ function m2_icefall:OnSpellStart()
     self.modifier = CreateModifierThinker(
         self.caster,
         self,
-        "m2_icefall_modifier_thinker",
+        "e_icefall_modifier_thinker",
         {
-            duration = self:GetChannelTime(),
+            duration = self:GetSpecialValueFor( "duration" ),
             target_x = point.x,
             target_y = point.y,
             target_z = point.z,
@@ -39,24 +54,5 @@ function m2_icefall:OnSpellStart()
         false
     )
 
-end
----------------------------------------------------------------------------
-
-function m2_icefall:OnAbilityPhaseInterrupted()
-    if IsServer() then
-        self.caster:RemoveModifierByName("casting_modifier_thinker")
-    end
-end
----------------------------------------------------------------------------
-
-function m2_icefall:OnChannelFinish( bInterrupted )
-    if IsServer() then
-        if bInterrupted == true then
-            _G.stopApplyDamageTimer = true
-            self.modifier:Destroy()
-        end
-
-        self.caster:RemoveModifierByName("casting_modifier_thinker")
-    end
 end
 ---------------------------------------------------------------------------
