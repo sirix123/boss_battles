@@ -1,6 +1,6 @@
 q_iceblock = class({})
 LinkLuaModifier("q_iceblock_modifier", "player/icemage/modifiers/q_iceblock_modifier", LUA_MODIFIER_MOTION_NONE)
-LinkLuaModifier("bonechill_modifier", "player/icemage/modifiers/bonechill_modifier", LUA_MODIFIER_MOTION_NONE)
+LinkLuaModifier("q_iceblock_modifier_thinker", "player/icemage/modifiers/q_iceblock_modifier_thinker", LUA_MODIFIER_MOTION_NONE)
 
 function q_iceblock:OnAbilityPhaseStart()
     if IsServer() then
@@ -40,100 +40,46 @@ function q_iceblock:OnSpellStart()
         self:GetCaster():FadeGesture(ACT_DOTA_CAST_ABILITY_2)
 
         -- init
-        self.caster = self:GetCaster()
-        local duration = self:GetSpecialValueFor( "duration" )
+        local caster = self:GetCaster()
+        local duration = 5
+
+        -- target
+        -- this is a really bad implementation tbh... edge cases? phasing players... somehow closely packed players...
+        -- ALSO? IF ITS NOT A TARGET IT GOES ON CD? need logic in interupt?
+            -- add that code to onabilityphase start?
+        local vTargetPos = nil
+        vTargetPos = GameMode.mouse_positions[caster:GetPlayerID()]
         local target = self:GetCursorTarget()
 
-        self.modifier = target:AddNewModifier(
-            self.caster, -- player source
+        --[[local friendly = FindUnitsInRadius(
+            DOTA_TEAM_GOODGUYS,
+            vTargetPos,
+            nil,
+            50,
+            DOTA_UNIT_TARGET_TEAM_FRIENDLY,
+            DOTA_UNIT_TARGET_ALL,
+            DOTA_UNIT_TARGET_FLAG_NONE,
+            FIND_CLOSEST,
+            false )
+        
+        if #friendly ~= 0 and friendly ~= nil then
+            friendly[1]:AddNewModifier(
+                caster, -- player source
+                self, -- ability source
+                "q_iceblock_modifier", -- modifier name
+                { duration = duration } -- kv
+            )
+        end]]
+
+        target:AddNewModifier(
+            caster, -- player source
             self, -- ability source
             "q_iceblock_modifier", -- modifier name
             { duration = duration } -- kv
         )
 
-        if self.caster:FindModifierByNameAndCaster("bonechill_modifier", self.caster) then
 
-            self.caster:RemoveModifierByNameAndCaster("bonechill_modifier", self.caster)
-
-            target:AddNewModifier(
-                self.caster, -- player source
-                self, -- ability source
-                "bonechill_modifier", -- modifier name
-                { duration = duration } -- kv
-            )
-
-        end
-
-        self:PlayEffects(target)
-
-        -- swap abilities to end iceblock
-        local end_ability = self.caster:FindAbilityByName("cancel_iceblock")
-        if not end_ability then
-		    end_ability = self.caster:AddAbility( "cancel_iceblock" )
-		    self.add = end_ability
-        end
-
-	    end_ability:SetLevel( 1 )
-	    end_ability.parent = self
-
-	    -- set layout
-        self:SetLayout( false )
-
+        --DebugDrawCircle(vTargetPos, Vector(0,0,255), 128, 10, true, 60)
 	end
-end
-----------------------------------------------------------------------------------------------------------------
-
-function q_iceblock:SetLayout(main)
-	if self.layout_main~=main then
-		local ability_main = "q_iceblock"
-		local ability_sub = "cancel_iceblock"
-
-		-- swap
-		self:GetCaster():SwapAbilities( ability_main, ability_sub, main, (not main) )
-		self.layout_main = main
-	end
-end
-----------------------------------------------------------------------------------------------------------------
-function q_iceblock:CancelIceblock( forced )
-	-- remove modifier
-	if forced then
-		self.modifier:Destroy()
-	end
-	self.modifier = nil
-
-	-- reset layout
-	self:SetLayout( true )
-
-	-- remove ability if stolen
-	if self.add then
-		self:GetCaster():RemoveAbility( "cancel_iceblock" )
-	end
-end
-----------------------------------------------------------------------------------------------------------------
-
-function q_iceblock:OnOwnerDied()
-
-    self:CancelIceblock( true )
-    
-end
-----------------------------------------------------------------------------------------------------------------
-
--- Helper Ability
-cancel_iceblock = class({})
-function cancel_iceblock:OnSpellStart()
-
-    self.parent:CancelIceblock( true )
-
-end
-----------------------------------------------------------------------------------------------------------------
-
-function q_iceblock:PlayEffects(target)
-
-    -- add voiceover
-
-
-    -- Create Sound
-    EmitSoundOnLocationWithCaster( target:GetAbsOrigin(), sound_cast, self:GetCaster() )
-
 end
 ----------------------------------------------------------------------------------------------------------------

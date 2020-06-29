@@ -47,7 +47,7 @@ tRAID_INIT_TABLE = {
 		description = "MANY ANIMALS",
 		arena = "captainspawn",
 		spawnLocation = "beastmaster_boss_spawn",
-		bossNPC = "npc_dota_hero_riki",
+		bossNPC = "npc_viper",
 	},
 
 	boss4 = {

@@ -109,21 +109,17 @@ function m2_icelance:ApplyBoneChill(unit)
     if self.caster:FindModifierByNameAndCaster("shatter_modifier", self.caster) ~= nil then
         local nStackCount = self.caster:FindModifierByNameAndCaster("shatter_modifier", self.caster):GetStackCount()
 
-        if nStackCount >= self.max_shatter_stacks then
+        -- normal icelance use case 3 stacks burst = bonechill and dmg
+        if nStackCount == self.max_shatter_stacks then
 
-            local tEnemies = self:AoeDmg(unit)
+            local dmgShatterTable = {
+                victim = unit,
+                attacker = self.caster,
+                damage = self.baseShatterDmg + ( nStackCount * self.shatterDmg ),
+                damage_type = self:GetAbilityDamageType(),
+            }
 
-            for _, enemy in pairs(tEnemies) do
-                local dmgShatterTable = {
-                    victim = enemy,
-                    attacker = self.caster,
-                    damage = self.baseShatterDmg + ( nStackCount * self.shatterDmg ),
-                    damage_type = self:GetAbilityDamageType(),
-                }
-
-                ApplyDamage( dmgShatterTable )
-            end
-
+            ApplyDamage( dmgShatterTable )
 
             self:PlayMaxShatterEffect(unit)
 
@@ -131,43 +127,26 @@ function m2_icelance:ApplyBoneChill(unit)
 
             self.caster:RemoveModifierByNameAndCaster("shatter_modifier", self.caster)
 
-        elseif nStackCount ~= 0 and nStackCount < self.max_shatter_stacks then
+        -- handle icefall applying more stacks and the mobs not bursting during the icefall
+        elseif nStackCount > self.max_shatter_stacks then
 
-            local tEnemies = self:AoeDmg(unit)
+            local dmgShatterTable = {
+                victim = unit,
+                attacker = self.caster,
+                damage = self.baseShatterDmg + ( nStackCount * self.shatterDmg ),
+                damage_type = self:GetAbilityDamageType(),
+            }
 
-            for _, enemy in pairs(tEnemies) do
-                local dmgShatterTable = {
-                    victim = enemy,
-                    attacker = self.caster,
-                    damage = self.baseShatterDmg + ( nStackCount * self.shatterDmg ),
-                    damage_type = self:GetAbilityDamageType(),
-                }
+            ApplyDamage( dmgShatterTable )
 
-                ApplyDamage( dmgShatterTable )
-            end
+            self:PlayMaxShatterEffect(unit)
 
+            self.caster:AddNewModifier(self.caster, self, "bonechill_modifier", { duration = self:GetSpecialValueFor( "bone_chill_duration" ) })
             self.caster:RemoveModifierByNameAndCaster("shatter_modifier", self.caster)
         end
     end
 end
 ----------------------------------------------------------------------------
-
-function m2_icelance:AoeDmg(unit)
-
-    local enemies = FindUnitsInRadius(
-        self:GetCaster():GetTeamNumber(),	-- int, your team number
-        unit:GetAbsOrigin(),	-- point, center point
-        nil,	-- handle, cacheUnit. (not known)
-        self.radius,	-- float, radius. or use FIND_UNITS_EVERYWHERE
-        DOTA_UNIT_TARGET_TEAM_ENEMY,	-- int, team filter
-        DOTA_UNIT_TARGET_HERO + DOTA_UNIT_TARGET_BASIC,	-- int, type filter
-        0,	-- int, flag filter
-        0,	-- int, order filter
-        false	-- bool, can grow cache
-    )
-
-    return enemies
-end
 
 function m2_icelance:PlayMaxShatterEffect(unit)
 

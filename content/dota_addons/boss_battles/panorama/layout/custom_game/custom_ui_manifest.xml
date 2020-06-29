@@ -1,7 +1,6 @@
 <root>
 	<scripts>
 		<include src="file://{resources}/scripts/custom_game/util.js" />
-		<include src="file://{resources}/scripts/custom_game/ui_modify.js" />
 		<include src="file://{resources}/scripts/custom_game/camera.js" />
 	</scripts>
 

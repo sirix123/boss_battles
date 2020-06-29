@@ -12,16 +12,17 @@ end
 -----------------------------------------------------------------------------
 
 function bonechill_modifier:GetEffectName()
-	return "particles/status_fx/status_effect_lich_gaze.vpcf"
+	return
 end
 
 function bonechill_modifier:GetStatusEffectName()
-	return "particles/status_fx/status_effect_lich_gaze.vpcf"
+	return
 end
 -----------------------------------------------------------------------------
 
 function bonechill_modifier:OnCreated( kv )
 	if IsServer() then
+        print("bonechill applied to caster")
     end
 end
 ----------------------------------------------------------------------------
