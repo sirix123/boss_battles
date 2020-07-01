@@ -4,7 +4,7 @@ LinkLuaModifier( "e_icefall_modifier_thinker", "player/icemage/modifiers/e_icefa
 function e_icefall:OnAbilityPhaseStart()
     if IsServer() then
 
-        self:GetCaster():StartGestureWithPlaybackRate(ACT_DOTA_CAST_ABILITY_2, 0.8)
+        self:GetCaster():StartGestureWithPlaybackRate(ACT_DOTA_CAST_ABILITY_1, 1.0)
 
         -- add casting modifier
         self:GetCaster():AddNewModifier(self:GetCaster(), self, "casting_modifier_thinker",
@@ -21,7 +21,7 @@ function e_icefall:OnAbilityPhaseInterrupted()
     if IsServer() then
 
         -- remove casting animation
-        self:GetCaster():FadeGesture(ACT_DOTA_CAST_ABILITY_2)
+        self:GetCaster():FadeGesture(ACT_DOTA_CAST_ABILITY_1)
 
         -- remove casting modifier
         self:GetCaster():RemoveModifierByName("casting_modifier_thinker")
@@ -32,7 +32,7 @@ end
 
 function e_icefall:OnSpellStart()
 
-    self:GetCaster():RemoveGesture(ACT_DOTA_CAST_ABILITY_2)
+    self:GetCaster():RemoveGesture(ACT_DOTA_CAST_ABILITY_1)
 
     self.caster = self:GetCaster()
 

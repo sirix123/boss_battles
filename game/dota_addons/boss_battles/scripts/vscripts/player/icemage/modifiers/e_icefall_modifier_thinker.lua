@@ -119,7 +119,7 @@ function e_icefall_modifier_thinker:PlayEffects()
 
         -- determine explosion relative position
         local a = RandomInt(0,90) + self.quartal*90
-        local r = self.radius
+        local r = self.radius - 100
         local point = Vector( math.cos(a), math.sin(a), 0 ):Normalized() * r
 
         -- actual position

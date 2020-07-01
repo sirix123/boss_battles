@@ -1,46 +1,35 @@
 space_frostblink = class({})
---LinkLuaModifier( "space_frostblink_modifier_thinker", "player/icemage/modifiers/space_frostblink_modifier_thinker", LUA_MODIFIER_MOTION_NONE )
-
---[[function space_frostblink:OnAbilityPhaseStart()
-    if IsServer() then
-
-        -- start casting animation
-        -- the 1 below is imporant if set incorrectly the animation will stutter (second variable in startgesture is the playback override)
-        self:GetCaster():StartGestureWithPlaybackRate(ACT_DOTA_ATTACK, 1.2)
-
-        -- add casting modifier
-        self:GetCaster():AddNewModifier(self:GetCaster(), self, "casting_modifier_thinker",
-        {
-            duration = self:GetCastPoint(),
-        })
-
-        return true
-    end
-end
----------------------------------------------------------------------------
-
-function space_frostblink:OnAbilityPhaseInterrupted()
-    if IsServer() then
-
-        -- remove casting animation
-        self:GetCaster():FadeGesture(ACT_DOTA_ATTACK)
-
-        -- remove casting modifier
-        self:GetCaster():RemoveModifierByName("casting_modifier_thinker")
-
-    end
-end]]
----------------------------------------------------------------------------
+LinkLuaModifier( "chill_modifier", "player/icemage/modifiers/chill_modifier", LUA_MODIFIER_MOTION_NONE )
 
 function space_frostblink:OnSpellStart()
     local caster = self:GetCaster()
 	local origin = caster:GetOrigin()
     local point = nil
+    self.radius = self:GetSpecialValueFor("radius")
     point = Clamp(caster:GetOrigin(), GameMode.mouse_positions[caster:GetPlayerID()], self:GetCastRange(Vector(0,0,0), nil), 0)
 
-    -- chill puddle
+    -- apply chill and play effect
     -- apply chill to enemies around in a radius
+    local enemies = FindUnitsInRadius(
+        self:GetCaster():GetTeamNumber(),	-- int, your team number
+        caster:GetAbsOrigin(),	-- point, center point
+        nil,	-- handle, cacheUnit. (not known)
+        self.radius,	-- float, radius. or use FIND_UNITS_EVERYWHERE
+        DOTA_UNIT_TARGET_TEAM_ENEMY,	-- int, team filter
+        DOTA_UNIT_TARGET_HERO + DOTA_UNIT_TARGET_BASIC,	-- int, type filter
+        0,	-- int, flag filter
+        0,	-- int, order filter
+        false	-- bool, can grow cache
+        )
+
+    for _, enemy in pairs(enemies) do
+        if CheckRaidTableForBossName(enemy) ~= true then
+            enemy:AddNewModifier(caster, self, "chill_modifier", { duration = self:GetSpecialValueFor( "chill_duration") })
+            print("we running this?")
+        end
+    end
     -- chill effect
+    self:PlayChillEffects(caster)
 
     -- blink
     self:PlayEffects(0)
@@ -56,12 +45,29 @@ function space_frostblink:PlayEffects(mode)
 
 	    local particle_cast = "particles/items_fx/blink_dagger_start.vpcf"
         local effect_cast = ParticleManager:CreateParticle(particle_cast, PATTACH_WORLDORIGIN, nil)
-        ParticleManager:SetParticleControl(effect_cast, 0, self:GetCaster():GetOrigin())
+        ParticleManager:SetParticleControl(effect_cast, 0, self:GetCaster():GetAbsOrigin())
         ParticleManager:ReleaseParticleIndex(effect_cast)
     end
 
 	local particle_cast = "particles/items_fx/blink_dagger_end.vpcf"
 	local effect_cast = ParticleManager:CreateParticle(particle_cast, PATTACH_ABSORIGIN_FOLLOW, self:GetCaster())
     ParticleManager:ReleaseParticleIndex(effect_cast)
+end
+---------------------------------------------------------------------------
+
+function space_frostblink:PlayChillEffects(caster)
+
+    -- Get Resources
+    local particle_cast = "particles/icemage/shatter_maxstacks_explode_maiden_crystal_nova.vpcf"
+    local sound_cast = "Hero_Crystal.CrystalNova"
+
+    -- Create Particle
+    local effect_cast = ParticleManager:CreateParticle( particle_cast, PATTACH_WORLDORIGIN, nil )
+    ParticleManager:SetParticleControl( effect_cast, 0, caster:GetAbsOrigin() )
+    ParticleManager:SetParticleControl( effect_cast, 1, Vector( self.radius, 2, self.radius ) )
+    ParticleManager:ReleaseParticleIndex( effect_cast )
+
+    -- Create Sound
+    EmitSoundOnLocationWithCaster( caster:GetAbsOrigin(), sound_cast, self:GetCaster() )
 end
 ---------------------------------------------------------------------------
