@@ -188,3 +188,20 @@ function Clamp(origin, point, max_range, min_range)
 
 	return output_point
 end
+
+-- check raid tables if bosses exists
+function CheckRaidTableForBossName(enemy)
+    for k1, bossObjectContents in pairs(tRAID_INIT_TABLE) do
+        --print("k1 = ",k1)
+        --print("bossObjectContents = ",bossObjectContents)
+        for k2, v in pairs(bossObjectContents) do
+            --print("k2 = ",k2)
+            --print("v = ",v)
+            if v == enemy:GetUnitName() then
+                --print("v = ",v)
+                --print("enemny = ",enemy:GetUnitName())
+                return true
+            end
+        end
+    end
+end

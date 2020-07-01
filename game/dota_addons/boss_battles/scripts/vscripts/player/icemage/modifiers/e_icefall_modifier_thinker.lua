@@ -64,25 +64,28 @@ function e_icefall_modifier_thinker:StartApplyDamageLoop()
 
         for _, enemy in pairs(enemies) do
 
-            -- check boss table... if enmey is in this table then do something else...
-            if enemy:GetUnitName() == raid_tables.captain.bossNPC then
-                print("boss found")
-                print(enemy:GetUnitName())
-                return
+            if CheckRaidTableForBossName(enemy) == true then
+
+                self.dmgTable = {
+                    victim = enemy,
+                    attacker = self.caster,
+                    damage = self.dmg,
+                    damage_type = self:GetAbility():GetAbilityDamageType(),
+                }
+
+                ApplyDamage(self.dmgTable)
+            else
+                self.dmgTable = {
+                    victim = enemy,
+                    attacker = self.caster,
+                    damage = self.dmg,
+                    damage_type = self:GetAbility():GetAbilityDamageType(),
+                }
+
+                ApplyDamage(self.dmgTable)
+                enemy:AddNewModifier(self.caster, self, "chill_modifier", { duration = self:GetAbility():GetSpecialValueFor( "chill_duration") })
             end
-
-            self.dmgTable = {
-                victim = enemy,
-                attacker = self.caster,
-                damage = self.dmg,
-                damage_type = self:GetAbility():GetAbilityDamageType(),
-            }
-
-            ApplyDamage(self.dmgTable)
-
-            enemy:AddNewModifier(self.caster, self, "chill_modifier", { duration = self:GetAbility():GetSpecialValueFor( "chill_duration") })
         end
-
         --DebugDrawCircle(self.currentTarget, Vector(0,0,255), 60, self.radius, true, 60)
 
 		return self.damage_interval

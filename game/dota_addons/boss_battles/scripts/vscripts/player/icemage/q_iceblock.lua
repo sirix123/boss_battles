@@ -42,6 +42,7 @@ function q_iceblock:OnSpellStart()
         -- init
         self.caster = self:GetCaster()
         local duration = self:GetSpecialValueFor( "duration" )
+        local boneChillDuration = self:GetSpecialValueFor( "bone_chill_duration" )
         local target = self:GetCursorTarget()
 
         self.modifier = target:AddNewModifier(
@@ -59,7 +60,7 @@ function q_iceblock:OnSpellStart()
                 self.caster, -- player source
                 self, -- ability source
                 "bonechill_modifier", -- modifier name
-                { duration = duration } -- kv
+                { duration = boneChillDuration } -- kv
             )
 
         end

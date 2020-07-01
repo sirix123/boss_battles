@@ -73,7 +73,9 @@ function m1_iceshot:OnSpellStart()
                 }
 
                 -- adds chill modifier
-                unit:AddNewModifier(self.caster, self, "chill_modifier", { duration = self:GetSpecialValueFor( "chill_duration") })
+                if CheckRaidTableForBossName(unit) ~= true then
+                    unit:AddNewModifier(self.caster, self, "chill_modifier", { duration = self:GetSpecialValueFor( "chill_duration") })
+                end
 
                 -- adds shatter and stack logic
                 self.caster:AddNewModifier(self.caster, self, "shatter_modifier", { duration = self:GetSpecialValueFor( "shatter_duration"), max_shatter_stacks = self:GetSpecialValueFor( "max_shatter_stacks") })

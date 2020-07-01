@@ -91,7 +91,8 @@
 			"01"{ "var_type"			"FIELD_INTEGER"		"duration"				"5" }
 			"02"{ "var_type"			"FIELD_INTEGER"		"armor_bonus"			"30" }
 			"03"{ "var_type"			"FIELD_INTEGER"		"magic_res_bonus"		"30" }
-			"03"{ "var_type"			"FIELD_INTEGER"		"health_regen_percent"	"30" }
+			"04"{ "var_type"			"FIELD_INTEGER"		"health_regen_percent"	"30" }
+			"05"{ "var_type"			"FIELD_INTEGER"		"bone_chill_duration"	"10" }
 		}
 
 		"precache"
@@ -121,7 +122,7 @@
 
 		"AbilityTextureName"			"crystal_maiden_freezing_field"
 		"AbilityUnitDamageType"			"DAMAGE_TYPE_PHYSICAL"	
-        "AbilityBehavior"				"DOTA_ABILITY_BEHAVIOR_POINT"
+        "AbilityBehavior"				"DOTA_ABILITY_BEHAVIOR_POINT | DOTA_ABILITY_BEHAVIOR_AOE"
 		"AbilityCastRange" 				"750"
         "AbilityCooldown"				"0"
         "AbilityCastPoint"              "0.8"
@@ -150,7 +151,7 @@
 
 		"AbilityTextureName"			"crystal_maiden_crystal_nova"
 		"AbilityUnitDamageType"			"DAMAGE_TYPE_PHYSICAL"	
-        "AbilityBehavior"				"DOTA_ABILITY_BEHAVIOR_POINT"
+        "AbilityBehavior"				"DOTA_ABILITY_BEHAVIOR_POINT | DOTA_ABILITY_BEHAVIOR_AOE"
 		"AbilityCastRange" 				"1000"
         "AbilityCooldown"				"0"
         "AbilityCastPoint"              "0.5"
@@ -188,26 +189,21 @@
 		"MaxLevel"						"1"
 
 		"AbilityTextureName"			"wisp_relocate"
-		"AbilityUnitTargetTeam"			"DOTA_UNIT_TARGET_TEAM_ENEMY"
-		"AbilityUnitDamageType"			"DAMAGE_TYPE_PHYSICAL"	
-		"SpellImmunityType"				"SPELL_IMMUNITY_ENEMIES_YES"
         "AbilityBehavior"				"DOTA_ABILITY_BEHAVIOR_POINT"
 		"AbilityCastAnimation"          "ACT_DOTA_CAST_ABILITY_1"
-		"AbilityCastRange" 				"750"
+		"AbilityCastRange" 				"500"
         "AbilityCooldown"				"0"
-        "AbilityCastPoint"              "1.0"
+        "AbilityCastPoint"              "0"
 
 		"TargetingIndicator"
 		{
-			"Type"						"TARGETING_INDICATOR_AOE"
-			//"Fixed"						"1"
+			"Type"						"TARGETING_INDICATOR_LINE"
+			"Fixed"						"1"
 		}
         
 		"AbilitySpecial"
 		{
-			"01"{ "var_type"			"FIELD_INTEGER"		"radius"		"200" }
-			"02"{ "var_type"			"FIELD_INTEGER"		"speed"			"300" }
-			"03"{ "var_type"			"FIELD_INTEGER"		"dmg"			"100" }
+			"01"{ "var_type"			"FIELD_INTEGER"		"chill_duration"		"5" }
 		}
 	}
 }

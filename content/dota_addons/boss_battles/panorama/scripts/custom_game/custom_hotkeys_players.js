@@ -20,9 +20,10 @@ function AbilityToCast(abilityNumber, showEffects){
     {
         var mouse_position_screen = GameUI.GetCursorPosition();
         var mouse_position = Game.ScreenXYToWorld(mouse_position_screen[0], mouse_position_screen[1])
-
         var abilityBehavior = Abilities.GetBehavior(abilityIndex)
-        if(abilityBehavior & DOTA_ABILITY_BEHAVIOR.DOTA_ABILITY_BEHAVIOR_POINT)
+
+
+        if(abilityBehavior & DOTA_ABILITY_BEHAVIOR.DOTA_ABILITY_BEHAVIOR_POINT & !DOTA_ABILITY_BEHAVIOR.DOTA_ABILITY_BEHAVIOR_AOE)
         {
             var order = 
             {
@@ -35,6 +36,31 @@ function AbilityToCast(abilityNumber, showEffects){
             };
             Game.PrepareUnitOrders(order);
         }
+
+        if(abilityBehavior & DOTA_ABILITY_BEHAVIOR.DOTA_ABILITY_BEHAVIOR_AOE)
+        {
+            var max_range = Abilities.GetCastRange(abilityIndex);
+            var player_origin = Entities.GetAbsOrigin(playerHero)
+            var dist = Game.Length2D(mouse_position, player_origin)
+
+            if (dist > max_range)
+            {
+                GameUI.SendCustomHUDError( "Out Of Range","General.CastFail_InvalidTarget_Mechanical"  )
+                return 
+            }
+
+            var order = 
+            {
+                OrderType : dotaunitorder_t.DOTA_UNIT_ORDER_CAST_POSITION,
+                TargetIndex : playerHero,
+                Position : mouse_position,
+                QueueBehavior : OrderQueueBehavior_t.DOTA_ORDER_QUEUE_NEVER,
+                ShowEffects : showEffects,
+                AbilityIndex : abilityIndex,
+            };
+            Game.PrepareUnitOrders(order);
+        }
+
         if(abilityBehavior & DOTA_ABILITY_BEHAVIOR.DOTA_ABILITY_BEHAVIOR_NO_TARGET)
         {
             var order = 
@@ -47,6 +73,7 @@ function AbilityToCast(abilityNumber, showEffects){
             };
             Game.PrepareUnitOrders(order);
         }
+
         if(abilityBehavior & DOTA_ABILITY_BEHAVIOR.DOTA_ABILITY_BEHAVIOR_UNIT_TARGET)
         {
             var mouse_position_screen = GameUI.GetCursorPosition();
@@ -59,14 +86,15 @@ function AbilityToCast(abilityNumber, showEffects){
                     continue
                 target = entity.entityIndex
             }
-            $.Msg("target = ",target)
-            if (target == null || target == [])
+
+            // if targeting nothing (the ground) display this error message
+            if (target.length == 0)
             {
-                // add must have a targert to cast red bubble here
-                $.Msg("[custom_hotkeys_players] no entity found on cursor location")
+                GameUI.SendCustomHUDError( "No Target","General.CastFail_InvalidTarget_Mechanical"  )
                 return
             }
 
+            // if we have a target.. populate some variables 
             if (target.length != 0)
             {
                 var max_range = Abilities.GetCastRange(abilityIndex);
@@ -74,15 +102,22 @@ function AbilityToCast(abilityNumber, showEffects){
                 var player_origin = Entities.GetAbsOrigin(playerHero)
                 var dist = Game.Length2D(target_origin, player_origin)
 
-                // if out of range popup red bubble
+                // if we are outside the range of the spell display error message
                 if (dist > max_range)
                 {
-                    // add must have a targert to cast red bubble here
-                    //$.Msg("out of range")
-                    GameUI.SendCustomHUDError( "cstring pszErrorText", "" ) 
-                    return
+                    // need two if statements here... if target outside of range is friendly dispaly out of range if enemy dispaly wrong team error message
+
+                    //"General.CastFail_InvalidTarget_Mechanical" = "sounds/ui/ui_general_deny.vsnd"
+                    //https://github.com/SteamDatabase/GameTracking-Dota2/blob/master/game/dota/pak01_dir/soundevents/game_sounds_ui_imported.vsndevts
+                    GameUI.SendCustomHUDError( "Out Of Range","General.CastFail_InvalidTarget_Mechanical"  ) 
+                    
+                    //Players.GetTeam( integer iPlayerID )
+                    //$.Msg("playerID: ",Players.GetTeam( target ))
                 }
-                
+            }
+
+            if (target.length != 0 && dist < max_range)
+            {
                 var order = 
                 {
                     OrderType : dotaunitorder_t.DOTA_UNIT_ORDER_CAST_TARGET,                       
