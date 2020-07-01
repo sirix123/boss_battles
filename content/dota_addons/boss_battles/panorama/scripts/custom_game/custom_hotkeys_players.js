@@ -4,7 +4,7 @@ function AbilityToCast(abilityNumber, showEffects){
     var playerId = Players.GetLocalPlayer();
     var playerHero = Players.GetPlayerHeroEntityIndex( playerId );
     var abilityIndex = Entities.GetAbility( playerHero, abilityNumber )
-
+    
     if (playerHero == -1){
         $.Msg("[custom_hotkeys_players] no hero assigned")
         return
@@ -22,8 +22,7 @@ function AbilityToCast(abilityNumber, showEffects){
         var mouse_position = Game.ScreenXYToWorld(mouse_position_screen[0], mouse_position_screen[1])
         var abilityBehavior = Abilities.GetBehavior(abilityIndex)
 
-
-        if(abilityBehavior & DOTA_ABILITY_BEHAVIOR.DOTA_ABILITY_BEHAVIOR_POINT & !DOTA_ABILITY_BEHAVIOR.DOTA_ABILITY_BEHAVIOR_AOE)
+        if(abilityBehavior == DOTA_ABILITY_BEHAVIOR.DOTA_ABILITY_BEHAVIOR_POINT)
         {
             var order = 
             {
@@ -37,7 +36,7 @@ function AbilityToCast(abilityNumber, showEffects){
             Game.PrepareUnitOrders(order);
         }
 
-        if(abilityBehavior & DOTA_ABILITY_BEHAVIOR.DOTA_ABILITY_BEHAVIOR_AOE)
+        if(abilityBehavior == ( DOTA_ABILITY_BEHAVIOR.DOTA_ABILITY_BEHAVIOR_AOE + DOTA_ABILITY_BEHAVIOR.DOTA_ABILITY_BEHAVIOR_POINT ))
         {
             var max_range = Abilities.GetCastRange(abilityIndex);
             var player_origin = Entities.GetAbsOrigin(playerHero)
