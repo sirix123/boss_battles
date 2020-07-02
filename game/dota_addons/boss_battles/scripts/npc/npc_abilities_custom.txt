@@ -13,7 +13,6 @@
 
 //ice mage
 #base "players/icemage/abilities.txt"
-#base "players/icemage/mana_start_zero.txt"
 
 
 "DOTAAbilities"
