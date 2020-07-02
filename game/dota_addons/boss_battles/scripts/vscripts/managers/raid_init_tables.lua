@@ -22,10 +22,13 @@ tRAID_INIT_TABLE = {
 		name = "Intermission",
 		description = "MANY ANIMALS",
 		arena = "PlayerIntermissionSpawn",
-		spawnLocation = "beastmaster_boss_spawn",
+		spawnLocation =
+		{
+			"beastmaster_boss_spawn",
+		},
 		bosses =
 		{
-			--"npc_dota_creature_dummy_target_minion",
+			"npc_dota_creature_dummy_target_minion",
 			"npc_dota_creature_dummy_target_boss",
 		},
 	},
@@ -34,7 +37,10 @@ tRAID_INIT_TABLE = {
 		name = "Beastmaster",
 		description = "MANY ANIMALS",
 		arena = "beastmasterspawn",
-		spawnLocation = "beastmaster_boss_spawn",
+		spawnLocation = 
+		{
+			"beastmaster_boss_spawn",
+		},
 		bosses =
 		{
 			"npc_beastmaster",
@@ -45,7 +51,10 @@ tRAID_INIT_TABLE = {
 		name = "Timber",
 		description = "MANY ANIMALS",
 		arena = "timberPlayerSpawn",
-		spawnLocation = "timberBossSpawn",
+		spawnLocation =
+		{
+			"timberBossSpawn",
+		},
 		bosses =
 		{
 			"npc_viper",
@@ -56,7 +65,10 @@ tRAID_INIT_TABLE = {
 		name = "Captain",
 		description = "MANY ANIMALS",
 		arena = "captainspawn",
-		spawnLocation = "beastmaster_boss_spawn",
+		spawnLocation =
+		{
+			"beastmaster_boss_spawn",
+		},
 		bosses =
 		{
 			"npc_dota_hero_riki",
@@ -67,7 +79,10 @@ tRAID_INIT_TABLE = {
 		name = "Boss4",
 		description = "MANY ANIMALS",
 		arena = "boss4spawn",
-		spawnLocation = "beastmaster_boss_spawn",
+		spawnLocation =
+		{
+			"beastmaster_boss_spawn",
+		},
 		bosses = 
 		{
 			"npc_viper",
@@ -78,8 +93,11 @@ tRAID_INIT_TABLE = {
 		name = "Gyrocopter",
 		description = "gyrocopter boss description",
 		arena = "captainspawn",
-		spawnLocation = "captainspawn",
-		bosses = 
+		spawnLocation =
+		{
+			"captainspawn",
+		},
+		bosses =
 		{
 			"npc_gyrocopter",
 		},

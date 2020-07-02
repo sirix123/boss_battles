@@ -14,7 +14,6 @@ function GameMode:MoveHeroesToArea(arena)
 
     for _,hero in pairs(heroes) do
         FindClearSpaceForUnit(hero, spawners, true)
-        --FindClearSpaceForUnit(hero, Vector(13889, 14328, 0), true)
         hero:SetAngles(0, RandomFloat(0,359), 0)
         hero.spawners = spawners
         Timers:CreateTimer(0.2, function()
@@ -35,14 +34,32 @@ function GameMode:CenterCameraOnHero(hero)
 end
 
 -- handles spawning the boss, pass boss from table and a location
-function GameMode:SpawnBoss(tBoss, location)
-    print("GameMode: SpawnBoss")
-    local bossSpawnLocation = Entities:FindByName(nil, location):GetAbsOrigin()
-    local testspawn = Entities:FindByName(nil, raid_tables.beastmaster.spawnLocation):GetAbsOrigin()
+function GameMode:SpawnBoss(tBoss, tLocation)
+    --print("GameMode: SpawnBoss")
+    local vEntityLocation = ""
 
-    --for _, boss in pairs(tBoss) do
-        --CreateUnitByName(boss, bossSpawnLocation, true, nil, nil, DOTA_TEAM_BADGUYS)
-    --end
+    for _, boss in pairs(tBoss) do
+        for _, location in pairs(tLocation) do
+
+            if location == "beastmaster_boss_spawn" and boss == "npc_dota_creature_dummy_target_boss" then
+
+                --vEntityLocation = Entities:FindByName(nil, location):GetAbsOrigin()
+                --CreateUnitByName(boss, vEntityLocation, true, nil, nil, DOTA_TEAM_BADGUYS)
+
+            end
+
+            --if location == "LOCATION_1" then
+
+                --vEntityLocation = Entities:FindByName(nil, location):GetAbsOrigin()
+                --CreateUnitByName(boss, vEntityLocation, true, nil, nil, DOTA_TEAM_BADGUYS)
+
+            --end
+
+            vEntityLocation = Entities:FindByName(nil, location):GetAbsOrigin()
+            CreateUnitByName(boss, vEntityLocation, true, nil, nil, DOTA_TEAM_BADGUYS)
+
+        end
+    end
 
     -- 3 minions
     CreateUnitByName("npc_dota_creature_dummy_target_minion", Vector(13665,15213,0), true, nil, nil, DOTA_TEAM_BADGUYS)
@@ -80,22 +97,22 @@ function GameMode:StartRaid()
             Intermission area ADMIN area for NOW
 
     ]]--
-    GameMode:MoveHeroesToArea(raid_tables.beastmaster.arena)
-    GameMode:SpawnBoss(raid_tables.intermission.bosses, raid_tables.beastmaster.spawnLocation) -- hardcoded target dummy spawning !!!
+    --GameMode:MoveHeroesToArea(raid_tables.beastmaster.arena)
+    --GameMode:SpawnBoss(raid_tables.intermission.bosses, raid_tables.beastmaster.spawnLocation)
 
     --[[
             Beastmaster
 
     ]]--
     --GameMode:MoveHeroesToArea(raid_tables.beastmaster.arena)
-    --GameMode:SpawnBoss(raid_tables.beastmaster.bossNPC, raid_tables.beastmaster.spawnLocation)
+    --GameMode:SpawnBoss(raid_tables.beastmaster.bosses, raid_tables.beastmaster.spawnLocation)
 
     --[[
             Timber
 
     ]]--
     --GameMode:MoveHeroesToArea(raid_tables.timber.arena)
-    --GameMode:SpawnBoss(raid_tables.timber.bossNPC, raid_tables.timber.spawnLocation)
+    --GameMode:SpawnBoss(raid_tables.timber.bosses, raid_tables.timber.spawnLocation)
 
     --[[
             Clock
@@ -103,8 +120,8 @@ function GameMode:StartRaid()
     ]]--
 
 
-    --GameMode:MoveHeroesToArea(raid_tables.gyrocopter.arena)
-    --GameMode:SpawnBoss(raid_tables.gyrocopter.bossNPC, raid_tables.gyrocopter.spawnLocation)
+    GameMode:MoveHeroesToArea(raid_tables.gyrocopter.arena)
+    GameMode:SpawnBoss(raid_tables.gyrocopter.bosses, raid_tables.gyrocopter.spawnLocation)
 
     --[[
             Tinker
