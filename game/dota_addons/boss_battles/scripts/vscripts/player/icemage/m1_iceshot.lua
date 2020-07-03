@@ -72,6 +72,9 @@ function m1_iceshot:OnSpellStart()
                     damage_type = self:GetAbilityDamageType(),
                 }
 
+                -- give mana
+                self.caster:ManaOnHit(self:GetSpecialValueFor( "mana_gain_percent"))
+
                 -- adds chill modifier
                 if CheckRaidTableForBossName(unit) ~= true then
                     unit:AddNewModifier(self.caster, self, "chill_modifier", { duration = self:GetSpecialValueFor( "chill_duration") })

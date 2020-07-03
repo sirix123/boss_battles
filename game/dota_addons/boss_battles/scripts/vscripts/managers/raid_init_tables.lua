@@ -28,7 +28,7 @@ tRAID_INIT_TABLE = {
 		},
 		bosses =
 		{
-			"npc_dota_creature_dummy_target_minion",
+			--"npc_dota_creature_dummy_target_minion",
 			"npc_dota_creature_dummy_target_boss",
 		},
 	},

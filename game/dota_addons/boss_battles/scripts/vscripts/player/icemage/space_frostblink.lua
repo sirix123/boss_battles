@@ -25,7 +25,7 @@ function space_frostblink:OnSpellStart()
     for _, enemy in pairs(enemies) do
         if CheckRaidTableForBossName(enemy) ~= true then
             enemy:AddNewModifier(caster, self, "chill_modifier", { duration = self:GetSpecialValueFor( "chill_duration") })
-            print("we running this?")
+            caster:ManaOnHit(self:GetSpecialValueFor( "mana_gain_percent"))
         end
     end
     -- chill effect

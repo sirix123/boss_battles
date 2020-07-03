@@ -10,6 +10,9 @@ function Spawn( entityKeyValues )
 		return
 	end
 
+	-- set mana to 0 on spawn
+	thisEntity:SetMana(0)
+
 	-- saw blade references and init
 	thisEntity.saw_blade = thisEntity:FindAbilityByName( "saw_blade" )
 	thisEntity.nMaxSawBlades = thisEntity.saw_blade:GetLevelSpecialValueFor("nMaxSawBlades", thisEntity.saw_blade:GetLevel())

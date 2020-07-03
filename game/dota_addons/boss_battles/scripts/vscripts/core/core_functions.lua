@@ -27,3 +27,7 @@ function CDOTA_BaseNPC:IsWalking()
 		return false
 	end
 end
+
+function CDOTA_BaseNPC:ManaOnHit(percentAmount)
+	self:GiveMana(self:GetMaxMana() * percentAmount/100)
+end

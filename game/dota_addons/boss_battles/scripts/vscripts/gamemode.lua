@@ -172,7 +172,6 @@ function GameMode:OnHeroInGame(hero)
 
   hero:AddNewModifier( hero,  nil, "movement_modifier_thinker", { } )
   hero:AddNewModifier( hero,  nil, "remove_attack_modifier", { } )
-  hero:SetMana(0)
 
   -- level up abilities for all heroes to level 1
   if hero:GetUnitName() == "npc_dota_hero_crystal_maiden" then

@@ -13,6 +13,7 @@ function GameMode:MoveHeroesToArea(arena)
     local heroes = HeroList:GetAllHeroes()
 
     for _,hero in pairs(heroes) do
+        hero:SetMana(0)
         FindClearSpaceForUnit(hero, spawners, true)
         hero:SetAngles(0, RandomFloat(0,359), 0)
         hero.spawners = spawners
@@ -36,7 +37,7 @@ end
 -- handles spawning the boss, pass boss from table and a location
 function GameMode:SpawnBoss(tBoss, tLocation)
     --print("GameMode: SpawnBoss")
-    local vEntityLocation = ""
+    --local vEntityLocation = ""
 
     for _, boss in pairs(tBoss) do
         for _, location in pairs(tLocation) do
@@ -55,8 +56,8 @@ function GameMode:SpawnBoss(tBoss, tLocation)
 
             --end
 
-            vEntityLocation = Entities:FindByName(nil, location):GetAbsOrigin()
-            CreateUnitByName(boss, vEntityLocation, true, nil, nil, DOTA_TEAM_BADGUYS)
+            --vEntityLocation = Entities:FindByName(nil, location):GetAbsOrigin()
+            --CreateUnitByName(boss, vEntityLocation, true, nil, nil, DOTA_TEAM_BADGUYS)
 
         end
     end
@@ -93,12 +94,15 @@ end
 function GameMode:StartRaid()
     print("GameMode: StartRaid()")
 
+    -- initalise heroes
+    
+
     --[[
             Intermission area ADMIN area for NOW
 
     ]]--
-    --GameMode:MoveHeroesToArea(raid_tables.beastmaster.arena)
-    --GameMode:SpawnBoss(raid_tables.intermission.bosses, raid_tables.beastmaster.spawnLocation)
+    GameMode:MoveHeroesToArea(raid_tables.beastmaster.arena)
+    GameMode:SpawnBoss(raid_tables.intermission.bosses, raid_tables.beastmaster.spawnLocation)
 
     --[[
             Beastmaster
@@ -120,8 +124,8 @@ function GameMode:StartRaid()
     ]]--
 
 
-    GameMode:MoveHeroesToArea(raid_tables.gyrocopter.arena)
-    GameMode:SpawnBoss(raid_tables.gyrocopter.bosses, raid_tables.gyrocopter.spawnLocation)
+    --GameMode:MoveHeroesToArea(raid_tables.gyrocopter.arena)
+    --GameMode:SpawnBoss(raid_tables.gyrocopter.bosses, raid_tables.gyrocopter.spawnLocation)
 
     --[[
             Tinker
