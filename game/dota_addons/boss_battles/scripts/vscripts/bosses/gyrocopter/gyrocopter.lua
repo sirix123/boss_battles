@@ -22,6 +22,9 @@ LinkLuaModifier( "flak_cannon_modifier", "bosses/gyrocopter/flak_cannon_modifier
 	-- })
 
 
+--Global used in; gyrocopter.lua, homing_missile.lua, ...
+_G.ScannedEnemyLocations = {}
+
 
 local currentPhase = 1
 local COOLDOWN_RADARSCAN = 100
@@ -29,8 +32,14 @@ local COOLDOWN_FLAKCANNON = 10
 local swooping = false
 local swoopDuration = 0
 
---Global used in; gyrocopter.lua, homing_missile.lua, ...
-_G.ScannedEnemyLocations = {}
+local isHpBelow50Percent = false
+local isHpBelow10Percent = false
+
+
+--Gyro locoations
+--gyroHideLocation1
+--gyroHideLocation2
+
 
 function Spawn( entityKeyValues )
 	print("Gyrocopter Spawned!")
@@ -44,7 +53,9 @@ end
 
 local COOLDOWN_RADARSCAN = 10
 local tickCount = 0
+
 function MainThinker()
+	--Enemies scanned, missiles should be chasing em.
 	if _G.ScannedEnemyLocations ~= nil then
 		--print("MainThinker. #_G.ScannedEnemyLocations = ", #_G.ScannedEnemyLocations)
 	end
@@ -60,10 +71,23 @@ function MainThinker()
 	end
 
 
+	--check current HP to trigger events
+	local healthPercent = (thisEntity:GetMaxHealth() / thisEntity:GetHealth()) * 100
+	print("healthPercent = ", healthPercent)
+	--Trigger event at 50% hp
+	if not isHpBelow50Percent && healthPercent < 50 then 
+		isHpBelow50Percent = true
+		--TODO: trigger event
+		HalfHealthPhase()
+	end
+	--Trigger event at 10% hp
+	if not isHpBelow10Percent && healthPercent < 10 then 
+		isHpBelow10Percent = true
+		--TODO: trigger event
+		NearlyDeadPhase()
+	end
 
-	tickCount = tickCount + 1
-
-	--COOLDOWNS, modulus the tickCount
+	--ABILITY COOLDOWNS, modulus the tickCount
 
 	--RADAR, 
 	if tickCount % COOLDOWN_RADARSCAN == 0 then --cast repeatedly
@@ -76,8 +100,6 @@ function MainThinker()
 		print("FLAK CANNON!")
 		ApplyFlakCannonModifier()
 	end
-	
-
 	
 	--SWOOP:
 	if swooping then
@@ -104,6 +126,22 @@ function MainThinker()
 
 	return 1 
 end
+
+--TODO: At half HP:
+-- Fly gyro to fixed location
+-- Initiate calldown ulti
+-- Change costume/armor
+-- Upgrade ability levels
+function HalfHealthPhase()
+ 	print("HalfHealthPhase()")
+end
+
+function NearlyDeadPhase()
+	print("NearlyDeadPhase()")
+end
+
+
+
 
 -------------------------------------------------------------------------------
 -- Radar Scan Abilities,
@@ -256,6 +294,23 @@ function RadarPulse()
 
 		return frameDuration
 	end) --end timer
+
+end
+
+
+-------------------------------------------------------------------------------
+-- Call Down Abilities
+-- Will be several different versions of how the call down targets are decided.
+
+function CallDownPattern()
+
+
+end
+
+
+function CallDownOnEnemies()
+	--TODO: Get all enemies in the arena.
+	--Do a calldown on each one
 
 end
 

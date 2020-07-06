@@ -25,6 +25,7 @@
 		"Ability2"					"homing_missile"			
 		"Ability3"					"rocket_barrage"			
 		"Ability4"					"flak_cannon"			
+		"Ability5"					"call_down"			
 
 
 		// Precache
