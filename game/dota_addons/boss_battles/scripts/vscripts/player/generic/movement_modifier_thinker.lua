@@ -104,7 +104,7 @@ function movement_modifier_thinker:Move(direction, speed)
 	local test_position_front = future_position + direction * offset
 	test_position_front.z = GetGroundPosition(future_position, self.parent).z
 
-	if GridNav:IsTraversable(test_position_front) then
+	if GridNav:IsTraversable(test_position_front) and self.parent:HasMovementCapability() then
 		if not self.parent:IsPhased() then
 
 			-- find untis in radius around future postion 

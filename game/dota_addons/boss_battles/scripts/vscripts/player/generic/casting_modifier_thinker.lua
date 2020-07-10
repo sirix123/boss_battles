@@ -7,13 +7,22 @@ end
 function casting_modifier_thinker:OnCreated(params)
     if IsServer() then
         self.parent = self:GetParent()
-		self:StartIntervalThink(0.03)
+        self:StartIntervalThink(0.03)
+
+        if params.bMovementLock == 1  then
+            self.parent:SetMoveCapability(0)
+        elseif params.pMovespeedReduction ~= nil then
+            self.MoveSpeedReduction = params.pMovespeedReduction
+        elseif params.bMovementLock == nil and params.pMovespeedReduction == nil then
+            self.MoveSpeedReduction = -50
+
+        end
 	end
 end
 
 function casting_modifier_thinker:OnDestroy()
     if IsServer() then
-
+        self.parent:SetMoveCapability(1)
     end
 end
 
@@ -33,9 +42,12 @@ function casting_modifier_thinker:OnIntervalThink()
 end
 
 function casting_modifier_thinker:DeclareFunctions()
-	return { MODIFIER_PROPERTY_MOVESPEED_BONUS_PERCENTAGE }
+    return
+    {
+        MODIFIER_PROPERTY_MOVESPEED_BONUS_PERCENTAGE
+    }
 end
 
 function casting_modifier_thinker:GetModifierMoveSpeedBonus_Percentage()
-	return -50
+	return self.MoveSpeedReduction
 end

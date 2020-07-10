@@ -5,6 +5,9 @@ LinkLuaModifier("bonechill_modifier", "player/icemage/modifiers/bonechill_modifi
 function m2_icelance:OnAbilityPhaseStart()
     if IsServer() then
 
+        self.nMaxProj = self:GetSpecialValueFor( "max_proj" )
+        self.fBetweenProj = self:GetSpecialValueFor( "time_between_proj" )
+
         -- start casting animation
         -- the 1 below is imporant if set incorrectly the animation will stutter (second variable in startgesture is the playback override)
         self:GetCaster():StartGestureWithPlaybackRate(ACT_DOTA_CAST_ABILITY_1, 1.2)
@@ -12,7 +15,8 @@ function m2_icelance:OnAbilityPhaseStart()
         -- add casting modifier
         self:GetCaster():AddNewModifier(self:GetCaster(), self, "casting_modifier_thinker",
         {
-            duration = self:GetCastPoint(),
+            duration = self:GetCastPoint() + ((self.nMaxProj * self.fBetweenProj) - self.fBetweenProj),
+            bMovementLock = true,
         })
 
         return true
@@ -48,58 +52,75 @@ function m2_icelance:OnSpellStart()
         self.baseShatterDmg = self:GetSpecialValueFor( "base_shatter_dmg" )
         self.shatterDmg = self:GetSpecialValueFor( "shatter_dmg_xStacks" )
 
-        -- set proj direction to mouse location
-        local vTargetPos = nil
-        vTargetPos = GameMode.mouse_positions[self.caster:GetPlayerID()]
-        local projectile_direction = (Vector( vTargetPos.x - origin.x, vTargetPos.y - origin.y, 0 )):Normalized()
+        local nProj = 0
 
-        local projectile = {
-            EffectName = "particles/icemage/m2_icelance_mars_ti9_immortal_crimson_spear.vpcf",
-            vSpawnOrigin = origin + Vector(0, 0, 100),
-            fDistance = self:GetCastRange(Vector(0,0,0), nil),
-            fUniqueRadius = self:GetSpecialValueFor( "hit_box" ),
-            Source = self.caster,
-            vVelocity = projectile_direction * projectile_speed,
-            UnitBehavior = PROJECTILES_DESTROY,
-            TreeBehavior = PROJECTILES_DESTROY,
-            WallBehavior = PROJECTILES_DESTROY,
-            GroundBehavior = PROJECTILES_NOTHING,
-            fGroundOffset = 80,
-            UnitTest = function(_self, unit)
-                return unit:GetTeamNumber() ~= self.caster:GetTeamNumber()
-            end,
-            OnUnitHit = function(_self, unit)
+        -- start timer
+        Timers:CreateTimer(0, function()
 
-                -- init icelance dmg table
-                local dmgTable = {
-                    victim = unit,
-                    attacker = self.caster,
-                    damage = self:GetSpecialValueFor( "dmg" ),
-                    damage_type = self:GetAbilityDamageType(),
-                }
+            -- set proj direction to mouse location
+            local vTargetPos = nil
+            vTargetPos = GameMode.mouse_positions[self.caster:GetPlayerID()]
+            local projectile_direction = (Vector( vTargetPos.x - origin.x, vTargetPos.y - origin.y, 0 )):Normalized()
 
-                -- handles bonechill apply logic with shatter stacks
-                self:ApplyBoneChill(unit)
+            -- end timer logic
+            if nProj == self.nMaxProj then
+				return false
+            end
 
-                -- applys base dmg icelance regardles of stacks
-                ApplyDamage(dmgTable)
-                EmitSoundOn("hero_Crystal.projectileImpact", self.caster)
+            nProj = nProj + 1
 
-            end,
-            OnFinish = function(_self, pos)
-                -- add projectile explode particle effect here on the pos it finishes at
-                local particle_cast = "particles/units/heroes/hero_crystalmaiden/maiden_base_attack_explosion.vpcf"
-                local effect_cast = ParticleManager:CreateParticle(particle_cast, PATTACH_WORLDORIGIN, nil)
-                ParticleManager:SetParticleControl(effect_cast, 0, pos)
-                ParticleManager:SetParticleControl(effect_cast, 3, pos)
-                ParticleManager:ReleaseParticleIndex(effect_cast)
+            local projectile = {
+                EffectName = "particles/icemage/m2_icelance_mars_ti9_immortal_crimson_spear.vpcf",
+                vSpawnOrigin = origin + Vector(0, 0, 100),
+                fDistance = self:GetCastRange(Vector(0,0,0), nil),
+                fUniqueRadius = self:GetSpecialValueFor( "hit_box" ),
+                Source = self.caster,
+                vVelocity = projectile_direction * projectile_speed,
+                UnitBehavior = PROJECTILES_DESTROY,
+                TreeBehavior = PROJECTILES_DESTROY,
+                WallBehavior = PROJECTILES_DESTROY,
+                GroundBehavior = PROJECTILES_NOTHING,
+                fGroundOffset = 80,
+                UnitTest = function(_self, unit)
+                    return unit:GetTeamNumber() ~= self.caster:GetTeamNumber()
+                end,
+                OnUnitHit = function(_self, unit)
 
-                -- maybe add small ground aoe here as well if we decide icelance does a sml aoe for dmg
-            end,
-        }
+                    -- init icelance dmg table
+                    local dmgTable = {
+                        victim = unit,
+                        attacker = self.caster,
+                        damage = self:GetSpecialValueFor( "dmg" ),
+                        damage_type = self:GetAbilityDamageType(),
+                    }
 
-        Projectiles:CreateProjectile(projectile)
+                    -- give mana
+                    self.caster:ManaOnHit(self:GetSpecialValueFor( "mana_gain_percent"))
 
+                    -- handles bonechill apply logic with shatter stacks
+                    self:ApplyBoneChill(unit)
+
+                    -- applys base dmg icelance regardles of stacks
+                    ApplyDamage(dmgTable)
+                    EmitSoundOn("hero_Crystal.projectileImpact", self.caster)
+
+                end,
+                OnFinish = function(_self, pos)
+                    -- add projectile explode particle effect here on the pos it finishes at
+                    local particle_cast = "particles/units/heroes/hero_crystalmaiden/maiden_base_attack_explosion.vpcf"
+                    local effect_cast = ParticleManager:CreateParticle(particle_cast, PATTACH_WORLDORIGIN, nil)
+                    ParticleManager:SetParticleControl(effect_cast, 0, pos)
+                    ParticleManager:SetParticleControl(effect_cast, 3, pos)
+                    ParticleManager:ReleaseParticleIndex(effect_cast)
+
+                    -- maybe add small ground aoe here as well if we decide icelance does a sml aoe for dmg
+                end,
+            }
+
+            Projectiles:CreateProjectile(projectile)
+
+            return self.fBetweenProj
+        end)
 	end
 end
 ----------------------------------------------------------------------------------------------------------------
