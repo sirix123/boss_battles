@@ -7,10 +7,22 @@ function m2_icelance:OnAbilityPhaseStart()
 
         self.nMaxProj = self:GetSpecialValueFor( "max_proj" )
         self.fBetweenProj = self:GetSpecialValueFor( "time_between_proj" )
+        self.caster = self:GetCaster()
+
+        -- attach iceorbs around caster
+        -- this particple effect can only handle 4 orbs total if maxproj is > 4 only 4 orbs will show
+        local particleName = "particles/icemage/icemage_icelance_phoenix_fire_spirits.vpcf"
+        self.pfx = ParticleManager:CreateParticle( particleName, PATTACH_ABSORIGIN_FOLLOW, self.caster )
+
+        ParticleManager:SetParticleControl( self.pfx, 1, Vector( self.nMaxProj, 0, 0 ) )
+
+        for i=1, self.nMaxProj do
+            ParticleManager:SetParticleControl( self.pfx, 8+i, Vector( 1, 0, 0 ) )
+        end
 
         -- start casting animation
         -- the 1 below is imporant if set incorrectly the animation will stutter (second variable in startgesture is the playback override)
-        self:GetCaster():StartGestureWithPlaybackRate(ACT_DOTA_CAST_ABILITY_1, 1.2)
+        self:GetCaster():StartGestureWithPlaybackRate(ACT_DOTA_CAST_ABILITY_1, 0.5)
 
         -- add casting modifier
         self:GetCaster():AddNewModifier(self:GetCaster(), self, "casting_modifier_thinker",
@@ -33,15 +45,18 @@ function m2_icelance:OnAbilityPhaseInterrupted()
         -- remove casting modifier
         self:GetCaster():RemoveModifierByName("casting_modifier_thinker")
 
+        -- remove orbs
+        if self.pfx then
+            ParticleManager:DestroyParticle( self.pfx, false )
+            ParticleManager:ReleaseParticleIndex( self.pfx )
+        end
+
     end
 end
 ---------------------------------------------------------------------------
 
 function m2_icelance:OnSpellStart()
     if IsServer() then
-
-        -- when spell starts fade gesture
-        self:GetCaster():FadeGesture(ACT_DOTA_CAST_ABILITY_1)
 
         -- init
 		self.caster = self:GetCaster()
@@ -53,6 +68,7 @@ function m2_icelance:OnSpellStart()
         self.shatterDmg = self:GetSpecialValueFor( "shatter_dmg_xStacks" )
 
         local nProj = 0
+        local currentOrbs = self.nMaxProj
 
         -- start timer
         Timers:CreateTimer(0, function()
@@ -64,10 +80,10 @@ function m2_icelance:OnSpellStart()
 
             -- end timer logic
             if nProj == self.nMaxProj then
+                -- sstop animation when spell finishes
+                self:GetCaster():FadeGesture(ACT_DOTA_CAST_ABILITY_1)
 				return false
             end
-
-            nProj = nProj + 1
 
             local projectile = {
                 EffectName = "particles/icemage/m2_icelance_mars_ti9_immortal_crimson_spear.vpcf",
@@ -117,6 +133,23 @@ function m2_icelance:OnSpellStart()
                 end,
             }
 
+            -- destroy one orb
+            currentOrbs = currentOrbs - 1
+            ParticleManager:SetParticleControl( self.pfx, 1, Vector( currentOrbs, 0, 0 ) )
+            for i=1, self.nMaxProj, 1 do
+                local radius = 0
+
+                if i <= currentOrbs then
+                    radius = 1
+                end
+
+                ParticleManager:SetParticleControl( self.pfx, 8+i, Vector( radius, 0, 0 ) )
+            end
+
+            -- inc local stack count
+            nProj = nProj + 1
+
+            -- create projectile and launch it
             Projectiles:CreateProjectile(projectile)
 
             return self.fBetweenProj

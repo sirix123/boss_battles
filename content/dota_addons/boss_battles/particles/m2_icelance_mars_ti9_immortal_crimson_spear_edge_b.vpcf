@@ -42,6 +42,7 @@
 					m_vDomainMaxs = [ 0.0, 0.0 ]
 				}
 			}
+			m_bDisableOperator = true
 			m_vecColorScale = 
 			{
 				m_nType = "PVEC_TYPE_LITERAL_COLOR"
@@ -54,7 +55,44 @@
 			m_bSaturateColorPreAlphaBlend = false
 			m_hTexture = resource:"materials/particle/beam_generic_2.vtex"
 			m_bDisableOperator = true
-			m_bGammaCorrectVertexColors = false
+			m_vecColorScale = 
+			{
+				m_nType = "PVEC_TYPE_LITERAL_COLOR"
+				m_LiteralColor = [ 255, 255, 255 ]
+			}
+		},
+		{
+			_class = "C_OP_RenderRopes"
+			m_flRadiusScale = 
+			{
+				m_nType = "PF_TYPE_LITERAL"
+				m_nMapType = "PF_MAP_TYPE_DIRECT"
+				m_flLiteralValue = 0.55
+				m_nControlPoint = 0
+				m_nScalarAttribute = 3
+				m_nVectorAttribute = 6
+				m_nVectorComponent = 0
+				m_flRandomMin = 0.0
+				m_flRandomMax = 1.0
+				m_nRandomMode = "PF_RANDOM_MODE_CONSTANT"
+				m_flMultFactor = 1.0
+				m_flInput0 = 0.0
+				m_flInput1 = 1.0
+				m_flOutput0 = 0.0
+				m_flOutput1 = 1.0
+				m_nBiasType = "PF_BIAS_TYPE_STANDARD"
+				m_flBiasParameter = 0.0
+				m_Curve = 
+				{
+					m_spline = [  ]
+					m_tangents = [  ]
+					m_vDomainMins = [ 0.0, 0.0 ]
+					m_vDomainMaxs = [ 0.0, 0.0 ]
+				}
+			}
+			m_flDepthBias = -16.0
+			m_hTexture = resource:"materials/particle/beam_generic_4.vtex"
+			m_bDisableOperator = true
 			m_vecColorScale = 
 			{
 				m_nType = "PVEC_TYPE_LITERAL_COLOR"
@@ -70,6 +108,7 @@
 			m_bAdditive = true
 			m_flOverbrightFactor = 8.0
 			m_hTexture = resource:"materials/particle/beam_liquid_04.vtex"
+			m_bDisableOperator = true
 			m_vecColorScale = 
 			{
 				m_nType = "PVEC_TYPE_LITERAL_COLOR"
@@ -78,13 +117,13 @@
 		},
 		{
 			_class = "C_OP_RenderRopes"
-			m_flTextureVWorldSize = 1000.0
-			m_flTextureVScrollRate = -2000.0
+			m_flTextureVWorldSize = 500.0
+			m_flTextureVScrollRate = -1500.0
 			m_flRadiusScale = 
 			{
 				m_nType = "PF_TYPE_LITERAL"
 				m_nMapType = "PF_MAP_TYPE_DIRECT"
-				m_flLiteralValue = 0.6
+				m_flLiteralValue = 0.75
 				m_nControlPoint = 0
 				m_nScalarAttribute = 3
 				m_nVectorAttribute = 6
@@ -109,9 +148,11 @@
 			}
 			m_flDepthBias = -16.0
 			m_bSaturateColorPreAlphaBlend = false
+			m_flAddSelfAmount = 4.0
 			m_bAdditive = true
 			m_flOverbrightFactor = 8.0
-			m_hTexture = resource:"materials/particle/electricity/electricity_22_d.vtex"
+			m_hTexture = resource:"materials/particle/bendibeam5.vtex"
+			m_flFinalTextureScaleU = 2.0
 			m_vecColorScale = 
 			{
 				m_nType = "PVEC_TYPE_LITERAL_COLOR"
@@ -152,9 +193,11 @@
 			}
 			m_flDepthBias = -16.0
 			m_bSaturateColorPreAlphaBlend = false
+			m_flAddSelfAmount = 4.0
 			m_bAdditive = true
 			m_flOverbrightFactor = 8.0
 			m_hTexture = resource:"materials/particle/electricity/electricity_22_d.vtex"
+			m_bDisableOperator = true
 			m_vecColorScale = 
 			{
 				m_nType = "PVEC_TYPE_LITERAL_COLOR"
@@ -196,8 +239,9 @@
 		},
 		{
 			_class = "C_INIT_RandomColor"
-			m_ColorMin = [ 120, 142, 194, 255 ]
-			m_ColorMax = [ 61, 92, 155, 255 ]
+			m_ColorMin = [ 255, 129, 45, 255 ]
+			m_ColorMax = [ 254, 124, 37, 255 ]
+			m_bDisableOperator = true
 		},
 		{
 			_class = "C_INIT_InitFloat"
@@ -231,6 +275,12 @@
 							m_flSlopeOutgoing = 0.007229
 						},
 						{
+							x = 16.331551
+							y = 0.192381
+							m_flSlopeIncoming = -0.03125
+							m_flSlopeOutgoing = -0.03125
+						},
+						{
 							x = 32.0
 							y = 0.0
 							m_flSlopeIncoming = 0.0
@@ -242,6 +292,10 @@
 						{
 							m_nIncomingTangent = "CURVE_TANGENT_FREE"
 							m_nOutgoingTangent = "CURVE_TANGENT_MIRROR"
+						},
+						{
+							m_nIncomingTangent = "CURVE_TANGENT_MIRROR"
+							m_nOutgoingTangent = "CURVE_TANGENT_SPLINE"
 						},
 						{
 							m_nIncomingTangent = "CURVE_TANGENT_FREE"
@@ -347,32 +401,20 @@
 						{
 							x = 0.0
 							y = 0.0
-							m_flSlopeIncoming = 15.709668
-							m_flSlopeOutgoing = 15.709668
+							m_flSlopeIncoming = 4.634003
+							m_flSlopeOutgoing = 4.634003
 						},
 						{
-							x = 3.979958
-							y = 62.523811
-							m_flSlopeIncoming = 12.148809
-							m_flSlopeOutgoing = 12.148809
-						},
-						{
-							x = 8.097155
-							y = 97.152382
+							x = 16.60603
+							y = 76.952385
 							m_flSlopeIncoming = 1.151589
 							m_flSlopeOutgoing = 1.151589
 						},
 						{
-							x = 20.997707
-							y = 57.714287
-							m_flSlopeIncoming = -1.77066
-							m_flSlopeOutgoing = -1.77066
-						},
-						{
 							x = 32.0
-							y = 54.828571
-							m_flSlopeIncoming = -0.262283
-							m_flSlopeOutgoing = -0.262283
+							y = 100.0
+							m_flSlopeIncoming = 1.497185
+							m_flSlopeOutgoing = 1.497185
 						},
 					]
 					m_tangents = 
@@ -384,14 +426,6 @@
 						{
 							m_nIncomingTangent = "CURVE_TANGENT_FREE"
 							m_nOutgoingTangent = "CURVE_TANGENT_MIRROR"
-						},
-						{
-							m_nIncomingTangent = "CURVE_TANGENT_FREE"
-							m_nOutgoingTangent = "CURVE_TANGENT_MIRROR"
-						},
-						{
-							m_nIncomingTangent = "CURVE_TANGENT_MIRROR"
-							m_nOutgoingTangent = "CURVE_TANGENT_SPLINE"
 						},
 						{
 							m_nIncomingTangent = "CURVE_TANGENT_SPLINE"
@@ -477,6 +511,11 @@
 			m_vecOutputMax = [ 1.0, 0.505, 0.176 ]
 			m_bDisableOperator = true
 		},
+		{
+			_class = "C_INIT_RandomColor"
+			m_ColorMin = [ 55, 120, 249, 255 ]
+			m_ColorMax = [ 69, 83, 238, 255 ]
+		},
 	]
 	m_Emitters = 
 	[
@@ -519,18 +558,9 @@
 			m_nHeadLocation = 3
 			m_nCP3 = 9
 			m_nCP4 = 9
-			m_vecCP2Pos = [ -450.0, 0.0, 0.0 ]
+			m_vecCP2Pos = [ -65.0, 0.0, 0.0 ]
 			m_vecCP1Pos = [ 218.0, 0.0, 0.0 ]
 		},
 	]
 	m_nBehaviorVersion = 10
-	m_Children = 
-	[
-		{
-			m_ChildRef = resource:"particles\\icemage\\m2_icelance_mars_ti9_immortal_crimson_spear_light.vpcf"
-		},
-		{
-			m_ChildRef = resource:"particles\\m2_icelance_mars_ti9_immortal_crimson_spear_embers.vpcf"
-		},
-	]
 }

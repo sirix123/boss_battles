@@ -13,6 +13,7 @@ function m1_iceshot:OnAbilityPhaseStart()
         self:GetCaster():AddNewModifier(self:GetCaster(), self, "casting_modifier_thinker",
         {
             duration = self:GetCastPoint(),
+            pMovespeedReduction = -80,
         })
 
         return true

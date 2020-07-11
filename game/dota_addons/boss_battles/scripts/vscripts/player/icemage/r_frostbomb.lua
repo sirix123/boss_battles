@@ -5,12 +5,13 @@ LinkLuaModifier( "r_frostbomb_modifier", "player/icemage/modifiers/r_frostbomb_m
 function r_frostbomb:OnAbilityPhaseStart()
     if IsServer() then
 
-        self:GetCaster():StartGestureWithPlaybackRate(ACT_DOTA_CAST_ABILITY_2, 0.8)
+        self:GetCaster():StartGestureWithPlaybackRate(ACT_DOTA_CAST_ABILITY_2, 0.6)
 
         -- add casting modifier
         self:GetCaster():AddNewModifier(self:GetCaster(), self, "casting_modifier_thinker",
         {
             duration = self:GetCastPoint(),
+            bMovementLock = true,
         })
 
         return true

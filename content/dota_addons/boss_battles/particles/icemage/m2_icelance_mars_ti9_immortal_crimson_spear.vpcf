@@ -123,25 +123,24 @@
 		},
 		{
 			m_ChildRef = resource:"particles/econ/items/mars/mars_ti9_immortal/mars_ti9_immortal_crimson_spear_trail.vpcf"
+			m_bDisableChild = true
 		},
 		{
 			m_ChildRef = resource:"particles/econ/items/mars/mars_ti9_immortal/mars_ti9_immortal_crimson_spear_trail_b.vpcf"
-		},
-		{
-			m_ChildRef = resource:"particles/econ/items/mars/mars_ti9_immortal/mars_ti9_immortal_crimson_spear_edge.vpcf"
 			m_bDisableChild = true
 		},
 		{
-			m_ChildRef = resource:"particles/econ/items/mars/mars_ti9_immortal/mars_ti9_immortal_crimson_spear_edge_b.vpcf"
-			m_bDisableChild = true
+			m_ChildRef = resource:"particles\\m2_icelance_mars_ti9_immortal_crimson_spear_edge.vpcf"
+		},
+		{
+			m_ChildRef = resource:"particles\\m2_icelance_mars_ti9_immortal_crimson_spear_edge_b.vpcf"
 		},
 		{
 			m_ChildRef = resource:"particles/econ/items/mars/mars_ti9_immortal/mars_ti9_immortal_crimson_spear_flash.vpcf"
 			m_bDisableChild = true
 		},
 		{
-			m_ChildRef = resource:"particles/econ/items/mars/mars_ti9_immortal/mars_ti9_immortal_crimson_spear_sparks.vpcf"
-			m_bDisableChild = true
+			m_ChildRef = resource:"particles\\icemage\\m2_icemage_mars_ti9_immortal_crimson_spear_sparks.vpcf"
 		},
 		{
 			m_bEndCap = true
