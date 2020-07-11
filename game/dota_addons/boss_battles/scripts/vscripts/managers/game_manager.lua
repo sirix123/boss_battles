@@ -78,7 +78,7 @@ function GameMode:SpawnBoss(tBoss, tLocation)
     --CreateUnitByName(boss, bossSpawnLocation, true, nil, nil, DOTA_TEAM_BADGUYS)
     --CreateUnitByName("npc_dota_hero_rubick", bossSpawnLocation, true, nil, nil, DOTA_TEAM_GOODGUYS)
     --CreateUnitByName("npc_dota_hero_viper", Vector(9821,14288,0), true, nil, nil, DOTA_TEAM_GOODGUYS)
-    CreateUnitByName("npc_dota_hero_riki", Vector(14007,14445,0), true, nil, nil, DOTA_TEAM_GOODGUYS)
+    CreateUnitByName("npc_dota_creature_gnoll_assassin", Vector(14007,14445,0), true, nil, nil, DOTA_TEAM_BADGUYS)
     --CreateUnitByName("npc_dota_creature_gnoll_assassin", testspawn, true, nil, nil, DOTA_TEAM_BADGUYS)
     --CreateUnitByName("npc_stun_droid", testspawn, true, nil, nil, DOTA_TEAM_BADGUYS)
 end

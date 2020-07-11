@@ -120,12 +120,15 @@
 		},
 		{
 			m_ChildRef = resource:"particles/econ/items/invoker/invoker_apex/invoker_sun_strike_team_edge_c_immortal1.vpcf"
+			m_bDisableChild = true
 		},
 		{
 			m_ChildRef = resource:"particles/econ/items/invoker/invoker_apex/invoker_sun_strike_team_light_immortal1.vpcf"
+			m_bDisableChild = true
 		},
 		{
 			m_ChildRef = resource:"particles\\icemage\\frostbomb_invoker_sun_strike_team_blastup_immortal1.vpcf"
+			m_bDisableChild = true
 		},
 		{
 			m_ChildRef = resource:"particles\\icemage\\icemage_invoker_sun_strike_team_big_ray_immortal1.vpcf"
@@ -135,12 +138,15 @@
 		},
 		{
 			m_ChildRef = resource:"particles/econ/items/invoker/invoker_apex/invoker_sun_strike_team_sphere_model_immortal1.vpcf"
+			m_bDisableChild = true
 		},
 		{
 			m_ChildRef = resource:"particles/econ/items/invoker/invoker_apex/invoker_sun_strike_team_dark_proj_immortal1.vpcf"
+			m_bDisableChild = true
 		},
 		{
 			m_ChildRef = resource:"particles/econ/items/invoker/invoker_apex/invoker_sun_strike_team_dark_arts_immortal1.vpcf"
+			m_bDisableChild = true
 		},
 	]
 	m_PreEmissionOperators = 

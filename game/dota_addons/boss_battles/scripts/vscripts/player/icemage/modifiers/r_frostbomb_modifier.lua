@@ -45,6 +45,9 @@ function r_frostbomb_modifier:OnCreated( kv )
         -- damge loop start
         self.stopDamageLoop = false
 
+        -- sound
+        --self:GetParent():EmitSound("Hero_Ancient_Apparition.ColdFeetCast")
+
         -- start damage timer
         self:StartApplyDamageLoop()
 
