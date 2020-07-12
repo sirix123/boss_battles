@@ -35,8 +35,11 @@ function m1_trackingshot_charges:OnCreated( kv )
 
         -- reference from kv
         self.nMaxCharges = 3
+        self:SetStackCount(self.nMaxCharges)
+        self.bReplenish = true
 
         -- start replenish thinker
+        -- i think we only want this to start once the charges have started being used
         self:StartIntervalThink( 1 )
 
     end
@@ -51,8 +54,27 @@ function m1_trackingshot_charges:OnIntervalThink()
             return
         end
 
-        if self.nCharges < self.nMaxCharges then
-            self:IncrementStackCount()
+        if self.nCharges == 0 and self.bReplenish == true then
+            self.bReplenish = false
+
+            Timers:CreateTimer(2, function()
+
+                self.nCharges = self:GetStackCount()
+
+                if self.nCharges == self.nMaxCharges then
+                    self.bReplenish = true
+                    return false
+                end
+
+                self:SetStackCount(self.nMaxCharges)
+
+                return 0.01
+              end
+            )
+        end
+
+        if self.nCharges < self.nMaxCharges and self.nCharges ~= 0 then
+            --self:IncrementStackCount()
         end
 
     end
