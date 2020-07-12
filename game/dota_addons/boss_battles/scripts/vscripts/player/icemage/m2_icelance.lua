@@ -118,7 +118,7 @@ function m2_icelance:OnSpellStart()
 
                     -- applys base dmg icelance regardles of stacks
                     ApplyDamage(dmgTable)
-                    EmitSoundOn("hero_Crystal.projectileImpact", self.caster)
+                    EmitSoundOnLocationWithCaster(unit:GetAbsOrigin(), "hero_Crystal.projectileImpact", self.caster)
 
                 end,
                 OnFinish = function(_self, pos)

@@ -22,7 +22,7 @@ end
 -- debuff effect on npc
 -- these probably need to be like... stack count above the hero and... 'mob starts getting incased in ice?'
 function r_frostbomb_modifier:GetEffectName()
-	return
+	return "particles/items4_fx/nullifier_mute_debuff.vpcf"--"particles/units/heroes/hero_arc_warden/arc_warden_flux_tgt.vpcf"
 end
 
 function r_frostbomb_modifier:GetStatusEffectName()

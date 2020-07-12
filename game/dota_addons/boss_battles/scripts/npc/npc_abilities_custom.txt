@@ -14,6 +14,9 @@
 //ice mage
 #base "players/icemage/abilities.txt"
 
+//ranger
+#base "players/ranger/abilities.txt"
+
 
 "DOTAAbilities"
 {

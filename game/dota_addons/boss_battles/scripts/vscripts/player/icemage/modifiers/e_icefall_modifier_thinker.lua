@@ -102,7 +102,7 @@ function e_icefall_modifier_thinker:PlayEffects()
 
             -- Play sound 1
             self.sound_cast_1 = "hero_Crystal.freezingField.wind"
-            EmitSoundOn( self.sound_cast_1, self.parent )
+            EmitSoundOnLocationWithCaster(self.parent:GetAbsOrigin(), self.sound_cast_1, self.caster)
             self.bSpawn = false
         end
 
@@ -130,7 +130,7 @@ function e_icefall_modifier_thinker:PlayEffects()
 
         -- play sound for effect 2
         self.sound_cast_2 = "hero_Crystal.freezingField.explosion"
-        EmitSoundOn( self.sound_cast_2, self.parent )
+        EmitSoundOnLocationWithCaster(self.parent:GetAbsOrigin(), self.sound_cast_2, self.caster)
 	end
 end
 ---------------------------------------------------------------------------
