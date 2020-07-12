@@ -34,4 +34,35 @@
 			"08"{ "var_type"			"FIELD_INTEGER"		"addtional_dmg_1_2_serrated_debuff"	"4" }
 		}
 	}
+
+	"m2_serratedarrow"
+	{
+		"BaseClass"						"ability_lua"
+		"ScriptFile"					"player/ranger/m2_serratedarrow"
+		"MaxLevel"						"1"
+
+		"AbilityTextureName"			"lich_chain_frost"
+		"AbilityUnitTargetTeam"			"DOTA_UNIT_TARGET_TEAM_ENEMY"
+		"AbilityUnitDamageType"			"DAMAGE_TYPE_PHYSICAL"	
+		"SpellImmunityType"				"SPELL_IMMUNITY_ENEMIES_YES"
+        "AbilityBehavior"				"DOTA_ABILITY_BEHAVIOR_POINT"
+		"AbilityCastRange" 				"1500"
+        "AbilityCooldown"				"0.0"
+        "AbilityCastPoint"              "1.5"
+
+
+		"TargetingIndicator"
+		{
+			"Type"						"TARGETING_INDICATOR_LINE"
+			"Fixed"						"1"
+		}
+        
+		"AbilitySpecial"
+		{
+			"01"{ "var_type"			"FIELD_INTEGER"		"dmg"							"200" 	}
+			"02"{ "var_type"			"FIELD_INTEGER"		"hit_box"						"80" 	}
+			"03"{ "var_type"			"FIELD_INTEGER"		"proj_speed"					"1400" 	}
+			"04"{ "var_type"			"FIELD_INTEGER"		"mana_gain_percent"             "30" 	}
+		}
+	}
 }
