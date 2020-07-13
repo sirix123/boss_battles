@@ -1,25 +1,6 @@
 gyrocopter = class({})
 
---Modifier examples:
 LinkLuaModifier( "flak_cannon_modifier", "bosses/gyrocopter/flak_cannon_modifier", LUA_MODIFIER_MOTION_NONE )
-
-
-	--Set modifier stacks:
-	--bearWithBloodlust:SetModifierStackCount("bear_bloodlust_modifier", bearWithBloodlust, 0)
-
-	--Has modifier: HasModifier("bear_bloodlust_modifier")
-
-	--Add new modifier:
-	-- self:GetCaster():AddNewModifier(
-	-- self:GetCaster(), -- player source
-	-- self, -- ability source
-	-- "chain_modifier", -- modifier name
-	-- {
-	-- 	point_x = self.point.x,
-	-- 	point_y = self.point.y,
-	-- 	point_z = self.point.z,
-	-- 	effect = ExtraData.effect,
-	-- })
 
 
 --Global used in; gyrocopter.lua, homing_missile.lua, ...
@@ -27,31 +8,35 @@ _G.ScannedEnemyLocations = {}
 
 
 local currentPhase = 1
+
 local COOLDOWN_RADARSCAN = 100
 local COOLDOWN_FLAKCANNON = 10
+local CAST_CALLDOWN = false
+
 local swooping = false
 local swoopDuration = 0
 
 local isHpBelow50Percent = false
 local isHpBelow10Percent = false
 
+--DOTA_UNIT_CAP_NO_ATTACK = 0
+--DOTA_UNIT_CAP_RANGED_ATTACK = 2
 
 --Gyro locoations
---gyroHideLocation1
---gyroHideLocation2
-
+local gyroHideLocation1 = Vector(11697,12272,640)
+local gyroHideLocation2 = Vector(15823,12264,640)
 
 function Spawn( entityKeyValues )
 	print("Gyrocopter Spawned!")
 	thisEntity.homing_missile = thisEntity:FindAbilityByName( "homing_missile" )
 	thisEntity.flak_cannon = thisEntity:FindAbilityByName( "flak_cannon" )
 	thisEntity.rocket_barrage = thisEntity:FindAbilityByName( "rocket_barrage" )
+	thisEntity.call_down = thisEntity:FindAbilityByName( "call_down" )
 	--TODO: if any of these are nil, we got a problem
 
 	thisEntity:SetContextThink( "MainThinker", MainThinker, 1 )
 end
 
-local COOLDOWN_RADARSCAN = 10
 local tickCount = 0
 
 function MainThinker()
@@ -70,18 +55,23 @@ function MainThinker()
 		return
 	end
 
+	--CALL DOWN:
+	if CAST_CALLDOWN then
+		CallDownOnEnemies()
+		CAST_CALLDOWN = false
+	end
 
 	--check current HP to trigger events
-	local healthPercent = (thisEntity:GetMaxHealth() / thisEntity:GetHealth()) * 100
-	print("healthPercent = ", healthPercent)
+	local healthPercent = (thisEntity:GetHealth() / thisEntity:GetMaxHealth()) * 100
+	
 	--Trigger event at 50% hp
-	if not isHpBelow50Percent && healthPercent < 50 then 
+	if not isHpBelow50Percent and healthPercent < 80 then 
 		isHpBelow50Percent = true
 		--TODO: trigger event
 		HalfHealthPhase()
 	end
 	--Trigger event at 10% hp
-	if not isHpBelow10Percent && healthPercent < 10 then 
+	if not isHpBelow10Percent and healthPercent < 10 then 
 		isHpBelow10Percent = true
 		--TODO: trigger event
 		NearlyDeadPhase()
@@ -97,8 +87,7 @@ function MainThinker()
 
 	-- FLAK CANNON,
 	if tickCount % COOLDOWN_FLAKCANNON == 0 then --cast repeatedly
-		print("FLAK CANNON!")
-		ApplyFlakCannonModifier()
+		--ApplyFlakCannonModifier()
 	end
 	
 	--SWOOP:
@@ -120,27 +109,67 @@ function MainThinker()
 		swooping = true
 
 		--TODO: Ideally he doesn't move exactly onto the target, but moves toward them and stops just short
-		thisEntity:MoveToPosition(targetLocation)
+		--thisEntity:MoveToPosition(targetLocation)
 
 	end
 
 	return 1 
 end
 
---TODO: At half HP:
--- Fly gyro to fixed location
--- Initiate calldown ulti
--- Change costume/armor
--- Upgrade ability levels
+
+-- Fly gyro to location, once there set flag CAST_CALLDOWN to trigger cast down
 function HalfHealthPhase()
- 	print("HalfHealthPhase()")
+ 	--TODO: move to gyroHideLocation1
+ 	thisEntity:SetAttackCapability(0) --set to DOTA_UNIT_CAP_NO_ATTACK.
+ 	thisEntity:SetBaseMoveSpeed(900)
+ 	thisEntity:MoveToPosition(gyroHideLocation1)
+
+    --A timer to trigger any actions for when gyro arrives at his destination
+	Timers:CreateTimer(function()	
+		local currentPos = thisEntity:GetAbsOrigin()
+		local destination = gyroHideLocation1
+		local distance = (gyroHideLocation1 - currentPos):Length2D()
+
+		if distance < 100 then
+			thisEntity:SetAttackCapability(2)	
+			thisEntity:SetBaseMoveSpeed(0)
+			CAST_CALLDOWN = true
+			return
+		end
+		return 0.5
+	end) --end timer
 end
+
 
 function NearlyDeadPhase()
-	print("NearlyDeadPhase()")
+	thisEntity:SetAttackCapability(0) --set to DOTA_UNIT_CAP_NO_ATTACK.
+	thisEntity:SetBaseMoveSpeed(900)
+	thisEntity:MoveToPosition(gyroHideLocation2)
+
+    --A timer to trigger any actions for when gyro arrives at his destination
+	Timers:CreateTimer(function()	
+		local currentPos = thisEntity:GetAbsOrigin()
+		local destination = gyroHideLocation2
+		local distance = (gyroHideLocation2 - currentPos):Length2D()
+
+		print("Flying to gyroHideLocation2. Distance = ", distance)
+		if distance < 100 then
+			thisEntity:SetAttackCapability(2)	
+			thisEntity:SetBaseMoveSpeed(0)
+			return
+		end
+		return 0.5
+	end) --end timer
 end
 
 
+-------------------------------------------------------------------------------
+--ANIMATIONS:
+
+function MissileTargetIndicator(location)
+
+
+end
 
 
 -------------------------------------------------------------------------------
@@ -230,8 +259,6 @@ function RadarSweep()
 	end) --end timer
 end
 
-
-
 enemiesPulsed = {}
 --Scan for CallDown targets
 --Basically a growing circle, highlight players that get detected
@@ -287,7 +314,7 @@ function RadarPulse()
 						_G.PulsedEnemyLocations[#_G.PulsedEnemyLocations +1] = scannedEnemy	
 					end
 					
-					--Do a call down at this location
+					--Do a call down at this location?
 					
 				end
 		end
@@ -297,10 +324,95 @@ function RadarPulse()
 
 end
 
-
 -------------------------------------------------------------------------------
--- Call Down Abilities
+-- Call Down Ability animations
 -- Will be several different versions of how the call down targets are decided.
+
+
+-------------------------------------------------------------
+-- Below code is for the pre-dmg indicator
+	--Different types of indicators:
+		-- Flash a fixed radius red circle, blinking lights fixed speed
+		-- Flash a fixed radius red circle, blinking lights at increasing speed 
+		-- Grow a circle from small radius to full radius over indicator_duration
+		-- Show radius at increasing color intensity, increase/reduce opacity over duration
+
+--------------
+	-- Flash a fixed radius red circle, blinking lights fixed speed
+	--vars needed: indicator duration, tick_interval, tick count, total_ticks, modulus_amount
+	-- local current_tick = 0
+	-- local total_flashes = 20
+	-- local modulus_amount = total_ticks / total_flashes 
+	-- Timers:CreateTimer(function()	
+	-- 	current_tick = current_tick +1
+	-- 	if current_tick >= total_ticks then
+	-- 		return	--stop the timer 
+	-- 	end
+
+	-- 	if current_tick % modulus_amount == 0 then
+	-- 		DebugDrawCircle(location, Vector(255,0,0), 128, radius, true, tick_interval)		
+	-- 	end
+		
+	-- return tick_interval
+	-- end)
+
+--------------
+	-- Flash a fixed radius red circle, blinking lights at increasing speed 
+	-- local current_tick = 0
+	-- local modulus_amount = total_ticks / 5
+	-- Timers:CreateTimer(function()	
+	-- 	current_tick = current_tick +1
+	-- 	if current_tick >= total_ticks then
+	-- 		return	--stop the timer 
+	-- 	end
+
+	-- 	if current_tick % modulus_amount == 0 then
+	-- 		DebugDrawCircle(location, Vector(255,0,0), 128, radius, true, tick_interval *2)		
+	-- 		modulus_amount = modulus_amount - 1
+	-- 	end
+		
+	-- return tick_interval
+	-- end)
+
+--------------
+	-- Grow a circle from small radius to full radius over indicator_duration
+	-- local start_radius = 20
+	-- local end_radius = radius --or less...
+	-- local current_radius = start_radius
+	-- local growth_amount = end_radius / total_ticks
+	-- --local growth_amount = (end_radius / total_ticks) - start_radius
+	-- Timers:CreateTimer(function()	
+	-- 	current_tick = current_tick +1
+	-- 	current_radius = current_radius + growth_amount
+
+	-- 	if current_tick >= total_ticks then
+	-- 		return	--stop the timer 
+	-- 	end
+
+	-- 	DebugDrawCircle(location, Vector(255,0,0), 128, current_radius, true, tick_interval)		
+		
+	-- return tick_interval
+	-- end)
+
+--------------
+	-- Show radius at increasing color intensity, increase/reduce opacity over duration
+	-- local current_alpha = 0
+	-- local growth_amount = 256 / total_ticks
+	-- Timers:CreateTimer(function()	
+	-- 	current_tick = current_tick +1
+	-- 	current_alpha = current_alpha + growth_amount
+
+	-- 	if current_tick >= total_ticks then
+	-- 		return	--stop the timer 
+	-- 	end
+
+	-- 	DebugDrawCircle(location, Vector(255,0,0), current_alpha, current_radius, true, tick_interval)		
+		
+	-- return tick_interval
+	-- end)
+
+
+
 
 function CallDownPattern()
 
@@ -309,8 +421,93 @@ end
 
 
 function CallDownOnEnemies()
-	--TODO: Get all enemies in the arena.
-	--Do a calldown on each one
+	--Particles to try:
+	local particle1 = "particles/units/heroes/hero_gyrocopter/gyro_calldown_explosion_sparks.vpcf"
+	local particle2 = "particles/units/heroes/hero_gyrocopter/gyro_calldown_explosion.vpcf"
+	local particle3 = "particles/units/heroes/hero_gyrocopter/gyro_calldown_explosion_flash_c.vpcf"
+	local particle4 = "particles/econ/items/gyrocopter/hero_gyrocopter_gyrotechnics/gyro_calldown_explosion_second.vpcf"
+	local particle5 = "particles/econ/items/gyrocopter/hero_gyrocopter_gyrotechnics/gyro_calldown_explosion_flash_g.vpcf"
+
+	--Get enemies: either enemies in area or through some other scan..
+	-- find all players in the entire map
+	local enemies = FindUnitsInRadius( DOTA_TEAM_BADGUYS, thisEntity:GetOrigin(), nil, FIND_UNITS_EVERYWHERE , DOTA_UNIT_TARGET_TEAM_ENEMY, DOTA_UNIT_TARGET_ALL, DOTA_UNIT_TARGET_FLAG_NONE, FIND_ANY_ORDER, false )
+
+
+	-- TESTING PARTICLES:
+ 	if #enemies > 0 then
+ 		print("thisEntity = ", thisEntity:GetAbsOrigin())
+ 		print("enemies[1] = ", enemies[1]:GetAbsOrigin())
+
+		local p1Index1 = ParticleManager:CreateParticle(particle4, PATTACH_CUSTOMORIGIN, thisEntity)
+		ParticleManager:SetParticleControl(p1Index1, 0, enemies[1]:GetAbsOrigin())
+		ParticleManager:ReleaseParticleIndex( p1Index1 )
+
+		local p1Index2 = ParticleManager:CreateParticle(particle4, PATTACH_ABSORIGIN, thisEntity)
+		 ParticleManager:SetParticleControl(p1Index2, 0, enemies[1]:GetAbsOrigin())
+		 ParticleManager:ReleaseParticleIndex( p1Index2 )
+
+
+		local p1Index3 = ParticleManager:CreateParticle(particle5, PATTACH_ABSORIGIN, enemies[1])
+		 ParticleManager:SetParticleControl(p1Index3, 0, enemies[1]:GetAbsOrigin())
+		 ParticleManager:ReleaseParticleIndex( p1Index3 )
+		--local p1Index3 = ParticleManager:CreateParticle(particle1, PATTACH_ABSORIGIN_FOLLOW, enemies[0])
+		--local p1Index4 = ParticleManager:CreateParticle(particle1, PATTACH_WORLDORIGIN, thisEntity)
+		--ParticleManager:SetParticleControlEnt( nCasterFX, 1, hTarget, PATTACH_ABSORIGIN_FOLLOW, nil, hTarget:GetOrigin(), false )
+	end
+	-- END TEST
+
+	if #enemies > 0 then
+		--Loop over enemies and cast calldown on each one
+		for _,enemy in pairs(enemies) do
+			-- DEBUG			
+			--DebugDrawCircle(enemy:GetAbsOrigin(), Vector(255,0,0), 128, 250, true, 3) -- red = enemy:GetAbsOrigin() 		
+
+			-- Cast call_down.lua ability
+			-- NOTE: Couldn't get the position/target location within call_down.lua 
+			-- thisEntity:SetCursorPosition(enemy:GetAbsOrigin())
+			-- ExecuteOrderFromTable({
+			-- 	UnitIndex = thisEntity:GetEntityIndex(),
+			-- 	OrderType = DOTA_UNIT_ORDER_CAST_POSITION,
+			-- 	AbilityIndex = thisEntity:FindAbilityByName( "call_down" ):entindex(),
+			-- 	Position = shallowcopy(enemy:GetAbsOrigin()),
+			-- })
+
+			local indicator_duration = 3
+			local tick_interval = 0.1
+			local total_ticks = indicator_duration / tick_interval
+			local current_tick = 0
+
+			local radius = 600
+			local current_alpha = 0
+			local growth_amount = 5
+			print("growth_amount =", growth_amount)
+
+
+			--Call down ability: 
+			--Start a timer, while counting up display indicator animation. After indicator_duration seconds, apply particle effects, dmg enemies in radius
+
+			Timers:CreateTimer(function()	
+
+			current_tick = current_tick +1
+			current_alpha = current_alpha + growth_amount
+
+			-- TODO: call down effect, particles effects and dmg to enemies in radius
+			if current_tick >= total_ticks then
+				DebugDrawCircle(enemy:GetAbsOrigin(), Vector(255,0,0), current_alpha, radius, true, tick_interval * 4) --remove this once particles are in
+				--TODO: Particle effects here
+				--TODO: Dmg enemie
+				return	--stop the timer 
+			end
+			-- Display indicator warning players spell is coming
+			if current_tick <= total_ticks then
+				DebugDrawCircle(enemy:GetAbsOrigin(), Vector(255,0,0), current_alpha, radius, true, tick_interval)	
+			end
+
+		return tick_interval
+		end)
+		end
+
+	end
 
 end
 

@@ -164,7 +164,7 @@
 
         // General
         //-------------------------------------------------------------------------------------------------------------
-        "AbilityBehavior"               "DOTA_ABILITY_BEHAVIOR_POINT | DOTA_ABILITY_BEHAVIOR_AOE | DOTA_ABILITY_BEHAVIOR_IGNORE_BACKSWING"
+        "AbilityBehavior"               "DOTA_ABILITY_BEHAVIOR_POINT | DOTA_ABILITY_BEHAVIOR_AOE | DOTA_ABILITY_BEHAVIOR_IMMEDIATE"
         "AbilityUnitDamageType"         "DAMAGE_TYPE_PHYSICAL"  
  
         "precache"
@@ -173,7 +173,6 @@
 
         // Casting
         //-------------------------------------------------------------------------------------------------------------
-        //"AbilityCastPoint"              "0.1 0.1 0.1 0.1"
         "AbilityCastPoint"               "0 0 0 0"
 
         // Time     
@@ -201,7 +200,15 @@
         }
     }
 
-
+        "precache"
+        {
+            "particle"      "particles/units/heroes/hero_gyrocopter/gyro_guided_missile_death.vpcf"
+            "particle"      "particles/units/heroes/hero_gyrocopter/gyro_calldown_explosion_sparks.vpcf"
+            "particle"      "particles/units/heroes/hero_gyrocopter/gyro_calldown_explosion.vpcf"
+            "particle"      "particles/units/heroes/hero_gyrocopter/gyro_calldown_explosion_flash_c.vpcf"
+            "particle"      "particles/econ/items/gyrocopter/hero_gyrocopter_gyrotechnics/gyro_calldown_explosion_second.vpcf"
+            "particle"      "particles/econ/items/gyrocopter/hero_gyrocopter_gyrotechnics/gyro_calldown_explosion_flash_g.vpcf"
+        }
 
 }
 
