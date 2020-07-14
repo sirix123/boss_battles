@@ -208,7 +208,14 @@
             "particle"      "particles/units/heroes/hero_gyrocopter/gyro_calldown_explosion_flash_c.vpcf"
             "particle"      "particles/econ/items/gyrocopter/hero_gyrocopter_gyrotechnics/gyro_calldown_explosion_second.vpcf"
             "particle"      "particles/econ/items/gyrocopter/hero_gyrocopter_gyrotechnics/gyro_calldown_explosion_flash_g.vpcf"
+            "particle"      "particles/units/heroes/hero_gyrocopter/gyro_calldown_marker.vpcf"
+
+            "particle"      "particles/units/heroes/hero_gyrocopter/gyro_calldown_first.vpcf"
+            "particle"      "particles/units/heroes/hero_gyrocopter/gyro_calldown_second.vpcf"
+            
+
         }
 
 }
+
 
