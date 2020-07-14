@@ -38,9 +38,9 @@ end
 function GameMode:SpawnBoss(tBoss, tLocation)
     --print("GameMode: SpawnBoss")
     --local vEntityLocation = ""
-    
+
     --CreateUnitByName("npc_gyrocopter", "captainspawn", true, nil, nil, DOTA_TEAM_BADGUYS)
-    CreateUnitByName("npc_gyrocopter",  Vector(14007,14445,0), true, nil, nil, DOTA_TEAM_BADGUYS)
+    --CreateUnitByName("npc_gyrocopter",  Vector(14007,14445,0), true, nil, nil, DOTA_TEAM_BADGUYS)
 
     for _, boss in pairs(tBoss) do
         for _, location in pairs(tLocation) do

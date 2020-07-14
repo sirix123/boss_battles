@@ -93,13 +93,18 @@
         
 		"AbilitySpecial"
 		{
-			"01"{ "var_type"			"FIELD_INTEGER"		"duration"						"5" 	}	
+			"01"{ "var_type"			"FIELD_INTEGER"		"duration"		"20" 	}
+			"01"{ "var_type"			"FIELD_INTEGER"		"bounce_range"	"3000" 	}	
+			"01"{ "var_type"			"FIELD_INTEGER"		"speed"			"900" 	}	
+			"01"{ "var_type"			"FIELD_INTEGER"		"max_bounces"	"10" 	}		
 		}
 
 		"precache"
 		{
 			"soundfile"	"soundevents/game_sounds_heroes/game_sounds_medusa.vsndevts"
 			"particle"	"particles/units/heroes/hero_medusa/medusa_mystic_snake_cast.vpcf"
+			"particle"	"particles/ranger/q_herbaroow_medusa_mystic_snake_impact.vpcf"
+			"particle"	"particles/units/heroes/hero_medusa/medusa_mystic_snake_projectile.vpcf"
 		}
 	}
 }

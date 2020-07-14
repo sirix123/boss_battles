@@ -41,15 +41,15 @@ function q_herbarrow:OnSpellStart()
         self.caster = self:GetCaster()
         self.duration = self:GetSpecialValueFor( "duration" )
 		self.target = self:GetCursorTarget()
-        self.bounce_range = 3000
-        self.speed = 800
-        self.max_bounces = 5
+        self.bounce_range = self:GetSpecialValueFor( "bounce_range" )
+        self.speed = self:GetSpecialValueFor( "speed" )
+        self.max_bounces = self:GetSpecialValueFor( "max_bounces" )
 		self.nbounceCount = 0
 		self.hitEnts ={}
 
         -- create projectile
         local info = {
-            EffectName = "particles/units/heroes/hero_medusa/medusa_mystic_snake_projectile_initial.vpcf",
+            EffectName = "particles/units/heroes/hero_medusa/medusa_mystic_snake_projectile.vpcf",
             Ability = self,
             iMoveSpeed = self.speed,
             Source = self:GetCaster(),
@@ -80,10 +80,21 @@ end
 function q_herbarrow:OnProjectileHit( hTarget, vLocation)
 	if IsServer() then
 
+		local impact_particle = "particles/ranger/q_herbaroow_medusa_mystic_snake_impact.vpcf"
+		local particle_friendly = ParticleManager:CreateParticle(impact_particle, PATTACH_ABSORIGIN_FOLLOW, hTarget)
+		ParticleManager:SetParticleControl(particle_friendly, 0, hTarget:GetAbsOrigin())
+		ParticleManager:SetParticleControl(particle_friendly, 1, hTarget:GetAbsOrigin())
+
+		hTarget:EmitSound("Hero_Medusa.MysticSnake.Target")
+
+		-- add modifier to target with a shorter duration if last-ish bounces
+		self.duration = self.duration - (self.nbounceCount * 1.5)
+		hTarget:AddNewModifier(self.caster, self, "q_herbarrow_modifier", { duration = self.duration })
+
 		-- if we have bounces
 		if self.nbounceCount < self.max_bounces then
 			local target_team = self:GetAbilityTargetTeam()
-			local target_type = self:GetAbilityTargetType() 
+			local target_type = self:GetAbilityTargetType()
 			local target_flags = DOTA_UNIT_TARGET_FLAG_MAGIC_IMMUNE_ENEMIES
 			local bounce_targets = FindUnitsInRadius(self.caster:GetTeam(), hTarget:GetAbsOrigin(), nil, self.bounce_range, target_team, target_type, target_flags, FIND_CLOSEST, false) 
 			local hit_helper
@@ -105,7 +116,7 @@ function q_herbarrow:OnProjectileHit( hTarget, vLocation)
 					if not hit_check then
 						local projectile_info =
 						{
-							EffectName = "particles/units/heroes/hero_medusa/medusa_mystic_snake_projectile_initial.vpcf",
+							EffectName = "particles/units/heroes/hero_medusa/medusa_mystic_snake_projectile.vpcf",
 							Ability = self,
 							vSpawnOrigin = hTarget:GetAbsOrigin(),
 							Target = v,
@@ -116,7 +127,6 @@ function q_herbarrow:OnProjectileHit( hTarget, vLocation)
 							bProvidesVision = true,
 							iVisionRadius = 300,
 							iVisionTeamNumber = self:GetCaster():GetTeamNumber()
-							
 						}
 
 						ProjectileManager:CreateTrackingProjectile(projectile_info)
