@@ -22,7 +22,7 @@ end
 -- debuff effect on npc
 -- these probably need to be like... stack count above the hero and... 'mob starts getting incased in ice?'
 function q_herbarrow_modifier:GetEffectName()
-	return "particles/items4_fx/nullifier_mute_debuff.vpcf"
+	return "particles/items2_fx/tranquil_boots_healing_core.vpcf"
 end
 
 function q_herbarrow_modifier:GetStatusEffectName()
@@ -36,45 +36,34 @@ function q_herbarrow_modifier:OnCreated( kv )
         self.caster = self:GetCaster()
 
         -- reference from kv
-        self.damage_type = self:GetAbility():GetAbilityDamageType()
+        self.heal_amount = self:GetAbility():GetSpecialValueFor( "heal_amount")
+        self.tick_rate = self:GetAbility():GetSpecialValueFor( "tick_rate")
 
         -- damge loop start
-        self.stopDamageLoop = false
-
-        -- dmg interval
-        self.damage_interval = 1
+        self.stopHealLoop = false
 
         -- sound
-        --self:GetParent():EmitSound("Hero_Ancient_Apparition.ColdFeetCast")
+        --local sound_cast = "Hero_Enchantress.NaturesAttendantsCast"
+        --EmitSoundOn( sound_cast, self.parent )
 
         -- start damage timer
-        --self:StartApplyDamageLoop()
+        self:StartApplyHealLoop()
 
     end
 end
 ----------------------------------------------------------------------------
 
-function q_herbarrow_modifier:StartApplyDamageLoop()
+function q_herbarrow_modifier:StartApplyHealLoop()
     if IsServer() then
 
-        Timers:CreateTimer(self.damage_interval, function()
-            if self.stopDamageLoop == true then
+        Timers:CreateTimer(self.tick_rate, function()
+            if self.stopHealLoop == true then
                 return false
             end
 
-            -- dmg calcuation
-            self.dmg = 10
+            self.parent:Heal(self.heal_amount, self.caster)
 
-            self.dmgTable = {
-                victim = self.parent,
-                attacker = self.caster,
-                damage = self.dmg,
-                damage_type = self.damage_type,
-            }
-
-            ApplyDamage(self.dmgTable)
-
-            return self.damage_interval
+            return self.tick_rate
         end)
 
     end
@@ -91,7 +80,7 @@ end
 function q_herbarrow_modifier:OnDestroy()
     if IsServer() then
         -- stop timer
-        self.stopDamageLoop = true
+        self.stopHealLoop = true
     end
 end
 ----------------------------------------------------------------------------
