@@ -65,7 +65,7 @@ function MainThinker()
 	local healthPercent = (thisEntity:GetHealth() / thisEntity:GetMaxHealth()) * 100
 	
 	--Trigger event at 50% hp
-	if not isHpBelow50Percent and healthPercent < 80 then 
+	if not isHpBelow50Percent and healthPercent < 90 then 
 		isHpBelow50Percent = true
 		--TODO: trigger event
 		HalfHealthPhase()
@@ -324,98 +324,17 @@ function RadarPulse()
 
 end
 
--------------------------------------------------------------------------------
--- Call Down Ability animations
--- Will be several different versions of how the call down targets are decided.
-
-
--------------------------------------------------------------
--- Below code is for the pre-dmg indicator
-	--Different types of indicators:
-		-- Flash a fixed radius red circle, blinking lights fixed speed
-		-- Flash a fixed radius red circle, blinking lights at increasing speed 
-		-- Grow a circle from small radius to full radius over indicator_duration
-		-- Show radius at increasing color intensity, increase/reduce opacity over duration
-
---------------
-	-- Flash a fixed radius red circle, blinking lights fixed speed
-	--vars needed: indicator duration, tick_interval, tick count, total_ticks, modulus_amount
-	-- local current_tick = 0
-	-- local total_flashes = 20
-	-- local modulus_amount = total_ticks / total_flashes 
-	-- Timers:CreateTimer(function()	
-	-- 	current_tick = current_tick +1
-	-- 	if current_tick >= total_ticks then
-	-- 		return	--stop the timer 
-	-- 	end
-
-	-- 	if current_tick % modulus_amount == 0 then
-	-- 		DebugDrawCircle(location, Vector(255,0,0), 128, radius, true, tick_interval)		
-	-- 	end
-		
-	-- return tick_interval
-	-- end)
-
---------------
-	-- Flash a fixed radius red circle, blinking lights at increasing speed 
-	-- local current_tick = 0
-	-- local modulus_amount = total_ticks / 5
-	-- Timers:CreateTimer(function()	
-	-- 	current_tick = current_tick +1
-	-- 	if current_tick >= total_ticks then
-	-- 		return	--stop the timer 
-	-- 	end
-
-	-- 	if current_tick % modulus_amount == 0 then
-	-- 		DebugDrawCircle(location, Vector(255,0,0), 128, radius, true, tick_interval *2)		
-	-- 		modulus_amount = modulus_amount - 1
-	-- 	end
-		
-	-- return tick_interval
-	-- end)
-
---------------
-	-- Grow a circle from small radius to full radius over indicator_duration
-	-- local start_radius = 20
-	-- local end_radius = radius --or less...
-	-- local current_radius = start_radius
-	-- local growth_amount = end_radius / total_ticks
-	-- --local growth_amount = (end_radius / total_ticks) - start_radius
-	-- Timers:CreateTimer(function()	
-	-- 	current_tick = current_tick +1
-	-- 	current_radius = current_radius + growth_amount
-
-	-- 	if current_tick >= total_ticks then
-	-- 		return	--stop the timer 
-	-- 	end
-
-	-- 	DebugDrawCircle(location, Vector(255,0,0), 128, current_radius, true, tick_interval)		
-		
-	-- return tick_interval
-	-- end)
-
---------------
-	-- Show radius at increasing color intensity, increase/reduce opacity over duration
-	-- local current_alpha = 0
-	-- local growth_amount = 256 / total_ticks
-	-- Timers:CreateTimer(function()	
-	-- 	current_tick = current_tick +1
-	-- 	current_alpha = current_alpha + growth_amount
-
-	-- 	if current_tick >= total_ticks then
-	-- 		return	--stop the timer 
-	-- 	end
-
-	-- 	DebugDrawCircle(location, Vector(255,0,0), current_alpha, current_radius, true, tick_interval)		
-		
-	-- return tick_interval
-	-- end)
 
 
 
-
+--TODO: implement a call down spell which targets fixed locations on the ground
+-- I want 2 rows of call downs, each row roughly taking a third of the arena, forcing players into the remaining third.
+	-- gyro will then fly along this open path with FLAK CANNON
+-- 
 function CallDownPattern()
 
+	-- Fixed locations or I calculate them on the fly?
+	--I kinda just need 4 corner coordinates and I can calc from there..
 
 end
 
@@ -433,7 +352,7 @@ function CallDownOnEnemies()
 	local enemies = FindUnitsInRadius( DOTA_TEAM_BADGUYS, thisEntity:GetOrigin(), nil, FIND_UNITS_EVERYWHERE , DOTA_UNIT_TARGET_TEAM_ENEMY, DOTA_UNIT_TARGET_ALL, DOTA_UNIT_TARGET_FLAG_NONE, FIND_ANY_ORDER, false )
 
 
-	-- TESTING PARTICLES:
+	-- TESTING PARTICLES: NOT WORKING :(
  	if #enemies > 0 then
  		print("thisEntity = ", thisEntity:GetAbsOrigin())
  		print("enemies[1] = ", enemies[1]:GetAbsOrigin())
@@ -456,6 +375,7 @@ function CallDownOnEnemies()
 	end
 	-- END TEST
 
+	--CAST CALLDOWN ON EACH ENEMY 
 	if #enemies > 0 then
 		--Loop over enemies and cast calldown on each one
 		for _,enemy in pairs(enemies) do
@@ -472,6 +392,8 @@ function CallDownOnEnemies()
 			-- 	Position = shallowcopy(enemy:GetAbsOrigin()),
 			-- })
 
+
+
 			local indicator_duration = 3
 			local tick_interval = 0.1
 			local total_ticks = indicator_duration / tick_interval
@@ -479,32 +401,41 @@ function CallDownOnEnemies()
 
 			local radius = 600
 			local current_alpha = 0
-			local growth_amount = 5
-			print("growth_amount =", growth_amount)
-
+			local alpha_growth_amount = 2
+			local current_radius = 200
+			local radius_growth_amount = (radius - current_radius) / total_ticks
 
 			--Call down ability: 
 			--Start a timer, while counting up display indicator animation. After indicator_duration seconds, apply particle effects, dmg enemies in radius
-
 			Timers:CreateTimer(function()	
+				current_tick = current_tick +1
+				current_alpha = current_alpha + alpha_growth_amount
+				current_radius = current_radius + radius_growth_amount
 
-			current_tick = current_tick +1
-			current_alpha = current_alpha + growth_amount
+				-- TODO: call down particles effects and dmg to enemies in radius
+				if current_tick >= total_ticks then
+					--TODO: Particle effects here
+					DebugDrawCircle(enemy:GetAbsOrigin(), Vector(255,0,0), 255, radius, true, tick_interval * 4) --remove this once particles are in
 
-			-- TODO: call down effect, particles effects and dmg to enemies in radius
-			if current_tick >= total_ticks then
-				DebugDrawCircle(enemy:GetAbsOrigin(), Vector(255,0,0), current_alpha, radius, true, tick_interval * 4) --remove this once particles are in
-				--TODO: Particle effects here
-				--TODO: Dmg enemie
-				return	--stop the timer 
-			end
-			-- Display indicator warning players spell is coming
-			if current_tick <= total_ticks then
-				DebugDrawCircle(enemy:GetAbsOrigin(), Vector(255,0,0), current_alpha, radius, true, tick_interval)	
-			end
 
-		return tick_interval
-		end)
+					local damageInfo = 
+					{
+						victim = enemy, attacker = thisEntity,
+						damage = 5000, --TODO: calc this / get from somewhere
+						damage_type = 4, -- TODO: get this from ability file ... 4 = DAMAGE_TYPE_PURE 
+					}
+					local dmgDealt = ApplyDamage(damageInfo)
+					return	--stop the timer 
+				end
+				-- Display indicator warning players spell is coming
+				if current_tick <= total_ticks then
+					DebugDrawCircle(enemy:GetAbsOrigin(), Vector(255,0,0), current_alpha, current_radius, true, tick_interval)	
+					DebugDrawCircle(enemy:GetAbsOrigin(), Vector(255,0,0), 0, current_radius, true, tick_interval)	
+				end
+
+			return tick_interval
+			end)
+
 		end
 
 	end
