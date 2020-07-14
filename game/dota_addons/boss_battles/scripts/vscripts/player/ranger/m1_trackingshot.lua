@@ -62,8 +62,8 @@ function m1_trackingshot:OnSpellStart()
         vTargetPos = GameMode.mouse_positions[self.caster:GetPlayerID()]
         local projectile_direction = (Vector( vTargetPos.x - origin.x, vTargetPos.y - origin.y, 0 )):Normalized()
 
-        -- attack 3 no bleed debuff
-        local enEffect = "particles/ranger/m1_ranger_windrunner_base_attack.vpcf"
+        -- init effect
+        local enEffect = ""
 
         -- attack 3
         if nAtkCount == 3 then
@@ -74,7 +74,6 @@ function m1_trackingshot:OnSpellStart()
         else
             dmg = self:GetSpecialValueFor( "base_dmg_1_2" )
             enEffect = "particles/ranger/m1_ranger_windrunner_base_attack.vpcf"
-
         end
 
         local projectile = {
@@ -96,11 +95,11 @@ function m1_trackingshot:OnSpellStart()
 
                 if nAtkCount == 3 and unit:FindModifierByNameAndCaster("m2_serratedarrow_modifier", self.caster) == true then
                     dmg = dmg + self:GetSpecialValueFor( "addtional_dmg_3_serrated_debuff" )
+                    -- play effect on target
+                    -- effect
                 elseif nAtkCount < 3 and unit:FindModifierByNameAndCaster("m2_serratedarrow_modifier", self.caster) == true then
                     dmg = dmg + self:GetSpecialValueFor( "addtional_dmg_1_2_serrated_debuff" )
                 end
-
-                --print("dmg = ",dmg)
 
                 local dmgTable = {
                     victim = unit,
@@ -112,10 +111,9 @@ function m1_trackingshot:OnSpellStart()
                 -- give mana
                 self.caster:ManaOnHit(self:GetSpecialValueFor( "mana_gain_percent"))
 
-                -- lower cd of m2 serrated arrow
-                --self.caster:AddNewModifier(self.caster, self, "shatter_modifier", { duration = self:GetSpecialValueFor( "shatter_duration"), max_shatter_stacks = self:GetSpecialValueFor( "max_shatter_stacks") })
-
                 ApplyDamage(dmgTable)
+
+                -- play sound
                 EmitSoundOnLocationWithCaster(unit:GetAbsOrigin(), "hero_WindRunner.projectileImpact", self.caster)
 
             end,

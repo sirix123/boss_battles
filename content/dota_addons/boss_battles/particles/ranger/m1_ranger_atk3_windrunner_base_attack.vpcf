@@ -91,13 +91,13 @@
 			m_ChildRef = resource:"particles/units/heroes/hero_windrunner/windrunner_base_attack_explosion_flash.vpcf"
 		},
 		{
-			m_ChildRef = resource:"particles/units/heroes/hero_windrunner/windrunner_base_attack_trail_c.vpcf"
+			m_ChildRef = resource:"particles\\ranger\\m1_trail_windrunner_base_attack_trail_c.vpcf"
 		},
 		{
 			m_ChildRef = resource:"particles/units/heroes/hero_windrunner/windrunner_base_attack_release_magic.vpcf"
 		},
 		{
-			m_ChildRef = resource:"particles/dev/library/base_ranged_attack_trail.vpcf"
+			m_ChildRef = resource:"particles\\ranger\\m1_atk3_base_ranged_attack_trail.vpcf"
 		},
 	]
 	m_nBehaviorVersion = 5

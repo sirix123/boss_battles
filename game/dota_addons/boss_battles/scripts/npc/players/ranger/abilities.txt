@@ -11,7 +11,7 @@
 		"AbilityUnitDamageType"			"DAMAGE_TYPE_PHYSICAL"	
 		"SpellImmunityType"				"SPELL_IMMUNITY_ENEMIES_YES"
         "AbilityBehavior"				"DOTA_ABILITY_BEHAVIOR_POINT"
-		"AbilityCastRange" 				"900"
+		"AbilityCastRange" 				"1100"
         "AbilityCooldown"				"0.0"
         "AbilityCastPoint"              "0.2"
 
@@ -48,7 +48,7 @@
         "AbilityBehavior"				"DOTA_ABILITY_BEHAVIOR_POINT"
 		"AbilityCastRange" 				"1500"
         "AbilityCooldown"				"0.0"
-        "AbilityCastPoint"              "1.5"
+        "AbilityCastPoint"              "1.0"
 
 
 		"TargetingIndicator"
@@ -63,6 +63,43 @@
 			"02"{ "var_type"			"FIELD_INTEGER"		"hit_box"						"80" 	}
 			"03"{ "var_type"			"FIELD_INTEGER"		"proj_speed"					"1400" 	}
 			"04"{ "var_type"			"FIELD_INTEGER"		"mana_gain_percent"             "30" 	}
+			"05"{ "var_type"			"FIELD_INTEGER"		"serrated_arrow_duration"       "10" 	}
+			
+		}
+	}
+
+	"q_herbarrow"
+	{
+		"BaseClass"						"ability_lua"
+		"ScriptFile"					"player/ranger/q_herbarrow"
+		"MaxLevel"						"1"
+
+		"AbilityTextureName"			"lich_chain_frost"
+		"AbilityUnitTargetTeam"			"DOTA_UNIT_TARGET_TEAM_FRIENDLY"
+		"AbilityUnitTargetType"			"DOTA_UNIT_TARGET_HERO | DOTA_UNIT_TARGET_CREEP"
+		"AbilityUnitDamageType"			"DAMAGE_TYPE_PHYSICAL"	
+		"SpellImmunityType"				"SPELL_IMMUNITY_ENEMIES_YES"
+        "AbilityBehavior"				"DOTA_ABILITY_BEHAVIOR_UNIT_TARGET"
+		"AbilityCastRange" 				"1500"
+        "AbilityCooldown"				"0.0"
+        "AbilityCastPoint"              "0.2"
+
+
+		"TargetingIndicator"
+		{
+			//"Type"						"TARGETING_INDICATOR_LINE"
+			//"Fixed"						"1"
+		}
+        
+		"AbilitySpecial"
+		{
+			"01"{ "var_type"			"FIELD_INTEGER"		"duration"						"5" 	}	
+		}
+
+		"precache"
+		{
+			"soundfile"	"soundevents/game_sounds_heroes/game_sounds_medusa.vsndevts"
+			"particle"	"particles/units/heroes/hero_medusa/medusa_mystic_snake_cast.vpcf"
 		}
 	}
 }

@@ -1,0 +1,45 @@
+<!-- kv3 encoding:text:version{e21c7f3c-8a33-41c5-9977-a76d3a32aa0d} format:vpcf26:version{26288658-411e-4f14-b698-2e1e5d00dec6} -->
+{
+	_class = "CParticleSystemDefinition"
+	m_bShouldHitboxesFallbackToRenderBounds = false
+	m_nMaxParticles = 8
+	m_nConstantSequenceNumber = 2
+	m_Children = 
+	[
+		{
+			m_ChildRef = resource:"particles\\ranger\\m1_atk3_base_ranged_attack_trail_rope.vpcf"
+		},
+		{
+			m_ChildRef = resource:"particles\\ranger\\m1_attk3_base_ranged_attack_trail_magic.vpcf"
+		},
+		{
+			m_ChildRef = resource:"particles/dev/library/base_ranged_attack_trail_flek.vpcf"
+		},
+		{
+			m_ChildRef = resource:"particles\\ranger\\m1_akt3_base_ranged_attack_trail_glow.vpcf"
+		},
+	]
+	m_controlPointConfigurations = 
+	[
+		{
+			m_name = "preview"
+			m_drivers = 
+			[
+				{
+					m_iAttachType = "PATTACH_WORLDORIGIN"
+					m_vecOffset = [ 0.0, 0.0, 0.0 ]
+					m_angOffset = [ null, null, null ]
+					m_entityName = "self"
+				},
+				{
+					m_iControlPoint = 3
+					m_iAttachType = "PATTACH_WORLDORIGIN"
+					m_vecOffset = [ 0.0, 0.0, 0.0 ]
+					m_angOffset = [ null, null, null ]
+					m_entityName = "self"
+				},
+			]
+		},
+	]
+	m_nBehaviorVersion = 10
+}

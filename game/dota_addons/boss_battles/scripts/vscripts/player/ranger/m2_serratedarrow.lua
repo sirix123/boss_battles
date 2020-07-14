@@ -65,7 +65,7 @@ function m2_serratedarrow:OnSpellStart()
         local projectile_direction = (Vector( vTargetPos.x - origin.x, vTargetPos.y - origin.y, 0 )):Normalized()
 
         local projectile = {
-            EffectName = "particles/units/heroes/hero_windrunner/windrunner_spell_powershot.vpcf",--"particles/ranger/m1_ranger_atk3_windrunner_base_attack.vpcf",
+            EffectName = "particles/units/heroes/hero_windrunner/windrunner_spell_powershot.vpcf",
             vSpawnOrigin = origin + Vector(0, 0, 100),
             fDistance = self:GetCastRange(Vector(0,0,0), nil),
             fUniqueRadius = self:GetSpecialValueFor( "hit_box" ),
@@ -92,19 +92,24 @@ function m2_serratedarrow:OnSpellStart()
                 -- give mana
                 self.caster:ManaOnHit(self:GetSpecialValueFor( "mana_gain_percent"))
 
+                -- play hit sound
+                StartSoundEvent( "Hero_Windrunner.PowershotDamage", unit )
+
                 -- applys base dmg icelance regardles of stacks
                 ApplyDamage(dmgTable)
+
+                -- apply bleed/serrated arrow to target
+                unit:AddNewModifier(self.caster, self, "m2_serratedarrow_modifier", { duration = self:GetSpecialValueFor( "serrated_arrow_duration") })
 
             end,
             OnFinish = function(_self, pos)
                 -- add projectile explode particle effect here on the pos it finishes at
-                local particle_cast = "particles/units/heroes/hero_crystalmaiden/maiden_base_attack_explosion.vpcf"
+                local particle_cast = "particles/units/heroes/hero_windrunner/windrunner_base_attack_explosion_flash.vpcf"
                 local effect_cast = ParticleManager:CreateParticle(particle_cast, PATTACH_WORLDORIGIN, nil)
                 ParticleManager:SetParticleControl(effect_cast, 0, pos)
+                ParticleManager:SetParticleControl(effect_cast, 1, pos)
                 ParticleManager:SetParticleControl(effect_cast, 3, pos)
                 ParticleManager:ReleaseParticleIndex(effect_cast)
-
-                -- maybe add small ground aoe here as well if we decide icelance does a sml aoe for dmg
             end,
         }
 

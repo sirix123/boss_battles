@@ -66,22 +66,22 @@ function GameMode:SpawnBoss(tBoss, tLocation)
     end
 
     -- 3 minions
-    CreateUnitByName("npc_dota_creature_dummy_target_minion", Vector(13665,15213,0), true, nil, nil, DOTA_TEAM_BADGUYS)
-    CreateUnitByName("npc_dota_creature_dummy_target_minion", Vector(13665,15213,0), true, nil, nil, DOTA_TEAM_BADGUYS)
-    CreateUnitByName("npc_dota_creature_dummy_target_minion", Vector(13665,15213,0), true, nil, nil, DOTA_TEAM_BADGUYS)
+    CreateUnitByName("npc_dota_creature_dummy_target_minion", Vector(13665,15213,0), true, nil, nil, DOTA_TEAM_GOODGUYS)
+    CreateUnitByName("npc_dota_creature_dummy_target_minion", Vector(13665,15213,0), true, nil, nil, DOTA_TEAM_GOODGUYS)
+    CreateUnitByName("npc_dota_creature_dummy_target_minion", Vector(13665,15213,0), true, nil, nil, DOTA_TEAM_GOODGUYS)
 
     -- 1 min 1 boss
-    CreateUnitByName("npc_dota_creature_dummy_target_boss", Vector(14394,14884,0), true, nil, nil, DOTA_TEAM_BADGUYS)
-    CreateUnitByName("npc_dota_creature_dummy_target_minion", Vector(14394,14884,0), true, nil, nil, DOTA_TEAM_BADGUYS)
+    CreateUnitByName("npc_dota_creature_dummy_target_boss", Vector(14394,14884,0), true, nil, nil, DOTA_TEAM_GOODGUYS)
+    CreateUnitByName("npc_dota_creature_dummy_target_minion", Vector(14394,14884,0), true, nil, nil, DOTA_TEAM_GOODGUYS)
 
     -- 1 boss
-    CreateUnitByName("npc_dota_creature_dummy_target_boss", Vector(13411,14682,0), true, nil, nil, DOTA_TEAM_BADGUYS)
+    CreateUnitByName("npc_dota_creature_dummy_target_boss", Vector(13411,14682,0), true, nil, nil, DOTA_TEAM_GOODGUYS)
 
 
     --CreateUnitByName(boss, bossSpawnLocation, true, nil, nil, DOTA_TEAM_BADGUYS)
     --CreateUnitByName("npc_dota_hero_rubick", bossSpawnLocation, true, nil, nil, DOTA_TEAM_GOODGUYS)
     --CreateUnitByName("npc_dota_hero_viper", Vector(9821,14288,0), true, nil, nil, DOTA_TEAM_GOODGUYS)
-    CreateUnitByName("npc_dota_creature_gnoll_assassin", Vector(14007,14445,0), true, nil, nil, DOTA_TEAM_BADGUYS)
+    CreateUnitByName("npc_dota_creature_gnoll_assassin", Vector(14007,14445,0), true, nil, nil, DOTA_TEAM_GOODGUYS)
     --CreateUnitByName("npc_dota_creature_gnoll_assassin", testspawn, true, nil, nil, DOTA_TEAM_BADGUYS)
     --CreateUnitByName("npc_stun_droid", testspawn, true, nil, nil, DOTA_TEAM_BADGUYS)
 end
