@@ -34,6 +34,8 @@ function Spawn( entityKeyValues )
 	thisEntity.call_down = thisEntity:FindAbilityByName( "call_down" )
 	--TODO: if any of these are nil, we got a problem
 
+
+
 	thisEntity:SetContextThink( "MainThinker", MainThinker, 1 )
 end
 
@@ -57,8 +59,16 @@ function MainThinker()
 
 	--CALL DOWN:
 	if CAST_CALLDOWN then
-		CallDownOnEnemies()
+		CallDownPattern()
 		CAST_CALLDOWN = false
+
+		-- Start a swoop across the screen... 
+		thisEntity:SetBaseMoveSpeed(600)
+		thisEntity:SetAttackCapability(0) --set to DOTA_UNIT_CAP_NO_ATTACK.
+		thisEntity:MoveToPosition(gyroHideLocation2)
+
+		ApplyFlakCannonModifier()
+
 	end
 
 	--check current HP to trigger events
@@ -67,7 +77,6 @@ function MainThinker()
 	--Trigger event at 50% hp
 	if not isHpBelow50Percent and healthPercent < 90 then 
 		isHpBelow50Percent = true
-		--TODO: trigger event
 		HalfHealthPhase()
 	end
 	--Trigger event at 10% hp
@@ -87,7 +96,7 @@ function MainThinker()
 
 	-- FLAK CANNON,
 	if tickCount % COOLDOWN_FLAKCANNON == 0 then --cast repeatedly
-		--ApplyFlakCannonModifier()
+		ApplyFlakCannonModifier()
 	end
 	
 	--SWOOP:
@@ -325,55 +334,38 @@ function RadarPulse()
 end
 
 
-
-
 --TODO: implement a call down spell which targets fixed locations on the ground
 -- I want 2 rows of call downs, each row roughly taking a third of the arena, forcing players into the remaining third.
 	-- gyro will then fly along this open path with FLAK CANNON
 -- 
 function CallDownPattern()
+	local origin = thisEntity:GetAbsOrigin()
+	local origin_z0 = Vector(origin.x,origin.y, 256)
 
-	-- Fixed locations or I calculate them on the fly?
-	--I kinda just need 4 corner coordinates and I can calc from there..
+	local topRowOrigin = origin_z0 + Vector(0,800,0)
+	local botRowOrigin = origin_z0 + Vector(0,-800,0)
+	local topRowCallDownLocs = {}
+	local botRowCallDownLocs = {}
 
+	local amount = 10
+	local distanceBetween = 800
+
+	for i = 1, amount, 1 do 
+		topRowCallDownLocs[i] = topRowOrigin + Vector(distanceBetween*i,0,0)
+		botRowCallDownLocs[i] = botRowOrigin + Vector(distanceBetween*i,0,0)
+
+		CastCallDownAt(topRowCallDownLocs[i])
+		CastCallDownAt(botRowCallDownLocs[i])
+	end
 end
 
 
-function CallDownOnEnemies()
-	--Particles to try:
-	local particle1 = "particles/units/heroes/hero_gyrocopter/gyro_calldown_explosion_sparks.vpcf"
-	local particle2 = "particles/units/heroes/hero_gyrocopter/gyro_calldown_explosion.vpcf"
-	local particle3 = "particles/units/heroes/hero_gyrocopter/gyro_calldown_explosion_flash_c.vpcf"
-	local particle4 = "particles/econ/items/gyrocopter/hero_gyrocopter_gyrotechnics/gyro_calldown_explosion_second.vpcf"
-	local particle5 = "particles/econ/items/gyrocopter/hero_gyrocopter_gyrotechnics/gyro_calldown_explosion_flash_g.vpcf"
 
+function CallDownOnEnemies()
 	--Get enemies: either enemies in area or through some other scan..
 	-- find all players in the entire map
 	local enemies = FindUnitsInRadius( DOTA_TEAM_BADGUYS, thisEntity:GetOrigin(), nil, FIND_UNITS_EVERYWHERE , DOTA_UNIT_TARGET_TEAM_ENEMY, DOTA_UNIT_TARGET_ALL, DOTA_UNIT_TARGET_FLAG_NONE, FIND_ANY_ORDER, false )
-
-
-	-- TESTING PARTICLES: NOT WORKING :(
- 	if #enemies > 0 then
- 		print("thisEntity = ", thisEntity:GetAbsOrigin())
- 		print("enemies[1] = ", enemies[1]:GetAbsOrigin())
-
-		local p1Index1 = ParticleManager:CreateParticle(particle4, PATTACH_CUSTOMORIGIN, thisEntity)
-		ParticleManager:SetParticleControl(p1Index1, 0, enemies[1]:GetAbsOrigin())
-		ParticleManager:ReleaseParticleIndex( p1Index1 )
-
-		local p1Index2 = ParticleManager:CreateParticle(particle4, PATTACH_ABSORIGIN, thisEntity)
-		 ParticleManager:SetParticleControl(p1Index2, 0, enemies[1]:GetAbsOrigin())
-		 ParticleManager:ReleaseParticleIndex( p1Index2 )
-
-
-		local p1Index3 = ParticleManager:CreateParticle(particle5, PATTACH_ABSORIGIN, enemies[1])
-		 ParticleManager:SetParticleControl(p1Index3, 0, enemies[1]:GetAbsOrigin())
-		 ParticleManager:ReleaseParticleIndex( p1Index3 )
-		--local p1Index3 = ParticleManager:CreateParticle(particle1, PATTACH_ABSORIGIN_FOLLOW, enemies[0])
-		--local p1Index4 = ParticleManager:CreateParticle(particle1, PATTACH_WORLDORIGIN, thisEntity)
-		--ParticleManager:SetParticleControlEnt( nCasterFX, 1, hTarget, PATTACH_ABSORIGIN_FOLLOW, nil, hTarget:GetOrigin(), false )
-	end
-	-- END TEST
+	print("#enemies = ",  #enemies)
 
 	--CAST CALLDOWN ON EACH ENEMY 
 	if #enemies > 0 then
@@ -392,53 +384,86 @@ function CallDownOnEnemies()
 			-- 	Position = shallowcopy(enemy:GetAbsOrigin()),
 			-- })
 
+			--Instead of using call_down.lua i've implemented the spell here:
+			CastCallDownAt(enemy:GetAbsOrigin())
+		end
+	end
+
+end
 
 
-			local indicator_duration = 3
-			local tick_interval = 0.1
-			local total_ticks = indicator_duration / tick_interval
-			local current_tick = 0
+function CastCallDownAt(location)
+	local p1 = "particles/units/heroes/hero_gyrocopter/gyro_calldown_marker.vpcf"
 
-			local radius = 600
-			local current_alpha = 0
-			local alpha_growth_amount = 2
-			local current_radius = 200
-			local radius_growth_amount = (radius - current_radius) / total_ticks
+	local p2 = "particles/units/heroes/hero_gyrocopter/gyro_calldown_first.vpcf"
+	local p3 = "particles/units/heroes/hero_gyrocopter/gyro_calldown_second.vpcf"
 
-			--Call down ability: 
-			--Start a timer, while counting up display indicator animation. After indicator_duration seconds, apply particle effects, dmg enemies in radius
-			Timers:CreateTimer(function()	
-				current_tick = current_tick +1
-				current_alpha = current_alpha + alpha_growth_amount
-				current_radius = current_radius + radius_growth_amount
+	local indicator_duration = 2
+	local tick_interval = 0.1
+	local total_ticks = indicator_duration / tick_interval
+	local current_tick = 0
 
-				-- TODO: call down particles effects and dmg to enemies in radius
-				if current_tick >= total_ticks then
-					--TODO: Particle effects here
-					DebugDrawCircle(enemy:GetAbsOrigin(), Vector(255,0,0), 255, radius, true, tick_interval * 4) --remove this once particles are in
+	local radius = 600
+	local current_alpha = 0
+	local alpha_growth_amount = 2
+	local current_radius = 200
+	local radius_growth_amount = (radius - current_radius) / total_ticks
 
+	--Initial Warning/Indicator Particle
 
-					local damageInfo = 
-					{
-						victim = enemy, attacker = thisEntity,
-						damage = 5000, --TODO: calc this / get from somewhere
-						damage_type = 4, -- TODO: get this from ability file ... 4 = DAMAGE_TYPE_PURE 
-					}
-					local dmgDealt = ApplyDamage(damageInfo)
-					return	--stop the timer 
-				end
-				-- Display indicator warning players spell is coming
-				if current_tick <= total_ticks then
-					DebugDrawCircle(enemy:GetAbsOrigin(), Vector(255,0,0), current_alpha, current_radius, true, tick_interval)	
-					DebugDrawCircle(enemy:GetAbsOrigin(), Vector(255,0,0), 0, current_radius, true, tick_interval)	
-				end
+	--Initial marker indicator particle
+	local p1Index = ParticleManager:CreateParticle(p1, PATTACH_POINT, thisEntity)
+	ParticleManager:SetParticleControl(p1Index, 0, location)
+	ParticleManager:SetParticleControl(p1Index, 1, Vector(radius,radius,-radius))
+	ParticleManager:ReleaseParticleIndex( p1Index )
 
-			return tick_interval
-			end)
+	--first and second explosion particles
+	local calldown_first_particle = ParticleManager:CreateParticle(p2, PATTACH_WORLDORIGIN, thisEntity)
+	ParticleManager:SetParticleControl(calldown_first_particle, 0, location)
+	ParticleManager:SetParticleControl(calldown_first_particle, 1, location)
+	ParticleManager:SetParticleControl(calldown_first_particle, 5, Vector(radius, radius, radius))
+	ParticleManager:ReleaseParticleIndex(calldown_first_particle)
+	local calldown_second_particle = ParticleManager:CreateParticle(p3, PATTACH_WORLDORIGIN, thisEntity)
+	ParticleManager:SetParticleControl(calldown_second_particle, 0, location)
+	ParticleManager:SetParticleControl(calldown_second_particle, 1, location)
+	ParticleManager:SetParticleControl(calldown_second_particle, 5, Vector(radius, radius, radius))
+	ParticleManager:ReleaseParticleIndex(calldown_second_particle)
+
+	--EmitSoundOnClient("gyrocopter_gyro_call_down_1"..RandomInt(1, 2), self:GetCaster():GetPlayerOwner())
+
+	--Call down ability: 
+	--Start a timer, while counting up display indicator animation. After indicator_duration seconds, apply particle effects, dmg enemies in radius
+	Timers:CreateTimer(function()	
+		current_tick = current_tick +1
+		current_alpha = current_alpha + alpha_growth_amount
+		current_radius = current_radius + radius_growth_amount
+
+		-- TODO: call down particles effects and dmg to enemies in radius
+		if current_tick >= total_ticks then
+			--TODO: particle effect on landing...
+			--DebugDrawCircle(location, Vector(255,0,0), 255, radius, true, tick_interval * 4) --remove this once particles are in
+
+			local enemies = FindUnitsInRadius( DOTA_TEAM_BADGUYS, location, nil, current_radius,  DOTA_UNIT_TARGET_TEAM_BOTH, DOTA_UNIT_TARGET_ALL, DOTA_UNIT_TARGET_FLAG_NONE, FIND_ANY_ORDER, false )
+			for _,enemy in pairs(enemies) do
+				local damageInfo = 
+				{
+					victim = enemy, attacker = thisEntity,
+					damage = 5000, --TODO: calc this / get from somewhere
+					damage_type = 4, -- TODO: get this from ability file ... 4 = DAMAGE_TYPE_PURE 
+				}
+				local dmgDealt = ApplyDamage(damageInfo)
+			end
+			return	--stop the timer 
 
 		end
+		-- Display indicator warning players spell is coming
+		if current_tick <= total_ticks then
+			--DebugDrawCircle(location, Vector(255,0,0), current_alpha, current_radius, true, tick_interval)	
+			--DebugDrawCircle(location, Vector(255,0,0), 0, current_radius, true, tick_interval)	
+		end
 
-	end
+	return tick_interval
+	end)
 
 end
 
@@ -446,9 +471,7 @@ end
 function ApplyFlakCannonModifier()
 	local ability = thisEntity:FindAbilityByName( "flak_cannon" )
 	thisEntity:AddNewModifier(thisEntity, ability, "flak_cannon_modifier", {duration = 10})
-
-	AttackClosestPlayer()
-	
+	--AttackClosestPlayer()
 end
 
 function AttackClosestPlayer()
