@@ -38,6 +38,7 @@ function q_herbarrow_modifier:OnCreated( kv )
         -- reference from kv
         self.heal_amount = self:GetAbility():GetSpecialValueFor( "heal_amount")
         self.tick_rate = self:GetAbility():GetSpecialValueFor( "tick_rate")
+        self.sync_decrease_tick = self:GetAbility():GetSpecialValueFor( "sync_decrease_tick")
 
         -- damge loop start
         self.stopHealLoop = false
@@ -59,6 +60,12 @@ function q_herbarrow_modifier:StartApplyHealLoop()
         Timers:CreateTimer(self.tick_rate, function()
             if self.stopHealLoop == true then
                 return false
+            end
+
+            local bHasSync = self.parent:HasModifier("e_syncwithforest_modifier")
+
+            if bHasSync == true then
+                self.tick_rate = self.tick_rate - self.sync_decrease_tick
             end
 
             self.parent:Heal(self.heal_amount, self.caster)

@@ -53,6 +53,7 @@ function m1_trackingshot:OnSpellStart()
 		self.caster = self:GetCaster()
         local origin = self.caster:GetAbsOrigin()
         local projectile_speed = self:GetSpecialValueFor( "proj_speed" )
+        self.nMaxCharges = self:GetSpecialValueFor( "max_charges" )
         local dmg = 0
 
         self.caster:FindModifierByName("m1_trackingshot_charges"):DecrementStackCount()
@@ -66,7 +67,7 @@ function m1_trackingshot:OnSpellStart()
         local enEffect = ""
 
         -- attack 3
-        if nAtkCount == 3 then
+        if nAtkCount == self.nMaxCharges then
             dmg = self:GetSpecialValueFor( "base_dmg_3" )
             enEffect = "particles/ranger/m1_ranger_atk3_windrunner_base_attack.vpcf"
 
@@ -93,11 +94,11 @@ function m1_trackingshot:OnSpellStart()
             end,
             OnUnitHit = function(_self, unit)
 
-                if nAtkCount == 3 and unit:FindModifierByNameAndCaster("m2_serratedarrow_modifier", self.caster) == true then
+                if nAtkCount == self.nMaxCharges and unit:FindModifierByNameAndCaster("m2_serratedarrow_modifier", self.caster) == true then
                     dmg = dmg + self:GetSpecialValueFor( "addtional_dmg_3_serrated_debuff" )
                     -- play effect on target
                     -- effect
-                elseif nAtkCount < 3 and unit:FindModifierByNameAndCaster("m2_serratedarrow_modifier", self.caster) == true then
+                elseif nAtkCount < self.nMaxCharges and unit:FindModifierByNameAndCaster("m2_serratedarrow_modifier", self.caster) == true then
                     dmg = dmg + self:GetSpecialValueFor( "addtional_dmg_1_2_serrated_debuff" )
                 end
 
@@ -129,7 +130,7 @@ function m1_trackingshot:OnSpellStart()
         }
 
         nAtkCount = nAtkCount + 1
-        if nAtkCount > 3 then
+        if nAtkCount > self.nMaxCharges then
             nAtkCount = 1
         end
 

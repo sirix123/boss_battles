@@ -9,7 +9,7 @@
 		"Ability1"              "m1_trackingshot" 
         "Ability2"              "m2_serratedarrow" 
         "Ability3"              "q_herbarrow" 
-        "Ability4"              ""
+        "Ability4"              "e_syncwithforest"
         "Ability5"              ""
         "Ability6"              "space_frostblink"
         "Ability7"              ""

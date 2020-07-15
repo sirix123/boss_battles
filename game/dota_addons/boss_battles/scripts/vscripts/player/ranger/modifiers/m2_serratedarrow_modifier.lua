@@ -37,12 +37,13 @@ function m2_serratedarrow_modifier:OnCreated( kv )
 
         -- reference from kv
         self.damage_type = self:GetAbility():GetAbilityDamageType()
-
+        self.dmg = self:GetAbility():GetSpecialValueFor("dmg")
+        self.sync_decrease_tick = self:GetAbility():GetSpecialValueFor( "sync_decrease_tick")
         -- damge loop start
         self.stopDamageLoop = false
 
         -- dmg interval
-        self.damage_interval = 1
+        self.damage_interval = self:GetAbility():GetSpecialValueFor( "damage_interval")
 
         -- sound
         --self:GetParent():EmitSound("Hero_Ancient_Apparition.ColdFeetCast")
@@ -62,8 +63,11 @@ function m2_serratedarrow_modifier:StartApplyDamageLoop()
                 return false
             end
 
-            -- dmg calcuation
-            self.dmg = 10
+            local bHasSync = self.parent:HasModifier("e_syncwithforest_modifier")
+
+            if bHasSync == true then
+                self.damage_interval = self.damage_interval - self.sync_decrease_tick
+            end
 
             self.dmgTable = {
                 victim = self.parent,
