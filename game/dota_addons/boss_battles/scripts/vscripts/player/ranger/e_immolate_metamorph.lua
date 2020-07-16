@@ -1,6 +1,6 @@
-space_roar = class({})
+e_immolate_metamorph = class({})
 
-function space_roar:OnAbilityPhaseStart()
+function e_immolate_metamorph:OnAbilityPhaseStart()
     if IsServer() then
 
         self:GetCaster():StartGestureWithPlaybackRate(ACT_DOTA_CAST_ABILITY_1, 1.0)
@@ -16,7 +16,7 @@ function space_roar:OnAbilityPhaseStart()
 end
 ---------------------------------------------------------------------------
 
-function space_roar:OnAbilityPhaseInterrupted()
+function e_immolate_metamorph:OnAbilityPhaseInterrupted()
     if IsServer() then
 
         -- remove casting animation
@@ -29,7 +29,7 @@ function space_roar:OnAbilityPhaseInterrupted()
 end
 ---------------------------------------------------------------------------
 
-function space_roar:OnSpellStart()
+function e_immolate_metamorph:OnSpellStart()
     if IsServer() then
         self.caster = self:GetCaster()
 

@@ -93,5 +93,7 @@ function e_syncwithforest:OnProjectileHit( hTarget,  vLocation)
 
         -- effect neded for explode flask
 
+        -- splash/break sound
+
     end
 end

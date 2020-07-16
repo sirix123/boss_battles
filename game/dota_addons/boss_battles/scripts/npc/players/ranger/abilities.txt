@@ -150,4 +150,198 @@
 			"particle" "particles/units/heroes/hero_alchemist/alchemist_unstable_concoction_explosion.vpcf"
 		}
 	}
+
+	"r_metamorph"
+	{
+		"BaseClass"						"ability_lua"
+		"ScriptFile"					"player/ranger/r_metamorph"
+		"MaxLevel"						"1"
+
+		"AbilityTextureName"			"lich_chain_frost"
+		"SpellImmunityType"				"SPELL_IMMUNITY_ENEMIES_YES"
+        "AbilityBehavior"				"DOTA_ABILITY_BEHAVIOR_NO_TARGET"
+		"AbilityCastRange" 				"1500"
+        "AbilityCooldown"				"0.0"
+        "AbilityCastPoint"              "0.5"
+
+
+		"TargetingIndicator"
+		{
+			//"Type"						"TARGETING_INDICATOR_AOE"
+			//"Fixed"						"1"
+		}
+        
+		"AbilitySpecial"
+		{
+			//"01"{ "var_type"			"FIELD_INTEGER"		"duration"			"20" 	}
+		}
+
+		"precache"
+		{
+
+		}
+	}
+
+	"space_roar"
+	{
+		"BaseClass"						"ability_lua"
+		"ScriptFile"					"player/ranger/space_roar"
+		"MaxLevel"						"1"
+
+		"AbilityTextureName"			"lich_chain_frost"
+		"SpellImmunityType"				"SPELL_IMMUNITY_ENEMIES_YES"
+        "AbilityBehavior"				"DOTA_ABILITY_BEHAVIOR_NO_TARGET"
+		"AbilityCastRange" 				"1500"
+        "AbilityCooldown"				"0.0"
+        "AbilityCastPoint"              "0.2"
+
+
+		"TargetingIndicator"
+		{
+			//"Type"						"TARGETING_INDICATOR_AOE"
+			//"Fixed"						"1"
+		}
+        
+		"AbilitySpecial"
+		{
+			//"01"{ "var_type"			"FIELD_INTEGER"		"duration"			"20" 	}
+		}
+
+		"precache"
+		{
+
+		}
+	}
+
+	// METAMORPH ABILITIES
+	"m1_trackingshot_metamorph"
+	{
+		"BaseClass"						"ability_lua"
+		"ScriptFile"					"player/ranger/m1_trackingshot_metamorph"
+		"MaxLevel"						"1"
+
+		"AbilityTextureName"			"lich_chain_frost"
+		"AbilityUnitTargetTeam"			"DOTA_UNIT_TARGET_TEAM_ENEMY"
+		"AbilityUnitDamageType"			"DAMAGE_TYPE_PHYSICAL"	
+		"SpellImmunityType"				"SPELL_IMMUNITY_ENEMIES_YES"
+        "AbilityBehavior"				"DOTA_ABILITY_BEHAVIOR_POINT"
+		"AbilityCastRange" 				"1100"
+        "AbilityCooldown"				"0.0"
+        "AbilityCastPoint"              "0.2"
+
+
+		"TargetingIndicator"
+		{
+			"Type"						"TARGETING_INDICATOR_LINE"
+			"Fixed"						"1"
+		}
+        
+		"AbilitySpecial"
+		{
+			"01"{ "var_type"			"FIELD_INTEGER"		"dmg"								"200" }
+			"02"{ "var_type"			"FIELD_INTEGER"		"hit_box"							"80" }
+			"03"{ "var_type"			"FIELD_INTEGER"		"proj_speed"						"800" }
+			"04"{ "var_type"			"FIELD_INTEGER"		"mana_gain_percent"             	"5" }
+			"05"{ "var_type"			"FIELD_INTEGER"		"base_dmg_1_2"						"10" }
+			"06"{ "var_type"			"FIELD_INTEGER"		"base_dmg_3"						"20" }
+			"07"{ "var_type"			"FIELD_INTEGER"		"addtional_dmg_3_serrated_debuff"	"2" }
+			"08"{ "var_type"			"FIELD_INTEGER"		"addtional_dmg_1_2_serrated_debuff"	"4" }
+		}
+	}
+
+	"m2_serratedarrow_metamorph"
+	{
+		"BaseClass"						"ability_lua"
+		"ScriptFile"					"player/ranger/m2_serratedarrow_metamorph"
+		"MaxLevel"						"1"
+
+		"AbilityTextureName"			"medusa_splitshot"
+		"SpellImmunityType"				"SPELL_IMMUNITY_ENEMIES_YES"
+		"AbilityUnitDamageType"			"DAMAGE_TYPE_PHYSICAL"	
+        "AbilityBehavior"				"DOTA_ABILITY_BEHAVIOR_POINT"
+		"AbilityCastRange" 				"1500"
+        "AbilityCooldown"				"0.0"
+        "AbilityCastPoint"              "0.2"
+
+
+		"TargetingIndicator"
+		{
+			"Type"						"TARGETING_INDICATOR_AOE"
+			"Fixed"						"1"
+		}
+        
+		"AbilitySpecial"
+		{
+			//"01"{ "var_type"			"FIELD_INTEGER"		"duration"			"20" 	}
+		}
+
+		"precache"
+		{
+
+		}
+	}
+
+	"q_stonegaze_metamorph"
+	{
+		"BaseClass"						"ability_lua"
+		"ScriptFile"					"player/ranger/q_stonegaze_metamorph"
+		"MaxLevel"						"1"
+
+		"AbilityTextureName"			"medusa_splitshot"
+		"SpellImmunityType"				"SPELL_IMMUNITY_ENEMIES_YES"
+		"AbilityUnitDamageType"			"DAMAGE_TYPE_PHYSICAL"	
+        "AbilityBehavior"				"DOTA_ABILITY_BEHAVIOR_POINT"
+		"AbilityCastRange" 				"1500"
+        "AbilityCooldown"				"0.0"
+        "AbilityCastPoint"              "0.2"
+
+
+		"TargetingIndicator"
+		{
+			"Type"						"TARGETING_INDICATOR_AOE"
+			"Fixed"						"1"
+		}
+        
+		"AbilitySpecial"
+		{
+			//"01"{ "var_type"			"FIELD_INTEGER"		"duration"			"20" 	}
+		}
+
+		"precache"
+		{
+
+		}
+	}
+
+	"e_immolate_metamorph"
+	{
+		"BaseClass"						"ability_lua"
+		"ScriptFile"					"player/ranger/e_immolate_metamorph"
+		"MaxLevel"						"1"
+
+		"AbilityTextureName"			"medusa_splitshot"
+		"SpellImmunityType"				"SPELL_IMMUNITY_ENEMIES_YES"
+		"AbilityUnitDamageType"			"DAMAGE_TYPE_PHYSICAL"	
+        "AbilityBehavior"				"DOTA_ABILITY_BEHAVIOR_POINT"
+		"AbilityCastRange" 				"1500"
+        "AbilityCooldown"				"0.0"
+        "AbilityCastPoint"              "0.2"
+
+
+		"TargetingIndicator"
+		{
+			"Type"						"TARGETING_INDICATOR_AOE"
+			"Fixed"						"1"
+		}
+        
+		"AbilitySpecial"
+		{
+			//"01"{ "var_type"			"FIELD_INTEGER"		"duration"			"20" 	}
+		}
+
+		"precache"
+		{
+
+		}
+	}
 }
