@@ -60,7 +60,7 @@
 		},
 		{
 			_class = "C_OP_ColorInterpolate"
-			m_ColorFade = [ 39, 0, 0, 255 ]
+			m_ColorFade = [ 1, 39, 0, 255 ]
 		},
 		{
 			_class = "C_OP_LockToBone"
@@ -76,8 +76,8 @@
 		},
 		{
 			_class = "C_INIT_RandomColor"
-			m_ColorMin = [ 158, 255, 227, 255 ]
-			m_ColorMax = [ 32, 142, 2, 255 ]
+			m_ColorMin = [ 156, 255, 174, 255 ]
+			m_ColorMax = [ 0, 142, 35, 255 ]
 		},
 		{
 			_class = "C_INIT_CreationNoise"

@@ -40,7 +40,7 @@ function m1_trackingshot_charges:OnCreated( kv )
 
         -- start replenish thinker
         -- i think we only want this to start once the charges have started being used
-        self:StartIntervalThink( 1 )
+        self:StartIntervalThink( 0.01 )
 
     end
 end

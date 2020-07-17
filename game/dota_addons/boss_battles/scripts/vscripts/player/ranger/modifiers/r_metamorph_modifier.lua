@@ -34,6 +34,10 @@ function r_metamorph_modifier:OnCreated( kv )
         self.parent = self:GetParent()
         self.caster = self:GetCaster()
 
+        -- mana burn init
+        self.stopManaBurn = false
+        self.manaDegen = self:GetAbility():GetSpecialValueFor("mana_degen")
+
         -- play effect
         self:PlayEffects()
 
@@ -82,6 +86,9 @@ function r_metamorph_modifier:OnCreated( kv )
             abilityToHide:SetHidden(true)
         end
 
+        -- start mana check and burn
+        self:ManaBurn()
+
     end
 end
 ----------------------------------------------------------------------------
@@ -108,6 +115,27 @@ function r_metamorph_modifier:OnRefresh( kv )
 end
 ----------------------------------------------------------------------------
 
+function r_metamorph_modifier:ManaBurn()
+    if IsServer() then
+
+        Timers:CreateTimer(1, function()
+            if self.stopManaBurn == true then
+                return false
+            end
+
+            if self.parent:GetManaPercent() == 0 then
+                self.stopManaBurn = true
+                if self.parent:HasModifier("r_metamorph_modifier") == true then
+                    self:Destroy()
+                end
+            end
+
+            return 0.01
+        end)
+    end
+end
+----------------------------------------------------------------------------
+
 function r_metamorph_modifier:OnDestroy()
     if IsServer() then
         for i = 1 , #self.tDisableAbilities, 1 do
@@ -128,9 +156,14 @@ function r_metamorph_modifier:GetModifierModelChange()
 	return "models/heroes/medusa/medusa.vmdl"
 end
 
+function r_metamorph_modifier:GetModifierConstantManaRegen()
+    return self.manaDegen
+end
+
 function r_metamorph_modifier:DeclareFunctions()
 	return {
         MODIFIER_PROPERTY_MODEL_CHANGE,
+        MODIFIER_PROPERTY_MANA_REGEN_CONSTANT,
 	}
 end
 ----------------------------------------------------------------------------

@@ -1,4 +1,5 @@
 e_immolate_metamorph = class({})
+LinkLuaModifier( "e_immolate_metamorph_modifier", "player/ranger/modifiers/e_immolate_metamorph_modifier", LUA_MODIFIER_MOTION_NONE )
 
 function e_immolate_metamorph:OnAbilityPhaseStart()
     if IsServer() then
@@ -32,6 +33,7 @@ end
 function e_immolate_metamorph:OnSpellStart()
     if IsServer() then
         self.caster = self:GetCaster()
+        self.caster:AddNewModifier(self.caster, self, "e_immolate_metamorph_modifier", {duration = self:GetSpecialValueFor( "duration")})
 
     end
 end

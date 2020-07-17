@@ -1,7 +1,7 @@
 casting_modifier_thinker = class({})
 
 function casting_modifier_thinker:IsHidden() 
-    return false 
+    return true 
 end	
 
 function casting_modifier_thinker:OnCreated(params)

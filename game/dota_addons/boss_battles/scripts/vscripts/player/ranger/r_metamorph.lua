@@ -43,16 +43,15 @@ function r_metamorph:OnSpellStart()
 
         self.caster = self:GetCaster()
 
-        local flManaMultiplier = 10
+        local flManaMultiplier = self:GetSpecialValueFor( "mana_multiplier_duration" )
         local nMana = self.caster:GetMana()
         local duration = nMana * flManaMultiplier
 
-        -- emit sound
-
-        -- emit play effect / transform? Maybe do this in ability phase start
-
         -- add modifier to handle transform
-        self.caster:AddNewModifier(self.caster, self, "r_metamorph_modifier", {duration = duration})
-
+        if self.caster:GetManaPercent() < 49 then
+            print("min mana req not met")
+        else
+            self.caster:AddNewModifier(self.caster, self, "r_metamorph_modifier", {duration = duration})
+        end
     end
 end

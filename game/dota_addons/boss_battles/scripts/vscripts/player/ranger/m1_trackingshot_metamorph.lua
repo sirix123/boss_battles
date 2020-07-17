@@ -82,11 +82,12 @@ function m1_trackingshot_metamorph:OnSpellStart()
         local tProjInfo = {}
 
         -- 3 proj spawn + directions
+        -- need to consider forward vector to get arrows to spawn in the right spots
         local tSpawnLoc =
         {
-            origin + Vector(0, 0, 100),
-            origin + Vector(-50, 50, 100),
-            origin + Vector(50, -50, 100)
+            origin + self.caster:GetForwardVector() * Vector(0, 0, 100),
+            origin + self.caster:GetForwardVector() * Vector(-50, 0, 100),
+            origin + self.caster:GetForwardVector() * Vector(50, 0, 100)
         }
 
         for i = 1, nProjPerAttack, 1 do
@@ -121,9 +122,6 @@ function m1_trackingshot_metamorph:OnSpellStart()
                         damage = dmg,
                         damage_type = self:GetAbilityDamageType(),
                     }
-    
-                    -- give mana
-                    self.caster:ManaOnHit(self:GetSpecialValueFor( "mana_gain_percent"))
     
                     ApplyDamage(dmgTable)
     

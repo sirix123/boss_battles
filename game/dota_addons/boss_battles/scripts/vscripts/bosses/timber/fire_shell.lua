@@ -64,7 +64,7 @@ function fire_shell:OnSpellStart()
 		-- wave init (KV)
 		local nWaves = 0
 		local nMaxWaves = self:GetSpecialValueFor( "nMaxWaves" )
-		print(nMaxWaves)
+		--print(nMaxWaves)
 		local fTimeBetweenWaves = self:GetSpecialValueFor( "fTimeBetweenWaves" )
 		local firstWave = true
 		local nMinProjPerWave = self:GetSpecialValueFor( "nMinProjPerWave" )
