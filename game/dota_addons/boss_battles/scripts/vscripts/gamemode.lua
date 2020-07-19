@@ -173,10 +173,6 @@ function GameMode:OnHeroInGame(hero)
   hero:AddNewModifier( hero,  nil, "movement_modifier_thinker", { } )
   hero:AddNewModifier( hero,  nil, "remove_attack_modifier", { } )
 
-  if hero:GetUnitName() == "npc_dota_hero_windrunner" then
-    hero:AddNewModifier( hero,  nil, "m1_trackingshot_charges", { } )
-  end
-
   -- level up abilities for all heroes to level 1
   if hero:GetUnitName() == "npc_dota_hero_crystal_maiden" or hero:GetUnitName() == "npc_dota_hero_windrunner" then
     local index = 0

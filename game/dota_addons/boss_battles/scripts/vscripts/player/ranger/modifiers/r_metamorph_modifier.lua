@@ -34,9 +34,14 @@ function r_metamorph_modifier:OnCreated( kv )
         self.parent = self:GetParent()
         self.caster = self:GetCaster()
 
+        --self.caster:SetMana(100)
+
         -- mana burn init
         self.stopManaBurn = false
         self.manaDegen = self:GetAbility():GetSpecialValueFor("mana_degen")
+
+        -- attach wearables
+
 
         -- play effect
         self:PlayEffects()
@@ -123,7 +128,7 @@ function r_metamorph_modifier:ManaBurn()
                 return false
             end
 
-            if self.parent:GetManaPercent() == 0 then
+            if self.parent:GetMana() < 1 then
                 self.stopManaBurn = true
                 if self.parent:HasModifier("r_metamorph_modifier") == true then
                     self:Destroy()

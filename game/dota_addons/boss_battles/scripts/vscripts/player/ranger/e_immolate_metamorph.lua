@@ -35,5 +35,8 @@ function e_immolate_metamorph:OnSpellStart()
         self.caster = self:GetCaster()
         self.caster:AddNewModifier(self.caster, self, "e_immolate_metamorph_modifier", {duration = self:GetSpecialValueFor( "duration")})
 
+        -- sound
+        EmitSoundOn("medusa_medus_levelup_05", self.caster)
+
     end
 end

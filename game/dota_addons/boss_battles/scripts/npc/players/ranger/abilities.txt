@@ -12,7 +12,7 @@
 		"SpellImmunityType"				"SPELL_IMMUNITY_ENEMIES_YES"
         "AbilityBehavior"				"DOTA_ABILITY_BEHAVIOR_POINT"
 		"AbilityCastRange" 				"1100"
-        "AbilityCooldown"				"0.0"
+        "AbilityCooldown"				"0"
         "AbilityCastPoint"              "0.2"
 
 
@@ -31,7 +31,9 @@
 			"05"{ "var_type"			"FIELD_INTEGER"		"base_dmg_1_2"						"10" }
 			"06"{ "var_type"			"FIELD_INTEGER"		"base_dmg_3"						"20" }
 			"07"{ "var_type"			"FIELD_INTEGER"		"addtional_dmg_3_serrated_debuff"	"2" }
-			"08"{ "var_type"			"FIELD_INTEGER"		"addtional_dmg_1_2_serrated_debuff"	"4" }	
+			"08"{ "var_type"			"FIELD_INTEGER"		"addtional_dmg_1_2_serrated_debuff"	"4" }
+			"09"{ "var_type"			"FIELD_INTEGER"		"max_charges"						"3" }
+			"10"{ "var_type"			"FIELD_FLOAT"		"charge_restore_time"				"2" }		
 		}
 	}
 
@@ -163,6 +165,7 @@
 		"AbilityCastRange" 				"1500"
         "AbilityCooldown"				"0.0"
         "AbilityCastPoint"              "0.5"
+		"AbilityManaCost"        		"0"
 
 
 		"TargetingIndicator"
@@ -173,8 +176,9 @@
         
 		"AbilitySpecial"
 		{
-			"01"{ "var_type"			"FIELD_INTEGER"		"mana_multiplier_duration"			"1" 	}
+			"01"{ "var_type"			"FIELD_FLOAT"		"mana_multiplier_duration"			"0.5" 	}
 			"02"{ "var_type"			"FIELD_INTEGER"		"mana_degen"						"-10" 	}
+			"03"{ "var_type"			"FIELD_INTEGER"		"base_duration"						"10" 	}
 		}
 
 		"precache"
@@ -227,7 +231,7 @@
 		"SpellImmunityType"				"SPELL_IMMUNITY_ENEMIES_YES"
         "AbilityBehavior"				"DOTA_ABILITY_BEHAVIOR_POINT"
 		"AbilityCastRange" 				"1100"
-        "AbilityCooldown"				"0.0"
+        "AbilityCooldown"				"0"
         "AbilityCastPoint"              "0.2"
 
 
@@ -247,6 +251,8 @@
 			"06"{ "var_type"			"FIELD_INTEGER"		"base_dmg_3"						"20" }
 			"07"{ "var_type"			"FIELD_INTEGER"		"addtional_dmg_3_serrated_debuff"	"2" }
 			"08"{ "var_type"			"FIELD_INTEGER"		"addtional_dmg_1_2_serrated_debuff"	"4" }
+			"09"{ "var_type"			"FIELD_INTEGER"		"max_charges"						"3" }
+			"10"{ "var_type"			"FIELD_FLOAT"		"charge_restore_time"				"2" }	
 		}
 	}
 
@@ -307,7 +313,7 @@
 		"AbilitySpecial"
 		{
 			"01"{ "var_type"			"FIELD_INTEGER"		"duration"				"5" 	}
-			"02"{ "var_type"			"FIELD_INTEGER"		"mana_regen"			"10" 	}
+			"02"{ "var_type"			"FIELD_INTEGER"		"mana_regen"			"30" 	}
 		}
 
 		"precache"
@@ -343,7 +349,7 @@
 
 		"precache"
 		{
-
+			"soundfile"	"sounds/vo/medusa/medus_levelup_05.vsnd"
 		}
 	}
 }

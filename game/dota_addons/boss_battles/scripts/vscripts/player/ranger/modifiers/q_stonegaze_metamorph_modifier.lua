@@ -50,6 +50,9 @@ function q_stonegaze_metamorph_modifier:OnCreated( kv )
         ParticleManager:SetParticleControl(self.effect_cast, 1, self.parent:GetAbsOrigin())
         ParticleManager:ReleaseParticleIndex(self.effect_cast)
 
+        -- sound
+        EmitSoundOn("Hero_Medusa.StoneGaze.Cast", self.caster)
+
 
     end
 end
@@ -80,6 +83,7 @@ end
 function q_stonegaze_metamorph_modifier:OnDestroy()
     if IsServer() then
         -- stop timer
+        StopSoundOn("Hero_Medusa.StoneGaze.Cast", self.caster)
         ParticleManager:DestroyParticle(self.effect_cast, true)
         self.stopLoop = true
         self.parent:SetMoveCapability(1)

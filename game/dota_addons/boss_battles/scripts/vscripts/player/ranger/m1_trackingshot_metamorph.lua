@@ -1,6 +1,10 @@
 m1_trackingshot_metamorph = class({})
 LinkLuaModifier("m1_trackingshot_charges", "player/ranger/modifiers/m1_trackingshot_charges", LUA_MODIFIER_MOTION_NONE)
 
+function m1_trackingshot_metamorph:GetIntrinsicModifierName()
+	return "m1_trackingshot_charges"
+end
+
 local nAtkCount = 1
 
 function m1_trackingshot_metamorph:OnAbilityPhaseStart()

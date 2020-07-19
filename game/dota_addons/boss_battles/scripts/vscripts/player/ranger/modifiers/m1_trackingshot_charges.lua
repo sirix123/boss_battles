@@ -17,6 +17,10 @@ end
 function m1_trackingshot_charges:IsPurgable()
 	return false
 end
+
+function m1_trackingshot_charges:GetAttributes()
+	return MODIFIER_ATTRIBUTE_MULTIPLE
+end
 -----------------------------------------------------------------------------
 
 function m1_trackingshot_charges:GetEffectName()
@@ -34,12 +38,12 @@ function m1_trackingshot_charges:OnCreated( kv )
         self.caster = self:GetCaster()
 
         -- reference from kv
-        self.nMaxCharges = 3
+        self.nMaxCharges = self:GetAbility():GetSpecialValueFor( "max_charges" ) -- special value
+        self.replenishTime = self:GetAbility():GetSpecialValueFor( "charge_restore_time" ) -- special value
         self:SetStackCount(self.nMaxCharges)
         self.bReplenish = true
 
         -- start replenish thinker
-        -- i think we only want this to start once the charges have started being used
         self:StartIntervalThink( 0.01 )
 
     end
@@ -57,7 +61,7 @@ function m1_trackingshot_charges:OnIntervalThink()
         if self.nCharges == 0 and self.bReplenish == true then
             self.bReplenish = false
 
-            Timers:CreateTimer(2, function()
+            Timers:CreateTimer(self.replenishTime, function()
 
                 self.nCharges = self:GetStackCount()
 
