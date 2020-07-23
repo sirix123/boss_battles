@@ -13,7 +13,7 @@
 
 		// General
 		//----------------------------------------------------------------
-		"Model"						"models/heroes/shredder/shredder.vmdl"	// Model.
+		"Model"						"models/heroes/rattletrap/rattletrap.vmdl"	// Model.
 		"BaseClass"					"npc_dota_creature"
 		"SoundSet"					"Hero_Shredder"
 		"GameSoundsFile"			"soundevents/game_sounds_heroes/game_sounds_shredder.vsndevts"

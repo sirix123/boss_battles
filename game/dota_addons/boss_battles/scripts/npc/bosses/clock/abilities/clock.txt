@@ -36,11 +36,13 @@
         //-------------------------------------------------------------------------------------------------------------
 		"AbilitySpecial"
 		{
-			"01"
-			{
-				"var_type"			                "FIELD_INTEGER"
-				"nMaxSawBlades"		                "5 6 7 8"
-			}
+            "01"{ "var_type"			"FIELD_INTEGER"		"duration"				"5" }
+		}
+
+        "precache"
+		{
+			"soundfile"	"soundevents/game_sounds_heroes/game_sounds_winter_wyvern.vsndevts"
+			"particle"	"particles/ranger/ranger_clockwerk_para_rocket_flare.vpcf"
 		}
     }
 }

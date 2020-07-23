@@ -61,13 +61,13 @@ tRAID_INIT_TABLE = {
 		},
 	},
 
-	captain = {
-		name = "Captain",
+	clock = {
+		name = "Clock",
 		description = "MANY ANIMALS",
-		arena = "captainspawn",
+		arena = "clock_player_spawn",
 		spawnLocation =
 		{
-			"beastmaster_boss_spawn",
+			"clock_spawn",
 		},
 		bosses =
 		{
