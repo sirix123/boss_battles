@@ -16,7 +16,7 @@ function AbilityToCast(abilityNumber, showEffects){
     }
 
     //Abilities.ExecuteAbility( abilityIndex, playerHero, quickCast );
-    if(!Abilities.IsInAbilityPhase(abilityIndex))
+    if(!Abilities.IsInAbilityPhase(abilityIndex) && Abilities.IsActivated(abilityIndex))
     {
         var mouse_position_screen = GameUI.GetCursorPosition();
         var mouse_position = Game.ScreenXYToWorld(mouse_position_screen[0], mouse_position_screen[1])

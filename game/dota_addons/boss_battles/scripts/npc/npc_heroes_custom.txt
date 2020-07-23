@@ -11,15 +11,15 @@
 	"npc_dota_hero_templar_assassin_template"
 	{
 		"override_hero"				"npc_dota_hero_templar_assassin"			// Hero to override
-		"Ability1"					"saw_blade"									// Ability 1
-		"Ability2"					"chain"										// Ability 2
-		"Ability3"					"fire_shell"								// Ability 3
-		"Ability4"					"stun_droid_zap"							// Ability 4
-		"Ability5"					"smelter_droid_enhance"						// Ability 5
-		"Ability6"					"mine_droid_laymine"						// Ability 6
-		"Ability7"					"timber_droid_support"						// Ability 7
-		"Ability8"					"return_saw_blades"							// Ability 8
-		"Ability9"					"blast_wave"							// Ability 8
+		"Ability1"					"missile_salvo"									// Ability 1
+		"Ability2"					""										// Ability 2
+		"Ability3"					""								// Ability 3
+		"Ability4"					""							// Ability 4
+		"Ability5"					""						// Ability 5
+		"Ability6"					""						// Ability 6
+		"Ability7"					""						// Ability 7
+		"Ability8"					""							// Ability 8
+		"Ability9"					""							// Ability 8
 		
 		
 

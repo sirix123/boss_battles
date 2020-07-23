@@ -1,30 +1,30 @@
-e_syncwithforest_modifier = class({})
+e_syncwithforest_modifier_enemy = class({})
 
 -----------------------------------------------------------------------------
 -- Classifications
-function e_syncwithforest_modifier:IsHidden()
+function e_syncwithforest_modifier_enemy:IsHidden()
 	return false
 end
 
-function e_syncwithforest_modifier:IsDebuff()
+function e_syncwithforest_modifier_enemy:IsDebuff()
 	return false
 end
 
-function e_syncwithforest_modifier:IsStunDebuff()
+function e_syncwithforest_modifier_enemy:IsStunDebuff()
 	return false
 end
 
-function e_syncwithforest_modifier:IsPurgable()
+function e_syncwithforest_modifier_enemy:IsPurgable()
 	return false
 end
 -----------------------------------------------------------------------------
 
-function e_syncwithforest_modifier:GetEffectName()
-	return "particles/units/heroes/hero_bristleback/bristleback_viscous_nasal_goo_debuff.vpcf"
+function e_syncwithforest_modifier_enemy:GetEffectName()
+	return "particles/ranger/ranger_bristleback_viscous_nasal_goo_debuff.vpcf"
 end
 -----------------------------------------------------------------------------
 
-function e_syncwithforest_modifier:OnCreated( kv )
+function e_syncwithforest_modifier_enemy:OnCreated( kv )
 	if IsServer() then
         self.parent = self:GetParent()
         self.caster = self:GetCaster()
@@ -42,14 +42,14 @@ function e_syncwithforest_modifier:OnCreated( kv )
 end
 ----------------------------------------------------------------------------
 
-function e_syncwithforest_modifier:OnRefresh( kv )
+function e_syncwithforest_modifier_enemy:OnRefresh( kv )
 	if IsServer() then
 
     end
 end
 ----------------------------------------------------------------------------
 
-function e_syncwithforest_modifier:OnDestroy()
+function e_syncwithforest_modifier_enemy:OnDestroy()
     if IsServer() then
 
     end

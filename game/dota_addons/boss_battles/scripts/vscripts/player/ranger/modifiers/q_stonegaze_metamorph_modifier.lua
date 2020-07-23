@@ -22,7 +22,7 @@ end
 -- debuff effect on npc
 -- these probably need to be like... stack count above the hero and... 'mob starts getting incased in ice?'
 function q_stonegaze_metamorph_modifier:GetEffectName()
-	return --"particles/status_fx/status_effect_medusa_stone_gaze.vpcf"--"particles/units/heroes/hero_arc_warden/arc_warden_flux_tgt.vpcf"
+	return "particles/status_fx/status_effect_medusa_stone_gaze.vpcf"--"particles/units/heroes/hero_arc_warden/arc_warden_flux_tgt.vpcf"
 end
 
 function q_stonegaze_metamorph_modifier:GetStatusEffectName()

@@ -73,12 +73,12 @@ function m1_trackingshot_metamorph:OnSpellStart()
         -- attack 3
         if nAtkCount == self.nMaxCharges then
             dmg = self:GetSpecialValueFor( "base_dmg_3" )
-            enEffect = "particles/ranger/m1_ranger_atk3_windrunner_base_attack.vpcf"
+            enEffect = "particles/ranger/_attk3_ranger_terrorblade_metamorphosis_base_attack.vpcf"
 
         -- attack 1 and 2
         else
             dmg = self:GetSpecialValueFor( "base_dmg_1_2" )
-            enEffect = "particles/ranger/m1_ranger_windrunner_base_attack.vpcf"
+            enEffect = "particles/ranger/ranger_terrorblade_metamorphosis_base_attack.vpcf"
         end
 
         -- metamorph init
@@ -86,12 +86,12 @@ function m1_trackingshot_metamorph:OnSpellStart()
         local tProjInfo = {}
 
         -- 3 proj spawn + directions
-        -- need to consider forward vector to get arrows to spawn in the right spots
+        --origin.z = 200
         local tSpawnLoc =
         {
-            origin + self.caster:GetForwardVector() * Vector(0, 0, 100),
-            origin + self.caster:GetForwardVector() * Vector(-50, 0, 100),
-            origin + self.caster:GetForwardVector() * Vector(50, 0, 100)
+            origin + Vector(0,0,200) + self.caster:GetRightVector()       *100,
+            origin + Vector(0,0,200) + self.caster:GetForwardVector()         ,
+            origin + Vector(0,0,200) - self.caster:GetRightVector()       *100,
         }
 
         for i = 1, nProjPerAttack, 1 do

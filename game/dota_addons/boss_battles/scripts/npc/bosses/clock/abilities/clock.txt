@@ -1,0 +1,47 @@
+
+"DOTAAbilities"
+{
+    //=================================================================================================================
+    // Clock: Ability naem 1
+    //=================================================================================================================
+    "missile_salvo"
+    { 
+        "BaseClass"                     "ability_lua"
+        "ScriptFile"                    "bosses/clock/missile_salvo"
+
+        // General
+        //-------------------------------------------------------------------------------------------------------------
+        "AbilityBehavior"               "DOTA_ABILITY_BEHAVIOR_NO_TARGET"
+        "AbilityUnitDamageType"         "DAMAGE_TYPE_PHYSICAL"  
+ 
+		"precache"
+		{
+			//"soundfile"	"soundevents/game_sounds_heroes/game_sounds_shredder.vsndevts"
+			//"particle"	"particles/units/heroes/hero_shredder/shredder_chakram.vpcf"
+		}
+
+        // Casting
+        //-------------------------------------------------------------------------------------------------------------
+        "AbilityCastPoint"              "0.0 0.0 0.0 0.0"
+
+        // Time     
+        //-------------------------------------------------------------------------------------------------------------
+        "AbilityCooldown"               "0 0 0 0"
+
+        // Cost
+        //-------------------------------------------------------------------------------------------------------------
+        "AbilityManaCost"               "0"
+
+        // Special
+        //-------------------------------------------------------------------------------------------------------------
+		"AbilitySpecial"
+		{
+			"01"
+			{
+				"var_type"			                "FIELD_INTEGER"
+				"nMaxSawBlades"		                "5 6 7 8"
+			}
+		}
+    }
+}
+

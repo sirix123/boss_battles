@@ -21,7 +21,7 @@ end
 
 -- effect
 function r_metamorph_modifier:GetEffectName()
-	return "particles/ranger/debuff_ranger_huskar_burning_spear_debuff.vpcf"
+	return
 end
 
 function r_metamorph_modifier:GetStatusEffectName()
@@ -151,6 +151,7 @@ function r_metamorph_modifier:OnDestroy()
         for i = 1 , #self.tMetamorphAbilities, 1 do
             self:SetLayout( true, self.tMetamorphAbilities[i], self.tMainAbilities[i], i )
         end
+
     end
 end
 ----------------------------------------------------------------------------
@@ -158,7 +159,7 @@ end
 --  functions table
 -- MODIFIER_PROPERTY_MODEL_SCALE GetModifierModelScale
 function r_metamorph_modifier:GetModifierModelChange()
-	return "models/heroes/medusa/medusa.vmdl"
+	return "models/items/lone_druid/true_form/frostivus2018_lone_druid_inuit_trueform/frostivus2018_lone_druid_inuit_trueform.vmdl"
 end
 
 function r_metamorph_modifier:GetModifierConstantManaRegen()

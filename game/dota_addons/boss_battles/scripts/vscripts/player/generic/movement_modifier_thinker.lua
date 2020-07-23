@@ -62,7 +62,7 @@ function movement_modifier_thinker:OnIntervalThink()
 	)
 
 	-- moving
-	if self.parent:IsWalking() == true then
+	if self.parent:IsWalking() == true and self.parent:HasModifier("modifier_generic_arc_lua") == false then
 
 		-- needed to not give speed boost on diagonal
 		if self.parent.direction.x ~= 0 and self.parent.direction.y ~= 0 then

@@ -1,5 +1,6 @@
 e_syncwithforest = class({})
 LinkLuaModifier( "e_syncwithforest_modifier", "player/ranger/modifiers/e_syncwithforest_modifier", LUA_MODIFIER_MOTION_NONE )
+LinkLuaModifier( "e_syncwithforest_modifier_enemy", "player/ranger/modifiers/e_syncwithforest_modifier_enemy", LUA_MODIFIER_MOTION_NONE )
 
 function e_syncwithforest:OnAbilityPhaseStart()
     if IsServer() then
@@ -88,7 +89,11 @@ function e_syncwithforest:OnProjectileHit( hTarget,  vLocation)
         local targets = FindUnitsInRadius(DOTA_TEAM_GOODGUYS, vLocation, nil, self.radius, DOTA_UNIT_TARGET_TEAM_BOTH, DOTA_UNIT_TARGET_ALL, DOTA_UNIT_TARGET_FLAG_NONE, FIND_ANY_ORDER, false)
 
         for _, target in pairs(targets) do
-            target:AddNewModifier(self.caster, self, "e_syncwithforest_modifier", { duration = self.duration })
+            if target:GetTeam() == DOTA_TEAM_GOODGUYS then
+                target:AddNewModifier(self.caster, self, "e_syncwithforest_modifier", { duration = self.duration })
+            else
+                target:AddNewModifier(self.caster, self, "e_syncwithforest_modifier_enemy", { duration = self.duration })
+            end
         end
 
         -- effect neded for explode flask

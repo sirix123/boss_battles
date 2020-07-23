@@ -1,6 +1,7 @@
 #base "bosses/beastmaster/units/beastmaster.txt"
 #base "bosses/gyrocopter/units/gyrocopter.txt"
 #base "bosses/timber/units/timber.txt"
+#base "bosses/clock/units/clock.txt"
 
 "DOTAUnits"
 {

@@ -5,6 +5,7 @@
 // mechanical raid
 #base "bosses/beastmaster/abilities/beastmaster.txt"
 #base "bosses/gyrocopter/abilities/gyrocopter.txt"
+#base "bosses/clock/abilities/clock.txt"
 #base "bosses/timber/abilities/timber.txt"
 #base "bosses/timber/abilities/energy_start_zero.txt"
 

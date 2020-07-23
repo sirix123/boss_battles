@@ -15,7 +15,7 @@ function m2_serratedarrow_metamorph:OnAbilityPhaseStart()
 
         -- start casting animation
         -- the 1 below is imporant if set incorrectly the animation will stutter (second variable in startgesture is the playback override)
-        self:GetCaster():StartGestureWithPlaybackRate(ACT_DOTA_ATTACK, 0.8)
+        self:GetCaster():StartGestureWithPlaybackRate(ACT_DOTA_CAST_ABILITY_3, 0.8)
 
         -- add casting modifier
         self:GetCaster():AddNewModifier(self:GetCaster(), self, "casting_modifier_thinker",
@@ -33,7 +33,7 @@ function m2_serratedarrow_metamorph:OnAbilityPhaseInterrupted()
     if IsServer() then
 
         -- remove casting animation
-        self:GetCaster():FadeGesture(ACT_DOTA_ATTACK)
+        self:GetCaster():FadeGesture(ACT_DOTA_CAST_ABILITY_3)
 
         -- remove casting modifier
         self:GetCaster():RemoveModifierByName("casting_modifier_thinker")
@@ -49,7 +49,7 @@ function m2_serratedarrow_metamorph:OnSpellStart()
     if IsServer() then
 
         -- remove casting animation
-        self:GetCaster():FadeGesture(ACT_DOTA_ATTACK)
+        self:GetCaster():FadeGesture(ACT_DOTA_CAST_ABILITY_3)
 
         -- destroy channel particle
         ParticleManager:DestroyParticle( self.nfx, true )
