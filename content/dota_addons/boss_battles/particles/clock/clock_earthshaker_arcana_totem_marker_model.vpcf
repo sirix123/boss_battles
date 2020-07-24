@@ -27,6 +27,9 @@
 			_class = "C_OP_Decay"
 			m_nOpEndCapState = 1
 		},
+		{
+			_class = "C_OP_InterpolateRadius"
+		},
 	]
 	m_Initializers = 
 	[
@@ -37,8 +40,8 @@
 		},
 		{
 			_class = "C_INIT_RandomRadius"
-			m_flRadiusMax = 0.75
-			m_flRadiusMin = 0.75
+			m_flRadiusMax = 200.0
+			m_flRadiusMin = 200.0
 		},
 		{
 			_class = "C_INIT_RingWave"
@@ -61,6 +64,11 @@
 			m_CollisionGroupName = "DEBRIS"
 			m_bIncludeWater = true
 			m_bSetNormal = true
+		},
+		{
+			_class = "C_INIT_RadiusFromCPObject"
+			m_nControlPoint = 1
+			m_bDisableOperator = true
 		},
 	]
 	m_Emitters = 

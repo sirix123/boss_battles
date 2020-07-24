@@ -13,12 +13,6 @@
         //-------------------------------------------------------------------------------------------------------------
         "AbilityBehavior"               "DOTA_ABILITY_BEHAVIOR_NO_TARGET"
         "AbilityUnitDamageType"         "DAMAGE_TYPE_PHYSICAL"  
- 
-		"precache"
-		{
-			//"soundfile"	"soundevents/game_sounds_heroes/game_sounds_shredder.vsndevts"
-			//"particle"	"particles/units/heroes/hero_shredder/shredder_chakram.vpcf"
-		}
 
         // Casting
         //-------------------------------------------------------------------------------------------------------------
@@ -36,13 +30,20 @@
         //-------------------------------------------------------------------------------------------------------------
 		"AbilitySpecial"
 		{
-            "01"{ "var_type"			"FIELD_INTEGER"		"duration"				"5" }
+            "01"{ "var_type"			"FIELD_INTEGER"		"missile_radius"		"200" }
+            "02"{ "var_type"			"FIELD_INTEGER"		"flTimeBetweenWaves"	"6" }
+            "03"{ "var_type"			"FIELD_INTEGER"		"nMaxWaves"				"6" }
+            "04"{ "var_type"			"FIELD_INTEGER"		"dmg_hit"				"50" }
+            "05"{ "var_type"			"FIELD_INTEGER"		"dmg_dot"				"10" }
+            "06"{ "var_type"			"FIELD_INTEGER"		"dmg_interval"			"1" }
+            "07"{ "var_type"			"FIELD_INTEGER"		"duration"			    "2" }
 		}
 
         "precache"
 		{
-			"soundfile"	"soundevents/game_sounds_heroes/game_sounds_winter_wyvern.vsndevts"
-			"particle"	"particles/ranger/ranger_clockwerk_para_rocket_flare.vpcf"
+			"soundfile"	"soundevents/game_sounds_heroes/game_sounds_rattletrap.vsndevts"
+			"particle"  "particles/ranger/ranger_clockwerk_para_rocket_flare.vpcf"
+            "particle"  "particles/clock/clock_hero_snapfire_ultimate_linger.vpcf"
 		}
     }
 }

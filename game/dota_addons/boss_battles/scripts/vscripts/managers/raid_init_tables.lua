@@ -71,7 +71,7 @@ tRAID_INIT_TABLE = {
 		},
 		bosses =
 		{
-			"npc_dota_hero_riki",
+			"npc_clock",
 		},
 	},
 
