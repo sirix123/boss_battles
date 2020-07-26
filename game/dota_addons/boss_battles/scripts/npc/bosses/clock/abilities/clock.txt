@@ -2,7 +2,7 @@
 "DOTAAbilities"
 {
     //=================================================================================================================
-    // Clock: Ability naem 1
+    // Clock: missile_salvo
     //=================================================================================================================
     "missile_salvo"
     { 
@@ -42,8 +42,85 @@
         "precache"
 		{
 			"soundfile"	"soundevents/game_sounds_heroes/game_sounds_rattletrap.vsndevts"
+            "soundfile"	"soundevents/voscripts/game_sounds_vo_rattletrap.vsndevts"
 			"particle"  "particles/ranger/ranger_clockwerk_para_rocket_flare.vpcf"
             "particle"  "particles/clock/clock_hero_snapfire_ultimate_linger.vpcf"
+		}
+    }
+
+    //=================================================================================================================
+    // Clock: Hook Shot
+    //=================================================================================================================
+    "hookshot"
+    { 
+        "BaseClass"                     "ability_lua"
+        "ScriptFile"                    "bosses/clock/hookshot"
+
+        // General
+        //-------------------------------------------------------------------------------------------------------------
+        "AbilityBehavior"               "DOTA_ABILITY_BEHAVIOR_POINT"
+        "AbilityUnitDamageType"         "DAMAGE_TYPE_PHYSICAL"  
+
+        // Casting
+        //-------------------------------------------------------------------------------------------------------------
+        "AbilityCastPoint"              "0.0 0.0 0.0 0.0"
+        "AbilityCooldown"               "0 0 0 0"
+        "AbilityManaCost"               "0"
+        "AbilityCastRange" 				"1000"
+
+        // Special
+        //-------------------------------------------------------------------------------------------------------------
+		"AbilitySpecial"
+		{
+            "01"{ "var_type"			"FIELD_INTEGER"		"speed"		            "1000" }
+            "02"{ "var_type"			"FIELD_INTEGER"		"latch_radius"		    "50" }
+            "03"{ "var_type"			"FIELD_INTEGER"		"knock_speed"		    "500" }
+            "04"{ "var_type"			"FIELD_INTEGER"		"knock_distance"	    "1000" }
+            "05"{ "var_type"			"FIELD_INTEGER"		"knock_height"		    "200" }
+            "06"{ "var_type"			"FIELD_INTEGER"		"knock_stun_duration"	"5" }
+		}
+
+        "precache"
+		{
+
+		}
+    }
+
+    //=================================================================================================================
+    // Clock: Hook Shot
+    //=================================================================================================================
+    "choking_gas"
+    { 
+        "BaseClass"                     "ability_lua"
+        "ScriptFile"                    "bosses/clock/choking_gas"
+
+        // General
+        //-------------------------------------------------------------------------------------------------------------
+        "AbilityBehavior"               "DOTA_ABILITY_BEHAVIOR_NO_TARGET"//"DOTA_ABILITY_BEHAVIOR_UNIT_TARGET | DOTA_ABILITY_BEHAVIOR_IMMEDIATE | DOTA_ABILITY_BEHAVIOR_IGNORE_BACKSWING"
+        "AbilityUnitDamageType"         "DAMAGE_TYPE_PHYSICAL"  
+
+        // Casting
+        //-------------------------------------------------------------------------------------------------------------
+        "AbilityCastPoint"              "0.0 0.0 0.0 0.0"
+        "AbilityCooldown"               "0 0 0 0"
+        "AbilityManaCost"               "0"
+        "AbilityCastRange" 				"1000"
+
+        // Special
+        //-------------------------------------------------------------------------------------------------------------
+		"AbilitySpecial"
+		{
+            "01"{ "var_type"			"FIELD_INTEGER"		"cloud_spawn_interval"		            "2" }
+            "02"{ "var_type"			"FIELD_INTEGER"		"duration_cloud"		                "5" }
+            "03"{ "var_type"			"FIELD_INTEGER"		"radius"		                        "150" }
+            "04"{ "var_type"			"FIELD_INTEGER"		"dmg"		                            "100" }
+            "05"{ "var_type"			"FIELD_INTEGER"		"dmg_interval"		                    "1" }
+            "06"{ "var_type"			"FIELD_INTEGER"		"duration_debuff"		                "20" }
+		}
+
+        "precache"
+		{
+
 		}
     }
 }

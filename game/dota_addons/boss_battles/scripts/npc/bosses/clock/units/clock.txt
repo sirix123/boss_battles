@@ -22,8 +22,8 @@
 
 		// Abilities
 		//----------------------------------------------------------------
-		"Ability1"					""					// Ability 1
-		"Ability2"					""					// Ability 2
+		"Ability1"					"choking_gas"		// Ability 1
+		"Ability2"					"hookshot"			// Ability 2
 		"Ability3"					""					// Ability 3
 		"Ability4"					""					// Ability 4
 		"Ability5"					""					// Ability 5
@@ -51,7 +51,7 @@
 
 		// Movement
 		//----------------------------------------------------------------
-		"MovementCapabilities"		"DOTA_UNIT_CAP_MOVE_NONE"
+		"MovementCapabilities"		"DOTA_UNIT_CAP_MOVE_NONE"//"DOTA_UNIT_CAP_MOVE_GROUND"
 		"MovementSpeed"				"350"					
 
 		// Status
