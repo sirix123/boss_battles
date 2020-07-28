@@ -2,15 +2,14 @@ gyrocopter = class({})
 
 LinkLuaModifier( "flak_cannon_modifier", "bosses/gyrocopter/flak_cannon_modifier", LUA_MODIFIER_MOTION_NONE )
 
-
 --Global used in; gyrocopter.lua, homing_missile.lua, ...
 _G.ScannedEnemyLocations = {}
 
 
 local currentPhase = 1
 
-local COOLDOWN_RADARSCAN = 100
-local COOLDOWN_FLAKCANNON = 10
+local COOLDOWN_RADARSCAN = 10
+local COOLDOWN_FLAKCANNON = 100
 local CAST_CALLDOWN = false
 
 local swooping = false
@@ -23,31 +22,39 @@ local isHpBelow10Percent = false
 --DOTA_UNIT_CAP_RANGED_ATTACK = 2
 
 --Gyro locoations
+local startLoc = Vector(13850,12272,256) 
+
 local gyroHideLocation1 = Vector(11697,12272,640)
 local gyroHideLocation2 = Vector(15823,12264,640)
 
+
 function Spawn( entityKeyValues )
-	print("Gyrocopter Spawned!")
 	thisEntity.homing_missile = thisEntity:FindAbilityByName( "homing_missile" )
 	thisEntity.flak_cannon = thisEntity:FindAbilityByName( "flak_cannon" )
 	thisEntity.rocket_barrage = thisEntity:FindAbilityByName( "rocket_barrage" )
 	thisEntity.call_down = thisEntity:FindAbilityByName( "call_down" )
 	--TODO: if any of these are nil, we got a problem
-
-
-
 	thisEntity:SetContextThink( "MainThinker", MainThinker, 1 )
 end
 
-local tickCount = 0
+function CurrentTestCode()
+	--Okay, lets do a swoop test?
+	local enemies = FindUnitsInRadius(DOTA_TEAM_BADGUYS, thisEntity:GetAbsOrigin(), nil, 1400, DOTA_UNIT_TARGET_TEAM_ENEMY, DOTA_UNIT_TARGET_ALL, DOTA_UNIT_TARGET_FLAG_NONE, FIND_CLOSEST, false )
+	--test a swoop onto player...
+	SwoopAbility(enemies[1])
+end
 
+
+
+local tickCount = 0
 function MainThinker()
 	--Enemies scanned, missiles should be chasing em.
-	if _G.ScannedEnemyLocations ~= nil then
-		--print("MainThinker. #_G.ScannedEnemyLocations = ", #_G.ScannedEnemyLocations)
-	end
-
 	tickCount = tickCount + 1
+
+	--TESTING:
+	if (tickCount == 10) then
+		CurrentTestCode()
+	end
 
 	-- Almost all code should not run when the game is paused. Keep this near the top so we return early.
 	if GameRules:IsGamePaused() == true then
@@ -55,6 +62,12 @@ function MainThinker()
 	end
 	if thisEntity == nil then
 		return
+	end
+
+	--on first tick
+	if tickCount == 1 then
+		--Move to startLoc:
+		MoveToPosition(startLoc, 2000)
 	end
 
 	--CALL DOWN:
@@ -67,17 +80,15 @@ function MainThinker()
 		thisEntity:SetAttackCapability(0) --set to DOTA_UNIT_CAP_NO_ATTACK.
 		thisEntity:MoveToPosition(gyroHideLocation2)
 
-		ApplyFlakCannonModifier()
-
+		--ApplyFlakCannonModifier()
 	end
 
 	--check current HP to trigger events
 	local healthPercent = (thisEntity:GetHealth() / thisEntity:GetMaxHealth()) * 100
-	
 	--Trigger event at 50% hp
-	if not isHpBelow50Percent and healthPercent < 90 then 
+	if not isHpBelow50Percent and healthPercent < 50 then 
 		isHpBelow50Percent = true
-		HalfHealthPhase()
+		CallDownPatternPhase()
 	end
 	--Trigger event at 10% hp
 	if not isHpBelow10Percent and healthPercent < 10 then 
@@ -90,48 +101,70 @@ function MainThinker()
 
 	--RADAR, 
 	if tickCount % COOLDOWN_RADARSCAN == 0 then --cast repeatedly
-		RadarSweep()
-		--RadarPulse()
+		--RadarSweep()
+		RadarPulse()
 	end
 
-	-- FLAK CANNON,
-	if tickCount % COOLDOWN_FLAKCANNON == 0 then --cast repeatedly
-		ApplyFlakCannonModifier()
-	end
-	
-	--SWOOP:
-	if swooping then
-		swoopDuration = swoopDuration +1
-		--Check if at destination, if so then thisEntity:SetBaseMoveSpeed(0)
-		if swoopDuration > 5 then
-			thisEntity:SetBaseMoveSpeed(300)
-			swooping = false
-		end	
-	end
-
-	
 	-- If/when a missile hit's a target do this action:
 	if _G.HOMING_MISSILE_HIT_TARGET ~= nil then
 		local targetLocation = _G.HOMING_MISSILE_HIT_TARGET
 		_G.HOMING_MISSILE_HIT_TARGET = nil
-		thisEntity:SetBaseMoveSpeed(600)
-		swooping = true
-
-		--TODO: Ideally he doesn't move exactly onto the target, but moves toward them and stops just short
-		--thisEntity:MoveToPosition(targetLocation)
-
 	end
 
 	return 1 
 end
 
 
+--Swoop: Gyro up into the air, then swoops down onto target, activating rocket barrage upon arrival.
+function SwoopAbility(target)
+	thisEntity:SetAttackCapability(0) --set to DOTA_UNIT_CAP_NO_ATTACK.	
+
+	local velocity = 40
+	local distanceThreshold = 150
+
+	-- --Use a timer to fly gyro up into the air, after delay tick
+	local delaySeconds = 3
+	local tickCount = 0
+	local tick_interval = 0.05
+	Timers:CreateTimer(function()
+
+		-- Fly gyro up on the z axis.
+		if ( (tickCount * tick_interval) < delaySeconds) then
+			thisEntity:SetAbsOrigin(Vector(thisEntity:GetAbsOrigin().x, thisEntity:GetAbsOrigin().y, thisEntity:GetAbsOrigin().z +velocity/4))
+	
+		--Move to target
+		else
+			--Check if gyro has arrived at destination then cast rocket_barrage and stop this timer
+			local distance = (target:GetAbsOrigin() - thisEntity:GetAbsOrigin()):Length2D()
+			if (distance < distanceThreshold) then
+				CastRocketBarrage()
+				thisEntity:SetAttackCapability(2) 
+				return
+			end
+			--Otherwise move gyro closer to destination
+			local direction = (target:GetAbsOrigin() - thisEntity:GetAbsOrigin()):Normalized()
+			local moveAmount = direction * velocity
+			thisEntity:SetAbsOrigin(thisEntity:GetAbsOrigin() + moveAmount)
+		 end
+		 tickCount = tickCount +1
+		 return tick_interval
+	end)
+
+
+end
+
+
+
 -- Fly gyro to location, once there set flag CAST_CALLDOWN to trigger cast down
-function HalfHealthPhase()
+function CallDownPatternPhase()
  	--TODO: move to gyroHideLocation1
  	thisEntity:SetAttackCapability(0) --set to DOTA_UNIT_CAP_NO_ATTACK.
  	thisEntity:SetBaseMoveSpeed(900)
  	thisEntity:MoveToPosition(gyroHideLocation1)
+
+ 	--Cast rocket_barrage?
+ 	print("Calling: CastRocketBarrage()")
+ 	CastRocketBarrage()
 
     --A timer to trigger any actions for when gyro arrives at his destination
 	Timers:CreateTimer(function()	
@@ -149,39 +182,13 @@ function HalfHealthPhase()
 	end) --end timer
 end
 
-
-function NearlyDeadPhase()
-	thisEntity:SetAttackCapability(0) --set to DOTA_UNIT_CAP_NO_ATTACK.
-	thisEntity:SetBaseMoveSpeed(900)
-	thisEntity:MoveToPosition(gyroHideLocation2)
-
-    --A timer to trigger any actions for when gyro arrives at his destination
-	Timers:CreateTimer(function()	
-		local currentPos = thisEntity:GetAbsOrigin()
-		local destination = gyroHideLocation2
-		local distance = (gyroHideLocation2 - currentPos):Length2D()
-
-		print("Flying to gyroHideLocation2. Distance = ", distance)
-		if distance < 100 then
-			thisEntity:SetAttackCapability(2)	
-			thisEntity:SetBaseMoveSpeed(0)
-			return
-		end
-		return 0.5
-	end) --end timer
-end
-
-
 -------------------------------------------------------------------------------
 --ANIMATIONS:
-
 function MissileTargetIndicator(location)
 
 
 end
 
-
--------------------------------------------------------------------------------
 -- Radar Scan Abilities,
 	-- Trying out different algos
 
@@ -268,6 +275,8 @@ function RadarSweep()
 	end) --end timer
 end
 
+
+
 enemiesPulsed = {}
 --Scan for CallDown targets
 --Basically a growing circle, highlight players that get detected
@@ -277,8 +286,6 @@ function RadarPulse()
 	local radiusGrowthRate = 25
 
 	local frameDuration = 0.1
-
-
 	Timers:CreateTimer(function()	
 		--update model
 		local origin = thisEntity:GetAbsOrigin()
@@ -290,7 +297,6 @@ function RadarPulse()
 		DebugDrawCircle(origin, Vector(255,0,0), 0, radius, true, frameDuration)		
 		DebugDrawCircle(origin, Vector(255,0,0), 0, radius-1, true, frameDuration)		
 
-
 		--check for hits
 		local enemies = FindUnitsInRadius(DOTA_TEAM_BADGUYS, thisEntity:GetAbsOrigin(), nil, radius,
 		DOTA_UNIT_TARGET_TEAM_ENEMY, DOTA_UNIT_TARGET_ALL, DOTA_UNIT_TARGET_FLAG_NONE, FIND_CLOSEST, false )
@@ -301,7 +307,6 @@ function RadarPulse()
 				else -- first time hitting this enemy 
 					DebugDrawCircle(enemy:GetAbsOrigin(), Vector(0,255,0), 128, 100, true, 5)
 					enemiesPulsed[enemy] = true --little hack so Contains works 
-
 					scannedEnemy = {}
 					scannedEnemy.Location = shallowcopy(enemy:GetAbsOrigin())
 					scannedEnemy.Enemy = enemy
@@ -317,14 +322,10 @@ function RadarPulse()
 							end
 						end
 					end
-
 					-- first time scanning this enemy, add a new entry for them
 					if isNewEnemy then
 						_G.PulsedEnemyLocations[#_G.PulsedEnemyLocations +1] = scannedEnemy	
 					end
-					
-					--Do a call down at this location?
-					
 				end
 		end
 
@@ -333,11 +334,9 @@ function RadarPulse()
 
 end
 
-
 --TODO: implement a call down spell which targets fixed locations on the ground
 -- I want 2 rows of call downs, each row roughly taking a third of the arena, forcing players into the remaining third.
 	-- gyro will then fly along this open path with FLAK CANNON
--- 
 function CallDownPattern()
 	local origin = thisEntity:GetAbsOrigin()
 	local origin_z0 = Vector(origin.x,origin.y, 256)
@@ -430,7 +429,7 @@ function CastCallDownAt(location)
 	ParticleManager:ReleaseParticleIndex(calldown_second_particle)
 
 	--EmitSoundOnClient("gyrocopter_gyro_call_down_1"..RandomInt(1, 2), self:GetCaster():GetPlayerOwner())
-
+	
 	--Call down ability: 
 	--Start a timer, while counting up display indicator animation. After indicator_duration seconds, apply particle effects, dmg enemies in radius
 	Timers:CreateTimer(function()	
@@ -500,6 +499,33 @@ function AttackClosestPlayer()
 end
 
 
+--Moves thisEntity to position.
+function MoveToPosition(position, movespeed )
+	--get initial values to restore later
+	local ms = thisEntity:GetBaseMoveSpeed()
+	local attackCapability = thisEntity:GetAttackCapability() 
+
+	--move gyro to position
+	thisEntity:SetBaseMoveSpeed(movespeed)
+	thisEntity:SetAttackCapability(0) --set to DOTA_UNIT_CAP_NO_ATTACK.
+	thisEntity:MoveToPosition(position)
+
+	--wait until arrived, then reset values:
+    --A timer to trigger any actions for when gyro arrives at his destination
+	Timers:CreateTimer(function()	
+		local currentPos = thisEntity:GetAbsOrigin()
+		local destination = position
+		local distance = (position - currentPos):Length2D()
+		if distance < 80 then
+			--after arriving, reset values
+			thisEntity:SetBaseMoveSpeed(ms)
+			thisEntity:SetAttackCapability(attackCapability)
+			return
+		end
+		return 0.5
+	end) --end timer
+end
+
 
 -----------------------------------------------------------------------------------------------
 --Table/Set/List functions
@@ -544,13 +570,18 @@ function CastFlakCannon()
 end
 
 function CastRocketBarrage()
+	thisEntity.rocket_barrage.test = 123;
+
 	ExecuteOrderFromTable({
 		UnitIndex = thisEntity:entindex(),
 		OrderType = DOTA_UNIT_ORDER_CAST_NO_TARGET,
 		AbilityIndex = thisEntity.rocket_barrage:entindex(),
-		Queue = true,
+		Queue = false,
 	})
 end
+
+
+
 
 function shallowcopy(orig)
     local orig_type = type(orig)
