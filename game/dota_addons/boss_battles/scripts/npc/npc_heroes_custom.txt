@@ -30,7 +30,8 @@
 	{
 		"override_hero"				"npc_dota_hero_kunkka"						// Hero to override
 		"Ability2"					"abs_coord_debug"							// Ability 2
-		"Ability3"					"slingShot"
+		"Ability3"					"space_frostblink"							// Ability 2
+		
 		"movementspeed" 				"500"	
 	}
 
@@ -41,6 +42,7 @@
 		"Ability2"					"homing_missile"			
 		"Ability3"					"rocket_barrage"			
 		"Ability4"					"flak_cannon"		
+		"Ability5"					"call_down"		
 	}
 
 
