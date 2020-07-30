@@ -62,6 +62,8 @@ function Precache( context )
   -- ranger precache
   PrecacheResource("soundfile", "soundevents/voscripts/game_sounds_vo_medusa.vsndevts", context)
 
+  PrecacheResource("particle",	"particles/clock/clock_hero_snapfire_ultimate_linger.vpcf", context)
+
 end
 
 -- hello moomoo

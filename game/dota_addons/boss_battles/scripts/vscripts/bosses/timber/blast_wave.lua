@@ -35,7 +35,7 @@ function blast_wave:OnSpellStart()
             Source = self.caster,
             Ability = self,
             vSpawnOrigin = origin,
-            bDeleteOnHit = false,
+            bDeleteOnHit = true,
             iUnitTargetTeam = DOTA_UNIT_TARGET_TEAM_ENEMY,
             iUnitTargetFlags = DOTA_UNIT_TARGET_FLAG_NONE,
             iUnitTargetType = DOTA_UNIT_TARGET_HERO + DOTA_UNIT_TARGET_BASIC,

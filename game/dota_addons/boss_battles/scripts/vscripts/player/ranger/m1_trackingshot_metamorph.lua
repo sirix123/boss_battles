@@ -89,9 +89,9 @@ function m1_trackingshot_metamorph:OnSpellStart()
         --origin.z = 200
         local tSpawnLoc =
         {
-            origin + Vector(0,0,200) + self.caster:GetRightVector()       *100,
-            origin + Vector(0,0,200) + self.caster:GetForwardVector()         ,
-            origin + Vector(0,0,200) - self.caster:GetRightVector()       *100,
+            origin + Vector(0,0,50) + self.caster:GetRightVector()       *100,
+            origin + Vector(0,0,50) + self.caster:GetForwardVector()         ,
+            origin + Vector(0,0,50) - self.caster:GetRightVector()       *100,
         }
 
         for i = 1, nProjPerAttack, 1 do

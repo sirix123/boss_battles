@@ -8,6 +8,7 @@
     { 
         "BaseClass"                     "ability_lua"
         "ScriptFile"                    "bosses/clock/missile_salvo"
+        "MaxLevel"						"4"
 
         // General
         //-------------------------------------------------------------------------------------------------------------
@@ -55,6 +56,7 @@
     { 
         "BaseClass"                     "ability_lua"
         "ScriptFile"                    "bosses/clock/hookshot"
+        "MaxLevel"						"4"
 
         // General
         //-------------------------------------------------------------------------------------------------------------
@@ -93,6 +95,7 @@
     { 
         "BaseClass"                     "ability_lua"
         "ScriptFile"                    "bosses/clock/choking_gas"
+        "MaxLevel"						"4"
 
         // General
         //-------------------------------------------------------------------------------------------------------------
@@ -123,5 +126,161 @@
 
 		}
     }
+               
+    //=================================================================================================================
+    // furnace_master_grab_throw
+    //=================================================================================================================
+    "furnace_master_grab_throw"
+    {
+        // General
+        //-------------------------------------------------------------------------------------------------------------
+        "BaseClass"                     "ability_lua"
+        "AbilityTextureName"            "bloodseeker_bloodrage"
+        "ScriptFile"                    "bosses/clock/furnace_master_grab_throw"
+        "AbilityCastAnimation"          "ACT_DOTA_ATTACK"
+
+        "AbilityBehavior"               "DOTA_ABILITY_BEHAVIOR_UNIT_TARGET"
+        "AbilityUnitTargetTeam"         "DOTA_UNIT_TARGET_TEAM_BOTH"
+        "AbilityUnitTargetType"         "DOTA_UNIT_TARGET_ALL"
+        "AbilityUnitTargetFlags"        "DOTA_UNIT_TARGET_FLAG_MAGIC_IMMUNE_ENEMIES | DOTA_UNIT_TARGET_FLAG_INVULNERABLE"
+        "AbilityUnitDamageType"         "DAMAGE_TYPE_PHYSICAL"
+        "MaxLevel"                      "1"
+
+        "AnimationIgnoresModelScale"    "1"
+
+        // Casting
+        //-------------------------------------------------------------------------------------------------------------
+        "AbilityCastRange"              "200"
+        "AbilityCastPoint"              "0.0"
+        "AnimationPlaybackRate"         "0.35" // 0.35 (supposedly) corresponds to cast point of 1.25
+        
+        // Time     
+        //-------------------------------------------------------------------------------------------------------------
+        "AbilityCooldown"               "0.0"
+    
+        // Cost
+        //-------------------------------------------------------------------------------------------------------------
+        "AbilityManaCost"               "0"
+                
+        // Special
+        //-------------------------------------------------------------------------------------------------------------
+        "AbilitySpecial"
+        {
+            "01"{ "var_type"			"FIELD_INTEGER"		"grab_radius"		            "100" }
+            "02"{ "var_type"			"FIELD_INTEGER"		"min_hold_time"		            "1" }
+            "03"{ "var_type"			"FIELD_INTEGER"		"max_hold_time"		            "2" }
+        }
+    }
+
+    //=================================================================================================================
+    // furnace_master_throw
+    //=================================================================================================================
+    "furnace_master_throw"
+    {
+        // General
+        //-------------------------------------------------------------------------------------------------------------
+        "BaseClass"                     "ability_lua"
+        "AbilityTextureName"            "furnace_master_throw"
+        "ScriptFile"                    "bosses/clock/furnace_master_throw" 
+        "AbilityCastAnimation"          "ACT_DOTA_ATTACK"
+
+        "AbilityBehavior"               "DOTA_ABILITY_BEHAVIOR_NO_TARGET"//"DOTA_ABILITY_BEHAVIOR_AOE | DOTA_ABILITY_BEHAVIOR_POINT"
+        "AbilityUnitTargetTeam"         "DOTA_UNIT_TARGET_TEAM_BOTH"
+        "AbilityUnitTargetType"         "DOTA_UNIT_TARGET_ALL"
+        "AbilityUnitTargetFlags"        "DOTA_UNIT_TARGET_FLAG_MAGIC_IMMUNE_ENEMIES | DOTA_UNIT_TARGET_FLAG_INVULNERABLE"
+        "AbilityUnitDamageType"         "DAMAGE_TYPE_PHYSICAL"
+       
+        "MaxLevel"                      "4"
+
+        // Casting
+        //-------------------------------------------------------------------------------------------------------------
+        "AbilityCastRange"              "9000"
+        "AbilityCastPoint"              "1.25"
+        "AnimationPlaybackRate"         "0.7" // 0.7 (supposedly) corresponds to cast point of 1.25
+        
+        // Time     
+        //-------------------------------------------------------------------------------------------------------------
+        "AbilityCooldown"               "0"
+
+        // Cost
+        //-------------------------------------------------------------------------------------------------------------
+        "AbilityManaCost"               "0"
+                
+        // Special
+        //-------------------------------------------------------------------------------------------------------------
+        "AbilitySpecial"
+        {
+            "01"{ "var_type"			"FIELD_INTEGER"		"throw_speed"		            "900" }
+            "02"{ "var_type"			"FIELD_INTEGER"		"impact_radius"		            "100" }
+        }
+    }
+
+    //=================================================================================================================
+    // Flame Turrent: Flame wave
+    //=================================================================================================================
+    "fire_turret_flame"
+    { 
+        "BaseClass"                     "ability_lua"
+        "ScriptFile"                    "bosses/clock/fire_turret_flame"
+
+        // General
+        //-------------------------------------------------------------------------------------------------------------
+        "AbilityBehavior"               "DOTA_ABILITY_BEHAVIOR_NO_TARGET"
+        "AbilityUnitDamageType"         "DAMAGE_TYPE_PHYSICAL" 
+        "MaxLevel"						"4"
+        "AbilityCastRange" 				"10000"
+        "AbilityCooldown"				"0"
+        "AbilityCastPoint"              "0"
+        "AbilityManaCost"               "0"
+
+        // Special
+        //-------------------------------------------------------------------------------------------------------------
+		"AbilitySpecial"
+		{
+            "01"{ "var_type"			"FIELD_INTEGER"		"speed"		            "500" }
+            "02"{ "var_type"			"FIELD_INTEGER"		"dmg"		            "100" }
+            "03"{ "var_type"			"FIELD_INTEGER"		"hit_box"		        "200" }
+		}
+
+        "precache"
+		{
+            "particle"  "particles/clock/clock_flame_turret_invoker_chaos_meteor.vpcf"
+            "particle"  "particles/units/heroes/hero_invoker/invoker_chaos_meteor_crumble.vpcf"
+		}
+    }
+
+    //=================================================================================================================
+    // Clock: Summon Flame Turret
+    //=================================================================================================================
+    "summon_flame_turret"
+    { 
+        "BaseClass"                     "ability_lua"
+        "ScriptFile"                    "bosses/clock/summon_flame_turret"
+
+        // General
+        //-------------------------------------------------------------------------------------------------------------
+        "AbilityBehavior"               "DOTA_ABILITY_BEHAVIOR_NO_TARGET"
+        "AbilityUnitDamageType"         "DAMAGE_TYPE_PHYSICAL" 
+        "MaxLevel"						"4"
+        "AbilityCastRange" 				"10000"
+        "AbilityCooldown"				"0"
+        "AbilityCastPoint"              "0"
+        "AbilityManaCost"               "0"
+
+        // Special
+        //-------------------------------------------------------------------------------------------------------------
+		"AbilitySpecial"
+		{
+            "01"{ "var_type"			"FIELD_INTEGER"		"number_of_turrets_to_spawn"		"5" }
+		}
+
+		"precache"
+		{
+			"soundfile" "soundevents/game_sounds_heroes/game_sounds_invoker.vsndevts"
+			"particle"	"particles/units/heroes/hero_invoker/invoker_sun_strike.vpcf"
+            "particle"	"particles/units/heroes/hero_invoker/invoker_sun_strike_team.vpcf"
+		}
+    }
+
 }
 

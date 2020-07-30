@@ -275,7 +275,8 @@ function CastBlastWave()
 	if #enemies == 0 or enemies == nil then
 		return 0.5
 	else
-		thisEntity.vLocation = enemies[1]:GetAbsOrigin()
+		local randomEnemy = RandomInt(1,#enemies)
+		thisEntity.vLocation = enemies[randomEnemy]:GetAbsOrigin()
 	end
 
 	ExecuteOrderFromTable({
