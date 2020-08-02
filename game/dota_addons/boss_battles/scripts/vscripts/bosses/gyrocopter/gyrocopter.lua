@@ -6,28 +6,23 @@ LinkLuaModifier( "flak_cannon_modifier", "bosses/gyrocopter/flak_cannon_modifier
 _G.ScannedEnemyLocations = {}
 
 
-local currentPhase = 1
 
-local COOLDOWN_RADARSCAN = 10
+local COOLDOWN_RADARSCAN = 30
+local COOLDOWN_RADARPULSE = 13
+
 local COOLDOWN_FLAKCANNON = 100
 local CAST_CALLDOWN = false
-
-local swooping = false
-local swoopDuration = 0
 
 local isHpBelow50Percent = false
 local isHpBelow10Percent = false
 
---DOTA_UNIT_CAP_NO_ATTACK = 0
---DOTA_UNIT_CAP_RANGED_ATTACK = 2
-
 --Gyro locoations
 local startLoc = Vector(13850,12272,256) 
-
 local gyroHideLocation1 = Vector(11697,12272,640)
 local gyroHideLocation2 = Vector(15823,12264,640)
 
 
+-- On Spawn, init any vars, start MainThinker
 function Spawn( entityKeyValues )
 	thisEntity.homing_missile = thisEntity:FindAbilityByName( "homing_missile" )
 	thisEntity.flak_cannon = thisEntity:FindAbilityByName( "flak_cannon" )
@@ -37,6 +32,7 @@ function Spawn( entityKeyValues )
 	thisEntity:SetContextThink( "MainThinker", MainThinker, 1 )
 end
 
+--TESTING:
 function CurrentTestCode()
 	--Okay, lets do a swoop test?
 	local enemies = FindUnitsInRadius(DOTA_TEAM_BADGUYS, thisEntity:GetAbsOrigin(), nil, 1400, DOTA_UNIT_TARGET_TEAM_ENEMY, DOTA_UNIT_TARGET_ALL, DOTA_UNIT_TARGET_FLAG_NONE, FIND_CLOSEST, false )
@@ -44,29 +40,24 @@ function CurrentTestCode()
 	SwoopAbility(enemies[1])
 end
 
-
-
 local tickCount = 0
 function MainThinker()
 	--Enemies scanned, missiles should be chasing em.
 	tickCount = tickCount + 1
+	--print("MainThinker tick: ",tickCount)
 
 	--TESTING:
 	if (tickCount == 10) then
-		CurrentTestCode()
+		--CurrentTestCode()
 	end
 
 	-- Almost all code should not run when the game is paused. Keep this near the top so we return early.
 	if GameRules:IsGamePaused() == true then
 		return 0.5
 	end
-	if thisEntity == nil then
-		return
-	end
 
-	--on first tick
+	--on first tick: Move to starting location
 	if tickCount == 1 then
-		--Move to startLoc:
 		MoveToPosition(startLoc, 2000)
 	end
 
@@ -79,12 +70,11 @@ function MainThinker()
 		thisEntity:SetBaseMoveSpeed(600)
 		thisEntity:SetAttackCapability(0) --set to DOTA_UNIT_CAP_NO_ATTACK.
 		thisEntity:MoveToPosition(gyroHideLocation2)
-
-		--ApplyFlakCannonModifier()
 	end
 
 	--check current HP to trigger events
 	local healthPercent = (thisEntity:GetHealth() / thisEntity:GetMaxHealth()) * 100
+	
 	--Trigger event at 50% hp
 	if not isHpBelow50Percent and healthPercent < 50 then 
 		isHpBelow50Percent = true
@@ -99,11 +89,15 @@ function MainThinker()
 
 	--ABILITY COOLDOWNS, modulus the tickCount
 
-	--RADAR, 
-	if tickCount % COOLDOWN_RADARSCAN == 0 then --cast repeatedly
-		--RadarSweep()
+	--RADAR, reatedly alternate between RadarPulse and RadarScan every COOLDOWN_RADARSCAN / 2 seconds
+	--TODO: implement bool to allow for interupts of this.
+	if tickCount % COOLDOWN_RADARPULSE == 0 then --cast repeatedly
 		RadarPulse()
 	end
+
+	if tickCount % COOLDOWN_RADARSCAN == 0 then --cast repeatedly
+		RadarScan()
+	end 
 
 	-- If/when a missile hit's a target do this action:
 	if _G.HOMING_MISSILE_HIT_TARGET ~= nil then
@@ -115,8 +109,60 @@ function MainThinker()
 end
 
 
+-- ABILITIES: 
+-----------------------------------------------------------------------------------
+
+
+function FlyUp(height)
+	local velocity = 10
+	local tick_interval = 0.05
+	print("FlyUp before timer")
+	Timers:CreateTimer(function()
+		-- check if we've reached the height, Fly gyro up on the z axis.
+		if thisEntity:GetAbsOrigin().z < height then
+			thisEntity:SetAbsOrigin(Vector(thisEntity:GetAbsOrigin().x, thisEntity:GetAbsOrigin().y, thisEntity:GetAbsOrigin().z +velocity))
+			return tick_interval
+		end	
+		return --else return
+	end)
+	print("FlyUp after timer")
+
+	--Calc how long it will take to fly up. return that
+	local diff = height - thisEntity:GetAbsOrigin().z
+	local stepsToReachHeight = diff / velocity
+	local timeToReachHeight = stepsToReachHeight * tick_interval
+
+	return timeToReachHeight
+end
+
+function FlyDown(height)
+	local velocity = 10
+	local tick_interval = 0.05
+	print("FlyUp before timer")
+	Timers:CreateTimer(function()
+		-- check if we've reached the height, Fly gyro up on the z axis.
+		if thisEntity:GetAbsOrigin().z > height then
+			thisEntity:SetAbsOrigin(Vector(thisEntity:GetAbsOrigin().x, thisEntity:GetAbsOrigin().y, thisEntity:GetAbsOrigin().z -velocity))
+			return tick_interval
+		end	
+		return --else return
+	end)
+	print("FlyUp after timer")
+
+	--Calc how long it will take to fly up. return that
+	local diff = height - thisEntity:GetAbsOrigin().z
+	local stepsToReachHeight = diff / velocity
+	local timeToReachHeight = stepsToReachHeight * tick_interval
+
+	return timeToReachHeight
+end
+
+
+
 --Swoop: Gyro up into the air, then swoops down onto target, activating rocket barrage upon arrival.
 function SwoopAbility(target)
+	DebugDrawCircle(target:GetAbsOrigin(), Vector(0,0,255), 128, 100, true, 5) -- blue circle
+
 	thisEntity:SetAttackCapability(0) --set to DOTA_UNIT_CAP_NO_ATTACK.	
 
 	local velocity = 40
@@ -127,12 +173,10 @@ function SwoopAbility(target)
 	local tickCount = 0
 	local tick_interval = 0.05
 	Timers:CreateTimer(function()
-
 		-- Fly gyro up on the z axis.
 		if ( (tickCount * tick_interval) < delaySeconds) then
 			thisEntity:SetAbsOrigin(Vector(thisEntity:GetAbsOrigin().x, thisEntity:GetAbsOrigin().y, thisEntity:GetAbsOrigin().z +velocity/4))
-	
-		--Move to target
+		
 		else
 			--Check if gyro has arrived at destination then cast rocket_barrage and stop this timer
 			local distance = (target:GetAbsOrigin() - thisEntity:GetAbsOrigin()):Length2D()
@@ -149,10 +193,7 @@ function SwoopAbility(target)
 		 tickCount = tickCount +1
 		 return tick_interval
 	end)
-
-
 end
-
 
 
 -- Fly gyro to location, once there set flag CAST_CALLDOWN to trigger cast down
@@ -163,7 +204,6 @@ function CallDownPatternPhase()
  	thisEntity:MoveToPosition(gyroHideLocation1)
 
  	--Cast rocket_barrage?
- 	print("Calling: CastRocketBarrage()")
  	CastRocketBarrage()
 
     --A timer to trigger any actions for when gyro arrives at his destination
@@ -182,20 +222,11 @@ function CallDownPatternPhase()
 	end) --end timer
 end
 
--------------------------------------------------------------------------------
---ANIMATIONS:
-function MissileTargetIndicator(location)
 
 
-end
-
--- Radar Scan Abilities,
-	-- Trying out different algos
-
--- Basically build up a list of targets through various methods
+--TODO: write comment to explain what this is and how this works
 enemiesScanned = {}
-function RadarSweep()
-	local origin = thisEntity:GetAbsOrigin()
+function RadarScan()
 	local spellDuration = 3 --seconds
 	local radius = 1500
 
@@ -211,17 +242,28 @@ function RadarSweep()
 	local startAngle = 0
 
 	Timers:CreateTimer(function()	
-		--print("RadarSweep Timer tick")
+		local origin = thisEntity:GetAbsOrigin()
 		currentFrame = currentFrame +1
+
+		--Scan finished: Either, Swoop & Rocket barrage OR FlakCannon based on number of enemies scanned.
 		if currentFrame >= totalFrames then
+
+			if #_G.ScannedEnemyLocations == 1 then
+				print("Only 1 enemy scanned. Should do rocket barrage")
+				SwoopAbility(_G.ScannedEnemyLocations[1].Enemy)				
+			end				
+
+			if #_G.ScannedEnemyLocations > 1 then
+				print("More than 1 enemy scanned. Should do flak cannon")
+				ApplyFlakCannonModifier()
+			end
+
+			_G.ScannedEnemyLocations = {}
 			Clear(enemiesScanned)
 			return
 		end	
 
 		startAngle = endAngle - pieSize
-		-- if ( math.max(0, endAngle - pieSize) > 0 ) then
-		-- 	startAngle = endAngle - pieSize
-		-- end
 		currentAngle = startAngle
 
 		local linesPerDegree = 10
@@ -263,9 +305,7 @@ function RadarSweep()
 					if isNewEnemy then
 						_G.ScannedEnemyLocations[#_G.ScannedEnemyLocations +1] = scannedEnemy	
 					end
-					
-					--Shoot a homing missile at this target:
-					CastHomingMissile(enemy)
+
 				end
 			end
 		end
@@ -273,46 +313,58 @@ function RadarSweep()
 		endAngle = endAngle - degreesPerFrame
 		return frameDuration
 	end) --end timer
+
+
+
 end
 
 
+--TODO: write comment to explain what this is and how this works
 
-enemiesPulsed = {}
---Scan for CallDown targets
---Basically a growing circle, highlight players that get detected
+_G.PulsedEnemyLocations = {}
 function RadarPulse()
 	local radius = 200
-	local endRadius = 2500
-	local radiusGrowthRate = 25
+	local endRadius = 2000
+	local radiusGrowthRate = 50
+
+	--reset _G.PulsedEnemyLocations ?
+	enemiesPulsed = {}
+	--_G.PulsedEnemyLocations = {}
 
 	local frameDuration = 0.1
+	local currentAlpha = 10
 	Timers:CreateTimer(function()	
+		currentAlpha = currentAlpha + 1
 		--update model
 		local origin = thisEntity:GetAbsOrigin()
 		if radius < endRadius then
 			radius = radius + radiusGrowthRate
+		else
+			return
 		end
 		
 		--draw 
-		DebugDrawCircle(origin, Vector(255,0,0), 0, radius, true, frameDuration)		
+		DebugDrawCircle(origin, Vector(255,0,0), currentAlpha, radius, true, frameDuration)		
 		DebugDrawCircle(origin, Vector(255,0,0), 0, radius-1, true, frameDuration)		
 
 		--check for hits
 		local enemies = FindUnitsInRadius(DOTA_TEAM_BADGUYS, thisEntity:GetAbsOrigin(), nil, radius,
 		DOTA_UNIT_TARGET_TEAM_ENEMY, DOTA_UNIT_TARGET_ALL, DOTA_UNIT_TARGET_FLAG_NONE, FIND_CLOSEST, false )
 
-		for _,enemy in pairs(enemies) do
-				if Contains(enemiesPulsed, enemy) then -- already hit this enemy
-					--do nothing
-				else -- first time hitting this enemy 
-					DebugDrawCircle(enemy:GetAbsOrigin(), Vector(0,255,0), 128, 100, true, 5)
-					enemiesPulsed[enemy] = true --little hack so Contains works 
-					scannedEnemy = {}
-					scannedEnemy.Location = shallowcopy(enemy:GetAbsOrigin())
-					scannedEnemy.Enemy = enemy
 
-					-- check if this enemy is already in the list... we don't want to keep adding them we just want to update the location
-					local isNewEnemy = true
+		for _,enemy in pairs(enemies) do
+			if Contains(enemiesPulsed, enemy) then -- already hit this enemy
+				--do nothing
+			else -- first time hitting this enemy 
+				DebugDrawCircle(enemy:GetAbsOrigin(), Vector(0,255,0), 128, 100, true, 5)
+				enemiesPulsed[enemy] = true --little hack so Contains works 
+				scannedEnemy = {}
+				scannedEnemy.Location = shallowcopy(enemy:GetAbsOrigin())
+				scannedEnemy.Enemy = enemy
+
+				-- check if this enemy is already in the list... we don't want to keep adding them we just want to update the location
+				local isNewEnemy = true
+				if _G.PulsedEnemyLocations ~= nil then
 					if #_G.PulsedEnemyLocations > 0 then 
 						for i = 1, #_G.PulsedEnemyLocations, 1 do
 							-- already scanned this enemy, update their location
@@ -322,11 +374,15 @@ function RadarPulse()
 							end
 						end
 					end
-					-- first time scanning this enemy, add a new entry for them
-					if isNewEnemy then
-						_G.PulsedEnemyLocations[#_G.PulsedEnemyLocations +1] = scannedEnemy	
-					end
 				end
+				-- first time scanning this enemy, add a new entry for them
+				if isNewEnemy then
+					_G.PulsedEnemyLocations[#_G.PulsedEnemyLocations +1] = scannedEnemy	
+				end
+
+				--Shoot a homing missile at this target:
+				CastHomingMissile(enemy)
+			end
 		end
 
 		return frameDuration
@@ -334,6 +390,8 @@ function RadarPulse()
 
 end
 
+
+--TODO: write comment to explain what this is and how this works
 --TODO: implement a call down spell which targets fixed locations on the ground
 -- I want 2 rows of call downs, each row roughly taking a third of the arena, forcing players into the remaining third.
 	-- gyro will then fly along this open path with FLAK CANNON
@@ -358,8 +416,7 @@ function CallDownPattern()
 	end
 end
 
-
-
+--TODO: write comment to explain what this is and how this works
 function CallDownOnEnemies()
 	--Get enemies: either enemies in area or through some other scan..
 	-- find all players in the entire map
@@ -370,9 +427,6 @@ function CallDownOnEnemies()
 	if #enemies > 0 then
 		--Loop over enemies and cast calldown on each one
 		for _,enemy in pairs(enemies) do
-			-- DEBUG			
-			--DebugDrawCircle(enemy:GetAbsOrigin(), Vector(255,0,0), 128, 250, true, 3) -- red = enemy:GetAbsOrigin() 		
-
 			-- Cast call_down.lua ability
 			-- NOTE: Couldn't get the position/target location within call_down.lua 
 			-- thisEntity:SetCursorPosition(enemy:GetAbsOrigin())
@@ -392,30 +446,26 @@ end
 
 
 function CastCallDownAt(location)
-	local p1 = "particles/units/heroes/hero_gyrocopter/gyro_calldown_marker.vpcf"
-
-	local p2 = "particles/units/heroes/hero_gyrocopter/gyro_calldown_first.vpcf"
-	local p3 = "particles/units/heroes/hero_gyrocopter/gyro_calldown_second.vpcf"
-
+	--spell model:
 	local indicator_duration = 2
 	local tick_interval = 0.1
 	local total_ticks = indicator_duration / tick_interval
 	local current_tick = 0
-
 	local radius = 600
 	local current_alpha = 0
 	local alpha_growth_amount = 2
 	local current_radius = 200
 	local radius_growth_amount = (radius - current_radius) / total_ticks
 
-	--Initial Warning/Indicator Particle
-
+	--particles:	
+	local p1 = "particles/units/heroes/hero_gyrocopter/gyro_calldown_marker.vpcf"
+	local p2 = "particles/units/heroes/hero_gyrocopter/gyro_calldown_first.vpcf"
+	local p3 = "particles/units/heroes/hero_gyrocopter/gyro_calldown_second.vpcf"
 	--Initial marker indicator particle
 	local p1Index = ParticleManager:CreateParticle(p1, PATTACH_POINT, thisEntity)
 	ParticleManager:SetParticleControl(p1Index, 0, location)
 	ParticleManager:SetParticleControl(p1Index, 1, Vector(radius,radius,-radius))
 	ParticleManager:ReleaseParticleIndex( p1Index )
-
 	--first and second explosion particles
 	local calldown_first_particle = ParticleManager:CreateParticle(p2, PATTACH_WORLDORIGIN, thisEntity)
 	ParticleManager:SetParticleControl(calldown_first_particle, 0, location)
@@ -428,15 +478,16 @@ function CastCallDownAt(location)
 	ParticleManager:SetParticleControl(calldown_second_particle, 5, Vector(radius, radius, radius))
 	ParticleManager:ReleaseParticleIndex(calldown_second_particle)
 
+	--sounds: TODO
 	--EmitSoundOnClient("gyrocopter_gyro_call_down_1"..RandomInt(1, 2), self:GetCaster():GetPlayerOwner())
-	
+
+	--TODO: extract the logic with DebugDraw in there and keep it somewhere...
 	--Call down ability: 
 	--Start a timer, while counting up display indicator animation. After indicator_duration seconds, apply particle effects, dmg enemies in radius
 	Timers:CreateTimer(function()	
 		current_tick = current_tick +1
 		current_alpha = current_alpha + alpha_growth_amount
 		current_radius = current_radius + radius_growth_amount
-
 		-- TODO: call down particles effects and dmg to enemies in radius
 		if current_tick >= total_ticks then
 			--TODO: particle effect on landing...
@@ -456,11 +507,10 @@ function CastCallDownAt(location)
 
 		end
 		-- Display indicator warning players spell is coming
-		if current_tick <= total_ticks then
+		--if current_tick <= total_ticks then
 			--DebugDrawCircle(location, Vector(255,0,0), current_alpha, current_radius, true, tick_interval)	
 			--DebugDrawCircle(location, Vector(255,0,0), 0, current_radius, true, tick_interval)	
-		end
-
+		--end
 	return tick_interval
 	end)
 
@@ -498,7 +548,6 @@ function AttackClosestPlayer()
 	return 0.5
 end
 
-
 --Moves thisEntity to position.
 function MoveToPosition(position, movespeed )
 	--get initial values to restore later
@@ -526,27 +575,6 @@ function MoveToPosition(position, movespeed )
 	end) --end timer
 end
 
-
------------------------------------------------------------------------------------------------
---Table/Set/List functions
-
--- Remove/Clear the whole set
-function Clear(set)
-	for k,v in pairs(set) do
-		set[k] = nil
-	end
-end
-
--- Remove this key from the set
-function Remove(set, key)
-	set[key] = nil
-end
-
--- Check if the set contains this key
-function Contains(set, key)
-    return set[key] ~= nil
-end
-
 --TODO: how does homingMissile get it's target?
 	--Surely I determine that here and 
 function CastHomingMissile(target)
@@ -556,7 +584,7 @@ function CastHomingMissile(target)
 		OrderType = DOTA_UNIT_ORDER_CAST_TARGET,
 		TargetIndex = target:entindex(),
 		AbilityIndex = thisEntity.homing_missile:entindex(),
-		Queue = true,
+		Queue = false,
 	})
 end
 
@@ -582,6 +610,25 @@ end
 
 
 
+-----------------------------------------------------------------------------------------------
+--Table/Set/List functions
+
+-- Remove/Clear the whole set
+function Clear(set)
+	for k,v in pairs(set) do
+		set[k] = nil
+	end
+end
+
+-- Remove this key from the set
+function Remove(set, key)
+	set[key] = nil
+end
+
+-- Check if the set contains this key
+function Contains(set, key)
+    return set[key] ~= nil
+end
 
 function shallowcopy(orig)
     local orig_type = type(orig)
