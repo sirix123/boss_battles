@@ -150,7 +150,7 @@
 
         // Casting
         //-------------------------------------------------------------------------------------------------------------
-        "AbilityCastRange"              "200"
+        "AbilityCastRange"              "100"
         "AbilityCastPoint"              "0.0"
         "AnimationPlaybackRate"         "0.35" // 0.35 (supposedly) corresponds to cast point of 1.25
         
@@ -195,8 +195,8 @@
         // Casting
         //-------------------------------------------------------------------------------------------------------------
         "AbilityCastRange"              "9000"
-        "AbilityCastPoint"              "1.25"
-        "AnimationPlaybackRate"         "0.7" // 0.7 (supposedly) corresponds to cast point of 1.25
+        "AbilityCastPoint"              "0.3"
+        //"AnimationPlaybackRate"         "0" // 0.7 (supposedly) corresponds to cast point of 1.25
         
         // Time     
         //-------------------------------------------------------------------------------------------------------------
@@ -213,6 +213,11 @@
             "01"{ "var_type"			"FIELD_INTEGER"		"throw_speed"		            "900" }
             "02"{ "var_type"			"FIELD_INTEGER"		"impact_radius"		            "100" }
         }
+
+        "precache"
+		{
+            "soundfile"  "soundevents/game_sounds_heroes/game_sounds_tiny.vsndevts"
+		}
     }
 
     //=================================================================================================================
@@ -279,6 +284,170 @@
 			"soundfile" "soundevents/game_sounds_heroes/game_sounds_invoker.vsndevts"
 			"particle"	"particles/units/heroes/hero_invoker/invoker_sun_strike.vpcf"
             "particle"	"particles/units/heroes/hero_invoker/invoker_sun_strike_team.vpcf"
+		}
+    }
+
+    //=================================================================================================================
+    // Chain Gun: chain_gun_shoot
+    //=================================================================================================================
+    "chain_gun_shoot"
+    { 
+        "BaseClass"                     "ability_lua"
+        "ScriptFile"                    "bosses/clock/chain_gun_shoot"
+
+        // General
+        //-------------------------------------------------------------------------------------------------------------
+        "AbilityBehavior"               "DOTA_ABILITY_BEHAVIOR_NO_TARGET"
+        "AbilityUnitDamageType"         "DAMAGE_TYPE_PHYSICAL" 
+        "MaxLevel"						"4"
+        "AbilityCastRange" 				"10000"
+        "AbilityCooldown"				"0"
+        "AbilityCastPoint"              "0"
+        "AbilityManaCost"               "0"
+
+        // Special
+        //-------------------------------------------------------------------------------------------------------------
+		"AbilitySpecial"
+		{
+            "01"{ "var_type"			"FIELD_INTEGER"		"speed"		            "500" }
+            "02"{ "var_type"			"FIELD_INTEGER"		"dmg"		            "100" }
+            "03"{ "var_type"			"FIELD_INTEGER"		"hit_box"		        "200" }
+            "04"{ "var_type"			"FIELD_INTEGER"		"angleIncrement"		"10"  }
+            "05"{ "var_type"			"FIELD_INTEGER"		"delay_between_shots"	"1" }
+		}
+
+		"precache"
+		{
+            "particle"	"particles/econ/items/sniper/sniper_charlie/sniper_base_attack_bulletcase_charlie.vpcf"
+            "particle"  "particles/clock/chain_gun_vengeful_magic_missle.vpcf"
+            "particle"  "particles/clock/clock_vengeful_magic_missle_end.vpcf"
+		}
+    }
+
+    //=================================================================================================================
+    // Clock: Summon Chain Gun Turret
+    //=================================================================================================================
+    "summon_chain_gun_turret"
+    { 
+        "BaseClass"                     "ability_lua"
+        "ScriptFile"                    "bosses/clock/summon_chain_gun_turret"
+
+        // General
+        //-------------------------------------------------------------------------------------------------------------
+        "AbilityBehavior"               "DOTA_ABILITY_BEHAVIOR_NO_TARGET"
+        "AbilityUnitDamageType"         "DAMAGE_TYPE_PHYSICAL" 
+        "MaxLevel"						"4"
+        "AbilityCastRange" 				"10000"
+        "AbilityCooldown"				"0"
+        "AbilityCastPoint"              "0"
+        "AbilityManaCost"               "0"
+
+        // Special
+        //-------------------------------------------------------------------------------------------------------------
+		"AbilitySpecial"
+		{
+            "01"{ "var_type"			"FIELD_INTEGER"		"number_of_turrets_to_spawn"		    "1" }
+            "02"{ "var_type"			"FIELD_INTEGER"		"delay_between_turrets_spawning"		"2" } //obvs need more than one turret to spawn for this
+		}
+
+		"precache"
+		{
+            "particle"	"particles/units/heroes/hero_rattletrap/rattletrap_cog_deploy.vpcff"
+		}
+    }
+
+    //=================================================================================================================
+    // Clock: Electric turret - electric_turret_electric_charge
+    //=================================================================================================================
+    "electric_turret_electric_charge"
+    { 
+        "BaseClass"                     "ability_lua"
+        "ScriptFile"                    "bosses/clock/electric_turret_electric_charge"
+
+        // General
+        //-------------------------------------------------------------------------------------------------------------
+        "AbilityBehavior"               "DOTA_ABILITY_BEHAVIOR_NO_TARGET"
+        "AbilityUnitDamageType"         "DAMAGE_TYPE_PHYSICAL" 
+        "MaxLevel"						"4"
+        "AbilityCastRange" 				"10000"
+        "AbilityCooldown"				"0"
+        "AbilityCastPoint"              "0"
+        "AbilityManaCost"               "0"
+
+        // Special
+        //-------------------------------------------------------------------------------------------------------------
+		"AbilitySpecial"
+		{
+            "01"{ "var_type"			"FIELD_INTEGER"		"radius"		    "200" }
+		}
+
+		"precache"
+		{
+
+		}
+    }
+
+    //=================================================================================================================
+    // Clock: Electric turret - summon_electric_turret
+    //=================================================================================================================
+    "summon_electric_turret"
+    { 
+        "BaseClass"                     "ability_lua"
+        "ScriptFile"                    "bosses/clock/summon_electric_turret"
+
+        // General
+        //-------------------------------------------------------------------------------------------------------------
+        "AbilityBehavior"               "DOTA_ABILITY_BEHAVIOR_NO_TARGET"
+        "AbilityUnitDamageType"         "DAMAGE_TYPE_PHYSICAL" 
+        "MaxLevel"						"4"
+        "AbilityCastRange" 				"10000"
+        "AbilityCooldown"				"0"
+        "AbilityCastPoint"              "0"
+        "AbilityManaCost"               "0"
+
+        // Special
+        //-------------------------------------------------------------------------------------------------------------
+		"AbilitySpecial"
+		{
+            "01"{ "var_type"			"FIELD_INTEGER"		"number_of_turrets_to_spawn"		    "4" }
+            "02"{ "var_type"			"FIELD_INTEGER"		"delay_between_turrets_spawning"		"1" }
+		}
+
+		"precache"
+		{
+
+		}
+    }
+
+    //=================================================================================================================
+    // Clock: summon furnace droid
+    //=================================================================================================================
+    "summon_furnace_droid"
+    { 
+        "BaseClass"                     "ability_lua"
+        "ScriptFile"                    "bosses/clock/summon_furnace_droid"
+
+        // General
+        //-------------------------------------------------------------------------------------------------------------
+        "AbilityBehavior"               "DOTA_ABILITY_BEHAVIOR_NO_TARGET"
+        "AbilityUnitDamageType"         "DAMAGE_TYPE_PHYSICAL" 
+        "MaxLevel"						"4"
+        "AbilityCastRange" 				"10000"
+        "AbilityCooldown"				"0"
+        "AbilityCastPoint"              "0"
+        "AbilityManaCost"               "0"
+
+        // Special
+        //-------------------------------------------------------------------------------------------------------------
+		"AbilitySpecial"
+		{
+            "01"{ "var_type"			"FIELD_INTEGER"		"numberOfDroidsToSpawn"		    "5" }
+            "02"{ "var_type"			"FIELD_INTEGER"		"delay"		                    "0.1" }
+		}
+
+		"precache"
+		{
+
 		}
     }
 

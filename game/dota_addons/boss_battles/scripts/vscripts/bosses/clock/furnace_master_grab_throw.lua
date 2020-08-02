@@ -30,6 +30,9 @@ function furnace_master_grab_throw:OnAbilityPhaseStart()
         if hBuff ~= nil then
             hBuff.hTarget = self:GetCursorTarget()
 		end
+
+		-- effect and sound
+		
 	end
 	return true
 end

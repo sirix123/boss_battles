@@ -9,6 +9,7 @@ function abs_coord_debug:OnSpellStart()
 	DebugDrawCircle(cursorLoc, Vector(255,255,255), 128, 10, true, duration)
 	DebugDrawText(cursorLoc, "GetCursorPosition", true, 50)
 	DebugDrawText(cursorLoc + Vector(0,-50,0), tostring(cursorLoc), true, duration)
+	print("DEBUG VECTOR LOCATION: ", cursorLoc )
 end
 
 

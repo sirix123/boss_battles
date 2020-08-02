@@ -9,7 +9,7 @@ function OnStartTouch(trigger)
 	end
 	-- start thinker here
 	-- if trigger.activator:GetUnitName() == furnace stoker then...
-	--thisEntity:SetContextThink( "ActivateFurnace", function() return FurnaceActivated() end, 0 )
+	thisEntity:SetContextThink( "ActivateFurnace", function() return FurnaceActivated() end, 0 )
 
 end
 ------------------------------------------------------------------------------------------------------
@@ -43,13 +43,6 @@ function FurnaceActivated()
 			-- if clock remove invul modifier (POC this... cause it needs to readd.. could readd/refresh when hook shot? notsure tbh)
 			-- if furnance driod actiavet etc..
 			-- if player then just dmg them / do nothing if not acticated 
-
-
-
-
-
-
-
 
 			-- if enemy is clock do or adds
 			if enemy:GetUnitName() == "npc_dota_hero_templar_assassin" then

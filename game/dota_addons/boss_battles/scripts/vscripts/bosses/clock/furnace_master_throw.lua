@@ -102,22 +102,9 @@ function furnace_master_throw:OnProjectileHit( hTarget, vLocation )
 		end
 
 		EmitSoundOnLocationWithCaster( vLocation, "Ability.TossImpact", self:GetCaster() )
-		EmitSoundOnLocationWithCaster( vLocation, "OgreTank.GroundSmash", self:GetCaster() )
 		
 		if self.hThrowTarget ~= nil then
 			self.hThrowBuff:Destroy()
-			if self.hThrowTarget:IsRealHero() then
-				if self.hThrowTarget:IsAlive() == false then
-					local nFXIndex = ParticleManager:CreateParticle( "particles/units/heroes/hero_phantom_assassin/phantom_assassin_crit_impact.vpcf", PATTACH_CUSTOMORIGIN, nil )
-					ParticleManager:SetParticleControlEnt( nFXIndex, 0, self.hThrowTarget, PATTACH_POINT_FOLLOW, "attach_hitloc", self.hThrowTarget:GetOrigin(), true )
-					ParticleManager:SetParticleControl( nFXIndex, 1, self.hThrowTarget:GetOrigin() )
-					ParticleManager:SetParticleControlForward( nFXIndex, 1, -self:GetCaster():GetForwardVector() )
-					ParticleManager:SetParticleControlEnt( nFXIndex, 10, self.hThrowTarget, PATTACH_ABSORIGIN_FOLLOW, nil, self.hThrowTarget:GetOrigin(), true )
-					ParticleManager:ReleaseParticleIndex( nFXIndex )
-
-					EmitSoundOn( "Dungeon.BloodSplatterImpact", self.hThrowTarget )
-				end
-			end
 		end
 
 		return false

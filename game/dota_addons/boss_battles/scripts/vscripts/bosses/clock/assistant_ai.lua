@@ -6,7 +6,7 @@ function Spawn( entityKeyValues )
     if not IsServer() then return end
     if thisEntity == nil then return end
 
-    --thisEntity:AddNewModifier( nil, nil, "modifier_invulnerable", { duration = -1 } )
+	thisEntity:AddNewModifier( nil, nil, "modifier_invulnerable", { duration = -1 } )
 
     thisEntity.furnace_master_grab_throw = thisEntity:FindAbilityByName( "furnace_master_grab_throw" )
 	thisEntity.furnace_master_throw = thisEntity:FindAbilityByName( "furnace_master_throw" )

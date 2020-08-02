@@ -28,26 +28,6 @@ function GameMode:OnNPCSpawned(keys)
   local data = {}
   npc:Initialize(data) --can pass table param as data
 
-  local heroName = npc:GetUnitName()
-
-  if heroName == "npc_dota_hero_dragon_knight" then
-      -- Add the spell
-      npc:AddAbility("barbarian_rage")
-      -- Level it up
-      npc:FindAbilityByName("barbarian_rage"):SetLevel(1)
-  else
-    return
-  end
-
-  if heroName == "npc_dota_hero_stealth_assassin" then
-    -- Add the spell
-    npc:AddAbility("energy_system")
-    -- Level it up
-    npc:FindAbilityByName("energy_system"):SetLevel(1)
-  else
-    return
-  end
-
 end
 
 -- An entity somewhere has been hurt.  This event fires very often with many units so don't do too many expensive
