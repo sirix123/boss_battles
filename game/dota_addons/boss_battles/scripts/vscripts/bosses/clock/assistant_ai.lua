@@ -42,7 +42,7 @@ function AssistantThink()
         false
     )
 
-    if #enemies == 0 then
+    if #enemies == 0 then -- if 1 player alive and he is gripped this will return gripped enemies are not found
 		return 0.1
     end
 

@@ -83,7 +83,7 @@
 	m_Children = 
 	[
 		{
-			m_ChildRef = resource:"particles\\clock\\clock_vengeful_magic_missle_d.vpcf"
+			m_ChildRef = resource:"particles\\clock\\chain_clock_vengeful_magic_missle_d.vpcf"
 		},
 		{
 			m_ChildRef = resource:"particles/units/heroes/hero_vengeful/vengeful_magic_missle_e.vpcf"

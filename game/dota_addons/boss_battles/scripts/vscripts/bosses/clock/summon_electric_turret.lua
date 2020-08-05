@@ -16,6 +16,15 @@ function summon_electric_turret:OnSpellStart()
         local point_3 = Vector(6617,5575,256)
         local point_4 = Vector(10028,5575,256)
 
+        local tSpawns =
+        {
+            Vector(7211,7089,256),
+            Vector(8305,6165,256),
+            Vector(9193,7089,256),
+            Vector(8305,7885,256)
+        }
+
+
         local j = 0
         Timers:CreateTimer(0.5, function()
 
@@ -24,17 +33,17 @@ function summon_electric_turret:OnSpellStart()
             end
 
             -- get spawn vector
-            local spawnVector = Vector(RandomInt(6617,10028),RandomInt(5575,8497),256)
+            local randomSpawn = RandomInt(1,4)
 
             --particle effect start
             local particle_cast = "particles/units/heroes/hero_rattletrap/rattletrap_cog_deploy.vpcf"
             local effect_cast = ParticleManager:CreateParticle(particle_cast, PATTACH_WORLDORIGIN, nil)
-            ParticleManager:SetParticleControl(effect_cast, 0, spawnVector)
+            ParticleManager:SetParticleControl(effect_cast, 0, tSpawns[randomSpawn])
             ParticleManager:ReleaseParticleIndex(effect_cast)
 
             --particle effect end
 
-            CreateUnitByName( "electric_turret", spawnVector, true, nil, nil, DOTA_TEAM_BADGUYS)
+            CreateUnitByName( "electric_turret", tSpawns[randomSpawn], true, nil, nil, DOTA_TEAM_BADGUYS)
 
             j = j  +  1
             return delay

@@ -1,5 +1,5 @@
 
-furnace_driod_ai = class({})
+furnace_droid_ai = class({})
 
 --------------------------------------------------------------------------------
 
@@ -7,7 +7,7 @@ function Spawn( entityKeyValues )
     if not IsServer() then return end
 
     -- find furnaces on spawn
-    FindFurnaces()
+    thisEntity.step = 1
 
     thisEntity:SetContextThink( "FurnaceDroidThink", FurnaceDroidThink, 0.5 )
 end
@@ -29,17 +29,9 @@ function FurnaceDroidThink()
 
     local units = FindUnits()
     local electricTurrets = {}
-    local step = 0
-
-    -- if electric turret on the map find one
-    -- run towards electric turret (sit there until you get the buff)
-    -- once droid has buff rolls a dice and run towards boss or furnace
 
     -- STEP 1 --
-    -- code below handles droid moving to electric turret
-    -- if units table is not empty
-    if step ~= 1 then
-        step = 1
+    if thisEntity.step == 1 then
         if #units ~= 0 and units ~= nil then
             for _, unit in pairs(units) do
                 -- find the electric turrets
@@ -47,8 +39,14 @@ function FurnaceDroidThink()
                     table.insert(electricTurrets, unit:GetAbsOrigin())
                     -- if we find electric turrets
                     if electricTurrets ~= nil and #electricTurrets ~= 0 then
-                        print('doi we really run this alot?')
-                        thisEntity:MoveToPosition(electricTurrets[RandomInt(1,#electricTurrets)])
+                        thisEntity.step = 2
+                        local randomTurretIndex = RandomInt(1,#electricTurrets)
+                        thisEntity:MoveToPosition(electricTurrets[randomTurretIndex])
+                        -- calc time to get pos and add little buffer
+                        local distance = ( thisEntity:GetAbsOrigin() - electricTurrets[randomTurretIndex] ):Length2D()
+                        local velocity = thisEntity:GetBaseMoveSpeed()
+                        local time = distance / velocity
+                        return time + 4
                     end
                 end
             end
@@ -56,11 +54,30 @@ function FurnaceDroidThink()
     end
 
     -- STEP 2 --
-    -- get buff from electric turret
-
-    -- STEP 3 --
-    -- roll dice go to furnace or boss
-    -- boss and furnace code handle killing furnace droid
+    if thisEntity.step == 2 then
+        local randomInt = RandomInt(1,2)
+        if randomInt == 1 then
+            if #units ~= 0 and units ~= nil then
+                for _, unit in pairs(units) do
+                    if unit:GetUnitName() == "npc_clock" then
+                        thisEntity:MoveToPosition(unit:GetAbsOrigin()) -- external in electric modifier code, when droid gets close to boss it explodes
+                        thisEntity.step = 3
+                        return
+                    end
+                end
+            end
+        elseif randomInt == 2 then
+            if #units ~= 0 and units ~= nil then
+                for _, unit in pairs(units) do
+                    if unit:GetUnitName() == "furnace" then
+                        thisEntity:MoveToPosition(unit:GetAbsOrigin()) -- in furnace AI we kill the droid
+                        thisEntity.step = 3
+                        return
+                    end
+                end
+            end
+        end
+    end
 
 	return 0.5
 end
@@ -75,8 +92,8 @@ function FindUnits()
         FIND_UNITS_EVERYWHERE,	-- float, radius. or use FIND_UNITS_EVERYWHERE
         DOTA_UNIT_TARGET_TEAM_BOTH,	-- int, team filter
         DOTA_UNIT_TARGET_HERO + DOTA_UNIT_TARGET_BASIC,	-- int, type filter
-        0,	-- int, flag filter
-        FIND_CLOSEST,	-- int, order filter
+        DOTA_UNIT_TARGET_FLAG_INVULNERABLE,	-- int, flag filter
+        FIND_ANY_ORDER,	-- int, order filter
         false	-- bool, can grow cache
     )
 
@@ -84,15 +101,3 @@ function FindUnits()
 end
 --------------------------------------------------------------------------------
 
-function FindFurnaces()
-    -- find all 4 furances
-    local furances = 4
-    local tFurnaceLocations = {}
-    for i = 1, furances, 1 do
-        local vFurnaceLoc = Entities:FindByName(nil, "furnace_" .. i):GetAbsOrigin()
-        table.insert(tFurnaceLocations, vFurnaceLoc )
-    end
-
-    return tFurnaceLocations
-end
---------------------------------------------------------------------------------

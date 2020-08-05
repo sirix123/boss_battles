@@ -18,15 +18,19 @@ function chain_gun_shoot:OnSpellStart()
         local speed = self:GetSpecialValueFor( "speed" ) --500
         local angleIncrement = self:GetSpecialValueFor( "angleIncrement" ) --10
         local currentAngle = 1
-
-        if caster:HasModifier("electric_turret_minion_buff") == true then
-            speed = speed * 1.5
-            angleIncrement = angleIncrement / 2
-            delay_between_shots = delay_between_shots / 2
-        end
+        local effect = "particles/clock/chain_gun_vengeful_magic_missle.vpcf"
+        self.bBuff = false
 
         -- just keep on spinning and shooting until you die
         Timers:CreateTimer(0.5, function()
+
+            if caster:HasModifier("electric_turret_minion_buff") == true and self.bBuff == false then
+                self.bBuff = true
+                speed = speed * 2
+                angleIncrement = angleIncrement / 2
+                delay_between_shots = delay_between_shots / 3
+                effect = "particles/clock/v3___chain_gun_vengeful_magic_missle.vpcf"
+            end
 
             -- if we have run out of proj in the batch end this timer
             if caster:IsAlive() == false then
@@ -35,7 +39,7 @@ function chain_gun_shoot:OnSpellStart()
             end
 
             local projectile = {
-                EffectName = "particles/clock/chain_gun_vengeful_magic_missle.vpcf",
+                EffectName = effect,
                 vSpawnOrigin = origin + Vector(0,0,80),
                 fDistance = self:GetCastRange(Vector(0,0,0), nil),
                 fUniqueRadius = self:GetSpecialValueFor( "hit_box" ),--200

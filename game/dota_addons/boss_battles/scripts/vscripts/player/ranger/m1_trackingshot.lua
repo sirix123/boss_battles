@@ -96,7 +96,7 @@ function m1_trackingshot:OnSpellStart()
             GroundBehavior = PROJECTILES_NOTHING,
             fGroundOffset = 80,
             UnitTest = function(_self, unit)
-                return unit:GetTeamNumber() ~= self.caster:GetTeamNumber()
+                return unit:GetTeamNumber() ~= self.caster:GetTeamNumber() and unit:GetModelName() ~= "models/development/invisiblebox.vmdl"
             end,
             OnUnitHit = function(_self, unit)
 

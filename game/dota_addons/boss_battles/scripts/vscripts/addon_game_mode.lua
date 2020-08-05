@@ -62,7 +62,10 @@ function Precache( context )
   -- ranger precache
   PrecacheResource("soundfile", "soundevents/voscripts/game_sounds_vo_medusa.vsndevts", context)
 
+  -- clock preache
+  PrecacheResource("particle",	"particles/econ/items/jakiro/jakiro_ti10_immortal/jakiro_ti10_macropyre.vpcf", context)
   PrecacheResource("particle",	"particles/clock/clock_hero_snapfire_ultimate_linger.vpcf", context)
+
 
 end
 

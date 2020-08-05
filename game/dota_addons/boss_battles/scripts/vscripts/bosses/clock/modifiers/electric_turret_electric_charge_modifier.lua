@@ -64,6 +64,7 @@ function electric_turret_electric_charge_modifier:StartTimer()
             --npc_clock, npc_flame_turret, npc_assistant, npc_chain_gun_turret, furnace_droid, electric_turret
             if units ~= nil and #units ~= 0 then
                 for _, unit in pairs(units) do
+
                     -- check if unit name is the parents so if it finds itself it doesnt remove the modifier
                     if unit:GetUnitName() ~= self.parent:GetUnitName() then
 
@@ -77,17 +78,35 @@ function electric_turret_electric_charge_modifier:StartTimer()
                                 self.parent:ForceKill(false)
                             end
 
+                        -- if electric turret finds a furance droid give the charge modifier
+                        elseif unit:GetUnitName() == "furnace_droid" and self.parent:GetUnitName() == "electric_turret" then
+                            unit:AddNewModifier(self.parent, self, "electric_turret_electric_charge_modifier", { duration = -1, radius = self.radius, })
+
+
                         -- if clock minions in range of this modifier give them their specific dmg minion modifier with the same particle effect as this modifier
                         elseif unit:GetUnitName() == "npc_chain_gun_turret" or unit:GetUnitName() == "npc_flame_turret" or unit:GetUnitName() == "npc_assistant" or unit:GetUnitName() == "furnace_droid" then
                             -- if buff is on clock minions give a modifier permanent until death (movespeed and attack rate for turrets)
                             unit:AddNewModifier(self.parent, self, "electric_turret_minion_buff", { duration = -1 })
 
                         -- if not clock or minion (so a player) destroy buff on self and apply to friendly
-                        elseif unit:GetUnitName() ~= "npc_clock" and unit:GetUnitName() ~= "npc_flame_turret" and unit:GetUnitName() ~= "npc_assistant" and unit:GetUnitName() ~= "npc_chain_gun_turret" and unit:GetUnitName() ~= "furnace_droid" and unit:GetUnitName() ~= "electric_turret" then
+                        elseif
+                        unit:GetUnitName() ~= "npc_clock" and
+                        unit:GetUnitName() ~= "npc_flame_turret" and
+                        unit:GetUnitName() ~= "npc_assistant" and
+                        unit:GetUnitName() ~= "npc_chain_gun_turret" and
+                        unit:GetUnitName() ~= "furnace_droid" and
+                        unit:GetUnitName() ~= "electric_turret" and
+                        self.parent:GetUnitName() ~= "npc_clock" and
+                        self.parent:GetUnitName() ~= "npc_flame_turret" and
+                        self.parent:GetUnitName() ~= "npc_assistant" and
+                        self.parent:GetUnitName() ~= "npc_chain_gun_turret" and
+                        self.parent:GetUnitName() ~= "furnace_droid"
+                        then
+
                             if self.parent:GetUnitName() == "electric_turret" then
                                 self.parent:ForceKill(false)
                             end
-                            
+
                             -- jump modifier to another player (how to delete buff from parent if it jumps?)
                             unit:AddNewModifier(self.parent, self, "electric_turret_electric_charge_modifier", { duration = self.duration, radius = self.radius, })
 

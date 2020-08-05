@@ -63,7 +63,7 @@ function m1_iceshot:OnSpellStart()
             GroundBehavior = PROJECTILES_NOTHING,
             fGroundOffset = 80,
             UnitTest = function(_self, unit)
-                return unit:GetTeamNumber() ~= self.caster:GetTeamNumber()
+                return unit:GetTeamNumber() ~= self.caster:GetTeamNumber() and unit:GetModelName() ~= "models/development/invisiblebox.vmdl"
             end,
             OnUnitHit = function(_self, unit)
                 local dmgTable = {
@@ -72,7 +72,8 @@ function m1_iceshot:OnSpellStart()
                     damage = self:GetSpecialValueFor( "dmg" ),
                     damage_type = self:GetAbilityDamageType(),
                 }
-
+                print(unit)
+                print(unit:GetModelName())
                 -- give mana
                 self.caster:ManaOnHit(self:GetSpecialValueFor( "mana_gain_percent"))
 

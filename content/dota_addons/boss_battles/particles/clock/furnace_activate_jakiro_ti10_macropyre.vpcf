@@ -1,0 +1,147 @@
+<!-- kv3 encoding:text:version{e21c7f3c-8a33-41c5-9977-a76d3a32aa0d} format:vpcf27:version{36c3961f-02a4-4c52-bf8f-6e3147d7d142} -->
+{
+	_class = "CParticleSystemDefinition"
+	m_bShouldHitboxesFallbackToRenderBounds = false
+	m_nMaxParticles = 0
+	m_Children = 
+	[
+		{
+			m_ChildRef = resource:"boss_battles\\particles\\clock\\clock_jakiro_ti10_macropyre_bloom.vpcf"
+		},
+		{
+			m_ChildRef = resource:"particles/econ/items/jakiro/jakiro_ti10_immortal/jakiro_ti10_macropyre_ground_line_start.vpcf"
+		},
+		{
+			m_ChildRef = resource:"boss_battles\\particles\\clock\\clock_jakiro_ti10_macropyre_ground_dirt_beam.vpcf"
+		},
+		{
+			m_ChildRef = resource:"particles/econ/items/jakiro/jakiro_ti10_immortal/jakiro_ti10_macropyre_crack_orange.vpcf"
+		},
+		{
+			m_ChildRef = resource:"particles/econ/items/jakiro/jakiro_ti10_immortal/jakiro_ti10_macropyre_crack_blue.vpcf"
+		},
+		{
+			m_ChildRef = resource:"boss_battles\\particles\\clock\\clock_jakiro_ti10_macropyre_ground_line.vpcf"
+		},
+		{
+			m_ChildRef = resource:"particles/econ/items/jakiro/jakiro_ti10_immortal/jakiro_ti10_macropyre_lightshaft.vpcf"
+		},
+		{
+			m_ChildRef = resource:"particles/econ/items/jakiro/jakiro_ti10_immortal/jakiro_ti10_macropyre_rocks_01.vpcf"
+		},
+		{
+			m_ChildRef = resource:"particles/econ/items/jakiro/jakiro_ti10_immortal/jakiro_ti10_macropyre_rocks_02.vpcf"
+		},
+		{
+			m_ChildRef = resource:"particles/econ/items/jakiro/jakiro_ti10_immortal/jakiro_ti10_macropyre_rocks_03.vpcf"
+		},
+		{
+			m_ChildRef = resource:"particles/econ/items/jakiro/jakiro_ti10_immortal/jakiro_ti10_macropyre_rocks_04.vpcf"
+		},
+		{
+			m_ChildRef = resource:"particles/econ/items/jakiro/jakiro_ti10_immortal/jakiro_ti10_macropyre_rocks_06.vpcf"
+		},
+		{
+			m_ChildRef = resource:"particles/econ/items/jakiro/jakiro_ti10_immortal/jakiro_ti10_macropyre_rocks_kickup.vpcf"
+		},
+		{
+			m_ChildRef = resource:"particles/econ/items/jakiro/jakiro_ti10_immortal/jakiro_ti10_macropyre_dust_follow.vpcf"
+		},
+		{
+			m_ChildRef = resource:"particles/econ/items/jakiro/jakiro_ti10_immortal/jakiro_ti10_macropyre_steam_rising.vpcf"
+			m_flDelay = 0.15
+		},
+		{
+			m_ChildRef = resource:"particles/econ/items/jakiro/jakiro_ti10_immortal/jakiro_ti10_macropyre_line_flames_blue.vpcf"
+			m_flDelay = 0.15
+		},
+		{
+			m_ChildRef = resource:"particles/econ/items/jakiro/jakiro_ti10_immortal/jakiro_ti10_macropyre_line_flames.vpcf"
+			m_flDelay = 0.15
+		},
+		{
+			m_ChildRef = resource:"particles/econ/items/jakiro/jakiro_ti10_immortal/jakiro_ti10_macropyre_embers.vpcf"
+		},
+		{
+			m_ChildRef = resource:"particles/econ/items/jakiro/jakiro_ti10_immortal/jakiro_ti10_macropyre_projectile_flame.vpcf"
+		},
+		{
+			m_ChildRef = resource:"particles/econ/items/jakiro/jakiro_ti10_immortal/jakiro_ti10_macropyre_leading_after_burn.vpcf"
+			m_flDelay = 0.15
+		},
+		{
+			m_ChildRef = resource:"particles/econ/items/jakiro/jakiro_ti10_immortal/jakiro_ti10_macropyre_lava_splash.vpcf"
+		},
+		{
+			m_ChildRef = resource:"particles/econ/items/jakiro/jakiro_ti10_immortal/jakiro_ti10_macropyre_ice_chunks.vpcf"
+			m_bDisableChild = true
+		},
+		{
+			m_ChildRef = resource:"particles/econ/items/jakiro/jakiro_ti10_immortal/jakiro_ti10_macropyre_screenshake.vpcf"
+			m_bDisableChild = true
+		},
+		{
+			m_ChildRef = resource:"particles/econ/items/jakiro/jakiro_ti10_immortal/jakiro_ti10_macropyre_ground_shockwave.vpcf"
+		},
+	]
+	m_PreEmissionOperators = 
+	[
+		{
+			_class = "C_OP_StopAfterCPDuration"
+			m_flDuration = 
+			{
+				m_nType = "PF_TYPE_CONTROL_POINT_COMPONENT"
+				m_nControlPoint = 2
+				m_nVectorComponent = 0
+				m_nMapType = "PF_MAP_TYPE_MULT"
+				m_flMultFactor = 1.0
+			}
+			m_bDisableOperator = true
+		},
+	]
+	m_nBehaviorVersion = 10
+	m_nFirstMultipleOverride_BackwardCompat = 1
+	m_controlPointConfigurations = 
+	[
+		{
+			m_name = "preview"
+			m_drivers = 
+			[
+				{
+					m_iAttachType = "PATTACH_WORLDORIGIN"
+					m_vecOffset = [ 0.0, 0.0, 0.0 ]
+					m_angOffset = [ 0.0, 0.0, 0.0 ]
+					m_entityName = "self"
+				},
+				{
+					m_iControlPoint = 1
+					m_iAttachType = "PATTACH_WORLDORIGIN"
+					m_vecOffset = [ 1200.0, 0.0, 0.0 ]
+					m_angOffset = [ 0.0, 0.0, 0.0 ]
+					m_entityName = "self"
+				},
+				{
+					m_iControlPoint = 2
+					m_iAttachType = "PATTACH_WORLDORIGIN"
+					m_vecOffset = [ 0.0, 0.0, 0.0 ]
+					m_angOffset = [ 0.0, 0.0, 0.0 ]
+					m_entityName = "self"
+				},
+				{
+					m_iControlPoint = 3
+					m_iAttachType = "PATTACH_WORLDORIGIN"
+					m_vecOffset = [ 0.0, 0.0, 0.0 ]
+					m_angOffset = [ 0.0, 0.0, 0.0 ]
+					m_entityName = "self"
+				},
+				{
+					m_iControlPoint = 62
+					m_iAttachType = "PATTACH_WORLDORIGIN"
+					m_vecOffset = [ 0.0, 0.0, 0.0 ]
+					m_angOffset = [ 0.0, 0.0, 0.0 ]
+					m_entityName = "self"
+				},
+			]
+		},
+	]
+}

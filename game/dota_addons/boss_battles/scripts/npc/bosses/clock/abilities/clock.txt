@@ -409,7 +409,7 @@
         //-------------------------------------------------------------------------------------------------------------
 		"AbilitySpecial"
 		{
-            "01"{ "var_type"			"FIELD_INTEGER"		"number_of_turrets_to_spawn"		    "4" }
+            "01"{ "var_type"			"FIELD_INTEGER"		"number_of_turrets_to_spawn"		    "2" }
             "02"{ "var_type"			"FIELD_INTEGER"		"delay_between_turrets_spawning"		"1" }
 		}
 
