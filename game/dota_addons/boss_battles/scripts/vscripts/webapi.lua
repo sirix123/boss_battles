@@ -1,7 +1,11 @@
 WebApi = WebApi or {}
 
 local apiKey = "AIzaSyAgI1IFKJFjkgLzpjCT1OvHOjgEBeEc-Wo"
-local firebaseUrl = "https://boss-battles-84094.firebaseio.com/" 
+--mitchdoran local firebaseUrl = "https://boss-battles-84094.firebaseio.com/" 
+
+--shared:
+local firebaseUrl = "https://boss-battles-209de.firebaseio.com/" 
+
 
 function WebApi:SavePlayHistory(hero)
 	local dedicatedServerKey =  GetDedicatedServerKeyV2("1")
@@ -16,7 +20,7 @@ function WebApi:SavePlayHistory(hero)
 	data.dateTime = dateTime
 	data.player = {}
 	data.player.steamid = steamid
-	data.player.playerName = "TODO:GetPlayerName?"
+	data.player.playerName = "MooMoo"
 	data.ingame = {}
 	data.ingame.classPlayed = heroname
 
@@ -33,7 +37,7 @@ function WebApi:DemoForStefan()
 	local data = {}
 	for i = 1, 10, 1 do
 		data[i] = {}
-		data[i].Text = i .. ". some text" -- make a string like: "1. some text"
+		data[i].Text = ". some text" -- make a string like: "1. some text"
 		data[i].Value = i 
 	end
 

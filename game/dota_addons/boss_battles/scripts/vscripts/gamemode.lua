@@ -170,6 +170,9 @@ end
 function GameMode:OnHeroInGame(hero)
   DebugPrint("[BAREBONES] Hero spawned in game for first time -- " .. hero:GetUnitName())
 
+  --TEST: FIREBASE web api testing, just wanted to trigger it when the game strarts
+  --WebApi:DemoForStefan()
+
   hero:AddNewModifier( hero,  nil, "movement_modifier_thinker", { } )
   hero:AddNewModifier( hero,  nil, "remove_attack_modifier", { } )
 
