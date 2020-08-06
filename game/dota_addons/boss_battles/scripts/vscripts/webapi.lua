@@ -31,9 +31,9 @@ function WebApi:DemoForStefan()
 
 	--prepare some data, do loop to make a bunch of rows/entries
 	local data = {}
-	for i = 0, 10, 1 do
+	for i = 1, 10, 1 do
 		data[i] = {}
-		data[i].Text = [i] .. ". some text" -- make a string like: "1. some text"
+		data[i].Text = i .. ". some text" -- make a string like: "1. some text"
 		data[i].Value = i 
 	end
 
