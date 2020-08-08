@@ -28,26 +28,26 @@ function hookshot:OnSpellStart()
 
         self:GetCaster():EmitSound("Hero_Rattletrap.Hookshot.Fire")
 
-        -- find cloest enemy unit
         local enemies = FindUnitsInRadius(
-            self:GetCaster():GetTeamNumber(),	-- int, your team number
-            origin,	-- point, center point
-            nil,	-- handle, cacheUnit. (not known)
-            FIND_UNITS_EVERYWHERE,	-- float, radius. or use FIND_UNITS_EVERYWHERE
-            DOTA_UNIT_TARGET_TEAM_ENEMY,	-- int, team filter
-            DOTA_UNIT_TARGET_HERO + DOTA_UNIT_TARGET_BASIC,	-- int, type filter
-            0,	-- int, flag filter
-            FIND_CLOSEST,	-- int, order filter
-            false	-- bool, can grow cache
-        )
+            DOTA_TEAM_BADGUYS,
+            origin,
+            nil,
+            5000,
+            DOTA_UNIT_TARGET_TEAM_ENEMY,
+            DOTA_UNIT_TARGET_ALL,
+            DOTA_UNIT_TARGET_FLAG_NONE,
+            FIND_CLOSEST,
+            false )
 
-        if enemies == nil then
-            return
+        if #enemies == 0 then
+            return 0.5
         end
+
+        local i = RandomInt(1,#enemies)
 
         EmitSoundOn("rattletrap_ratt_ability_hook_02", caster)
 
-        self.point = enemies[1]:GetAbsOrigin()
+        self.point = enemies[i]:GetAbsOrigin()
 
         local direction = (self.point - origin):Normalized()
         direction.z = 0
@@ -81,7 +81,7 @@ function hookshot:OnSpellStart()
             Source				= self:GetCaster(),
             bHasFrontalCone		= false,
             bReplaceExisting	= false,
-            iUnitTargetTeam		= DOTA_UNIT_TARGET_TEAM_BOTH,
+            iUnitTargetTeam		= DOTA_UNIT_TARGET_TEAM_ENEMY,
             iUnitTargetFlags	= DOTA_UNIT_TARGET_FLAG_MAGIC_IMMUNE_ENEMIES + DOTA_UNIT_TARGET_FLAG_INVULNERABLE,
             iUnitTargetType		= DOTA_UNIT_TARGET_HERO + DOTA_UNIT_TARGET_CREEP,
             fExpireTime 		= GameRules:GetGameTime() + 10.0,
@@ -98,19 +98,17 @@ end
 
 function hookshot:OnProjectileHit(hTarget, vLocation)
     if IsServer() then
-        if hTarget then
 
-            hTarget:EmitSound("Hero_Rattletrap.Hookshot.Impact")
-
-            -- add modifier to clock to move him to target (this modifier should be destroyed once clock has hit the target (trigger push back))
-            self:GetCaster():AddNewModifier(self:GetCaster(), self, "clock_hookshot_modifier",
-                {
-                    duration = self.duration,
-                    target = hTarget:GetEntityIndex(),
-                    latch_radius = self.latch_radius,
-                    speed = self.speed
-                })
-
-        end
+        EmitSoundOnLocationWithCaster(vLocation, "Hero_Rattletrap.Hookshot.Impact", self:GetCaster())
+        -- add modifier to clock to move him to target (this modifier should be destroyed once clock has hit the target (trigger push back))
+        self:GetCaster():AddNewModifier(self:GetCaster(), self, "clock_hookshot_modifier",
+            {
+                duration = self.duration,
+                target_x = vLocation.x,
+                target_y = vLocation.y,
+                target_z = vLocation.z,
+                latch_radius = self.latch_radius,
+                speed = self.speed
+            })
     end
 end

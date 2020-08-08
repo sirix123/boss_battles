@@ -13,7 +13,7 @@ function GameMode:MoveHeroesToArea(arena)
     local heroes = HeroList:GetAllHeroes()
 
     for _,hero in pairs(heroes) do
-        hero:SetMana(0)
+        hero:SetMana(0) ---- STEFANNNNNNN
         FindClearSpaceForUnit(hero, spawners, true)
         hero:SetAngles(0, RandomFloat(0,359), 0)
         hero.spawners = spawners
@@ -37,7 +37,7 @@ end
 -- handles spawning the boss, pass boss from table and a location
 function GameMode:SpawnBoss(tBoss, tLocation)
     --print("GameMode: SpawnBoss")
-    --local vEntityLocation = ""
+    local vEntityLocation = ""
 
     --CreateUnitByName("npc_gyrocopter", "captainspawn", true, nil, nil, DOTA_TEAM_BADGUYS)
     --CreateUnitByName("npc_gyrocopter",  Vector(14007,14445,0), true, nil, nil, DOTA_TEAM_BADGUYS)
@@ -49,6 +49,21 @@ function GameMode:SpawnBoss(tBoss, tLocation)
 
                 --vEntityLocation = Entities:FindByName(nil, location):GetAbsOrigin()
                 --CreateUnitByName(boss, vEntityLocation, true, nil, nil, DOTA_TEAM_BADGUYS)
+    
+            end
+
+            if location == "clock_spawn" and boss == "npc_clock" then
+
+                vEntityLocation = Entities:FindByName(nil, location):GetAbsOrigin()
+                CreateUnitByName(boss, vEntityLocation, true, nil, nil, DOTA_TEAM_BADGUYS)
+                CreateUnitByName("furnace", Vector(7414,7809,256), true, nil, nil, DOTA_TEAM_BADGUYS)
+                CreateUnitByName("furnace", Vector(9013,7809,256), true, nil, nil, DOTA_TEAM_BADGUYS)
+                CreateUnitByName("furnace", Vector(9013,6455,256), true, nil, nil, DOTA_TEAM_BADGUYS)
+                CreateUnitByName("furnace", Vector(7414,6455,256), true, nil, nil, DOTA_TEAM_BADGUYS)
+                --CreateUnitByName("npc_assistant", vEntityLocation, true, nil, nil, DOTA_TEAM_BADGUYS)
+                --CreateUnitByName("npc_dota_hero_rubick", Vector(8112,6733,256), true, nil, nil, DOTA_TEAM_GOODGUYS)
+                --CreateUnitByName("electric_turret", Vector(8593,7352,256), true, nil, nil, DOTA_TEAM_GOODGUYS)
+                --CreateUnitByName("npc_dota_creature_gnoll_assassin", Vector(7605,7305,256), true, nil, nil, DOTA_TEAM_GOODGUYS)
 
             end
 
@@ -98,21 +113,20 @@ function GameMode:StartRaid()
     print("GameMode: StartRaid()")
 
     -- initalise heroes
-    
 
     --[[
             Intermission area ADMIN area for NOW
 
     ]]--
-    GameMode:MoveHeroesToArea(raid_tables.beastmaster.arena)
-    GameMode:SpawnBoss(raid_tables.intermission.bosses, raid_tables.beastmaster.spawnLocation)
+    --GameMode:MoveHeroesToArea(raid_tables.beastmaster.arena)
+    --GameMode:SpawnBoss(raid_tables.intermission.bosses, raid_tables.beastmaster.spawnLocation)
 
     --[[
-            Beastmaster
+            Clock
 
     ]]--
-    --GameMode:MoveHeroesToArea(raid_tables.beastmaster.arena)
-    --GameMode:SpawnBoss(raid_tables.beastmaster.bosses, raid_tables.beastmaster.spawnLocation)
+    GameMode:MoveHeroesToArea(raid_tables.clock.arena)
+    GameMode:SpawnBoss(raid_tables.clock.bosses, raid_tables.clock.spawnLocation)
 
     --[[
             Timber

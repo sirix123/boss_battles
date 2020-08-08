@@ -103,21 +103,28 @@ function electric_turret_electric_charge_modifier:StartTimer()
                         self.parent:GetUnitName() ~= "furnace_droid"
                         then
 
+                            --[[ vortex effect
+                            local particle_name = "particles/clock/electric_stormspirit_electric_vortex.vpcf"
+                            self.fxIndex = ParticleManager:CreateParticle( particle_name, PATTACH_CUSTOMORIGIN, unit )
+                            ParticleManager:SetParticleControl( self.fxIndex, 0, self.parent:GetAbsOrigin() )
+                            ParticleManager:SetParticleControlEnt( self.fxIndex, 1, unit, PATTACH_POINT_FOLLOW, "attach_hitloc", unit:GetAbsOrigin(), true )]]
+
                             if self.parent:GetUnitName() == "electric_turret" then
                                 self.parent:ForceKill(false)
+                                --ParticleManager:DestroyParticle(self.fxIndex, false)
                             end
 
                             -- jump modifier to another player (how to delete buff from parent if it jumps?)
-                            unit:AddNewModifier(self.parent, self, "electric_turret_electric_charge_modifier", { duration = self.duration, radius = self.radius, })
+                            --unit:AddNewModifier(self.parent, self, "electric_turret_electric_charge_modifier", { duration = self.duration, radius = self.radius, })
 
                             -- if buff is on players give lingering dmg buff
                             unit:AddNewModifier(self.parent, self, "electric_turret_player_buff", { duration = self.duration })
 
                             -- remove charge from parent once it jumps t another player (how long do we wait before we run this? buff duration?)
-                            Timers:CreateTimer(self.duration, function()
+                            --[[Timers:CreateTimer(self.duration, function()
                                 unit:RemoveModifierByName("electric_turret_electric_charge_modifier")
                                 return false
-                            end)
+                            end)]]
                         end
                     end
                 end

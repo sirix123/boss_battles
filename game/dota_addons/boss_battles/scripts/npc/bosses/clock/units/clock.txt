@@ -20,17 +20,18 @@
 
 		// Abilities
 		//----------------------------------------------------------------
-		"Ability1"					"choking_gas"		// Ability 1
-		"Ability2"					"hookshot"			// Ability 2
-		"Ability3"					""					// Ability 3
-		"Ability4"					""					// Ability 4
-		"Ability5"					""					// Ability 5
-		"Ability6"					""					// Ability 6
-		"Ability7"					""					// Ability 7
-
+		"Ability1"					"missile_salvo"					// Ability 1
+		"Ability2"					"hookshot"						// Ability 2
+		"Ability3"					"choking_gas"					// Ability 3
+		"Ability4"					"summon_flame_turret"			// Ability 4
+		"Ability5"					"summon_chain_gun_turret"		// Ability 5
+		"Ability6"					"summon_electric_turret"		// Ability 6
+		"Ability7"					"summon_furnace_droid"			// Ability 7
+		"Ability8"					"return_hookshot"			// Ability 7
+		
 		// Armor
 		//----------------------------------------------------------------
-		"ArmorPhysical"				"100"			
+		"ArmorPhysical"				"14"			
 
 		// Attack
 		//----------------------------------------------------------------
@@ -464,7 +465,7 @@
 
 		// Abilities
 		//----------------------------------------------------------------
-		"Ability1"					""		// Ability 1
+		"Ability1"					""					// Ability 1
 		"Ability2"					""					// Ability 2
 		"Ability3"					""					// Ability 3
 		"Ability4"					""					// Ability 4

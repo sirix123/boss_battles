@@ -33,7 +33,7 @@ function summon_electric_turret:OnSpellStart()
             end
 
             -- get spawn vector
-            local randomSpawn = RandomInt(1,4)
+            local randomSpawn = RandomInt(1,#tSpawns)
 
             --particle effect start
             local particle_cast = "particles/units/heroes/hero_rattletrap/rattletrap_cog_deploy.vpcf"
@@ -46,6 +46,7 @@ function summon_electric_turret:OnSpellStart()
             CreateUnitByName( "electric_turret", tSpawns[randomSpawn], true, nil, nil, DOTA_TEAM_BADGUYS)
 
             j = j  +  1
+            table.remove(tSpawns,randomSpawn)
             return delay
         end)
     end

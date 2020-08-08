@@ -21,7 +21,7 @@
 
         // Time     
         //-------------------------------------------------------------------------------------------------------------
-        "AbilityCooldown"               "0 0 0 0"
+        "AbilityCooldown"               "70 60 50 20"
 
         // Cost
         //-------------------------------------------------------------------------------------------------------------
@@ -60,15 +60,15 @@
 
         // General
         //-------------------------------------------------------------------------------------------------------------
-        "AbilityBehavior"               "DOTA_ABILITY_BEHAVIOR_POINT"
-        "AbilityUnitDamageType"         "DAMAGE_TYPE_PHYSICAL"  
+        "AbilityBehavior"               "DOTA_ABILITY_BEHAVIOR_NO_TARGET"
+        "AbilityUnitDamageType"         "DAMAGE_TYPE_PHYSICAL"
 
         // Casting
         //-------------------------------------------------------------------------------------------------------------
-        "AbilityCastPoint"              "0.0 0.0 0.0 0.0"
-        "AbilityCooldown"               "0 0 0 0"
+        "AbilityCastPoint"              "0 0 0 0"
+        "AbilityCooldown"               "10 60 60 60"
         "AbilityManaCost"               "0"
-        "AbilityCastRange" 				"1000"
+        "AbilityCastRange" 				"9000"
 
         // Special
         //-------------------------------------------------------------------------------------------------------------
@@ -79,7 +79,7 @@
             "03"{ "var_type"			"FIELD_INTEGER"		"knock_speed"		    "500" }
             "04"{ "var_type"			"FIELD_INTEGER"		"knock_distance"	    "1000" }
             "05"{ "var_type"			"FIELD_INTEGER"		"knock_height"		    "200" }
-            "06"{ "var_type"			"FIELD_INTEGER"		"knock_stun_duration"	"5" }
+            "06"{ "var_type"			"FIELD_INTEGER"		"knock_stun_duration"	"1" }
 		}
 
         "precache"
@@ -89,7 +89,46 @@
     }
 
     //=================================================================================================================
-    // Clock: Hook Shot
+    // Clock: Return Hook Shot
+    //=================================================================================================================
+    "return_hookshot"
+    { 
+        "BaseClass"                     "ability_lua"
+        "ScriptFile"                    "bosses/clock/return_hookshot"
+        "MaxLevel"						"4"
+
+        // General
+        //-------------------------------------------------------------------------------------------------------------
+        "AbilityBehavior"               "DOTA_ABILITY_BEHAVIOR_NO_TARGET"
+        "AbilityUnitDamageType"         "DAMAGE_TYPE_PHYSICAL"
+
+        // Casting
+        //-------------------------------------------------------------------------------------------------------------
+        "AbilityCastPoint"              "0 0 0 0"
+        "AbilityCooldown"               "5 5 5 5"
+        "AbilityManaCost"               "0"
+        "AbilityCastRange" 				"9000"
+
+        // Special
+        //-------------------------------------------------------------------------------------------------------------
+		"AbilitySpecial"
+		{
+            "01"{ "var_type"			"FIELD_INTEGER"		"speed"		            "1000" }
+            "02"{ "var_type"			"FIELD_INTEGER"		"latch_radius"		    "50" }
+            "03"{ "var_type"			"FIELD_INTEGER"		"knock_speed"		    "500" }
+            "04"{ "var_type"			"FIELD_INTEGER"		"knock_distance"	    "1000" }
+            "05"{ "var_type"			"FIELD_INTEGER"		"knock_height"		    "200" }
+            "06"{ "var_type"			"FIELD_INTEGER"		"knock_stun_duration"	"1" }
+		}
+
+        "precache"
+		{
+
+		}
+    }
+
+    //=================================================================================================================
+    // Clock: gas Shot
     //=================================================================================================================
     "choking_gas"
     { 
@@ -105,20 +144,20 @@
         // Casting
         //-------------------------------------------------------------------------------------------------------------
         "AbilityCastPoint"              "0.0 0.0 0.0 0.0"
-        "AbilityCooldown"               "0 0 0 0"
+        "AbilityCooldown"               "45 45 45 45"
         "AbilityManaCost"               "0"
-        "AbilityCastRange" 				"1000"
+        "AbilityCastRange" 				"9000"
 
         // Special
         //-------------------------------------------------------------------------------------------------------------
 		"AbilitySpecial"
 		{
-            "01"{ "var_type"			"FIELD_INTEGER"		"cloud_spawn_interval"		            "2" }
-            "02"{ "var_type"			"FIELD_INTEGER"		"duration_cloud"		                "5" }
-            "03"{ "var_type"			"FIELD_INTEGER"		"radius"		                        "150" }
-            "04"{ "var_type"			"FIELD_INTEGER"		"dmg"		                            "100" }
-            "05"{ "var_type"			"FIELD_INTEGER"		"dmg_interval"		                    "1" }
-            "06"{ "var_type"			"FIELD_INTEGER"		"duration_debuff"		                "20" }
+            "01"{ "var_type"			"FIELD_INTEGER"		"cloud_spawn_interval"		            "2 2 2 2" }
+            "02"{ "var_type"			"FIELD_INTEGER"		"duration_cloud"		                "5 5 5 5" }
+            "03"{ "var_type"			"FIELD_INTEGER"		"radius"		                        "150 150 150 150" }
+            "04"{ "var_type"			"FIELD_INTEGER"		"dmg"		                            "100 100 100 100" }
+            "05"{ "var_type"			"FIELD_INTEGER"		"dmg_interval"		                    "1 1 1 1" }
+            "06"{ "var_type"			"FIELD_INTEGER"		"duration_debuff"		                "20 20 20 20" }
 		}
 
         "precache"
@@ -268,7 +307,7 @@
         "AbilityUnitDamageType"         "DAMAGE_TYPE_PHYSICAL" 
         "MaxLevel"						"4"
         "AbilityCastRange" 				"10000"
-        "AbilityCooldown"				"0"
+        "AbilityCooldown"				"20"
         "AbilityCastPoint"              "0"
         "AbilityManaCost"               "0"
 
@@ -276,7 +315,7 @@
         //-------------------------------------------------------------------------------------------------------------
 		"AbilitySpecial"
 		{
-            "01"{ "var_type"			"FIELD_INTEGER"		"number_of_turrets_to_spawn"		"5" }
+            "01"{ "var_type"			"FIELD_INTEGER"		"number_of_turrets_to_spawn"		"4 5 6 6" }
 		}
 
 		"precache"
@@ -301,7 +340,7 @@
         "AbilityUnitDamageType"         "DAMAGE_TYPE_PHYSICAL" 
         "MaxLevel"						"4"
         "AbilityCastRange" 				"10000"
-        "AbilityCooldown"				"0"
+        "AbilityCooldown"				"20"
         "AbilityCastPoint"              "0"
         "AbilityManaCost"               "0"
 
@@ -338,7 +377,7 @@
         "AbilityUnitDamageType"         "DAMAGE_TYPE_PHYSICAL" 
         "MaxLevel"						"4"
         "AbilityCastRange" 				"10000"
-        "AbilityCooldown"				"0"
+        "AbilityCooldown"				"20"
         "AbilityCastPoint"              "0"
         "AbilityManaCost"               "0"
 
@@ -346,7 +385,7 @@
         //-------------------------------------------------------------------------------------------------------------
 		"AbilitySpecial"
 		{
-            "01"{ "var_type"			"FIELD_INTEGER"		"number_of_turrets_to_spawn"		    "1" }
+            "01"{ "var_type"			"FIELD_INTEGER"		"number_of_turrets_to_spawn"		    "2 3 3 4" }
             "02"{ "var_type"			"FIELD_INTEGER"		"delay_between_turrets_spawning"		"2" } //obvs need more than one turret to spawn for this
 		}
 
@@ -378,7 +417,7 @@
         //-------------------------------------------------------------------------------------------------------------
 		"AbilitySpecial"
 		{
-            "01"{ "var_type"			"FIELD_INTEGER"		"radius"		    "200" }
+            "01"{ "var_type"			"FIELD_INTEGER"		"radius"		    "250" }
 		}
 
 		"precache"

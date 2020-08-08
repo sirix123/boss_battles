@@ -6,13 +6,13 @@
 	m_Children = 
 	[
 		{
-			m_ChildRef = resource:"boss_battles\\particles\\clock\\clock_jakiro_ti10_macropyre_bloom.vpcf"
+			m_ChildRef = resource:"particles\\clock\\clock_jakiro_ti10_macropyre_bloom.vpcf"
 		},
 		{
 			m_ChildRef = resource:"particles/econ/items/jakiro/jakiro_ti10_immortal/jakiro_ti10_macropyre_ground_line_start.vpcf"
 		},
 		{
-			m_ChildRef = resource:"boss_battles\\particles\\clock\\clock_jakiro_ti10_macropyre_ground_dirt_beam.vpcf"
+			m_ChildRef = resource:"particles\\clock\\clock_jakiro_ti10_macropyre_ground_dirt_beam.vpcf"
 		},
 		{
 			m_ChildRef = resource:"particles/econ/items/jakiro/jakiro_ti10_immortal/jakiro_ti10_macropyre_crack_orange.vpcf"
@@ -21,25 +21,25 @@
 			m_ChildRef = resource:"particles/econ/items/jakiro/jakiro_ti10_immortal/jakiro_ti10_macropyre_crack_blue.vpcf"
 		},
 		{
-			m_ChildRef = resource:"boss_battles\\particles\\clock\\clock_jakiro_ti10_macropyre_ground_line.vpcf"
+			m_ChildRef = resource:"particles\\clock\\clock_jakiro_ti10_macropyre_ground_line.vpcf"
 		},
 		{
 			m_ChildRef = resource:"particles/econ/items/jakiro/jakiro_ti10_immortal/jakiro_ti10_macropyre_lightshaft.vpcf"
 		},
 		{
-			m_ChildRef = resource:"particles/econ/items/jakiro/jakiro_ti10_immortal/jakiro_ti10_macropyre_rocks_01.vpcf"
+			m_ChildRef = resource:"particles\\clock\\clock_jakiro_ti10_macropyre_rocks_01.vpcf"
 		},
 		{
-			m_ChildRef = resource:"particles/econ/items/jakiro/jakiro_ti10_immortal/jakiro_ti10_macropyre_rocks_02.vpcf"
+			m_ChildRef = resource:"particles\\clock\\clock_jakiro_ti10_macropyre_rocks_02.vpcf"
 		},
 		{
-			m_ChildRef = resource:"particles/econ/items/jakiro/jakiro_ti10_immortal/jakiro_ti10_macropyre_rocks_03.vpcf"
+			m_ChildRef = resource:"particles\\clock\\clock_jakiro_ti10_macropyre_rocks_03.vpcf"
 		},
 		{
-			m_ChildRef = resource:"particles/econ/items/jakiro/jakiro_ti10_immortal/jakiro_ti10_macropyre_rocks_04.vpcf"
+			m_ChildRef = resource:"particles\\clock\\clock_jakiro_ti10_macropyre_rocks_04.vpcf"
 		},
 		{
-			m_ChildRef = resource:"particles/econ/items/jakiro/jakiro_ti10_immortal/jakiro_ti10_macropyre_rocks_06.vpcf"
+			m_ChildRef = resource:"particles\\clock\\clock_jakiro_ti10_macropyre_rocks_06.vpcf"
 		},
 		{
 			m_ChildRef = resource:"particles/econ/items/jakiro/jakiro_ti10_immortal/jakiro_ti10_macropyre_rocks_kickup.vpcf"
