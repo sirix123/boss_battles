@@ -93,7 +93,7 @@ end
 
 -- An ability was used by a player
 function GameMode:OnAbilityUsed(keys)
-  print("GameMode:OnAbilityUsed() keys = ", keys)
+  --print("GameMode:OnAbilityUsed() keys = ", keys)
   DebugPrint('[BAREBONES] AbilityUsed')
   DebugPrintTable(keys)
 

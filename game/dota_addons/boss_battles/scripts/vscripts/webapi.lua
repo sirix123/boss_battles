@@ -1,10 +1,10 @@
 WebApi = WebApi or {}
 
-local apiKey = "AIzaSyAgI1IFKJFjkgLzpjCT1OvHOjgEBeEc-Wo"
---mitchdoran local firebaseUrl = "https://boss-battles-84094.firebaseio.com/" 
-
+--local apiKey = "AIzaSyAgI1IFKJFjkgLzpjCT1OvHOjgEBeEc-Wo"
+--mitchdoran
+local firebaseUrl = "https://boss-battles-84094.firebaseio.com/" 
 --shared:
-local firebaseUrl = "https://boss-battles-209de.firebaseio.com/" 
+--local firebaseUrl = "https://boss-battles-209de.firebaseio.com/" 
 
 
 function WebApi:SavePlayHistory(hero)
@@ -23,7 +23,6 @@ function WebApi:SavePlayHistory(hero)
 	data.player.playerName = "MooMoo"
 	data.ingame = {}
 	data.ingame.classPlayed = heroname
-
 
 	self:PostPlayHistory(data)
 end
@@ -47,7 +46,7 @@ function WebApi:DemoForStefan()
 	--Prepare http request:
 	local firebasePath = firebaseUrl .. "stefansExampleDB.json"
 	local request = CreateHTTPRequestScriptVM("POST", firebasePath) -- can be POST, GET, PUT, DELETE ... maybe some others?
-	request:SetHTTPRequestRawPostBody("application/json", json.encode(dummyData))
+	request:SetHTTPRequestRawPostBody("application/json", json.encode(data))
 
 	--make request and handle response:
 	request:Send(function(response) 
@@ -90,7 +89,7 @@ function WebApi:DemoForStefan()
 
 	firebasePath = firebaseUrl .. "Example_Players.json"
 	request = CreateHTTPRequestScriptVM("POST", firebasePath) -- can be POST, GET, PUT, DELETE ... maybe some others?
-	request:SetHTTPRequestRawPostBody("application/json", json.encode(dummyData))
+	request:SetHTTPRequestRawPostBody("application/json", json.encode(playerObject))
 
 	--make request and handle response:
 	request:Send(function(response) 
@@ -127,21 +126,27 @@ function WebApi:PostScoreboardDummyData()
 
 	dummyData[1] = {} 
 	dummyData[1].playerName = "Mitch"
-	dummyData[1].Score = 123
+	dummyData[1].Score = 1000
 
 	dummyData[2] = {} 
 	dummyData[2].playerName = "Stefan"
-	dummyData[2].Score = 123
+	dummyData[2].Score = 1500
 
 	dummyData[3] = {} 
 	dummyData[3].playerName = "Nic"
-	dummyData[3].Score = 123
+	dummyData[3].Score = 2000
 
 	dummyData[4] = {} 
 	dummyData[4].playerName = "Marc"
-	dummyData[4].Score = 123
+	dummyData[4].Score = 1000
 
+	dummyData[5] = {} 
+	dummyData[5].playerName = "Crimpy"
+	dummyData[5].Score = 3500
 
+	dummyData[6] = {} 
+	dummyData[6].playerName = "Brent"
+	dummyData[6].Score = 1	
 
 	local firebasePath = firebaseUrl .. "testScoreboard.json"
 	local request = CreateHTTPRequestScriptVM("POST", firebasePath)
@@ -153,8 +158,35 @@ function WebApi:PostScoreboardDummyData()
 			print("POST request failed to send")
 		end
 	end)
+end
 
 
+function WebApi:GetAndShowScoreboard()
+	local request = CreateHTTPRequestScriptVM("GET", firebaseUrl .. "testScoreboard.json")
+	request:Send(function(response) 
+		if response.StatusCode == 200 then -- HTTP 200 = Success
+			local data = json.decode(response.Body)
+			--print("dump(data) = ", dump(data))
+			--First element of data is just guid
+
+			for k,v in pairs(data) do
+				print("v = ", v )
+				CustomGameEventManager:Send_ServerToAllClients("scoreboardTestEvent", v)
+
+				-- for i = 1, #v, 1 do
+				-- 	print("Row ", i)
+				-- 	print("v[i].playerName = ", v[i].playerName )
+				-- 	print("v[i].Score = ", v[i].Score )
+				-- end
+				break
+			end
+
+			--print("sending data to js event scoreboardTestEvent")
+			--CustomGameEventManager:Send_ServerToAllClients("scoreboardTestEvent", data[0])
+		else 
+			print("WebApi Http GET failed ", response.StatusCode)
+		end
+	end)
 end
 
 
@@ -163,14 +195,12 @@ function WebApi:GetScoreboardTest()
 
 	request:Send(function(response) 
 		if response.StatusCode == 200 then -- HTTP 200 = Success
-			local data = json.decode(response.Body)
-			print("WebApi data = ", data)
-			return data
+			print("GOT testScoreboard. response.body = ", response.Body)
+			return json.decode(response.Body)
 		else 
 			print("WebApi Http GET failed ", response.StatusCode)
 		end
 	end)
-
 end
 
 function WebApi:PostPlayHistory(data)
@@ -182,20 +212,6 @@ function WebApi:PostPlayHistory(data)
           print("POST request successfully sent")
         else
           print("POST request failed to send")
-        end
-      end)
-end
-
-
-function WebApi:PostData(data)
-	local request = CreateHTTPRequestScriptVM("PUT", firebaseUrl ..  "/user/" ..data.steamid .. "/data.json")
-	request:SetHTTPRequestRawPostBody("application/json", json.encode(data))
-
-      request:Send(function(response) 
-        if response.StatusCode == 200 then
-          print("PUT request successfully sent")
-        else
-          print("PUT request failed to send")
         end
       end)
 end
@@ -215,18 +231,21 @@ function WebApi:TestGet()
 	end)
 end
 
-function WebApi:TestPost()
-	local testData = {}
-	testData.field1 = "Field1 Test data"
-	testData.field2 = "Field2 Test data"
 
-	local request = CreateHTTPRequestScriptVM("PUT", firebaseUrl .. "test.json")
-	request:SetHTTPRequestRawPostBody("application/json", json.encode(testData))
-      request:Send(function(response) 
-        if response.StatusCode == 200 then
-          print("PUT request successfully sent")
-        else
-          print("PUT request failed to send")
-        end
-      end)
+
+--UTIL FUNCTIONS
+
+
+--Recursively convert a table to string
+function dump(o)
+   if type(o) == 'table' then
+      local s = '{ '
+      for k,v in pairs(o) do
+         if type(k) ~= 'number' then k = '"'..k..'"' end
+         s = s .. '['..k..'] = ' .. dump(v) .. ','
+      end
+      return s .. '} '
+   else
+      return tostring(o)
+   end
 end

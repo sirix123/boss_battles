@@ -119,7 +119,8 @@ end
 	--Hits to destroy: 3
 	--Same ms as player
 function homing_missile:LevelOne()
-
+	
+	
 end
 
 --lvl 2:
@@ -146,13 +147,6 @@ function homing_missile:LevelFour()
 end
 
 
-
-
-
-
-
-
-
 -- some function I found on stackoverflow to:
 -- pass in a table (orig) and it copys the table by value instead of by reference and returns the copied table
 function shallowcopy(orig)
@@ -168,3 +162,5 @@ function shallowcopy(orig)
     end
     return copy
 end
+
+

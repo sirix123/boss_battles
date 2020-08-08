@@ -36,6 +36,9 @@ end
 
 -- handles spawning the boss, pass boss from table and a location
 function GameMode:SpawnBoss(tBoss, tLocation)
+
+
+
     --print("GameMode: SpawnBoss")
     local vEntityLocation = ""
 
@@ -44,6 +47,20 @@ function GameMode:SpawnBoss(tBoss, tLocation)
 
     for _, boss in pairs(tBoss) do
         for _, location in pairs(tLocation) do
+
+            if location == "clock_spawn" and boss == "npc_clock" then
+                vEntityLocation = Entities:FindByName(nil, location):GetAbsOrigin()
+                CreateUnitByName(boss, vEntityLocation, true, nil, nil, DOTA_TEAM_BADGUYS)
+                
+                CreateUnitByName("npc_dota_furnace", vEntityLocation, true, nil, nil, DOTA_TEAM_BADGUYS)
+
+                CreateUnitByName("npc_assistant", vEntityLocation, true, nil, nil, DOTA_TEAM_BADGUYS)
+
+                --CreateUnitByName("npc_dota_hero_rubick", Vector(8112,6733,256), true, nil, nil, DOTA_TEAM_GOODGUYS)
+                --CreateUnitByName("electric_turret", Vector(8593,7352,256), true, nil, nil, DOTA_TEAM_GOODGUYS)
+                --CreateUnitByName("npc_dota_creature_gnoll_assassin", Vector(7605,7305,256), true, nil, nil, DOTA_TEAM_GOODGUYS)
+            end
+
 
             if location == "beastmaster_boss_spawn" and boss == "npc_dota_creature_dummy_target_boss" then
 
@@ -96,6 +113,7 @@ function GameMode:SpawnBoss(tBoss, tLocation)
     --CreateUnitByName(boss, bossSpawnLocation, true, nil, nil, DOTA_TEAM_BADGUYS)
     --CreateUnitByName("npc_dota_hero_rubick", bossSpawnLocation, true, nil, nil, DOTA_TEAM_GOODGUYS)
     --CreateUnitByName("npc_dota_hero_viper", Vector(9821,14288,0), true, nil, nil, DOTA_TEAM_GOODGUYS)
+    CreateUnitByName("npc_gyrocopter", Vector(14007,14445,0), true, nil, nil, DOTA_TEAM_BADGUYS)
     CreateUnitByName("npc_dota_creature_gnoll_assassin", Vector(14007,14445,0), true, nil, nil, DOTA_TEAM_BADGUYS)
     --CreateUnitByName("npc_dota_creature_gnoll_assassin", testspawn, true, nil, nil, DOTA_TEAM_BADGUYS)
     --CreateUnitByName("npc_stun_droid", testspawn, true, nil, nil, DOTA_TEAM_BADGUYS)
@@ -118,6 +136,12 @@ function GameMode:StartRaid()
             Intermission area ADMIN area for NOW
 
     ]]--
+
+    --CLOCKWERK TEST:
+    --GameMode:MoveHeroesToArea(raid_tables.clock.arena)
+    --GameMode:SpawnBoss(raid_tables.clock.bosses, raid_tables.clock.spawnLocation)
+
+    --GYRO TEST:
     --GameMode:MoveHeroesToArea(raid_tables.beastmaster.arena)
     --GameMode:SpawnBoss(raid_tables.intermission.bosses, raid_tables.beastmaster.spawnLocation)
 

@@ -113,8 +113,7 @@ end
 -----------------------------------------------------------------------------------
 
 
-function FlyUp(height)
-	local velocity = 10
+function FlyUp(height, velocity)
 	local tick_interval = 0.05
 	print("FlyUp before timer")
 	Timers:CreateTimer(function()
@@ -135,8 +134,7 @@ function FlyUp(height)
 	return timeToReachHeight
 end
 
-function FlyDown(height)
-	local velocity = 10
+function FlyDown(height, velocity)
 	local tick_interval = 0.05
 	print("FlyUp before timer")
 	Timers:CreateTimer(function()
@@ -159,24 +157,25 @@ end
 
 
 
---Swoop: Gyro up into the air, then swoops down onto target, activating rocket barrage upon arrival.
+--Assumes gyro is in the air
+--Swoop: swoops down onto target, activating rocket barrage upon arrival.
 function SwoopAbility(target)
-	DebugDrawCircle(target:GetAbsOrigin(), Vector(0,0,255), 128, 100, true, 5) -- blue circle
 
+
+	DebugDrawCircle(target:GetAbsOrigin(), Vector(0,0,255), 128, 100, true, 5) -- blue circle
 	thisEntity:SetAttackCapability(0) --set to DOTA_UNIT_CAP_NO_ATTACK.	
 
 	local velocity = 40
 	local distanceThreshold = 150
-
 	-- --Use a timer to fly gyro up into the air, after delay tick
-	local delaySeconds = 3
+	local delaySeconds = 0
 	local tickCount = 0
 	local tick_interval = 0.05
 	Timers:CreateTimer(function()
 		-- Fly gyro up on the z axis.
 		if ( (tickCount * tick_interval) < delaySeconds) then
-			thisEntity:SetAbsOrigin(Vector(thisEntity:GetAbsOrigin().x, thisEntity:GetAbsOrigin().y, thisEntity:GetAbsOrigin().z +velocity/4))
-		
+			--CHANGED: assume gyro is already in the air
+			--thisEntity:SetAbsOrigin(Vector(thisEntity:GetAbsOrigin().x, thisEntity:GetAbsOrigin().y, thisEntity:GetAbsOrigin().z +velocity/4))
 		else
 			--Check if gyro has arrived at destination then cast rocket_barrage and stop this timer
 			local distance = (target:GetAbsOrigin() - thisEntity:GetAbsOrigin()):Length2D()
@@ -226,7 +225,10 @@ end
 
 --TODO: write comment to explain what this is and how this works
 enemiesScanned = {}
+
+local shouldFlyUp = true
 function RadarScan()
+
 	local spellDuration = 3 --seconds
 	local radius = 1500
 
@@ -242,6 +244,15 @@ function RadarScan()
 	local startAngle = 0
 
 	Timers:CreateTimer(function()	
+		--First fly up, then start scan...
+		if shouldFlyUp then
+			print("vshouldFlyUp. Flying up!")
+			shouldFlyUp = false
+			local flyUpDuration = FlyUp(600, 4)
+			print("flyUpDuration = ", flyUpDuration)
+			return flyUpDuration
+		end
+
 		local origin = thisEntity:GetAbsOrigin()
 		currentFrame = currentFrame +1
 
@@ -350,7 +361,6 @@ function RadarPulse()
 		--check for hits
 		local enemies = FindUnitsInRadius(DOTA_TEAM_BADGUYS, thisEntity:GetAbsOrigin(), nil, radius,
 		DOTA_UNIT_TARGET_TEAM_ENEMY, DOTA_UNIT_TARGET_ALL, DOTA_UNIT_TARGET_FLAG_NONE, FIND_CLOSEST, false )
-
 
 		for _,enemy in pairs(enemies) do
 			if Contains(enemiesPulsed, enemy) then -- already hit this enemy

@@ -37,6 +37,10 @@
 			Command = "+R"
 		},
 		{
+			Key = "L"
+			Command = "+L"
+		},
+		{
 			Key = "SPACE"
 			Command = "+Space"
 		},

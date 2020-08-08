@@ -88,7 +88,7 @@ tRAID_INIT_TABLE = {
 			"npc_viper",
 		},
 	},
-
+	
 	gyrocopter = {
 		name = "Gyrocopter",
 		description = "gyrocopter boss description",

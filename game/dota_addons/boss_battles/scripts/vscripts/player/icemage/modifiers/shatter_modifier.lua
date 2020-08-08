@@ -53,7 +53,7 @@ end
 
 function shatter_modifier:OnDestroy()
     if IsServer() then
-
+        
     end
 end
 ----------------------------------------------------------------------------

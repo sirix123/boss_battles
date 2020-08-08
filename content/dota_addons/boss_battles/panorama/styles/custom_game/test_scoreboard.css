@@ -1,0 +1,45 @@
+.parent
+{
+  width:100%;
+  height:100%;
+}
+
+.ScoreboardContainer
+{
+  visibility: visible;
+  flow-children: down;
+  height: 80%;
+  width: 50%;
+
+  margin-top: 9.5%;
+  margin-left: 24.5%;
+  padding: 0px;
+  border:1px solid red;
+}
+
+.ScoreboardRow 
+{
+	flow-children: right;
+	width: 700px;
+	height: 100px;
+
+	margin-left: 4px;
+	margin-top: 4px;
+	margin-bottom: 4px;
+}
+
+.PlayerNameText
+{
+    font-size: 24px;
+    color: #ffffff;
+    margin-bottom: 32px; 
+    margin-left: 15px;
+}
+
+.ScoreText 
+{
+    font-size: 24px;
+    color: #ffffff;
+    margin-bottom: 32px; 
+    margin-left: 15px;
+}

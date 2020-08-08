@@ -49,7 +49,7 @@ function flak_cannon_modifier:OnAttack(keys)
 				--self:GetParent():RemoveModifierByName("modifier_imba_gyrocopter_flak_cannon_speed_handler")
 			end
 		end
-		
+
 		self:DecrementStackCount()
 		
 		if self:GetStackCount() <= 0 then

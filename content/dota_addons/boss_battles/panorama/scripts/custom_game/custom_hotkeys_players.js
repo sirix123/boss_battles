@@ -237,6 +237,74 @@ function OnRightButtonPressed()
     AbilityToCast(1, true);
 }
 
+
+function ShowScoreboard()
+{
+    $.Msg("Javascript: ShowScoreboard()...")
+    var scoreboardContainer = $("#ScoreboardContainer");
+
+    if (scoreboardContainer) 
+    {
+        $.Msg("scoreboardContainer not null");
+    }
+    else 
+    {
+        $.Msg("scoreboardContainer null");
+
+    }
+
+    $.Msg("Javascript: GameEvents.SendCustomGameEventToServer - showScoreboardEvent")   
+    GameEvents.SendCustomGameEventToServer("showScoreboardEvent", {});
+}
+
+function HideScoreboard()
+{
+    $.Msg("Javascript: HideScoreboard()...")   
+
+
+    var scoreboardContainer = $("#ScoreboardContainer");
+
+    if (scoreboardContainer) 
+    {
+        $.Msg("scoreboardContainer not null");
+        scoreboardContainer.style["visibility"] = "collapse";
+    }
+    else 
+    {
+        $.Msg("scoreboardContainer null");
+
+    }
+
+    
+}
+
+
+//Can't do HTTP in JS here... xhr didn't work.
+function TestFireBase()
+{
+    $.Msg("Javascript: TestFireBase()...")   
+
+    //Can't do xhr in dota?
+    var xhr = new XMLHttpRequest();   
+    $.Msg("xhr =", xhr)   
+
+    xhr.onreadystatechange = function () {
+        if (this.readyState != 4) return;
+
+        //we got some data!
+        if (this.status == 200) {
+            var data = JSON.parse(this.responseText);
+        }
+    };
+
+    $.Msg("Javascript: Sending GET req")
+    var url = "https://boss-battles-84094.firebaseio.com/testScoreboard.json"
+    xhr.open('GET', url, true);
+    xhr.send();
+
+}
+
+
 //Powershot works by clicking and holding the mouse, the code calls the ability twice, once on mouse click ( isMouseDown() ) and again on release ( !isMouseDown() )
 
 var powerShotFirstClick = true
@@ -393,6 +461,10 @@ function GetMouseCastPosition(  )
     Game.AddCommand( "+R", function(){AbilityToCast(4, true) }, "", 0 );
     Game.AddCommand( "-R", EmptyCallBack, "", 0 );   
 
+
+    //TESTING: SCOREBOARD 
+    Game.AddCommand( "+L", ShowScoreboard, "", 0 );
+    Game.AddCommand( "-L", HideScoreboard, "", 0 );
 
     //TESTING: Ability Powershot ability on Kunkka, press and hold SPACE to charge up, release to fire
     //Game.AddCommand( "+Space", OnPressPowerShot, "", 0 );

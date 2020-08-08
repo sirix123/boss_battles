@@ -171,7 +171,10 @@ function GameMode:OnHeroInGame(hero)
   DebugPrint("[BAREBONES] Hero spawned in game for first time -- " .. hero:GetUnitName())
 
   --TEST: FIREBASE web api testing, just wanted to trigger it when the game strarts
-  WebApi:SavePlayHistory(hero)
+  --WebApi:DemoForStefan()
+  --WebApi:DemoForStefan()
+  --WebApi:PostScoreboardDummyData()
+  --WebApi:SavePlayHistory(hero)
 
   hero:AddNewModifier( hero,  nil, "movement_modifier_thinker", { } )
   hero:AddNewModifier( hero,  nil, "remove_attack_modifier", { } )
@@ -203,8 +206,11 @@ end
 ]]
 function GameMode:OnGameInProgress()
   DebugPrint("[BAREBONES] The game has officially begun")
-  
   GameMode:StartRaid()
+
+
+  --TODO: WebApi: ... 
+
 end
 
 
@@ -213,6 +219,9 @@ end
 function GameMode:InitGameMode()
   GameMode = self
   DebugPrint('[BAREBONES] Starting to load Barebones gamemode...')
+
+
+  --TODO: WebApi:GetLeaderboard?
 
   self:SetupFilters()
 

@@ -4,7 +4,27 @@ local pressDuration = 0 -- number of ticks key was held for
 local isTimerRunning 
 local timerInterval = 0.1
 
+
+function GameMode:ShowScoreboard()
+    print("GameMode:ShowScoreboard()")
+
+    --Data will be nil becauase webApi returns before the server responds...
+    --local data = WebApi:GetAndScoreboard()
+
+    --WebApi will get data but cannot return it here.
+    WebApi:GetAndShowScoreboard()
+    
+end
+
 function GameMode:SetUpMovement()
+
+
+    --TODO: move this code elsewhere. Basically RegisterListener at the start of game
+    CustomGameEventManager:RegisterListener('showScoreboardEvent', function(eventSourceIndex, args)
+        GameMode:ShowScoreboard()
+    end)
+
+
     -- TODO: Move this code elsewhere. Shouldn't be doing this here.. maybe GameMode:SetUpCastBars()
     -- Catch an event at serverside and then send to client side JS.
     CustomGameEventManager:RegisterListener('customEvent_abilityCast', function(eventSourceIndex, args)
