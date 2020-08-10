@@ -64,14 +64,14 @@ function choking_gas_thinker:StartApplyDamageLoop()
         )
 
         for _, enemy in pairs(enemies) do
-            self.dmgTable = {
+			local dmgTable = {
                 victim = enemy,
-                attacker = self.caster,
-                damage = self.dmg,
+                attacker = self:GetCaster(),
+                damage = 100,
                 damage_type = self.dmgType,
             }
 
-            ApplyDamage(self.dmgTable)
+            ApplyDamage(dmgTable)
         end
 		return self.damage_interval
 	end)

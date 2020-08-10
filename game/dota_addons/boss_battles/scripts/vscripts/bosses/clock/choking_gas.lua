@@ -25,23 +25,27 @@ function choking_gas:OnSpellStart()
         local origin = caster:GetAbsOrigin()
         self.duration = self:GetSpecialValueFor( "duration_debuff" )
 
-        -- find cloest enemy unit
         local enemies = FindUnitsInRadius(
-            self:GetCaster():GetTeamNumber(),	-- int, your team number
-            origin,	-- point, center point
-            nil,	-- handle, cacheUnit. (not known)
-            FIND_UNITS_EVERYWHERE,	-- float, radius. or use FIND_UNITS_EVERYWHERE
-            DOTA_UNIT_TARGET_TEAM_ENEMY,	-- int, team filter
-            DOTA_UNIT_TARGET_HERO + DOTA_UNIT_TARGET_BASIC,	-- int, type filter
-            0,	-- int, flag filter
-            FIND_CLOSEST,	-- int, order filter
-            false	-- bool, can grow cache
-        )
+            DOTA_TEAM_BADGUYS,
+            origin,
+            nil,
+            5000,
+            DOTA_UNIT_TARGET_TEAM_ENEMY,
+            DOTA_UNIT_TARGET_ALL,
+            DOTA_UNIT_TARGET_FLAG_NONE,
+            FIND_CLOSEST,
+            false )
+
+        if #enemies == 0 then
+            return
+        end
+
+        local i = RandomInt(1,#enemies)
 
         -- create gas modifier
         -- this stays on target and creates a gas cloud every x seconds (handled in modifier with a timer)
         if enemies ~= nil then
-            enemies[1]:AddNewModifier(caster, self, "choking_gas_timer",
+            enemies[i]:AddNewModifier(caster, self, "choking_gas_timer",
             {
                 duration = self.duration
             })

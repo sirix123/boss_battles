@@ -41,7 +41,9 @@ function summon_electric_turret:OnSpellStart()
             ParticleManager:SetParticleControl(effect_cast, 0, tSpawns[randomSpawn])
             ParticleManager:ReleaseParticleIndex(effect_cast)
 
-            --particle effect end
+            -- sound effect
+            local sound_cast = "Hero_Rattletrap.Power_Cogs"
+            EmitSoundOn(sound_cast,self:GetCaster())
 
             CreateUnitByName( "electric_turret", tSpawns[randomSpawn], true, nil, nil, DOTA_TEAM_BADGUYS)
 

@@ -32,6 +32,7 @@ function furnace_master_grab_throw:OnAbilityPhaseStart()
 		end
 
 		-- effect and sound
+		EmitSoundOn( "Hero_Tiny.Tree.Grab", self:GetCaster() )
 		
 	end
 	return true

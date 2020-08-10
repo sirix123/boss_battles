@@ -7,11 +7,27 @@ function furnace_master_throw:OnAbilityPhaseStart()
 		local origin = caster:GetAbsOrigin()
 
 		-- find all 4 furances
-		local furances = 4
 		local tFurnaceLocations = {}
-		for i = 1, furances, 1 do
-			local vFurnaceLoc = Entities:FindByName(nil, "furnace_" .. i):GetAbsOrigin()
-			table.insert(tFurnaceLocations, vFurnaceLoc )
+
+		local units = FindUnitsInRadius(
+			DOTA_TEAM_BADGUYS,
+			origin,
+			nil,
+			5000,
+			DOTA_UNIT_TARGET_TEAM_FRIENDLY,
+			DOTA_UNIT_TARGET_ALL,
+			DOTA_UNIT_TARGET_FLAG_INVULNERABLE,
+			FIND_CLOSEST,
+			false )
+
+		if #units == 0 then
+			return 0
+		end
+
+		for _, unit in pairs(units) do
+			if unit:GetUnitName() == "furnace" then
+				table.insert(tFurnaceLocations, unit:GetAbsOrigin() )
+			end
 		end
 
 		self.attach = caster:ScriptLookupAttachment( "attach_attack2" )

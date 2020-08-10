@@ -10,7 +10,7 @@ function hookshot:OnAbilityPhaseStart()
         -- the 1 below is imporant if set incorrectly the animation will stutter (second variable in startgesture is the playback override)
         self:GetCaster():StartGestureWithPlaybackRate(ACT_DOTA_RATTLETRAP_HOOKSHOT_START, 1.2)
         --ACT_DOTA_RATTLETRAP_HOOKSHOT_START ACT_DOTA_ATTACK
-
+        self:GetCaster():EmitSound("rattletrap_ratt_ability_hook_03")
         return true
     end
 end

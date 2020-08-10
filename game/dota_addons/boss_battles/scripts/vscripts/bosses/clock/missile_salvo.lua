@@ -3,7 +3,8 @@ LinkLuaModifier( "clock_thinker_missile_salvo", "bosses/clock/modifiers/clock_th
 
 function missile_salvo:OnSpellStart()
     if IsServer() then
-
+        -- sound effect
+        self:GetCaster():EmitSound("rattletrap_ratt_laugh_01")
         -- point 1 top left, point 2 top right, point 3 bot left, point 4 bot right
         local point_1 = Vector(6617,8497,256)
         local point_2 = Vector(10028,8497,256)

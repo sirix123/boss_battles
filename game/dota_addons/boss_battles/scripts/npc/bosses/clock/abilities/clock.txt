@@ -42,8 +42,6 @@
 
         "precache"
 		{
-			"soundfile"	"soundevents/game_sounds_heroes/game_sounds_rattletrap.vsndevts"
-            "soundfile"	"soundevents/voscripts/game_sounds_vo_rattletrap.vsndevts"
 			"particle"  "particles/ranger/ranger_clockwerk_para_rocket_flare.vpcf"
             "particle"  "particles/clock/clock_hero_snapfire_ultimate_linger.vpcf"
 		}
@@ -340,7 +338,7 @@
         "AbilityUnitDamageType"         "DAMAGE_TYPE_PHYSICAL" 
         "MaxLevel"						"4"
         "AbilityCastRange" 				"10000"
-        "AbilityCooldown"				"20"
+        "AbilityCooldown"				"0"
         "AbilityCastPoint"              "0"
         "AbilityManaCost"               "0"
 
@@ -440,7 +438,7 @@
         "AbilityUnitDamageType"         "DAMAGE_TYPE_PHYSICAL" 
         "MaxLevel"						"4"
         "AbilityCastRange" 				"10000"
-        "AbilityCooldown"				"0"
+        "AbilityCooldown"				"40"
         "AbilityCastPoint"              "0"
         "AbilityManaCost"               "0"
 
@@ -472,7 +470,7 @@
         "AbilityUnitDamageType"         "DAMAGE_TYPE_PHYSICAL" 
         "MaxLevel"						"4"
         "AbilityCastRange" 				"10000"
-        "AbilityCooldown"				"0"
+        "AbilityCooldown"				"10"
         "AbilityCastPoint"              "0"
         "AbilityManaCost"               "0"
 

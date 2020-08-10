@@ -8,6 +8,7 @@ function Spawn( entityKeyValues )
 
     -- find furnaces on spawn
     thisEntity.step = 1
+    thisEntity.radius = FIND_UNITS_EVERYWHERE
 
     thisEntity:SetContextThink( "FurnaceDroidThink", FurnaceDroidThink, 0.5 )
 end
@@ -24,7 +25,7 @@ function FurnaceDroidThink()
 		return 0.5
     end
 
-
+    --print("STEP ",thisEntity.step)
     -- if no electric turret, something deadly needs to happen to players
 
     local units = FindUnits()
@@ -62,7 +63,8 @@ function FurnaceDroidThink()
                     if unit:GetUnitName() == "npc_clock" then
                         thisEntity:MoveToPosition(unit:GetAbsOrigin()) -- external in electric modifier code, when droid gets close to boss it explodes
                         thisEntity.step = 3
-                        return
+                        thisEntity.radius = 200 -- set find units radius to something smaller to find clock when close, then die
+                        return 0.5
                     end
                 end
             end
@@ -71,9 +73,22 @@ function FurnaceDroidThink()
                 for _, unit in pairs(units) do
                     if unit:GetUnitName() == "furnace" then
                         thisEntity:MoveToPosition(unit:GetAbsOrigin()) -- in furnace AI we kill the droid
-                        thisEntity.step = 3
-                        return
+                        thisEntity.step = nil
+                        return 0.5
                     end
+                end
+            end
+        end
+    end
+
+    -- STEP 3 --
+    if thisEntity.step == 3 then
+        if #units ~= 0 and units ~= nil then
+            for _, unit in pairs(units) do
+                if unit:GetUnitName() == "npc_clock" then
+                    PlayEffects()
+                    thisEntity:ForceKill(false)
+                    return 0.5
                 end
             end
         end
@@ -89,7 +104,7 @@ function FindUnits()
         thisEntity:GetTeamNumber(),	-- int, your team number
         thisEntity:GetAbsOrigin(),	-- point, center point
         nil,	-- handle, cacheUnit. (not known)
-        FIND_UNITS_EVERYWHERE,	-- float, radius. or use FIND_UNITS_EVERYWHERE
+        thisEntity.radius,	-- float, radius. or use FIND_UNITS_EVERYWHERE
         DOTA_UNIT_TARGET_TEAM_BOTH,	-- int, team filter
         DOTA_UNIT_TARGET_HERO + DOTA_UNIT_TARGET_BASIC,	-- int, type filter
         DOTA_UNIT_TARGET_FLAG_INVULNERABLE,	-- int, flag filter
@@ -101,3 +116,9 @@ function FindUnits()
 end
 --------------------------------------------------------------------------------
 
+function PlayEffects()
+    local particleName = "particles/units/heroes/hero_brewmaster/brewmaster_fire_ambient_fire_explode.vpcf"
+    thisEntity.pfx = ParticleManager:CreateParticle( particleName, PATTACH_ABSORIGIN, thisEntity )
+    ParticleManager:SetParticleControl( thisEntity.pfx, 0, Vector( 0, 0, 0 ))
+end
+--------------------------------------------------------------------------------

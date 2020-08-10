@@ -32,6 +32,10 @@ function summon_chain_gun_turret:OnSpellStart()
             ParticleManager:SetParticleControl(effect_cast, 0, spawnVector)
             ParticleManager:ReleaseParticleIndex(effect_cast)
 
+            -- sound effect
+            local sound_cast = "Hero_Rattletrap.Power_Cogs"
+            EmitSoundOn(sound_cast,self:GetCaster())
+
             CreateUnitByName( "npc_chain_gun_turret", spawnVector, true, nil, nil, DOTA_TEAM_BADGUYS)
 
             j = j  +  1

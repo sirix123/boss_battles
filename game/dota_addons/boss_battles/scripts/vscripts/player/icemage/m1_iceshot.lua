@@ -72,8 +72,7 @@ function m1_iceshot:OnSpellStart()
                     damage = self:GetSpecialValueFor( "dmg" ),
                     damage_type = self:GetAbilityDamageType(),
                 }
-                print(unit)
-                print(unit:GetModelName())
+
                 -- give mana
                 self.caster:ManaOnHit(self:GetSpecialValueFor( "mana_gain_percent"))
 

@@ -16,7 +16,7 @@
 		"SoundSet"					"Hero_Shredder"
 		"GameSoundsFile"			"soundevents/game_sounds_heroes/game_sounds_shredder.vsndevts"
 		"Level"						"1"
-		"ModelScale" 				"1.0"
+		"ModelScale" 				"1.5"
 
 		// Abilities
 		//----------------------------------------------------------------
@@ -31,7 +31,7 @@
 		
 		// Armor
 		//----------------------------------------------------------------
-		"ArmorPhysical"				"14"			
+		"ArmorPhysical"				"0"			
 
 		// Attack
 		//----------------------------------------------------------------
@@ -76,12 +76,10 @@
 		{
 			"AttachWearables"
 			{
-				"Wearable1" { "ItemDef" "5934" }
-				"Wearable2" { "ItemDef" "5935" }
-				"Wearable3" { "ItemDef" "5936" }
-				"Wearable4" { "ItemDef" "5937" }
-				"Wearable5" { "ItemDef" "5938" }
-				"Wearable6" { "ItemDef" "5939" }
+            "1" { "ItemDef" "6481" } // Mortar Forge Claw
+            "2" { "ItemDef" "6484" } // Mortar Forge Rocket Cannon
+            "3" { "ItemDef" "6482" } // Mortar Forge Helm
+            "4" { "ItemDef" "6485" } // Mortar Forge Steam Exoskeleton
 			}
 		}
 	}
@@ -207,7 +205,7 @@
 		// Movement
 		//----------------------------------------------------------------
 		"MovementCapabilities"		"DOTA_UNIT_CAP_MOVE_GROUND"//"DOTA_UNIT_CAP_MOVE_NONE"
-		"MovementSpeed"				"200"					
+		"MovementSpeed"				"100"					
 
 		// Status
 		//----------------------------------------------------------------
@@ -317,7 +315,7 @@
 		"SoundSet"					"Hero_Shredder"
 		"GameSoundsFile"			"soundevents/game_sounds_heroes/game_sounds_shredder.vsndevts"
 		"Level"						"1"
-		"ModelScale" 				"0.5"
+		"ModelScale" 				"0.2"
 
 		// Abilities
 		//----------------------------------------------------------------
