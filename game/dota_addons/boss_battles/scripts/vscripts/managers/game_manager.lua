@@ -66,18 +66,17 @@ function GameMode:SpawnBoss(tBoss, tLocation)
 
                 --vEntityLocation = Entities:FindByName(nil, location):GetAbsOrigin()
                 --CreateUnitByName(boss, vEntityLocation, true, nil, nil, DOTA_TEAM_BADGUYS)
-    
+
             end
 
             if location == "clock_spawn" and boss == "npc_clock" then
 
-                vEntityLocation = Entities:FindByName(nil, location):GetAbsOrigin()
-                CreateUnitByName(boss, vEntityLocation, true, nil, nil, DOTA_TEAM_BADGUYS)
-                CreateUnitByName("furnace", Vector(7414,7809,256), true, nil, nil, DOTA_TEAM_BADGUYS)
-                CreateUnitByName("furnace", Vector(9013,7809,256), true, nil, nil, DOTA_TEAM_BADGUYS)
-                CreateUnitByName("furnace", Vector(9013,6455,256), true, nil, nil, DOTA_TEAM_BADGUYS)
-                CreateUnitByName("furnace", Vector(7414,6455,256), true, nil, nil, DOTA_TEAM_BADGUYS)
-                --CreateUnitByName("npc_assistant", vEntityLocation, true, nil, nil, DOTA_TEAM_BADGUYS)
+                --vEntityLocation = Entities:FindByName(nil, location):GetAbsOrigin()
+                --CreateUnitByName(boss, vEntityLocation, true, nil, nil, DOTA_TEAM_BADGUYS)
+                --CreateUnitByName("furnace", Vector(7414,7809,256), true, nil, nil, DOTA_TEAM_BADGUYS)
+                --CreateUnitByName("furnace", Vector(9013,7809,256), true, nil, nil, DOTA_TEAM_BADGUYS)
+                --CreateUnitByName("furnace", Vector(9013,6455,256), true, nil, nil, DOTA_TEAM_BADGUYS)
+                --CreateUnitByName("furnace", Vector(7414,6455,256), true, nil, nil, DOTA_TEAM_BADGUYS)
                 --CreateUnitByName("npc_dota_hero_rubick", Vector(8112,6733,256), true, nil, nil, DOTA_TEAM_GOODGUYS)
                 --CreateUnitByName("electric_turret", Vector(8593,7352,256), true, nil, nil, DOTA_TEAM_GOODGUYS)
                 --CreateUnitByName("npc_dota_creature_gnoll_assassin", Vector(7605,7305,256), true, nil, nil, DOTA_TEAM_GOODGUYS)
@@ -149,8 +148,8 @@ function GameMode:StartRaid()
             Clock
 
     ]]--
-    GameMode:MoveHeroesToArea(raid_tables.clock.arena)
-    GameMode:SpawnBoss(raid_tables.clock.bosses, raid_tables.clock.spawnLocation)
+    --GameMode:MoveHeroesToArea(raid_tables.clock.arena)
+    --GameMode:SpawnBoss(raid_tables.clock.bosses, raid_tables.clock.spawnLocation)
 
     --[[
             Timber

@@ -24,7 +24,7 @@ end
 
 function q_iceblock_modifier:OnCreated( kv )
 	if IsServer() then
-		local iFrameTime= 1.0
+		local iFrameTime= 5.0
 		self.animation_rate = 0.5
 		self.invulnerable = true
 
