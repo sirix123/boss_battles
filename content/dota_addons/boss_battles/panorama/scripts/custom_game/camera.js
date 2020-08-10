@@ -82,6 +82,12 @@ function UpdatePosition()
             var pos_y = hero_screen_y + distance_y*-1/2.5;
 
             camera_position = Game.ScreenXYToWorld(pos_x, pos_y);
+
+            if (camera_position[0] > 50000)
+            {
+                $.Schedule(0.01, tic);
+                return;
+            }
         }
 
         // Smooth camera distance changes
