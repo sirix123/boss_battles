@@ -1,22 +1,22 @@
 m1_trackingshot_metamorph = class({})
-LinkLuaModifier("m1_trackingshot_charges", "player/ranger/modifiers/m1_trackingshot_charges", LUA_MODIFIER_MOTION_NONE)
+--[[LinkLuaModifier("m1_trackingshot_charges", "player/ranger/modifiers/m1_trackingshot_charges", LUA_MODIFIER_MOTION_NONE)
 
 function m1_trackingshot_metamorph:GetIntrinsicModifierName()
 	return "m1_trackingshot_charges"
-end
+end]]
 
 local nAtkCount = 1
 
 function m1_trackingshot_metamorph:OnAbilityPhaseStart()
     if IsServer() then
 
-        -- check if we have charges
+        --[[check if we have charges
         if self:GetCaster():HasModifier("m1_trackingshot_charges") == true then
             if self:GetCaster():GetModifierStackCount("m1_trackingshot_charges", nil) == 0 then
                 -- surface message to player?
                 return false
             end
-        end
+        end]]
 
         -- start casting animation
         -- the 1 below is imporant if set incorrectly the animation will stutter (second variable in startgesture is the playback override)
@@ -60,7 +60,7 @@ function m1_trackingshot_metamorph:OnSpellStart()
         self.nMaxCharges = self:GetSpecialValueFor( "max_charges" )
         local dmg = 0
 
-        self.caster:FindModifierByName("m1_trackingshot_charges"):DecrementStackCount()
+        --self.caster:FindModifierByName("m1_trackingshot_charges"):DecrementStackCount()
 
         -- set proj direction to mouse location
         local vTargetPos = nil

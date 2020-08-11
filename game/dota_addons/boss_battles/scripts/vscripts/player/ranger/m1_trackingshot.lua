@@ -1,9 +1,9 @@
 m1_trackingshot = class({})
-LinkLuaModifier("m1_trackingshot_charges", "player/ranger/modifiers/m1_trackingshot_charges", LUA_MODIFIER_MOTION_NONE)
+--[[LinkLuaModifier("m1_trackingshot_charges", "player/ranger/modifiers/m1_trackingshot_charges", LUA_MODIFIER_MOTION_NONE)
 
 function m1_trackingshot:GetIntrinsicModifierName()
 	return "m1_trackingshot_charges"
-end
+end]]
 
 local nAtkCount = 1
 
@@ -11,11 +11,11 @@ function m1_trackingshot:OnAbilityPhaseStart()
     if IsServer() then
 
         -- check if we have charges
-        if self:GetCaster():HasModifier("m1_trackingshot_charges") == true then
+        --[[if self:GetCaster():HasModifier("m1_trackingshot_charges") == true then
             if self:GetCaster():GetModifierStackCount("m1_trackingshot_charges", nil) == 0 or self:IsFullyCastable() == false then
                 -- surface message to player?
                 return false
-            else
+            else]]
                 --print("are we trying to cast on 0 charges?")
 
                 -- start casting animation
@@ -30,8 +30,8 @@ function m1_trackingshot:OnAbilityPhaseStart()
                 })
 
                 return true
-            end
-        end
+
+        --end
     end
 end
 ---------------------------------------------------------------------------
@@ -62,7 +62,7 @@ function m1_trackingshot:OnSpellStart()
         self.nMaxCharges = self:GetSpecialValueFor( "max_charges" )
         local dmg = 0
 
-        self.caster:FindModifierByName("m1_trackingshot_charges"):DecrementStackCount()
+        --self.caster:FindModifierByName("m1_trackingshot_charges"):DecrementStackCount()
 
         -- set proj direction to mouse location
         local vTargetPos = nil

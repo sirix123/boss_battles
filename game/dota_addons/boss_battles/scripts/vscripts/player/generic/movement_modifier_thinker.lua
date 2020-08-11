@@ -65,7 +65,7 @@ function movement_modifier_thinker:OnIntervalThink()
 	if self.parent:IsWalking() == true
 		and self.parent:HasModifier("modifier_generic_arc_lua") == false
 		and self.parent:HasModifier("furnace_master_grab_debuff") == false
-		and self.parent:HasModifier("falsefurnace_master_grabbed_buff") == false
+		and self.parent:HasModifier("furnace_master_grabbed_buff") == false
 		and self.parent:IsAlive() == true
 		then
 
@@ -120,7 +120,7 @@ function movement_modifier_thinker:Move(direction, speed)
 				offset, -- float, radius. or use FIND_UNITS_EVERYWHERE
 				DOTA_UNIT_TARGET_TEAM_BOTH, -- int, team filter
 				DOTA_UNIT_TARGET_HERO + DOTA_UNIT_TARGET_BASIC,	-- int, type filter
-				DOTA_UNIT_TARGET_FLAG_NONE, -- int, flag filter
+				DOTA_UNIT_TARGET_FLAG_INVULNERABLE, -- int, flag filter
 				FIND_ANY_ORDER, -- int, order filter
 				false -- bool, can grow cache
 			)

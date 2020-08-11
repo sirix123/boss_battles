@@ -97,8 +97,10 @@ end
 ----------------------------------------------------------------------------------------------------------------
 function q_iceblock:CancelIceblock( forced )
 	-- remove modifier
-	if forced then
-		self.modifier:Destroy()
+    if forced then
+        if self.GetCaster:IsAlive() == true then
+            self.modifier:Destroy()
+        end
 	end
 	self.modifier = nil
 

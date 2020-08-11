@@ -12,7 +12,8 @@ function Spawn( entityKeyValues )
 	thisEntity.furnace_master_throw = thisEntity:FindAbilityByName( "furnace_master_throw" )
 
     thisEntity.flThrowTimer = 0.0 -- set externally in throw/grab modifiers
-    thisEntity.fEnemySearchRange = 10000
+	thisEntity.fEnemySearchRange = 10000
+	thisEntity:SetHullRadius(80)
 
     thisEntity:SetContextThink( "AssistantThink", AssistantThink, 0.1 )
 

@@ -11,7 +11,7 @@
         "Ability3"              "q_herbarrow" 
         "Ability4"              "e_syncwithforest"
         "Ability5"              "r_metamorph"
-        "Ability6"              "space_roar"
+        "Ability6"              "space_sprint"
         "Ability7"              ""
         "Ability8"              ""
         "Ability9"              ""

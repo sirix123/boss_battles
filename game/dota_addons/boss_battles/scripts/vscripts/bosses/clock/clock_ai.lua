@@ -59,6 +59,9 @@ function Spawn( entityKeyValues )
 	thisEntity.NOT_BURN_PHASE = 0
 	thisEntity.BURN_PHASE = 1
 
+	-- hitbox/hullraidus
+	thisEntity:SetHullRadius(50)
+
 	thisEntity:SetContextThink( "Clock", ClockThink, 0.5 )
 end
 

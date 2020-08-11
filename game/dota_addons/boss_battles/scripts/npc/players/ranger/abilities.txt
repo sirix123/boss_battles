@@ -21,6 +21,9 @@
 			"Type"						"TARGETING_INDICATOR_LINE"
 			"Fixed"						"1"
 		}
+
+		"AbilityCharges"                	"3"
+		"AbilityChargeRestoreTime"        	"2"
         
 		"AbilitySpecial"
 		{
@@ -187,10 +190,10 @@
 		}
 	}
 
-	"space_roar"
+	"space_sprint"
 	{
 		"BaseClass"						"ability_lua"
-		"ScriptFile"					"player/ranger/space_roar"
+		"ScriptFile"					"player/ranger/space_sprint"
 		"MaxLevel"						"1"
 
 		"AbilityTextureName"			"windrunner_windrun_sylvan"
@@ -208,9 +211,9 @@
         
 		"AbilitySpecial"
 		{
-			"01"{ "var_type"			"FIELD_INTEGER"		"distance"					"1000" 	}
-			"02"{ "var_type"			"FIELD_INTEGER"		"speed"						"1300" 	}
-			"03"{ "var_type"			"FIELD_INTEGER"		"height"					"150" 	}
+			"01"{ "var_type"			"FIELD_INTEGER"		"duration"					"20" 	}
+			"02"{ "var_type"			"FIELD_INTEGER"		"movespeed_bonus_pct"		"60" 	}
+			
 		}
 
 		"precache"
@@ -241,6 +244,9 @@
 			"Type"						"TARGETING_INDICATOR_LINE"
 			"Fixed"						"1"
 		}
+
+		"AbilityCharges"                	"3"
+		"AbilityChargeRestoreTime"        	"2"
         
 		"AbilitySpecial"
 		{

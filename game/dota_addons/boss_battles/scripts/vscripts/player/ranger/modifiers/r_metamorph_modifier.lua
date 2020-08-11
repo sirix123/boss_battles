@@ -66,7 +66,7 @@ function r_metamorph_modifier:OnCreated( kv )
         self.tDisableAbilities =
         {
             "r_metamorph",
-            "space_roar",
+            "space_sprint",
         }
 
         --swap abilities for metamorph ones
