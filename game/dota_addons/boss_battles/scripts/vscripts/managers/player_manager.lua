@@ -5,24 +5,42 @@ local isTimerRunning
 local timerInterval = 0.1
 
 
-function GameMode:ShowScoreboard()
-    print("GameMode:ShowScoreboard()")
-
-    --Data will be nil becauase webApi returns before the server responds...
-    --local data = WebApi:GetAndScoreboard()
-
-    --WebApi will get data but cannot return it here.
-    WebApi:GetAndShowScoreboard()
-    
-end
-
 function GameMode:SetUpMovement()
-
-
     --TODO: move this code elsewhere. Basically RegisterListener at the start of game
-    CustomGameEventManager:RegisterListener('showScoreboardEvent', function(eventSourceIndex, args)
-        GameMode:ShowScoreboard()
+
+    --The following listeners are waiting for Javascript to call them via:
+    --GameEvents.SendCustomGameEventToServer("showScoreboardEvent", {});
+
+    --Listen for getScoreboardDataEvent from JS, then call WebApi:GetAndShowScoreboard()
+    CustomGameEventManager:RegisterListener('getScoreboardDataEvent', function(eventSourceIndex, args)
+        --Only get scoreboard data from firebase once. 
+        if _G.scoreboardData == nil then
+            WebApi:GetScoreboardData() 
+        end
     end)
+
+    --Listen for showScoreboardUIEvent from JS, then send showScoreboardUIEvent event back to JS
+    CustomGameEventManager:RegisterListener('showScoreboardUIEvent', function(eventSourceIndex, args)
+        CustomGameEventManager:Send_ServerToAllClients("showScoreboardUIEvent", {})
+    end)
+
+    --Listen for hideScoreboardUIEvent from JS, then send hideScoreboardUIEvent event back to JS
+    CustomGameEventManager:RegisterListener('hideScoreboardUIEvent', function(eventSourceIndex, args)
+        CustomGameEventManager:Send_ServerToAllClients("hideScoreboardUIEvent", {})
+    end)
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
     -- TODO: Move this code elsewhere. Shouldn't be doing this here.. maybe GameMode:SetUpCastBars()
@@ -32,6 +50,7 @@ function GameMode:SetUpMovement()
 
 --Using Almouse ProgressBars Library: https://gitlab.com/ZSmith/dota2-modding-libraries/-/tree/master/ProgressBars
 ------------------------------------------------------------------------------------------------------------------
+
         local config = {
             progressBarType = "duration",
             reversedProgress = false, --figure out which way true/false go.

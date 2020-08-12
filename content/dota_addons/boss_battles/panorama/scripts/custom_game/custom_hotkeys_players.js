@@ -1,5 +1,6 @@
 "use strict";
 
+
 function AbilityToCast(abilityNumber, showEffects){
     var playerId = Players.GetLocalPlayer();
     var playerHero = Players.GetPlayerHeroEntityIndex( playerId );
@@ -238,75 +239,34 @@ function OnRightButtonPressed()
 }
 
 
+
 function ShowScoreboard()
 {
     $.Msg("Javascript: ShowScoreboard()...")
-    var scoreboardContainer = $("#ScoreboardContainer");
 
-    if (scoreboardContainer) 
-    {
-        $.Msg("scoreboardContainer not null");
-    }
-    else 
-    {
-        $.Msg("scoreboardContainer null");
+    //DOESN"T WORK. scoreboardContainer always null
+    //call JS directly. Call test_scoreboard.js function: showScoreboardUI()
+    //showScoreboardUI()
 
-    }
-
-    $.Msg("Javascript: GameEvents.SendCustomGameEventToServer - showScoreboardEvent")   
-    GameEvents.SendCustomGameEventToServer("showScoreboardEvent", {});
+    //Call test_scoreboard.js function: showScoreboardUI() by going to lua then back to js.
+    //Send even back to lua. Which should have registered a listener for showScoreboardUIEvent
+    GameEvents.SendCustomGameEventToServer("showScoreboardUIEvent", {});
+    GameEvents.SendCustomGameEventToServer("getScoreboardDataEvent", {});
 }
 
 function HideScoreboard()
 {
     $.Msg("Javascript: HideScoreboard()...")   
 
+    //hideScoreboardUI()    //hideScoreboardUI() in test_scoreboard.js 
+    //DOESN"T WORK. $("#ScoreboardContainer") always null 
 
-    var scoreboardContainer = $("#ScoreboardContainer");
-
-    if (scoreboardContainer) 
-    {
-        $.Msg("scoreboardContainer not null");
-        scoreboardContainer.style["visibility"] = "collapse";
-    }
-    else 
-    {
-        $.Msg("scoreboardContainer null");
-
-    }
-
-    
-}
-
-
-//Can't do HTTP in JS here... xhr didn't work.
-function TestFireBase()
-{
-    $.Msg("Javascript: TestFireBase()...")   
-
-    //Can't do xhr in dota?
-    var xhr = new XMLHttpRequest();   
-    $.Msg("xhr =", xhr)   
-
-    xhr.onreadystatechange = function () {
-        if (this.readyState != 4) return;
-
-        //we got some data!
-        if (this.status == 200) {
-            var data = JSON.parse(this.responseText);
-        }
-    };
-
-    $.Msg("Javascript: Sending GET req")
-    var url = "https://boss-battles-84094.firebaseio.com/testScoreboard.json"
-    xhr.open('GET', url, true);
-    xhr.send();
-
+    //Send even back to lua. Which should have registered a listener for hideScoreboardUIEvent
+    GameEvents.SendCustomGameEventToServer("hideScoreboardUIEvent", {});
 }
 
 
 //Powershot works by clicking and holding the mouse, the code calls the ability twice, once on mouse click ( isMouseDown() ) and again on release ( !isMouseDown() )
-
 var powerShotFirstClick = true
 function PowerShotManager()
 {

@@ -161,17 +161,23 @@ function WebApi:PostScoreboardDummyData()
 end
 
 
-function WebApi:GetAndShowScoreboard()
+function WebApi:GetScoreboardData()
+	print("WebApi:GetScoreboardData()" )
 	local request = CreateHTTPRequestScriptVM("GET", firebaseUrl .. "testScoreboard.json")
 	request:Send(function(response) 
 		if response.StatusCode == 200 then -- HTTP 200 = Success
+			print("Response received from " .. firebaseUrl .. "testScoreboard.json" )
+
 			local data = json.decode(response.Body)
 			--print("dump(data) = ", dump(data))
 			--First element of data is just guid
-
 			for k,v in pairs(data) do
 				print("v = ", v )
-				CustomGameEventManager:Send_ServerToAllClients("scoreboardTestEvent", v)
+				CustomGameEventManager:Send_ServerToAllClients("updateScoreboardData", v)
+
+				--HACK: store scoreboard data in globalVar :)
+				_G.scoreboardData = v
+
 
 				-- for i = 1, #v, 1 do
 				-- 	print("Row ", i)
@@ -180,7 +186,6 @@ function WebApi:GetAndShowScoreboard()
 				-- end
 				break
 			end
-
 			--print("sending data to js event scoreboardTestEvent")
 			--CustomGameEventManager:Send_ServerToAllClients("scoreboardTestEvent", data[0])
 		else 
