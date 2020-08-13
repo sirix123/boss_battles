@@ -22,7 +22,7 @@ end
 function m2_icefall:OnSpellStart()
 
     local point = nil
-    point = Clamp(self.caster:GetOrigin(), GameMode.mouse_positions[self.caster:GetPlayerID()], self:GetCastRange(Vector(0,0,0), nil), 0)
+    point = Clamp(self.caster:GetOrigin(), PlayerManager.mouse_positions[self.caster:GetPlayerID()], self:GetCastRange(Vector(0,0,0), nil), 0)
 
     self.modifier = CreateModifierThinker(
         self.caster,

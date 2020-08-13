@@ -64,7 +64,7 @@ function m2_serratedarrow_metamorph:OnSpellStart()
 
         -- set proj direction to mouse location
         local vTargetPos = nil
-        vTargetPos = GameMode.mouse_positions[self.caster:GetPlayerID()]
+        vTargetPos = PlayerManager.mouse_positions[self.caster:GetPlayerID()]
         local projectile_direction = (Vector( vTargetPos.x - origin.x, vTargetPos.y - origin.y, 0 )):Normalized()
 
         local projectile = {

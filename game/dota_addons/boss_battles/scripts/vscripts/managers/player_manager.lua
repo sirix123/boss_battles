@@ -1,3 +1,7 @@
+if PlayerManager == nil then
+    PlayerManager = class({})
+end
+
 LinkLuaModifier("casting_modifier_thinker", "player/generic/casting_modifier_thinker", LUA_MODIFIER_MOTION_NONE )
 
 local pressDuration = 0 -- number of ticks key was held for
@@ -5,7 +9,7 @@ local isTimerRunning
 local timerInterval = 0.1
 
 
-function GameMode:SetUpMovement()
+function PlayerManager:SetUpMovement()
     --TODO: move this code elsewhere. Basically RegisterListener at the start of game
 
     --The following listeners are waiting for Javascript to call them via:
@@ -143,7 +147,7 @@ function GameMode:SetUpMovement()
 end
 ---------------------------------------------------------------------------------------------------
 
-function GameMode:SetUpMouseUpdater()
+function PlayerManager:SetUpMouseUpdater()
     CustomGameEventManager:RegisterListener('MousePosition', function(eventSourceIndex, args)
         self.mouse_positions = {}
 

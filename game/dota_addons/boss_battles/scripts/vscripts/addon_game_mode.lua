@@ -1,28 +1,22 @@
--- This is the entry-point to your game mode and should be used primarily to precache models/particles/sounds/etc
+if BossBattles == nil then
+	BossBattles = class({})
+end
 
-require('webapi')
-require('internal/util')
-require('gamemode')
+-- barebones/libs needs to be cleaned up
+require('libraries/timers')
+require('libraries/physics')
+require('libraries/notifications')
+require('libraries/playertables')
+require('libraries/selection')
+require('libraries/ProgressBars')
+require('libraries/projectiles')
+require('libraries/animations')
 
 
-function Precache( context )
---[[
-  This function is used to precache resources/units/items/abilities that will be needed
-  for sure in your game and that will not be precached by hero selection.  When a hero
-  is selected from the hero selection screen, the game will precache that hero's assets,
-  any equipped cosmetics, and perform the data-driven precaching defined in that hero's
-  precache{} block, as well as the precache{} block for any equipped abilities.
-
-  See GameMode:PostLoadPrecache() in gamemode.lua for more information
-  ]]
-
-  DebugPrint("[BAREBONES] Performing pre-load precache")
-
+function Precache( context ) -- this needs to be in a seperate file
   PrecacheResource("soundfile", "soundevents/game_sounds_heroes/game_sounds_tusk.vsndevts", context)
-
   PrecacheResource("soundfile", "soundevents/game_sounds_heroes/game_sounds_beastmaster.vsndevts", context)
   PrecacheResource("soundfile", "soundevents/voscripts/game_sounds_vo_beastmaster.vsndevts", context)
-
   PrecacheResource("soundfile", "soundevents/voscripts/game_sounds_vo_lone_druid.vsndevts", context)
   PrecacheResource("soundfile", "soundevents/game_sounds_heroes/game_sounds_lone_druid.vsndevts", context)
 
@@ -50,7 +44,6 @@ function Precache( context )
   PrecacheResource("soundfile", "soundevents/voscripts/game_sounds_vo_tinker.vsndevts", context)
 
   -- droids unit precache
-  --PrecacheUnitByNameSync(string string_1, handle handle_2, int int_3)
   PrecacheUnitByNameSync("npc_timber", context)
   PrecacheUnitByNameSync("npc_mine_droid", context)
   PrecacheUnitByNameSync("npc_stun_droid", context)
@@ -73,17 +66,51 @@ function Precache( context )
 
 end
 
--- hello moomoo
--- hello stefan
-
--- Create the game mode when we activate
 function Activate()
-  GameRules.GameMode = GameMode()
-  GameRules.GameMode:_InitGameMode()
 
-  if IsInToolsMode() then
-    Timers:CreateTimer(2, function()
-      --Tutorial:AddBot("npc_dota_hero_sven", "", "", false)
-    end)
+  if GetMapName() == "arena_6x6" then
+    require('internal/util')
+    require('gamemode')
+
+    GameRules.GameMode = GameMode()
+    GameRules.GameMode:_InitGameMode()
+
   end
+  if GetMapName() == "arena_test" then
+    if BossBattles == nil then
+      BossBattles = class({})
+    end
+
+    -- our stuff
+    require('managers/game_manager')
+    require('filters')
+    require('player/generic/targeting_indicator')
+    require('managers/player_manager')
+    require('utility_functions')
+    require('webapi')
+    require('internal/util')
+    require('game_setup')
+    require('core/core_functions')
+
+    GameRules.AddonTemplate = BossBattles()
+    GameRules.AddonTemplate:InitGameMode()
+  end
+end
+
+function BossBattles:InitGameMode()
+	print( "Template addon is loaded." )
+	GameRules:GetGameModeEntity():SetThink( "OnThink", self, "GlobalThink", 2 )
+
+	GameSetup:init()
+end
+
+-- Evaluate the state of the game
+function BossBattles:OnThink()
+	if GameRules:State_Get() == DOTA_GAMERULES_STATE_GAME_IN_PROGRESS then
+		--print( "Template addon script is running." )
+
+	elseif GameRules:State_Get() >= DOTA_GAMERULES_STATE_POST_GAME then
+		return nil
+	end
+	return 1
 end

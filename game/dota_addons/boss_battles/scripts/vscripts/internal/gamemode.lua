@@ -34,9 +34,9 @@ function GameMode:_InitGameMode()
     GameRules:LockCustomGameSetupTeamAssignment( true )
     GameRules:EnableCustomGameSetupAutoLaunch( true )
   else
-    GameRules:SetCustomGameSetupAutoLaunchDelay( AUTO_LAUNCH_DELAY )
-    GameRules:LockCustomGameSetupTeamAssignment( LOCK_TEAM_SETUP )
-    GameRules:EnableCustomGameSetupAutoLaunch( ENABLE_AUTO_LAUNCH )
+    GameRules:SetCustomGameSetupAutoLaunchDelay( 10)--AUTO_LAUNCH_DELAY )
+    GameRules:LockCustomGameSetupTeamAssignment( false)--LOCK_TEAM_SETUP )
+    GameRules:EnableCustomGameSetupAutoLaunch( false)--ENABLE_AUTO_LAUNCH )
   end
 
 

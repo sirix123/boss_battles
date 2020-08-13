@@ -42,6 +42,9 @@ require('utility_functions')
 require('managers/game_manager')
 require('filters')
 
+-- core functions
+require('core/core_functions')
+
 require('player/generic/targeting_indicator')
 
 -- player handler / core player scripts
@@ -50,8 +53,7 @@ LinkLuaModifier( "movement_modifier_thinker", "player/generic/movement_modifier_
 LinkLuaModifier( "remove_attack_modifier", "player/generic/remove_attack_modifier", LUA_MODIFIER_MOTION_NONE )
 
 
--- core functions
-require('core/core_functions')
+
 
 
 -- This is a detailed example of many of the containers.lua possibilities, but only activates if you use the provided "playground" map
@@ -99,8 +101,8 @@ end
 ]]
 function GameMode:OnFirstPlayerLoaded()
   DebugPrint("[BAREBONES] First Player has loaded")
-  GameMode:SetUpMovement()
-  GameMode:SetUpMouseUpdater()
+  PlayerManager:SetUpMovement()
+  PlayerManager:SetUpMouseUpdater()
 end
 
 --[[
@@ -206,10 +208,14 @@ end
 ]]
 function GameMode:OnGameInProgress()
   DebugPrint("[BAREBONES] The game has officially begun")
-  GameMode:StartRaid()
 
+  if GetMapName() == "arena_6x6" then
+    GameManager:StartRaid()
+  elseif GetMapName() == "arena_6x6" then
+    -- setup custom game arena
+  end
 
-  --TODO: WebApi: ... 
+  --TODO: WebApi: ...
 
 end
 
@@ -243,8 +249,14 @@ function GameMode:InitGameMode()
   GameRules.num_players = 0
   GameRules.MAX_ROUNDS = 10
 
-  
+  if GetMapName() == "arena_test" then
+    SKIP_TEAM_SETUP = false
+    GameRules:SetCustomGameTeamMaxPlayers(DOTA_TEAM_GOODGUYS, 0)
+    GameRules:SetCustomGameTeamMaxPlayers(DOTA_TEAM_BADGUYS, 1)
+    GameRules:SetCustomGameTeamMaxPlayers(DOTA_TEAM_CUSTOM_1, 2)
+    GameRules:SetCustomGameTeamMaxPlayers(DOTA_TEAM_CUSTOM_2, 2)
 
+  end
 end
 
 -- This is an example console command

@@ -6,7 +6,7 @@ function space_frostblink:OnSpellStart()
 	local origin = caster:GetOrigin()
     local point = nil
     self.radius = self:GetSpecialValueFor("radius")
-    point = Clamp(caster:GetOrigin(), GameMode.mouse_positions[caster:GetPlayerID()], self:GetCastRange(Vector(0,0,0), nil), 0)
+    point = Clamp(caster:GetOrigin(), PlayerManager.mouse_positions[caster:GetPlayerID()], self:GetCastRange(Vector(0,0,0), nil), 0)
 
     -- apply chill and play effect
     -- apply chill to enemies around in a radius

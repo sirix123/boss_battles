@@ -32,7 +32,7 @@ function casting_modifier_thinker:OnIntervalThink()
     end
 
     -- init mouse locations
-    local mouse = GameMode.mouse_positions[self.parent:GetPlayerID()]
+    local mouse = PlayerManager.mouse_positions[self.parent:GetPlayerID()]
     local mouseDirection = (mouse - self.parent:GetOrigin()):Normalized()
 
     -- while this modifier is active set the casters forward vector

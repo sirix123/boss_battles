@@ -54,7 +54,7 @@ function e_syncwithforest:OnSpellStart()
 
         -- set proj direction to mouse location
         local vTargetPos = nil
-        vTargetPos = GameMode.mouse_positions[self.caster:GetPlayerID()]
+        vTargetPos = PlayerManager.mouse_positions[self.caster:GetPlayerID()]
         local projectile_direction = (Vector( vTargetPos.x - self.origin.x, vTargetPos.y - self.origin.y, 0 )):Normalized()
 
         -- calc proj distance
