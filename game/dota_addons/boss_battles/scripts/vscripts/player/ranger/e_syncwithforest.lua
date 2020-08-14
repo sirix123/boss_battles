@@ -86,7 +86,7 @@ end
 function e_syncwithforest:OnProjectileHit( hTarget,  vLocation)
     if IsServer() then
 
-        local targets = FindUnitsInRadius(DOTA_TEAM_GOODGUYS, vLocation, nil, self.radius, DOTA_UNIT_TARGET_TEAM_BOTH, DOTA_UNIT_TARGET_ALL, DOTA_UNIT_TARGET_FLAG_NONE, FIND_ANY_ORDER, false)
+        local targets = FindUnitsInRadius(self.caster:GetTeamNumber(), vLocation, nil, self.radius, DOTA_UNIT_TARGET_TEAM_BOTH, DOTA_UNIT_TARGET_ALL, DOTA_UNIT_TARGET_FLAG_NONE, FIND_ANY_ORDER, false)
 
         for _, target in pairs(targets) do
             if target:GetTeam() == DOTA_TEAM_GOODGUYS then

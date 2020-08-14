@@ -15,20 +15,23 @@ function GameSetup:init()
     GameRules:SetPostGameTime(5)
     GameRules:SetSameHeroSelectionEnabled(true)
     GameRules:SetCustomGameTeamMaxPlayers(DOTA_TEAM_GOODGUYS, 0)
-    GameRules:SetCustomGameTeamMaxPlayers(DOTA_TEAM_BADGUYS, 1)
+    GameRules:SetCustomGameTeamMaxPlayers(DOTA_TEAM_BADGUYS, 0)
     GameRules:SetCustomGameTeamMaxPlayers(DOTA_TEAM_CUSTOM_1, 2)
     GameRules:SetCustomGameTeamMaxPlayers(DOTA_TEAM_CUSTOM_2, 2)
+
+    GameRules:GetGameModeEntity():SetCameraDistanceOverride( 1800 )
 
     --listen to game state event
     -- events here: https://developer.valvesoftware.com/wiki/Dota_2_Workshop_Tools/Scripting/Built-In_Engine_Events
     ListenToGameEvent("game_rules_state_change", Dynamic_Wrap(self, "OnStateChange"), self) -- valve engine event
     ListenToGameEvent('npc_spawned', Dynamic_Wrap(self, 'OnNPCSpawned'), self) -- npc_spawned is a valve engine event
+    ListenToGameEvent('game_start', Dynamic_Wrap(self, 'GameStart'), self) -- game_start is a valve engine event
+
 end
 --------------------------------------------------------------------------------------------------
 
 function GameSetup:OnStateChange()
     if GameRules:State_Get() == DOTA_GAMERULES_STATE_PRE_GAME then
-        print("hello123")
 
         Filters:Activate(GameSetup, self)
 
@@ -47,7 +50,6 @@ function GameSetup:OnNPCSpawned(keys)
 
     if npc:IsRealHero() and npc.bFirstSpawned == nil then
         npc.bFirstSpawned = true
-        print(npc:GetUnitName())
 
         npc:AddNewModifier( npc,  nil, "movement_modifier_thinker", { } )
         npc:AddNewModifier( npc,  nil, "remove_attack_modifier", { } )
@@ -64,3 +66,17 @@ function GameSetup:OnNPCSpawned(keys)
         end
     end
 end
+--------------------------------------------------------------------------------------------------
+
+function GameSetup:GameStart(keys)
+
+    -- flame turrets for right side of the map, need to change facing vector
+    --CreateUnitByName("npc_dota_hero_rubick", Vector(8112,6733,256), true, nil, nil, DOTA_TEAM_BADGUYS)
+    --CreateUnitByName("npc_dota_hero_rubick", Vector(8112,6733,256), true, nil, nil, DOTA_TEAM_BADGUYS)
+    --CreateUnitByName("npc_dota_hero_rubick", Vector(8112,6733,256), true, nil, nil, DOTA_TEAM_BADGUYS)
+
+    -- target dummy
+    --CreateUnitByName("npc_dota_creature_dummy_target_boss", Vector(8112,6733,256), true, nil, nil, DOTA_TEAM_BADGUYS)
+
+end
+--------------------------------------------------------------------------------------------------
