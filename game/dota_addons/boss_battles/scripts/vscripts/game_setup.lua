@@ -25,7 +25,7 @@ function GameSetup:init()
     -- events here: https://developer.valvesoftware.com/wiki/Dota_2_Workshop_Tools/Scripting/Built-In_Engine_Events
     ListenToGameEvent("game_rules_state_change", Dynamic_Wrap(self, "OnStateChange"), self) -- valve engine event
     ListenToGameEvent('npc_spawned', Dynamic_Wrap(self, 'OnNPCSpawned'), self) -- npc_spawned is a valve engine event
-    ListenToGameEvent('game_start', Dynamic_Wrap(self, 'GameStart'), self) -- game_start is a valve engine event
+    ListenToGameEvent('dota_player_pick_hero', Dynamic_Wrap(self, 'PlayerPickHero'), self) -- dota_player_pick_hero is a valve engine event
 
 end
 --------------------------------------------------------------------------------------------------
@@ -68,14 +68,20 @@ function GameSetup:OnNPCSpawned(keys)
 end
 --------------------------------------------------------------------------------------------------
 
-function GameSetup:GameStart(keys)
+function GameSetup:PlayerPickHero(keys)
 
     -- flame turrets for right side of the map, need to change facing vector
-    --CreateUnitByName("npc_dota_hero_rubick", Vector(8112,6733,256), true, nil, nil, DOTA_TEAM_BADGUYS)
-    --CreateUnitByName("npc_dota_hero_rubick", Vector(8112,6733,256), true, nil, nil, DOTA_TEAM_BADGUYS)
-    --CreateUnitByName("npc_dota_hero_rubick", Vector(8112,6733,256), true, nil, nil, DOTA_TEAM_BADGUYS)
+    local flame_turret_1 = CreateUnitByName("npc_flame_turret", Vector(768,1504,256), true, nil, nil, DOTA_TEAM_BADGUYS)
+    flame_turret_1:SetForwardVector(Vector(0,-1, flame_turret_1.z ))
+
+    local flame_turret_2 = CreateUnitByName("npc_flame_turret", Vector(1346,1572,256), true, nil, nil, DOTA_TEAM_BADGUYS)
+    flame_turret_2:SetForwardVector(Vector(0,-1, flame_turret_2.z ))
+
+    local flame_turret_3 = CreateUnitByName("npc_flame_turret", Vector(1075,-1531,256), true, nil, nil, DOTA_TEAM_BADGUYS)
+    flame_turret_3:SetForwardVector(Vector(0,1, flame_turret_3.z ))
 
     -- target dummy
+    CreateUnitByName("npc_dota_creature_dummy_target_boss", Vector(-779,1309,256), true, nil, nil, DOTA_TEAM_BADGUYS)
     --CreateUnitByName("npc_dota_creature_dummy_target_boss", Vector(8112,6733,256), true, nil, nil, DOTA_TEAM_BADGUYS)
 
 end

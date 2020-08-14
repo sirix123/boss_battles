@@ -22,8 +22,8 @@
         "Ability14"             ""
         "Ability15"             ""
 
-        "ArmorPhysical"             "100"
-        "MagicalResistance"         "90"
+        "ArmorPhysical"             "0"
+        "MagicalResistance"         "0"
 
         "AttackCapabilities"        "DOTA_UNIT_CAP_MELEE_ATTACK"
         "AttackDamageMin"           "1"
@@ -45,12 +45,12 @@
         "MovementSpeed"             "300"
         "MovementTurnRate"          "1.0"
 
-        "StatusHealth"              "9000"
+        "StatusHealth"              "500"
         "StatusHealthRegen"         "0.0"
         "StatusMana"                "100"
         "StatusManaRegen"           "0.0"
 
-        "VisionDaytimeRange"        "1800"
-        "VisionNighttimeRange"      "1800"
+        "VisionDaytimeRange"        "2500"
+        "VisionNighttimeRange"      "2500"
 	}
 }

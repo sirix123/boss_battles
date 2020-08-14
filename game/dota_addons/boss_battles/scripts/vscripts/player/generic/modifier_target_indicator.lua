@@ -7,44 +7,60 @@ modifier_target_indicator = class({})
 
     Apply this to your spell in ability phase start and remove... once the spell has finished casting
 
+    TODO add line indicator 
+        I guess this is for spceific abilities which are rare which do not fit into the panorama use cases 
+                icelance
 ]]
 
 function modifier_target_indicator:IsHidden()
     return true
 end
+-------------------------------------------------------------------------------------------------------
 
-function modifier_target_indicator:OnCreated(params)
+function modifier_target_indicator:OnCreated(kv)
     if IsServer() then
         self.parent = self:GetParent()
         self.origin = self.parent:GetAbsOrigin()
-        self:StartIntervalThink(0.03)
+        self:StartIntervalThink( FrameTime() )
 
-        -- check what the ability type is and do different indactors based on the type
-        local particle_line = ParticleManager:CreateParticle("particles/targeting/line.vpcf", PATTACH_WORLDORIGIN, self.parent);
+        self.cast_range = kv.cast_range
+        self.radius = self:GetAbility():GetSpecialValueFor("radius")
 
-        local target = Vector(self.origin.x * self.parent:GetForwardVector().x, self.origin.y * self.parent:GetForwardVector().y, self.origin.z * self.parent:GetForwardVector().z)
-        local target_offset = Vector(0,0,0)
-
-        ParticleManager:SetParticleControl(particle_line, 0, self.origin)
-        ParticleManager:SetParticleControl(particle_line, 1, target * 1000);
-        ParticleManager:SetParticleControl(particle_line, 2, target * 1500);
+        self.particle_circle = ParticleManager:CreateParticle("particles/ui_mouseactions/range_finder_aoe.vpcf", PATTACH_WORLDORIGIN, self.parent);
+        self:PlayAoeEffect()
 
 	end
 end
+-------------------------------------------------------------------------------------------------------
 
 function modifier_target_indicator:OnDestroy()
     if IsServer() then
-
+        ParticleManager:DestroyParticle(self.particle_circle, true)
+        ParticleManager:ReleaseParticleIndex(self.particle_circle)
     end
 end
+-------------------------------------------------------------------------------------------------------
 
 function modifier_target_indicator:OnIntervalThink()
-    if not self.parent:IsAlive() then
-		self:Destroy()
+    if IsServer() then
+        if not self.parent:IsAlive() then
+            self:Destroy()
+        end
+
+        self:PlayAoeEffect()
+
+
     end
-
-    -- check what the ability type is and do different indactors based on the type (update the position of them)
-
-
-
 end
+-------------------------------------------------------------------------------------------------------
+
+function modifier_target_indicator:PlayAoeEffect()
+    if IsServer() then
+
+        local point = Clamp(self.parent:GetAbsOrigin(), PlayerManager.mouse_positions[self.parent:GetPlayerID()], self.cast_range, 0)
+        ParticleManager:SetParticleControl(self.particle_circle, 0, point)
+        ParticleManager:SetParticleControl(self.particle_circle, 2, point);
+        ParticleManager:SetParticleControl(self.particle_circle, 3, Vector(self.radius,0,0));
+    end
+end
+-------------------------------------------------------------------------------------------------------
