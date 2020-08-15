@@ -4,6 +4,7 @@ end
 
 LinkLuaModifier( "movement_modifier_thinker", "player/generic/movement_modifier_thinker", LUA_MODIFIER_MOTION_NONE )
 LinkLuaModifier( "remove_attack_modifier", "player/generic/remove_attack_modifier", LUA_MODIFIER_MOTION_NONE )
+LinkLuaModifier( "modifier_respawn", "core/modifier_respawn", LUA_MODIFIER_MOTION_NONE )
 
 function GameSetup:init()
     GameRules:EnableCustomGameSetupAutoLaunch(false)
@@ -82,7 +83,7 @@ function GameSetup:PlayerPickHero(keys)
 
     -- target dummy
     CreateUnitByName("npc_dota_creature_dummy_target_boss", Vector(-779,1309,256), true, nil, nil, DOTA_TEAM_BADGUYS)
-    --CreateUnitByName("npc_dota_creature_dummy_target_boss", Vector(8112,6733,256), true, nil, nil, DOTA_TEAM_BADGUYS)
+    --CreateUnitByName("npc_dota_creature_gnoll_assassin_moving", Vector(-879,1309,256), true, nil, nil, DOTA_TEAM_BADGUYS)
 
 end
 --------------------------------------------------------------------------------------------------

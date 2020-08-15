@@ -37,7 +37,7 @@ function m2_serratedarrow_modifier:OnCreated( kv )
 
         -- reference from kv
         self.damage_type = self:GetAbility():GetAbilityDamageType()
-        self.dmg = self:GetAbility():GetSpecialValueFor("dmg")
+        self.dmg = self:GetAbility():GetSpecialValueFor("dmg_dot")
         self.sync_decrease_tick = self:GetAbility():GetSpecialValueFor( "sync_decrease_tick")
         -- damge loop start
         self.stopDamageLoop = false

@@ -148,4 +148,5 @@
             "particle"  "particles/timber/napalm_wave_basedtidehuntergushupgrade.vpcf"
         }
     }
+
 }
