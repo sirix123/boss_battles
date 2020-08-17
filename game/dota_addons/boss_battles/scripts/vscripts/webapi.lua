@@ -161,37 +161,90 @@ function WebApi:PostScoreboardDummyData()
 end
 
 
+
+
+
+function WebApi:GetDummyScoreboardData()
+	data = {}
+	data[1] = {}
+	data[1].playerName = "MooMoo"
+	data[1].portrait = "file://{images}/class_icons/icon_bow.png"
+	data[1].rank = "file://{images}/rank_icons/icon_staff_sergeant.png"
+	data[1].dmgDone = "100"
+	data[1].healDone = "1000"
+	data[1].dmgTkn = "10"
+
+	data[2] = {}
+	data[2].playerName = "Sirix"
+	data[2].portrait = "file://{images}/class_icons/icon_sword.png"
+	data[2].rank = "file://{images}/rank_icons/icon_sergeant.png"
+	data[2].dmgDone = "2000"
+	data[2].healDone = "200"
+	data[2].dmgTkn = "20"
+
+	data[3] = {}
+	data[3].playerName = "Nic"
+	data[3].portrait = "file://{images}//class_icons//icon_staff.png"
+	data[3].rank = "file://{images}/rank_icons/icon_corporal.png"
+	data[3].dmgDone = "3000"
+	data[3].healDone = "300"
+	data[3].dmgTkn = "300"
+
+	data[4] = {}
+	data[4].playerName = "Marc"
+	data[4].portrait = "file://{images}/class_icons/icon_staff.png"
+	data[4].rank = "file://{images}/rank_icons/icon_private.png"
+	data[4].dmgDone = "4000"
+	data[4].healDone = "4000"
+	data[4].dmgTkn = "4000"	
+
+	return data
+end
+
 function WebApi:GetScoreboardData()
 	print("WebApi:GetScoreboardData()" )
-	local request = CreateHTTPRequestScriptVM("GET", firebaseUrl .. "testScoreboard.json")
-	request:Send(function(response) 
-		if response.StatusCode == 200 then -- HTTP 200 = Success
-			print("Response received from " .. firebaseUrl .. "testScoreboard.json" )
 
-			local data = json.decode(response.Body)
-			--print("dump(data) = ", dump(data))
-			--First element of data is just guid
-			for k,v in pairs(data) do
-				print("v = ", v )
-				CustomGameEventManager:Send_ServerToAllClients("updateScoreboardData", v)
-
-				--HACK: store scoreboard data in globalVar :)
-				_G.scoreboardData = v
+	print("Using Dummy data for scoreboard" )	
+	local dummyData = WebApi:GetDummyScoreboardData()
+    if _G.scoreboardData == nil then
+        CustomGameEventManager:Send_ServerToAllClients("setupScoreboard", dummyData)
+    end
+	_G.scoreboardData = dummyData
+	
 
 
-				-- for i = 1, #v, 1 do
-				-- 	print("Row ", i)
-				-- 	print("v[i].playerName = ", v[i].playerName )
-				-- 	print("v[i].Score = ", v[i].Score )
-				-- end
-				break
-			end
-			--print("sending data to js event scoreboardTestEvent")
-			--CustomGameEventManager:Send_ServerToAllClients("scoreboardTestEvent", data[0])
-		else 
-			print("WebApi Http GET failed ", response.StatusCode)
-		end
-	end)
+	--print("Using Firebase data for scoreboard" )	
+	-- local request = CreateHTTPRequestScriptVM("GET", firebaseUrl .. "testScoreboard.json")
+	-- request:Send(function(response) 
+	-- 	if response.StatusCode == 200 then -- HTTP 200 = Success
+	-- 		--print("Response received from " .. firebaseUrl .. "testScoreboard.json" )
+
+	-- 		local data = json.decode(response.Body)
+	-- 		--print("dump(data) = ", dump(data))
+	-- 		--First element of data is just guid
+	-- 		for k,v in pairs(data) do
+	-- 			print("v = ", v )
+
+	-- 			print("Send_ServerToAllClients(setupScoreboard)")
+	-- 			CustomGameEventManager:Send_ServerToAllClients("setupScoreboard", v)
+
+	-- 			--HACK: store scoreboard data in globalVar :)
+	-- 			_G.scoreboardData = v
+
+
+	-- 			-- for i = 1, #v, 1 do
+	-- 			-- 	print("Row ", i)
+	-- 			-- 	print("v[i].playerName = ", v[i].playerName )
+	-- 			-- 	print("v[i].Score = ", v[i].Score )
+	-- 			-- end
+	-- 			break
+	-- 		end
+	-- 		--print("sending data to js event scoreboardTestEvent")
+	-- 		--CustomGameEventManager:Send_ServerToAllClients("scoreboardTestEvent", data[0])
+	-- 	else 
+	-- 		print("WebApi Http GET failed ", response.StatusCode)
+	-- 	end
+	-- end)
 end
 
 

@@ -1,0 +1,18 @@
+<root>
+    <styles>
+        <include src="file://{resources}/styles/custom_game/game_scoreboard.css" />
+    </styles>
+
+  <Panel hittest='false' class="precache">
+      <Image class="precache" src="file://{images}/class_icons/icon_bow.png" />
+      <Image class="precache" src="file://{images}/class_icons/icon_staff.png" />
+      <Image class="precache" src="file://{images}/class_icons/icon_sword.png" />
+      <Image class="precache" src="file://{images}/class_icons/icon_person.png" />
+
+      <Image class="precache" src="file://{images}/rank_icons/icon_private.png" />
+      <Image class="precache" src="file://{images}/rank_icons/icon_corporal.png" />
+      <Image class="precache" src="file://{images}/rank_icons/icon_sergeant.png" />
+      <Image class="precache" src="file://{images}/rank_icons/icon_staff_sergeant.png" />
+  </Panel>
+
+</root>
