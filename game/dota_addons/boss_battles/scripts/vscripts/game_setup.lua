@@ -26,7 +26,11 @@ function GameSetup:init()
     -- events here: https://developer.valvesoftware.com/wiki/Dota_2_Workshop_Tools/Scripting/Built-In_Engine_Events
     ListenToGameEvent("game_rules_state_change", Dynamic_Wrap(self, "OnStateChange"), self) -- valve engine event
     ListenToGameEvent('npc_spawned', Dynamic_Wrap(self, 'OnNPCSpawned'), self) -- npc_spawned is a valve engine event
-    ListenToGameEvent('dota_player_pick_hero', Dynamic_Wrap(self, 'PlayerPickHero'), self) -- dota_player_pick_hero is a valve engine event
+    --ListenToGameEvent('dota_player_pick_hero', Dynamic_Wrap(self, 'PlayerPickHero'), self) -- dota_player_pick_hero is a valve engine event
+
+    -- setup listeners
+    PlayerManager:SetUpMouseUpdater()
+    PlayerManager:SetUpMovement()
 
 end
 --------------------------------------------------------------------------------------------------
@@ -39,10 +43,15 @@ function GameSetup:OnStateChange()
         local mode = GameRules:GetGameModeEntity()
         mode:SetExecuteOrderFilter(Dynamic_Wrap(GameSetup, "ExecuteOrderFilter" ), GameSetup)
 
-        PlayerManager:SetUpMovement()
-        PlayerManager:SetUpMouseUpdater()
+    end
+
+    if GameRules:State_Get() == DOTA_GAMERULES_STATE_GAME_IN_PROGRESS then
+
+        -- spawn testing stuff
+        self:SpawnTestingStuff()
 
     end
+
 end
 --------------------------------------------------------------------------------------------------
 
@@ -69,7 +78,7 @@ function GameSetup:OnNPCSpawned(keys)
 end
 --------------------------------------------------------------------------------------------------
 
-function GameSetup:PlayerPickHero(keys)
+function GameSetup:SpawnTestingStuff(keys)
 
     -- flame turrets for right side of the map, need to change facing vector
     local flame_turret_1 = CreateUnitByName("npc_flame_turret", Vector(768,1504,256), true, nil, nil, DOTA_TEAM_BADGUYS)

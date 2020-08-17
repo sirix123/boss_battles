@@ -3,7 +3,7 @@
 	TeamCount = 4
 	maps = 
 	[
-		//"arena_6x6",
+		"arena_6x6",
 		"arena_test",
 	]
 	IsPlayable = 1
@@ -48,10 +48,10 @@
 	]
 	map_options = 
 	[
-		//{
-			//MaxPlayers = 4
-			//map = "arena_6x6"
-		//},
+		{
+			MaxPlayers = 4
+			map = "arena_6x6"
+		},
 		{
 			MaxPlayers = 4
 			map = "arena_test"

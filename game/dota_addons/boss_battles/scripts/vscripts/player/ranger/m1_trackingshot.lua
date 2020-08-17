@@ -66,7 +66,8 @@ function m1_trackingshot:OnSpellStart()
 
         -- set proj direction to mouse location
         local vTargetPos = nil
-        vTargetPos = PlayerManager.mouse_positions[self.caster:GetPlayerID()]
+        vTargetPos = Vector(self.caster.mouse.x, self.caster.mouse.y, self.caster.mouse.z)
+        --vTargetPos = PlayerManager.mouse_positions[self.caster:GetPlayerID()]
         local projectile_direction = (Vector( vTargetPos.x - origin.x, vTargetPos.y - origin.y, 0 )):Normalized()
 
         -- init effect

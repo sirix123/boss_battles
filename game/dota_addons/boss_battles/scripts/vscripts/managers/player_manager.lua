@@ -148,12 +148,20 @@ end
 ---------------------------------------------------------------------------------------------------
 
 function PlayerManager:SetUpMouseUpdater()
+    self.mouse_positions = {}
     CustomGameEventManager:RegisterListener('MousePosition', function(eventSourceIndex, args)
-        self.mouse_positions = {}
+        local unit = EntIndexToHScript(args.entityIndex)
+        if unit == nil then return end
 
-        local mouse_position = Vector(args.x, args.y, args.z)
-        self.mouse_positions[args.playerID] = mouse_position
-        
+        --print("MousePosition for playerID: ", args.playerID) -- test player ID
+        --local mouse_position = Vector(args.x, args.y, args.z)
+        --self.mouse_positions[args.playerID] = mouse_position
+
+        -- testing new code
+        unit.mouse.x = args.x
+        unit.mouse.y = args.y
+        unit.mouse.z = args.z
+
     end) -- end of SetupMouseUpdater listener
 end
 ---------------------------------------------------------------------------------------------------

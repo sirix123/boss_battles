@@ -2,6 +2,7 @@
 #base "players\rogue\rogue.txt"
 #base "players\icemage\icemage.txt"
 #base "players\ranger\ranger.txt"
+#base "players\warlord\warlord.txt"
 
 "DOTAHeroes"
 {
