@@ -2,7 +2,7 @@
 //Each row contains: playername, portrait, rank, dmg_done, heal_done, dmg_tkn
 function setupScoreboard(data)
 {	
-	$.Msg( "JS updateScoreboardData: data =  " , data );	
+	//$.Msg( "JS updateScoreboardData: data =  " , data );	
 	for (var i in data)
 	{
 		//data[i] contains values for one scoreboard row.
@@ -46,21 +46,15 @@ function createScoreboardRow(rowData)
 
 		var portraitImageElement = containerPanel.FindChildInLayoutFile("PortailImage")
 
-
-		$.Msg( "portraitImageElement = ", portraitImageElement);
-		
 		if (!!portraitImageElement) //if not null, set text
 		{
-			$.Msg( "setting portraitImageElement image = ", rowData.portrait);
 			//portraitLabelElement.text = rowData.portrait
 			portraitImageElement.SetImage(rowData.portrait);
 		}
 
 		var rankImageElement = containerPanel.FindChildInLayoutFile("RankImage")
-		$.Msg( "JS rankImageElement = ", rankImageElement);
 		if (!!rankImageElement) //if not null, set text
 		{			
-			$.Msg( "setting rankImageElement image = ", rowData.rank);
 			rankImageElement.SetImage(rowData.rank);
 		}
 	}	
@@ -77,14 +71,14 @@ function createScoreboardRow(rowData)
 
 function hideScoreboardUI()
 {
-	$.Msg( "hideScoreboardUI called");
+	//$.Msg( "hideScoreboardUI called");
 	
 	var scoreboardContainer = $("#ScoreboardContainer");
 	if (scoreboardContainer) 
 	{
-		$.Msg( "scoreboardContainer current visibility = ", scoreboardContainer.style.visibility);
+		//$.Msg( "scoreboardContainer current visibility = ", scoreboardContainer.style.visibility);
 		scoreboardContainer.style.visibility = "collapse";
-		$.Msg( "scoreboardContainer new visibility = ", scoreboardContainer.style.visibility);
+		//$.Msg( "scoreboardContainer new visibility = ", scoreboardContainer.style.visibility);
 	}
 	else 
 		$.Msg( "scoreboardContainer null");
@@ -92,14 +86,14 @@ function hideScoreboardUI()
 
 function showScoreboardUI()
 {
-	$.Msg( "showScoreboardUI called");
+	//$.Msg( "showScoreboardUI called");
 	
 	var scoreboardContainer = $("#ScoreboardContainer");
 	if (scoreboardContainer) 
 	{
-		$.Msg( "scoreboardContainer current visibility = ", scoreboardContainer.style.visibility);
+		//$.Msg( "scoreboardContainer current visibility = ", scoreboardContainer.style.visibility);
 		scoreboardContainer.style.visibility = "visible";
-		$.Msg( "scoreboardContainer new visibility = ", scoreboardContainer.style.visibility);
+		//$.Msg( "scoreboardContainer new visibility = ", scoreboardContainer.style.visibility);
 	}
 	else 
 		$.Msg( "scoreboardContainer null");
