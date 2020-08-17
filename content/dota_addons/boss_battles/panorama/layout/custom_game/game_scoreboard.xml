@@ -1,0 +1,84 @@
+<!-- File source: https://gitlab.com/ZSmith/dota2-modding-libraries/-/tree/master/ProgressBars -->
+<root>
+    <styles>
+        <include src="file://{resources}/styles/custom_game/game_scoreboard.css" />
+    </styles>
+
+    <scripts>
+        <include src="file://{resources}/scripts/custom_game/game_scoreboard.js" />
+    </scripts>
+
+
+<!-- Snippets are defined here but created in JS:
+var entryPanel = $.CreatePanel("Panel", container, rank.toString());
+entryPanel.BLoadLayoutSnippet("ScoreboardRow"); -->
+
+
+<!-- 
+ Game Scoreboard layout / structure:
+
+ |_________________________|________________|______|
+ |                         | DMG    | HEAL  | DMG  |
+ | P L A Y E R   N A M E   | DONE   | DONE  | TKN  |
+ |_________________________|________|_______|______|
+ |           |             |        |       |      |
+ | PORTRAIT  | RANK/MEDAL  | 2400   | 1800  | 470  |
+ |___________|_____________|________|_______|______|
+-->
+
+  <snippets>
+      <!-- Top row: player_name, "dmg done", "heal done", "dmg tkn" -->
+      <snippet name="GameScoreboardRowTopSnippet"> 
+          <Panel hittest="false" class="ScoreboardRow" >
+              <Panel hittest="false" class="PlayerNamePanel ScoreboardCell" id="PlayerNamePanel">
+                  <Label text="MooMoo Mcgoo" class="GameScoreboardHeading" id="PlayerNameLabel" />
+              </Panel>
+              <Panel hittest="false" class="GameStatColumn ScoreboardCell" id="DmgDoneLblPanel">
+                  <Label text="Dmg Done:" class="GameScoreboardHeading" />
+              </Panel>
+              <Panel hittest="false" class="GameStatColumn ScoreboardCell" id="HealDoneLblPanel">
+                  <Label text="Heal Done:" class="GameScoreboardHeading" />
+              </Panel>
+              <Panel hittest="false" class="GameStatColumn ScoreboardCell" id="DmgTknLblPanel">
+                  <Label text="Dmg Tkn:"  class="GameScoreboardHeading" />
+              </Panel>
+          </Panel>
+      </snippet>  
+
+      <!-- Bot row: portrait, rank, dmg_done, heal_done, dmg_tkn-->
+      <snippet name="ScoreboardRowBotSnippet"> 
+          <Panel hittest="false" class="ScoreboardRow" >
+              <Panel hittest="false" class="PortraitPanel ScoreboardCell" id="PortraitPanel">
+                  <Image id="PortailImage" class="" src="file://{images}/class_icons/icon_person.png" />
+              </Panel>
+              <Panel hittest="false" class="RankPanel ScoreboardCell" id="RankPanel">
+                  <Image id="RankImage" class="" src="file://{images}/rank_icons/icon_private.png" />
+              </Panel>
+              <Panel hittest="false" class="GameStatColumn ScoreboardCell" id="DmgDonePanel">
+                  <Label text="2400" id="DmgDoneLabel" class="GameScoreboardScoreText" />
+              </Panel>
+              <Panel hittest="false" class="GameStatColumn ScoreboardCell" id="HealDonePanel">
+                  <Label text="1800" id="HealDoneLabel" class="GameScoreboardScoreText"/>
+              </Panel>
+              <Panel hittest="false" class="GameStatColumn ScoreboardCell" id="DmgTknPanel">
+                  <Label text="470" id="DmgTknLabel" class="GameScoreboardScoreText"/>
+              </Panel>
+          </Panel>
+      </snippet>  
+
+    </snippets>
+
+
+  <Panel hittest="false" class="parent">
+      <Panel class="ScoreboardContainer" id="ScoreboardContainer"> 
+
+      </Panel>
+
+
+
+  </Panel>
+
+</root>
+
+
+

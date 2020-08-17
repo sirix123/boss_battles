@@ -1,12 +1,10 @@
 <root>
 	<styles>
 		<include src="file://{resources}/styles/custom_game/custom_hotkeys_players.css" />
-		<include src="file://{resources}/styles/custom_game/test_scoreboard.css" />
 	</styles>
 
 	<scripts>
 		<include src="file://{resources}/scripts/custom_game/custom_hotkeys_players.js" />
-		<include src="file://{resources}/scripts/custom_game/test_scoreboard.js" />
 	</scripts>
 
 	<Panel>

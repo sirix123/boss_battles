@@ -1,0 +1,167 @@
+.precache 
+{
+    visibility: collapse;
+}
+
+.parent
+{
+  width:100%;
+  height:100%;
+}
+
+.ScoreboardContainer
+{
+  visibility: collapse;
+  flow-children: down;
+  height: 80%;
+  width: 60%;
+
+  margin-top: 9.5%;
+  margin-left: 19.5%;
+  padding: 0px;
+
+  background-color: #00000044; /* argb? */
+  border: 1px solid black;
+
+}
+
+.ScoreboardContainer
+{
+  visibility: collapse;
+  flow-children: down;
+  height: 80%;
+  width: 60%;
+
+  margin-top: 9.5%;
+  margin-left: 19.5%;
+}
+
+
+/*
+ Game Scoreboard layout / structure:
+ |_________________________|________________|______|
+ |                         | DMG    | HEAL  | DMG  |
+ | P L A Y E R   N A M E   | DONE   | DONE  | TKN  |
+ |_________________________|________|_______|______|
+ |           |             |        |       |      |
+ | PORTRAIT  | RANK/MEDAL  | 2400   | 1800  | 470  |
+ |___________|_____________|________|_______|______|
+
+*/
+
+.ScoreboardCell
+{
+  border: 1px solid black;
+}
+
+.ScoreboardRow 
+{
+	flow-children: right-wrap;
+
+  width: 100%;
+	height:12%;
+
+	margin-left: 4px;
+	margin-top: 4px;
+	margin-bottom: 4px;
+
+  background-color: #00000088; /* argb? */
+}
+
+.GameScoreboardHeading
+{
+    font-size: 24px;
+    color: #ffffff;
+    margin-left: 5%;
+    margin-top: 25%;
+}
+
+.GameScoreboardScoreText 
+{
+  font-size: 18px;
+  color: #ffffff;
+  margin-left: 5%;
+  margin-top: 25%;
+}
+
+/* Top row... */
+
+.PortraitPanel
+{
+  width: 25%;
+  height: 50%;
+
+}
+
+.RankPanel 
+{
+  width: 25%;
+  height: 50%;
+}
+
+.DmgDoneLblPanel 
+{
+  width: 16.5%;
+  height: 50%; 
+}
+
+.HealDoneLblPanel 
+{
+  width: 16.5%;
+  height: 50%; 
+}
+
+.DmgTknLblPanel 
+{
+  width: 16.5%;
+  height: 50%; 
+}
+
+.GameStatColumn 
+{
+   width: 16.5%;
+  height: 50%;  
+}
+
+
+
+/*.PlayerNameText
+{
+    font-size: 24px;
+    color: #ffffff;
+    margin-bottom: 32px; 
+    margin-left: 15px;
+}
+
+.ScoreText 
+{
+    font-size: 24px;
+    color: #ffffff;
+    margin-bottom: 32px; 
+    margin-left: 15px;
+}*/
+
+.PlayerNamePanel 
+{
+  width: 50%;
+  height: 50%;
+}
+
+
+.DmgDonePanel
+{
+  width: 16.5%;
+  height: 50%; 
+}
+
+.HealDonePanel
+{
+  width: 16.5%;
+  height: 50%; 
+}
+
+.DmgTknPanel
+{
+  width: 16.5%;
+  height: 50%; 
+}

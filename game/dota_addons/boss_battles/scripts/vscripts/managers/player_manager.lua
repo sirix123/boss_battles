@@ -1,3 +1,5 @@
+require('webapi')
+
 if PlayerManager == nil then
     PlayerManager = class({})
 end
