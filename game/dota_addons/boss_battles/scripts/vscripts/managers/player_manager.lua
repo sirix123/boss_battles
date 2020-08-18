@@ -27,12 +27,12 @@ function PlayerManager:SetUpMovement()
 
     --Listen for showScoreboardUIEvent from JS, then send showScoreboardUIEvent event back to JS
     CustomGameEventManager:RegisterListener('showScoreboardUIEvent', function(eventSourceIndex, args)
-        CustomGameEventManager:Send_ServerToAllClients("showScoreboardUIEvent", {})
+        CustomGameEventManager:Send_ServerToPlayer( Convars:GetCommandClient(), "showScoreboardUIEvent", {} )
     end)
 
     --Listen for hideScoreboardUIEvent from JS, then send hideScoreboardUIEvent event back to JS
     CustomGameEventManager:RegisterListener('hideScoreboardUIEvent', function(eventSourceIndex, args)
-        CustomGameEventManager:Send_ServerToAllClients("hideScoreboardUIEvent", {})
+        CustomGameEventManager:Send_ServerToPlayer( Convars:GetCommandClient(), "hideScoreboardUIEvent", {} )
     end)
 
 
