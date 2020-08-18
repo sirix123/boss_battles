@@ -375,13 +375,16 @@ function GetMouseCastPosition(  )
 {
 
     var mouse_position_screen = GameUI.GetCursorPosition();
-    var mouse_position = Game.ScreenXYToWorld(mouse_position_screen[0], mouse_position_screen[1])
+    var mouse_position = Game.ScreenXYToWorld(mouse_position_screen[0], mouse_position_screen[1]);
+    var heroIndex = Players.GetPlayerHeroEntityIndex(Players.GetLocalPlayer());
+
     //$.Msg(GameUI.FindScreenEntities(mouse_position_screen))
 	GameEvents.SendCustomGameEventToServer("MousePosition", {
         playerID: Players.GetLocalPlayer(), 
         x: mouse_position[0], 
         y: mouse_position[1],
         z: mouse_position[2],
+        entityIndex: heroIndex,
     });
 }
 
@@ -433,6 +436,9 @@ function GetMouseCastPosition(  )
     // Spacebar Movement Ability
     Game.AddCommand( "+Space", function(){ AbilityToCast(5, true) }, "", 0 );
     Game.AddCommand( "-Space", EmptyCallBack, "", 0 );
+
+    // get mouse position
+    //GameEvents.Subscribe('mouse_position', GetMouseCastPosition);
 
 })();   
 

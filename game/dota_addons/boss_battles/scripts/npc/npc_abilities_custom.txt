@@ -18,6 +18,9 @@
 //ranger
 #base "players/ranger/abilities.txt"
 
+//warlord
+#base "players/warlord/abilities.txt"
+
 
 "DOTAAbilities"
 {

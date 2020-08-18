@@ -12,8 +12,9 @@ require('libraries/ProgressBars')
 require('libraries/projectiles')
 require('libraries/animations')
 
-
 function Precache( context ) -- this needs to be in a seperate file
+  --PrecacheUnitByName('npc_flame_turret')
+
   PrecacheResource("soundfile", "soundevents/game_sounds_heroes/game_sounds_tusk.vsndevts", context)
   PrecacheResource("soundfile", "soundevents/game_sounds_heroes/game_sounds_beastmaster.vsndevts", context)
   PrecacheResource("soundfile", "soundevents/voscripts/game_sounds_vo_beastmaster.vsndevts", context)

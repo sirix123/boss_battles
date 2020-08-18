@@ -4,6 +4,11 @@ function CDOTA_BaseNPC:Initialize(data)
   self.direction.y = 0
   self.direction.z = 0
 
+  self.mouse = {}
+  self.mouse.x = 0
+  self.mouse.y = 0
+  self.mouse.z = 0
+
   self.animation_modifiers = 		{}
 
 end
