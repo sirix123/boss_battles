@@ -3,9 +3,7 @@ LinkLuaModifier( "e_icefall_modifier_thinker", "player/icemage/modifiers/e_icefa
 
 function e_icefall:OnAbilityPhaseStart()
     if IsServer() then
-
         self:GetCaster():StartGestureWithPlaybackRate(ACT_DOTA_CAST_ABILITY_1, 1.0)
-
         -- add casting modifier
         self:GetCaster():AddNewModifier(self:GetCaster(), self, "casting_modifier_thinker",
         {
@@ -37,7 +35,7 @@ function e_icefall:OnSpellStart()
     self.caster = self:GetCaster()
 
     local point = nil
-    point = Clamp(self.caster:GetOrigin(), PlayerManager.mouse_positions[self.caster:GetPlayerID()], self:GetCastRange(Vector(0,0,0), nil), 0)
+    point = Clamp(self.caster:GetOrigin(), Vector(self.caster.mouse.x, self.caster.mouse.y, self.caster.mouse.z), self:GetCastRange(Vector(0,0,0), nil), 0)
 
     self.modifier = CreateModifierThinker(
         self.caster,

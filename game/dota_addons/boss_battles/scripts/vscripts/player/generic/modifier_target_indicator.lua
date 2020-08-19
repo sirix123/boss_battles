@@ -26,7 +26,8 @@ function modifier_target_indicator:OnCreated(kv)
         self.cast_range = kv.cast_range
         self.radius = self:GetAbility():GetSpecialValueFor("radius")
 
-        self.particle_circle = ParticleManager:CreateParticle("particles/ui_mouseactions/range_finder_aoe.vpcf", PATTACH_WORLDORIGIN, self.parent);
+        self.particle_circle = ParticleManager:CreateParticleForPlayer("particles/ui_mouseactions/range_finder_aoe.vpcf", PATTACH_WORLDORIGIN, self.parent, self.parent:GetPlayerOwner())
+
         self:PlayAoeEffect()
 
 	end
@@ -57,7 +58,7 @@ end
 function modifier_target_indicator:PlayAoeEffect()
     if IsServer() then
 
-        local point = Clamp(self.parent:GetAbsOrigin(), PlayerManager.mouse_positions[self.parent:GetPlayerID()], self.cast_range, 0)
+        local point = Clamp(self.parent:GetAbsOrigin(), Vector(self.parent.mouse.x, self.parent.mouse.y, self.parent.mouse.z), self.cast_range, 0)
         ParticleManager:SetParticleControl(self.particle_circle, 0, point)
         ParticleManager:SetParticleControl(self.particle_circle, 2, point);
         ParticleManager:SetParticleControl(self.particle_circle, 3, Vector(self.radius,0,0));

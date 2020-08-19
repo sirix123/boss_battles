@@ -41,7 +41,7 @@ function m2_icefall_modifier_thinker:OnIntervalThink()
             self:StartApplyDamageLoop()
             self.currentIceFallLocation = self.currentTarget
         else
-            local mouseLoc = PlayerManager.mouse_positions[self.caster:GetPlayerID()]
+            local mouseLoc = Vector(self.caster.mouse.x, self.caster.mouse.y, self.caster.mouse.z)
             self.currentTarget = Vector(mouseLoc.x, mouseLoc.y, self.parent:GetForwardVector().z )
         end
 

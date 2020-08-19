@@ -97,18 +97,18 @@ function e_icefall_modifier_thinker:PlayEffects()
     if IsServer() then
         if self.bSpawn == true then
             -- create particple effect (particle 1)
-            local particle_cast_1 = "particles/icemage/m2_icefall_maiden_freezing_field_snow.vpcf"
-            self.effect_cast_1 = ParticleManager:CreateParticle( particle_cast_1, PATTACH_WORLDORIGIN, self.parent )
+            --local particle_cast_1 = "particles/icemage/m2_icefall_maiden_freezing_field_snow.vpcf"
+            --self.effect_cast_1 = ParticleManager:CreateParticle( particle_cast_1, PATTACH_WORLDORIGIN, self.parent )
 
             -- Play sound 1
-            self.sound_cast_1 = "hero_Crystal.freezingField.wind"
-            EmitSoundOnLocationWithCaster(self.parent:GetAbsOrigin(), self.sound_cast_1, self.caster)
+            --self.sound_cast_1 = "hero_Crystal.freezingField.wind"
+            --EmitSoundOnLocationWithCaster(self.parent:GetAbsOrigin(), self.sound_cast_1, self.caster)
             self.bSpawn = false
         end
 
         -- effect 1
-        ParticleManager:SetParticleControl( self.effect_cast_1, 1, Vector( self.radius, self.radius, 1 ) )
-        ParticleManager:SetParticleControl( self.effect_cast_1, 2, self.currentTarget )
+        --ParticleManager:SetParticleControl( self.effect_cast_1, 1, Vector( self.radius, self.radius, 1 ) )
+        --ParticleManager:SetParticleControl( self.effect_cast_1, 2, self.currentTarget )
 
         -- effect 2
         local particle_cast_2 = "particles/units/heroes/hero_crystalmaiden/maiden_freezing_field_explosion.vpcf"
@@ -137,7 +137,7 @@ end
 
 function e_icefall_modifier_thinker:StopEffects()
     if IsServer() then
-        StopSoundOn( self.sound_cast_1, self.parent )
+        --StopSoundOn( self.sound_cast_1, self.parent )
         StopSoundOn( self.sound_cast_2, self.parent )
 	end
 end
@@ -152,3 +152,15 @@ function e_icefall_modifier_thinker:OnDestroy( kv )
 	end
 end
 ---------------------------------------------------------------------------
+
+function e_icefall_modifier_thinker:GetOverrideAnimation()
+    return ACT_DOTA_CAST_ABILITY_1
+end
+
+function e_icefall_modifier_thinker:DeclareFunctions()
+    local funcs = {
+        MODIFIER_PROPERTY_OVERRIDE_ANIMATION,
+    }
+
+    return funcs
+end

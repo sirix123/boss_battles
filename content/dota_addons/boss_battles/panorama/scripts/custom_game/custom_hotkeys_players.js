@@ -1,6 +1,5 @@
 "use strict";
 
-
 function AbilityToCast(abilityNumber, showEffects){
     var playerId = Players.GetLocalPlayer();
     var playerHero = Players.GetPlayerHeroEntityIndex( playerId );
@@ -225,10 +224,10 @@ function OnLeftButtonPressed()
     GameEvents.SendCustomGameEventToServer("customEvent_abilityCast", {heroEntity: heroEntity, playerEntity: playerEntity});
 
     AbilityToCast(0, true);
-    $.Schedule(0.1, function tic(){
+    $.Schedule(0.2, function tic(){
         if (GameUI.IsMouseDown(0)){
             AbilityToCast(0, false);
-            $.Schedule(0.1, tic);
+            $.Schedule(0.2, tic);
         }
     })
 }

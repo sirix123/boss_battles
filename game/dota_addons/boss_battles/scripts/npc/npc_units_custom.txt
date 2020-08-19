@@ -356,5 +356,84 @@
 		}
 	}
 
+	//=================================================================================	
+	//  npc ward 
+	//=================================================================================
+	"npc_ward"	
+	{
+		// script
+		"vscripts"					"player/warlord/npc_ward_ai.lua"
+
+		// General
+		//----------------------------------------------------------------
+		"Model"						"models/heroes/juggernaut/jugg_healing_ward.vmdl"	// Model.
+		"BaseClass"					"npc_dota_creature"
+		"SoundSet"					"Hero_Shredder"
+		"GameSoundsFile"			"soundevents/game_sounds_heroes/game_sounds_shredder.vsndevts"
+		"Level"						"1"
+		"ModelScale" 				"1.0"
+
+		// Abilities
+		//----------------------------------------------------------------
+		"Ability1"					""		                // Ability 1
+		"Ability2"					""			            // Ability 2
+		"Ability3"					""					    // Ability 3
+		"Ability4"					""					    // Ability 4
+		"Ability5"					""					    // Ability 5
+		"Ability6"					""					    // Ability 6
+		"Ability7"					""					    // Ability 7
+
+		"precache"
+		{
+			"model"				"models/heroes/juggernaut/jugg_healing_ward.vmdl"
+		}
+
+		"BoundsHullName"			"DOTA_HULL_SIZE_REGULAR"	
+
+		// Armor
+		//----------------------------------------------------------------
+		"ArmorPhysical"				"100"			
+
+		// Attack
+		//----------------------------------------------------------------
+		"AttackCapabilities"		"DOTA_UNIT_CAP_NO_ATTACK"
+		"AttackDamageMin"			"1"		
+		"AttackDamageMax"			"2"		
+		"AttackRate"				"1.6"		// Speed of attack.
+		"AttackAnimationPoint"		"0.9"		// Normalized time in animation cycle to attack.
+		"AttackAcquisitionRange"	"10000"		// Range within a target can be acquired.
+		"AttackRange"				"50"		
+
+		// Bounds
+		//----------------------------------------------------------------
+		"RingRadius"				"40"
+		"HealthBarOffset"			"170"
+
+		// Movement
+		//----------------------------------------------------------------
+		"MovementCapabilities"		"DOTA_UNIT_CAP_MOVE_NONE"//"DOTA_UNIT_CAP_MOVE_NONE"
+		"MovementSpeed"				"400"					
+
+		// Status
+		//----------------------------------------------------------------
+		"StatusHealth"				"500"		// Base health.
+		"StatusHealthRegen"			"0.0"		// Health regeneration rate.
+		"StatusMana"				"100"		// Base mana.
+		"StatusManaRegen"			"0.0"		// Mana regeneration rate.		 
+		
+		// Vision
+		//----------------------------------------------------------------
+		"VisionDaytimeRange"		"5000"		// Range of vision during day light.
+		"VisionNighttimeRange"		"5000"		// Range of vision at night time.
+
+		// Team
+		//----------------------------------------------------------------
+		"TeamName"					"DOTA_TEAM_GOODGUYS"						// Team name.
+		"CombatClassAttack"			"DOTA_COMBAT_CLASS_ATTACK_PIERCE"
+		"CombatClassDefend"			"DOTA_COMBAT_CLASS_DEFEND_BASIC"
+		"UnitRelationshipClass"		"DOTA_NPC_UNIT_RELATIONSHIP_TYPE_WARD"
+
+	}
+
 
 }

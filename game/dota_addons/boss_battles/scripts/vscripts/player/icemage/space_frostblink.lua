@@ -53,7 +53,7 @@ function space_frostblink:OnSpellStart()
         self:GetCaster():RemoveGesture(ACT_DOTA_CAST_ABILITY_4)
 
         self.radius = self:GetSpecialValueFor("radius")
-        point = Clamp(caster:GetOrigin(), PlayerManager.mouse_positions[caster:GetPlayerID()], self:GetCastRange(Vector(0,0,0), nil), 0)
+        point = Clamp(caster:GetOrigin(), Vector(caster.mouse.x, caster.mouse.y, caster.mouse.z), self:GetCastRange(Vector(0,0,0), nil), 0)
 
         -- apply chill and play effect
         -- apply chill to enemies around in a radius

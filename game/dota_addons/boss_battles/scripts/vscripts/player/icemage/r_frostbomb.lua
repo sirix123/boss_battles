@@ -39,7 +39,7 @@ function r_frostbomb:OnSpellStart()
     self.caster = self:GetCaster()
 
     local point = nil
-    point = Clamp(self.caster:GetOrigin(), PlayerManager.mouse_positions[self.caster:GetPlayerID()], self:GetCastRange(Vector(0,0,0), nil), 0)
+    point = Clamp(self.caster:GetOrigin(), Vector(self.caster.mouse.x, self.caster.mouse.y, self.caster.mouse.z), self:GetCastRange(Vector(0,0,0), nil), 0)
 
     -- init 
     self.dot_duration = 0

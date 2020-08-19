@@ -67,7 +67,10 @@ function GameSetup:OnNPCSpawned(keys)
         npc:Initialize(keys)
 
         -- level up abilities for all heroes to level 1
-        if npc:GetUnitName() == "npc_dota_hero_crystal_maiden" or npc:GetUnitName() == "npc_dota_hero_windrunner" then
+        if npc:GetUnitName() == "npc_dota_hero_crystal_maiden" 
+        or npc:GetUnitName() == "npc_dota_hero_windrunner" 
+        or npc:GetUnitName() == "npc_dota_hero_juggernaut" 
+        then
           local index = 0
           while (npc:GetAbilityByIndex(index) ~= nil) do
             npc:GetAbilityByIndex(index):SetLevel(1)

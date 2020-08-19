@@ -21,9 +21,6 @@
 			"Type"						"TARGETING_INDICATOR_LINE"
 			"Fixed"						"1"
 		}
-
-		"AbilityCharges"                	"3"
-		"AbilityChargeRestoreTime"        	"2"
         
 		"AbilitySpecial"
 		{
@@ -243,9 +240,6 @@
 			"Type"						"TARGETING_INDICATOR_LINE"
 			"Fixed"						"1"
 		}
-
-		"AbilityCharges"                	"3"
-		"AbilityChargeRestoreTime"        	"2"
         
 		"AbilitySpecial"
 		{

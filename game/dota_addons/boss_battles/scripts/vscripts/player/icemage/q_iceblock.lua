@@ -98,7 +98,7 @@ end
 function q_iceblock:CancelIceblock( forced )
 	-- remove modifier
     if forced then
-        if self.GetCaster:IsAlive() == true then
+        if self:GetCaster():IsAlive() == true then
             self.modifier:Destroy()
         end
 	end
@@ -117,7 +117,7 @@ end
 function q_iceblock:OnOwnerDied()
 
     self:CancelIceblock( true )
-    
+
 end
 ----------------------------------------------------------------------------------------------------------------
 

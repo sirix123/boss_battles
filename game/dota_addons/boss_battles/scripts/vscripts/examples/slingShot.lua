@@ -24,7 +24,7 @@ function slingShot:OnSpellStart()
 		--Show where the user clicked, and is now dragging there mouse. do this with 2 circles and a line. 
 		--BUG: This doesn't work because self:GetCursorPosition() is returning an empty vector when inside a timer.. weird..just use a modifer thinker..
 		Timers:CreateTimer(function() 
-			local cursorPos = PlayerManager.mouse_positions[self:GetCaster():GetPlayerID()]
+			local cursorPos = Vector(self.caster.mouse.x, self.caster.mouse.y, self.caster.mouse.z)
 			--draw current location
 			DebugDrawCircle(clickLocation, Vector(0,0,255), 128, 100, true, timerInterval) -- blue circ at clickLocation
 			DebugDrawLine(clickLocation, cursorPos, 0,255,0, true, timerInterval)

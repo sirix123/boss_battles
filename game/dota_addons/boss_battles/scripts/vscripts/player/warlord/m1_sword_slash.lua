@@ -1,4 +1,5 @@
 m1_sword_slash = class({})
+LinkLuaModifier("rage_stacks_warlord", "player/warlord/modifiers/rage_stacks_warlord", LUA_MODIFIER_MOTION_NONE)
 
 --------------------------------------------------------------------------------
 
@@ -44,6 +45,8 @@ function m1_sword_slash:OnSpellStart()
 	local radius = self:GetSpecialValueFor("radius")
 	local direction = (Vector(point.x-origin.x, point.y-origin.y, 0)):Normalized()
 
+	local damage = self:GetSpecialValueFor("damage")
+
 	-- function in utility_functions
 	local enemies = FindUnitsInCone(
 		caster:GetTeamNumber(),
@@ -60,29 +63,20 @@ function m1_sword_slash:OnSpellStart()
 	)
 
 	for _, enemy in pairs(enemies) do
-		print(enemy:GetUnitName())
+
+		local dmgTable = {
+			victim = enemy,
+			attacker = caster,
+			damage = damage,
+			damage_type = self:GetAbilityDamageType(),
+		}
+
+		caster:AddNewModifier(caster, self, "rage_stacks_warlord",{})
+		EmitSoundOn( "Hero_Juggernaut.Attack", self:GetCaster() )
+
+        ApplyDamage(dmgTable)
 	end
 end
 --------------------------------------------------------------------------------
 
--- Graphics & sounds
--- On Projectile Finish
-function m1_sword_slash:PlayEffectsOnFinish( pos )
-	local caster = self:GetCaster()
-	local offset = 40
-	local origin = caster:GetOrigin()
-	local direction = (pos - origin):Normalized()
-	local final_position = origin + Vector(direction.x * offset, direction.y * offset, 0)
-
-	-- Create Particles
-	local particle_cast = "particles/econ/items/phantom_assassin/phantom_assassin_arcana_elder_smith/pa_arcana_attack_blinkb.vpcf"
-	local effect_cast = ParticleManager:CreateParticle( particle_cast, PATTACH_POINT, caster )
-	ParticleManager:SetParticleControl( effect_cast, 0, final_position )
-	ParticleManager:SetParticleControlForward(effect_cast, 0, direction)
-	ParticleManager:ReleaseParticleIndex( effect_cast )
-end
-
-function m1_sword_slash:PlayEffectsOnImpact( hTarget )
-	return
-end
 

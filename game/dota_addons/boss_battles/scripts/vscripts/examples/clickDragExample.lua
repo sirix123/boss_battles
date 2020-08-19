@@ -25,7 +25,7 @@ function clickDragExample:OnSpellStart()
 
 		-- Any actions you want to take whilst the mouse is being dragged do them in here.
 		Timers:CreateTimer(function() 
-			local cursorPos = PlayerManager.mouse_positions[self:GetCaster():GetPlayerID()]
+			local cursorPos = Vector(self.caster.mouse.x, self.caster.mouse.y, self.caster.mouse.z)
 			--local distance =  clickLocation	- cursorPos
 
 			--DEBUGGING/TESTING:
