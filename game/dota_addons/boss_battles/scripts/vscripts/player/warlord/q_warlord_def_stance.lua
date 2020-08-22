@@ -1,54 +1,50 @@
-q_warlord_shout = class({})
-
-LinkLuaModifier( "q_warlord_shout_modifier", "player/warlord/modifiers/q_warlord_shout_modifier", LUA_MODIFIER_MOTION_NONE )
+q_warlord_def_stance = class({})
+LinkLuaModifier( "q_warlord_def_stance_modifier", "player/warlord/modifiers/q_warlord_def_stance_modifier", LUA_MODIFIER_MOTION_NONE )
+LinkLuaModifier( "q_warlord_def_stance_modifier_lifesteal", "player/warlord/modifiers/q_warlord_def_stance_modifier_lifesteal", LUA_MODIFIER_MOTION_NONE )
 ---------------------------------------------------------------------------
 
-function q_warlord_shout:OnAbilityPhaseStart()
+function q_warlord_def_stance:OnAbilityPhaseStart()
 
-	local sound_cast = "Hero_Axe.BerserkersCall.Start"
-	EmitSoundOn( sound_cast, self:GetCaster() )
 
-	return true 
+	return true
 end
 ---------------------------------------------------------------------------
 
-function q_warlord_shout:OnAbilityPhaseInterrupted()
+function q_warlord_def_stance:OnAbilityPhaseInterrupted()
 
-	local sound_cast = "Hero_Axe.BerserkersCall.Start"
-    StopSoundOn( sound_cast, self:GetCaster() )
 
 end
 ---------------------------------------------------------------------------
 
-function q_warlord_shout:OnSpellStart()
+
+function q_warlord_def_stance:OnSpellStart()
     if IsServer() then
 
         local caster = self:GetCaster()
         local point = caster:GetOrigin()
 
-        -- if 1-2 stacks of rage
-
-        -- if 3-4 stacks of rage
-
-        -- if 5 stacks of rage
-
-        --[[ load data
-        local duration = self:GetSpecialValueFor( "duration" )
+        -- remove def stance
+        caster:RemoveModifierByName("q_warlord_dps_stance_modifier")
 
         -- add modifier
         caster:AddNewModifier(
             caster, -- player source
             self, -- ability source
-            "modifier_sprint", -- modifier name
-            { duration = duration } -- kv
-        )]]
+            "q_warlord_def_stance_modifier", -- modifier name
+            {} -- kv
+        )
+
+        -- swap ability to dps stance
+        caster:SwapAbilities("q_warlord_def_stance", "q_warlord_dps_stance", false, true)
 
         -- sound effect
-        local sound_cast = "Hero_Axe.Berserkers_Call"
+        local sound_cast = "Hero_Sven.PreAttack"
+
+        -- Create Sound
         EmitSoundOn( sound_cast, self:GetCaster() )
 
         -- particle effect
-	    local particle_cast = "particles/warlord/warlord_shout_axe_ti9_beserkers_call_owner.vpcf"
+	    local particle_cast = "particles/econ/items/axe/axe_ti9_immortal/axe_ti9_beserkers_call_owner.vpcf"
 
         -- Create Particle
         local effect_cast = ParticleManager:CreateParticle( particle_cast, PATTACH_ABSORIGIN_FOLLOW, self:GetCaster() )

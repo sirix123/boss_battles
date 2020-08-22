@@ -27,6 +27,7 @@ function GameSetup:init()
     ListenToGameEvent("game_rules_state_change", Dynamic_Wrap(self, "OnStateChange"), self) -- valve engine event
     ListenToGameEvent('npc_spawned', Dynamic_Wrap(self, 'OnNPCSpawned'), self) -- npc_spawned is a valve engine event
     --ListenToGameEvent('dota_player_pick_hero', Dynamic_Wrap(self, 'PlayerPickHero'), self) -- dota_player_pick_hero is a valve engine event
+    ListenToGameEvent('entity_killed', Dynamic_Wrap(self, 'OnEntityKilled'), self) --
 
     -- setup listeners
     PlayerManager:SetUpMouseUpdater()
@@ -67,14 +68,19 @@ function GameSetup:OnNPCSpawned(keys)
         npc:Initialize(keys)
 
         -- level up abilities for all heroes to level 1
-        if npc:GetUnitName() == "npc_dota_hero_crystal_maiden" 
-        or npc:GetUnitName() == "npc_dota_hero_windrunner" 
-        or npc:GetUnitName() == "npc_dota_hero_juggernaut" 
+        if npc:GetUnitName() == "npc_dota_hero_crystal_maiden"
+        or npc:GetUnitName() == "npc_dota_hero_windrunner"
+        or npc:GetUnitName() == "npc_dota_hero_juggernaut"
         then
-          local index = 0
-          while (npc:GetAbilityByIndex(index) ~= nil) do
-            npc:GetAbilityByIndex(index):SetLevel(1)
-            index = index +1
+
+            -- set all mana as 0 for players with energy
+            npc:SetMana(0)
+
+            local index = 0
+
+            while (npc:GetAbilityByIndex(index) ~= nil) do
+                npc:GetAbilityByIndex(index):SetLevel(1)
+                index = index +1
           end
         end
     end
@@ -93,9 +99,28 @@ function GameSetup:SpawnTestingStuff(keys)
     local flame_turret_3 = CreateUnitByName("npc_flame_turret", Vector(1075,-1531,256), true, nil, nil, DOTA_TEAM_BADGUYS)
     flame_turret_3:SetForwardVector(Vector(0,1, flame_turret_3.z ))
 
-    -- target dummy
-    CreateUnitByName("npc_dota_creature_dummy_target_boss", Vector(-779,1309,256), true, nil, nil, DOTA_TEAM_BADGUYS)
-    --CreateUnitByName("npc_dota_creature_gnoll_assassin_moving", Vector(-879,1309,256), true, nil, nil, DOTA_TEAM_BADGUYS)
+    -- target dummy (1 by itself)
+    CreateUnitByName("npc_dota_creature_dummy_target_boss", Vector(-773,148,256), true, nil, nil, DOTA_TEAM_BADGUYS)
+
+    -- target dummy (3)
+    CreateUnitByName("npc_dota_creature_dummy_target_boss", Vector(-879,1309,256), true, nil, nil, DOTA_TEAM_BADGUYS)
+    CreateUnitByName("npc_dota_creature_dummy_target_boss", Vector(-879,1309,256), true, nil, nil, DOTA_TEAM_BADGUYS)
+    CreateUnitByName("npc_dota_creature_dummy_target_boss", Vector(-879,1309,256), true, nil, nil, DOTA_TEAM_BADGUYS)
+
+    -- target dummy (1 moving)
+    CreateUnitByName("npc_dota_creature_gnoll_assassin_moving", Vector(214,1165,256), true, nil, nil, DOTA_TEAM_BADGUYS)
 
 end
 --------------------------------------------------------------------------------------------------
+
+function GameSetup:OnEntityKilled(keys)
+    local npc = EntIndexToHScript(keys.entindex_killed)
+
+    if npc:GetUnitName() == "npc_dota_creature_dummy_target_boss" then
+        CreateUnitByName("npc_dota_creature_dummy_target_boss", npc:GetAbsOrigin(), true, nil, nil, DOTA_TEAM_BADGUYS)
+    end
+
+    if npc:GetUnitName() == "npc_dota_creature_gnoll_assassin_moving" then
+        CreateUnitByName("npc_dota_creature_gnoll_assassin_moving", npc:GetAbsOrigin(), true, nil, nil, DOTA_TEAM_BADGUYS)
+    end
+end

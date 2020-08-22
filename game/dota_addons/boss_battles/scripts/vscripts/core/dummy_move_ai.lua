@@ -8,7 +8,7 @@ function Spawn( entityKeyValues )
 
     thisEntity:SetContextThink( "DummyThink", DummyThink, 0.5 )
 
-    thisEntity.movePosOne = true
+    thisEntity.movePosOne = 1
 
 end
 --------------------------------------------------------------------------------
@@ -23,18 +23,21 @@ function DummyThink()
 	if GameRules:IsGamePaused() == true then
 		return 0.5
 	end
-
-
-    if thisEntity.movePosOne == true then
-        thisEntity.movePosOne = false
-        thisEntity:MoveToPosition(Vector(-879,1309,256))
+    
+    if thisEntity.movePosOne == 1 then
+        --print("trying to move  MOVE 1 again")
+        thisEntity.movePosOne = 2
+        thisEntity:MoveToPosition(Vector(-114,1165,256))
+        return 1
     end
 
-    if thisEntity.movePosOne == false then
-        thisEntity.movePosOne = true
-        thisEntity:MoveToPosition(Vector(-879,1009,256))
+    if thisEntity.movePosOne == 2 then
+        --print("trying to move MOVE 2 again")
+        thisEntity.movePosOne = 1
+        thisEntity:MoveToPosition(Vector(-453,1166,256))
+        return 1
     end
 
-	return 10
+	return 0.5
 end
 

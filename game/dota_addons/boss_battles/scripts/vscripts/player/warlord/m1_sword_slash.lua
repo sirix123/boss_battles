@@ -32,6 +32,7 @@ function m1_sword_slash:OnAbilityPhaseInterrupted()
     end
 end
 ---------------------------------------------------------------------------
+
 function m1_sword_slash:OnSpellStart()
 	local caster = self:GetCaster()
 	local origin = caster:GetOrigin()
@@ -71,7 +72,9 @@ function m1_sword_slash:OnSpellStart()
 			damage_type = self:GetAbilityDamageType(),
 		}
 
-		caster:AddNewModifier(caster, self, "rage_stacks_warlord",{})
+		-- mana percent per mob hit
+		caster:ManaOnHit(self:GetSpecialValueFor( "mana_gain_percent"))
+
 		EmitSoundOn( "Hero_Juggernaut.Attack", self:GetCaster() )
 
         ApplyDamage(dmgTable)

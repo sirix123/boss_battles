@@ -8,11 +8,11 @@
 		"override_hero"			"npc_dota_hero_juggernaut" 			// Hero to override
 		"Ability1"              "m1_sword_slash" 
         "Ability2"              "m2_sword_slam" 
-        "Ability3"              "q_warlord_shout" 
+        "Ability3"              "q_warlord_def_stance" 
         "Ability4"              "e_spawn_ward"
-        "Ability5"              ""
-        "Ability6"              ""
-        "Ability7"              ""
+        "Ability5"              "r_whirlwind"
+        "Ability6"              "space_chain_hook"
+        "Ability7"              "q_warlord_dps_stance"
         "Ability8"              ""
         "Ability9"              ""
         "Ability10"             ""
@@ -42,13 +42,13 @@
         "BountyGoldMax"             "0"
 
         "MovementCapabilities"      "DOTA_UNIT_CAP_MOVE_GROUND"
-        "MovementSpeed"             "300"
+        "MovementSpeed"             "400"
         "MovementTurnRate"          "1.0"
 
         "StatusHealth"              "500"
         "StatusHealthRegen"         "0.0"
         "StatusMana"                "100"
-        "StatusManaRegen"           "0.0"
+        "StatusManaRegen"           "-3.0"
 
         "VisionDaytimeRange"        "2500"
         "VisionNighttimeRange"      "2500"

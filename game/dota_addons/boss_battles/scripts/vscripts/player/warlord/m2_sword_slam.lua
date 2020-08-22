@@ -1,5 +1,5 @@
 m2_sword_slam = class({})
-
+LinkLuaModifier( "m2_sword_slam_debuff", "player/warlord/modifiers/m2_sword_slam_debuff", LUA_MODIFIER_MOTION_NONE )
 --------------------------------------------------------------------------------
 
 function m2_sword_slam:OnAbilityPhaseStart()
@@ -7,6 +7,8 @@ function m2_sword_slam:OnAbilityPhaseStart()
 
         -- start casting animation
         self:GetCaster():StartGestureWithPlaybackRate(ACT_DOTA_ATTACK_EVENT, 1.0)
+
+        self.mana = self:GetCaster():GetMana()
 
         -- add casting modifier
         self:GetCaster():AddNewModifier(self:GetCaster(), self, "casting_modifier_thinker",
@@ -65,11 +67,30 @@ function m2_sword_slam:OnSpellStart()
 
     -- dmg formula
     local dmg = self:GetSpecialValueFor( "base_dmg" )
-    local nRageStacks = self.caster:GetModifierStackCount("rage_stacks_warlord", nil)
-    local dmgPerRageStack = self:GetSpecialValueFor( "dmg_per_rage_stack" )
-    local damage = dmg + ( nRageStacks * dmgPerRageStack )
+    local dmgPerManaPoint = self:GetSpecialValueFor( "dmg_per_mana_point" )
+    local dmgPerDebuffStack = self:GetSpecialValueFor( "dmg_per_debuff_stack" )
+    local damage = dmg + ( self.mana * dmgPerManaPoint )
+
+    -- stack duration
+    local duration = self:GetSpecialValueFor( "dps_stance_m2_stack_duration" )
 
     for _,unit in pairs(units) do
+
+        if self.caster:HasModifier("q_warlord_dps_stance_modifier") then
+            unit:AddNewModifier(
+                self.caster, -- player source
+                self, -- ability source
+                "m2_sword_slam_debuff", -- modifier name
+                {duration = duration} -- kv
+            )
+        end
+
+        if unit:HasModifier("m2_sword_slam_debuff") then
+            local hBuff = unit:FindModifierByNameAndCaster("m2_sword_slam_debuff", self.caster)
+            hBuff:IncrementStackCount()
+            local nStackCount = hBuff:GetStackCount()
+            damage = damage + ( nStackCount * dmgPerDebuffStack )
+        end
 
         local dmgTable = {
             victim = unit,
@@ -78,9 +99,14 @@ function m2_sword_slam:OnSpellStart()
             damage_type = self:GetAbilityDamageType(),
         }
 
-        ApplyDamage(dmgTable)
+        SendOverheadEventMessage(
+            self.caster:GetPlayerOwner(),
+            2,
+            unit,
+            damage,
+            nil)
 
-        self.caster:SetModifierStackCount("rage_stacks_warlord", self.caster, 0)
+        ApplyDamage(dmgTable)
 
     end
 

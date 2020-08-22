@@ -66,6 +66,7 @@ function movement_modifier_thinker:OnIntervalThink()
 		and self.parent:HasModifier("modifier_generic_arc_lua") == false
 		and self.parent:HasModifier("furnace_master_grab_debuff") == false
 		and self.parent:HasModifier("furnace_master_grabbed_buff") == false
+		and self.parent:HasModifier("space_chain_hook_modifier") == false
 		and self.parent:IsAlive() == true
 		then
 
