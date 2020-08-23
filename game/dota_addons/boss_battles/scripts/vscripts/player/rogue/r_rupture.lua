@@ -1,19 +1,20 @@
-m1_iceshot = class({})
-LinkLuaModifier("chill_modifier", "player/icemage/modifiers/chill_modifier", LUA_MODIFIER_MOTION_NONE)
-LinkLuaModifier("shatter_modifier", "player/icemage/modifiers/shatter_modifier", LUA_MODIFIER_MOTION_NONE)
+r_rupture = class({})
+LinkLuaModifier("r_rupture_modifier", "player/rogue/modifiers/r_rupture_modifier", LUA_MODIFIER_MOTION_NONE)
 
-function m1_iceshot:OnAbilityPhaseStart()
+function r_rupture:OnAbilityPhaseStart()
     if IsServer() then
+
+        self.caster = self:GetCaster()
 
         -- start casting animation
         -- the 1 below is imporant if set incorrectly the animation will stutter (second variable in startgesture is the playback override)
-        self:GetCaster():StartGestureWithPlaybackRate(ACT_DOTA_ATTACK, 1.2)
+        self:GetCaster():StartGestureWithPlaybackRate(ACT_DOTA_CAST_ABILITY_1, 0.8)
 
         -- add casting modifier
         self:GetCaster():AddNewModifier(self:GetCaster(), self, "casting_modifier_thinker",
         {
             duration = self:GetCastPoint(),
-            bMovementLock = true,
+            pMovespeedReduction = -80,
         })
 
         return true
@@ -21,11 +22,11 @@ function m1_iceshot:OnAbilityPhaseStart()
 end
 ---------------------------------------------------------------------------
 
-function m1_iceshot:OnAbilityPhaseInterrupted()
+function r_rupture:OnAbilityPhaseInterrupted()
     if IsServer() then
 
         -- remove casting animation
-        self:GetCaster():FadeGesture(ACT_DOTA_ATTACK)
+        self:GetCaster():FadeGesture(ACT_DOTA_CAST_ABILITY_1)
 
         -- remove casting modifier
         self:GetCaster():RemoveModifierByName("casting_modifier_thinker")
@@ -34,31 +35,33 @@ function m1_iceshot:OnAbilityPhaseInterrupted()
 end
 ---------------------------------------------------------------------------
 
-function m1_iceshot:OnSpellStart()
+function r_rupture:OnSpellStart()
     if IsServer() then
 
-        -- when spell starts fade gesture
-        self:GetCaster():FadeGesture(ACT_DOTA_ATTACK)
+        -- remove casting animation
+        self:GetCaster():FadeGesture(ACT_DOTA_CAST_ABILITY_1)
 
         -- init
 		self.caster = self:GetCaster()
         local origin = self.caster:GetAbsOrigin()
         local projectile_speed = self:GetSpecialValueFor( "proj_speed" )
 
+        -- play sound
+        EmitSoundOn("Hero_PhantomAssassin.Dagger.Cast", self.caster)
+
         -- set proj direction to mouse location
         local vTargetPos = nil
-        --vTargetPos = PlayerManager.mouse_positions[self.caster:GetPlayerID()]
         vTargetPos = Vector(self.caster.mouse.x, self.caster.mouse.y, self.caster.mouse.z)
         local projectile_direction = (Vector( vTargetPos.x - origin.x, vTargetPos.y - origin.y, 0 )):Normalized()
 
         local projectile = {
-            EffectName = "particles/icemage/icemage_m1_maiden_base_attack.vpcf",
+            EffectName = "particles/rogue/rogue_phantom_assassin_stifling_dagger.vpcf",
             vSpawnOrigin = origin + Vector(0, 0, 100),
             fDistance = self:GetCastRange(Vector(0,0,0), nil),
             fUniqueRadius = self:GetSpecialValueFor( "hit_box" ),
             Source = self.caster,
             vVelocity = projectile_direction * projectile_speed,
-            UnitBehavior = PROJECTILES_DESTROY,
+            UnitBehavior = PROJECTILES_NOTHING,
             TreeBehavior = PROJECTILES_DESTROY,
             WallBehavior = PROJECTILES_DESTROY,
             GroundBehavior = PROJECTILES_NOTHING,
@@ -67,6 +70,7 @@ function m1_iceshot:OnSpellStart()
                 return unit:GetTeamNumber() ~= self.caster:GetTeamNumber() and unit:GetModelName() ~= "models/development/invisiblebox.vmdl"
             end,
             OnUnitHit = function(_self, unit)
+
                 local dmgTable = {
                     victim = unit,
                     attacker = self.caster,
@@ -74,33 +78,29 @@ function m1_iceshot:OnSpellStart()
                     damage_type = self:GetAbilityDamageType(),
                 }
 
-                -- give mana
-                self.caster:ManaOnHit(self:GetSpecialValueFor( "mana_gain_percent"))
+                -- play hit sound
+                StartSoundEvent( "Hero_PhantomAssassin.Dagger.Target", unit )
 
-                -- adds chill modifier
-                if CheckRaidTableForBossName(unit) ~= true then
-                    unit:AddNewModifier(self.caster, self, "chill_modifier", { duration = self:GetSpecialValueFor( "chill_duration") })
-                end
-
-                -- adds shatter and stack logic
-                self.caster:AddNewModifier(self.caster, self, "shatter_modifier", { duration = self:GetSpecialValueFor( "shatter_duration"), max_shatter_stacks = self:GetSpecialValueFor( "max_shatter_stacks") })
-
+                -- applys base dmg icelance regardles of stacks
                 ApplyDamage(dmgTable)
-                EmitSoundOnLocationWithCaster(unit:GetAbsOrigin(), "hero_Crystal.projectileImpact", self.caster)
+
+                -- apply bleed/serrated arrow to target
+                unit:AddNewModifier(self.caster, self, "r_rupture_modifier", { duration = self:GetSpecialValueFor( "duration") })
 
             end,
             OnFinish = function(_self, pos)
                 -- add projectile explode particle effect here on the pos it finishes at
-                local particle_cast = "particles/units/heroes/hero_crystalmaiden/maiden_base_attack_explosion.vpcf"
+                local particle_cast = "particles/units/heroes/hero_phantom_assassin/phantom_assassin_stifling_dagger_explosion.vpcf"
                 local effect_cast = ParticleManager:CreateParticle(particle_cast, PATTACH_WORLDORIGIN, nil)
                 ParticleManager:SetParticleControl(effect_cast, 0, pos)
+                ParticleManager:SetParticleControl(effect_cast, 1, pos)
                 ParticleManager:SetParticleControl(effect_cast, 3, pos)
                 ParticleManager:ReleaseParticleIndex(effect_cast)
             end,
         }
 
+        -- create projectile and launch it
         Projectiles:CreateProjectile(projectile)
-
 	end
 end
 ----------------------------------------------------------------------------------------------------------------

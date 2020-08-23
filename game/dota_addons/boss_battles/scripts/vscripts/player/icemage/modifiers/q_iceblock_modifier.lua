@@ -24,9 +24,10 @@ end
 
 function q_iceblock_modifier:OnCreated( kv )
 	if IsServer() then
-		local iFrameTime= 5.0
+		local iFrameTime = self:GetAbility():GetSpecialValueFor( "i_frame")
 		self.animation_rate = 0.5
 		self.invulnerable = true
+		self.healthBar = true
 
 		self.armor_bonus = self:GetAbility():GetSpecialValueFor( "armor_bonus")
 		self.magic_res_bonus = self:GetAbility():GetSpecialValueFor( "magic_res_bonus")
@@ -41,6 +42,7 @@ end
 function q_iceblock_modifier:OnIntervalThink()
 	if IsServer() then
 		self.invulnerable = false
+		self.healthBar = false
     end
 end
 ----------------------------------------------------------------------------
@@ -64,6 +66,7 @@ function q_iceblock_modifier:CheckState()
 	local state = {
 		[MODIFIER_STATE_INVULNERABLE] = self.invulnerable,
 		[MODIFIER_STATE_STUNNED] = true,
+		[MODIFIER_STATE_NO_HEALTH_BAR] = self.healthBar,
 	}
 
 	return state

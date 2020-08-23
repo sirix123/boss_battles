@@ -66,7 +66,7 @@
 			"08"{ "var_type"			"FIELD_INTEGER"		"shatter_dmg_xStacks"			"50" 	}
 			"09"{ "var_type"			"FIELD_INTEGER"		"mana_gain_percent"             "30" 	}
 			"10"{ "var_type"			"FIELD_INTEGER"		"max_proj"						"2" 	}
-			"11"{ "var_type"			"FIELD_FLOAT"		"time_between_proj"             "0.2" 	}
+			"11"{ "var_type"			"FIELD_FLOAT"		"time_between_proj"             "1.0" 	} 
 		}
 	}
 
@@ -82,7 +82,7 @@
 		"AbilityUnitTargetType"			"DOTA_UNIT_TARGET_HERO | DOTA_UNIT_TARGET_CREEP"
 		"AbilityCastRange" 				"750"
         "AbilityCooldown"				"0"
-        "AbilityCastPoint"              "0.5"
+        "AbilityCastPoint"              "0.2"
 
 		"TargetingIndicator"
 		{
@@ -97,6 +97,8 @@
 			"03"{ "var_type"			"FIELD_INTEGER"		"magic_res_bonus"		"30" }
 			"04"{ "var_type"			"FIELD_INTEGER"		"health_regen_percent"	"30" }
 			"05"{ "var_type"			"FIELD_INTEGER"		"bone_chill_duration"	"10" }
+			"06"{ "var_type"			"FIELD_FLOAT"		"i_frame"				"0.3" }
+			
 		}
 
 		"precache"
@@ -130,7 +132,7 @@
 		"AbilityCastAnimation"          "ACT_DOTA_CAST_ABILITY_1"
 		"AbilityCastRange" 				"750"
         "AbilityCooldown"				"0"
-        "AbilityCastPoint"              "0.8"
+        "AbilityCastPoint"              "0.2"
 
 		"TargetingIndicator"
 		{
@@ -159,7 +161,7 @@
         "AbilityBehavior"				"DOTA_ABILITY_BEHAVIOR_POINT | DOTA_ABILITY_BEHAVIOR_AOE"
 		"AbilityCastRange" 				"1000"
         "AbilityCooldown"				"0"
-        "AbilityCastPoint"              "1.5"
+        "AbilityCastPoint"              "0.2"
 
 		"TargetingIndicator"
 		{
@@ -200,7 +202,7 @@
 		//"AbilityCastAnimation"          "ACT_DOTA_CAST_ABILITY_1"
 		"AbilityCastRange" 				"800"
         "AbilityCooldown"				"0"
-        "AbilityCastPoint"              "0.8"
+        "AbilityCastPoint"              "0.4"
 
 		"TargetingIndicator"
 		{

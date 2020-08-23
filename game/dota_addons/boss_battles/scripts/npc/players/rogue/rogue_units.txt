@@ -1,0 +1,38 @@
+
+"DOTAUnits"
+{
+	//=================================================================================	
+	//  Shadow 
+	//=================================================================================
+	"npc_shadow"	
+	{
+		// script
+		//"vscripts"					"bosses/clock/clock_ai.lua"
+
+		// General
+		//----------------------------------------------------------------
+		"Model"						"models/heroes/phantom_assassin/weapon_fx.vmdl"//"models/heroes/phantom_assassin/phantom_assassin.vmdl"	// Model.
+		"BaseClass"					"npc_dota_creature"
+		"SoundSet"					"Hero_Shredder"
+		"GameSoundsFile"			"soundevents/game_sounds_heroes/game_sounds_shredder.vsndevts"
+		"Level"						"1"
+		"ModelScale" 				"1.0"
+
+		// Movement
+		//----------------------------------------------------------------
+		"MovementCapabilities"		"DOTA_UNIT_CAP_MOVE_NONE"//"DOTA_UNIT_CAP_MOVE_NONE"
+
+		"Creature"
+		{
+			"AttachWearables"
+			{
+            //"1" { "ItemDef" "138" } // Phantom Assassin's Shoulder Pads
+            //"2" { "ItemDef" "140" } // Phantom Assassin's Weapon
+            //"3" { "ItemDef" "137" } // Phantom Assassin's Helmet
+            //"4" { "ItemDef" "141" } // Phantom Assassin's Daggers
+            //"5" { "ItemDef" "139" } // Phantom Assassin's Cape
+			}
+		}
+	}
+}
+

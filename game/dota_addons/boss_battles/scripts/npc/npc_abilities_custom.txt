@@ -1,7 +1,3 @@
-// energy ssytems
-#base "core/rage.txt"
-#base "core/energy.txt"
-
 // mechanical raid
 #base "bosses/beastmaster/abilities/beastmaster.txt"
 #base "bosses/gyrocopter/abilities/gyrocopter.txt"
@@ -20,6 +16,9 @@
 
 //warlord
 #base "players/warlord/abilities.txt"
+
+//rogue
+#base "players/rogue/abilities.txt"
 
 
 "DOTAAbilities"

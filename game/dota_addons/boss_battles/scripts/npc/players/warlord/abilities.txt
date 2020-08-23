@@ -11,7 +11,7 @@
 		"AbilityUnitDamageType"			"DAMAGE_TYPE_PHYSICAL"	
 		"SpellImmunityType"				"SPELL_IMMUNITY_ENEMIES_YES"
         "AbilityBehavior"				"DOTA_ABILITY_BEHAVIOR_POINT"
-		"AbilityCastRange" 				"200"
+		"AbilityCastRange" 				"400"
         "AbilityCooldown"				"0"
         "AbilityCastPoint"              "0.5"
 
@@ -22,9 +22,9 @@
         
 		"AbilitySpecial"
 		{
-			"01"{ "var_type"			"FIELD_INTEGER"		"radius"				"200" }	
+			"01"{ "var_type"			"FIELD_INTEGER"		"radius"				"400" }	 
 			"02"{ "var_type"			"FIELD_INTEGER"		"damage"				"100" }
-			"03"{ "var_type"			"FIELD_INTEGER"		"mana_gain_percent"		"15" }
+			"03"{ "var_type"			"FIELD_INTEGER"		"mana_gain_percent"		"10" }
 			
 		}
 	}

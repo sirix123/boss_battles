@@ -71,6 +71,7 @@ function GameSetup:OnNPCSpawned(keys)
         if npc:GetUnitName() == "npc_dota_hero_crystal_maiden"
         or npc:GetUnitName() == "npc_dota_hero_windrunner"
         or npc:GetUnitName() == "npc_dota_hero_juggernaut"
+        or npc:GetUnitName() == "npc_dota_hero_phantom_assassin"
         then
 
             -- set all mana as 0 for players with energy
