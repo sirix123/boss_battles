@@ -20,13 +20,20 @@ function e_swallow_potion_modifier:OnCreated( kv )
     if IsServer() then
         -- references
 		--self.ms_bonus = self:GetAbility():GetSpecialValueFor( "movespeed_bonus_pct" )
+		self:SetStackCount(1)
 
+		local caster = self:GetCaster()
+		local effectIndex = ParticleManager:CreateParticle(
+			"particles/econ/items/dazzle/dazzle_dark_light_weapon/dazzle_dark_shallow_grave_playerglow.vpcf",
+			PATTACH_CUSTOMORIGIN,
+			caster)
+		ParticleManager:SetParticleControlEnt(effectIndex , 0, caster, 5, "attach_attack2", Vector(0,0,0), true)
     end
 end
 
 function e_swallow_potion_modifier:OnRefresh( kv )
 	if IsServer() then
-		if self:GetStackCount() < 5 then
+		if self:GetStackCount() < 3 then
 			self:IncrementStackCount()
 
 		end
@@ -56,11 +63,11 @@ function e_swallow_potion_modifier:GetModifierMoveSpeedBonus_Percentage()
 end]]
 
 --------------------------------------------------------------------------------
--- Graphics & Animations
+--[[ Graphics & Animations
 function e_swallow_potion_modifier:GetEffectName()
-	return "particles/econ/courier/courier_wabbit/courier_wabbit_ambient_salve_lvl3_smoke.vpcf"
+	return "particles/econ/items/bristleback/bristle_quest_ti8/bristle_quest_weapon_ti8_ambient_glow.vpcf"
 end
 
 function e_swallow_potion_modifier:GetEffectAttachType()
 	return PATTACH_ABSORIGIN_FOLLOW
-end
+end]]

@@ -38,7 +38,7 @@ function m2_combo_hit_3_bleed:OnCreated( kv )
         -- reference from kv
         self.damage_type = self:GetAbility():GetAbilityDamageType()
         self.base_dmg = self:GetAbility():GetSpecialValueFor("dmg_dot_base")
-        self.per_stack_dmg = self:GetAbility():GetSpecialValueFor("per_stack_dmg")
+        self.bonus_bleed_percent = self:GetAbility():GetSpecialValueFor("bonus_bleed_percent")
 
         -- tick with base dmg until we get charges
         self.dmg = self.base_dmg
@@ -67,10 +67,8 @@ function m2_combo_hit_3_bleed:StartApplyDamageLoop()
                 return false
             end
 
-            if self.caster:HasModifier("e_swallow_potion_modifier") then
-                local hBuff = self.caster:FindModifierByNameAndCaster("e_swallow_potion_modifier", self.caster)
-                local nStackCount = hBuff:GetStackCount()
-                self.dmg = self.base_dmg + ( nStackCount * self.per_stack_dmg )
+            if self.caster:HasModifier("e_swallow_potion_modifier_debuff") then
+                self.dmg = self.base_dmg + ( self.base_dmg * self.bonus_bleed_percent )
             end
 
             self.dmgTable = {

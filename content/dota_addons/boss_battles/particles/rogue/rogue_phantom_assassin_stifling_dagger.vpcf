@@ -131,6 +131,10 @@
 				m_flOutput1 = 1.0
 			}
 		},
+		{
+			_class = "C_OP_MovementPlaceOnGround"
+			m_flOffset = 40.0
+		},
 	]
 	m_Initializers = 
 	[

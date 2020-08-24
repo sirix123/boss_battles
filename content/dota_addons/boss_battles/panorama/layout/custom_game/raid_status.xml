@@ -1,0 +1,39 @@
+<root>
+    <scripts>
+        <include src="file://{resources}/scripts/custom_game/raid_status.js" />
+    </scripts>
+    <styles>
+        <include src="file://{resources}/styles/custom_game/raid_status.css" />
+    </styles>
+    <snippets>
+
+        <snippet name="HeroStatus">
+            <Panel class="HeroStatus" hittest="false" hittestchildren="false">
+                <Panel class="HeroStatus__Top" hittest="false" hittestchildren="false">
+                    <Panel class="HeroStatus__Image" hittest="false" hittestchildren="false">
+                        <Panel class="HeroStatus__Name" id="HeroStatus__Name" hittest="false" hittestchildren="false"/>
+                        <DOTAHeroImage id="HeroStatus__Avatar" heroimagestyle="landscape" heroname=""/>
+                    </Panel>
+                </Panel>
+                <Panel class="HeroStatus__Middle" hittest="false" hittestchildren="false">
+                    <Panel class="HeroStatus__Resources" hittest="false" hittestchildren="false">
+                        <Panel class="HeroStatus__Health" id="HeroStatus__Health" hittest="false" hittestchildren="false"/>
+                        <Panel class="HeroStatus__Mana" id="HeroStatus__Mana" hittest="false" hittestchildren="false"/>
+                    </Panel>
+                </Panel>
+
+            </Panel>
+        </snippet>
+
+    </snippets>
+
+     <Panel class="AlliancesStatus" hittest="false">
+        <Panel id="AlliancesStatus__Container" class="AlliancesStatus__Container" hittest="false">
+            <Panel id="AlliancesStatus__Left" class="AlliancesStatus__Left" hittest="false">
+                <Panel class="AlliancesStatus__Radiant" id="AlliancesStatus__Radiant" hittest="false"/>
+                <Panel class="AlliancesStatus__Legion" id="AlliancesStatus__Legion" hittest="false"/>
+            </Panel>
+        </Panel>
+    </Panel>
+
+</root>

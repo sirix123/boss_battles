@@ -47,8 +47,19 @@ function m2_combo_breaker:OnSpellStart()
 	local direction = (Vector(point.x-origin.x, point.y-origin.y, 0)):Normalized()
 
     local damage = self:GetSpecialValueFor("damage")
-    local m1_bleed_pop = self:GetSpecialValueFor("m1_bleed_pop")
-    local rupture_bleed_pop = self:GetSpecialValueFor("rupture_bleed_pop")
+    local m1_bleed_tick = self:GetSpecialValueFor("m1_bleed_tick")
+    local rupture_bleed_tick = self:GetSpecialValueFor("rupture_bleed_tick")
+
+    -- on attack end particle effect
+    local offset = 40
+    local direction = (point - origin):Normalized()
+    local final_position = origin + Vector(direction.x * offset, direction.y * offset, 0)
+
+    local particle_cast = "particles/rogue/rogue_m2_pa_arcana_attack_blinkb.vpcf"
+    local effect_cast = ParticleManager:CreateParticle(particle_cast, PATTACH_POINT, caster)
+    ParticleManager:SetParticleControl(effect_cast, 0, final_position)
+    ParticleManager:SetParticleControlForward(effect_cast, 0, direction)
+    ParticleManager:ReleaseParticleIndex(effect_cast)
 
 	-- function in utility_functions
 	local enemies = FindUnitsInCone(
@@ -68,21 +79,32 @@ function m2_combo_breaker:OnSpellStart()
     for _, enemy in pairs(enemies) do
 
         if enemy:HasModifier("m2_combo_hit_3_bleed") then
-            damage = damage + m1_bleed_pop
+            local hBuff = enemy:FindModifierByNameAndCaster("m2_combo_hit_3_bleed", caster)
+            local flBuffDuration = hBuff:GetRemainingTime()
+            --print("duration remaining? ", flBuffDuration)
+            local bleedTickDmg = m1_bleed_tick
+            local dmgPop = flBuffDuration * bleedTickDmg
+            --print("dmgPop ", dmgPop)
+            damage = damage + dmgPop
             enemy:RemoveModifierByName("m2_combo_hit_3_bleed")
         end
 
         if enemy:HasModifier("r_rupture_modifier") then
-            damage = damage + rupture_bleed_pop
+            local hBuff = enemy:FindModifierByNameAndCaster("r_rupture_modifier", caster)
+            local flBuffDuration = hBuff:GetRemainingTime()
+            local bleedTickDmg = rupture_bleed_tick
+            local dmgPop = flBuffDuration * bleedTickDmg
+            damage = damage + dmgPop
             enemy:RemoveModifierByName("r_rupture_modifier")
         end
 
         if caster:HasModifier("e_swallow_potion_modifier") then
             local hBuff = caster:FindModifierByName("e_swallow_potion_modifier")
             local nStackCount = hBuff:GetStackCount()
-            if nStackCount == 5 then
+            if nStackCount == 3 then
                 caster:AddNewModifier(caster, self, "m2_energy_buff", { duration = self:GetSpecialValueFor( "duration") })
             end
+            caster:RemoveModifierByName("e_swallow_potion_modifier")
         end
 
 		local dmgTable = {

@@ -7,7 +7,7 @@ function m1_combo_hit_1_2:OnAbilityPhaseStart()
     if IsServer() then
 
         -- start casting animation
-        self:GetCaster():StartGestureWithPlaybackRate(ACT_DOTA_ATTACK, 1.5)
+        self:GetCaster():StartGestureWithPlaybackRate(ACT_DOTA_SPAWN, 1.5)
 
         -- add casting modifier
         self:GetCaster():AddNewModifier(self:GetCaster(), self, "casting_modifier_thinker",
@@ -24,7 +24,7 @@ function m1_combo_hit_1_2:OnAbilityPhaseInterrupted()
     if IsServer() then
 
         -- remove casting animation
-        self:GetCaster():FadeGesture(ACT_DOTA_ATTACK)
+        self:GetCaster():FadeGesture(ACT_DOTA_SPAWN)
 
         -- remove casting modifier
         self:GetCaster():RemoveModifierByName("casting_modifier_thinker")
@@ -38,7 +38,7 @@ function m1_combo_hit_1_2:OnSpellStart()
 	local origin = caster:GetOrigin()
 
 	-- remove casting animation
-	self:GetCaster():FadeGesture(ACT_DOTA_ATTACK)
+	self:GetCaster():FadeGesture(ACT_DOTA_SPAWN)
 
 	-- function in utility_functions
 	local point = Clamp(origin, self:GetCursorPosition(), self:GetCastRange(Vector(0,0,0), nil), self:GetCastRange(Vector(0,0,0), nil))
