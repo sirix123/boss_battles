@@ -25,6 +25,10 @@ function r_rupture_modifier:GetEffectName()
 	return "particles/units/heroes/hero_grimstroke/grimstroke_phantom_marker.vpcf"--"particles/items4_fx/nullifier_mute_debuff.vpcf"--"particles/units/heroes/hero_arc_warden/arc_warden_flux_tgt.vpcf"
 end
 
+function r_rupture_modifier:GetEffectAttachType()
+	return PATTACH_OVERHEAD_FOLLOW
+end
+
 function r_rupture_modifier:GetStatusEffectName()
 	return
 end
@@ -38,7 +42,7 @@ function r_rupture_modifier:OnCreated( kv )
         -- reference from kv
         self.damage_type = self:GetAbility():GetAbilityDamageType()
         self.base_dmg = self:GetAbility():GetSpecialValueFor("dmg_dot_base")
-        self.per_stack_dmg = self:GetAbility():GetSpecialValueFor("bonus_bleed_percent")
+        self.bonus_bleed_percent = self:GetAbility():GetSpecialValueFor("bonus_bleed_percent")
 
         -- tick with base dmg until we get charges
         self.dmg = self.base_dmg
@@ -67,7 +71,7 @@ function r_rupture_modifier:StartApplyDamageLoop()
                 return false
             end
 
-            if self.caster:HasModifier("e_swallow_potion_modifier") then
+            if self.parent:HasModifier("e_swallow_potion_modifier_debuff") then
                 self.dmg = self.base_dmg + ( self.base_dmg * self.bonus_bleed_percent )
             end
 

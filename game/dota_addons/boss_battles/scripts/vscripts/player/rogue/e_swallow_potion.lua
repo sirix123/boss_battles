@@ -98,11 +98,11 @@ function e_swallow_potion:OnSpellStart()
     end
 
 	-- on attack end particle effect
-	local offset = 40
+	local offset = radius - 80
 	local direction = (point - origin):Normalized()
 	local final_position = origin + Vector(direction.x * offset, direction.y * offset, 0)
 
-	local particle_cast = "particles/econ/items/phantom_assassin/phantom_assassin_arcana_elder_smith/pa_arcana_attack_blinkb.vpcf"
+	local particle_cast = "particles/rogue/rogue_m2_pa_arcana_attack_blinkb.vpcf"
 	local effect_cast = ParticleManager:CreateParticle(particle_cast, PATTACH_POINT, caster)
 	ParticleManager:SetParticleControl(effect_cast, 0, final_position)
 	ParticleManager:SetParticleControlForward(effect_cast, 0, direction)

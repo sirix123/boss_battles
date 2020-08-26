@@ -6,5 +6,6 @@
     "selection",
     "progress_bars",
     "main",
+    "heroes",
   ]
 }

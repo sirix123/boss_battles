@@ -67,7 +67,7 @@ function m2_combo_hit_3_bleed:StartApplyDamageLoop()
                 return false
             end
 
-            if self.caster:HasModifier("e_swallow_potion_modifier_debuff") then
+            if self.parent:HasModifier("e_swallow_potion_modifier_debuff") then
                 self.dmg = self.base_dmg + ( self.base_dmg * self.bonus_bleed_percent )
             end
 

@@ -20,7 +20,8 @@ function space_shadowstep_unit_modifier:OnCreated( kv )
     if IsServer() then
         -- references
 		--self.ms_bonus = self:GetAbility():GetSpecialValueFor( "movespeed_bonus_pct" )
-
+		self.parent = self:GetParent()
+		self.caster = self:GetCaster()
     end
 end
 
@@ -31,10 +32,22 @@ function space_shadowstep_unit_modifier:OnRefresh( kv )
 end
 
 function space_shadowstep_unit_modifier:OnRemoved()
+
 end
 
 function space_shadowstep_unit_modifier:OnDestroy()
+	if IsServer() then
 
+		self.parent:Destroy()
+
+		-- check what ability is in slot spacebar
+		if self.caster:GetAbilityByIndex(5):GetAbilityName() == "space_shadowstep_teleport" then -- if dagger expires before teleporting to it then switch back to step 1
+			self.caster:SwapAbilities("space_shadowstep_teleport", "space_shadowstep", false, true)
+		elseif self.caster:GetAbilityByIndex(5):GetAbilityName() == "space_shadowstep_teleport_back" then -- normal use case of following daggers before modfier expires
+            self.caster:SwapAbilities("space_shadowstep_teleport_back", "space_shadowstep", false, true)
+        end
+
+	end
 end
 
 --------------------------------------------------------------------------------

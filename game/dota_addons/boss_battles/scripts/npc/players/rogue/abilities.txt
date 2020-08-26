@@ -18,7 +18,8 @@
 
 		"TargetingIndicator"
 		{
-			"Type" 						"TARGETING_INDICATOR_HALF_CIRCLE"
+			"Type"						"TARGETING_INDICATOR_CONE"
+			"Fixed"						"1"
 		}
         
 		"AbilitySpecial"
@@ -46,7 +47,8 @@
 
 		"TargetingIndicator"
 		{
-			"Type" 						"TARGETING_INDICATOR_HALF_CIRCLE"
+			"Type"						"TARGETING_INDICATOR_CONE"
+			"Fixed"						"1"
 		}
         
 		"AbilitySpecial"
@@ -78,7 +80,8 @@
 
 		"TargetingIndicator"
 		{
-			"Type" 						"TARGETING_INDICATOR_HALF_CIRCLE"
+			"Type"						"TARGETING_INDICATOR_CONE"
+			"Fixed"						"1"
 		}
         
 		"AbilitySpecial"
@@ -98,7 +101,7 @@
 		"ScriptFile"					"player/rogue/q_smoke_bomb"
 		"MaxLevel"						"1"
 
-		"AbilityTextureName"			"riki_smokebomb"
+		"AbilityTextureName"			"riki_smoke_screen"
 		"SpellImmunityType"				"SPELL_IMMUNITY_ENEMIES_YES"
         "AbilityBehavior"				"DOTA_ABILITY_BEHAVIOR_NO_TARGET | DOTA_ABILITY_BEHAVIOR_IGNORE_BACKSWING | DOTA_ABILITY_BEHAVIOR_ROOT_DISABLES"
 		"AbilityCastRange" 				"1500"
@@ -123,19 +126,20 @@
 		"ScriptFile"					"player/rogue/e_swallow_potion"
 		"MaxLevel"						"1"
 
-		"AbilityTextureName"			""
+		"AbilityTextureName"			"slark_essence_shift"
 		"AbilityUnitTargetTeam"			"DOTA_UNIT_TARGET_TEAM_ENEMY"
 		"AbilityUnitDamageType"			"DAMAGE_TYPE_PHYSICAL"	
 		"SpellImmunityType"				"SPELL_IMMUNITY_ENEMIES_YES"
         "AbilityBehavior"				"DOTA_ABILITY_BEHAVIOR_POINT"
 		"AbilityCastRange" 				"200"
         "AbilityCooldown"				"0"
-        "AbilityCastPoint"              "0.6"
+        "AbilityCastPoint"              "0.5"
 		"AbilityManaCost"        		"15"
 
 		"TargetingIndicator"
 		{
-			"Type" 						"TARGETING_INDICATOR_HALF_CIRCLE"
+			"Type"						"TARGETING_INDICATOR_CONE"
+			"Fixed"						"1"
 		}
         
 		"AbilitySpecial"
@@ -204,7 +208,7 @@
         
 		"AbilitySpecial"
 		{
-
+			"01"{ "var_type"			"FIELD_INTEGER"		"duration"				"5" }
 		}
 
 		"precache"
@@ -236,7 +240,7 @@
         
 		"AbilitySpecial"
 		{
-
+			"01"{ "var_type"			"FIELD_INTEGER"		"duration"				"5" }
 		}
 
 		"precache"
@@ -267,7 +271,7 @@
         
 		"AbilitySpecial"
 		{
-
+			"01"{ "var_type"			"FIELD_INTEGER"		"duration"				"5" }
 		}
 
 		"precache"

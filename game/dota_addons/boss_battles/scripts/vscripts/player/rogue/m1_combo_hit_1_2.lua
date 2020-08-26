@@ -79,7 +79,7 @@ function m1_combo_hit_1_2:OnSpellStart()
     end
 
 	-- on attack end particle effect
-	local offset = 40
+	local offset = radius - 80
 	local direction = (point - origin):Normalized()
 	local final_position = origin + Vector(direction.x * offset, direction.y * offset, 0)
 

@@ -30,7 +30,8 @@
 	[
 		{
 			_class = "C_OP_BasicMovement"
-			m_Gravity = [ 0.0, 0.0, 800.0 ]
+			m_Gravity = [ 0.0, 0.0, 150.0 ]
+			m_fDrag = 0.1
 		},
 		{
 			_class = "C_OP_Decay"

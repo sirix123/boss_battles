@@ -11,6 +11,8 @@ function CDOTA_BaseNPC:Initialize(data)
 
   self.animation_modifiers = 		{}
 
+  self.playerId = self:GetPlayerID()
+
 end
 
 function CDOTA_BaseNPC:GetDirection()

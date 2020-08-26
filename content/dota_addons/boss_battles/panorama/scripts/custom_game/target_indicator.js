@@ -8,6 +8,7 @@ var mouse_position = null;
 var particle_half_circle = null;
 var particle_line = null;
 var particle_aoe = null;
+var particle_cone = null;
 
 function UpdateTargetIndicator(){
     var active = null;
@@ -130,6 +131,32 @@ function UpdateTargetIndicator(){
                 Particles.SetParticleControl(particle_aoe, 2, target)
                 Particles.SetParticleControl(particle_aoe, 3, [radius, 0, 0]);
             }
+
+            if(data.Type == "TARGETING_INDICATOR_CONE"){
+                if(!particle_cone){
+                    particle_cone = Particles.CreateParticle("particles/targeting/cone.vpcf", ParticleAttachment_t.PATTACH_ABSORIGIN_FOLLOW, heroIndex);
+                }
+                var max_range = Abilities.GetCastRange(active)
+                var width = Abilities.GetSpecialValueFor(active, "radius")
+                var length = 0;
+                var target = [];
+                
+                if(data.Fixed == "1"){
+                    length = max_range;
+                } else {
+                    length = Clamp(Game.Length2D(mouse_position, heroOrigin), min_range, max_range);
+                }
+
+                var target = [
+                    heroOrigin[0] + (direction[0] * length),
+                    heroOrigin[1] + (direction[1] * length),
+                    heroOrigin[2] + (direction[2] * length)
+                ]
+                
+                Particles.SetParticleControl(particle_cone, 0, 0)
+                Particles.SetParticleControl(particle_cone, 1, target)
+                Particles.SetParticleControl(particle_cone, 2, [width, 0, 0]);
+            }
         }
     } else 
     {
@@ -150,6 +177,12 @@ function UpdateTargetIndicator(){
             Particles.DestroyParticleEffect(particle_aoe, false)
             Particles.ReleaseParticleIndex(particle_aoe)
             particle_aoe = null
+        }
+        if(particle_cone)
+        {
+            Particles.DestroyParticleEffect(particle_cone, false)
+            Particles.ReleaseParticleIndex(particle_cone)
+            particle_cone = null
         }
     }
     

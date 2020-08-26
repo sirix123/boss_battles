@@ -23,11 +23,11 @@ function e_swallow_potion_modifier:OnCreated( kv )
 		self:SetStackCount(1)
 
 		local caster = self:GetCaster()
-		local effectIndex = ParticleManager:CreateParticle(
+		self.effectIndex = ParticleManager:CreateParticle(
 			"particles/econ/items/dazzle/dazzle_dark_light_weapon/dazzle_dark_shallow_grave_playerglow.vpcf",
 			PATTACH_CUSTOMORIGIN,
 			caster)
-		ParticleManager:SetParticleControlEnt(effectIndex , 0, caster, 5, "attach_attack2", Vector(0,0,0), true)
+		ParticleManager:SetParticleControlEnt(self.effectIndex , 0, caster, 5, "attach_attack2", Vector(0,0,0), true)
     end
 end
 
@@ -45,7 +45,7 @@ function e_swallow_potion_modifier:OnRemoved()
 end
 
 function e_swallow_potion_modifier:OnDestroy()
-
+	ParticleManager:DestroyParticle(self.effectIndex, true)
 end
 
 --------------------------------------------------------------------------------

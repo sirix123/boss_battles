@@ -51,8 +51,21 @@ function GameSetup:OnStateChange()
         -- spawn testing stuff
         self:SpawnTestingStuff()
 
+        -- setup listeners
+        self:SetupListeners()
+
     end
 
+end
+--------------------------------------------------------------------------------------------------
+function GameSetup:SetupListeners()
+
+    local data =
+    {
+        1234,
+    }
+    CustomNetTables:SetTableValue("heroes", "index_1", data)
+    --CustomNetTables:SetTableValue("heroes", "index_" .. data.entity_index, data)
 end
 --------------------------------------------------------------------------------------------------
 
@@ -100,8 +113,11 @@ function GameSetup:SpawnTestingStuff(keys)
     local flame_turret_3 = CreateUnitByName("npc_flame_turret", Vector(1075,-1531,256), true, nil, nil, DOTA_TEAM_BADGUYS)
     flame_turret_3:SetForwardVector(Vector(0,1, flame_turret_3.z ))
 
+    -- target dummy (1 by itself)(immortal)
+    CreateUnitByName("npc_dota_creature_dummy_target_boss_immortal", Vector(-773,100,256), true, nil, nil, DOTA_TEAM_BADGUYS)
+
     -- target dummy (1 by itself)
-    CreateUnitByName("npc_dota_creature_dummy_target_boss", Vector(-773,148,256), true, nil, nil, DOTA_TEAM_BADGUYS)
+    CreateUnitByName("npc_dota_creature_dummy_target_boss", Vector(-773,500,256), true, nil, nil, DOTA_TEAM_BADGUYS)
 
     -- target dummy (3)
     CreateUnitByName("npc_dota_creature_dummy_target_boss", Vector(-879,1309,256), true, nil, nil, DOTA_TEAM_BADGUYS)

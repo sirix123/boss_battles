@@ -5,35 +5,47 @@
     <styles>
         <include src="file://{resources}/styles/custom_game/raid_status.css" />
     </styles>
+
+    <!--
+        |      PlayerName       |
+        |      Picture Icon     |
+        |      Picture Icon     |
+        |      Picture Icon     |
+        |      HealthBar        |
+        |      HealthBar        |
+        |      manabar          |
+        |      manabar          |   
+    -->
+
     <snippets>
 
-        <snippet name="HeroStatus">
-            <Panel class="HeroStatus" hittest="false" hittestchildren="false">
-                <Panel class="HeroStatus__Top" hittest="false" hittestchildren="false">
-                    <Panel class="HeroStatus__Image" hittest="false" hittestchildren="false">
-                        <Panel class="HeroStatus__Name" id="HeroStatus__Name" hittest="false" hittestchildren="false"/>
-                        <DOTAHeroImage id="HeroStatus__Avatar" heroimagestyle="landscape" heroname=""/>
-                    </Panel>
+        <snippet name="PlayerFrame">
+            <Panel hittest="false" class="PlayerFrameAll" >
+
+                <Panel hittest="false" class="PlayerNamePanel" id="PlayerNameLabel">
+                    <Label text="player name lads" class="PlayerNamePanel" id="PlayerNameLabel" />
                 </Panel>
-                <Panel class="HeroStatus__Middle" hittest="false" hittestchildren="false">
-                    <Panel class="HeroStatus__Resources" hittest="false" hittestchildren="false">
-                        <Panel class="HeroStatus__Health" id="HeroStatus__Health" hittest="false" hittestchildren="false"/>
-                        <Panel class="HeroStatus__Mana" id="HeroStatus__Mana" hittest="false" hittestchildren="false"/>
-                    </Panel>
+
+                <Panel hittest="false" class="PictureIconPanel" id="PictureIconLabel">
+                    <Label text="picture icon" class="PictureIconPanel" id="PictureIconLabel" />
+                </Panel>
+
+                <Panel hittest="false" class="HealthBarPanel" id="HealthBarPanelLabel">
+                    <Label text="healthbar 1234" class="HealthBarPanel" id="HealthBarPanelLabel" />
+                </Panel>
+
+                <Panel hittest="false" class="ManaBarPanel" id="ManaBarPanelLabel">
+                    <Label text="manabar 1234" class="ManaBarPanel" id="ManaBarPanelLabel" />
                 </Panel>
 
             </Panel>
         </snippet>
-
     </snippets>
 
-     <Panel class="AlliancesStatus" hittest="false">
-        <Panel id="AlliancesStatus__Container" class="AlliancesStatus__Container" hittest="false">
-            <Panel id="AlliancesStatus__Left" class="AlliancesStatus__Left" hittest="false">
-                <Panel class="AlliancesStatus__Radiant" id="AlliancesStatus__Radiant" hittest="false"/>
-                <Panel class="AlliancesStatus__Legion" id="AlliancesStatus__Legion" hittest="false"/>
-            </Panel>
-        </Panel>
-    </Panel>
+  <Panel hittest="false" class="parent">
+      <Panel class="PlayerContainer" id="PlayerContainer"> 
+
+      </Panel>
+  </Panel>
 
 </root>

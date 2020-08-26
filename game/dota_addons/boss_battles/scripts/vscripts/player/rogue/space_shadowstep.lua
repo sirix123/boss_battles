@@ -43,17 +43,27 @@ function space_shadowstep:OnSpellStart()
         local vTargetLocation = Clamp(caster:GetOrigin(), Vector(caster.mouse.x, caster.mouse.y, caster.mouse.z), self:GetCastRange(Vector(0,0,0), nil), 0)
 
         -- create unit at target location
-        local unit = CreateUnitByName("npc_shadow", vTargetLocation, true, caster, caster, caster:GetTeamNumber())
+        local unit = CreateUnitByName("npc_shadow", vTargetLocation, true, caster, caster, DOTA_TEAM_NEUTRALS)
         unit:SetOwner(caster)
         unit:EmitSound("Hero_EmberSpirit.FireRemnant.Activate")
         unit:SetRenderColor(255, 255, 255)
+
+        -- add modifier to unit
+        caster:AddNewModifier(
+            caster, -- player source
+            self, -- ability source
+            "space_shadowstep_caster_modifier", -- modifier name
+            {
+                duration = self:GetSpecialValueFor( "duration" ),
+            }
+        )
 
         -- add modifier to unit
         unit:AddNewModifier(
             caster, -- player source
             self, -- ability source
             "space_shadowstep_unit_modifier", -- modifier name
-            { } -- kv
+            { duration = self:GetSpecialValueFor( "duration" ) } -- kv
         )
 
         -- Play effects

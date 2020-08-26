@@ -18,6 +18,7 @@ function AbilityToCast(abilityNumber, showEffects){
     // if the ability is not ready (cd/no mana) don't try and cast it...
     if ( Abilities.AbilityReady( abilityIndex ) == false ) 
     {
+        $.Msg("[custom_hotkeys_players] spell not ready, cooldown or mana?")
         return
     }
 
