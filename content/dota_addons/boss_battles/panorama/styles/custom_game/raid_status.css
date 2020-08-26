@@ -17,8 +17,6 @@
 
 .PlayerFrameAll 
 {
-    flow-children: down;
-
     width: 100%;
 	height: 20%;
 
@@ -27,4 +25,11 @@
 	margin-bottom: 4px;
 
     background-color: #00000088; /* argb? */
+}
+
+.PlayerNamePanel
+{
+  width: 25%;
+  height: 50%;
+  background-color: #00000088; /* argb? */
 }

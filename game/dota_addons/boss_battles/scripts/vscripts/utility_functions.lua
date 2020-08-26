@@ -158,12 +158,12 @@ function FindUnitsInCone(nTeamNumber, vDirection, fMinProjection, vCenterPos, fR
 	local targets = {}
 	for _,unit in pairs(units) do
 		local direction = (unit:GetAbsOrigin() - vCenterPos):Normalized()
-		local projection = direction.x * vDirection.x + direction.y * vDirection.y
+        local projection = direction.x * vDirection.x + direction.y * vDirection.y
 
 		if projection >= fMinProjection then
 			table.insert(targets, unit)
 		end
-	end
+    end
 
 	return targets
 end

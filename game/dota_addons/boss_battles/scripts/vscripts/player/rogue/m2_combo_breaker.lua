@@ -78,13 +78,13 @@ function m2_combo_breaker:OnSpellStart()
 
     for _, enemy in pairs(enemies) do
 
+        damage = self:GetSpecialValueFor("damage")
+
         if enemy:HasModifier("m2_combo_hit_3_bleed") then
             local hBuff = enemy:FindModifierByNameAndCaster("m2_combo_hit_3_bleed", caster)
             local flBuffDuration = hBuff:GetRemainingTime()
-            --print("duration remaining? ", flBuffDuration)
             local bleedTickDmg = m1_bleed_tick
             local dmgPop = flBuffDuration * bleedTickDmg
-            --print("dmgPop ", dmgPop)
             damage = damage + dmgPop
             enemy:RemoveModifierByName("m2_combo_hit_3_bleed")
         end

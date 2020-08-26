@@ -26,9 +26,9 @@ function AddDebugPlayer()
 }
 
 function debug()
-{
+{  
     $.Msg("helloword")
     AddDebugPlayer()
 }
  
-//debug();
+debug();
