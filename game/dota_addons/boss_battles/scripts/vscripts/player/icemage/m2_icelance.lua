@@ -1,6 +1,8 @@
 m2_icelance = class({})
 LinkLuaModifier("shatter_modifier", "player/icemage/modifiers/shatter_modifier", LUA_MODIFIER_MOTION_NONE)
 LinkLuaModifier("bonechill_modifier", "player/icemage/modifiers/bonechill_modifier", LUA_MODIFIER_MOTION_NONE)
+--LinkLuaModifier( "modifier_target_indicator_line", "player/generic/modifier_target_indicator_line", LUA_MODIFIER_MOTION_NONE )
+
 
 function m2_icelance:OnAbilityPhaseStart()
     if IsServer() then
@@ -31,6 +33,13 @@ function m2_icelance:OnAbilityPhaseStart()
             bMovementLock = true,
         })
 
+        --[[ add targeting modifier
+        self:GetCaster():AddNewModifier(self:GetCaster(), self, "modifier_target_indicator_line",
+        {
+            duration = -1,
+            cast_range = self:GetCastRange(Vector(0,0,0), nil),
+        })]]
+
         return true
     end
 end
@@ -50,6 +59,10 @@ function m2_icelance:OnAbilityPhaseInterrupted()
             ParticleManager:DestroyParticle( self.pfx, false )
             ParticleManager:ReleaseParticleIndex( self.pfx )
         end
+
+        --[[if self:GetCaster():HasModifier("modifier_target_indicator_line") == true then
+            self:GetCaster():RemoveModifierByName("modifier_target_indicator_line")
+        end]]
 
     end
 end
@@ -82,6 +95,11 @@ function m2_icelance:OnSpellStart()
             if nProj == self.nMaxProj then
                 -- sstop animation when spell finishes
                 self:GetCaster():FadeGesture(ACT_DOTA_CAST_ABILITY_1)
+
+                --[[if self:GetCaster():HasModifier("modifier_target_indicator_line") == true then
+                    self:GetCaster():RemoveModifierByName("modifier_target_indicator_line")
+                end]]
+
 				return false
             end
 

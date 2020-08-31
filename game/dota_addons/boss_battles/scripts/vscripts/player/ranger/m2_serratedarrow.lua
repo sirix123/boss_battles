@@ -1,5 +1,5 @@
 m2_serratedarrow = class({})
-LinkLuaModifier("m2_serratedarrow_modifier", "player/ranger/modifiers/m2_serratedarrow_modifier", LUA_MODIFIER_MOTION_NONE)
+LinkLuaModifier("r_explosive_tip_modifier_target", "player/ranger/modifiers/r_explosive_tip_modifier_target", LUA_MODIFIER_MOTION_NONE)
 
 function m2_serratedarrow:OnAbilityPhaseStart()
     if IsServer() then
@@ -15,13 +15,13 @@ function m2_serratedarrow:OnAbilityPhaseStart()
 
         -- start casting animation
         -- the 1 below is imporant if set incorrectly the animation will stutter (second variable in startgesture is the playback override)
-        self:GetCaster():StartGestureWithPlaybackRate(ACT_DOTA_CAST_ABILITY_2, 0.8)
+        self:GetCaster():StartGestureWithPlaybackRate(ACT_DOTA_CAST_ABILITY_2, 1.3)
 
         -- add casting modifier
         self:GetCaster():AddNewModifier(self:GetCaster(), self, "casting_modifier_thinker",
         {
             duration = self:GetCastPoint(),
-            bMovementLock = true,
+            pMovespeedReduction = -50,
         })
 
         return true
@@ -55,6 +55,8 @@ function m2_serratedarrow:OnSpellStart()
 		self.caster = self:GetCaster()
         local origin = self.caster:GetAbsOrigin()
         local projectile_speed = self:GetSpecialValueFor( "proj_speed" )
+        local dmg = self:GetSpecialValueFor( "dmg" )
+        local dmg_dist_multi = self:GetSpecialValueFor( "dmg_dist_multi" )
 
         -- play sound
         EmitSoundOn("Ability.Powershot", self.caster)
@@ -63,15 +65,22 @@ function m2_serratedarrow:OnSpellStart()
         local vTargetPos = nil
         vTargetPos = Vector(self.caster.mouse.x, self.caster.mouse.y, self.caster.mouse.z)
         local projectile_direction = (Vector( vTargetPos.x - origin.x, vTargetPos.y - origin.y, 0 )):Normalized()
+        -- init effect
+        local enEffect = "particles/units/heroes/hero_windrunner/windrunner_spell_powershot.vpcf"
+
+        -- check for explosive tip modifier and if we have it change arrow effect and apply explosive stack
+        if self.caster:HasModifier("r_explosive_tip_modifier") then
+            enEffect = "particles/ranger/ranger_windrunner_spell_powershot.vpcf"
+        end
 
         local projectile = {
-            EffectName = "particles/units/heroes/hero_windrunner/windrunner_spell_powershot.vpcf",
+            EffectName = enEffect,
             vSpawnOrigin = origin + Vector(0, 0, 100),
             fDistance = self:GetCastRange(Vector(0,0,0), nil),
             fUniqueRadius = self:GetSpecialValueFor( "hit_box" ),
             Source = self.caster,
             vVelocity = projectile_direction * projectile_speed,
-            UnitBehavior = PROJECTILES_DESTROY,
+            UnitBehavior = PROJECTILES_NOTHING,
             TreeBehavior = PROJECTILES_DESTROY,
             WallBehavior = PROJECTILES_DESTROY,
             GroundBehavior = PROJECTILES_NOTHING,
@@ -81,25 +90,32 @@ function m2_serratedarrow:OnSpellStart()
             end,
             OnUnitHit = function(_self, unit)
 
+                local distanceFromHero = (unit:GetAbsOrigin() - origin ):Length2D()
+
+                dmg = dmg + ( distanceFromHero * dmg_dist_multi )
+
                 -- init icelance dmg table
                 local dmgTable = {
                     victim = unit,
                     attacker = self.caster,
-                    damage = self:GetSpecialValueFor( "dmg" ),
+                    damage = dmg,
                     damage_type = self:GetAbilityDamageType(),
                 }
 
                 -- give mana
                 self.caster:ManaOnHit(self:GetSpecialValueFor( "mana_gain_percent"))
 
+                if self.caster:HasModifier("r_explosive_tip_modifier") then
+                    local hbuff = self.caster:FindModifierByNameAndCaster("r_explosive_tip_modifier", self.caster)
+                    local flBuffTimeRemaining = hbuff:GetRemainingTime()
+                    unit:AddNewModifier(self.caster, self, "r_explosive_tip_modifier_target", {duration = flBuffTimeRemaining})
+                end
+
                 -- play hit sound
                 StartSoundEvent( "Hero_Windrunner.PowershotDamage", unit )
 
                 -- applys base dmg icelance regardles of stacks
                 ApplyDamage(dmgTable)
-
-                -- apply bleed/serrated arrow to target
-                unit:AddNewModifier(self.caster, self, "m2_serratedarrow_modifier", { duration = self:GetSpecialValueFor( "serrated_arrow_duration") })
 
             end,
             OnFinish = function(_self, pos)

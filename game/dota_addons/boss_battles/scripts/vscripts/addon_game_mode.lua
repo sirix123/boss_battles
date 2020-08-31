@@ -77,7 +77,7 @@ function Activate()
     GameRules.GameMode:_InitGameMode()
 
   end
-  if GetMapName() == "arena_test" then
+  if GetMapName() == "main_map" then
     if BossBattles == nil then
       BossBattles = class({})
     end

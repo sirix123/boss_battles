@@ -43,7 +43,9 @@ function q_herbarrow:OnSpellStart()
 		self.target = self:GetCursorTarget()
         self.bounce_range = self:GetSpecialValueFor( "bounce_range" )
         self.speed = self:GetSpecialValueFor( "speed" )
-        self.max_bounces = self:GetSpecialValueFor( "max_bounces" )
+		self.max_bounces = self:GetSpecialValueFor( "max_bounces" )
+		self.heal_amount = self:GetSpecialValueFor( "heal_amount" )
+		self.dmg = self:GetSpecialValueFor( "dmg" )
 		self.nbounceCount = 0
 		self.hitEnts ={}
 
@@ -87,22 +89,43 @@ function q_herbarrow:OnProjectileHit( hTarget, vLocation)
 
 		hTarget:EmitSound("Hero_Medusa.MysticSnake.Target")
 
-		-- add modifier to target with a shorter duration if last-ish bounces
-		self.duration = self.duration - (self.nbounceCount * 1.5)
-		hTarget:AddNewModifier(self.caster, self, "q_herbarrow_modifier", { duration = self.duration })
+		-- get unit hits team
+		local hTargetsTeam = hTarget:GetTeam()
+
+		-- target = casters team then heal
+		if hTargetsTeam == self.caster:GetTeam() then
+			-- heal target
+			hTarget:Heal(self.heal_amount, self.caster)
+
+		-- damage target
+		else
+			local dmgTable = {
+				victim = hTarget,
+				attacker = self.caster,
+				damage = self.dmg,
+				damage_type = self:GetAbilityDamageType(),
+			}
+
+			ApplyDamage(dmgTable)
+		end
 
 		-- if we have bounces
 		if self.nbounceCount < self.max_bounces then
-			local target_team = self:GetAbilityTargetTeam()
+			local target_team = hTargetsTeam -- only bounce between intial targets team
 			local target_type = self:GetAbilityTargetType()
-			local target_flags = DOTA_UNIT_TARGET_FLAG_MAGIC_IMMUNE_ENEMIES
-			local bounce_targets = FindUnitsInRadius(self.caster:GetTeam(), hTarget:GetAbsOrigin(), nil, self.bounce_range, target_team, target_type, target_flags, FIND_CLOSEST, false) 
+			local target_flags = DOTA_UNIT_TARGET_FLAG_NONE --DOTA_UNIT_TARGET_FLAG_MAGIC_IMMUNE_ENEMIES + DOTA_UNIT_TARGET_FLAG_INVULNERABLE
+			local bounce_targets = FindUnitsInRadius(hTargetsTeam, hTarget:GetAbsOrigin(), nil, self.bounce_range, DOTA_UNIT_TARGET_TEAM_FRIENDLY, target_type, target_flags, FIND_CLOSEST, false) 
 			local hit_helper
 
 			if #bounce_targets > 1 then
 				for _, v in ipairs(bounce_targets) do
 					hit_helper = true
 					local hit_check = false -- has the target been hit before?
+
+					-- check if target is on the targets team or not
+					if v:GetTeam() ~= target_team then
+						break
+					end
 
 					-- check if target has been hit before
 					for _, k in ipairs(self.hitEnts) do
@@ -142,6 +165,3 @@ function q_herbarrow:OnProjectileHit( hTarget, vLocation)
 	end
 end
 ---------------------------------------------------------------------------
-
--- TODO 
--- add function here to add modifier when it hits a target and play effect when it hits a target

@@ -27,14 +27,14 @@ function DummyThink()
     if thisEntity.movePosOne == 1 then
         --print("trying to move  MOVE 1 again")
         thisEntity.movePosOne = 2
-        thisEntity:MoveToPosition(Vector(-114,1165,256))
+        thisEntity:MoveToPosition(Vector(-11077,-8747,256))
         return 1
     end
 
     if thisEntity.movePosOne == 2 then
         --print("trying to move MOVE 2 again")
         thisEntity.movePosOne = 1
-        thisEntity:MoveToPosition(Vector(-453,1166,256))
+        thisEntity:MoveToPosition(Vector(-9000,-8747,256))
         return 1
     end
 

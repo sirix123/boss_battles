@@ -1,6 +1,6 @@
 space_frostblink = class({})
 LinkLuaModifier( "chill_modifier", "player/icemage/modifiers/chill_modifier", LUA_MODIFIER_MOTION_NONE )
-LinkLuaModifier( "modifier_target_indicator", "player/generic/modifier_target_indicator", LUA_MODIFIER_MOTION_NONE )
+LinkLuaModifier( "modifier_target_indicator_aoe", "player/generic/modifier_target_indicator_aoe", LUA_MODIFIER_MOTION_NONE )
 
 function space_frostblink:OnAbilityPhaseStart()
     if IsServer() then
@@ -15,7 +15,7 @@ function space_frostblink:OnAbilityPhaseStart()
         })
 
         -- add targeting modifier
-        self:GetCaster():AddNewModifier(self:GetCaster(), self, "modifier_target_indicator",
+        self:GetCaster():AddNewModifier(self:GetCaster(), self, "modifier_target_indicator_aoe",
         {
             duration = -1,
             cast_range = self:GetCastRange(Vector(0,0,0), nil),
@@ -30,8 +30,8 @@ function space_frostblink:OnAbilityPhaseInterrupted()
     if IsServer() then
         self:GetCaster():RemoveGesture(ACT_DOTA_CAST_ABILITY_4)
 
-        if self:GetCaster():HasModifier("modifier_target_indicator") == true then
-            self:GetCaster():RemoveModifierByName("modifier_target_indicator")
+        if self:GetCaster():HasModifier("modifier_target_indicator_aoe") == true then
+            self:GetCaster():RemoveModifierByName("modifier_target_indicator_aoe")
         end
 
         self:GetCaster():RemoveModifierByName("casting_modifier_thinker")
@@ -46,8 +46,8 @@ function space_frostblink:OnSpellStart()
         local origin = caster:GetOrigin()
         local point = nil
 
-        if caster:HasModifier("modifier_target_indicator") == true then
-            caster:RemoveModifierByName("modifier_target_indicator")
+        if caster:HasModifier("modifier_target_indicator_aoe") == true then
+            caster:RemoveModifierByName("modifier_target_indicator_aoe")
         end
 
         self:GetCaster():RemoveGesture(ACT_DOTA_CAST_ABILITY_4)

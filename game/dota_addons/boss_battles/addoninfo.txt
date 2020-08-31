@@ -3,8 +3,7 @@
 	TeamCount = 4
 	maps = 
 	[
-		"arena_6x6",
-		"arena_test",
+		"main_map",
 	]
 	IsPlayable = 1
 	Default_Keys = 
@@ -50,17 +49,13 @@
 	[
 		{
 			MaxPlayers = 4
-			map = "arena_6x6"
-		},
-		{
-			MaxPlayers = 4
-			map = "arena_test"
+			map = "main_map"
 		},
 	]
 	HideInTools = false
 	IsTemplate = false
 	CheckAFKPlayers = false
-	DefaultMap = "arena_test"
+	DefaultMap = "main_map"
 	DisableIK = false
 	EnablePickRules = false
 	EventGame = false

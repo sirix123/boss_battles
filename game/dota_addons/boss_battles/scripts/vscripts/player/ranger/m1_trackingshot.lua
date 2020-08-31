@@ -1,37 +1,22 @@
-m1_trackingshot = class({})LinkLuaModifier("m1_trackingshot_charges", "player/ranger/modifiers/m1_trackingshot_charges", LUA_MODIFIER_MOTION_NONE)
-
-function m1_trackingshot:GetIntrinsicModifierName()
-	return "m1_trackingshot_charges"
-end
-
-local nAtkCount = 1
+m1_trackingshot = class({})
+LinkLuaModifier("r_explosive_tip_modifier_target", "player/ranger/modifiers/r_explosive_tip_modifier_target", LUA_MODIFIER_MOTION_NONE)
 
 function m1_trackingshot:OnAbilityPhaseStart()
     if IsServer() then
 
-        -- check if we have charges
-        if self:GetCaster():HasModifier("m1_trackingshot_charges") == true then
+        self:GetCaster():StartGestureWithPlaybackRate(ACT_DOTA_ATTACK, 1.0)
 
-            if self:GetCaster():GetModifierStackCount("m1_trackingshot_charges", nil) == 0 or self:IsFullyCastable() == false then
-                -- surface message to player?
-                return false
-            else
+        -- add casting modifier
+        self:GetCaster():AddNewModifier(self:GetCaster(), self, "casting_modifier_thinker",
+        {
+            duration = self:GetCastPoint(),
+            pMovespeedReduction = -50,
+        })
 
-                self:GetCaster():StartGestureWithPlaybackRate(ACT_DOTA_ATTACK, 1.0)
+        -- sound effect
+        EmitSoundOn( "Hero_Windrunner.Attack", self:GetCaster() )
 
-                -- add casting modifier
-                self:GetCaster():AddNewModifier(self:GetCaster(), self, "casting_modifier_thinker",
-                {
-                    duration = self:GetCastPoint(),
-                    pMovespeedReduction = -80,
-                })
-
-                -- sound effect
-                EmitSoundOn( "Hero_Windrunner.Attack", self:GetCaster() )
-
-                return true
-            end
-        end
+        return true
     end
 end
 ---------------------------------------------------------------------------
@@ -59,29 +44,21 @@ function m1_trackingshot:OnSpellStart()
 		self.caster = self:GetCaster()
         local origin = self.caster:GetAbsOrigin()
         local projectile_speed = self:GetSpecialValueFor( "proj_speed" )
-        self.nMaxCharges = self:GetSpecialValueFor( "max_charges" )
-        local dmg = 0
-
-        self.caster:FindModifierByName("m1_trackingshot_charges"):DecrementStackCount()
 
         -- set proj direction to mouse location
         local vTargetPos = nil
         vTargetPos = Vector(self.caster.mouse.x, self.caster.mouse.y, self.caster.mouse.z)
-        --vTargetPos = PlayerManager.mouse_positions[self.caster:GetPlayerID()]
         local projectile_direction = (Vector( vTargetPos.x - origin.x, vTargetPos.y - origin.y, 0 )):Normalized()
 
+        local dmg = self:GetSpecialValueFor( "base_dmg" )
+        local dmg_dist_multi = self:GetSpecialValueFor( "dmg_dist_multi" )
+
         -- init effect
-        local enEffect = ""
+        local enEffect = "particles/ranger/m1_ranger_windrunner_base_attack.vpcf"
 
-        -- attack 3
-        if nAtkCount == self.nMaxCharges then
-            dmg = self:GetSpecialValueFor( "base_dmg_3" )
-            enEffect = "particles/ranger/attk3_drow_frost_arrow.vpcf"
-
-        -- attack 1 and 2
-        else
-            dmg = self:GetSpecialValueFor( "base_dmg_1_2" )
-            enEffect = "particles/ranger/m1_ranger_windrunner_base_attack.vpcf"
+        -- check for explosive tip modifier and if we have it change arrow effect and apply explosive stack
+        if self.caster:HasModifier("r_explosive_tip_modifier") then
+            enEffect = "particles/ranger/ranger_huskar_burning_spear.vpcf"
         end
 
         local projectile = {
@@ -101,14 +78,9 @@ function m1_trackingshot:OnSpellStart()
             end,
             OnUnitHit = function(_self, unit)
 
-                if nAtkCount == self.nMaxCharges and unit:FindModifierByNameAndCaster("m2_serratedarrow_modifier", self.caster) == true then
-                    dmg = dmg + self:GetSpecialValueFor( "addtional_dmg_3_serrated_debuff" )
+                local distanceFromHero = (unit:GetAbsOrigin() - origin ):Length2D()
 
-                    -- play effect on target
-                    -- effect
-                elseif nAtkCount < self.nMaxCharges and unit:FindModifierByNameAndCaster("m2_serratedarrow_modifier", self.caster) == true then
-                    dmg = dmg + self:GetSpecialValueFor( "addtional_dmg_1_2_serrated_debuff" )
-                end
+                dmg = dmg + ( distanceFromHero * dmg_dist_multi )
 
                 local dmgTable = {
                     victim = unit,
@@ -121,6 +93,12 @@ function m1_trackingshot:OnSpellStart()
                 self.caster:ManaOnHit(self:GetSpecialValueFor( "mana_gain_percent"))
 
                 ApplyDamage(dmgTable)
+
+                if self.caster:HasModifier("r_explosive_tip_modifier") then
+                    local hbuff = self.caster:FindModifierByNameAndCaster("r_explosive_tip_modifier", self.caster)
+                    local flBuffTimeRemaining = hbuff:GetRemainingTime()
+                    unit:AddNewModifier(self.caster, self, "r_explosive_tip_modifier_target", {duration = flBuffTimeRemaining})
+                end
 
                 -- play sound
                 EmitSoundOnLocationWithCaster(unit:GetAbsOrigin(), "hero_WindRunner.projectileImpact", self.caster)
@@ -136,11 +114,6 @@ function m1_trackingshot:OnSpellStart()
                 ParticleManager:ReleaseParticleIndex(effect_cast)
             end,
         }
-
-        nAtkCount = nAtkCount + 1
-        if nAtkCount > self.nMaxCharges then
-            nAtkCount = 1
-        end
 
         Projectiles:CreateProjectile(projectile)
 

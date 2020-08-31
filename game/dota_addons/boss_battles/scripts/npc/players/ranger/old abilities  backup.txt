@@ -1,0 +1,357 @@
+"DOTAAbilities"
+{
+	"m1_trackingshot"
+	{
+		"BaseClass"						"ability_lua"
+		"ScriptFile"					"player/ranger/m1_trackingshot"
+		"MaxLevel"						"1"
+
+		"AbilityTextureName"			"windrunner_focusfire"
+		"AbilityUnitTargetTeam"			"DOTA_UNIT_TARGET_TEAM_ENEMY"
+		"AbilityUnitDamageType"			"DAMAGE_TYPE_PHYSICAL"	
+		"SpellImmunityType"				"SPELL_IMMUNITY_ENEMIES_YES"
+        "AbilityBehavior"				"DOTA_ABILITY_BEHAVIOR_POINT"
+		"AbilityCastRange" 				"1100"
+        "AbilityCooldown"				"0"
+        "AbilityCastPoint"              "0.2"
+
+
+		"TargetingIndicator"
+		{
+			"Type"						"TARGETING_INDICATOR_LINE"
+			"Fixed"						"1"
+		}
+        
+		"AbilitySpecial"
+		{
+			"01"{ "var_type"			"FIELD_INTEGER"		"hit_box"							"80" }
+			"02"{ "var_type"			"FIELD_INTEGER"		"proj_speed"						"800" }
+			"03"{ "var_type"			"FIELD_INTEGER"		"mana_gain_percent"             	"5" }
+			"04"{ "var_type"			"FIELD_INTEGER"		"base_dmg_1_2"						"30" }
+			"05"{ "var_type"			"FIELD_INTEGER"		"base_dmg_3"						"40" }
+			"06"{ "var_type"			"FIELD_INTEGER"		"addtional_dmg_3_serrated_debuff"	"10" }
+			"07"{ "var_type"			"FIELD_INTEGER"		"addtional_dmg_1_2_serrated_debuff"	"20" }
+			"08"{ "var_type"			"FIELD_INTEGER"		"max_charges"						"3" }
+			"09"{ "var_type"			"FIELD_FLOAT"		"charge_restore_time"				"2" }		
+		}
+	}
+
+	"m2_serratedarrow"
+	{
+		"BaseClass"						"ability_lua"
+		"ScriptFile"					"player/ranger/m2_serratedarrow"
+		"MaxLevel"						"1"
+
+		"AbilityTextureName"			"windrunner_powershot"
+		"AbilityUnitTargetTeam"			"DOTA_UNIT_TARGET_TEAM_ENEMY"
+		"AbilityUnitDamageType"			"DAMAGE_TYPE_PHYSICAL"	
+		"SpellImmunityType"				"SPELL_IMMUNITY_ENEMIES_YES"
+        "AbilityBehavior"				"DOTA_ABILITY_BEHAVIOR_POINT"
+		"AbilityCastRange" 				"1500"
+        "AbilityCooldown"				"0.0"
+        "AbilityCastPoint"              "1.0"
+
+
+		"TargetingIndicator"
+		{
+			"Type"						"TARGETING_INDICATOR_LINE"
+			"Fixed"						"1"
+		}
+        
+		"AbilitySpecial"
+		{
+			"01"{ "var_type"			"FIELD_INTEGER"		"dmg"							"50" 	}
+			"02"{ "var_type"			"FIELD_INTEGER"		"hit_box"						"80" 	}
+			"03"{ "var_type"			"FIELD_INTEGER"		"proj_speed"					"1400" 	}
+			"04"{ "var_type"			"FIELD_INTEGER"		"mana_gain_percent"             "30" 	}
+			"05"{ "var_type"			"FIELD_INTEGER"		"serrated_arrow_duration"       "10" 	}
+			"06"{ "var_type"			"FIELD_INTEGER"		"damage_interval"       		"2" 	}
+			"07"{ "var_type"			"FIELD_FLOAT"		"sync_decrease_tick"       		"0.5" 	}
+			"08"{ "var_type"			"FIELD_INTEGER"		"dmg_dot"						"50" 	}
+			
+		}
+	}
+
+	"q_herbarrow"
+	{
+		"BaseClass"						"ability_lua"
+		"ScriptFile"					"player/ranger/q_herbarrow"
+		"MaxLevel"						"1"
+
+		"AbilityTextureName"			"medusa_mystic_snake"
+		"AbilityUnitTargetTeam"			"DOTA_UNIT_TARGET_TEAM_FRIENDLY"
+		"AbilityUnitTargetType"			"DOTA_UNIT_TARGET_HERO | DOTA_UNIT_TARGET_CREEP"
+		"AbilityUnitDamageType"			"DAMAGE_TYPE_PHYSICAL"	
+		"SpellImmunityType"				"SPELL_IMMUNITY_ENEMIES_YES"
+        "AbilityBehavior"				"DOTA_ABILITY_BEHAVIOR_UNIT_TARGET"
+		"AbilityCastRange" 				"1500"
+        "AbilityCooldown"				"0.0"
+        "AbilityCastPoint"              "0.2"
+
+
+		"TargetingIndicator"
+		{
+			//"Type"						"TARGETING_INDICATOR_LINE"
+			//"Fixed"						"1"
+		}
+        
+		"AbilitySpecial"
+		{
+			"01"{ "var_type"			"FIELD_INTEGER"		"duration"				"20" 	}
+			"02"{ "var_type"			"FIELD_INTEGER"		"bounce_range"			"3000" 	}	
+			"03"{ "var_type"			"FIELD_INTEGER"		"speed"					"900" 	}	
+			"04"{ "var_type"			"FIELD_INTEGER"		"max_bounces"			"10" 	}
+			"05"{ "var_type"			"FIELD_INTEGER"		"tick_rate"				"1" 	}	
+			"06"{ "var_type"			"FIELD_INTEGER"		"heal_amount"			"50" 	}
+			"07"{ "var_type"			"FIELD_FLOAT"		"sync_decrease_tick"    "0.5" 	}			
+		}
+
+		"precache"
+		{
+			"soundfile"	"soundevents/game_sounds_heroes/game_sounds_medusa.vsndevts"
+			"soundfile"	"soundevents/game_sounds_heroes/game_sounds_enchantress.vsndevts"
+			"particle"	"particles/units/heroes/hero_medusa/medusa_mystic_snake_cast.vpcf"
+			"particle"	"particles/ranger/q_herbaroow_medusa_mystic_snake_impact.vpcf"
+			"particle"	"particles/units/heroes/hero_medusa/medusa_mystic_snake_projectile.vpcf"
+		}
+	}
+
+	"e_syncwithforest"
+	{
+		"BaseClass"						"ability_lua"
+		"ScriptFile"					"player/ranger/e_syncwithforest"
+		"MaxLevel"						"1"
+
+		"AbilityTextureName"			"treant_natures_guise"
+		"AbilityUnitDamageType"			"DAMAGE_TYPE_PHYSICAL"	
+		"SpellImmunityType"				"SPELL_IMMUNITY_ENEMIES_YES"
+        "AbilityBehavior"				"DOTA_ABILITY_BEHAVIOR_POINT | DOTA_ABILITY_BEHAVIOR_AOE"
+		"AbilityCastRange" 				"1500"
+        "AbilityCooldown"				"0.0"
+        "AbilityCastPoint"              "0.2"
+
+
+		"TargetingIndicator"
+		{
+			"Type"						"TARGETING_INDICATOR_AOE"
+			//"Fixed"						"1"
+		}
+        
+		"AbilitySpecial"
+		{
+			"01"{ "var_type"			"FIELD_INTEGER"		"duration"			"10" 	}
+			"02"{ "var_type"			"FIELD_INTEGER"		"proj_speed"		"800" 	}
+			"03"{ "var_type"			"FIELD_INTEGER"		"radius"			"400" 	}
+			"04"{ "var_type"			"FIELD_INTEGER"		"projectile_speed"	"800" 	}
+		}
+
+		"precache"
+		{
+			"particle" "particles/units/heroes/hero_enchantress/enchantress_natures_attendants_lvl1.vpcf"
+			"particle" "particles/units/heroes/hero_alchemist/alchemist_unstable_concoction_explosion.vpcf"
+		}
+	}
+
+	"r_metamorph"
+	{
+		"BaseClass"						"ability_lua"
+		"ScriptFile"					"player/ranger/r_metamorph"
+		"MaxLevel"						"1"
+
+		"AbilityTextureName"			"terrorblade_metamorphosis_alt1"
+		"SpellImmunityType"				"SPELL_IMMUNITY_ENEMIES_YES"
+        "AbilityBehavior"				"DOTA_ABILITY_BEHAVIOR_NO_TARGET"
+		"AbilityCastRange" 				"1500"
+        "AbilityCooldown"				"0.0"
+        "AbilityCastPoint"              "0.5"
+		"AbilityManaCost"        		"0"
+
+
+		"TargetingIndicator"
+		{
+			//"Type"						"TARGETING_INDICATOR_AOE"
+			//"Fixed"						"1"
+		}
+        
+		"AbilitySpecial"
+		{
+			"01"{ "var_type"			"FIELD_FLOAT"		"mana_multiplier_duration"			"0.5" 	}
+			"02"{ "var_type"			"FIELD_INTEGER"		"mana_degen"						"-10" 	}
+			"03"{ "var_type"			"FIELD_INTEGER"		"base_duration"						"10" 	}
+		}
+
+		"precache"
+		{
+			"soundfile"	"sounds/vo/medusa/medus_cast_03.vsnd"
+		}
+	}
+
+	"space_sprint"
+	{
+		"BaseClass"						"ability_lua"
+		"ScriptFile"					"player/ranger/space_sprint"
+		"MaxLevel"						"1"
+
+		"AbilityTextureName"			"windrunner_windrun_sylvan"
+		"SpellImmunityType"				"SPELL_IMMUNITY_ENEMIES_YES"
+        "AbilityBehavior"				"DOTA_ABILITY_BEHAVIOR_NO_TARGET | DOTA_ABILITY_BEHAVIOR_IGNORE_BACKSWING | DOTA_ABILITY_BEHAVIOR_ROOT_DISABLES"
+		"AbilityCastRange" 				"1500"
+        "AbilityCooldown"				"0.0"
+
+
+		"TargetingIndicator"
+		{
+			//"Type"						"TARGETING_INDICATOR_AOE"
+			//"Fixed"						"1"
+		}
+        
+		"AbilitySpecial"
+		{
+			"01"{ "var_type"			"FIELD_INTEGER"		"duration"					"20" 	}
+			"02"{ "var_type"			"FIELD_INTEGER"		"movespeed_bonus_pct"		"60" 	}
+			
+		}
+
+		"precache"
+		{
+			
+		}
+	}
+
+	// METAMORPH ABILITIES
+	"m1_trackingshot_metamorph"
+	{
+		"BaseClass"						"ability_lua"
+		"ScriptFile"					"player/ranger/m1_trackingshot_metamorph"
+		"MaxLevel"						"1"
+
+		"AbilityTextureName"			"medusa_split_shot"
+		"AbilityUnitTargetTeam"			"DOTA_UNIT_TARGET_TEAM_ENEMY"
+		"AbilityUnitDamageType"			"DAMAGE_TYPE_PHYSICAL"	
+		"SpellImmunityType"				"SPELL_IMMUNITY_ENEMIES_YES"
+        "AbilityBehavior"				"DOTA_ABILITY_BEHAVIOR_POINT"
+		"AbilityCastRange" 				"1100"
+        "AbilityCooldown"				"0"
+        "AbilityCastPoint"              "0.2"
+
+
+		"TargetingIndicator"
+		{
+			"Type"						"TARGETING_INDICATOR_LINE"
+			"Fixed"						"1"
+		}
+        
+		"AbilitySpecial"
+		{
+			"01"{ "var_type"			"FIELD_INTEGER"		"hit_box"							"80" }
+			"02"{ "var_type"			"FIELD_INTEGER"		"proj_speed"						"800" }
+			"03"{ "var_type"			"FIELD_INTEGER"		"mana_gain_percent"             	"5" }
+			"04"{ "var_type"			"FIELD_INTEGER"		"base_dmg_1_2"						"50" }
+			"05"{ "var_type"			"FIELD_INTEGER"		"base_dmg_3"						"70" }
+			"06"{ "var_type"			"FIELD_INTEGER"		"addtional_dmg_3_serrated_debuff"	"20" }
+			"07"{ "var_type"			"FIELD_INTEGER"		"addtional_dmg_1_2_serrated_debuff"	"30" }
+			"08"{ "var_type"			"FIELD_INTEGER"		"max_charges"						"3" }
+			"09"{ "var_type"			"FIELD_FLOAT"		"charge_restore_time"				"2" }	
+		}
+	}
+
+	"m2_serratedarrow_metamorph"
+	{
+		"BaseClass"						"ability_lua"
+		"ScriptFile"					"player/ranger/m2_serratedarrow_metamorph"
+		"MaxLevel"						"1"
+
+		"AbilityTextureName"			"phantom_assassin_coup_de_grace"
+		"AbilityUnitTargetTeam"			"DOTA_UNIT_TARGET_TEAM_ENEMY"
+		"AbilityUnitDamageType"			"DAMAGE_TYPE_PHYSICAL"	
+		"SpellImmunityType"				"SPELL_IMMUNITY_ENEMIES_YES"
+        "AbilityBehavior"				"DOTA_ABILITY_BEHAVIOR_POINT"
+		"AbilityCastRange" 				"1500"
+        "AbilityCooldown"				"0.0"
+        "AbilityCastPoint"              "1.0"
+
+
+		"TargetingIndicator"
+		{
+			"Type"						"TARGETING_INDICATOR_LINE"
+			"Fixed"						"1"
+		}
+        
+		"AbilitySpecial"
+		{
+			"01"{ "var_type"			"FIELD_INTEGER"		"dmg"							"100" 	}
+			"02"{ "var_type"			"FIELD_INTEGER"		"hit_box"						"80" 	}
+			"03"{ "var_type"			"FIELD_INTEGER"		"proj_speed"					"1400" 	}
+			"04"{ "var_type"			"FIELD_INTEGER"		"mana_gain_percent"             "30" 	}
+			"05"{ "var_type"			"FIELD_INTEGER"		"serrated_arrow_duration"       "10" 	}
+			"06"{ "var_type"			"FIELD_INTEGER"		"damage_interval"       		"1" 	}
+			"07"{ "var_type"			"FIELD_FLOAT"		"sync_decrease_tick"       		"0.5" 	}
+			"08"{ "var_type"			"FIELD_FLOAT"		"dmg_dot"       				"100" 	}
+			
+		}
+	}
+
+	"q_stonegaze_metamorph"
+	{
+		"BaseClass"						"ability_lua"
+		"ScriptFile"					"player/ranger/q_stonegaze_metamorph"
+		"MaxLevel"						"1"
+
+		"AbilityTextureName"			"medusa_stone_gaze"
+        "AbilityBehavior"				"DOTA_ABILITY_BEHAVIOR_NO_TARGET"
+		"AbilityChannelTime"			"5"
+		"AbilityCastRange" 				"1500"
+        "AbilityCooldown"				"0.0"
+        "AbilityCastPoint"              "0.0"
+
+ 
+		"TargetingIndicator"
+		{
+			//"Type"						"TARGETING_INDICATOR_AOE"
+			//"Fixed"						"1"
+		}
+        
+		"AbilitySpecial"
+		{
+			"01"{ "var_type"			"FIELD_INTEGER"		"duration"				"5" 	}
+			"02"{ "var_type"			"FIELD_INTEGER"		"mana_regen"			"30" 	}
+		}
+
+		"precache"
+		{
+
+		}
+	}
+
+	"e_immolate_metamorph"
+	{
+		"BaseClass"						"ability_lua"
+		"ScriptFile"					"player/ranger/e_immolate_metamorph"
+		"MaxLevel"						"1"
+
+		"AbilityTextureName"			"medusa_mana_shield"
+        "AbilityBehavior"				"DOTA_ABILITY_BEHAVIOR_NO_TARGET"
+		"AbilityUnitDamageType"			"DAMAGE_TYPE_PHYSICAL"	
+		"AbilityCastRange" 				"1500"
+        "AbilityCooldown"				"0.0"
+        "AbilityCastPoint"              "0.3"
+
+ 
+		"TargetingIndicator"
+		{
+			//"Type"						"TARGETING_INDICATOR_AOE"
+			//"Fixed"						"1"
+		}
+        
+		"AbilitySpecial"
+		{
+			"01"{ "var_type"			"FIELD_INTEGER"		"duration"			"60" 	}
+			"02"{ "var_type"			"FIELD_FLOAT"		"health_degen"		"50" 	}
+		}
+
+		"precache"
+		{
+			"soundfile"	"sounds/vo/medusa/medus_levelup_05.vsnd"
+		}
+	}
+}

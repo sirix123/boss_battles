@@ -66,7 +66,7 @@
 			"08"{ "var_type"			"FIELD_INTEGER"		"shatter_dmg_xStacks"			"50" 	}
 			"09"{ "var_type"			"FIELD_INTEGER"		"mana_gain_percent"             "30" 	}
 			"10"{ "var_type"			"FIELD_INTEGER"		"max_proj"						"2" 	}
-			"11"{ "var_type"			"FIELD_FLOAT"		"time_between_proj"             "1.0" 	} 
+			"11"{ "var_type"			"FIELD_FLOAT"		"time_between_proj"             "0.4" 	} 
 		}
 	}
 

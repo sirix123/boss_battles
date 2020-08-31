@@ -3,6 +3,7 @@
 #base "bosses/timber/units/timber.txt"
 #base "bosses/clock/units/clock.txt"
 #base "players/rogue/rogue_units.txt"
+#base "core/npc_trigger_plates.txt"
 
 "DOTAUnits"
 {
