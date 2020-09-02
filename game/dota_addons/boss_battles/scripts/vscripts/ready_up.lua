@@ -1,36 +1,52 @@
-ready = class({})
+local tTriggers = {}
+local DEBUG = true
 
-function ready_up(trigger)
+function OnStartTouch(trigger)
 
     local ent = trigger.activator
-
     if not ent then return end
 
     --PrintTable(trigger, indent, done)
 
-    -- logic todo etc
-    --[[
+    local triggerName = thisEntity:GetName()
 
+    -- if triggername is not in the table then add it... (so 4 people can't stand on the same trigger)
+    table.insert(tTriggers,triggerName)
 
-    4 triggers, all trigger the same trigger script (this one)
-
-    record what playerID is touching it,
-    if a playerid has touched one don't let them activate another
-    once they touch it, it is activated (show something) (handle this on an AI file for the actual model IMO with the thinker very basic)
-    how can we link this file to gamesetup to manage the tp'ing? and call a functionin gamesetup?
-        I guess we just 'require this script' in gamesetup and run the function from here?
-                quick POC! it works!!!!!!!!!!!!!!!!!!!!!!
-
-    summary all we need is the logic for activation in here
-
-    ]]
-
-    GameSetup:Test123()
+    if #tTriggers == 4 or DEBUG then
+        -- need to clear the table here, so can be re-used
+        tTriggers = {}
+        GameSetup:ReadyupCheck()
+    end
 
 end
 
-function ready:ReadyCheck()
+function OnEndTouch( trigger )
 
+    local ent = trigger.activator
+    if not ent then return end
 
-    return true
+    local triggerName = thisEntity:GetName()
+
+    for k, triggers in pairs(tTriggers) do
+        if triggerName == triggers then
+            table.remove(tTriggers,k)
+        end
+    end
 end
+
+--[[function OnStartTouchAnimation( trigger )
+
+    --PrintTable(trigger, indent, done)
+    local triggerName = thisEntity:GetName()
+
+    PrintTable(thisEntity, indent, done)
+    thisEntity:StartGestureWithPlaybackRate(ACT_DOTA_CAPTURE, 1.0)
+
+    --DoEntFire(triggerName, "SetAnimation", "ancient_trigger001_down", 0, self, self)
+    --EntFire: Generate an entity i/o event ( szTarget, szAction, szValue, flDelay, hActivator, hCaller )
+
+    --thisEntity:SetAnimation( "ancient_trigger001_down" )
+    --trigger.caller:GetOwnerEntity():StartGestureWithPlaybackRate(ACT_DOTA_CAPTURE, 1.0)
+    -- ancient_trigger001_down ACT_DOTA_ATTACK ACT_DOTA_CAPTURE
+end]]

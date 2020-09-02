@@ -31,4 +31,8 @@ function debug()
     AddDebugPlayer()
 }
  
-debug();
+//debug();
+
+var data = CustomNetTables.GetAllTableValues("heroes")
+$.Msg("------ data ------")
+$.Msg(data)  

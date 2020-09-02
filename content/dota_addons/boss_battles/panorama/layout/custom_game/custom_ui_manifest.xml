@@ -15,7 +15,7 @@
 		<CustomUIElement type="Hud" 		layoutfile="file://{resources}/layout/custom_game/progress_bars.xml" />
 		<CustomUIElement type="Hud" 		layoutfile="file://{resources}/layout/custom_game/game_scoreboard.xml" />
 		<CustomUIElement type="Hud" 		layoutfile="file://{resources}/layout/custom_game/precache.xml" />
-		<!--<CustomUIElement type="Hud" 		layoutfile="file://{resources}/layout/custom_game/raid_status.xml" />-->
+		<CustomUIElement type="Hud" 		layoutfile="file://{resources}/layout/custom_game/raid_status.xml" />
 	</Panel>
 </root>
 

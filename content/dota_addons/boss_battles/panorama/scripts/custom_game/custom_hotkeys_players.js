@@ -64,7 +64,9 @@ function AbilityToCast(abilityNumber, showEffects){
                 ShowEffects : showEffects,
                 AbilityIndex : abilityIndex,
             };
-            Game.PrepareUnitOrders(order);
+            //Game.PrepareUnitOrders(order);
+
+            Abilities.ExecuteAbility( abilityIndex, playerHero, false )
         }
 
         if(abilityBehavior & DOTA_ABILITY_BEHAVIOR.DOTA_ABILITY_BEHAVIOR_NO_TARGET)

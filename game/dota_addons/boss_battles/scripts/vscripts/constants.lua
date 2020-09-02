@@ -1,0 +1,4 @@
+
+
+
+_G.BOSS_BATTLES_PLAYER_LIVES = 3

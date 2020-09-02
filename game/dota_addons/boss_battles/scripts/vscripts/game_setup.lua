@@ -7,6 +7,7 @@ LinkLuaModifier( "remove_attack_modifier", "player/generic/remove_attack_modifie
 LinkLuaModifier( "modifier_respawn", "core/modifier_respawn", LUA_MODIFIER_MOTION_NONE )
 
 function GameSetup:init()
+
     GameRules:EnableCustomGameSetupAutoLaunch(false)
     GameRules:SetCustomGameSetupAutoLaunchDelay(0)
     GameRules:SetHeroSelectionTime(30)
@@ -19,10 +20,20 @@ function GameSetup:init()
     GameRules:SetCustomGameTeamMaxPlayers(DOTA_TEAM_BADGUYS, 0)
     GameRules:SetCustomGameTeamMaxPlayers(DOTA_TEAM_CUSTOM_1, 0)
     GameRules:SetCustomGameTeamMaxPlayers(DOTA_TEAM_CUSTOM_2, 0)
+    GameRules:SetHeroRespawnEnabled(true)
+    GameRules:SetStartingGold( 0 )
+	GameRules:SetGoldTickTime( 999999.0 )
+    GameRules:SetGoldPerTick( 0 )
 
-    GameRules:SetHeroRespawnEnabled(-1)
+    GameRules:GetGameModeEntity():SetFixedRespawnTime( 5 )
+    GameRules:GetGameModeEntity():SetCameraDistanceOverride( 1800 )
+    GameRules:GetGameModeEntity():SetBuybackEnabled( false )
+    GameRules:GetGameModeEntity():SetFogOfWarDisabled(true)
+    GameRules:GetGameModeEntity():SetTPScrollSlotItemOverride( "" )
 
-    GameRules:GetGameModeEntity():SetCameraDistanceOverride( 1800 )-- killed:SetTimeUntilRespawn(new_respawn_time)
+    -- setup listeners, these also store critical player information in core_functions override for base_npc
+    PlayerManager:SetUpMouseUpdater()
+    PlayerManager:SetUpMovement()
 
     --listen to game state event
     -- events here: https://developer.valvesoftware.com/wiki/Dota_2_Workshop_Tools/Scripting/Built-In_Engine_Events
@@ -31,10 +42,6 @@ function GameSetup:init()
     --ListenToGameEvent('dota_player_pick_hero', Dynamic_Wrap(self, 'PlayerPickHero'), self) -- dota_player_pick_hero is a valve engine event
     ListenToGameEvent('entity_killed', Dynamic_Wrap(self, 'OnEntityKilled'), self) --
     ListenToGameEvent('entity_hurt', Dynamic_Wrap(self, 'OnEntityHurt'), self)
-
-    -- setup listeners
-    PlayerManager:SetUpMouseUpdater()
-    PlayerManager:SetUpMovement()
 
 end
 --------------------------------------------------------------------------------------------------
@@ -46,7 +53,6 @@ function GameSetup:OnStateChange()
 
         local mode = GameRules:GetGameModeEntity()
         mode:SetExecuteOrderFilter(Dynamic_Wrap(GameSetup, "ExecuteOrderFilter" ), GameSetup)
-        mode:SetFogOfWarDisabled(true)
 
     end
 
@@ -55,21 +61,8 @@ function GameSetup:OnStateChange()
         -- spawn testing stuff
         self:SpawnTestingStuff()
 
-        -- setup listeners
-        --self:SetupListeners()
-
     end
 
-end
---------------------------------------------------------------------------------------------------
-function GameSetup:SetupListeners()
-
-    local data =
-    {
-        1234,
-    }
-    CustomNetTables:SetTableValue("heroes", "index_1", data)
-    --CustomNetTables:SetTableValue("heroes", "index_" .. data.entity_index, data)
 end
 --------------------------------------------------------------------------------------------------
 
@@ -83,6 +76,7 @@ function GameSetup:OnNPCSpawned(keys)
         npc:AddNewModifier( npc,  nil, "remove_attack_modifier", { } )
 
         npc:Initialize(keys)
+        self:RegisterPlayer(npc)
 
         -- level up abilities for all heroes to level 1
         if npc:GetUnitName() == "npc_dota_hero_crystal_maiden"
@@ -98,6 +92,31 @@ function GameSetup:OnNPCSpawned(keys)
                 index = index +1
           end
         end
+    end
+end
+--------------------------------------------------------------------------------------------------
+
+function GameSetup:RegisterPlayer( hero )
+    local playerID = hero:GetPlayerOwnerID()
+
+    if playerID == -1 then
+        print("[game_setup] Error invalid player id")
+        return
+    else
+        print("[game_setup] payload ....")
+        --self:RegisterThinker(0.01, function()
+            local data = {
+                entity_index = hero:GetEntityIndex(),
+                teamID = hero:GetTeam(),
+                playerID = hero:GetPlayerOwnerID(),
+                health = hero:GetHealth(),
+                max_health = hero:GetMaxHealth(),
+                mana = hero:GetMana(),
+                max_mana = hero:GetMaxMana(),
+                current_lives = hero.playerLives,
+            }
+            CustomNetTables:SetTableValue("heroes", "index_" .. data.entity_index, data)
+        --end)
     end
 end
 --------------------------------------------------------------------------------------------------
@@ -142,6 +161,12 @@ function GameSetup:OnEntityKilled(keys)
         CreateUnitByName("npc_dota_creature_gnoll_assassin_moving", npc:GetAbsOrigin(), true, nil, nil, DOTA_TEAM_BADGUYS)
     end
 
+
+    if npc:IsRealHero() then
+        self:HeroKilled( keys )
+        return
+    end
+
 end
 --------------------------------------------------------------------------------------------------
 
@@ -173,7 +198,7 @@ end
 --------------------------------------------------------------------------------------------------
 
 -- handles tping players to the boss arena and spawning the boss
-function GameSetup:Test123() -- called from trigger lua file for activators (ready_up)
+function GameSetup:ReadyupCheck() -- called from trigger lua file for activators (ready_up)
 
     --beastmaster_playerspawn
     --beastmaster_bossspawn
@@ -186,6 +211,7 @@ function GameSetup:Test123() -- called from trigger lua file for activators (rea
         FindClearSpaceForUnit(hero, beastmasterPlaySpawn, true)
     end
 
+    -- spawn boss
     Timers:CreateTimer(2.0, function()
         CreateUnitByName("npc_beastmaster", beastmasterBossSpawn, true, nil, nil, DOTA_TEAM_BADGUYS)
     end)
@@ -193,23 +219,41 @@ function GameSetup:Test123() -- called from trigger lua file for activators (rea
 end
 --------------------------------------------------------------------------------------------------
 
-function GameSetup:OnHeroKilled(killed)
-    killed:SetTimeUntilRespawn(5)
+function GameSetup:HeroKilled( keys )
+    local killedHero = EntIndexToHScript( keys.entindex_killed )
+    local killedHeroOrigin = killedHero:GetAbsOrigin()
+	if killedHero == nil or killedHero:IsRealHero() == false then
+		return
+    end
 
-    --[[if self.WIN_CONDITION.type == "AMETHYSTS" then
-        killed.lifes = killed.lifes - 1
+    killedHero.playerLives = killedHero.playerLives - 1
 
-        local new_respawn_time = nil
+	killedHero:SetRespawnsDisabled( false )
+    killedHero:SetRespawnPosition( killedHeroOrigin )
 
-        if killed.lifes <= 0 then
-            new_respawn_time = 999
-        else
-            new_respawn_time = self.BASE_RESPAWN_TIME + self.RESPAWN_TIME_PER_DEATH * (PlayerResource:GetDeaths(killed:GetPlayerID()) - 1)
-            if new_respawn_time > self.MAX_RESPAWN_TIME then 
-                new_respawn_time = self.MAX_RESPAWN_TIME 
-            end
-        end
+    if killedHero:GetRespawnsDisabled() == false then
+		killedHero.nRespawnFX = ParticleManager:CreateParticle( "particles/items_fx/aegis_timer.vpcf", PATTACH_ABSORIGIN_FOLLOW, killedHero )
+		ParticleManager:SetParticleControl( killedHero.nRespawnFX, 1, Vector( 5, 0, 0 ) )
 
-        killed:SetTimeUntilRespawn(new_respawn_time)
-    end]]
+		AddFOWViewer( killedHero:GetTeamNumber(), killedHero:GetAbsOrigin(), 800.0, 5, false )
+	end
+
+    -- TODO
+    -- ADD lives to heroes nettable so UI can read and we can use it to detemrine..
+    -- add condition to respawn player in death location if they have lives
+    -- if they dont have lives keep them dead until all players are dead
+    -- then respawn them in the intermission area
+    -- call cleanup function for boss arena
+
+end
+--------------------------------------------------------------------------------------------------
+
+function GameSetup:RegisterThinker(period, callback)
+    local timer = {}
+    timer.period = period
+    timer.callback = callback
+    timer.next = Time() + period
+
+    self.thinkers = self.thinkers or {}
+    table.insert(self.thinkers, timer)
 end
