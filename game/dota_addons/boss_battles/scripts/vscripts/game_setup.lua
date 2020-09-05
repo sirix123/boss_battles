@@ -8,6 +8,8 @@ LinkLuaModifier( "modifier_respawn", "core/modifier_respawn", LUA_MODIFIER_MOTIO
 
 function GameSetup:init()
 
+    self.player_deaths = {}
+
     GameRules:EnableCustomGameSetupAutoLaunch(false)
     GameRules:SetCustomGameSetupAutoLaunchDelay(0)
     GameRules:SetHeroSelectionTime(30)
@@ -100,11 +102,12 @@ function GameSetup:RegisterPlayer( hero )
     local playerID = hero:GetPlayerOwnerID()
 
     if playerID == -1 then
-        print("[game_setup] Error invalid player id")
+        --print("[game_setup] Error invalid player id")
         return
     else
-        print("[game_setup] payload ....")
-        --self:RegisterThinker(0.01, function()
+        --print("[game_setup] payload ....")
+        -- TODO need to add boss energy, hp, castbar, here?
+        Timers:CreateTimer(function()
             local data = {
                 entity_index = hero:GetEntityIndex(),
                 teamID = hero:GetTeam(),
@@ -116,7 +119,9 @@ function GameSetup:RegisterPlayer( hero )
                 current_lives = hero.playerLives,
             }
             CustomNetTables:SetTableValue("heroes", "index_" .. data.entity_index, data)
-        --end)
+
+            return 0.1
+        end)
     end
 end
 --------------------------------------------------------------------------------------------------
@@ -161,11 +166,16 @@ function GameSetup:OnEntityKilled(keys)
         CreateUnitByName("npc_dota_creature_gnoll_assassin_moving", npc:GetAbsOrigin(), true, nil, nil, DOTA_TEAM_BADGUYS)
     end
 
-
+    -- handles heroes dying
     if npc:IsRealHero() then
         self:HeroKilled( keys )
         return
     end
+
+    -- handles encounter/boss dying
+    -- find all units and thinkers from centre of the arena map with xyz radius and forcekill, utilremove, destroy them?
+    -- origin could be the boss spawn point
+    -- when boss dies, revive all players in their current locations then move to intermission area
 
 end
 --------------------------------------------------------------------------------------------------
@@ -204,16 +214,21 @@ function GameSetup:ReadyupCheck() -- called from trigger lua file for activators
     --beastmaster_bossspawn
     local heroes = HeroList:GetAllHeroes()
     local beastmasterPlaySpawn = Entities:FindByName(nil, "beastmaster_playerspawn"):GetAbsOrigin()
-    local beastmasterBossSpawn = Entities:FindByName(nil, "beastmaster_bossspawn"):GetAbsOrigin()
+    self.beastmasterBossSpawn = Entities:FindByName(nil, "beastmaster_bossspawn"):GetAbsOrigin()
 
     for _,hero in pairs(heroes) do
-        hero:SetMana(0)
+        if hero:GetUnitName() ~= "npc_dota_hero_phantom_assassin" then
+            hero:SetMana(0)
+        end
         FindClearSpaceForUnit(hero, beastmasterPlaySpawn, true)
     end
 
+    -- count down message
+
+
     -- spawn boss
-    Timers:CreateTimer(2.0, function()
-        CreateUnitByName("npc_beastmaster", beastmasterBossSpawn, true, nil, nil, DOTA_TEAM_BADGUYS)
+    Timers:CreateTimer(1.0, function()
+        CreateUnitByName("npc_beastmaster", self.beastmasterBossSpawn, true, nil, nil, DOTA_TEAM_BADGUYS)
     end)
 
 end
@@ -222,38 +237,65 @@ end
 function GameSetup:HeroKilled( keys )
     local killedHero = EntIndexToHScript( keys.entindex_killed )
     local killedHeroOrigin = killedHero:GetAbsOrigin()
+    local killedPlayerID = killedHero:GetPlayerOwnerID()
 	if killedHero == nil or killedHero:IsRealHero() == false then
 		return
     end
 
     killedHero.playerLives = killedHero.playerLives - 1
 
-	killedHero:SetRespawnsDisabled( false )
-    killedHero:SetRespawnPosition( killedHeroOrigin )
+    if killedHero.playerLives <= 0 then
+        table.insert(self.player_deaths, killedPlayerID)
+        killedHero:SetRespawnsDisabled( true )
 
-    if killedHero:GetRespawnsDisabled() == false then
-		killedHero.nRespawnFX = ParticleManager:CreateParticle( "particles/items_fx/aegis_timer.vpcf", PATTACH_ABSORIGIN_FOLLOW, killedHero )
-		ParticleManager:SetParticleControl( killedHero.nRespawnFX, 1, Vector( 5, 0, 0 ) )
+        if #self.player_deaths == HeroList:GetHeroCount() then
+            killedHero:SetRespawnsDisabled( false )
+            killedHero:SetRespawnPosition( BOSS_BATTLES_INTERMISSION_SPAWN_LOCATION )
+            self.player_deaths = {}
+            killedHero.playerLives = BOSS_BATTLES_PLAYER_LIVES
 
-		AddFOWViewer( killedHero:GetTeamNumber(), killedHero:GetAbsOrigin(), 800.0, 5, false )
-	end
+            -- register a wipe for current boss
 
-    -- TODO
-    -- ADD lives to heroes nettable so UI can read and we can use it to detemrine..
-    -- add condition to respawn player in death location if they have lives
-    -- if they dont have lives keep them dead until all players are dead
-    -- then respawn them in the intermission area
-    -- call cleanup function for boss arena
+            -- call boss cleanup function
+            self:EncounterCleanUp( self.beastmasterBossSpawn )
+
+        end
+    else
+        killedHero:SetRespawnsDisabled( false )
+        killedHero:SetRespawnPosition( killedHeroOrigin )
+
+        if killedHero:GetRespawnsDisabled() == false then
+            killedHero.nRespawnFX = ParticleManager:CreateParticle( "particles/items_fx/aegis_timer.vpcf", PATTACH_ABSORIGIN_FOLLOW, killedHero )
+            ParticleManager:SetParticleControl( killedHero.nRespawnFX, 1, Vector( 5, 0, 0 ) )
+
+            AddFOWViewer( killedHero:GetTeamNumber(), killedHero:GetAbsOrigin(), 800.0, 5, false )
+        end
+    end
 
 end
 --------------------------------------------------------------------------------------------------
 
-function GameSetup:RegisterThinker(period, callback)
-    local timer = {}
-    timer.period = period
-    timer.callback = callback
-    timer.next = Time() + period
+function GameSetup:EncounterCleanUp( origin )
 
-    self.thinkers = self.thinkers or {}
-    table.insert(self.thinkers, timer)
+    -- reset cd of all players abilties
+
+    -- destroy thinkers..
+
+    -- find all units, kill them
+    local units = FindUnitsInRadius(
+        DOTA_TEAM_BADGUYS,
+        origin,
+        nil,
+        2500,
+        DOTA_UNIT_TARGET_TEAM_BOTH,
+        DOTA_UNIT_TARGET_ALL,
+        DOTA_UNIT_TARGET_FLAG_NONE,
+        FIND_ANY_ORDER,
+        false)
+
+    if units ~= nil then
+        for _, unit in pairs(units) do
+            unit:ForceKill(false)
+        end
+    end
 end

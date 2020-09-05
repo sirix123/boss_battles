@@ -11,7 +11,7 @@ function summon_bear:OnSpellStart()
         
         for i = 0, nBearSpawns do
             if #self:GetCaster().BEAST_MASTER_SUMMONED_BEARS < self:GetCaster().MAX_BEARS then
-                local vRandomOffset = Vector( RandomInt( -10, 10 ), RandomInt( -10, 10 ), 0 )
+                local vRandomOffset = Vector( RandomInt( -100, 100 ), RandomInt( -100, 100 ), 0 )
                 local vSpawnArea = self:GetCaster():GetAbsOrigin() + vRandomOffset
                 local hBear = CreateUnitByName("npc_beastmaster_bear", vSpawnArea, true, nil, nil, DOTA_TEAM_BADGUYS)
             

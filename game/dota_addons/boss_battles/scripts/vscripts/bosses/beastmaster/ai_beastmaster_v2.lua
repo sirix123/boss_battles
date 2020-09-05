@@ -10,11 +10,6 @@ function Spawn( entityKeyValues )
 		return
 	end
 
-	-- boss setup 
-	-- controls max number of animals he can summon
-	thisEntity.BEAST_MASTER_SUMMONED_QUILBOARS = {  }
-	thisEntity.MAX_QUILBOARS = 3
-
 	-- max bears
 	thisEntity.BEAST_MASTER_SUMMONED_BEARS = {  }
 	thisEntity.MAX_BEARS = 1
@@ -22,26 +17,19 @@ function Spawn( entityKeyValues )
 	-- abilities this boss has
 	thisEntity.beastmaster_mark = thisEntity:FindAbilityByName( "beastmaster_mark" )
 	thisEntity.summon_bear = thisEntity:FindAbilityByName( "summon_bear" )
+
 	thisEntity.summon_quillboar = thisEntity:FindAbilityByName( "summon_quillboar" )
+	thisEntity.summon_quillboar:StartCooldown(thisEntity.summon_quillboar:GetCooldown(thisEntity.summon_quillboar:GetLevel()))
+
 	thisEntity.beastmaster_net = thisEntity:FindAbilityByName( "beastmaster_net" )
+	thisEntity.beastmaster_net:StartCooldown(thisEntity.beastmaster_net:GetCooldown(thisEntity.beastmaster_net:GetLevel()))
+
 	thisEntity.beastmaster_break = thisEntity:FindAbilityByName( "beastmaster_break" )
+	thisEntity.beastmaster_break:StartCooldown(thisEntity.beastmaster_break:GetCooldown(thisEntity.beastmaster_break:GetLevel()))
 
-	-- used for bear summoning logic
-	thisEntity.firstBear = true
-	thisEntity.lastBearDeath = 0
+	thisEntity:AddNewModifier( nil, nil, "modifier_phased", { duration = -1 } )
 
-	-- used for boar summoning logic
-	thisEntity.firstBoar = true
-	thisEntity.lastBoarDeath = 0
-
-	-- used for first net logic
-	thisEntity.firstNet = true
-	thisEntity.lastNet = 0
-
-	-- the gametime beastmaster was spawned
-	thisEntity.beastMasterSpawnTime = GameRules:GetGameTime()
-
-	thisEntity:SetContextThink( "Beastmaster", BeastmasterThink, 1 )
+	thisEntity:SetContextThink( "Beastmaster", BeastmasterThink, 0.5 )
 end
 
 --------------------------------------------------------------------------------
@@ -59,41 +47,26 @@ function BeastmasterThink()
 		return 0.5
 	end
 
-	-- cast spells on cd 
-	-- start beastmasters cooldowns on spawn so there is some time at start of fight
+	if thisEntity.summon_bear:IsFullyCastable() and thisEntity.summon_bear:IsCooldownReady()then
+		SummonBear()
+	end
 
-	-- summon bear on spawn
-	-- if bear dies perma buff boss (function for that)
+	if thisEntity.summon_quillboar:IsFullyCastable() and thisEntity.summon_quillboar:IsCooldownReady() then
+		SummonQuillBoar()
+	end
 
-	-- handles bear summoning, summons first bear after x gametime
-	-- summons second+ bear after x time, LastBearDeath is populated in the ClearAnimals() function
-	local delayBeforeFirstBear = 5
-	local delayAfterBearDeath = 120
-	BearCastingTiming(delayBeforeFirstBear, delayAfterBearDeath)
+	if thisEntity.beastmaster_net:IsFullyCastable() and thisEntity.beastmaster_net:IsCooldownReady() then
+		BeastmasterNet()
+	end
 
-	-- handles summon quill boars, summons the first set of boars after x gametime
-	-- handles summoning the second+ sets
-	-- summons 3 boars initially then every x seconds will replace dead boars with new ones based on delayAfterLastBoarDeath 
-	local delayBeforeFirstBoarSet = 15
-	local delayAfterLastBoarDeath = 50
-	BoarCastingTiming(delayBeforeFirstBoarSet, delayAfterLastBoarDeath)
+	if thisEntity.beastmaster_mark:IsFullyCastable() and thisEntity.beastmaster_mark:IsCooldownReady() then
+		BeastmasterMark()
+	end
 
-	-- handles the spear throw logic
-	-- phase one spears start x time in to the fight
-	-- time between spears is longer then other phases
-	local delayBeforeFirstNet = 5
-	local delayAfterLastNet = 2
-	NetCastingTime(delayBeforeFirstNet, delayAfterLastNet)
+	--[[if thisEntity.beastmaster_break:IsFullyCastable() then
+		BreakArmor()
+	end]]
 
-	-- casts mark on CD as well 
-	BeastmasterMark()
-
-	-- will only try and cast breakarmor on a targets postion if in range 
-	BreakArmor()
-
-	-- attack move? attack highest HP hero?
-
-	-- if animals die remove them from the table
 	ClearAnimals()
 
 	return 0.5
@@ -102,12 +75,18 @@ end
 --------------------------------------------------------------------------------
 function BreakArmor()
 
-	-- slam ground within some radius (hardcoded 500 atm)
-	-- apply -armor debuff
-	-- some sort of telegraph required (red circle on the ground, missile salvo reference)
-
 	-- find all players in the entire map
-	local enemies = FindUnitsInRadius( DOTA_TEAM_BADGUYS, thisEntity:GetOrigin(), nil, 500 , DOTA_UNIT_TARGET_TEAM_ENEMY, DOTA_UNIT_TARGET_ALL, DOTA_UNIT_TARGET_FLAG_NONE, FIND_ANY_ORDER, false )
+	local enemies = FindUnitsInRadius(
+		DOTA_TEAM_BADGUYS,
+		thisEntity:GetOrigin(),
+		nil,
+		2500,
+		DOTA_UNIT_TARGET_TEAM_ENEMY,
+		DOTA_UNIT_TARGET_ALL,
+		DOTA_UNIT_TARGET_FLAG_NONE,
+		FIND_ANY_ORDER,
+		false )
+
 	if #enemies == 0 then
 		return 0.5
 	end
@@ -127,15 +106,6 @@ function ClearAnimals()
 	for i, hSummonedBear in ipairs(thisEntity.BEAST_MASTER_SUMMONED_BEARS) do
 		if hSummonedBear:IsAlive() == false then
 			table.remove( thisEntity.BEAST_MASTER_SUMMONED_BEARS, i )
-			thisEntity.lastBearDeath = GameRules:GetGameTime()
-		end
-	end
-
-	-- if quilboar dies remove from summon table
-	for i, hSummonedQuillboar in ipairs(thisEntity.BEAST_MASTER_SUMMONED_QUILBOARS) do
-		if hSummonedQuillboar:IsAlive() == false then
-			table.remove( thisEntity.BEAST_MASTER_SUMMONED_QUILBOARS, i )
-			thisEntity.lastBoarDeath = GameRules:GetGameTime()
 		end
 	end
 
@@ -146,18 +116,8 @@ end
 
 function SummonBear()
 
-	-- find all units on map
-	-- if bear is found and is alive
-	-- startcd for bear
-	-- check this function every whatever
-	-- if bear is dead and cd ready then summon bear 
-
-	-- summon logic for bear
-	-- have we hit the limit?
-	if #thisEntity.BEAST_MASTER_SUMMONED_BEARS < thisEntity.MAX_BEARS then 
-		if thisEntity.summon_bear ~= nil and thisEntity.summon_bear:IsFullyCastable() then
-			return CastSummonBear()
-		end
+	if #thisEntity.BEAST_MASTER_SUMMONED_BEARS < thisEntity.MAX_BEARS then
+		return CastSummonBear()
 	end
 
 	return 0.5
@@ -167,39 +127,31 @@ end
 
 function SummonQuillBoar()
 
-	-- summon logic for quillboar
-	-- have we hit the limit?
-	if #thisEntity.BEAST_MASTER_SUMMONED_QUILBOARS < thisEntity.MAX_QUILBOARS then 
-		if thisEntity.summon_quillboar ~= nil and thisEntity.summon_quillboar:IsFullyCastable() then
-			return CastSummonQuillboar()
-		end
-	end
-
-	return 0.5
+	return CastSummonQuillboar()
 end
 
 ------------------------------------------------------------------------------------------------------------
 
 function BeastmasterMark()
 
-
-	-- just controls who the bear attacks
-	-- switches every xseconds
-	-- bear needs to seak player with the mark
-	-- duration of this markmodifier needs to control the switching time
-
-	local bHasModifier = nil
-
 	-- find all players in the entire map
-	local enemies = FindUnitsInRadius( DOTA_TEAM_BADGUYS, thisEntity:GetOrigin(), nil, FIND_UNITS_EVERYWHERE , DOTA_UNIT_TARGET_TEAM_ENEMY, DOTA_UNIT_TARGET_ALL, DOTA_UNIT_TARGET_FLAG_NONE, FIND_ANY_ORDER, false )
+	local enemies = FindUnitsInRadius(
+		DOTA_TEAM_BADGUYS,
+		thisEntity:GetOrigin(),
+		nil, 
+		FIND_UNITS_EVERYWHERE ,
+		DOTA_UNIT_TARGET_TEAM_ENEMY,
+		DOTA_UNIT_TARGET_ALL,
+		DOTA_UNIT_TARGET_FLAG_NONE,
+		FIND_ANY_ORDER,
+		false )
+
 	if #enemies == 0 then
 		return 0.5
 	end
 
-	-- select random enemy 
 	local hTarget = enemies[ RandomInt( 1, #enemies ) ]
 
-	-- if enemey selected is not nil, cast mark target on target
 	if hTarget ~= nil then
 		return CastMarkTarget(hTarget)
 	end
@@ -211,28 +163,43 @@ end
 
 function BeastmasterNet()
 
-	-- shoot net/spear at enemy player
-	-- find all players in the entire map
-	local enemies = FindUnitsInRadius( DOTA_TEAM_BADGUYS, thisEntity:GetOrigin(), nil, FIND_UNITS_EVERYWHERE , DOTA_UNIT_TARGET_TEAM_ENEMY, DOTA_UNIT_TARGET_ALL, DOTA_UNIT_TARGET_FLAG_NONE, FIND_ANY_ORDER, false )
+	local enemies = FindUnitsInRadius(
+		DOTA_TEAM_BADGUYS,
+		thisEntity:GetOrigin(),
+		nil,
+		4000,
+		DOTA_UNIT_TARGET_TEAM_ENEMY,
+		DOTA_UNIT_TARGET_ALL,
+		DOTA_UNIT_TARGET_FLAG_NONE,
+		FIND_ANY_ORDER,
+		false )
+
 	if #enemies == 0 then
 		return 0.5
 	end
 
 	local vTargetPos = nil
+	local tTargets = {}
 
-	if thisEntity.beastmaster_net ~= nil and thisEntity.beastmaster_net:IsFullyCastable() then
-		for key, enemy in pairs(enemies) do
-			vTargetPos = enemy:GetOrigin()
+	for _, enemy in pairs(enemies) do
+		local dist = ( thisEntity:GetAbsOrigin() - enemy:GetAbsOrigin() ):Length2D()
+		if dist > 400 then
+			table.insert(tTargets,enemy)
 		end
-
-		if vTargetPos ~= nil then
-			thisEntity.lastNet = GameRules:GetGameTime()
-			return CastLaunchNet( vTargetPos )
-		else
-			return 0.5
-		end
-
 	end
+
+	if tTargets ~= nil and #tTargets ~= 0 then
+		vTargetPos = tTargets[RandomInt(1,#tTargets)]:GetAbsOrigin()
+	else
+		return 0.5
+	end
+
+	if vTargetPos ~= nil then
+		return CastLaunchNet( vTargetPos )
+	else
+		return 0.5
+	end
+
 	return 0.5
 end
 
@@ -243,7 +210,7 @@ function CastSummonBear()
 		UnitIndex = thisEntity:entindex(),
 		OrderType = DOTA_UNIT_ORDER_CAST_NO_TARGET,
 		AbilityIndex = thisEntity.summon_bear:entindex(),
-		Queue = 0,
+		Queue = false,
 	})
 	return 0.5
 end
@@ -268,7 +235,7 @@ function CastSummonQuillboar()
 		UnitIndex = thisEntity:entindex(),
 		OrderType = DOTA_UNIT_ORDER_CAST_NO_TARGET,
 		AbilityIndex = thisEntity.summon_quillboar:entindex(),
-		Queue = 0,
+		Queue = false,
 	})
 	return 0.5
 end
@@ -294,7 +261,7 @@ function CastMarkTarget(hTarget)
 		OrderType = DOTA_UNIT_ORDER_CAST_TARGET,
 		TargetIndex = hTarget:entindex(),
 		AbilityIndex = thisEntity.beastmaster_mark:entindex(),
-		Queue = 2,
+		Queue = false,
 	})
 	return 0.5
 end

@@ -1,5 +1,5 @@
 local tTriggers = {}
-local DEBUG = true
+local DEBUG = false
 
 function OnStartTouch(trigger)
 
@@ -13,7 +13,7 @@ function OnStartTouch(trigger)
     -- if triggername is not in the table then add it... (so 4 people can't stand on the same trigger)
     table.insert(tTriggers,triggerName)
 
-    if #tTriggers == 4 or DEBUG then
+    if #tTriggers == HeroList:GetHeroCount() or DEBUG then
         -- need to clear the table here, so can be re-used
         tTriggers = {}
         GameSetup:ReadyupCheck()

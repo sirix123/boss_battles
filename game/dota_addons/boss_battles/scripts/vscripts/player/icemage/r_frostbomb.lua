@@ -32,6 +32,10 @@ function r_frostbomb:OnAbilityPhaseInterrupted()
 end
 ---------------------------------------------------------------------------
 
+function r_frostbomb:GetAOERadius()
+	return self:GetSpecialValueFor( "radius" )
+end
+
 function r_frostbomb:OnSpellStart()
 
     self:GetCaster():RemoveGesture(ACT_DOTA_CAST_ABILITY_2)

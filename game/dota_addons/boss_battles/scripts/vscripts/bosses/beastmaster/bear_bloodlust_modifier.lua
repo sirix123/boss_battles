@@ -21,14 +21,14 @@ end
 -----------------------------------------------------------------------------
 
 function bear_bloodlust_modifier:OnCreated( kv )
-	self.bloodlust_speed = self:GetAbility():GetSpecialValueFor( "bloodlust_speed" )
-	self.bloodlust_as_speed = self:GetAbility():GetSpecialValueFor( "bloodlust_as_speed" )
+	self.bloodlust_speed = kv.ms_bonus
+	self.bloodlust_as_speed = kv.as_bonus
 end
 
 -----------------------------------------------------------------------------
 
 function bear_bloodlust_modifier:DeclareFunctions()
-	local funcs = 
+	local funcs =
 	{
 		MODIFIER_PROPERTY_MOVESPEED_BONUS_PERCENTAGE,
 		MODIFIER_PROPERTY_ATTACKSPEED_BONUS_CONSTANT,

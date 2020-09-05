@@ -12,14 +12,18 @@ end
 
 function bear_bloodlust:OnSpellStart()
 	if IsServer() then
+
+		local ms_bonus = self:GetSpecialValueFor( "bloodlust_speed" )
+		local as_bonus = self:GetSpecialValueFor( "bloodlust_as_speed" )
+
 		-- adds modifier to bear that increases as and ms
-		self:GetCaster():AddNewModifier( self:GetCaster(), self, "bear_bloodlust_modifier", { duration = self:GetSpecialValueFor("duration") } )
+		self:GetCaster():AddNewModifier( self:GetCaster(), self, "bear_bloodlust_modifier", { duration = -1, ms_bonus = ms_bonus, as_bonus = as_bonus } )
 		-- add stack
 		local hBuff = self:GetCaster():FindModifierByName( "bear_bloodlust_modifier" )
 		hBuff:IncrementStackCount()
 
 		self:Effects(self:GetCaster())
-		EmitSoundOn( "sounds/weapons/hero/ogre_magi/bloodlust_target.vsnd", self:GetCaster() )
+		EmitSoundOn( "Hero_OgreMagi.Bloodlust.Target", self:GetCaster() )
 	end
 end
 

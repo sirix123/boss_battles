@@ -33,6 +33,6 @@ function debug()
  
 //debug();
 
-var data = CustomNetTables.GetAllTableValues("heroes")
+/*var data = CustomNetTables.GetAllTableValues("heroes")
 $.Msg("------ data ------")
-$.Msg(data)  
+$.Msg(data)*/

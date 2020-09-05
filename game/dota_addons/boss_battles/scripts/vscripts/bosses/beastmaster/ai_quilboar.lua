@@ -12,7 +12,11 @@ function Spawn( entityKeyValues )
 
 	thisEntity.hPuddle = thisEntity:FindAbilityByName( "quilboar_puddle" )
 
-	thisEntity:SetContextThink( "Quilboar", QuilboarThink, 0.5 )
+	thisEntity.vTargetPos = nil
+
+	local randomStartTime = RandomInt(1,4)
+
+	thisEntity:SetContextThink( "Quilboar", QuilboarThink, randomStartTime )
 
 end
 
@@ -31,43 +35,35 @@ function QuilboarThink()
 		return 0.5
 	end
 
+	local enemies = {}
+
+	enemies = FindUnitsInRadius(
+		thisEntity:GetTeamNumber(),
+		thisEntity:GetAbsOrigin(),
+		nil,
+		2500,
+		DOTA_UNIT_TARGET_TEAM_ENEMY,
+		DOTA_UNIT_TARGET_ALL,
+		DOTA_UNIT_TARGET_FLAG_NONE,
+		FIND_ANY_ORDER,
+		false )
+
 	-- find all players in the entire map
-	local enemies = FindUnitsInRadius( DOTA_TEAM_BADGUYS, thisEntity:GetOrigin(), nil, FIND_UNITS_EVERYWHERE , DOTA_UNIT_TARGET_TEAM_ENEMY, DOTA_UNIT_TARGET_ALL, DOTA_UNIT_TARGET_FLAG_NONE, FIND_ANY_ORDER, false )
-	if #enemies == 0 then
-		return 0.5
-	end
-	
-	local fDelayBeforeCast = RandomFloat( 5, 15 )
-	local lastPuddle = 0
-	local vTargetPos = nil
-	
-	if GameRules:GetGameTime() > (fDelayBeforeCast + lastPuddle) then
-		lastPuddle = GameRules:GetGameTime()
-		if thisEntity.hPuddle ~= nil and thisEntity.hPuddle:IsFullyCastable() then
-			for key, enemy in pairs(enemies) do 
-				vTargetPos = enemy:GetAbsOrigin()
-			end
-	
-			if vTargetPos ~= nil then
-				return LaunchPuddle( vTargetPos )
-			else
-				return 0.5
-			end
-	
-		end
+	if thisEntity.hPuddle ~= nil and thisEntity.hPuddle:IsFullyCastable() and enemies ~= nil and enemies ~= 0 then
+		LaunchPuddle( )
 	end
 
-	return 1.0
+
+	return 0.5
 end
 
 --------------------------------------------------------------------------------
 
-function LaunchPuddle( vTargetPos )
+function LaunchPuddle( )
 	ExecuteOrderFromTable({
 		UnitIndex = thisEntity:entindex(),
-		OrderType = DOTA_UNIT_ORDER_CAST_POSITION,
+		OrderType = DOTA_UNIT_ORDER_CAST_NO_TARGET,
 		AbilityIndex = thisEntity.hPuddle:entindex(),
-		Position = vTargetPos,
 		Queue = false,
 	})
 	return 0.5

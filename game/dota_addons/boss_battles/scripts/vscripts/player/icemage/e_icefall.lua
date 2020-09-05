@@ -28,6 +28,10 @@ function e_icefall:OnAbilityPhaseInterrupted()
 end
 ---------------------------------------------------------------------------
 
+function e_icefall:GetAOERadius()
+	return self:GetSpecialValueFor( "radius" )
+end
+
 function e_icefall:OnSpellStart()
 
     self:GetCaster():RemoveGesture(ACT_DOTA_CAST_ABILITY_1)

@@ -12,49 +12,62 @@ end
 
 function quilboar_puddle:OnSpellStart()
 	if IsServer() then
-		self.duration = self:GetSpecialValueFor( "duration" )
 		self.projectile_speed = self:GetSpecialValueFor( "projectile_speed" )
+		local caster = self:GetCaster()
+		local origin = caster:GetAbsOrigin()
+		local enemies = {}
 
-		local vTargetPos = nil
-		if self:GetCursorTarget() then
-			vTargetPos = self:GetCursorTarget():GetOrigin()
-		else
-			vTargetPos = self:GetCursorPosition()
+		enemies = FindUnitsInRadius(
+			caster:GetTeamNumber(),
+			caster:GetAbsOrigin(),
+			nil,
+			2500,
+            DOTA_UNIT_TARGET_TEAM_ENEMY,
+            DOTA_UNIT_TARGET_ALL,
+            DOTA_UNIT_TARGET_FLAG_NONE,
+            FIND_ANY_ORDER,
+			false )
+
+		if #enemies == 0 or enemies == nil then
+			return
 		end
 
-		local vDirection = vTargetPos - self:GetCaster():GetOrigin()
-		vDirection.z = 0.0
-		vDirection = vDirection:Normalized()
+		if enemies ~= nil and enemies ~= 0 then
+			self.i = RandomInt(1,#enemies)
+			self.point = enemies[self.i]:GetAbsOrigin()
 
-		local fRangeToTarget =  ( self:GetCaster():GetOrigin() - vTargetPos ):Length2D()
+			local direction = (self.point - origin):Normalized()
+			local distance = (self.point - origin):Length2D()
 
-		local projectile =
-		{
-			Target = vTargetPos,
-			Source = self:GetCaster(),
-			Ability = self,
-			vSpawnOrigin = self:GetCaster():GetOrigin() + Vector( 0, 0, 200 ), 
-			fStartRadius = 10,
-			fEndRadius = 10,
-			vVelocity = vDirection * self.projectile_speed,
-			fDistance = fRangeToTarget,
-			EffectName = "particles/units/heroes/hero_alchemist/alchemist_unstable_concoction_projectile_linear.vpcf", --"particles/units/heroes/hero_viper/viper_viper_strike_beam.vpcf",
-			iMoveSpeed = self.projectile_speed,
-			vSourceLoc = self:GetCaster():GetOrigin(),
-			bDodgeable = false,
-			bProvidesVision = false,
-			iUnitTargetTeam = DOTA_UNIT_TARGET_TEAM_ENEMY,
-			iUnitTargetType = DOTA_UNIT_TARGET_HERO + DOTA_UNIT_TARGET_BASIC + DOTA_UNIT_TARGET_BUILDING,
-		}
+			local projectile = {
+				EffectName = "particles/ranger/ranger_sync_alchemist_smooth_criminal_unstable_concoction_projectile.vpcf",
+				vSpawnOrigin = caster:GetAbsOrigin() + Vector(0,0,80),
+				fDistance = distance,
+				fUniqueRadius = 100,--200
+				Source = caster,
+				vVelocity = direction * self.projectile_speed,
+				UnitBehavior = PROJECTILES_NOTHING,
+				TreeBehavior = PROJECTILES_NOTHING,
+				WallBehavior = PROJECTILES_DESTROY,
+				GroundBehavior = PROJECTILES_NOTHING,
+				fGroundOffset = 256,
+				UnitTest = function(_self, unit)
+					return unit:GetTeamNumber() ~= caster:GetTeamNumber()
+				end,
+				OnUnitHit = function(_self, unit)
 
-		ProjectileManager:CreateLinearProjectile( projectile )
+				end,
+				OnFinish = function(_self, pos)
+					CreateModifierThinker( self:GetCaster(), self, "quillboar_puddle_modifier", { self:GetSpecialValueFor( "duration" ) }, pos, self:GetCaster():GetTeamNumber(), false )
+				end,
+			}
 
+			Projectiles:CreateProjectile(projectile)
+
+			-- sound effect
+			caster:EmitSound("Beastmaster_Boar.Attack")
+		end
 	end
 end
 
 ---------------------------------------------------------------------------
-
-function quilboar_puddle:OnProjectileHit( hTarget, vLocation )
-	CreateModifierThinker( self:GetCaster(), self, "quillboar_puddle_modifier", { self:GetSpecialValueFor( "duration" ) }, vLocation, self:GetCaster():GetTeamNumber(), false )
-	return true
-end
