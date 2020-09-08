@@ -9,7 +9,6 @@
 		"AbilityTextureName"			"lich_chain_frost"
 		"AbilityUnitTargetTeam"			"DOTA_UNIT_TARGET_TEAM_ENEMY"
 		"AbilityUnitDamageType"			"DAMAGE_TYPE_PHYSICAL"	
-		"SpellImmunityType"				"SPELL_IMMUNITY_ENEMIES_YES"
         "AbilityBehavior"				"DOTA_ABILITY_BEHAVIOR_POINT"
 		"AbilityCastRange" 				"900"
         "AbilityCooldown"				"0.0"
@@ -28,9 +27,12 @@
 			"02"{ "var_type"			"FIELD_INTEGER"		"hit_box"						"80" }
 			"03"{ "var_type"			"FIELD_INTEGER"		"proj_speed"					"1000" }
 			"04"{ "var_type"			"FIELD_INTEGER"		"chill_duration"				"5" }
-			"05"{ "var_type"			"FIELD_INTEGER"		"shatter_duration"				"60" }
+			"05"{ "var_type"			"FIELD_INTEGER"		"shatter_duration"				"-1" }
 			"06"{ "var_type"			"FIELD_INTEGER"		"max_shatter_stacks"			"3" }
-			"07"{ "var_type"			"FIELD_INTEGER"		"mana_gain_percent"             "5" }
+			"07"{ "var_type"			"FIELD_INTEGER"		"as_slow"             			"-10" }
+			"08"{ "var_type"			"FIELD_INTEGER"		"ms_slow"             			"-30" }
+			"09"{ "var_type"			"FIELD_INTEGER"		"mana_gain_percent"             "5" }
+			
 		}
 	}
 
@@ -45,8 +47,9 @@
 		"AbilityUnitDamageType"			"DAMAGE_TYPE_PHYSICAL"
         "AbilityBehavior"				"DOTA_ABILITY_BEHAVIOR_POINT"
 		"AbilityCastRange" 				"1200"
-        "AbilityCooldown"				"2"
+        "AbilityCooldown"				"10"
         "AbilityCastPoint"              "1.0"
+		"AbilityManaCost"        		"20"
 
 		"TargetingIndicator"
 		{
@@ -60,13 +63,13 @@
 			"02"{ "var_type"			"FIELD_INTEGER"		"hit_box"						"80" 	}
 			"03"{ "var_type"			"FIELD_INTEGER"		"proj_speed"					"1200" 	}
 			"04"{ "var_type"			"FIELD_INTEGER"		"max_shatter_stacks"			"3" 	}
-			"05"{ "var_type"			"FIELD_INTEGER"		"shatter_radius"				"500" 	}
-			"06"{ "var_type"			"FIELD_INTEGER"		"bone_chill_duration"			"60" 	}
+			"05"{ "var_type"			"FIELD_INTEGER"		"max_proj"						"2" 	}
+			"06"{ "var_type"			"FIELD_FLOAT"		"time_between_proj"             "0.4" 	}
 			"07"{ "var_type"			"FIELD_INTEGER"		"base_shatter_dmg"				"100" 	}
 			"08"{ "var_type"			"FIELD_INTEGER"		"shatter_dmg_xStacks"			"50" 	}
-			"09"{ "var_type"			"FIELD_INTEGER"		"mana_gain_percent"             "30" 	}
-			"10"{ "var_type"			"FIELD_INTEGER"		"max_proj"						"2" 	}
-			"11"{ "var_type"			"FIELD_FLOAT"		"time_between_proj"             "0.4" 	} 
+			"09"{ "var_type"			"FIELD_INTEGER"		"shatter_radius"				"500" 	}
+			"10"{ "var_type"			"FIELD_INTEGER"		"bone_chill_duration"			"20" 	} 
+			"11"{ "var_type"			"FIELD_FLOAT"		"mana_regen"             		"10.0" 	}
 		}
 	}
 
@@ -81,8 +84,9 @@
         "AbilityBehavior"				"DOTA_ABILITY_BEHAVIOR_UNIT_TARGET"
 		"AbilityUnitTargetType"			"DOTA_UNIT_TARGET_HERO | DOTA_UNIT_TARGET_CREEP"
 		"AbilityCastRange" 				"750"
-        "AbilityCooldown"				"0"
+        "AbilityCooldown"				"20"
         "AbilityCastPoint"              "0.2"
+		"AbilityManaCost"        		"20"
 
 		"TargetingIndicator"
 		{
@@ -93,9 +97,9 @@
 		"AbilitySpecial"
 		{
 			"01"{ "var_type"			"FIELD_INTEGER"		"duration"				"5" }
-			"02"{ "var_type"			"FIELD_INTEGER"		"armor_bonus"			"30" }
-			"03"{ "var_type"			"FIELD_INTEGER"		"magic_res_bonus"		"30" }
-			"04"{ "var_type"			"FIELD_INTEGER"		"health_regen_percent"	"30" }
+			"02"{ "var_type"			"FIELD_INTEGER"		"armor_bonus"			"0" }
+			"03"{ "var_type"			"FIELD_INTEGER"		"magic_res_bonus"		"0" }
+			"04"{ "var_type"			"FIELD_INTEGER"		"health_regen_percent"	"8" }
 			"05"{ "var_type"			"FIELD_INTEGER"		"bone_chill_duration"	"10" }
 			"06"{ "var_type"			"FIELD_FLOAT"		"i_frame"				"0.3" }
 			
@@ -109,14 +113,15 @@
 
 	}
 
-	"cancel_iceblock"
+	"cancel_ice_block"
 	{
 		"BaseClass"						"ability_lua"
-		"ScriptFile"					"player/icemage/q_iceblock"
+		"ScriptFile"					"player/icemage/cancel_ice_block"
 		"MaxLevel"						"1"
 
 		"AbilityTextureName"			"winter_wyvern_cold_embrace"
-		"AbilityBehavior"				"DOTA_ABILITY_BEHAVIOR_NO_TARGET | DOTA_ABILITY_BEHAVIOR_HIDDEN | DOTA_ABILITY_BEHAVIOR_IMMEDIATE | DOTA_ABILITY_BEHAVIOR_IGNORE_PSEUDO_QUEUE"
+		"AbilityBehavior"				"DOTA_ABILITY_BEHAVIOR_NO_TARGET | DOTA_ABILITY_BEHAVIOR_IMMEDIATE | DOTA_ABILITY_BEHAVIOR_IGNORE_PSEUDO_QUEUE | DOTA_ABILITY_BEHAVIOR_HIDDEN"
+		"AbilityUnitTargetTeam"			"DOTA_UNIT_TARGET_TEAM_FRIENDLY"
 		"AbilityCastPoint"				"0"
 	}
 
@@ -131,8 +136,9 @@
         "AbilityBehavior"				"DOTA_ABILITY_BEHAVIOR_POINT | DOTA_ABILITY_BEHAVIOR_AOE"
 		"AbilityCastAnimation"          "ACT_DOTA_CAST_ABILITY_1"
 		"AbilityCastRange" 				"750"
-        "AbilityCooldown"				"0"
+        "AbilityCooldown"				"30"
         "AbilityCastPoint"              "0.2"
+		"AbilityManaCost"        		"50"
 
 		"TargetingIndicator"
 		{
@@ -147,6 +153,8 @@
 			"03"{ "var_type"			"FIELD_INTEGER"		"duration"			"5" }
 			"04"{ "var_type"			"FIELD_FLOAT"		"dmg_interval"		"0.5" }
 			"05"{ "var_type"			"FIELD_INTEGER"		"chill_duration"	"5" }
+			"06"{ "var_type"			"FIELD_INTEGER"		"as_slow"           "-10" }
+			"07"{ "var_type"			"FIELD_INTEGER"		"ms_slow"           "-30" }
 		}
 	}
 
@@ -162,6 +170,7 @@
 		"AbilityCastRange" 				"1000"
         "AbilityCooldown"				"0"
         "AbilityCastPoint"              "0.2"
+		"AbilityManaCost"        		"80"
 
 		"TargetingIndicator"
 		{
@@ -173,10 +182,10 @@
 		{
 			"01"{ "var_type"			"FIELD_INTEGER"		"delay"							"2" }
 			"02"{ "var_type"			"FIELD_INTEGER"		"radius"						"200" }
-			"03"{ "var_type"			"FIELD_INTEGER"		"fb_bse_dmg"					"100" }
-			"04"{ "var_type"			"FIELD_INTEGER"		"fb_base_duration"				"2" }
-			"05"{ "var_type"			"FIELD_INTEGER"		"fb_bonechill_extra_duration"	"3" }
-			"06"{ "var_type"			"FIELD_FLOAT"		"damage_interval"				"0.5" }
+			"03"{ "var_type"			"FIELD_FLOAT"		"damage_interval"				"0.5" }
+			"04"{ "var_type"			"FIELD_INTEGER"		"fb_bse_dmg"					"100" }
+			"05"{ "var_type"			"FIELD_INTEGER"		"fb_base_duration"				"2" }
+			"06"{ "var_type"			"FIELD_INTEGER"		"fb_bonechill_extra_duration"	"3" }
 			"07"{ "var_type"			"FIELD_INTEGER"		"fb_dmg_per_shatter_stack"		"20" }
 			"08"{ "var_type"			"FIELD_INTEGER"		"chill_duration"				"5" }
 		}
@@ -214,7 +223,9 @@
 		{
 			"01"{ "var_type"			"FIELD_INTEGER"		"chill_duration"		"5" }
 			"02"{ "var_type"			"FIELD_INTEGER"		"radius"				"100" }
-			"03"{ "var_type"			"FIELD_INTEGER"		"mana_gain_percent"     "5" }
+			"03"{ "var_type"			"FIELD_INTEGER"		"as_slow"           	"-10" }
+			"04"{ "var_type"			"FIELD_INTEGER"		"ms_slow"           	"-30" }
+			"05"{ "var_type"			"FIELD_INTEGER"		"mana_gain_percent"     "5" }
 		}
 	}
 }

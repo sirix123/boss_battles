@@ -79,6 +79,7 @@ function m2_icelance:OnSpellStart()
         self.radius = self:GetSpecialValueFor( "shatter_radius" )
         self.baseShatterDmg = self:GetSpecialValueFor( "base_shatter_dmg" )
         self.shatterDmg = self:GetSpecialValueFor( "shatter_dmg_xStacks" )
+        self.mana_regen = self:GetSpecialValueFor( "mana_regen" )
 
         local nProj = 0
         local currentOrbs = self.nMaxProj
@@ -129,7 +130,7 @@ function m2_icelance:OnSpellStart()
                     }
 
                     -- give mana
-                    self.caster:ManaOnHit(self:GetSpecialValueFor( "mana_gain_percent"))
+                    --self.caster:ManaOnHit(self:GetSpecialValueFor( "mana_gain_percent"))
 
                     -- handles bonechill apply logic with shatter stacks
                     self:ApplyBoneChill(unit)
@@ -199,7 +200,7 @@ function m2_icelance:ApplyBoneChill(unit)
 
             self:PlayMaxShatterEffect(unit)
 
-            self.caster:AddNewModifier(self.caster, self, "bonechill_modifier", { duration = self:GetSpecialValueFor( "bone_chill_duration" ) })
+            self.caster:AddNewModifier(self.caster, self, "bonechill_modifier", { duration = self:GetSpecialValueFor( "bone_chill_duration" ), mana_regen = self.mana_regen })
 
             self.caster:RemoveModifierByNameAndCaster("shatter_modifier", self.caster)
 

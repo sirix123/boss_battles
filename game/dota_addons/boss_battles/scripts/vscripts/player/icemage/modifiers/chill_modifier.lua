@@ -20,8 +20,9 @@ end
 
 function chill_modifier:OnCreated( kv )
 	if IsServer() then
-        self.ms_slow = -200
-        self.as_slow = -50
+        self.ms_slow = kv.ms_slow
+		self.as_slow = kv.as_slow
+
     end
 end
 ----------------------------------------------------------------------------
@@ -29,14 +30,14 @@ end
 function chill_modifier:DeclareFunctions()
 	local funcs =
 	{
-        MODIFIER_PROPERTY_MOVESPEED_ABSOLUTE,
+        MODIFIER_PROPERTY_MOVESPEED_BONUS_PERCENTAGE,
         MODIFIER_PROPERTY_ATTACKSPEED_BONUS_CONSTANT,
 	}
 	return funcs
 end
 -----------------------------------------------------------------------------
 
-function chill_modifier:GetModifierMoveSpeed_Absolute( params )
+function chill_modifier:GetModifierMoveSpeedBonus_Percentage( params )
 	return self.ms_slow
 end
 --------------------------------------------------------------------------------

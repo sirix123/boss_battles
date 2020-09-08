@@ -21,11 +21,11 @@ end
 --------------------------------------------------------------------------------
 -- Initializations
 function e_spawn_ward_buff:OnCreated( kv )
-	if IsServer() then
+	--if IsServer() then
 		-- references
-		self.dmg_reduction = kv.dmg_reduction
-		self.heal_amount_per_tick = kv.heal_amount_per_tick
-	end
+		self.dmg_reduction = 20
+		self.heal_amount_per_tick = 20
+	--end
 end
 
 function e_spawn_ward_buff:OnRefresh( kv )

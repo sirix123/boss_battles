@@ -46,12 +46,12 @@ end
 function q_warlord_def_stance_modifier_lifesteal:OnTakeDamage(params)
     local hero = self:GetParent()
 
-    local life_steal_amount = self.lifesteal_percent * params.damage
+    if params.attacker:HasModifier("q_warlord_def_stance_modifier_lifesteal") then
+        hero:Heal(self.lifesteal_percent * params.damage, self:GetAbility())
 
-    hero:Heal(life_steal_amount, self:GetAbility())
-
-    -- play effect on hero
-    ParticleManager:CreateParticle("particles/items3_fx/octarine_core_lifesteal.vpcf",PATTACH_ABSORIGIN_FOLLOW, hero)
+        -- play effect on hero
+        ParticleManager:CreateParticle("particles/items3_fx/octarine_core_lifesteal.vpcf",PATTACH_ABSORIGIN_FOLLOW, hero)
+    end
 
 end
 --------------------------------------------------------------------------------

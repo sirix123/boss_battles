@@ -25,6 +25,9 @@ function e_icefall_modifier_thinker:OnCreated( kv )
         self.stopDamageLoop = false
         self.damage_interval = self:GetAbility():GetSpecialValueFor( "dmg_interval" )
 
+        self.ms_slow = self:GetAbility():GetSpecialValueFor( "ms_slow" )
+        self.as_slow = self:GetAbility():GetSpecialValueFor( "as_slow" )
+
         -- ref from spell 
         self.currentTarget = Vector( kv.target_x, kv.target_y, kv.target_z )
 
@@ -83,7 +86,7 @@ function e_icefall_modifier_thinker:StartApplyDamageLoop()
                 }
 
                 ApplyDamage(self.dmgTable)
-                enemy:AddNewModifier(self.caster, self, "chill_modifier", { duration = self:GetAbility():GetSpecialValueFor( "chill_duration") })
+                enemy:AddNewModifier(self.caster, self, "chill_modifier", { duration = self:GetAbility():GetSpecialValueFor( "chill_duration"), ms_slow = self.ms_slow, as_slow = self.as_slow })
             end
         end
         --DebugDrawCircle(self.currentTarget, Vector(0,0,255), 60, self.radius, true, 60)

@@ -20,6 +20,7 @@ function r_explosive_tip_modifier_target:OnCreated( kv )
 	if IsServer() then
 		self.caster = self:GetCaster()
 		self.parent = self:GetParent()
+		--print(self.caster:GetPlayerOwner())
 
 		self.ability = self.caster:FindAbilityByName("r_explosive_tip")
 
@@ -36,7 +37,7 @@ function r_explosive_tip_modifier_target:OnCreated( kv )
 			self:IncrementStackCount()
 
 			local particleName = "particles/player_generic_stack_numbers.vpcf"
-			self.particle = ParticleManager:CreateParticle(particleName, PATTACH_OVERHEAD_FOLLOW, self.parent)
+			self.particle = ParticleManager:CreateParticleForPlayer(particleName, PATTACH_OVERHEAD_FOLLOW, self.parent, self.caster:GetPlayerOwner())
 			ParticleManager:SetParticleControl(self.particle, 0, self.parent:GetAbsOrigin())
 			ParticleManager:SetParticleControl(self.particle, 1, Vector(0, self:GetStackCount(), 0))
 			--ParticleManager:ReleaseParticleIndex(self.particle)
@@ -54,7 +55,7 @@ end
 function r_explosive_tip_modifier_target:OnDestroy()
 	if IsServer() then
 
-		-- dmg formulae
+		-- dmg formulae -- dmg part
 		local dmg = self:GetStackCount() * self.dmg_per_stack
 
 		local enemies = FindUnitsInRadius(
@@ -84,9 +85,10 @@ function r_explosive_tip_modifier_target:OnDestroy()
         end
 
 		-- play explode effect
-		local particleEffect = "particles/ranger/ranger_phoenix_supernova_reborn_sphere_shockwave.vpcf"
-		self.particle_2 = ParticleManager:CreateParticle(particleEffect, PATTACH_OVERHEAD_FOLLOW, self.parent)
+		local particleEffect = "particles/ranger/ranger_techies_land_mine_explode.vpcf"--"particles/ranger/ranger_phoenix_supernova_reborn_sphere_shockwave.vpcf"
+		self.particle_2 = ParticleManager:CreateParticle(particleEffect, PATTACH_WORLDORIGIN, self.parent)
 		ParticleManager:SetParticleControl(self.particle_2, 0, self.parent:GetAbsOrigin())
+		ParticleManager:SetParticleControl(self.particle_2, 1, Vector(0,0,100))
 		ParticleManager:ReleaseParticleIndex(self.particle_2)
 
 		-- destroy number stacks

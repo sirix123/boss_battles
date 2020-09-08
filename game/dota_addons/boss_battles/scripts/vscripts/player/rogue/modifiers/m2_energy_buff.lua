@@ -17,16 +17,15 @@ end
 --------------------------------------------------------------------------------
 -- Initializations
 function m2_energy_buff:OnCreated( kv )
-    if IsServer() then
+    --if IsServer() then
         -- references
 		self.energy_regen_bonus = self:GetAbility():GetSpecialValueFor( "energy_regen_bonus" )
 
-    end
+    --end
 end
 
 function m2_energy_buff:OnRefresh( kv )
-	if IsServer() then
-    end
+
 end
 
 function m2_energy_buff:OnRemoved()
@@ -53,7 +52,7 @@ end
 --------------------------------------------------------------------------------
 -- Graphics & Animations
 function m2_energy_buff:GetEffectName()
-	return "particles/econ/items/clinkz/clinkz_ti9_immortal/clinkz_ti9_strafe_embers.vpcf"
+	return "particles/units/heroes/hero_ursa/ursa_enrage_buff_2.vpcf"
 end
 
 function m2_energy_buff:GetEffectAttachType()

@@ -11,18 +11,19 @@
 		"AbilityUnitDamageType"			"DAMAGE_TYPE_PHYSICAL"	
 		"SpellImmunityType"				"SPELL_IMMUNITY_ENEMIES_YES"
         "AbilityBehavior"				"DOTA_ABILITY_BEHAVIOR_POINT"
-		"AbilityCastRange" 				"400"
+		"AbilityCastRange" 				"300"
         "AbilityCooldown"				"0"
         "AbilityCastPoint"              "0.5"
 
 		"TargetingIndicator"
 		{
-			//"Type" 						"TARGETING_INDICATOR_HALF_CIRCLE"
+			"Type"						"TARGETING_INDICATOR_CONE"
+			"Fixed"						"1"
 		}
         
 		"AbilitySpecial"
 		{
-			"01"{ "var_type"			"FIELD_INTEGER"		"radius"				"400" }	 
+			"01"{ "var_type"			"FIELD_INTEGER"		"radius"				"250" }	 
 			"02"{ "var_type"			"FIELD_INTEGER"		"damage"				"100" }
 			"03"{ "var_type"			"FIELD_INTEGER"		"mana_gain_percent"		"10" }
 			
@@ -92,7 +93,8 @@
         
 		"AbilitySpecial"
 		{
-
+			"01"{ "var_type"			"FIELD_INTEGER"		"dps_stance_m2_stack_duration"		"5" }
+			"02"{ "var_type"			"FIELD_INTEGER"		"dmg_per_debuff_stack"				"30" }
 		}
 
         "precache"
@@ -241,8 +243,8 @@
         //-------------------------------------------------------------------------------------------------------------
 		"AbilitySpecial"
 		{
-            "01"{ "var_type"			"FIELD_INTEGER"		"speed"		            "1000" }
-            "02"{ "var_type"			"FIELD_INTEGER"		"latch_radius"		    "50" }
+            "01"{ "var_type"			"FIELD_INTEGER"		"speed"		            "1500" }
+            "02"{ "var_type"			"FIELD_INTEGER"		"latch_radius"		    "100" }
 		}
 
         "precache"

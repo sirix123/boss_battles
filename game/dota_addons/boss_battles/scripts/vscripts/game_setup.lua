@@ -173,9 +173,25 @@ function GameSetup:OnEntityKilled(keys)
     end
 
     -- handles encounter/boss dying
-    -- find all units and thinkers from centre of the arena map with xyz radius and forcekill, utilremove, destroy them?
-    -- origin could be the boss spawn point
-    -- when boss dies, revive all players in their current locations then move to intermission area
+    if npc:GetUnitName() == "npc_beastmaster" then
+        -- clean up enounter
+        self:EncounterCleanUp( npc:GetAbsOrigin() )
+
+        -- repsawn deadplayers and reset lifes
+        killedHero:SetRespawnsDisabled( false )
+        killedHero:SetRespawnPosition( BOSS_BATTLES_INTERMISSION_SPAWN_LOCATION )
+        self.player_deaths = {}
+        killedHero.playerLives = BOSS_BATTLES_PLAYER_LIVES
+
+        -- move alive players to intermission area
+        Timers:CreateTimer(5.0, function()
+            local heroes = HeroList:GetAllHeroes()
+            for _,hero in pairs(heroes) do
+                FindClearSpaceForUnit(hero, BOSS_BATTLES_INTERMISSION_SPAWN_LOCATION, true)
+            end
+        end)
+
+    end
 
 end
 --------------------------------------------------------------------------------------------------
@@ -276,10 +292,11 @@ end
 --------------------------------------------------------------------------------------------------
 
 function GameSetup:EncounterCleanUp( origin )
+    if orgin == nil then return end
 
     -- reset cd of all players abilties
 
-    -- destroy thinkers..
+    -- destroy thinkers.. -- gotta handle in the thinkers
 
     -- find all units, kill them
     local units = FindUnitsInRadius(

@@ -22,12 +22,12 @@ function e_swallow_potion_modifier:OnCreated( kv )
 		--self.ms_bonus = self:GetAbility():GetSpecialValueFor( "movespeed_bonus_pct" )
 		self:SetStackCount(1)
 
-		local caster = self:GetCaster()
+		--[[local caster = self:GetCaster()
 		self.effectIndex = ParticleManager:CreateParticle(
 			"particles/econ/items/dazzle/dazzle_dark_light_weapon/dazzle_dark_shallow_grave_playerglow.vpcf",
 			PATTACH_CUSTOMORIGIN,
 			caster)
-		ParticleManager:SetParticleControlEnt(self.effectIndex , 0, caster, 5, "attach_attack2", Vector(0,0,0), true)
+		ParticleManager:SetParticleControlEnt(self.effectIndex , 0, caster, 5, "attach_attack2", Vector(0,0,0), true)]]
     end
 end
 
@@ -45,7 +45,7 @@ function e_swallow_potion_modifier:OnRemoved()
 end
 
 function e_swallow_potion_modifier:OnDestroy()
-	ParticleManager:DestroyParticle(self.effectIndex, true)
+	--ParticleManager:DestroyParticle(self.effectIndex, true)
 end
 
 --------------------------------------------------------------------------------
@@ -65,9 +65,9 @@ end]]
 --------------------------------------------------------------------------------
 --[[ Graphics & Animations
 function e_swallow_potion_modifier:GetEffectName()
-	return "particles/econ/items/bristleback/bristle_quest_ti8/bristle_quest_weapon_ti8_ambient_glow.vpcf"
+	return "particles/econ/items/abaddon/abaddon_everblack/abaddon_everblack_horse_ambient_eyes_glow.vpcf"
 end
 
 function e_swallow_potion_modifier:GetEffectAttachType()
-	return PATTACH_ABSORIGIN_FOLLOW
+	return PATTACH_EYES_FOLLOW
 end]]

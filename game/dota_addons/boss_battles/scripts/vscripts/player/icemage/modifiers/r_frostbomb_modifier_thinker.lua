@@ -60,7 +60,7 @@ function r_frostbomb_modifier_thinker:OnDestroy( kv )
             })
 
 			if CheckRaidTableForBossName(enemy) ~= true then
-				enemy:AddNewModifier(self.caster, self, "chill_modifier", { duration = self:GetAbility():GetSpecialValueFor( "chill_duration") })
+				--enemy:AddNewModifier(self.caster, self, "chill_modifier", { duration = self:GetAbility():GetSpecialValueFor( "chill_duration") })
 			end
 
 		end

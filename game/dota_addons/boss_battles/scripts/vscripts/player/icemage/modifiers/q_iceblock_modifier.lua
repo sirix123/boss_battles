@@ -23,7 +23,7 @@ end
 -----------------------------------------------------------------------------
 
 function q_iceblock_modifier:OnCreated( kv )
-	if IsServer() then
+	--if IsServer() then
 		local iFrameTime = self:GetAbility():GetSpecialValueFor( "i_frame")
 		self.animation_rate = 0.5
 		self.invulnerable = true
@@ -35,22 +35,20 @@ function q_iceblock_modifier:OnCreated( kv )
 
 		self:StartIntervalThink(iFrameTime)
 
-    end
+    --end
 end
 ----------------------------------------------------------------------------
 
 function q_iceblock_modifier:OnIntervalThink()
-	if IsServer() then
+	--if IsServer() then
 		self.invulnerable = false
 		self.healthBar = false
-    end
+    --end
 end
 ----------------------------------------------------------------------------
 
 function q_iceblock_modifier:OnDestroy()
-	if IsServer() then
-		self:GetAbility():CancelIceblock( false )
-    end
+
 end
 ----------------------------------------------------------------------------
 

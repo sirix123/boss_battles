@@ -45,6 +45,9 @@ function m1_iceshot:OnSpellStart()
         local origin = self.caster:GetAbsOrigin()
         local projectile_speed = self:GetSpecialValueFor( "proj_speed" )
 
+        self.ms_slow = self:GetSpecialValueFor( "ms_slow" )
+        self.as_slow = self:GetSpecialValueFor( "as_slow" )
+
         -- set proj direction to mouse location
         local vTargetPos = nil
         --vTargetPos = PlayerManager.mouse_positions[self.caster:GetPlayerID()]
@@ -83,7 +86,7 @@ function m1_iceshot:OnSpellStart()
                 end
 
                 -- adds shatter and stack logic
-                self.caster:AddNewModifier(self.caster, self, "shatter_modifier", { duration = self:GetSpecialValueFor( "shatter_duration"), max_shatter_stacks = self:GetSpecialValueFor( "max_shatter_stacks") })
+                self.caster:AddNewModifier(self.caster, self, "shatter_modifier", { duration = self:GetSpecialValueFor( "shatter_duration"), max_shatter_stacks = self:GetSpecialValueFor( "max_shatter_stacks"), ms_slow = self.ms_slow, as_slow = self.as_slow })
 
                 ApplyDamage(dmgTable)
                 EmitSoundOnLocationWithCaster(unit:GetAbsOrigin(), "hero_Crystal.projectileImpact", self.caster)

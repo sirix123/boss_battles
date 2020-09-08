@@ -52,7 +52,7 @@ function q_iceblock:OnSpellStart()
             { duration = duration } -- kv
         )
 
-        if self.caster:FindModifierByNameAndCaster("bonechill_modifier", self.caster) then
+        --[[if self.caster:FindModifierByNameAndCaster("bonechill_modifier", self.caster) then
 
             self.caster:RemoveModifierByNameAndCaster("bonechill_modifier", self.caster)
 
@@ -63,80 +63,10 @@ function q_iceblock:OnSpellStart()
                 { duration = boneChillDuration } -- kv
             )
 
-        end
+        end]]
 
-        self:PlayEffects(target)
-
-        -- swap abilities to end iceblock
-        local end_ability = self.caster:FindAbilityByName("cancel_iceblock")
-        if not end_ability then
-		    end_ability = self.caster:AddAbility( "cancel_iceblock" )
-		    self.add = end_ability
-        end
-
-	    end_ability:SetLevel( 1 )
-	    end_ability.parent = self
-
-	    -- set layout
-        self:SetLayout( false )
+        self.caster:SwapAbilities("q_iceblock", "cancel_ice_block", false, true)
 
 	end
-end
-----------------------------------------------------------------------------------------------------------------
-
-function q_iceblock:SetLayout(main)
-	if self.layout_main~=main then
-		local ability_main = "q_iceblock"
-		local ability_sub = "cancel_iceblock"
-
-		-- swap
-		self:GetCaster():SwapAbilities( ability_main, ability_sub, main, (not main) )
-		self.layout_main = main
-	end
-end
-----------------------------------------------------------------------------------------------------------------
-function q_iceblock:CancelIceblock( forced )
-	-- remove modifier
-    if forced then
-        if self:GetCaster():IsAlive() == true then
-            self.modifier:Destroy()
-        end
-	end
-	self.modifier = nil
-
-	-- reset layout
-	self:SetLayout( true )
-
-	-- remove ability if stolen
-	if self.add then
-		self:GetCaster():RemoveAbility( "cancel_iceblock" )
-	end
-end
-----------------------------------------------------------------------------------------------------------------
-
-function q_iceblock:OnOwnerDied()
-
-    self:CancelIceblock( true )
-
-end
-----------------------------------------------------------------------------------------------------------------
-
--- Helper Ability
-cancel_iceblock = class({})
-function cancel_iceblock:OnSpellStart()
-
-    self.parent:CancelIceblock( true )
-
-end
-----------------------------------------------------------------------------------------------------------------
-
-function q_iceblock:PlayEffects(target)
-
-    -- add voiceover
-
-
-    -- Create Sound
-    EmitSoundOnLocationWithCaster( target:GetAbsOrigin(), sound_cast, self:GetCaster() )
-
 end
 ----------------------------------------------------------------------------------------------------------------

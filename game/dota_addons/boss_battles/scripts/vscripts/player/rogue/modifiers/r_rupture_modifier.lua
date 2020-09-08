@@ -42,7 +42,7 @@ function r_rupture_modifier:OnCreated( kv )
         -- reference from kv
         self.damage_type = self:GetAbility():GetAbilityDamageType()
         self.base_dmg = self:GetAbility():GetSpecialValueFor("dmg_dot_base")
-        self.bonus_bleed_percent = self:GetAbility():GetSpecialValueFor("bonus_bleed_percent")
+        self.bonus_bleed_percent = self:GetAbility():GetSpecialValueFor("bonus_bleed_percent") / 100 -- make the tooltip look better (display %)
 
         -- tick with base dmg until we get charges
         self.dmg = self.base_dmg

@@ -7,15 +7,15 @@
 	"npc_dota_hero_phantom_assassin"
 	{
 		"override_hero"			"npc_dota_hero_phantom_assassin"			// Hero to override
-		"Ability1"              "m1_combo_hit_1_2" 
-        "Ability2"              "m2_combo_breaker" 
-        "Ability3"              "q_smoke_bomb" 
-        "Ability4"              "e_swallow_potion"
-        "Ability5"              "r_rupture"
-        "Ability6"              "space_shadowstep"
-        "Ability7"              "m1_combo_hit_3"
-        "Ability8"              "space_shadowstep_teleport"
-        "Ability9"              "space_shadowstep_teleport_back"
+		"Ability1"              "m1_combo_hit_1_2" //Slash
+        "Ability2"              "m2_combo_breaker" //Assassinate
+        "Ability3"              "q_smoke_bomb" //Evasion
+        "Ability4"              "e_swallow_potion" //Envenom
+        "Ability5"              "r_rupture" //Puncture
+        "Ability6"              "space_shadowstep" //Shadowstep
+        "Ability7"              "m1_combo_hit_3" //Lacerate
+        "Ability8"              "space_shadowstep_teleport" //
+        "Ability9"              "space_shadowstep_teleport_back" // Return
         "Ability10"             ""
         "Ability11"             ""
         "Ability12"             ""

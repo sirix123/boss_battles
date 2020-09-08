@@ -12,30 +12,25 @@ end
 -----------------------------------------------------------------------------
 
 function bonechill_modifier:GetEffectName()
-	return "particles/status_fx/status_effect_lich_gaze.vpcf"
+	return "particles/icemage/bonechill_wyvern_arctic_burn_slow.vpcf"
 end
 
 function bonechill_modifier:GetStatusEffectName()
-	return "particles/status_fx/status_effect_lich_gaze.vpcf"
+	return "particles/icemage/bonechill_wyvern_arctic_burn_slow.vpcf"
 end
 -----------------------------------------------------------------------------
 
 function bonechill_modifier:OnCreated( kv )
-	if IsServer() then
-    end
+	--if not IsServer() then return end
+	self.mana_regen = self:GetAbility():GetSpecialValueFor( "mana_regen")
 end
 ----------------------------------------------------------------------------
 
 function bonechill_modifier:OnRefresh( kv )
-	if IsServer() then
-
-    end
 end
 ----------------------------------------------------------------------------
 
 function bonechill_modifier:OnDestroy()
-    if IsServer() then
-    end
 end
 ----------------------------------------------------------------------------
 
@@ -43,18 +38,12 @@ function bonechill_modifier:DeclareFunctions()
 	local funcs =
 	{
         MODIFIER_PROPERTY_MANA_REGEN_CONSTANT,
-        MODIFIER_PROPERTY_COOLDOWN_PERCENTAGE,
 	}
 	return funcs
 end
 -----------------------------------------------------------------------------
 
 function bonechill_modifier:GetModifierConstantManaRegen ( params )
-	return 10
-end
---------------------------------------------------------------------------------
-
-function bonechill_modifier:GetModifierPercentageCooldown( params )
-	return 50
+	return self.mana_regen
 end
 --------------------------------------------------------------------------------

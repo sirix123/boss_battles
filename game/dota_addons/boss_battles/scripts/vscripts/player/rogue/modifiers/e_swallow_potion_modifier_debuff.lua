@@ -52,11 +52,11 @@ function e_swallow_potion_modifier_debuff:GetModifierMoveSpeedBonus_Percentage()
 end]]
 
 --------------------------------------------------------------------------------
--- Graphics & Animations
+--[[ Graphics & Animations
 function e_swallow_potion_modifier_debuff:GetEffectName()
 	return "particles/status_fx/status_effect_goo_crimson.vpcf"
 end
 
 function e_swallow_potion_modifier_debuff:GetEffectAttachType()
 	return PATTACH_ABSORIGIN_FOLLOW
-end
+end]]

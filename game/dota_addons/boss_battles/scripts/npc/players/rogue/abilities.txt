@@ -9,7 +9,7 @@
 		"AbilityTextureName"			"pangolier_swashbuckle"
 		"AbilityUnitTargetTeam"			"DOTA_UNIT_TARGET_TEAM_ENEMY"
 		"AbilityUnitDamageType"			"DAMAGE_TYPE_PHYSICAL"	
-		"SpellImmunityType"				"SPELL_IMMUNITY_ENEMIES_YES"
+		//"SpellImmunityType"				"SPELL_IMMUNITY_ENEMIES_YES"
         "AbilityBehavior"				"DOTA_ABILITY_BEHAVIOR_POINT"
 		"AbilityCastRange" 				"200"
         "AbilityCooldown"				"0"
@@ -38,7 +38,7 @@
 		"AbilityTextureName"			"phantom_assassin_phantom_strike"
 		"AbilityUnitTargetTeam"			"DOTA_UNIT_TARGET_TEAM_ENEMY"
 		"AbilityUnitDamageType"			"DAMAGE_TYPE_PHYSICAL"	
-		"SpellImmunityType"				"SPELL_IMMUNITY_ENEMIES_YES"
+		//"SpellImmunityType"				"SPELL_IMMUNITY_ENEMIES_YES"
         "AbilityBehavior"				"DOTA_ABILITY_BEHAVIOR_POINT | DOTA_ABILITY_BEHAVIOR_HIDDEN"
 		"AbilityCastRange" 				"200"
         "AbilityCooldown"				"0"
@@ -57,8 +57,8 @@
 			"02"{ "var_type"			"FIELD_INTEGER"		"damage"				"100"   }
             "03"{ "var_type"			"FIELD_INTEGER"		"bleed_duration"		"5"    	}	
             "04"{ "var_type"			"FIELD_INTEGER"		"dmg_dot_base"		    "20"    }	
-			"05"{ "var_type"			"FIELD_FLOAT"		"bonus_bleed_percent"	"1.15"   }
-            "06"{ "var_type"			"FIELD_FLOAT"		"damage_interval"		"0.5"   }		
+            "05"{ "var_type"			"FIELD_FLOAT"		"damage_interval"		"1"   	}	
+			"06"{ "var_type"			"FIELD_FLOAT"		"bonus_bleed_percent"	"15"   }	
 		}
 	}
 
@@ -71,7 +71,7 @@
 		"AbilityTextureName"			"phantom_assassin_coup_de_grace"
 		"AbilityUnitTargetTeam"			"DOTA_UNIT_TARGET_TEAM_ENEMY"
 		"AbilityUnitDamageType"			"DAMAGE_TYPE_PHYSICAL"	
-		"SpellImmunityType"				"SPELL_IMMUNITY_ENEMIES_YES"
+		//"SpellImmunityType"				"SPELL_IMMUNITY_ENEMIES_YES"
         "AbilityBehavior"				"DOTA_ABILITY_BEHAVIOR_POINT"
 		"AbilityCastRange" 				"200"
         "AbilityCooldown"				"0"
@@ -102,9 +102,9 @@
 		"MaxLevel"						"1"
 
 		"AbilityTextureName"			"riki_smoke_screen"
-		"SpellImmunityType"				"SPELL_IMMUNITY_ENEMIES_YES"
+		//"SpellImmunityType"				"SPELL_IMMUNITY_ENEMIES_YES"
         "AbilityBehavior"				"DOTA_ABILITY_BEHAVIOR_NO_TARGET | DOTA_ABILITY_BEHAVIOR_IGNORE_BACKSWING | DOTA_ABILITY_BEHAVIOR_ROOT_DISABLES"
-		"AbilityCastRange" 				"1500"
+		//"AbilityCastRange" 				"1500"
         "AbilityCooldown"				"5.0"
 
 		"TargetingIndicator"
@@ -114,9 +114,9 @@
         
 		"AbilitySpecial"
 		{
-			"01"{ "var_type"			"FIELD_INTEGER"		"duration"				"1.5"   }	 
+			"01"{ "var_type"			"FIELD_INTEGER"		"duration"				"2.5"   }	 
 			"02"{ "var_type"			"FIELD_INTEGER"		"movespeed_bonus_pct"	"50"   }
-			"03"{ "var_type"			"FIELD_INTEGER"		"invul_time"		    "1.5"    }	
+			"03"{ "var_type"			"FIELD_FLOAT"		"invul_time"		    "0.5"    }	
 		}
 	}
 
@@ -129,7 +129,7 @@
 		"AbilityTextureName"			"slark_essence_shift"
 		"AbilityUnitTargetTeam"			"DOTA_UNIT_TARGET_TEAM_ENEMY"
 		"AbilityUnitDamageType"			"DAMAGE_TYPE_PHYSICAL"	
-		"SpellImmunityType"				"SPELL_IMMUNITY_ENEMIES_YES"
+		//"SpellImmunityType"				"SPELL_IMMUNITY_ENEMIES_YES"
         "AbilityBehavior"				"DOTA_ABILITY_BEHAVIOR_POINT"
 		"AbilityCastRange" 				"200"
         "AbilityCooldown"				"0"
@@ -143,11 +143,11 @@
 		}
         
 		"AbilitySpecial"
-		{
-			"01"{ "var_type"			"FIELD_INTEGER"		"radius"					"200"   }	 
-			"02"{ "var_type"			"FIELD_INTEGER"		"damage"					"100"   }
-			"03"{ "var_type"			"FIELD_INTEGER"		"duration"					"10"   	}
-			"04"{ "var_type"			"FIELD_INTEGER"		"energy_regen_bonus"		"10"   	}
+		{ 
+			"01"{ "var_type"			"FIELD_INTEGER"		"damage"					"100"   }
+			"02"{ "var_type"			"FIELD_INTEGER"		"duration"					"10"   	}
+			"03"{ "var_type"			"FIELD_INTEGER"		"energy_regen_bonus"		"10"   	}
+			"04"{ "var_type"			"FIELD_INTEGER"		"radius"					"200"   }
 		}
 	}
 
@@ -160,7 +160,7 @@
 		"AbilityTextureName"			"phantom_assassin_stifling_dagger"
 		"AbilityUnitTargetTeam"			"DOTA_UNIT_TARGET_TEAM_ENEMY"
 		"AbilityUnitDamageType"			"DAMAGE_TYPE_PHYSICAL"	
-		"SpellImmunityType"				"SPELL_IMMUNITY_ENEMIES_YES"
+		//"SpellImmunityType"				"SPELL_IMMUNITY_ENEMIES_YES"
         "AbilityBehavior"				"DOTA_ABILITY_BEHAVIOR_POINT"
 		"AbilityCastRange" 				"1500"
         "AbilityCooldown"				"15"
@@ -181,8 +181,8 @@
 			"03"{ "var_type"			"FIELD_INTEGER"		"proj_speed"					"1100" 	}
 			"04"{ "var_type"			"FIELD_INTEGER"		"duration"						"20" 	}
 			"05"{ "var_type"			"FIELD_INTEGER"		"dmg_dot_base"		    		"50"    }	
-			"06"{ "var_type"			"FIELD_FLOAT"		"bonus_bleed_percent"			"1.15"    }
-            "07"{ "var_type"			"FIELD_FLOAT"		"damage_interval"				"0.5"    }		
+			"06"{ "var_type"			"FIELD_FLOAT"		"bonus_bleed_percent"			"15"    }
+            "07"{ "var_type"			"FIELD_FLOAT"		"damage_interval"				"1"    }		
 		}
 	}
 

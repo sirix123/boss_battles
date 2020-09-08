@@ -3,7 +3,7 @@ q_warlord_def_stance_modifier = class({})
 --------------------------------------------------------------------------------
 -- Classifications
 function q_warlord_def_stance_modifier:IsHidden()
-	return false
+	return true
 end
 
 function q_warlord_def_stance_modifier:IsDebuff()
