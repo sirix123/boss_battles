@@ -24,7 +24,7 @@
 		"AbilitySpecial"
 		{
 			"01"{ "var_type"			"FIELD_INTEGER"		"radius"				"250" }	 
-			"02"{ "var_type"			"FIELD_INTEGER"		"damage"				"100" }
+			"02"{ "var_type"			"FIELD_INTEGER"		"damage"				"90" }
 			"03"{ "var_type"			"FIELD_INTEGER"		"mana_gain_percent"		"10" }
 			
 		}
@@ -55,10 +55,10 @@
 		"AbilitySpecial"
 		{
 			"01"{ "var_type"			"FIELD_INTEGER"		"width"								"150" }	
-			"02"{ "var_type"			"FIELD_INTEGER"		"base_dmg"							"50" }
-			"03"{ "var_type"			"FIELD_FLOAT"		"dmg_per_mana_point"				"1.5" }
+			"02"{ "var_type"			"FIELD_INTEGER"		"base_dmg"							"150" }
+			"03"{ "var_type"			"FIELD_FLOAT"		"dmg_per_mana_point"				"2" }
 			"04"{ "var_type"			"FIELD_INTEGER"		"dps_stance_m2_stack_duration"		"5" }
-			"05"{ "var_type"			"FIELD_INTEGER"		"dmg_per_debuff_stack"				"30" }
+			"05"{ "var_type"			"FIELD_INTEGER"		"dmg_per_debuff_stack"				"50" }
 			
 		}
 
@@ -94,7 +94,7 @@
 		"AbilitySpecial"
 		{
 			"01"{ "var_type"			"FIELD_INTEGER"		"dps_stance_m2_stack_duration"		"5" }
-			"02"{ "var_type"			"FIELD_INTEGER"		"dmg_per_debuff_stack"				"30" }
+			"02"{ "var_type"			"FIELD_INTEGER"		"dmg_per_debuff_stack"				"50" }
 		}
 
         "precache"
@@ -151,7 +151,7 @@
 		"AbilityUnitDamageType"			"DAMAGE_TYPE_PHYSICAL"	
         "AbilityBehavior"				"DOTA_ABILITY_BEHAVIOR_POINT | TARGETING_INDICATOR_AOE"
 		"AbilityCastRange" 				"1000"
-        "AbilityCooldown"				"0"
+        "AbilityCooldown"				"50"
         "AbilityCastPoint"              "0.5"
 		"AbilityManaCost"        		"40"
 
@@ -191,9 +191,9 @@
         "AbilityBehavior"				"DOTA_ABILITY_BEHAVIOR_NO_TARGET"
 		"AbilityUnitDamageType"			"DAMAGE_TYPE_PHYSICAL"	
 		"AbilityCastRange" 				"600"
-        "AbilityCooldown"				"0.0"
+        "AbilityCooldown"				"20"
         "AbilityCastPoint"              "0"
-		"AbilityManaCost"        		"0"
+		"AbilityManaCost"        		"10"
 
 		"TargetingIndicator"
 		{
@@ -206,8 +206,8 @@
 			"01"{ "var_type"			"FIELD_INTEGER"		"duration"				"10" }	
 			"02"{ "var_type"			"FIELD_FLOAT"		"tick"					"0.5" }
 			"03"{ "var_type"			"FIELD_INTEGER"		"radius"				"300" }
-			"04"{ "var_type"			"FIELD_INTEGER"		"damage"				"50" }
-			"05"{ "var_type"			"FIELD_INTEGER"		"mana_degen"			"-5" }
+			"04"{ "var_type"			"FIELD_INTEGER"		"damage"				"70" }
+			"05"{ "var_type"			"FIELD_INTEGER"		"mana_degen"			"-10" }
 			"06"{ "var_type"			"FIELD_FLOAT"		"mana_gain_percent"		"0.5" }
 			
 		}

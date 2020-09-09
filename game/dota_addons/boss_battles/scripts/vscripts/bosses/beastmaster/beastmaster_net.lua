@@ -47,7 +47,16 @@ function beastmaster_net:OnSpellStart()
 			UnitTest = function(_self, unit) return unit:GetTeamNumber() ~= hero:GetTeamNumber() and unit:GetTeamNumber() ~= DOTA_TEAM_NEUTRALS end,
 			OnUnitHit = function(_self, unit) 
 				if unit ~= nil and (unit:GetUnitName() ~= nil) then
-					unit:AddNewModifier( self:GetCaster(), self, "modifier_beastmaster_net", { duration = self:GetSpecialValueFor( "duration" ) } )
+					--unit:AddNewModifier( self:GetCaster(), self, "modifier_beastmaster_net", { duration = self:GetSpecialValueFor( "duration" ) } )
+					
+					local dmgTable = {
+						victim = unit,
+						attacker = caster,
+						damage = self:GetSpecialValueFor( "damage_bear" ),
+						damage_type = self:GetAbilityDamageType(),
+					}
+
+					ApplyDamage(dmgTable)
 
 					EmitSoundOn( "Hero_Beastmaster.Wild_Axes_Damage", unit )
 				end

@@ -30,6 +30,20 @@ function r_whirlwind:OnSpellStart()
         local caster = self:GetCaster()
         local point = caster:GetOrigin()
 
+        --[[ disable abilities
+        local tAbilties =
+        {
+            "m1_sword_slash",
+            "m2_sword_slam",
+            "q_warlord_def_stance",
+            "e_spawn_ward",
+            "q_warlord_dps_stance"
+        }
+
+        for _, ability in pairs(tAbilties) do
+            ability:SetActivated(false)
+		end]]
+
         local duration = self:GetSpecialValueFor("duration")
 
         -- Add modifier

@@ -173,7 +173,7 @@ function GameSetup:OnEntityKilled(keys)
     end
 
     -- handles encounter/boss dying
-    if npc:GetUnitName() == "npc_beastmaster" then
+    if npc:GetUnitName() == "npc_quilboar" then --npc_beastmaster
         -- clean up enounter
         self:EncounterCleanUp( npc:GetAbsOrigin() )
 
@@ -244,7 +244,8 @@ function GameSetup:ReadyupCheck() -- called from trigger lua file for activators
 
     -- spawn boss
     Timers:CreateTimer(1.0, function()
-        CreateUnitByName("npc_beastmaster", self.beastmasterBossSpawn, true, nil, nil, DOTA_TEAM_BADGUYS)
+        --CreateUnitByName("npc_beastmaster", self.beastmasterBossSpawn, true, nil, nil, DOTA_TEAM_BADGUYS)
+        CreateUnitByName("npc_quilboar", self.beastmasterBossSpawn, true, nil, nil, DOTA_TEAM_BADGUYS)
     end)
 
 end

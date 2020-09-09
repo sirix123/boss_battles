@@ -25,7 +25,7 @@
 		"AbilitySpecial"
 		{
 			"01"{ "var_type"			"FIELD_INTEGER"		"radius"				"200" }	 
-			"02"{ "var_type"			"FIELD_INTEGER"		"damage"				"100" }
+			"02"{ "var_type"			"FIELD_INTEGER"		"damage"				"60" }
 		}
 	}
 
@@ -54,11 +54,11 @@
 		"AbilitySpecial"
 		{
 			"01"{ "var_type"			"FIELD_INTEGER"		"radius"				"200"   }	 
-			"02"{ "var_type"			"FIELD_INTEGER"		"damage"				"100"   }
+			"02"{ "var_type"			"FIELD_INTEGER"		"damage"				"80"   }
             "03"{ "var_type"			"FIELD_INTEGER"		"bleed_duration"		"5"    	}	
-            "04"{ "var_type"			"FIELD_INTEGER"		"dmg_dot_base"		    "20"    }	
+            "04"{ "var_type"			"FIELD_INTEGER"		"dmg_dot_base"		    "30"    }	
             "05"{ "var_type"			"FIELD_FLOAT"		"damage_interval"		"1"   	}	
-			"06"{ "var_type"			"FIELD_FLOAT"		"bonus_bleed_percent"	"15"   }	
+			"06"{ "var_type"			"FIELD_FLOAT"		"bonus_bleed_percent"	"50"   }	
 		}
 	}
 
@@ -87,8 +87,8 @@
 		"AbilitySpecial"
 		{
 			"01"{ "var_type"			"FIELD_INTEGER"		"radius"					"200"   }	 
-			"02"{ "var_type"			"FIELD_INTEGER"		"damage"					"100"   }
-			"03"{ "var_type"			"FIELD_INTEGER"		"m1_bleed_tick"				"20"   }
+			"02"{ "var_type"			"FIELD_INTEGER"		"damage"					"200"   }
+			"03"{ "var_type"			"FIELD_INTEGER"		"m1_bleed_tick"				"30"   }
 			"04"{ "var_type"			"FIELD_INTEGER"		"rupture_bleed_tick"		"50"   }
 			"05"{ "var_type"			"FIELD_INTEGER"		"duration"					"10"   }
 			"06"{ "var_type"			"FIELD_INTEGER"		"energy_regen_bonus"		"10"   }
@@ -105,7 +105,7 @@
 		//"SpellImmunityType"				"SPELL_IMMUNITY_ENEMIES_YES"
         "AbilityBehavior"				"DOTA_ABILITY_BEHAVIOR_NO_TARGET | DOTA_ABILITY_BEHAVIOR_IGNORE_BACKSWING | DOTA_ABILITY_BEHAVIOR_ROOT_DISABLES"
 		//"AbilityCastRange" 				"1500"
-        "AbilityCooldown"				"5.0"
+        "AbilityCooldown"				"20.0"
 
 		"TargetingIndicator"
 		{
@@ -132,7 +132,7 @@
 		//"SpellImmunityType"				"SPELL_IMMUNITY_ENEMIES_YES"
         "AbilityBehavior"				"DOTA_ABILITY_BEHAVIOR_POINT"
 		"AbilityCastRange" 				"200"
-        "AbilityCooldown"				"0"
+        "AbilityCooldown"				"5"
         "AbilityCastPoint"              "0.6"
 		"AbilityManaCost"        		"15"
 
@@ -176,12 +176,12 @@
         
 		"AbilitySpecial"
 		{
-			"01"{ "var_type"			"FIELD_INTEGER"		"dmg"							"50" 	}
+			"01"{ "var_type"			"FIELD_INTEGER"		"dmg"							"200" 	}
 			"02"{ "var_type"			"FIELD_INTEGER"		"hit_box"						"150" 	}
 			"03"{ "var_type"			"FIELD_INTEGER"		"proj_speed"					"1100" 	}
 			"04"{ "var_type"			"FIELD_INTEGER"		"duration"						"20" 	}
 			"05"{ "var_type"			"FIELD_INTEGER"		"dmg_dot_base"		    		"50"    }	
-			"06"{ "var_type"			"FIELD_FLOAT"		"bonus_bleed_percent"			"15"    }
+			"06"{ "var_type"			"FIELD_FLOAT"		"bonus_bleed_percent"			"50"    }
             "07"{ "var_type"			"FIELD_FLOAT"		"damage_interval"				"1"    }		
 		}
 	}
@@ -197,7 +197,7 @@
         "AbilityBehavior"				"DOTA_ABILITY_BEHAVIOR_POINT"
 		"AbilityCastAnimation"          "ACT_DOTA_CAST_ABILITY_1"
 		"AbilityCastRange" 				"1200"
-        "AbilityCooldown"				"0"
+        "AbilityCooldown"				"15"
         "AbilityCastPoint"              "0"
 
 		"TargetingIndicator"

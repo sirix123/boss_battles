@@ -43,7 +43,7 @@
             "01"
             {
                 "var_type"          "FIELD_FLOAT"
-                "base_damage"     	"100"
+                "base_damage"     	"200"
             }
             "02"
             {
@@ -53,7 +53,7 @@
 			"03"
             {
                 "var_type"          "FIELD_INTEGER"
-                "slow_duration"     "3"
+                "slow_duration"     "2"
             }                      
         }
 
@@ -210,7 +210,7 @@
             "04"
             {
                 "var_type"              "FIELD_FLOAT"
-                "damage"     	        "50"
+                "damage"     	        "25"
             }
             "05"
             {
@@ -281,7 +281,7 @@
             "05"
             {
                 "var_type"              "FIELD_FLOAT"
-                "damage_bear"     	        "100"
+                "damage_bear"     	        "350"
             }
             "06"
             {

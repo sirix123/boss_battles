@@ -49,6 +49,10 @@ function r_whirlwind_modifier:OnCreated( kv )
 end
 
 function r_whirlwind_modifier:OnDestroy( kv )
+
+	-- enable abilties
+
+
 	local sound_cast = "Hero_Juggernaut.BladeFuryStart"
     StopSoundOn( sound_cast, self:GetParent() )
 end
