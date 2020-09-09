@@ -30,19 +30,11 @@ function r_whirlwind:OnSpellStart()
         local caster = self:GetCaster()
         local point = caster:GetOrigin()
 
-        --[[ disable abilities
-        local tAbilties =
-        {
-            "m1_sword_slash",
-            "m2_sword_slam",
-            "q_warlord_def_stance",
-            "e_spawn_ward",
-            "q_warlord_dps_stance"
-        }
-
-        for _, ability in pairs(tAbilties) do
-            ability:SetActivated(false)
-		end]]
+        caster:FindAbilityByName("m1_sword_slash"):SetActivated(false)
+        caster:FindAbilityByName("m2_sword_slam"):SetActivated(false)
+        --caster:FindAbilityByName("q_warlord_def_stance"):SetActivated(false)
+        --caster:FindAbilityByName("q_warlord_dps_stance"):SetActivated(false)
+        caster:FindAbilityByName("e_spawn_ward"):SetActivated(false)
 
         local duration = self:GetSpecialValueFor("duration")
 

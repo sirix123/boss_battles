@@ -48,9 +48,22 @@ function r_whirlwind_modifier:OnCreated( kv )
 	self:PlayEffects()
 end
 
+function r_whirlwind_modifier:OnRemoved( kv )
+	-- enable abilties
+	if IsServer() then
+		if self.caster:HasModifier("space_chain_hook_modifier") == false then
+			self.caster:FindAbilityByName("m1_sword_slash"):SetActivated(true)
+			self.caster:FindAbilityByName("m2_sword_slam"):SetActivated(true)
+			--self.caster:FindAbilityByName("q_warlord_def_stance"):SetActivated(true)
+			--self.caster:FindAbilityByName("q_warlord_dps_stance"):SetActivated(true)
+			self.caster:FindAbilityByName("e_spawn_ward"):SetActivated(true)
+		end
+	end
+
+end
+
 function r_whirlwind_modifier:OnDestroy( kv )
 
-	-- enable abilties
 
 
 	local sound_cast = "Hero_Juggernaut.BladeFuryStart"

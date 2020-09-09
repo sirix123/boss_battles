@@ -43,6 +43,12 @@ function space_chain_hook:OnSpellStart()
 		local caster = self:GetCaster()
         local origin = caster:GetAbsOrigin()
 
+        caster:FindAbilityByName("m1_sword_slash"):SetActivated(false)
+        caster:FindAbilityByName("m2_sword_slam"):SetActivated(false)
+        --caster:FindAbilityByName("q_warlord_def_stance"):SetActivated(false)
+        --caster:FindAbilityByName("q_warlord_dps_stance"):SetActivated(false)
+        caster:FindAbilityByName("e_spawn_ward"):SetActivated(false)
+
         self:GetCaster():EmitSound("Hero_Pudge.AttackHookRetract")
 
         local target = self:GetCursorTarget()

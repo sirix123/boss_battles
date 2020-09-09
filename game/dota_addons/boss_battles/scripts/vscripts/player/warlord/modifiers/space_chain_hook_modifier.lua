@@ -28,6 +28,15 @@ end
 function space_chain_hook_modifier:GetOverrideAnimationRate()
 	return 1.0
 end
+
+function space_chain_hook_modifier:CheckState()
+	local state = {
+		[MODIFIER_STATE_NO_UNIT_COLLISION] = true,
+	}
+
+	return state
+end
+
 ---------------------------------------------------------------------------
 
 function space_chain_hook_modifier:OnCreated( kv )
@@ -68,6 +77,14 @@ end
 
 function space_chain_hook_modifier:OnDestroy( kv )
     if IsServer() then
+
+        if self.caster:HasModifier("r_whirlwind_modifier") == false then
+            self.caster:FindAbilityByName("m1_sword_slash"):SetActivated(true)
+            self.caster:FindAbilityByName("m2_sword_slam"):SetActivated(true)
+            --caster:FindAbilityByName("q_warlord_def_stance"):SetActivated(false)
+            --caster:FindAbilityByName("q_warlord_dps_stance"):SetActivated(false)
+            self.caster:FindAbilityByName("e_spawn_ward"):SetActivated(true)
+        end
 
         self:GetParent():RemoveHorizontalMotionController( self )
         self:GetCaster():EmitSound("Hero_Pudge.AttackHookImpact")
