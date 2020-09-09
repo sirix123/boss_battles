@@ -178,10 +178,13 @@ function GameSetup:OnEntityKilled(keys)
         self:EncounterCleanUp( npc:GetAbsOrigin() )
 
         -- repsawn deadplayers and reset lifes
-        killedHero:SetRespawnsDisabled( false )
-        killedHero:SetRespawnPosition( BOSS_BATTLES_INTERMISSION_SPAWN_LOCATION )
-        self.player_deaths = {}
-        killedHero.playerLives = BOSS_BATTLES_PLAYER_LIVES
+        local heroes = HeroList:GetAllHeroes()
+        for _, hero in pairs(heroes) do
+            hero:SetRespawnsDisabled( false )
+            hero:SetRespawnPosition( BOSS_BATTLES_INTERMISSION_SPAWN_LOCATION )
+            self.player_deaths = {}
+            hero.playerLives = BOSS_BATTLES_PLAYER_LIVES
+        end
 
         -- move alive players to intermission area
         Timers:CreateTimer(5.0, function()
