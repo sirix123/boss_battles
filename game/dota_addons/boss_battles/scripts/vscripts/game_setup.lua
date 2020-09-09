@@ -10,6 +10,9 @@ function GameSetup:init()
 
     self.player_deaths = {}
 
+    -- spectator teamID
+    DOTA_TEAM_SPECTATORS = 1
+
     GameRules:EnableCustomGameSetupAutoLaunch(false)
     GameRules:SetCustomGameSetupAutoLaunchDelay(0)
     GameRules:SetHeroSelectionTime(30)
@@ -19,6 +22,7 @@ function GameSetup:init()
     GameRules:SetPostGameTime(5)
     GameRules:SetSameHeroSelectionEnabled(true)
     GameRules:SetCustomGameTeamMaxPlayers(DOTA_TEAM_GOODGUYS, 4)
+    GameRules:SetCustomGameTeamMaxPlayers(DOTA_TEAM_SPECTATORS, 2)
     GameRules:SetCustomGameTeamMaxPlayers(DOTA_TEAM_BADGUYS, 0)
     GameRules:SetCustomGameTeamMaxPlayers(DOTA_TEAM_CUSTOM_1, 0)
     GameRules:SetCustomGameTeamMaxPlayers(DOTA_TEAM_CUSTOM_2, 0)
