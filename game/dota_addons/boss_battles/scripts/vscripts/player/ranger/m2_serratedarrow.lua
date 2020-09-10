@@ -8,14 +8,14 @@ function m2_serratedarrow:OnAbilityPhaseStart()
 
         EmitSoundOnLocationForAllies(self:GetCaster():GetAbsOrigin(), "Ability.PowershotPull", self:GetCaster())
 
-        self.nfx = ParticleManager:CreateParticle("particles/econ/items/windrunner/windrunner_ti6/windrunner_spell_powershot_channel_ti6.vpcf", PATTACH_POINT, self.caster)
-        ParticleManager:SetParticleControlEnt(self.nfx, 0, self.caster, PATTACH_POINT_FOLLOW, "bow_mid1", self.caster:GetAbsOrigin(), true)
+        self.nfx = ParticleManager:CreateParticle("particles/ranger/ranger_windrunner_spell_powershot_channel_ti6.vpcf", PATTACH_POINT, self.caster)
+        ParticleManager:SetParticleControlEnt(self.nfx, 0, self.caster, PATTACH_POINT_FOLLOW, "attach_attack1", self.caster:GetAbsOrigin(), true)
         ParticleManager:SetParticleControl(self.nfx, 1, self.caster:GetAbsOrigin())
         ParticleManager:SetParticleControlForward(self.nfx, 1, self.caster:GetForwardVector())
 
         -- start casting animation
         -- the 1 below is imporant if set incorrectly the animation will stutter (second variable in startgesture is the playback override)
-        self:GetCaster():StartGestureWithPlaybackRate(ACT_DOTA_CAST_ABILITY_2, 1.3)
+        self:GetCaster():StartGestureWithPlaybackRate(ACT_DOTA_CAST_ABILITY_6, 1.3)
 
         -- add casting modifier
         self:GetCaster():AddNewModifier(self:GetCaster(), self, "casting_modifier_thinker",
@@ -33,7 +33,7 @@ function m2_serratedarrow:OnAbilityPhaseInterrupted()
     if IsServer() then
 
         -- remove casting animation
-        self:GetCaster():FadeGesture(ACT_DOTA_CAST_ABILITY_2)
+        self:GetCaster():FadeGesture(ACT_DOTA_CAST_ABILITY_6)
 
         -- remove casting modifier
         self:GetCaster():RemoveModifierByName("casting_modifier_thinker")
@@ -51,6 +51,9 @@ function m2_serratedarrow:OnSpellStart()
         -- destroy channel particle
         ParticleManager:DestroyParticle( self.nfx, true )
 
+        -- remove casting animation
+        self:GetCaster():FadeGesture(ACT_DOTA_CAST_ABILITY_6)
+
         -- init
 		self.caster = self:GetCaster()
         local origin = self.caster:GetAbsOrigin()
@@ -66,11 +69,11 @@ function m2_serratedarrow:OnSpellStart()
         vTargetPos = Vector(self.caster.mouse.x, self.caster.mouse.y, self.caster.mouse.z)
         local projectile_direction = (Vector( vTargetPos.x - origin.x, vTargetPos.y - origin.y, 0 )):Normalized()
         -- init effect
-        local enEffect = "particles/units/heroes/hero_windrunner/windrunner_spell_powershot.vpcf"
+        local enEffect = "particles/ranger/ranger_windrunner_spell_powershot_ti6.vpcf"
 
         -- check for explosive tip modifier and if we have it change arrow effect and apply explosive stack
         if self.caster:HasModifier("r_explosive_tip_modifier") then
-            enEffect = "particles/ranger/ranger_windrunner_spell_powershot.vpcf"
+            enEffect = "particles/ranger/ranger_windrunner_spell_powershot_ti6.vpcf"
         end
 
         local projectile = {
