@@ -31,7 +31,7 @@ function GameSetup:init()
 	GameRules:SetGoldTickTime( 999999.0 )
     GameRules:SetGoldPerTick( 0 )
 
-    GameRules:GetGameModeEntity():SetFixedRespawnTime( 5 )
+    GameRules:GetGameModeEntity():SetFixedRespawnTime( 3 )
     GameRules:GetGameModeEntity():SetCameraDistanceOverride( 1800 )
     GameRules:GetGameModeEntity():SetBuybackEnabled( false )
     GameRules:GetGameModeEntity():SetFogOfWarDisabled(true)
@@ -83,6 +83,7 @@ function GameSetup:OnNPCSpawned(keys)
 
         npc:Initialize(keys)
         self:RegisterPlayer(npc)
+        self:RegisterRaidWipe()
 
         -- level up abilities for all heroes to level 1
         if npc:GetUnitName() == "npc_dota_hero_crystal_maiden"
@@ -130,6 +131,43 @@ function GameSetup:RegisterPlayer( hero )
 end
 --------------------------------------------------------------------------------------------------
 
+function GameSetup:RegisterRaidWipe( )
+
+    Timers:CreateTimer(function()
+
+        if #self.player_deaths == HeroList:GetHeroCount() then
+
+            -- register a wipe for current boss
+
+            -- revive and move dead heroes
+            for _, killedHero in pairs(self.player_deaths) do
+                killedHero:SetRespawnPosition( BOSS_BATTLES_INTERMISSION_SPAWN_LOCATION )
+                self.respawn_time = BOSS_BATTLES_RESPAWN_TIME
+                killedHero:SetTimeUntilRespawn(self.respawn_time)
+                killedHero.playerLives = BOSS_BATTLES_PLAYER_LIVES
+            end
+
+            --[[ edge case that a player is dead then boss dies
+            local heroes = HeroList:GetAllHeroes()
+            for _, hero in pairs(heroes) do
+                if hero:IsAlive() then
+                    FindClearSpaceForUnit(hero, BOSS_BATTLES_INTERMISSION_SPAWN_LOCATION, true)
+                end
+            end]]
+
+            -- call boss cleanup function
+            self:EncounterCleanUp( self.beastmasterBossSpawn )
+
+            -- reset  death counter
+            self.player_deaths = {}
+
+        end
+
+        return 0.5
+    end)
+end
+
+--------------------------------------------------------------------------------------------------
 function GameSetup:SpawnTestingStuff(keys)
 
     -- flame turrets for right side of the map, need to change facing vector
@@ -184,7 +222,7 @@ function GameSetup:OnEntityKilled(keys)
         -- repsawn deadplayers and reset lifes
         local heroes = HeroList:GetAllHeroes()
         for _, hero in pairs(heroes) do
-            hero:SetRespawnsDisabled( false )
+            --hero:SetRespawnsDisabled( false )
             hero:SetRespawnPosition( BOSS_BATTLES_INTERMISSION_SPAWN_LOCATION )
             self.player_deaths = {}
             hero.playerLives = BOSS_BATTLES_PLAYER_LIVES
@@ -269,38 +307,27 @@ function GameSetup:HeroKilled( keys )
     killedHero.playerLives = killedHero.playerLives - 1
 
     if killedHero.playerLives <= 0 then
-        table.insert(self.player_deaths, killedPlayerID)
-        killedHero:SetRespawnsDisabled( true )
-
-        if #self.player_deaths == HeroList:GetHeroCount() then
-            killedHero:SetRespawnsDisabled( false )
-            killedHero:SetRespawnPosition( BOSS_BATTLES_INTERMISSION_SPAWN_LOCATION )
-            self.player_deaths = {}
-            killedHero.playerLives = BOSS_BATTLES_PLAYER_LIVES
-
-            -- register a wipe for current boss
-
-            -- call boss cleanup function
-            self:EncounterCleanUp( self.beastmasterBossSpawn )
-
-        end
+        table.insert(self.player_deaths, killedHero)
+        self.respawn_time = 999
     else
-        killedHero:SetRespawnsDisabled( false )
+        self.respawn_time = BOSS_BATTLES_RESPAWN_TIME
         killedHero:SetRespawnPosition( killedHeroOrigin )
 
         if killedHero:GetRespawnsDisabled() == false then
             killedHero.nRespawnFX = ParticleManager:CreateParticle( "particles/items_fx/aegis_timer.vpcf", PATTACH_ABSORIGIN_FOLLOW, killedHero )
-            ParticleManager:SetParticleControl( killedHero.nRespawnFX, 1, Vector( 5, 0, 0 ) )
+            ParticleManager:SetParticleControl( killedHero.nRespawnFX, 1, Vector( BOSS_BATTLES_RESPAWN_TIME, 0, 0 ) )
 
             AddFOWViewer( killedHero:GetTeamNumber(), killedHero:GetAbsOrigin(), 800.0, 5, false )
         end
     end
 
+    killedHero:SetTimeUntilRespawn(self.respawn_time)
+
 end
 --------------------------------------------------------------------------------------------------
 
 function GameSetup:EncounterCleanUp( origin )
-    if orgin == nil then return end
+    if origin == nil then return end
 
     -- reset cd of all players abilties
 
@@ -311,7 +338,7 @@ function GameSetup:EncounterCleanUp( origin )
         DOTA_TEAM_BADGUYS,
         origin,
         nil,
-        2500,
+        3000,
         DOTA_UNIT_TARGET_TEAM_BOTH,
         DOTA_UNIT_TARGET_ALL,
         DOTA_UNIT_TARGET_FLAG_NONE,
@@ -323,4 +350,6 @@ function GameSetup:EncounterCleanUp( origin )
             unit:ForceKill(false)
         end
     end
+
+    return 0.5
 end

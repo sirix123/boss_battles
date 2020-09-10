@@ -103,8 +103,8 @@ function m2_combo_breaker:OnSpellStart()
             local nStackCount = hBuff:GetStackCount()
             if nStackCount == 3 then
                 caster:AddNewModifier(caster, self, "m2_energy_buff", { duration = self:GetSpecialValueFor( "duration") })
+                caster:RemoveModifierByName("e_swallow_potion_modifier")
             end
-            caster:RemoveModifierByName("e_swallow_potion_modifier")
         end
 
 		local dmgTable = {
