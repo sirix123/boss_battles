@@ -18,89 +18,60 @@ tRAID_INIT_TABLE = {
 	-- 	game = SnowballGame:new{duration=-1},
 	-- },
 
-	intermission = {
+	[1] = {
 		name = "Intermission",
-		description = "MANY ANIMALS",
-		arena = "PlayerIntermissionSpawn",
-		spawnLocation =
-		{
-			"beastmaster_boss_spawn",
-		},
-		bosses =
-		{
-			--"npc_dota_creature_dummy_target_minion",
-			"npc_dota_creature_dummy_target_boss",
-		},
+		description = "Heroes please, take a seat by the hearth and relax.",
+		arena = "intermission_player_spawn",
+		spawnLocation = "something_boss_spawn",
+		boss = "npc_dota_creature_dummy_target_boss",
 	},
 
-	beastmaster = {
+	[2] = {
 		name = "Beastmaster",
 		description = "MANY ANIMALS",
-		arena = "beastmasterspawn",
-		spawnLocation = 
-		{
-			"beastmaster_boss_spawn",
-		},
-		bosses =
-		{
-			"npc_beastmaster",
-		},
+		arena = "beastmaster_player_spawn",
+		spawnLocation = "beastmaster_boss_spawn",
+		boss ="npc_beastmaster",
 	},
 
-	timber = {
+	[3] = {
 		name = "Timber",
 		description = "MANY ANIMALS",
-		arena = "timberPlayerSpawn",
-		spawnLocation =
-		{
-			"timberBossSpawn",
-		},
-		bosses =
-		{
-			"npc_viper",
-		},
+		arena = "timber_player_spawn",
+		spawnLocation = "timber_boss_spawn",
+		boss = "npc_viper",
 	},
 
-	clock = {
+	[4] = {
 		name = "Clock",
 		description = "MANY ANIMALS",
 		arena = "clock_player_spawn",
-		spawnLocation =
-		{
-			"clock_spawn",
-		},
-		bosses =
-		{
-			"npc_clock",
-		},
+		spawnLocation = "clock_boss_spawn",
+		boss = "npc_clock",
 	},
 
-	boss4 = {
-		name = "Boss4",
+	[5] = {
+		name = "Techies",
 		description = "MANY ANIMALS",
-		arena = "boss4spawn",
-		spawnLocation =
-		{
-			"beastmaster_boss_spawn",
-		},
-		bosses = 
-		{
-			"npc_viper",
-		},
+		arena = "techies_player_spawn",
+		spawnLocation = "techies_boss_spawn",
+		boss = "npc_techies_boss",
 	},
-	
-	gyrocopter = {
+
+	[6] = {
 		name = "Gyrocopter",
 		description = "gyrocopter boss description",
-		arena = "captainspawn",
-		spawnLocation =
-		{
-			"captainspawn",
-		},
-		bosses =
-		{
-			"npc_gyrocopter",
-		},
+		arena = "gyrocopter_player_spawn",
+		spawnLocation = "gyro_boss_spawn",
+		boss = "npc_gyrocopter",
+	},
+
+	[7] = {
+		name = "Tinker",
+		description = "gyrocopter boss description",
+		arena = "tinker_player_spawn",
+		spawnLocation = "tinker_boss_spawn",
+		boss = "npc_gyrocopter",
 	},
 
 }

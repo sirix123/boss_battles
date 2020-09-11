@@ -2,6 +2,8 @@ if GameSetup == nil then
     GameSetup = class({})
 end
 
+RAID_TABLES = require('managers/raid_init_tables')
+
 LinkLuaModifier( "movement_modifier_thinker", "player/generic/movement_modifier_thinker", LUA_MODIFIER_MOTION_NONE )
 LinkLuaModifier( "remove_attack_modifier", "player/generic/remove_attack_modifier", LUA_MODIFIER_MOTION_NONE )
 LinkLuaModifier( "modifier_respawn", "core/modifier_respawn", LUA_MODIFIER_MOTION_NONE )
@@ -156,7 +158,7 @@ function GameSetup:RegisterRaidWipe( )
             end]]
 
             -- call boss cleanup function
-            self:EncounterCleanUp( self.beastmasterBossSpawn )
+            self:EncounterCleanUp( self.boss_spawn )
 
             -- reset  death counter
             self.player_deaths = {}
@@ -194,6 +196,9 @@ function GameSetup:SpawnTestingStuff(keys)
     -- target dummy (1 moving)
     CreateUnitByName("npc_dota_creature_gnoll_assassin_moving", Vector(-11077,-8747,256), true, nil, nil, DOTA_TEAM_BADGUYS)
 
+    --test
+    PrintTable(RAID_TABLES, indent, done)
+
 end
 --------------------------------------------------------------------------------------------------
 
@@ -215,25 +220,28 @@ function GameSetup:OnEntityKilled(keys)
     end
 
     -- handles encounter/boss dying
-    if npc:GetUnitName() == "npc_quilboar" then --npc_beastmaster
+    if npc:GetUnitName() == RAID_TABLES[BOSS_BATTLES_ENCOUNTER_COUNTER].boss then
+        -- increase encounter counter
+        BOSS_BATTLES_ENCOUNTER_COUNTER = BOSS_BATTLES_ENCOUNTER_COUNTER + 1
+
         -- repsawn deadplayers and reset lifes
         local heroes = HeroList:GetAllHeroes()
         for _, hero in pairs(heroes) do
             hero:SetRespawnPosition( BOSS_BATTLES_INTERMISSION_SPAWN_LOCATION )
-            self.respawn_time = 5
+            self.respawn_time = 1
             self.player_deaths = {}
             hero.playerLives = BOSS_BATTLES_PLAYER_LIVES
         end
 
         -- move alive players to intermission area
-        Timers:CreateTimer(5.0, function()
+        Timers:CreateTimer(1.0, function()
             local heroes = HeroList:GetAllHeroes()
             for _,hero in pairs(heroes) do
                 FindClearSpaceForUnit(hero, BOSS_BATTLES_INTERMISSION_SPAWN_LOCATION, true)
             end
         end)
 
-        Timers:CreateTimer(6.0, function()
+        Timers:CreateTimer(2.0, function()
             -- clean up enounter
             self:EncounterCleanUp( npc:GetAbsOrigin() )
         end)
@@ -244,7 +252,7 @@ end
 
 function GameSetup:OnEntityHurt(keys)
     local damagebits = keys.damagebits
-    PrintTable(keys, indent, done)
+    --PrintTable(keys, indent, done)
 
     if keys.entindex_attacker ~= nil and keys.entindex_killed ~= nil then
         local entVictim = EntIndexToHScript(keys.entindex_killed)
@@ -272,27 +280,32 @@ end
 
 -- handles tping players to the boss arena and spawning the boss
 function GameSetup:ReadyupCheck() -- called from trigger lua file for activators (ready_up)
-
-    --beastmaster_playerspawn
-    --beastmaster_bossspawn
     local heroes = HeroList:GetAllHeroes()
-    local beastmasterPlaySpawn = Entities:FindByName(nil, "beastmaster_playerspawn"):GetAbsOrigin()
-    self.beastmasterBossSpawn = Entities:FindByName(nil, "beastmaster_bossspawn"):GetAbsOrigin()
+
+    -- look at raid tables and move players to boss encounter based on counter
+    print("game_setup: Start boss counter: ", BOSS_BATTLES_ENCOUNTER_COUNTER," ", RAID_TABLES[BOSS_BATTLES_ENCOUNTER_COUNTER].boss )
+
+    local boss_arena_name     = RAID_TABLES[BOSS_BATTLES_ENCOUNTER_COUNTER].spawnLocation
+    local player_arena_name   = RAID_TABLES[BOSS_BATTLES_ENCOUNTER_COUNTER].arena
+
+    -- find enity using the above values from the table
+    self.boss_spawn = Entities:FindByName(nil, boss_arena_name):GetAbsOrigin()
+    self.player_spawn = Entities:FindByName(nil, player_arena_name):GetAbsOrigin()
 
     for _,hero in pairs(heroes) do
         if hero:GetUnitName() ~= "npc_dota_hero_phantom_assassin" then
             hero:SetMana(0)
         end
-        FindClearSpaceForUnit(hero, beastmasterPlaySpawn, true)
+        FindClearSpaceForUnit(hero, self.player_spawn, true)
     end
 
     -- count down message
-
+    -- message duration = timer below in spawn boss
 
     -- spawn boss
     Timers:CreateTimer(1.0, function()
-        --CreateUnitByName("npc_beastmaster", self.beastmasterBossSpawn, true, nil, nil, DOTA_TEAM_BADGUYS)
-        CreateUnitByName("npc_quilboar", self.beastmasterBossSpawn, true, nil, nil, DOTA_TEAM_BADGUYS)
+        -- look at raidtables and spawn the boss depending on the encounter counter
+        CreateUnitByName(RAID_TABLES[BOSS_BATTLES_ENCOUNTER_COUNTER].boss, self.boss_spawn, true, nil, nil, DOTA_TEAM_BADGUYS)
     end)
 
 end
