@@ -119,7 +119,7 @@ function r_whirlwind_modifier:OnIntervalThink()
 		end
 	end
 
-	if self.caster:GetManaPercent() < 1 then
+	if self.caster:GetManaPercent() < 10 then
 		self:Destroy()
 	end
 

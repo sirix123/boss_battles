@@ -8,7 +8,7 @@ function e_rainofarrows_thinker:OnCreated( kv )
 
 	if IsServer() then
 		-- precache damage
-		self.damage = self.damage*interval/kv.duration
+		self.damage = self.damage
 		self.damageTable = {
 			attacker = self:GetCaster(),
 			damage_type = self:GetAbility():GetAbilityDamageType(),
@@ -48,7 +48,6 @@ function e_rainofarrows_thinker:OnIntervalThink()
 		false	-- bool, can grow cache
 	)
 
-	if #enemies<1 then return end
 	for _,enemy in pairs(enemies) do
 		self.damageTable.victim = enemy
 		self.damageTable.damage = self.damage/#enemies

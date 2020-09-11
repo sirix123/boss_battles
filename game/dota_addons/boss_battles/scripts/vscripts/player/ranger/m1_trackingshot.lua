@@ -14,7 +14,7 @@ function m1_trackingshot:OnAbilityPhaseStart()
         })
 
         -- sound effect
-        EmitSoundOn( "Hero_Nevermore.Attack", self:GetCaster() )
+        EmitSoundOn( "Hero_Windrunner.Attack", self:GetCaster() )
 
         return true
     end
@@ -54,11 +54,11 @@ function m1_trackingshot:OnSpellStart()
         local dmg_dist_multi = self:GetSpecialValueFor( "dmg_dist_multi" )
 
         -- init effect
-        local enEffect = "particles/ranger/ranger_nevermore_base_attack.vpcf"
+        local enEffect = "particles/ranger/m1_ranger_windrunner_base_attack.vpcf"
 
         -- check for explosive tip modifier and if we have it change arrow effect and apply explosive stack
         if self.caster:HasModifier("r_explosive_tip_modifier") then
-            enEffect = "particles/ranger/ranger_nevermore_base_attack.vpcf"
+            enEffect = "particles/ranger/ranger_huskar_burning_spear.vpcf"
         end
 
         local projectile = {

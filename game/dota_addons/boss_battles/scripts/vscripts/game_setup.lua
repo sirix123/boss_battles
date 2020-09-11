@@ -87,7 +87,7 @@ function GameSetup:OnNPCSpawned(keys)
 
         -- level up abilities for all heroes to level 1
         if npc:GetUnitName() == "npc_dota_hero_crystal_maiden"
-        or npc:GetUnitName() == "npc_dota_hero_nevermore"
+        or npc:GetUnitName() == "npc_dota_hero_medusa"
         or npc:GetUnitName() == "npc_dota_hero_juggernaut"
         or npc:GetUnitName() == "npc_dota_hero_phantom_assassin"
         then
@@ -216,14 +216,11 @@ function GameSetup:OnEntityKilled(keys)
 
     -- handles encounter/boss dying
     if npc:GetUnitName() == "npc_quilboar" then --npc_beastmaster
-        -- clean up enounter
-        self:EncounterCleanUp( npc:GetAbsOrigin() )
-
         -- repsawn deadplayers and reset lifes
         local heroes = HeroList:GetAllHeroes()
         for _, hero in pairs(heroes) do
-            --hero:SetRespawnsDisabled( false )
             hero:SetRespawnPosition( BOSS_BATTLES_INTERMISSION_SPAWN_LOCATION )
+            self.respawn_time = 5
             self.player_deaths = {}
             hero.playerLives = BOSS_BATTLES_PLAYER_LIVES
         end
@@ -236,8 +233,12 @@ function GameSetup:OnEntityKilled(keys)
             end
         end)
 
-    end
+        Timers:CreateTimer(6.0, function()
+            -- clean up enounter
+            self:EncounterCleanUp( npc:GetAbsOrigin() )
+        end)
 
+    end
 end
 --------------------------------------------------------------------------------------------------
 

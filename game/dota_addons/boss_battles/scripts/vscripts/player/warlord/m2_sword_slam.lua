@@ -87,7 +87,6 @@ function m2_sword_slam:OnSpellStart()
 
         if unit:HasModifier("m2_sword_slam_debuff") then
             local hBuff = unit:FindModifierByNameAndCaster("m2_sword_slam_debuff", self.caster)
-            hBuff:IncrementStackCount()
             local nStackCount = hBuff:GetStackCount()
             damage = damage + ( nStackCount * dmgPerDebuffStack )
         end
@@ -98,13 +97,6 @@ function m2_sword_slam:OnSpellStart()
             damage = damage,
             damage_type = self:GetAbilityDamageType(),
         }
-
-        SendOverheadEventMessage(
-            self.caster:GetPlayerOwner(),
-            2,
-            unit,
-            damage,
-            nil)
 
         ApplyDamage(dmgTable)
 

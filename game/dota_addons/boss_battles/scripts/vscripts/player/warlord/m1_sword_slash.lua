@@ -7,7 +7,7 @@ function m1_sword_slash:OnAbilityPhaseStart()
     if IsServer() then
 
         -- start casting animation
-        self:GetCaster():StartGestureWithPlaybackRate(ACT_DOTA_ATTACK, 1.5)
+        self:GetCaster():StartGestureWithPlaybackRate(ACT_DOTA_ATTACK, 1.1)
 
         -- add casting modifier
         self:GetCaster():AddNewModifier(self:GetCaster(), self, "casting_modifier_thinker",
@@ -48,6 +48,9 @@ function m1_sword_slash:OnSpellStart()
 
 	local damage = self:GetSpecialValueFor("damage")
 
+	local base_mana = self:GetSpecialValueFor( "mana_gain_percent" )
+	local bonus_mana = self:GetSpecialValueFor( "mana_gain_percent_bonus" )
+
 	-- function in utility_functions
 	local enemies = FindUnitsInCone(
 		caster:GetTeamNumber(),
@@ -72,12 +75,25 @@ function m1_sword_slash:OnSpellStart()
 			damage_type = self:GetAbilityDamageType(),
 		}
 
-		-- mana percent per mob hit
-		caster:ManaOnHit(self:GetSpecialValueFor( "mana_gain_percent"))
-
-		EmitSoundOn( "Hero_Juggernaut.Attack", self:GetCaster() )
-
         ApplyDamage(dmgTable)
+	end
+
+	-- mana percent per mob hit
+	-- add more rage generation more mobs but dimishing returns
+	if #enemies == 1 then
+		caster:ManaOnHit( base_mana )
+		EmitSoundOn( "Hero_Juggernaut.Attack", self:GetCaster() )
+	elseif #enemies == 2 then
+		caster:ManaOnHit( base_mana + ( math.fmod(#enemies,bonus_mana) ))
+		EmitSoundOn( "Hero_Juggernaut.Attack", self:GetCaster() )
+	elseif #enemies == 3 then
+		caster:ManaOnHit( base_mana + ( math.fmod(#enemies,bonus_mana) ))
+		EmitSoundOn( "Hero_Juggernaut.Attack", self:GetCaster() )
+	elseif #enemies == 0 then
+		return
+	else
+		caster:ManaOnHit( base_mana + bonus_mana )
+		EmitSoundOn( "Hero_Juggernaut.Attack", self:GetCaster() )
 	end
 end
 --------------------------------------------------------------------------------

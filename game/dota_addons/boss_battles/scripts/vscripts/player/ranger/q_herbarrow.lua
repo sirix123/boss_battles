@@ -6,7 +6,7 @@ function q_herbarrow:OnAbilityPhaseStart()
 
         -- start casting animation
         -- the 1 below is imporant if set incorrectly the animation will stutter (second variable in startgesture is the playback override)
-        self:GetCaster():StartGestureWithPlaybackRate(ACT_DOTA_CAST_ABILITY_1, 1.0)
+        self:GetCaster():StartGestureWithPlaybackRate(ACT_DOTA_CAST_ABILITY_2, 1.0)
 
         -- add casting modifier
         self:GetCaster():AddNewModifier(self:GetCaster(), self, "casting_modifier_thinker",
@@ -23,7 +23,7 @@ function q_herbarrow:OnAbilityPhaseInterrupted()
     if IsServer() then
 
         -- remove casting animation
-        self:GetCaster():FadeGesture(ACT_DOTA_CAST_ABILITY_1)
+        self:GetCaster():FadeGesture(ACT_DOTA_CAST_ABILITY_2)
 
         -- remove casting modifier
         self:GetCaster():RemoveModifierByName("casting_modifier_thinker")
@@ -35,7 +35,7 @@ end
 function q_herbarrow:OnSpellStart()
     if IsServer() then
         -- when spell starts fade gesture
-        self:GetCaster():FadeGesture(ACT_DOTA_CAST_ABILITY_1)
+        self:GetCaster():FadeGesture(ACT_DOTA_CAST_ABILITY_2)
 
         -- init
         self.caster = self:GetCaster()
@@ -68,8 +68,8 @@ function q_herbarrow:OnSpellStart()
         EmitSoundOn( "Hero_Medusa.MysticSnake.Cast", self:GetCaster() )
 
         local nFXIndex = ParticleManager:CreateParticle( "particles/units/heroes/hero_medusa/medusa_mystic_snake_cast.vpcf", PATTACH_CUSTOMORIGIN, nil )
-        ParticleManager:SetParticleControlEnt( nFXIndex, 0, self:GetCaster(), PATTACH_POINT_FOLLOW, "bow_mid1", self:GetCaster():GetOrigin(), true )
-        ParticleManager:SetParticleControlEnt( nFXIndex, 1, self:GetCaster(), PATTACH_POINT_FOLLOW, "bow_mid1", self:GetCaster():GetOrigin(), true )
+        ParticleManager:SetParticleControlEnt( nFXIndex, 0, self:GetCaster(), PATTACH_POINT_FOLLOW, "attach_bow_mid", self:GetCaster():GetOrigin(), true )
+        ParticleManager:SetParticleControlEnt( nFXIndex, 1, self:GetCaster(), PATTACH_POINT_FOLLOW, "attach_bow_mid", self:GetCaster():GetOrigin(), true )
 		ParticleManager:ReleaseParticleIndex( nFXIndex )
 
 		-- add hit target to table

@@ -13,7 +13,7 @@
         "AbilityBehavior"				"DOTA_ABILITY_BEHAVIOR_POINT"
 		"AbilityCastRange" 				"1400"
         "AbilityCooldown"				"0"
-        "AbilityCastPoint"              "0.8"
+        "AbilityCastPoint"              "0.5"
 
 
 		"TargetingIndicator"
@@ -29,6 +29,11 @@
 			"03"{ "var_type"			"FIELD_INTEGER"		"base_dmg"							"30" }
 			"04"{ "var_type"			"FIELD_FLOAT"		"dmg_dist_multi"					"0.08" }
 			"05"{ "var_type"			"FIELD_INTEGER"		"mana_gain_percent"             	"5" }
+		}
+
+		"precache"
+		{
+			"soundfile"	"soundevents/game_sounds_heroes/game_sounds_windrunner.vsndevts"
 		}
 	}
 
@@ -130,10 +135,10 @@
         
 		"AbilitySpecial"
 		{
-			"01"{ "var_type"			"FIELD_INTEGER"		"duration"			"5" 	}
-			"02"{ "var_type"			"FIELD_INTEGER"		"radius"			"150" 	}
-			"03"{ "var_type"			"FIELD_INTEGER"		"damage"			"20" 	}
-			"04"{ "var_type"			"FIELD_FLOAT"		"damage_interval"	"0.1" 	}
+			"01"{ "var_type"			"FIELD_INTEGER"		"duration"			"3" 	}
+			"02"{ "var_type"			"FIELD_INTEGER"		"radius"			"200" 	}
+			"03"{ "var_type"			"FIELD_INTEGER"		"damage"			"100" 	}
+			"04"{ "var_type"			"FIELD_FLOAT"		"damage_interval"	"0.2" 	}
 		}
 
 		"precache"
@@ -155,7 +160,7 @@
         "AbilityBehavior"				"DOTA_ABILITY_BEHAVIOR_NO_TARGET"
 		"AbilityCastRange" 				"1500"
         "AbilityCooldown"				"40"
-        "AbilityCastPoint"              "0.5"
+        "AbilityCastPoint"              "0.1"
 		"AbilityManaCost"        		"0"
         
 		"AbilitySpecial"
@@ -183,7 +188,7 @@
         "AbilityBehavior"				"DOTA_ABILITY_BEHAVIOR_NO_TARGET | DOTA_ABILITY_BEHAVIOR_HIDDEN"
 		"AbilityCastRange" 				"1500"
         "AbilityCooldown"				"0.0"
-        "AbilityCastPoint"              "0.5"
+        "AbilityCastPoint"              "0.1"
 		"AbilityManaCost"        		"0"
         
 		"AbilitySpecial"
