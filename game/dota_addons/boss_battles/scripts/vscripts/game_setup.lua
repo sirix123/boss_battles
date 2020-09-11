@@ -244,6 +244,7 @@ end
 
 function GameSetup:OnEntityHurt(keys)
     local damagebits = keys.damagebits
+    PrintTable(keys, indent, done)
 
     if keys.entindex_attacker ~= nil and keys.entindex_killed ~= nil then
         local entVictim = EntIndexToHScript(keys.entindex_killed)
@@ -261,7 +262,7 @@ function GameSetup:OnEntityHurt(keys)
         local effect_cast = ParticleManager:CreateParticle("particles/msg_fx/msg_damage.vpcf", PATTACH_WORLDORIGIN, nil)
         ParticleManager:SetParticleControl(effect_cast, 0, entVictim:GetAbsOrigin())
         ParticleManager:SetParticleControl(effect_cast, 1, Vector(0, keys.damage, 0))
-        ParticleManager:SetParticleControl(effect_cast, 2, Vector(math.max(1, keys.damage / 10), word_length, 0))
+        ParticleManager:SetParticleControl(effect_cast, 2, Vector(1, word_length, 0)) --vector(math.max(1, keys.damage / 10), word_length, 0))
         ParticleManager:SetParticleControl(effect_cast, 3, color)
         ParticleManager:ReleaseParticleIndex(effect_cast)
     end
