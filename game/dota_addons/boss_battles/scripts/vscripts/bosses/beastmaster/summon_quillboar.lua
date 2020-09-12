@@ -23,7 +23,7 @@ function summon_quillboar:OnSpellStart()
             end
 
             -- get spawn vector
-            local spawnVector = Vector(RandomInt(-2723,-579),RandomInt(-10742,-9000),256)
+            local spawnVector = Vector(RandomInt(-2923,-379),RandomInt(-11142,-8300),256)
 
             --particle effect start
             local particle_cast = "particles/units/heroes/hero_rattletrap/rattletrap_cog_deploy.vpcf"

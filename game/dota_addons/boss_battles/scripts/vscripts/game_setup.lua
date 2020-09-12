@@ -156,10 +156,15 @@ function GameSetup:RegisterRaidWipe( )
             end]]
 
             -- call boss cleanup function
-            self:EncounterCleanUp( self.beastmasterBossSpawn )
+            Timers:CreateTimer(5.0, function()
+                self:EncounterCleanUp( self.beastmasterBossSpawn )
+            end)
 
             -- reset  death counter
             self.player_deaths = {}
+
+            -- wipe flag
+            self.wipe_flag = true
 
         end
 
@@ -215,7 +220,7 @@ function GameSetup:OnEntityKilled(keys)
     end
 
     -- handles encounter/boss dying
-    if npc:GetUnitName() == "npc_quilboar" then --npc_beastmaster
+    if npc:GetUnitName() == "npc_beastmaster" and self.wipe_flag ~= true then --npc_beastmaster
         -- repsawn deadplayers and reset lifes
         local heroes = HeroList:GetAllHeroes()
         for _, hero in pairs(heroes) do
@@ -233,9 +238,9 @@ function GameSetup:OnEntityKilled(keys)
             end
         end)
 
-        Timers:CreateTimer(6.0, function()
+        Timers:CreateTimer(5.0, function()
             -- clean up enounter
-            self:EncounterCleanUp( npc:GetAbsOrigin() )
+            self:EncounterCleanUp( self.beastmasterBossSpawn )
         end)
 
     end
@@ -244,10 +249,11 @@ end
 
 function GameSetup:OnEntityHurt(keys)
     local damagebits = keys.damagebits
-    PrintTable(keys, indent, done)
+    --PrintTable(keys, indent, done)
 
     if keys.entindex_attacker ~= nil and keys.entindex_killed ~= nil then
         local entVictim = EntIndexToHScript(keys.entindex_killed)
+        local entAttacker = EntIndexToHScript(keys.entindex_attacker)
 
         -- The ability/item used to damage, or nil if not damaged by an item/ability
         local damagingAbility = nil
@@ -277,6 +283,7 @@ function GameSetup:ReadyupCheck() -- called from trigger lua file for activators
     --beastmaster_bossspawn
     local heroes = HeroList:GetAllHeroes()
     local beastmasterPlaySpawn = Entities:FindByName(nil, "beastmaster_playerspawn"):GetAbsOrigin()
+    --local beastmasterPlaySpawn = Entities:FindByName(nil, "timber_player_spawn"):GetAbsOrigin()
     self.beastmasterBossSpawn = Entities:FindByName(nil, "beastmaster_bossspawn"):GetAbsOrigin()
 
     for _,hero in pairs(heroes) do
@@ -292,8 +299,11 @@ function GameSetup:ReadyupCheck() -- called from trigger lua file for activators
     -- spawn boss
     Timers:CreateTimer(1.0, function()
         --CreateUnitByName("npc_beastmaster", self.beastmasterBossSpawn, true, nil, nil, DOTA_TEAM_BADGUYS)
-        CreateUnitByName("npc_quilboar", self.beastmasterBossSpawn, true, nil, nil, DOTA_TEAM_BADGUYS)
+        CreateUnitByName("npc_beastmaster", self.beastmasterBossSpawn, true, nil, nil, DOTA_TEAM_BADGUYS)
     end)
+
+    -- reset wipe flag
+    self.wipe_flag = nil
 
 end
 --------------------------------------------------------------------------------------------------

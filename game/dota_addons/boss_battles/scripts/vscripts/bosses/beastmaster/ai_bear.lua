@@ -75,6 +75,7 @@ function BearThink()
 	end
 
 	if thisEntity.hBloodlust ~= nil and thisEntity.hBloodlust:IsCooldownReady() then
+		--print("we casting this every 10seconds?")
 		return CastBloodlust()
 	end
 
