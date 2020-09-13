@@ -12,6 +12,7 @@ function GameSetup:init()
 
     -- spectator teamID
     DOTA_TEAM_SPECTATORS = 1
+    --DOTA_MAX_SPECTATOR_TEAM_SIZE = 2
 
     GameRules:EnableCustomGameSetupAutoLaunch(false)
     GameRules:SetCustomGameSetupAutoLaunchDelay(0)
@@ -21,11 +22,10 @@ function GameSetup:init()
     GameRules:SetShowcaseTime(0)
     GameRules:SetPostGameTime(5)
     GameRules:SetSameHeroSelectionEnabled(true)
-    GameRules:SetCustomGameTeamMaxPlayers(DOTA_TEAM_GOODGUYS, 4)
     GameRules:SetCustomGameTeamMaxPlayers(DOTA_TEAM_SPECTATORS, 2)
+    GameRules:SetCustomGameTeamMaxPlayers(DOTA_TEAM_GOODGUYS, 4)
     GameRules:SetCustomGameTeamMaxPlayers(DOTA_TEAM_BADGUYS, 0)
     GameRules:SetCustomGameTeamMaxPlayers(DOTA_TEAM_CUSTOM_1, 0)
-    GameRules:SetCustomGameTeamMaxPlayers(DOTA_TEAM_CUSTOM_2, 0)
     GameRules:SetHeroRespawnEnabled(true)
     GameRules:SetStartingGold( 0 )
 	GameRules:SetGoldTickTime( 999999.0 )
