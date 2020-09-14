@@ -11,23 +11,55 @@ local isTimerRunning
 local timerInterval = 0.1
 
 
+--TODO implement. 
+function GetClassIcon(className)
+    --TODO: for each class get the icon file/location
+
+    return "file://{images}/class_icons/icon_person.png"
+end
+
 function PlayerManager:SetUpMovement()
     --TODO: move this code elsewhere. Basically RegisterListener at the start of game
 
     --The following listeners are waiting for Javascript to call them via:
     --GameEvents.SendCustomGameEventToServer("showScoreboardEvent", {});
 
+    -- local value = {}
+    -- CustomNetTables:SetTableValue("score_board", "key", value)
+
     --Listen for getScoreboardDataEvent from JS, then call WebApi:GetAndShowScoreboard()
     CustomGameEventManager:RegisterListener('getScoreboardDataEvent', function(eventSourceIndex, args)
-        --Only get scoreboard data from firebase once. 
+        print("getScoreboardDataEvent caught")
+        local heroIndex = args.heroIndex 
+        local playerId = args.playerId
         if _G.scoreboardData == nil then
-            WebApi:GetScoreboardData() 
+            WebApi:GetScoreboardData(heroIndex) 
         end
     end)
 
     --Listen for showScoreboardUIEvent from JS, then send showScoreboardUIEvent event back to JS
     CustomGameEventManager:RegisterListener('showScoreboardUIEvent', function(eventSourceIndex, args)
-        CustomGameEventManager:Send_ServerToPlayer( Convars:GetCommandClient(), "showScoreboardUIEvent", {} )
+        -- print("showScoreboardUIEvent caught")
+        -- print("getting boss scoreboard data for " ..#HeroList:GetAllHeroes().." heroes")                
+        local bsbRows = {}
+        local heroes = HeroList:GetAllHeroes()
+        for _, hero in pairs(heroes) do
+            local unitName = EntIndexToHScript(hero:GetEntityIndex()):GetUnitName()
+            local className = GetClassName(unitName)
+            local playerName = PlayerResource:GetPlayerName(EntIndexToHScript(hero:GetEntityIndex()):GetPlayerOwnerID())
+            local dmgTaken = GetDamageTaken(hero:GetEntityIndex())
+            local dmgDone = GetDamageDone(hero:GetEntityIndex())
+
+            bsbRow = {}
+            bsbRow.class_name = className
+            bsbRow.class_icon = GetClassIcon(className)
+            bsbRow.player_name = playerName
+            bsbRow.dmg_done = dmgDone
+            bsbRow.dmg_taken = dmgTaken
+
+            bsbRows[#bsbRows+1] = bsbRow
+        end
+        CustomGameEventManager:Send_ServerToPlayer( Convars:GetCommandClient(), "showScoreboardUIEvent", bsbRows )
     end)
 
     --Listen for hideScoreboardUIEvent from JS, then send hideScoreboardUIEvent event back to JS
@@ -52,7 +84,7 @@ function PlayerManager:SetUpMovement()
     -- TODO: Move this code elsewhere. Shouldn't be doing this here.. maybe GameMode:SetUpCastBars()
     -- Catch an event at serverside and then send to client side JS.
     CustomGameEventManager:RegisterListener('customEvent_abilityCast', function(eventSourceIndex, args)
-        print("GameMode:SetUpMovement() customEvent_abilityCast event")
+        --print("GameMode:SetUpMovement() customEvent_abilityCast event")
 
 --Using Almouse ProgressBars Library: https://gitlab.com/ZSmith/dota2-modding-libraries/-/tree/master/ProgressBars
 ------------------------------------------------------------------------------------------------------------------

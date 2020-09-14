@@ -250,7 +250,7 @@ function OnRightButtonPressed()
 
 function ShowScoreboard()
 {
-    $.Msg("Javascript: ShowScoreboard()...")
+    // $.Msg("Javascript: ShowScoreboard()...")
 
     //DOESN"T WORK. scoreboardContainer always null
     //call JS directly. Call test_scoreboard.js function: showScoreboardUI()
@@ -259,12 +259,12 @@ function ShowScoreboard()
     //Call test_scoreboard.js function: showScoreboardUI() by going to lua then back to js.
     //Send even back to lua. Which should have registered a listener for showScoreboardUIEvent
     GameEvents.SendCustomGameEventToServer("showScoreboardUIEvent", {});
-    GameEvents.SendCustomGameEventToServer("getScoreboardDataEvent", {});
+    //GameEvents.SendCustomGameEventToServer("getScoreboardDataEvent", {});
 }
 
 function HideScoreboard()
 {
-    $.Msg("Javascript: HideScoreboard()...")   
+    // $.Msg("Javascript: HideScoreboard()...")   
 
     //hideScoreboardUI()    //hideScoreboardUI() in test_scoreboard.js 
     //DOESN"T WORK. $("#ScoreboardContainer") always null 
