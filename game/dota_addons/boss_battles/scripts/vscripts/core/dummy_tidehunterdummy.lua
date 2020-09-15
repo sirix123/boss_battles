@@ -1,4 +1,4 @@
-dummy_move_ai = class({})
+dummy_tidehunterdummy = class({})
 
 --------------------------------------------------------------------------------
 
@@ -6,9 +6,9 @@ function Spawn( entityKeyValues )
     if not IsServer() then return end
     if thisEntity == nil then return end
 
-    thisEntity:SetContextThink( "DummyThink", DummyThink, 0.5 )
+    --thisEntity:SetContextThink( "DummyThink", DummyThink, 0.5 )
 
-    thisEntity.movePosOne = 1
+    --thisEntity.movePosOne = 1
 
     thisEntity:SetHullRadius(60)
 

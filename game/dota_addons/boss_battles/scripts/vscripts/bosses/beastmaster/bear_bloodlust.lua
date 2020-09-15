@@ -30,7 +30,7 @@ end
 ---------------------------------------------------------------------------
 
 function bear_bloodlust:Effects(hTarget)
-	local nFXIndex = ParticleManager:CreateParticle( "particles/units/heroes/hero_ogre_magi/ogre_magi_bloodlust_buff.vpcf", PATTACH_CUSTOMORIGIN, nil )
+	local nFXIndex = ParticleManager:CreateParticle( "particles/beastmaster/bear_lust_ogre_magi_bloodlust_buff.vpcf", PATTACH_CUSTOMORIGIN, nil )
 	ParticleManager:SetParticleControlEnt( nFXIndex, 0, hTarget, PATTACH_OVERHEAD_FOLLOW, "attach_hitloc", hTarget:GetOrigin(), true )
 	ParticleManager:ReleaseParticleIndex( nFXIndex )
 end

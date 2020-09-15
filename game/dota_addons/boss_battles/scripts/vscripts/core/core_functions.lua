@@ -18,6 +18,8 @@ function CDOTA_BaseNPC:Initialize(data)
   self.playerEnergy = 0
   self.playerDmgDone = 0
 
+  self:SetHullRadius(50)
+
 end
 
 function CDOTA_BaseNPC:GetDirection()

@@ -41,7 +41,7 @@ function m1_sword_slash:OnSpellStart()
 	self:GetCaster():FadeGesture(ACT_DOTA_ATTACK)
 
 	-- function in utility_functions
-	local point = Clamp(origin, self:GetCursorPosition(), self:GetCastRange(Vector(0,0,0), nil), self:GetCastRange(Vector(0,0,0), nil))
+	local point = Vector(caster.mouse.x, caster.mouse.y, caster.mouse.z)
 
 	local radius = self:GetSpecialValueFor("radius")
 	local direction = (Vector(point.x-origin.x, point.y-origin.y, 0)):Normalized()

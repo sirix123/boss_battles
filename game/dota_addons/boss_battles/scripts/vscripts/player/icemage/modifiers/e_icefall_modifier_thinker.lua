@@ -116,7 +116,7 @@ function e_icefall_modifier_thinker:PlayEffects()
         -- effect 2
         local particle_cast_2 = "particles/units/heroes/hero_crystalmaiden/maiden_freezing_field_explosion.vpcf"
 
-        -- Set explosion quartal
+        --[[ Set explosion quartal
         self.quartal = self.quartal+1
         if self.quartal>3 then self.quartal = 0 end
 
@@ -125,11 +125,16 @@ function e_icefall_modifier_thinker:PlayEffects()
         local r = self.radius - 100
         local point = Vector( math.cos(a), math.sin(a), 0 ):Normalized() * r
 
+
         -- actual position
-        point = self.currentTarget + point
+        point = self.currentTarget + point]]
+
+        local rVector = RandomVector( RandomFloat( 0, self.radius )) + self.currentTarget
+
+        --DebugDrawCircle(rVector,Vector(255,255,255),128,10,true,60)
 
         self.effect_cast_2 = ParticleManager:CreateParticle( particle_cast_2, PATTACH_WORLDORIGIN, nil )
-        ParticleManager:SetParticleControl( self.effect_cast_2, 0, point )
+        ParticleManager:SetParticleControl( self.effect_cast_2, 0, rVector )
 
         -- play sound for effect 2
         self.sound_cast_2 = "hero_Crystal.freezingField.explosion"

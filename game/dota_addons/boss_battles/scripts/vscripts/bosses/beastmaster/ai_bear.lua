@@ -28,6 +28,8 @@ function Spawn( entityKeyValues )
 
 	thisEntity.target = nil
 
+	thisEntity:SetHullRadius(60)
+
 end
 
 --------------------------------------------------------------------------------

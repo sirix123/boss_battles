@@ -10,9 +10,15 @@ function GameSetup:init()
 
     self.player_deaths = {}
 
+    -- doesn't work :(
     -- spectator teamID
-    DOTA_TEAM_SPECTATORS = 1
+    --DOTA_TEAM_SPECTATORS = 1
     --DOTA_MAX_SPECTATOR_TEAM_SIZE = 2
+    --GameRules:SetCustomGameTeamMaxPlayers(DOTA_TEAM_SPECTATORS, 2)
+
+    GameRules:SetCustomGameTeamMaxPlayers(DOTA_TEAM_GOODGUYS, 4)
+    GameRules:SetCustomGameTeamMaxPlayers(DOTA_TEAM_BADGUYS, 0)
+    GameRules:SetCustomGameTeamMaxPlayers(DOTA_TEAM_CUSTOM_1, 0)
 
     GameRules:EnableCustomGameSetupAutoLaunch(false)
     GameRules:SetCustomGameSetupAutoLaunchDelay(0)
@@ -22,10 +28,6 @@ function GameSetup:init()
     GameRules:SetShowcaseTime(0)
     GameRules:SetPostGameTime(5)
     GameRules:SetSameHeroSelectionEnabled(true)
-    GameRules:SetCustomGameTeamMaxPlayers(DOTA_TEAM_SPECTATORS, 2)
-    GameRules:SetCustomGameTeamMaxPlayers(DOTA_TEAM_GOODGUYS, 4)
-    GameRules:SetCustomGameTeamMaxPlayers(DOTA_TEAM_BADGUYS, 0)
-    GameRules:SetCustomGameTeamMaxPlayers(DOTA_TEAM_CUSTOM_1, 0)
     GameRules:SetHeroRespawnEnabled(true)
     GameRules:SetStartingGold( 0 )
 	GameRules:SetGoldTickTime( 999999.0 )
@@ -265,10 +267,10 @@ function GameSetup:OnEntityHurt(keys)
         local word_length = string.len(tostring(math.floor(keys.damage)))
 
         local color =  Vector(250, 70, 70)
-        local effect_cast = ParticleManager:CreateParticle("particles/msg_fx/msg_damage.vpcf", PATTACH_WORLDORIGIN, nil)
+        local effect_cast = ParticleManager:CreateParticle("particles/custom_msg_damage.vpcf", PATTACH_WORLDORIGIN, nil) --particles/custom_msg_damage.vpcf particles/msg_fx/msg_damage.vpcf
         ParticleManager:SetParticleControl(effect_cast, 0, entVictim:GetAbsOrigin())
         ParticleManager:SetParticleControl(effect_cast, 1, Vector(0, keys.damage, 0))
-        ParticleManager:SetParticleControl(effect_cast, 2, Vector(1, word_length, 0)) --vector(math.max(1, keys.damage / 10), word_length, 0))
+        ParticleManager:SetParticleControl(effect_cast, 2, Vector(0.5, word_length, 0)) --vector(math.max(1, keys.damage / 10), word_length, 0))
         ParticleManager:SetParticleControl(effect_cast, 3, color)
         ParticleManager:ReleaseParticleIndex(effect_cast)
     end

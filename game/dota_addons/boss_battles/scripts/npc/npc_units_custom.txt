@@ -202,6 +202,7 @@
 		"GameSoundsFile"			"soundevents/game_sounds_creeps.vsndevts"
 		"Level"						"1"
 		"ModelScale" 				"4"
+		"vscripts"					"core/dummy_tidehunterdummy.lua"
 
 		// Abilities
 		//----------------------------------------------------------------

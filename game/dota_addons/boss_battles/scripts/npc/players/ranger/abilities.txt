@@ -98,7 +98,7 @@
 			"01"{ "var_type"			"FIELD_INTEGER"		"bounce_range"			"1000" 	}	
 			"02"{ "var_type"			"FIELD_INTEGER"		"speed"					"900" 	}	
 			"03"{ "var_type"			"FIELD_INTEGER"		"max_bounces"			"5" 	}
-			"04"{ "var_type"			"FIELD_INTEGER"		"heal_amount"			"300" 	}
+			"04"{ "var_type"			"FIELD_INTEGER"		"heal_amount"			"250" 	}
 			"05"{ "var_type"			"FIELD_INTEGER"		"dmg"					"200" 	}		
 		}
 
@@ -223,7 +223,7 @@
         
 		"AbilitySpecial"
 		{
-			"01"{ "var_type"			"FIELD_INTEGER"		"duration"					"5" 	}
+			"01"{ "var_type"			"FIELD_INTEGER"		"duration"					"7" 	}
 			"02"{ "var_type"			"FIELD_INTEGER"		"movespeed_bonus_pct"		"60" 	}
 			
 		}

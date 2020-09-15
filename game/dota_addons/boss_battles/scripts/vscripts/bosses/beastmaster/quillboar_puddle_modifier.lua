@@ -16,7 +16,7 @@ function quillboar_puddle_modifier:OnCreated(kv)
 		self:PlayEffects()
 
 		self:StartIntervalThink(self.tick_rate)
-
+		--DebugDrawCircle(self:GetParent():GetAbsOrigin(),Vector(255,255,255),128,self.radius,true,60)
 	end
 end
 
@@ -63,6 +63,20 @@ function quillboar_puddle_modifier:OnIntervalThink()
 			self:Destroy()
 		end
 
+		--[[local areAllHeroesDead = true --start on true, then set to false if you find one hero alive.
+		local heroes = HeroList:GetAllHeroes()
+		for _, hero in pairs(heroes) do
+			if hero.playerLives > 0 then
+				areAllHeroesDead = false
+				break
+			end
+		end
+		if areAllHeroesDead then
+			Timers:CreateTimer(1.0, function()
+				self:Destroy()
+			end)
+		end]]
+
 	end
 end
 
@@ -79,12 +93,19 @@ function quillboar_puddle_modifier:PlayEffects()
 	self.nFXIndex_2 = ParticleManager:CreateParticle( particle_cast, PATTACH_ABSORIGIN , self:GetParent()  )
 	ParticleManager:SetParticleControl( self.nFXIndex_2, 0, self:GetParent():GetAbsOrigin() )
 	ParticleManager:ReleaseParticleIndex( self.nFXIndex_2 )
+
+	local particle_cast = "particles/econ/items/viper/viper_immortal_tail_ti8/viper_immortal_ti8_nethertoxin_bubbles.vpcf"
+	self.nFXIndex_3 = ParticleManager:CreateParticle( particle_cast, PATTACH_ABSORIGIN , self:GetParent()  )
+	ParticleManager:SetParticleControl( self.nFXIndex_3, 0, self:GetParent():GetAbsOrigin() )
+	ParticleManager:ReleaseParticleIndex( self.nFXIndex_3 )
+
 end
 
 function quillboar_puddle_modifier:OnDestroy( kv )
 	if IsServer() then
 		ParticleManager:DestroyParticle(self.nFXIndex_1,true)
 		ParticleManager:DestroyParticle(self.nFXIndex_2,true)
+		ParticleManager:DestroyParticle(self.nFXIndex_3,true)
 		self:StartIntervalThink(-1)
         UTIL_Remove( self:GetParent() )
 	end
