@@ -132,7 +132,7 @@
 		"AbilitySpecial"
 		{
 			"01"{ "var_type"			"FIELD_INTEGER"		"lifesteal_aura_radius"				"300" }	
-			"02"{ "var_type"			"FIELD_FLOAT"		"lifesteal_amount"					"0.50" }
+			"02"{ "var_type"			"FIELD_FLOAT"		"lifesteal_amount"					"0.05" }
 		}
 
         "precache"
