@@ -60,6 +60,8 @@ function Spawn( entityKeyValues )
 	thisEntity.flPhaseTwoTriggerEndTime = 0
 	thisEntity.flNextPhaseTime = nil
 
+	thisEntity.SetHullRadius(60)
+
 	thisEntity:SetContextThink( "Beastmaster", BeastmasterThink, 1 )
 end
 

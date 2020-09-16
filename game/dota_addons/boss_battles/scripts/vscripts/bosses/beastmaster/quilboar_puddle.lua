@@ -40,8 +40,8 @@ function quilboar_puddle:OnSpellStart()
 			local distance = (self.point - origin):Length2D()
 
 			local projectile = {
-				EffectName = "particles/ranger/ranger_sync_alchemist_smooth_criminal_unstable_concoction_projectile.vpcf",
-				vSpawnOrigin = caster:GetAbsOrigin() + Vector(0,0,80),
+				EffectName = "particles/units/heroes/hero_venomancer/venomancer_venomous_gale.vpcf",
+				vSpawnOrigin = caster:GetAbsOrigin() + Vector(0,0,0),
 				fDistance = distance,
 				fUniqueRadius = 100,--200
 				Source = caster,
@@ -59,6 +59,7 @@ function quilboar_puddle:OnSpellStart()
 				end,
 				OnFinish = function(_self, pos)
 					CreateModifierThinker( self:GetCaster(), self, "quillboar_puddle_modifier", { self:GetSpecialValueFor( "duration" ) }, pos, self:GetCaster():GetTeamNumber(), false )
+					--self:PlayEffects(pos)
 				end,
 			}
 
@@ -71,3 +72,13 @@ function quilboar_puddle:OnSpellStart()
 end
 
 ---------------------------------------------------------------------------
+
+function quilboar_puddle:PlayEffects(pos)
+	if IsServer() then
+		print("play effects")
+		local particle_cast = "particles/beastmaster/puddle_explode_venomancer_venomous_gale_impact.vpcf"
+		self.nFXIndex_1 = ParticleManager:CreateParticle( particle_cast, PATTACH_WORLDORIGIN , nil  )
+		ParticleManager:SetParticleControl( self.nFXIndex_1, 0, pos )
+		ParticleManager:ReleaseParticleIndex( self.nFXIndex_1 )
+	end
+end

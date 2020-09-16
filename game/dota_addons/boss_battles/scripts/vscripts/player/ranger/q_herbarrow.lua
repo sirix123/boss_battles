@@ -107,6 +107,13 @@ function q_herbarrow:OnProjectileHit( hTarget, vLocation)
 			}
 
 			ApplyDamage(dmgTable)
+
+			if self.caster:HasModifier("r_explosive_tip_modifier") then
+				local hbuff = self.caster:FindModifierByNameAndCaster("r_explosive_tip_modifier", self.caster)
+				local flBuffTimeRemaining = hbuff:GetRemainingTime()
+				hTarget:AddNewModifier(self.caster, self, "r_explosive_tip_modifier_target", {duration = flBuffTimeRemaining})
+			end
+
 		end
 
 		-- if we have bounces

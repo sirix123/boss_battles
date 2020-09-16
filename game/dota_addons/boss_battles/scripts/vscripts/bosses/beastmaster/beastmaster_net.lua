@@ -3,10 +3,35 @@ beastmaster_net = class({})
 LinkLuaModifier( "modifier_beastmaster_net", "bosses/beastmaster/modifier_beastmaster_net", LUA_MODIFIER_MOTION_NONE )
 -------------------------------------------------------------------------------
 
+function beastmaster_net:OnAbilityPhaseStart()
+    if IsServer() then
+
+		self:GetCaster():StartGestureWithPlaybackRate(ACT_DOTA_CAST_ABILITY_1, 0.5)
+
+		EmitSoundOn( "beastmaster_beas_ability_axes_03", self:GetCaster() )
+
+        return true
+    end
+end
+---------------------------------------------------------------------------
+
+function beastmaster_net:OnAbilityPhaseInterrupted()
+    if IsServer() then
+
+        -- remove casting animation
+		self:GetCaster():FadeGesture(ACT_DOTA_CAST_ABILITY_1)
+
+    end
+end
+---------------------------------------------------------------------------
+
 function beastmaster_net:OnSpellStart()
 	if IsServer() then
 
 		EmitSoundOn( "Hero_Beastmaster.Wild_Axes", self:GetCaster() )
+
+		-- remove casting animation
+		self:GetCaster():FadeGesture(ACT_DOTA_CAST_ABILITY_1)
 
 		self.nPreviewFX = ParticleManager:CreateParticle( "particles/econ/events/ti9/rock_golem_tower/radiant_tower_attack_explode.vpcf", PATTACH_ABSORIGIN_FOLLOW, self:GetCaster() )
 

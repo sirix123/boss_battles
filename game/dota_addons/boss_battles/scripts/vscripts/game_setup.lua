@@ -12,8 +12,15 @@ function GameSetup:init()
 
     self.player_deaths = {}
 
+    -- doesn't work :(
     -- spectator teamID
-    DOTA_TEAM_SPECTATORS = 1
+    --DOTA_TEAM_SPECTATORS = 1
+    --DOTA_MAX_SPECTATOR_TEAM_SIZE = 2
+    --GameRules:SetCustomGameTeamMaxPlayers(DOTA_TEAM_SPECTATORS, 2)
+
+    GameRules:SetCustomGameTeamMaxPlayers(DOTA_TEAM_GOODGUYS, 4)
+    GameRules:SetCustomGameTeamMaxPlayers(DOTA_TEAM_BADGUYS, 0)
+    GameRules:SetCustomGameTeamMaxPlayers(DOTA_TEAM_CUSTOM_1, 0)
 
     GameRules:EnableCustomGameSetupAutoLaunch(false)
     GameRules:SetCustomGameSetupAutoLaunchDelay(0)
@@ -23,11 +30,6 @@ function GameSetup:init()
     GameRules:SetShowcaseTime(0)
     GameRules:SetPostGameTime(5)
     GameRules:SetSameHeroSelectionEnabled(true)
-    GameRules:SetCustomGameTeamMaxPlayers(DOTA_TEAM_GOODGUYS, 4)
-    GameRules:SetCustomGameTeamMaxPlayers(DOTA_TEAM_SPECTATORS, 2)
-    GameRules:SetCustomGameTeamMaxPlayers(DOTA_TEAM_BADGUYS, 0)
-    GameRules:SetCustomGameTeamMaxPlayers(DOTA_TEAM_CUSTOM_1, 0)
-    GameRules:SetCustomGameTeamMaxPlayers(DOTA_TEAM_CUSTOM_2, 0)
     GameRules:SetHeroRespawnEnabled(true)
     GameRules:SetStartingGold( 0 )
 	GameRules:SetGoldTickTime( 999999.0 )
@@ -163,6 +165,9 @@ function GameSetup:RegisterRaidWipe( )
             -- reset  death counter
             self.player_deaths = {}
 
+            -- wipe flag
+            self.wipe_flag = true
+
         end
 
         return 0.5
@@ -243,7 +248,7 @@ function GameSetup:OnEntityKilled(keys)
 
         Timers:CreateTimer(2.0, function()
             -- clean up enounter
-            self:EncounterCleanUp( npc:GetAbsOrigin() )
+            self:EncounterCleanUp( self.beastmasterBossSpawn )
         end)
 
     end
@@ -256,6 +261,7 @@ function GameSetup:OnEntityHurt(keys)
 
     if keys.entindex_attacker ~= nil and keys.entindex_killed ~= nil then
         local entVictim = EntIndexToHScript(keys.entindex_killed)
+        local entAttacker = EntIndexToHScript(keys.entindex_attacker)
 
         -- The ability/item used to damage, or nil if not damaged by an item/ability
         local damagingAbility = nil
@@ -267,10 +273,10 @@ function GameSetup:OnEntityHurt(keys)
         local word_length = string.len(tostring(math.floor(keys.damage)))
 
         local color =  Vector(250, 70, 70)
-        local effect_cast = ParticleManager:CreateParticle("particles/msg_fx/msg_damage.vpcf", PATTACH_WORLDORIGIN, nil)
+        local effect_cast = ParticleManager:CreateParticle("particles/custom_msg_damage.vpcf", PATTACH_WORLDORIGIN, nil) --particles/custom_msg_damage.vpcf particles/msg_fx/msg_damage.vpcf
         ParticleManager:SetParticleControl(effect_cast, 0, entVictim:GetAbsOrigin())
         ParticleManager:SetParticleControl(effect_cast, 1, Vector(0, keys.damage, 0))
-        ParticleManager:SetParticleControl(effect_cast, 2, Vector(1, word_length, 0)) --vector(math.max(1, keys.damage / 10), word_length, 0))
+        ParticleManager:SetParticleControl(effect_cast, 2, Vector(0.5, word_length, 0)) --vector(math.max(1, keys.damage / 10), word_length, 0))
         ParticleManager:SetParticleControl(effect_cast, 3, color)
         ParticleManager:ReleaseParticleIndex(effect_cast)
     end
@@ -307,6 +313,9 @@ function GameSetup:ReadyupCheck() -- called from trigger lua file for activators
         -- look at raidtables and spawn the boss depending on the encounter counter
         CreateUnitByName(RAID_TABLES[BOSS_BATTLES_ENCOUNTER_COUNTER].boss, self.boss_spawn, true, nil, nil, DOTA_TEAM_BADGUYS)
     end)
+
+    -- reset wipe flag
+    self.wipe_flag = nil
 
 end
 --------------------------------------------------------------------------------------------------

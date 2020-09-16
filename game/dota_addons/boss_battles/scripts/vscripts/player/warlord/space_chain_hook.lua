@@ -9,13 +9,37 @@ function space_chain_hook:OnAbilityPhaseStart()
         -- start casting animation
         self:GetCaster():StartGestureWithPlaybackRate(ACT_DOTA_ATTACK, 1.5)
 
-        -- add casting modifier
-        self:GetCaster():AddNewModifier(self:GetCaster(), self, "casting_modifier_thinker",
-        {
-            duration = self:GetCastPoint(),
-        })
+        self.caster = self:GetCaster()
+        local find_radius = self:GetSpecialValueFor( "find_radius" )
+        local vTargetPos = Vector(self.caster.mouse.x, self.caster.mouse.y, self.caster.mouse.z)
 
-        return true
+        local units = FindUnitsInRadius(
+            self:GetCaster():GetTeamNumber(),
+            vTargetPos,
+            nil,
+            find_radius,
+            DOTA_UNIT_TARGET_TEAM_BOTH,
+            DOTA_UNIT_TARGET_ALL,
+            DOTA_UNIT_TARGET_FLAG_MAGIC_IMMUNE_ENEMIES + DOTA_UNIT_TARGET_FLAG_INVULNERABLE,
+            FIND_CLOSEST,
+            false)
+
+        if #units == 0 or units == nil then
+            return false
+        end
+
+        if #units ~= 0 and units ~= nil then
+
+            self.target = units[1]
+
+            -- add casting modifier
+            self:GetCaster():AddNewModifier(self:GetCaster(), self, "casting_modifier_thinker",
+            {
+                duration = self:GetCastPoint(),
+            })
+
+            return true
+        end
     end
 end
 ---------------------------------------------------------------------------
@@ -51,11 +75,11 @@ function space_chain_hook:OnSpellStart()
 
         self:GetCaster():EmitSound("Hero_Pudge.AttackHookRetract")
 
-        local target = self:GetCursorTarget()
+        --local target = self:GetCursorTarget()
 
         --EmitSoundOn("rattletrap_ratt_ability_hook_02", caster)
 
-        self.point = target:GetAbsOrigin()
+        self.point = self.target:GetAbsOrigin()
 
         local direction = (self.point - origin):Normalized()
         direction.z = 0

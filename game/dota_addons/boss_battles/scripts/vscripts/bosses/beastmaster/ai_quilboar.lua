@@ -18,6 +18,8 @@ function Spawn( entityKeyValues )
 
 	thisEntity:SetContextThink( "Quilboar", QuilboarThink, randomStartTime )
 
+	thisEntity:SetHullRadius(30)
+
 end
 
 --------------------------------------------------------------------------------

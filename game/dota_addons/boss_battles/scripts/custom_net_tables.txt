@@ -7,5 +7,7 @@
     "progress_bars",
     "main",
     "heroes",
+    "score_board",
+    "dmg_done",
   ]
 }

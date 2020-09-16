@@ -26,7 +26,7 @@ function cancel_ice_block:OnSpellStart()
             end
         end
 
-        self.caster:SwapAbilities("q_iceblock", "cancel_ice_block", true, false)
+        --self.caster:SwapAbilities("q_iceblock", "cancel_ice_block", true, false)
 
 	end
 end

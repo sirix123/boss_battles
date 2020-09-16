@@ -9,13 +9,37 @@ function q_iceblock:OnAbilityPhaseStart()
         -- the 1 below is imporant if set incorrectly the animation will stutter (second variable in startgesture is the playback override)
         self:GetCaster():StartGestureWithPlaybackRate(ACT_DOTA_CAST_ABILITY_2, 1.0)
 
-        -- add casting modifier
-        self:GetCaster():AddNewModifier(self:GetCaster(), self, "casting_modifier_thinker",
-        {
-            duration = self:GetCastPoint(),
-        })
+        self.caster = self:GetCaster()
+        local find_radius = self:GetSpecialValueFor( "find_radius" )
+        local vTargetPos = Vector(self.caster.mouse.x, self.caster.mouse.y, self.caster.mouse.z)
 
-        return true
+        local friendlies = FindUnitsInRadius(
+            self:GetCaster():GetTeamNumber(),
+            vTargetPos,
+            nil,
+            find_radius,
+            DOTA_UNIT_TARGET_TEAM_FRIENDLY,
+            DOTA_UNIT_TARGET_ALL,
+            DOTA_UNIT_TARGET_FLAG_NONE,
+            FIND_CLOSEST,
+            false)
+
+        if #friendlies == 0 or friendlies == nil then
+            return false
+        end
+
+        if #friendlies ~= 0 and friendlies ~= nil then
+
+            self.target = friendlies[1]
+
+            -- add casting modifier
+            self:GetCaster():AddNewModifier(self:GetCaster(), self, "casting_modifier_thinker",
+            {
+                duration = self:GetCastPoint(),
+            })
+
+            return true
+        end
     end
 end
 ---------------------------------------------------------------------------
@@ -42,10 +66,10 @@ function q_iceblock:OnSpellStart()
         -- init
         self.caster = self:GetCaster()
         local duration = self:GetSpecialValueFor( "duration" )
-        local boneChillDuration = self:GetSpecialValueFor( "bone_chill_duration" )
-        local target = self:GetCursorTarget()
+        --local boneChillDuration = self:GetSpecialValueFor( "bone_chill_duration" )
+        --local target = self:GetCursorTarget()
 
-        self.modifier = target:AddNewModifier(
+        self.modifier = self.target:AddNewModifier(
             self.caster, -- player source
             self, -- ability source
             "q_iceblock_modifier", -- modifier name

@@ -41,7 +41,7 @@ function e_swallow_potion:OnSpellStart()
 	self:GetCaster():FadeGesture(ACT_DOTA_SPAWN)
 
 	-- function in utility_functions
-	local point = Clamp(origin, self:GetCursorPosition(), self:GetCastRange(Vector(0,0,0), nil), self:GetCastRange(Vector(0,0,0), nil))
+	local point = Vector(caster.mouse.x, caster.mouse.y, caster.mouse.z)
 
 	local radius = self:GetSpecialValueFor("radius")
 	local direction = (Vector(point.x-origin.x, point.y-origin.y, 0)):Normalized()
@@ -76,14 +76,6 @@ function e_swallow_potion:OnSpellStart()
         }
 
         -- add modifier
-        caster:AddNewModifier(
-            caster, -- player source
-            self, -- ability source
-            "e_swallow_potion_modifier", -- modifier name
-            { duration = duration } -- kv
-        )
-
-        -- add modifier
         enemy:AddNewModifier(
             caster, -- player source
             self, -- ability source
@@ -95,7 +87,17 @@ function e_swallow_potion:OnSpellStart()
 
         ApplyDamage(dmgTable)
 
-    end
+	end
+
+	if enemies ~= nil and #enemies ~= 0 then
+        -- add modifier
+        caster:AddNewModifier(
+            caster, -- player source
+            self, -- ability source
+            "e_swallow_potion_modifier", -- modifier name
+            { duration = duration } -- kv
+        )
+	end
 
 	-- on attack end particle effect
 	local offset = radius - 80

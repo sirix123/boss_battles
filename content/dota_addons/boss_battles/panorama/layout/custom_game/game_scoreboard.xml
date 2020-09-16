@@ -8,73 +8,60 @@
         <include src="file://{resources}/scripts/custom_game/game_scoreboard.js" />
     </scripts>
 
-
 <!-- Snippets are defined here but created in JS:
 var entryPanel = $.CreatePanel("Panel", container, rank.toString());
 entryPanel.BLoadLayoutSnippet("ScoreboardRow"); -->
 
-
-<!-- 
- Game Scoreboard layout / structure:
-
- |_________________________|________________|______|
- |                         | DMG    | HEAL  | DMG  |
- | P L A Y E R   N A M E   | DONE   | DONE  | TKN  |
- |_________________________|________|_______|______|
- |           |             |        |       |      |
- | PORTRAIT  | RANK/MEDAL  | 2400   | 1800  | 470  |
- |___________|_____________|________|_______|______|
--->
-
-  <snippets>
-      <!-- Top row: player_name, "dmg done", "heal done", "dmg tkn" -->
-      <snippet name="GameScoreboardRowTopSnippet"> 
-          <Panel hittest="false" class="ScoreboardRow" >
-              <Panel hittest="false" class="PlayerNamePanel ScoreboardCell" id="PlayerNamePanel">
-                  <Label text="MooMoo Mcgoo" class="GameScoreboardHeading" id="PlayerNameLabel" />
-              </Panel>
-              <Panel hittest="false" class="GameStatColumn ScoreboardCell" id="DmgDoneLblPanel">
-                  <Label text="Dmg Done:" class="GameScoreboardHeading" />
-              </Panel>
-              <Panel hittest="false" class="GameStatColumn ScoreboardCell" id="HealDoneLblPanel">
-                  <Label text="Heal Done:" class="GameScoreboardHeading" />
-              </Panel>
-              <Panel hittest="false" class="GameStatColumn ScoreboardCell" id="DmgTknLblPanel">
-                  <Label text="Dmg Tkn:"  class="GameScoreboardHeading" />
-              </Panel>
-          </Panel>
-      </snippet>  
-
-      <!-- Bot row: portrait, rank, dmg_done, heal_done, dmg_tkn-->
-      <snippet name="ScoreboardRowBotSnippet"> 
-          <Panel hittest="false" class="ScoreboardRow" >
-              <Panel hittest="false" class="PortraitPanel ScoreboardCell" id="PortraitPanel">
-                  <Image id="PortailImage" class="" src="file://{images}/class_icons/icon_person.png" />
-              </Panel>
-              <Panel hittest="false" class="RankPanel ScoreboardCell" id="RankPanel">
-                  <Image id="RankImage" class="" src="file://{images}/rank_icons/icon_private.png" />
-              </Panel>
-              <Panel hittest="false" class="GameStatColumn ScoreboardCell" id="DmgDonePanel">
-                  <Label text="2400" id="DmgDoneLabel" class="GameScoreboardScoreText" />
-              </Panel>
-              <Panel hittest="false" class="GameStatColumn ScoreboardCell" id="HealDonePanel">
-                  <Label text="1800" id="HealDoneLabel" class="GameScoreboardScoreText"/>
-              </Panel>
-              <Panel hittest="false" class="GameStatColumn ScoreboardCell" id="DmgTknPanel">
-                  <Label text="470" id="DmgTknLabel" class="GameScoreboardScoreText"/>
-              </Panel>
-          </Panel>
-      </snippet>  
-
+    <snippets>
+    <!-- BOSS SCOREBOARD SNIPPETS -->
+        <!-- Boss info section-->
+        <snippet name="bsb_header_bossFight_info">
+            <Panel class="bsb_header_bossFight_info" >  
+                <Label text="BOSS NAME"  class="boss_header_bossFight_infoText" id="bsb_header_boss_name"/>
+                <Label text="1:00"  class="boss_header_bossFight_infoText" id="bsb_header_boss_duration"/>                
+                <Label text="VICTORY"  class="boss_header_bossFight_infoText" id="bsb_header_boss_winLose"/>
+            </Panel>  
+        </snippet>  
+        <!-- Dmg done table row -->
+        <snippet name="bsb_table_row">
+            <Panel hittest="false" class="bsb_table_row" >
+                <Image src="file://{images}/class_icons/icon_person.png" class="bsb_table_row_cell" id="bsb_table_row_class"  />
+                <Label text="playerName" class="bsb_table_row_cell" id="bsb_table_row_player"/>
+                <Label text="10,500" class="bsb_table_row_cell" id="bsb_table_row_dmgDone"/>
+                <Label text="5,000" class="bsb_table_row_cell" id="bsb_table_row_dmgTaken"/>
+            </Panel>
+        </snippet>
+    <!-- END BOSS SCOREBOARD SNIPPETS -->
     </snippets>
 
 
   <Panel hittest="false" class="parent">
       <Panel class="ScoreboardContainer" id="ScoreboardContainer"> 
-
       </Panel>
 
+      <!-- Boss ScoreBoard -->
+      <!-- Header. Boss info section. boss_name, fight_duration, VICTORY/DEFEAT -->
+      <!-- Then a table ranking players dmg done for the boss fight. -->
+      <!-- Table cols: class, player, dmg done, dmg taken -->
+      <Panel class="bsb" id="bsb"> 
+          <Panel class="bsb_boss_header" id="bsb_boss_header">       
+            <!-- snippet: bsb_header_bossFight_info goes here -->
+          </Panel>
 
+          <Panel class="bsb_table_header" id="bsb_table_header">
+            <Label text="Class:"  class="bsb_table_header_cell" id="bsb_table_header_class"/>
+            <Label text="Player:"  class="bsb_table_header_cell" id="bsb_table_header_player"/>
+            <Label text="Dmg Done:"  class="bsb_table_header_cell" id="bsb_table_header_dmgDone"/>
+            <Label text="Dmg Taken:"  class="bsb_table_header_cell" id="bsb_table_header_dmgTaken"/>
+          </Panel>    
+
+          <Panel class="bsb_body" id="bsb_body"> 
+            <Panel class="bsb_table_rows" id="bsb_table_rows">
+              <!-- snippet: bsb_table_row goes here -->
+            </Panel>
+          </Panel>
+
+      </Panel>
 
   </Panel>
 

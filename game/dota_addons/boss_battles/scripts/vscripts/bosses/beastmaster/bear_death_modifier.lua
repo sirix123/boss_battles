@@ -54,9 +54,15 @@ function bear_death_modifier:OnDeath()
             local hBuff = unit:FindModifierByName( "bear_bloodlust_modifier" )
             hBuff:IncrementStackCount()
 
-            local nFXIndex = ParticleManager:CreateParticle( "particles/units/heroes/hero_ogre_magi/ogre_magi_bloodlust_buff.vpcf", PATTACH_CUSTOMORIGIN, nil )
+            local nFXIndex = ParticleManager:CreateParticle( "particles/beastmaster/bear_lust_ogre_magi_bloodlust_buff.vpcf", PATTACH_CUSTOMORIGIN, nil )
             ParticleManager:SetParticleControlEnt( nFXIndex, 0, unit, PATTACH_OVERHEAD_FOLLOW, "attach_hitloc", unit:GetAbsOrigin(), true )
             ParticleManager:ReleaseParticleIndex( nFXIndex )
+
+            -- start cast bear cooldown
+            unit:GetAbilityByIndex(1):StartCooldown(  unit:GetAbilityByIndex(1):GetCooldown(1) )
+
+            -- voiceline for beastmasters
+            EmitGlobalSound("beastmaster_beas_death_14")
         end
     end
 end

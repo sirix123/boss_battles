@@ -43,7 +43,7 @@
             "01"
             {
                 "var_type"          "FIELD_FLOAT"
-                "base_damage"     	"200"
+                "base_damage"     	"30"
             }
             "02"
             {
@@ -53,13 +53,14 @@
 			"03"
             {
                 "var_type"          "FIELD_INTEGER"
-                "slow_duration"     "2"
+                "slow_duration"     "4"
             }                      
         }
 
         "precache"
         {
             "soundfile"		"sounds/weapons/hero/ogre_magi/bloodlust_target.vsnd"
+            "soundfile"     "sounds/vo/beastmaster/beas_death_14.vsnd"
         }
     }
 
@@ -96,12 +97,12 @@
             "01"
             {
                 "var_type"              "FIELD_INTEGER"
-                "bloodlust_speed"       "15"
+                "bloodlust_speed"       "5"
             }
 			"02"
             {
                 "var_type"          	"FIELD_INTEGER"
-                "bloodlust_as_speed"    "10"
+                "bloodlust_as_speed"    "5"
             }                       
         }
     }
@@ -195,7 +196,7 @@
             "01"
             {
                 "var_type"      "FIELD_FLOAT"
-                "radius"     	"200"
+                "radius"     	"230"
             }        
             "02"
             {
@@ -240,7 +241,7 @@
         // Casting
         //-------------------------------------------------------------------------------------------------------------
         "AbilityCastRange"              "9000"
-        "AbilityCastPoint"              "0.5"
+        "AbilityCastPoint"              "1.2"
         
         // Time     
         //-------------------------------------------------------------------------------------------------------------
@@ -288,7 +289,12 @@
                 "var_type"              "FIELD_FLOAT"
                 "player_dot_damage"     	        "1"
             }                             
-        }  
+        }
+
+        "precache"
+        {
+            "soundfile"		"sounds/vo/beastmaster/beas_ability_axes_03.vsnd"
+        }
     }
 
     //=================================================================================================================
@@ -363,7 +369,7 @@
             "01"
             {
                 "var_type"                      "FIELD_FLOAT"
-                "number_of_boars"     	        "5"
+                "number_of_boars"     	        "3"
             }
 
             "02"

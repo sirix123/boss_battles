@@ -29,7 +29,11 @@ function Spawn( entityKeyValues )
 
 	thisEntity:AddNewModifier( nil, nil, "modifier_phased", { duration = -1 } )
 
+	thisEntity.markTarget = nil
+
 	thisEntity:SetContextThink( "Beastmaster", BeastmasterThink, 0.5 )
+
+	thisEntity:SetHullRadius(60)
 end
 
 --------------------------------------------------------------------------------
@@ -45,6 +49,13 @@ function BeastmasterThink()
 
 	if GameRules:IsGamePaused() == true then
 		return 0.5
+	end
+
+	if thisEntity.markTarget ~= nil then
+		if thisEntity.markTarget:IsAlive() ~= nil and thisEntity.markTarget:IsAlive() ~= true then
+			-- target is dead find a new one / end cooddown for mark spell
+			thisEntity.beastmaster_mark:EndCooldown()
+		end
 	end
 
 	if thisEntity.summon_bear:IsFullyCastable() and thisEntity.summon_bear:IsCooldownReady()then
@@ -139,7 +150,7 @@ function BeastmasterMark()
 		DOTA_TEAM_BADGUYS,
 		thisEntity:GetOrigin(),
 		nil, 
-		FIND_UNITS_EVERYWHERE ,
+		4000,
 		DOTA_UNIT_TARGET_TEAM_ENEMY,
 		DOTA_UNIT_TARGET_ALL,
 		DOTA_UNIT_TARGET_FLAG_NONE,
@@ -150,10 +161,10 @@ function BeastmasterMark()
 		return 0.5
 	end
 
-	local hTarget = enemies[ RandomInt( 1, #enemies ) ]
+	thisEntity.markTarget = enemies[ RandomInt( 1, #enemies ) ]
 
-	if hTarget ~= nil then
-		return CastMarkTarget(hTarget)
+	if thisEntity.markTarget ~= nil then
+		return CastMarkTarget(thisEntity.markTarget)
 	end
 
 	return 0.5
@@ -167,7 +178,7 @@ function BeastmasterNet()
 		DOTA_TEAM_BADGUYS,
 		thisEntity:GetOrigin(),
 		nil,
-		4000,
+		5000,
 		DOTA_UNIT_TARGET_TEAM_ENEMY,
 		DOTA_UNIT_TARGET_ALL,
 		DOTA_UNIT_TARGET_FLAG_NONE,

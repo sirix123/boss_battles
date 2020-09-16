@@ -10,6 +10,8 @@ function Spawn( entityKeyValues )
 
     thisEntity.movePosOne = 1
 
+    thisEntity:SetHullRadius(60)
+
 end
 --------------------------------------------------------------------------------
 
