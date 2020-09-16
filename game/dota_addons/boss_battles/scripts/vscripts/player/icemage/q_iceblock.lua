@@ -5,13 +5,9 @@ LinkLuaModifier("bonechill_modifier", "player/icemage/modifiers/bonechill_modifi
 function q_iceblock:OnAbilityPhaseStart()
     if IsServer() then
 
-        -- start casting animation
-        -- the 1 below is imporant if set incorrectly the animation will stutter (second variable in startgesture is the playback override)
-        self:GetCaster():StartGestureWithPlaybackRate(ACT_DOTA_CAST_ABILITY_2, 1.0)
-
         self.caster = self:GetCaster()
         local find_radius = self:GetSpecialValueFor( "find_radius" )
-        local vTargetPos = Vector(self.caster.mouse.x, self.caster.mouse.y, self.caster.mouse.z)
+        local vTargetPos = Clamp(self.caster:GetOrigin(), Vector(self.caster.mouse.x, self.caster.mouse.y, self.caster.mouse.z), self:GetCastRange(Vector(0,0,0), nil), 0)
 
         local friendlies = FindUnitsInRadius(
             self:GetCaster():GetTeamNumber(),
@@ -29,6 +25,10 @@ function q_iceblock:OnAbilityPhaseStart()
         end
 
         if #friendlies ~= 0 and friendlies ~= nil then
+
+            -- start casting animation
+            -- the 1 below is imporant if set incorrectly the animation will stutter (second variable in startgesture is the playback override)
+            self:GetCaster():StartGestureWithPlaybackRate(ACT_DOTA_CAST_ABILITY_2, 1.0)
 
             self.target = friendlies[1]
 

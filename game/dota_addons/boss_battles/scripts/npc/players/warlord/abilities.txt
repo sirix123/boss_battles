@@ -23,12 +23,10 @@
         
 		"AbilitySpecial"
 		{
-			"01"{ "var_type"			"FIELD_INTEGER"		"radius"				"250" }	 
-			"02"{ "var_type"			"FIELD_INTEGER"		"damage"				"90" }
-			"03"{ "var_type"			"FIELD_INTEGER"		"mana_gain_percent"		"10" }
+			"01"{ "var_type"			"FIELD_INTEGER"		"radius"					"250" }	 
+			"02"{ "var_type"			"FIELD_INTEGER"		"damage"					"90" }
+			"03"{ "var_type"			"FIELD_INTEGER"		"mana_gain_percent"			"10" }
 			"04"{ "var_type"			"FIELD_INTEGER"		"mana_gain_percent_bonus"		"5" }
-			
-			
 		}
 	}
 

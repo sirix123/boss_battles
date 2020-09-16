@@ -15,14 +15,33 @@ function casting_modifier_thinker:OnCreated(params)
             self.MoveSpeedReduction = params.pMovespeedReduction
         elseif params.bMovementLock == nil and params.pMovespeedReduction == nil then
             self.MoveSpeedReduction = -50
-
         end
+
+		if not self.ignore_activation_cycle then
+			for i = 0, 15 do
+				local ability = self.parent:GetAbilityByIndex(i)
+				if ability and ability ~= self:GetAbility() then
+					ability:SetActivated(false)
+				end
+			end
+		end
+
 	end
 end
 
 function casting_modifier_thinker:OnDestroy()
     if IsServer() then
         self.parent:SetMoveCapability(1)
+
+		if not self.ignore_activation_cycle then
+			for i = 0, 15 do
+				local ability = self.parent:GetAbilityByIndex(i)
+				if ability and ability ~= self:GetAbility() then
+					ability:SetActivated(true)
+				end
+			end
+		end
+
     end
 end
 

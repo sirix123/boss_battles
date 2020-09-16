@@ -99,7 +99,7 @@ function GameSetup:OnNPCSpawned(keys)
             while (npc:GetAbilityByIndex(index) ~= nil) do
                 npc:GetAbilityByIndex(index):SetLevel(1)
                 index = index +1
-          end
+            end
         end
     end
 end

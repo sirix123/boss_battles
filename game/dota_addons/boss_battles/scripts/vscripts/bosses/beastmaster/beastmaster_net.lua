@@ -83,13 +83,22 @@ function beastmaster_net:OnSpellStart()
 
 					ApplyDamage(dmgTable)
 
+					local nFXIndex = ParticleManager:CreateParticle( "particles/units/heroes/hero_beastmaster/beastmaster_wildaxes_hit.vpcf", PATTACH_CUSTOMORIGIN, nil )
+					ParticleManager:SetParticleControlEnt( nFXIndex, 0, unit, PATTACH_POINT_FOLLOW, "attach_hitloc", unit:GetAbsOrigin(), true )
+					ParticleManager:ReleaseParticleIndex( nFXIndex )
+
 					EmitSoundOn( "Hero_Beastmaster.Wild_Axes_Damage", unit )
 				end
 			end,
-			OnWallHit = function(_self, gnvPos) 
+			OnWallHit = function(_self, gnvPos)
 
 			end,
 			OnFinish = function(_self, pos)
+
+				local nFXIndex = ParticleManager:CreateParticle( "particles/econ/items/mars/mars_ti9_immortal/mars_ti9_immortal_spear_end.vpcf", PATTACH_WORLDORIGIN, nil )
+				ParticleManager:SetParticleControl(nFXIndex, 0, pos)
+				ParticleManager:SetParticleControl(nFXIndex, 3, pos)
+				ParticleManager:ReleaseParticleIndex( nFXIndex )
 
 			end,
 		}

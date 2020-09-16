@@ -22,6 +22,7 @@ function AbilityToCast(abilityNumber, showEffects){
         return
     }
 
+
     //Abilities.ExecuteAbility( abilityIndex, playerHero, quickCast );
     if(!Abilities.IsInAbilityPhase(abilityIndex) && Abilities.IsActivated(abilityIndex))
     {
@@ -328,7 +329,7 @@ function slingShotManager()
 
 GameUI.SetMouseCallback( function( eventName, arg ){
 
-    //$.Msg("Javascript: SetMouseCallback ")
+    //$.Msg("Javascript: SetMouseCallback ",eventName)
 
 	var nMouseButton = arg;
     
@@ -336,9 +337,9 @@ GameUI.SetMouseCallback( function( eventName, arg ){
         return false;
     }
 
-    if (GameUI.GetClickBehaviors() !== CLICK_BEHAVIORS.DOTA_CLICK_BEHAVIOR_DRAG) {
+    //if (GameUI.GetClickBehaviors() !== CLICK_BEHAVIORS.DOTA_CLICK_BEHAVIOR_DRAG) {
         //$.Msg("Javascript: SetMouseCallback() DRAG event ")
-    }
+    //}
 
     if ( eventName === "pressed" )
 	{

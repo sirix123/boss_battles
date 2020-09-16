@@ -14,7 +14,7 @@ function Spawn( entityKeyValues )
 		return
 	end
 
-	thisEntity:AddNewModifier( nil, nil, "bear_death_modifier", { duration = -1 } )
+	thisEntity:AddNewModifier( thisEntity, thisEntity, "bear_death_modifier", { duration = -1 } )
 
 	thisEntity.hClaw = thisEntity:FindAbilityByName( "bear_claw" )
 	thisEntity.hClaw:StartCooldown(thisEntity.hClaw:GetCooldown(thisEntity.hClaw:GetLevel()))

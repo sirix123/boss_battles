@@ -16,13 +16,6 @@ function bear_death_modifier:OnRefresh( kv )
 end
 ----------------------------------------------------------------------------
 
-function bear_death_modifier:OnDestroy()
-    if IsServer() then
-
-    end
-end
-----------------------------------------------------------------------------
-
 function bear_death_modifier:DeclareFunctions()
     local funcs = {
         MODIFIER_EVENT_ON_DEATH,
@@ -31,7 +24,7 @@ function bear_death_modifier:DeclareFunctions()
 end
 
 
-function bear_death_modifier:OnDeath()
+function bear_death_modifier:OnDestroy()
     if not IsServer() then return nil end
 
     local units = FindUnitsInRadius(
@@ -39,7 +32,7 @@ function bear_death_modifier:OnDeath()
         self:GetParent():GetOrigin(),	-- point, center point
         nil,	-- handle, cacheUnit. (not known)
         5000,	-- float, radius. or use FIND_UNITS_EVERYWHERE
-        DOTA_UNIT_TARGET_TEAM_FRIENDLY,	-- int, team filter
+        DOTA_UNIT_TARGET_TEAM_BOTH,	-- int, team filter
         DOTA_UNIT_TARGET_ALL,	-- int, type filter
         DOTA_UNIT_TARGET_FLAG_NONE,	-- int, flag filter
         FIND_ANY_ORDER,	-- int, order filter
@@ -63,7 +56,17 @@ function bear_death_modifier:OnDeath()
 
             -- voiceline for beastmasters
             EmitGlobalSound("beastmaster_beas_death_14")
+
+            --print("why does everyhting fire this?")
+
         end
+
+        if unit:HasModifier("beastmaster_mark_modifier") then
+            --print("remove mark")
+            unit:RemoveModifierByName("beastmaster_mark_modifier")
+        end
+
     end
+
 end
 
