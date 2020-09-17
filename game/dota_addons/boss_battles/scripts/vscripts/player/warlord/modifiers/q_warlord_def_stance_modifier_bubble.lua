@@ -112,8 +112,8 @@ function q_warlord_def_stance_modifier_bubble:OnTakeDamage(params)
     if IsServer() then
         local hero = self:GetParent()
 
-        --if params.inflictor then 
-            PrintTable(params.inflictor, indent, done) 
+        if params.inflictor then 
+            --PrintTable(params.inflictor, indent, done)
             --params.inflictor:GetAbilityName() == "m2_sword_slam" and
             if params.attacker:HasModifier("q_warlord_def_stance_modifier_bubble") then
                 -- incease curernt shield by flat amount
@@ -138,7 +138,7 @@ function q_warlord_def_stance_modifier_bubble:OnTakeDamage(params)
                 -- play effect on hero
                 ParticleManager:CreateParticle("particles/items3_fx/octarine_core_lifesteal.vpcf",PATTACH_ABSORIGIN_FOLLOW, hero)
             end
-        --end
+        end
     end
 end
 
