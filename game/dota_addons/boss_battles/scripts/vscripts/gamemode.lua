@@ -105,12 +105,41 @@ function GameMode:OnFirstPlayerLoaded()
   PlayerManager:SetUpMouseUpdater()
 end
 
+
+function GameMode:OnGameEnd()
+  print("GameMode:OnGameEnd()")
+  
+  --TODO!
+  --Send game stats to firebase 
+  
+end
+
+
 --[[
   This function is called once and only once after all players have loaded into the game, right as the hero selection time begins.
   It can be used to initialize non-hero player state or adjust the hero selection (i.e. force random etc)
 ]]
 function GameMode:OnAllPlayersLoaded()
   DebugPrint("[BAREBONES] All Players have loaded into the game")
+
+  --To end the game: 
+  --GameRules:MakeTeamLose(DOTA_TEAM_GOODGUYS)
+
+  --Start a timer that waits for the end of the game (DOTA_GAMERULES_STATE_POST_GAME) then calls OnGameEnd
+  Timers:CreateTimer(function()
+    if GameRules:State_Get() ~= DOTA_GAMERULES_STATE_POST_GAME then
+      return 1
+    else
+      GameMode:OnGameEnd()
+      return
+    end
+  end)  
+
+  Timers:CreateTimer(function()
+    -- data = {}... your code here
+    return 0.1;
+  end)
+
 
   -- We have a check delay, because the bot is actually added after OnAllPlayersLoaded
   local checkDelay = 0
@@ -165,6 +194,7 @@ end
   This function is called once and only once for every player when they spawn into the game for the first time.  It is also called
   if the player's hero is replaced with a new hero for any reason.  This function is useful for initializing heroes, such as adding
   levels, changing the starting gold, removing/adding abilities, adding physics, etc.
+
 
   The hero parameter is the hero entity that just spawned in
 ]]
