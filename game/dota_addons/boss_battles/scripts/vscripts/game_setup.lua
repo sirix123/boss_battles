@@ -101,7 +101,7 @@ function GameSetup:OnNPCSpawned(keys)
             while (npc:GetAbilityByIndex(index) ~= nil) do
                 npc:GetAbilityByIndex(index):SetLevel(1)
                 index = index +1
-          end
+            end
         end
     end
 end
@@ -259,6 +259,22 @@ function GameSetup:OnEntityHurt(keys)
     local damagebits = keys.damagebits
     --PrintTable(keys, indent, done)
 
+    -- Store the dmg done in a table to maintain history. 
+    -- StoreDamageDone(keys)
+
+    -- Only process dmg if from or too a player Hero.
+    local heroes = HeroList:GetAllHeroes()
+    for _, hero in pairs(heroes) do
+        -- Store damage done or received to hero
+        if (hero:GetEntityIndex() == keys.entindex_killed) or (hero:GetEntityIndex() == keys.entindex_attacker) then
+            StoreDamageDone(keys)
+            break
+        end
+    end
+
+    --DPS METER:
+    UpdateDamageMeter()
+
     if keys.entindex_attacker ~= nil and keys.entindex_killed ~= nil then
         local entVictim = EntIndexToHScript(keys.entindex_killed)
         local entAttacker = EntIndexToHScript(keys.entindex_attacker)
@@ -377,3 +393,4 @@ function GameSetup:EncounterCleanUp( origin )
 
     return 0.5
 end
+-----------------------------------------------------------------------------------------------------

@@ -23,7 +23,7 @@
         
 		"AbilitySpecial"
 		{
-			"01"{ "var_type"			"FIELD_INTEGER"		"dmg"							"50" }
+			"01"{ "var_type"			"FIELD_INTEGER"		"dmg"							"100" }
 			"02"{ "var_type"			"FIELD_INTEGER"		"hit_box"						"80" }
 			"03"{ "var_type"			"FIELD_INTEGER"		"proj_speed"					"1200" }
 			"04"{ "var_type"			"FIELD_INTEGER"		"chill_duration"				"5" }
@@ -97,7 +97,7 @@
 		"AbilitySpecial"
 		{
 			"01"{ "var_type"			"FIELD_INTEGER"		"duration"				"5" }
-			"02"{ "var_type"			"FIELD_INTEGER"		"armor_bonus"			"30" }
+			"02"{ "var_type"			"FIELD_INTEGER"		"armor_bonus"			"90" }
 			"03"{ "var_type"			"FIELD_INTEGER"		"magic_res_bonus"		"0" }
 			"04"{ "var_type"			"FIELD_INTEGER"		"health_regen_percent"	"15" }
 			"05"{ "var_type"			"FIELD_INTEGER"		"bone_chill_duration"	"10" }
@@ -121,7 +121,7 @@
 		"ScriptFile"					"player/icemage/cancel_ice_block"
 		"MaxLevel"						"1"
 
-		"AbilityTextureName"			"winter_wyvern_cold_embrace"
+		"AbilityTextureName"			""//"winter_wyvern_cold_embrace"
 		"AbilityBehavior"				"DOTA_ABILITY_BEHAVIOR_NO_TARGET | DOTA_ABILITY_BEHAVIOR_IMMEDIATE | DOTA_ABILITY_BEHAVIOR_IGNORE_PSEUDO_QUEUE | DOTA_ABILITY_BEHAVIOR_HIDDEN"
 		"AbilityUnitTargetTeam"			"DOTA_UNIT_TARGET_TEAM_FRIENDLY"
 		"AbilityCastPoint"				"0"

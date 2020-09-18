@@ -96,6 +96,7 @@ function m2_sword_slam:OnSpellStart()
             attacker = self.caster,
             damage = damage,
             damage_type = self:GetAbilityDamageType(),
+            ability = self,
         }
 
         ApplyDamage(dmgTable)

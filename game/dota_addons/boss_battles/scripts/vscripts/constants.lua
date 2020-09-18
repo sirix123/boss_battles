@@ -8,3 +8,6 @@ _G.BOSS_BATTLES_INTERMISSION_SPAWN_LOCATION = Vector(-10757, -9796, 256)
 _G.BOSS_BATTLES_ENCOUNTER_COUNTER = 2 -- inermission is encounter 1
 
 _G.BOSS_BATTLES_RESPAWN_TIME = 5
+
+_G.TotalDamageDone = {}
+_G.DamageTable = {}

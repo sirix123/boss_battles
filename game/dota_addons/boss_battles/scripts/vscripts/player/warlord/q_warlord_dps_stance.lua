@@ -23,7 +23,7 @@ function q_warlord_dps_stance:OnSpellStart()
         local point = caster:GetOrigin()
 
         -- remove def stance
-        caster:RemoveModifierByName("q_warlord_def_stance_modifier")
+        caster:RemoveModifierByName("q_warlord_def_stance_modifier_bubble")
 
         -- add modifier
         caster:AddNewModifier(

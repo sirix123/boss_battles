@@ -4,6 +4,12 @@ function Filters:Activate(GameMode, this)
     function GameMode:ExecuteOrderFilter(filter_table)
         local order_type = filter_table["order_type"]
 
+        -- if caster is dead dont do any of this
+        local caster = EntIndexToHScript(filter_table.units["0"])
+        if caster:IsAlive() == false or caster:IsStunned() == true then
+            return false
+        end
+
         --
         if order_type == DOTA_UNIT_ORDER_CAST_POSITION then
             local ability = EntIndexToHScript(filter_table.entindex_ability)

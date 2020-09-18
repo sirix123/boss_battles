@@ -41,7 +41,7 @@ function e_spawn_ward:OnSpellStart()
         self.radius = self:GetSpecialValueFor("radius")
 
         local vTargetPos = nil
-        vTargetPos = Vector(caster.mouse.x, caster.mouse.y, caster.mouse.z)
+        vTargetPos = Clamp(caster:GetOrigin(), Vector(caster.mouse.x, caster.mouse.y, caster.mouse.z), self:GetCastRange(Vector(0,0,0), nil), 0)
 
         -- sound effect
         caster:EmitSound("Hero_Juggernaut.HealingWard.Cast")

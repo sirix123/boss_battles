@@ -1,6 +1,6 @@
 q_warlord_def_stance = class({})
-LinkLuaModifier( "q_warlord_def_stance_modifier", "player/warlord/modifiers/q_warlord_def_stance_modifier", LUA_MODIFIER_MOTION_NONE )
-LinkLuaModifier( "q_warlord_def_stance_modifier_lifesteal", "player/warlord/modifiers/q_warlord_def_stance_modifier_lifesteal", LUA_MODIFIER_MOTION_NONE )
+LinkLuaModifier( "q_warlord_def_stance_modifier_bubble", "player/warlord/modifiers/q_warlord_def_stance_modifier_bubble", LUA_MODIFIER_MOTION_NONE )
+--LinkLuaModifier( "q_warlord_def_stance_modifier_lifesteal", "player/warlord/modifiers/q_warlord_def_stance_modifier_lifesteal", LUA_MODIFIER_MOTION_NONE )
 ---------------------------------------------------------------------------
 
 function q_warlord_def_stance:OnAbilityPhaseStart()
@@ -30,7 +30,7 @@ function q_warlord_def_stance:OnSpellStart()
         caster:AddNewModifier(
             caster, -- player source
             self, -- ability source
-            "q_warlord_def_stance_modifier", -- modifier name
+            "q_warlord_def_stance_modifier_bubble", -- modifier name
             {} -- kv
         )
 

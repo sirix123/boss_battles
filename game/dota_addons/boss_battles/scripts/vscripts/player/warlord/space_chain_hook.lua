@@ -6,12 +6,9 @@ function space_chain_hook:OnAbilityPhaseStart()
 
         --self:GetCaster():EmitSound("rattletrap_ratt_ability_hook_03")
 
-        -- start casting animation
-        self:GetCaster():StartGestureWithPlaybackRate(ACT_DOTA_ATTACK, 1.5)
-
         self.caster = self:GetCaster()
         local find_radius = self:GetSpecialValueFor( "find_radius" )
-        local vTargetPos = Vector(self.caster.mouse.x, self.caster.mouse.y, self.caster.mouse.z)
+        local vTargetPos = Clamp(self.caster:GetOrigin(), Vector(self.caster.mouse.x, self.caster.mouse.y, self.caster.mouse.z), self:GetCastRange(Vector(0,0,0), nil), 0)
 
         local units = FindUnitsInRadius(
             self:GetCaster():GetTeamNumber(),
@@ -29,6 +26,9 @@ function space_chain_hook:OnAbilityPhaseStart()
         end
 
         if #units ~= 0 and units ~= nil then
+
+            -- start casting animation
+            self:GetCaster():StartGestureWithPlaybackRate(ACT_DOTA_ATTACK, 1.5)
 
             self.target = units[1]
 
