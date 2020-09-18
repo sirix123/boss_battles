@@ -112,10 +112,10 @@ function q_warlord_def_stance_modifier_bubble:OnTakeDamage(params)
     if IsServer() then
         local hero = self:GetParent()
 
-        if params.inflictor then 
+        if params.inflictor then
             --PrintTable(params.inflictor, indent, done)
             --params.inflictor:GetAbilityName() == "m2_sword_slam" and
-            if params.attacker:HasModifier("q_warlord_def_stance_modifier_bubble") then
+            if params.attacker:HasModifier("q_warlord_def_stance_modifier_bubble") and params.inflictor:GetAbilityName() == "m2_sword_slam" then
                 -- incease curernt shield by flat amount
 
                 -- get special value for shield per unit
