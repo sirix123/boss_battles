@@ -41,6 +41,9 @@ function GameSetup:init()
     GameRules:GetGameModeEntity():SetFogOfWarDisabled(true)
     GameRules:GetGameModeEntity():SetTPScrollSlotItemOverride( "" )
 
+    -- reg console commands
+    self:InitCommands()
+
     -- setup listeners, these also store critical player information in core_functions override for base_npc
     PlayerManager:SetUpMouseUpdater()
     PlayerManager:SetUpMovement()
@@ -307,12 +310,14 @@ function GameSetup:ReadyupCheck() -- called from trigger lua file for activators
     -- look at raid tables and move players to boss encounter based on counter
     print("game_setup: Start boss counter: ", BOSS_BATTLES_ENCOUNTER_COUNTER," ", RAID_TABLES[BOSS_BATTLES_ENCOUNTER_COUNTER].boss )
 
-    local boss_arena_name     = RAID_TABLES[BOSS_BATTLES_ENCOUNTER_COUNTER].spawnLocation
-    local player_arena_name   = RAID_TABLES[BOSS_BATTLES_ENCOUNTER_COUNTER].arena
+    self.boss_arena_name     = RAID_TABLES[BOSS_BATTLES_ENCOUNTER_COUNTER].spawnLocation
+    self.player_arena_name   = RAID_TABLES[BOSS_BATTLES_ENCOUNTER_COUNTER].arena
+
+    --print("game_setup: boss_arena: ", RAID_TABLES[BOSS_BATTLES_ENCOUNTER_COUNTER].spawnLocation," player_arena:", RAID_TABLES[BOSS_BATTLES_ENCOUNTER_COUNTER].arena )
 
     -- find enity using the above values from the table
-    self.boss_spawn = Entities:FindByName(nil, boss_arena_name):GetAbsOrigin()
-    self.player_spawn = Entities:FindByName(nil, player_arena_name):GetAbsOrigin()
+    self.boss_spawn = Entities:FindByName(nil, self.boss_arena_name):GetAbsOrigin()
+    self.player_spawn = Entities:FindByName(nil, self.player_arena_name):GetAbsOrigin()
 
     for _,hero in pairs(heroes) do
         if hero:GetUnitName() ~= "npc_dota_hero_phantom_assassin" then
@@ -394,3 +399,37 @@ function GameSetup:EncounterCleanUp( origin )
     return 0.5
 end
 -----------------------------------------------------------------------------------------------------
+
+function GameSetup:InitCommands()
+
+    Convars:RegisterCommand("set_trigger_boss", function(a, boss_index)
+
+        print("set_trigger_boss ", boss_index)
+
+        local heroes = HeroList:GetAllHeroes()
+
+        self.boss_arena_name     = RAID_TABLES[2].spawnLocation
+        self.player_arena_name   = RAID_TABLES[2].arena
+
+        self.boss_spawn = Entities:FindByName(nil, self.boss_arena_name):GetAbsOrigin()
+        self.player_spawn = Entities:FindByName(nil, self.player_arena_name):GetAbsOrigin()
+
+        for _,hero in pairs(heroes) do
+            if hero:GetUnitName() ~= "npc_dota_hero_phantom_assassin" then
+                hero:SetMana(0)
+            end
+            FindClearSpaceForUnit(hero, self.player_spawn, true)
+        end
+
+        -- spawn boss
+        Timers:CreateTimer(1.0, function()
+            -- look at raidtables and spawn the boss depending on the encounter counter
+            CreateUnitByName(RAID_TABLES[2].boss, self.boss_spawn, true, nil, nil, DOTA_TEAM_BADGUYS)
+        end)
+
+        -- reset wipe flag
+        self.wipe_flag = nil
+
+    end, "  ", FCVAR_CHEAT)
+
+end

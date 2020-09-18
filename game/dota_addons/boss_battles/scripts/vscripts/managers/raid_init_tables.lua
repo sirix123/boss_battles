@@ -29,8 +29,8 @@ tRAID_INIT_TABLE = {
 	[2] = {
 		name = "Beastmaster",
 		description = "MANY ANIMALS",
-		arena = "beastmaster_player_spawn",
-		spawnLocation = "beastmaster_boss_spawn",
+		arena = "beastmaster_playerspawn",
+		spawnLocation = "beastmaster_bossspawn",
 		boss ="npc_beastmaster",
 	},
 
