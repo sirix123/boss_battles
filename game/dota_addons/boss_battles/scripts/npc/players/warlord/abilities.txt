@@ -129,8 +129,8 @@
         
 		"AbilitySpecial"
 		{
-			"01"{ "var_type"			"FIELD_INTEGER"		"lifesteal_aura_radius"				"300" }	
-			"02"{ "var_type"			"FIELD_FLOAT"		"lifesteal_amount"					"0.05" }
+			"01"{ "var_type"			"FIELD_INTEGER"		"max_shield"				"100" }	
+			"02"{ "var_type"			"FIELD_FLOAT"		"shield_on_hit"				"25" }
 		}
 
         "precache"
@@ -235,7 +235,7 @@
         "AbilityBehavior"				"DOTA_ABILITY_BEHAVIOR_POINT"
 		//"AbilityUnitTargetType"		"DOTA_UNIT_TARGET_HERO | DOTA_UNIT_TARGET_CREEP"
 		//"AbilityUnitTargetFlags"		"DOTA_UNIT_TARGET_FLAG_MAGIC_IMMUNE_ENEMIES | DOTA_UNIT_TARGET_FLAG_INVULNERABLE"
-		"AbilityCastRange" 				"2000"
+		"AbilityCastRange" 				"1500"
         "AbilityCooldown"				"10"
         "AbilityCastPoint"              "0.2"
 		"AbilityManaCost"        		"0"

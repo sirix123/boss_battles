@@ -93,6 +93,7 @@ function Activate()
     require('game_setup')
     require('core/core_functions')
     require('constants')
+    require('scoreboard')
 
     GameRules.AddonTemplate = BossBattles()
     GameRules.AddonTemplate:InitGameMode()
