@@ -14,7 +14,6 @@ local timerInterval = 0.1
 --TODO implement. 
 function GetClassIcon(className)
     --TODO: for each class get the icon file/location
-
     return "file://{images}/class_icons/icon_person.png"
 end
 
@@ -59,12 +58,30 @@ function PlayerManager:SetUpMovement()
 
             bsbRows[#bsbRows+1] = bsbRow
         end
-        CustomGameEventManager:Send_ServerToPlayer( Convars:GetCommandClient(), "showScoreboardUIEvent", bsbRows )
+
+        local luaPlayer = EntIndexToHScript(args.heroIndex):GetPlayerOwner()
+        local convarClient = Convars:GetCommandClient()
+        local player = PlayerResource:GetPlayer(args.playerId)
+        print("luaPlayer = ", luaPlayer)
+        print("player = ", player)
+        print("convarClient = ", convarClient)
+
+        --CustomGameEventManager:Send_ServerToPlayer( player, "showScoreboardUIEvent", bsbRows )
+        --CustomGameEventManager:Send_ServerToPlayer( heroIndex, "showScoreboardUIEvent", bsbRows )
+        CustomGameEventManager:Send_ServerToPlayer( luaPlayer, "showScoreboardUIEvent", bsbRows )
+        CustomGameEventManager:Send_ServerToPlayer( player, "showScoreboardUIEvent", bsbRows )
+        CustomGameEventManager:Send_ServerToPlayer( convarClient, "showScoreboardUIEvent", bsbRows )
     end)
 
     --Listen for hideScoreboardUIEvent from JS, then send hideScoreboardUIEvent event back to JS
     CustomGameEventManager:RegisterListener('hideScoreboardUIEvent', function(eventSourceIndex, args)
-        CustomGameEventManager:Send_ServerToPlayer( Convars:GetCommandClient(), "hideScoreboardUIEvent", {} )
+        local luaPlayer = EntIndexToHScript(args.heroIndex):GetPlayerOwner()
+        local convarClient = Convars:GetCommandClient()
+        local player = PlayerResource:GetPlayer(args.playerId)
+
+        CustomGameEventManager:Send_ServerToPlayer( luaPlayer, "hideScoreboardUIEvent", {} )
+        CustomGameEventManager:Send_ServerToPlayer( convarClient, "hideScoreboardUIEvent", {} )
+        CustomGameEventManager:Send_ServerToPlayer( player, "hideScoreboardUIEvent", {} )
     end)
 
 
