@@ -309,7 +309,7 @@ function GameSetup:ReadyupCheck() -- called from trigger lua file for activators
     print("game_setup: Start boss counter: ", BOSS_BATTLES_ENCOUNTER_COUNTER," ", RAID_TABLES[BOSS_BATTLES_ENCOUNTER_COUNTER].boss )
 
     -- reset damage done
-    TotalDamageDone = {}
+    DamageTable = {}
 
     self.boss_arena_name     = RAID_TABLES[BOSS_BATTLES_ENCOUNTER_COUNTER].spawnLocation
     self.player_arena_name   = RAID_TABLES[BOSS_BATTLES_ENCOUNTER_COUNTER].arena
