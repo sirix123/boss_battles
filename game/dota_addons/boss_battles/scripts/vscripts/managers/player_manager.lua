@@ -61,13 +61,15 @@ function PlayerManager:SetUpMovement()
 
         local luaPlayer = EntIndexToHScript(args.heroIndex):GetPlayerOwner()
         local convarClient = Convars:GetCommandClient()
-        -- print("heroIndex = ", heroIndex)
-        -- print("luaPlayer = ", luaPlayer)
-        -- print("convarClient = ", convarClient)
+        local player = PlayerResource:GetPlayer(args.playerId)
+        print("luaPlayer = ", luaPlayer)
+        print("player = ", player)
+        print("convarClient = ", convarClient)
 
         --CustomGameEventManager:Send_ServerToPlayer( player, "showScoreboardUIEvent", bsbRows )
         --CustomGameEventManager:Send_ServerToPlayer( heroIndex, "showScoreboardUIEvent", bsbRows )
         CustomGameEventManager:Send_ServerToPlayer( luaPlayer, "showScoreboardUIEvent", bsbRows )
+        CustomGameEventManager:Send_ServerToPlayer( player, "showScoreboardUIEvent", bsbRows )
         CustomGameEventManager:Send_ServerToPlayer( convarClient, "showScoreboardUIEvent", bsbRows )
     end)
 
@@ -75,9 +77,11 @@ function PlayerManager:SetUpMovement()
     CustomGameEventManager:RegisterListener('hideScoreboardUIEvent', function(eventSourceIndex, args)
         local luaPlayer = EntIndexToHScript(args.heroIndex):GetPlayerOwner()
         local convarClient = Convars:GetCommandClient()
+        local player = PlayerResource:GetPlayer(args.playerId)
 
         CustomGameEventManager:Send_ServerToPlayer( luaPlayer, "hideScoreboardUIEvent", {} )
-        --CustomGameEventManager:Send_ServerToPlayer( convarClient, "hideScoreboardUIEvent", {} )
+        CustomGameEventManager:Send_ServerToPlayer( convarClient, "hideScoreboardUIEvent", {} )
+        CustomGameEventManager:Send_ServerToPlayer( player, "hideScoreboardUIEvent", {} )
     end)
 
 
