@@ -144,8 +144,6 @@ function GameSetup:RegisterRaidWipe( )
 
         if #self.player_deaths == HeroList:GetHeroCount() then
 
-            -- register a wipe for current boss
-
             -- revive and move dead heroes
             for _, killedHero in pairs(self.player_deaths) do
                 killedHero:SetRespawnPosition( BOSS_BATTLES_INTERMISSION_SPAWN_LOCATION )
@@ -168,8 +166,8 @@ function GameSetup:RegisterRaidWipe( )
             -- reset  death counter
             self.player_deaths = {}
 
-            -- wipe flag
-            self.wipe_flag = true
+            -- wipe flag / -- register a wipe for current boss
+            --self.wipe_flag = true
 
         end
 
@@ -205,7 +203,7 @@ function GameSetup:SpawnTestingStuff(keys)
     CreateUnitByName("npc_dota_creature_gnoll_assassin_moving", Vector(-11077,-8747,256), true, nil, nil, DOTA_TEAM_BADGUYS)
 
     --test
-    PrintTable(RAID_TABLES, indent, done)
+    --PrintTable(RAID_TABLES, indent, done)
 
 end
 --------------------------------------------------------------------------------------------------
@@ -230,7 +228,7 @@ function GameSetup:OnEntityKilled(keys)
     -- handles encounter/boss dying
     if npc:GetUnitName() == RAID_TABLES[BOSS_BATTLES_ENCOUNTER_COUNTER].boss then
         -- increase encounter counter
-        BOSS_BATTLES_ENCOUNTER_COUNTER = BOSS_BATTLES_ENCOUNTER_COUNTER + 1
+        --BOSS_BATTLES_ENCOUNTER_COUNTER = BOSS_BATTLES_ENCOUNTER_COUNTER + 1
 
         -- repsawn deadplayers and reset lifes
         local heroes = HeroList:GetAllHeroes()
@@ -310,6 +308,9 @@ function GameSetup:ReadyupCheck() -- called from trigger lua file for activators
     -- look at raid tables and move players to boss encounter based on counter
     print("game_setup: Start boss counter: ", BOSS_BATTLES_ENCOUNTER_COUNTER," ", RAID_TABLES[BOSS_BATTLES_ENCOUNTER_COUNTER].boss )
 
+    -- reset damage done
+    TotalDamageDone = {}
+
     self.boss_arena_name     = RAID_TABLES[BOSS_BATTLES_ENCOUNTER_COUNTER].spawnLocation
     self.player_arena_name   = RAID_TABLES[BOSS_BATTLES_ENCOUNTER_COUNTER].arena
 
@@ -336,7 +337,7 @@ function GameSetup:ReadyupCheck() -- called from trigger lua file for activators
     end)
 
     -- reset wipe flag
-    self.wipe_flag = nil
+    --self.wipe_flag = nil
 
 end
 --------------------------------------------------------------------------------------------------
@@ -392,6 +393,11 @@ function GameSetup:EncounterCleanUp( origin )
 
     if units ~= nil then
         for _, unit in pairs(units) do
+
+            --[[if unit:GetUnitName() ~= RAID_TABLES[BOSS_BATTLES_ENCOUNTER_COUNTER].boss then
+                BOSS_BATTLES_ENCOUNTER_COUNTER = BOSS_BATTLES_ENCOUNTER_COUNTER + 1
+            end]]
+
             unit:ForceKill(false)
         end
     end
@@ -404,7 +410,7 @@ function GameSetup:InitCommands()
 
     Convars:RegisterCommand("set_trigger_boss", function(a, boss_index)
 
-        print("set_trigger_boss ", boss_index)
+        --print("set_trigger_boss ", boss_index)
 
         local heroes = HeroList:GetAllHeroes()
 
@@ -428,7 +434,7 @@ function GameSetup:InitCommands()
         end)
 
         -- reset wipe flag
-        self.wipe_flag = nil
+        --self.wipe_flag = nil
 
     end, "  ", FCVAR_CHEAT)
 
