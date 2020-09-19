@@ -321,16 +321,19 @@ function OnRightButtonPressed()
 
 function ShowScoreboard()
 {
+    var heroIndex = Players.GetPlayerHeroEntityIndex(Players.GetLocalPlayer());
+
     //Call test_scoreboard.js function: showScoreboardUI() by going to lua then back to js.
     //Send even back to lua. Which should have registered a listener for showScoreboardUIEvent
-    GameEvents.SendCustomGameEventToServer("showScoreboardUIEvent", {});
+    GameEvents.SendCustomGameEventToServer("showScoreboardUIEvent", {heroIndex: heroIndex});
     //GameEvents.SendCustomGameEventToServer("getScoreboardDataEvent", {});
 }
 
 function HideScoreboard()
 {
+    var heroIndex = Players.GetPlayerHeroEntityIndex(Players.GetLocalPlayer());
     //Send even back to lua. Which should have registered a listener for hideScoreboardUIEvent
-    GameEvents.SendCustomGameEventToServer("hideScoreboardUIEvent", {});
+    GameEvents.SendCustomGameEventToServer("hideScoreboardUIEvent", {heroIndex: heroIndex});
 }
 
 
