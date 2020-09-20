@@ -410,13 +410,16 @@ end
 function GameSetup:InitCommands()
 
     Convars:RegisterCommand("set_trigger_boss", function(a, boss_index)
+        a = tonumber(boss_index)
 
-        --print("set_trigger_boss ", boss_index)
+        print("set_trigger_boss ", RAID_TABLES[a].spawnLocation)
+        print("set_trigger_boss ", RAID_TABLES[a].arena)
+        print("set_trigger_boss ", RAID_TABLES[a].boss)
 
         local heroes = HeroList:GetAllHeroes()
 
-        self.boss_arena_name     = RAID_TABLES[2].spawnLocation
-        self.player_arena_name   = RAID_TABLES[2].arena
+        self.boss_arena_name     = RAID_TABLES[a].spawnLocation
+        self.player_arena_name   = RAID_TABLES[a].arena
 
         self.boss_spawn = Entities:FindByName(nil, self.boss_arena_name):GetAbsOrigin()
         self.player_spawn = Entities:FindByName(nil, self.player_arena_name):GetAbsOrigin()
@@ -431,7 +434,7 @@ function GameSetup:InitCommands()
         -- spawn boss
         Timers:CreateTimer(1.0, function()
             -- look at raidtables and spawn the boss depending on the encounter counter
-            CreateUnitByName(RAID_TABLES[2].boss, self.boss_spawn, true, nil, nil, DOTA_TEAM_BADGUYS)
+            CreateUnitByName(RAID_TABLES[a].boss, self.boss_spawn, true, nil, nil, DOTA_TEAM_BADGUYS)
         end)
 
         -- reset wipe flag

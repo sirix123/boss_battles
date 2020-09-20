@@ -39,7 +39,7 @@ tRAID_INIT_TABLE = {
 		description = "MANY ANIMALS",
 		arena = "timber_player_spawn",
 		spawnLocation = "timber_boss_spawn",
-		boss = "npc_viper",
+		boss = "npc_timber",
 	},
 
 	[4] = {

@@ -55,6 +55,11 @@ function TimberThink()
 		return 0.5
 	end
 
+	-- 10 second timer after max sawblades hit then return
+	if thisEntity.nCurrentSawBlades == thisEntity.nMaxSawBlades then
+		thisEntity.return_saw_blades:StartCooldown(10)
+	end
+
 	-- find cloest player and attack if nothing else can be cast... add everything not ready?
 	-- GetAggroTarget
 	if thisEntity:GetAttackTarget() == nil then
@@ -86,7 +91,7 @@ function TimberThink()
 	end
 
 	-- blast wave (hardmode) logic 
-	if thisEntity.blast_wave ~= nil and thisEntity.blast_wave:IsFullyCastable() and HardModeCheck() == true then
+	if thisEntity.blast_wave ~= nil and thisEntity.blast_wave:IsFullyCastable() and thisEntity:GetHealthPercent() < 85 then
 		return CastBlastWave()
 	end
 

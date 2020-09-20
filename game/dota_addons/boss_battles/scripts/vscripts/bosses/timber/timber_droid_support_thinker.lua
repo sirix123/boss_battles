@@ -20,7 +20,7 @@ function timber_droid_support_thinker:OnCreated( kv )
         --init
         self.parent = self:GetParent()
         self.parentOrgin = self.parent:GetAbsOrigin()
-        self.tDroids = {"npc_smelter_droid", "npc_stun_droid", "npc_mine_droid"}
+        self.tDroids = {"npc_smelter_droid", "npc_stun_droid"}
         self.tDroidToSummon = {}
         
         for i = 1, self.droidsPerLocation, 1 do
