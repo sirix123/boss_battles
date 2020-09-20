@@ -163,7 +163,7 @@
         
 		"AbilitySpecial"
 		{
-			"01"{ "var_type"			"FIELD_INTEGER"		"base_duration"				"15" 	}
+			"01"{ "var_type"			"FIELD_INTEGER"		"base_duration"				"20" 	}
 			"02"{ "var_type"			"FIELD_INTEGER"		"max_stacks"				"5" 	}
 			"03"{ "var_type"			"FIELD_INTEGER"		"dmg_per_stack"				"70" 	}
 			"04"{ "var_type"			"FIELD_INTEGER"		"aoe_radius"				"150" 	}

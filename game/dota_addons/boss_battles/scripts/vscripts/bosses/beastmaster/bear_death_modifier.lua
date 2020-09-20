@@ -1,6 +1,10 @@
 bear_death_modifier = class({})
 -----------------------------------------------------------------------------
 
+function bear_death_modifier:RemoveOnDeath()
+    return false
+end
+
 function bear_death_modifier:OnCreated( kv )
 	if IsServer() then
 

@@ -236,6 +236,7 @@ function GameSetup:OnEntityKilled(keys)
             hero:SetRespawnPosition( BOSS_BATTLES_INTERMISSION_SPAWN_LOCATION )
             self.respawn_time = 1
             self.player_deaths = {}
+            hero:SetTimeUntilRespawn(self.respawn_time)
             hero.playerLives = BOSS_BATTLES_PLAYER_LIVES
         end
 

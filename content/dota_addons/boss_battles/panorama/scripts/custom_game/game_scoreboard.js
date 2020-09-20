@@ -110,8 +110,10 @@ function CreateBossScoreBoardRow(rowData)
 
 	//TODO: figure out how to get children and update their values instead of deleting and re-creating
 	//DELETE all current rows and then re-create them
+	//$.Msg("total ",bsbTableContainer.GetChildCount())
 	for (i = 0; i < bsbTableContainer.GetChildCount(); i++  )
 	{
+		//$.Msg("i ",i)
 		var child = bsbTableContainer.GetChild(i)
 		child.DeleteAsync(0);
 	}
