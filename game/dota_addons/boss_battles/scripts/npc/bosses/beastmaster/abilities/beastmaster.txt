@@ -53,7 +53,7 @@
 			"03"
             {
                 "var_type"          "FIELD_INTEGER"
-                "slow_duration"     "4"
+                "slow_duration"     "3"
             }                      
         }
 
@@ -97,12 +97,12 @@
             "01"
             {
                 "var_type"              "FIELD_INTEGER"
-                "bloodlust_speed"       "5"
+                "bloodlust_speed"       "8"
             }
 			"02"
             {
                 "var_type"          	"FIELD_INTEGER"
-                "bloodlust_as_speed"    "5"
+                "bloodlust_as_speed"    "8"
             }                       
         }
     }

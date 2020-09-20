@@ -237,7 +237,7 @@
 		//"AbilityUnitTargetFlags"		"DOTA_UNIT_TARGET_FLAG_MAGIC_IMMUNE_ENEMIES | DOTA_UNIT_TARGET_FLAG_INVULNERABLE"
 		"AbilityCastRange" 				"1500"
         "AbilityCooldown"				"10"
-        "AbilityCastPoint"              "0.2"
+        "AbilityCastPoint"              "0.0"
 		"AbilityManaCost"        		"0"
 
         // Special
