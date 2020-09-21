@@ -38,6 +38,8 @@ function Spawn( entityKeyValues )
 	-- handle level up
 	thisEntity.levelTracker = 0
 
+	thisEntity:SetHullRadius(60)
+
 	thisEntity:SetContextThink( "Timber", TimberThink, 0.5 )
 end
 
@@ -221,24 +223,39 @@ function CastChain()
 		FIND_CLOSEST,
 		false )
 
-	-- get further away player or second furtherst away player
-	-- need this to handle players death
-	if #enemies == 1 then
-		thisEntity.vLocation = enemies[1]:GetAbsOrigin()
-	elseif #enemies ~= nil or #enemies > 1 then
-		thisEntity.vLocation = enemies[RandomInt(( #enemies - 1) , #enemies )]:GetAbsOrigin()
-	elseif #enemies == nil then
+
+	local vTargetPos = nil
+	local tTargets = {}
+
+	for _, enemy in pairs(enemies) do
+		local dist = ( thisEntity:GetAbsOrigin() - enemy:GetAbsOrigin() ):Length2D()
+		if dist > 400 then
+			table.insert(tTargets,enemy)
+		end
+	end
+
+	if tTargets ~= nil and #tTargets ~= 0 then
+		vTargetPos = tTargets[RandomInt(1,#tTargets)]:GetAbsOrigin()
+	else
 		return 0.5
 	end
 
-	ExecuteOrderFromTable({
-		UnitIndex = thisEntity:entindex(),
-		OrderType = DOTA_UNIT_ORDER_CAST_POSITION,
-		AbilityIndex = thisEntity.chain:entindex(),
-		Position = thisEntity.vLocation,
-		Queue = 0,
-	})
-	return 1
+	if vTargetPos ~= nil then
+
+		ExecuteOrderFromTable({
+			UnitIndex = thisEntity:entindex(),
+			OrderType = DOTA_UNIT_ORDER_CAST_POSITION,
+			AbilityIndex = thisEntity.chain:entindex(),
+			Position = thisEntity.vLocation,
+			Queue = 0,
+		})
+
+		return 0.5
+	else
+		return 0.5
+	end
+
+	return 0.5
 end
 --------------------------------------------------------------------------------
 

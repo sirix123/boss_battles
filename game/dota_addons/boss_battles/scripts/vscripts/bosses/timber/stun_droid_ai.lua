@@ -12,6 +12,8 @@ function Spawn( entityKeyValues )
 	
 	thisEntity:AddNewModifier(thisEntity, self, "droid_colour_modifier_blue", {duration = 9000})
 
+	thisEntity:SetHullRadius(60)
+
 	thisEntity:SetContextThink( "DroidThink", DroidThink, 0.5 )
 
 end

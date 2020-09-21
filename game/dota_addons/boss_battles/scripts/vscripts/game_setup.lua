@@ -229,9 +229,9 @@ function GameSetup:OnEntityKilled(keys)
     -- handles encounter/boss dying
     if npc:GetUnitName() == RAID_TABLES[BOSS_BATTLES_ENCOUNTER_COUNTER].boss then
         -- increase encounter counter
-        --BOSS_BATTLES_ENCOUNTER_COUNTER = BOSS_BATTLES_ENCOUNTER_COUNTER + 1
 
         -- repsawn deadplayers and reset lifes
+        local isHeroAlive = false
         local heroes = HeroList:GetAllHeroes()
         for _, hero in pairs(heroes) do
             hero:SetRespawnPosition( BOSS_BATTLES_INTERMISSION_SPAWN_LOCATION )
@@ -239,6 +239,14 @@ function GameSetup:OnEntityKilled(keys)
             self.player_deaths = {}
             hero:SetTimeUntilRespawn(self.respawn_time)
             hero.playerLives = BOSS_BATTLES_PLAYER_LIVES
+
+            if hero:IsAlive() == true then
+                isHeroAlive = true
+            end
+        end
+
+        if isHeroAlive == true then
+            BOSS_BATTLES_ENCOUNTER_COUNTER = BOSS_BATTLES_ENCOUNTER_COUNTER + 1
         end
 
         -- move alive players to intermission area

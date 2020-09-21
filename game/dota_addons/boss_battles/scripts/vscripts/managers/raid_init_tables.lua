@@ -43,19 +43,19 @@ tRAID_INIT_TABLE = {
 	},
 
 	[4] = {
+		name = "Techies",
+		description = "MANY ANIMALS",
+		arena = "techies_player_spawn",
+		spawnLocation = "techies_boss_spawn",
+		boss = "npc_techies",
+	},
+
+	[5] = {
 		name = "Clock",
 		description = "MANY ANIMALS",
 		arena = "clock_player_spawn",
 		spawnLocation = "clock_boss_spawn",
 		boss = "npc_clock",
-	},
-
-	[5] = {
-		name = "Techies",
-		description = "MANY ANIMALS",
-		arena = "techies_player_spawn",
-		spawnLocation = "techies_boss_spawn",
-		boss = "npc_techies_boss",
 	},
 
 	[6] = {

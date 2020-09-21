@@ -1,11 +1,11 @@
-mine_droid_laymine_thinker = class({})
+cluster_mine_throw_thinker = class({})
 
-function mine_droid_laymine_thinker:IsHidden()
+function cluster_mine_throw_thinker:IsHidden()
 	return true
 end
 --------------------------------------------------------------------------------
 
-function mine_droid_laymine_thinker:OnCreated( kv )
+function cluster_mine_throw_thinker:OnCreated( kv )
     if not IsServer() then return end
 
     -- init
@@ -13,11 +13,11 @@ function mine_droid_laymine_thinker:OnCreated( kv )
     self.caster = self:GetCaster()
 
     -- ref kv 
-    self.triggerRadius = 300
-    self.explosion_delay = 1
-    self.damage = 200
-    self.activationTime = 1
-    self.explosion_range = 300
+    self.triggerRadius = kv.triggerRadius
+    self.explosion_delay = kv.explosion_delay
+    self.damage = kv.damage
+    self.activationTime = kv.activationTime
+    self.explosion_range = kv.explosion_range
     self.thinkInterval = FrameTime()
 
     -- get current pos from kv
@@ -47,7 +47,7 @@ function mine_droid_laymine_thinker:OnCreated( kv )
 end
 --------------------------------------------------------------------------------
 
-function mine_droid_laymine_thinker:OnIntervalThink()
+function cluster_mine_throw_thinker:OnIntervalThink()
     if not IsServer() then return end
 
     local parent = self.parent
@@ -99,7 +99,7 @@ end
 --------------------------------------------------------------------------------
 
 
-function mine_droid_laymine_thinker:Explode()
+function cluster_mine_throw_thinker:Explode()
 
     local parent = self.parent
     local parentAbsOrigin = parent:GetAbsOrigin()
@@ -138,10 +138,10 @@ function mine_droid_laymine_thinker:Explode()
     end
 
     local mines = FindUnitsInRadius(
-        parent:GetTeamNumber(),
+        self:GetParent():GetTeamNumber(),
         self:GetParent():GetAbsOrigin(),
         nil,
-        5,
+        10,
         DOTA_UNIT_TARGET_TEAM_FRIENDLY,
         DOTA_UNIT_TARGET_ALL,
         DOTA_UNIT_TARGET_FLAG_NONE,
@@ -149,9 +149,10 @@ function mine_droid_laymine_thinker:Explode()
         false)
 
     for _, mine in pairs(mines) do
+        --print("hello123")
         if mine:GetUnitName() == "npc_dota_techies_land_mine" then
             local mine_health = mine:GetHealth()
-            print(mine_health)
+            --print(mine_health)
             if mine_health > 1 then
                 mine:SetHealth(mine_health - 1)
             else
@@ -164,7 +165,7 @@ function mine_droid_laymine_thinker:Explode()
 	self:Destroy()
 end
 
-function mine_droid_laymine_thinker:OnDestroy()
+function cluster_mine_throw_thinker:OnDestroy()
     if not IsServer() then return end
     self.parent:ForceKill(false)
     UTIL_Remove( self.parent )

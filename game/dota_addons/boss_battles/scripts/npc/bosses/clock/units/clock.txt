@@ -38,8 +38,8 @@
 		"AttackCapabilities"		"DOTA_UNIT_CAP_NO_ATTACK"
 		"AttackDamageMin"			"1"		
 		"AttackDamageMax"			"2"		
-		"AttackRate"				"1.6"		// Speed of attack.
-		"AttackAnimationPoint"		"0.9"		// Normalized time in animation cycle to attack.
+		"AttackRate"				"0.8"		// Speed of attack.
+		"AttackAnimationPoint"		"0.1"		// Normalized time in animation cycle to attack.
 		"AttackAcquisitionRange"	"10000"		// Range within a target can be acquired.
 		"AttackRange"				"50"		
 
@@ -113,7 +113,7 @@
 
 		// Armor
 		//----------------------------------------------------------------
-		"ArmorPhysical"				"100"			
+		"ArmorPhysical"				"0"			
 
 		// Attack
 		//----------------------------------------------------------------
