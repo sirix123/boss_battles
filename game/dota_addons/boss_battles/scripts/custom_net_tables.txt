@@ -9,5 +9,6 @@
     "heroes",
     "score_board",
     "dmg_done",
+    "dps_meter",
   ]
 }

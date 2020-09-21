@@ -32,11 +32,22 @@ entryPanel.BLoadLayoutSnippet("ScoreboardRow"); -->
             </Panel>
         </snippet>
     <!-- END BOSS SCOREBOARD SNIPPETS -->
+
+    <!-- DPS METER SNIPPET -->
+      <snippet name="dps_meter_row">
+        <Panel hittest="false" class="dps_meter_row"  >
+          <Panel id="dps_row" class="dps_row">
+              <Label text="player name" class="dps_meter_playerName" id="dps_meter_playerName"/>
+              <Label text="52.5" class="dps_meter_dps" id="dps_meter_dps"/>  
+          </Panel>
+        </Panel>
+      </snippet>
     </snippets>
 
-
   <Panel hittest="false" class="parent">
-      <Panel class="ScoreboardContainer" id="ScoreboardContainer"> 
+      <Panel class="dps_meter" id="dps_meter">
+          <Label text="Dps Meter" class="" id="dps_meter_heading"/>
+        <!-- snippet: dps_meter_row goes here -->
       </Panel>
 
       <!-- Boss ScoreBoard -->

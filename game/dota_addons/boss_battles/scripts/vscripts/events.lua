@@ -33,6 +33,7 @@ end
 -- An entity somewhere has been hurt.  This event fires very often with many units so don't do too many expensive
 -- operations here
 function GameMode:OnEntityHurt(keys)
+  print("events.lua, GameMode:OnEntityHurt")
   --DebugPrint("[BAREBONES] Entity Hurt")
   --DebugPrintTable(keys)
 
@@ -219,31 +220,6 @@ function GameMode:OnTeamKillCredit(keys)
   local killerTeamNumber = keys.teamnumber
 end
 
--- An entity died
-function GameMode:OnEntityKilled( keys )
-  DebugPrint( '[BAREBONES] OnEntityKilled Called' )
-  DebugPrintTable( keys )
-  
-  -- The Unit that was Killed
-  local killedUnit = EntIndexToHScript( keys.entindex_killed )
-  -- The Killing entity
-  local killerEntity = nil
-
-  if keys.entindex_attacker ~= nil then
-    killerEntity = EntIndexToHScript( keys.entindex_attacker )
-  end
-
-  -- The ability/item used to kill, or nil if not killed by an item/ability
-  local killerAbility = nil
-
-  if keys.entindex_inflictor ~= nil then
-    killerAbility = EntIndexToHScript( keys.entindex_inflictor )
-  end
-
-  local damagebits = keys.damagebits -- This might always be 0 and therefore useless
-
-  -- Put code here to handle when an entity gets killed
-end
 
 
 
@@ -332,11 +308,3 @@ function GameMode:OnNPCGoalReached(keys)
   local npc = EntIndexToHScript(keys.npc_entindex)
 end
 
--- This function is called whenever any player sends a chat message to team or All
-function GameMode:OnPlayerChat(keys)
-  local teamonly = keys.teamonly
-  local userID = keys.userid
-  local playerID = self.vUserIds[userID]:GetPlayerID()
-
-  local text = keys.text
-end

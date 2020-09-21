@@ -55,6 +55,7 @@ function GameSetup:init()
     --ListenToGameEvent('dota_player_pick_hero', Dynamic_Wrap(self, 'PlayerPickHero'), self) -- dota_player_pick_hero is a valve engine event
     ListenToGameEvent('entity_killed', Dynamic_Wrap(self, 'OnEntityKilled'), self) --
     ListenToGameEvent('entity_hurt', Dynamic_Wrap(self, 'OnEntityHurt'), self)
+    ListenToGameEvent('player_chat', Dynamic_Wrap(self, 'OnPlayerChat'), self)
 
 end
 --------------------------------------------------------------------------------------------------
@@ -443,3 +444,63 @@ function GameSetup:InitCommands()
     end, "  ", FCVAR_CHEAT)
 
 end
+
+-----------------------------------------------------------------------------------------------------
+function GameSetup:OnPlayerChat(keys)
+    local userID = keys.userid
+    local text = keys.text
+    --print("userID = ", userID)
+    local commandChar = "!"
+    local firstChar = string.sub(text,1,1)
+
+    if not keys.userid then return end
+
+    --Parse Player Chat only if it's an command, only if the text starts with commandChar:
+    if commandChar == firstChar then
+        local hPlayer = PlayerInstanceFromIndex( keys.userid )
+        if not hPlayer then return end
+        --local hHero = hPlayer:GetAssignedHero()
+
+        if string.find(text, "reset damage") then
+            _G.DamageTable = {}
+        end
+
+        if string.find(text, "dps meter") then
+            --send event to hPlayer to show dps meter
+            CustomGameEventManager:Send_ServerToPlayer( hPlayer, "showDpsMeterUIEvent", {} )
+        end
+
+        if string.find(text, "admin-panel") then
+            print("TODO: call function to show admin-panel")
+        end
+
+        if string.find(text, "start boss") then
+            print("found start boss command")
+            local parts = mysplit(text)
+            local bossName = parts[3]
+            if bossName == "beast-master" then
+                print("TODO: start boss ", bossName)
+            end
+            if bossName == "clock" then
+                print("TODO: start boss ", bossName)
+            end
+            if bossName == "gyro" then
+                print("TODO: start boss ", bossName)
+            end
+        end
+
+    end --end if, commandChar == firstChar
+end
+
+--STRING SPLIT FUNCTION FROM: https://stackoverflow.com/questions/42650340/how-to-get-first-character-of-string-in-lua
+function mysplit (inputstr, sep)
+    if sep == nil then
+        sep = "%s"
+    end
+    local t={}
+    for str in string.gmatch(inputstr, "([^"..sep.."]+)") do
+            table.insert(t, str)
+    end
+    return t
+end
+

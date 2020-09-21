@@ -31,24 +31,83 @@
 // 	$.Msg( "DmgDoneTableChange data = ", data );
 // }
 
+function getRandomColor() {
+  var letters = '0123456789ABCDEF';
+  var color = '#';
+  for (var i = 0; i < 6; i++) {
+    color += letters[Math.floor(Math.random() * 16)];
+  }
+  return color;
+}
+
+function DpsMeterUpdate( table_name, key, data )
+{
+	//DEBUG:
+	// $.Msg("DpsMeterUpdate( table_name, key, data )")
+	// $.Msg("table_name = ", table_name)
+	// $.Msg("key = ", key)
+	// $.Msg("data = ", data)
+
+	var dpsMeterContainer = $("#dps_meter")
+	if (dpsMeterContainer)
+	{
+		for (i = 0; i < dpsMeterContainer.GetChildCount(); i++  )
+		{
+			//Skip first child, its the col header 
+			if (i == 0)
+				continue;
+			var child = dpsMeterContainer.GetChild(i)
+			child.DeleteAsync(0);
+		}
+
+		for (var row in data)
+		{
+			var containerPanel = $.CreatePanel("Panel", dpsMeterContainer, data);
+		 	containerPanel.BLoadLayoutSnippet("dps_meter_row");
+
+			var dpsRowContainer = containerPanel.FindChildInLayoutFile("dps_row")
+
+			//Update text of UI Label elements
+			var playerName = dpsRowContainer.FindChildInLayoutFile("dps_meter_playerName")
+			var dps = dpsRowContainer.FindChildInLayoutFile("dps_meter_dps")
+			playerName.text = data[row].hero
+			dps.text = data[row].dps
+
+			//Set row styling:
+			//currently setting styling purely in css, but might do it later for more adv, alternate row colors etc
+			//dpsRowContainer.style.backgroundColor = getRandomColor()
+		}
+	}
+}
+
+CustomNetTables.SubscribeNetTableListener( "dps_meter", DpsMeterUpdate );
+
+function showDpsMeterUI()
+{
+	var dpsMeter = $("#dps_meter");
+	if (dpsMeter)
+		$.Msg("dpsMeter != null. setting visible")
+		dpsMeter.style.visibility = "visible";	
+}
+
 
 function hideScoreboardUI()
 {
-	//$.Msg( "hideScoreboardUI called");
 	var bsb = $("#bsb");
 	if (bsb)
 		bsb.style.visibility = "collapse";
-	else 
-		$.Msg( "bsb null");
 }
 
 function showScoreboardUI(table_data)
 {
-	//$.Msg( "showScoreboardUI called");
+	var bsb = $("#bsb");
+	if (bsb)
+		bsb.style.visibility = "visible";
+
 	//Net tables version: not currently used. 
 	//var table_data = CustomNetTables.GetAllTableValues("dmg_done");
 
-
+	//Boss info section:
 	var bsb_bossHeader = $("#bsb_boss_header");
 	for (i = 0; i < bsb_bossHeader.GetChildCount(); i++  )
 	{
@@ -68,20 +127,15 @@ function showScoreboardUI(table_data)
 	bossWinLose.text = "Defeat!"
 
 
-	var bsb = $("#bsb");
-	if (bsb)
-	{
-		bsb.style.visibility = "visible";
-	}
-	else 
-		$.Msg( "bsb null");
+	//Player scoreboard rows section:
 
-	
 	//$.Msg( "table_data = ", table_data);	
 	for(var row in table_data)
 	{
 		var key = row
 		var val = table_data[row]
+
+		CreateBossScoreBoardRow(val)
 
 		//DEBUG:
 		// var player_name = val.player_name
@@ -96,10 +150,7 @@ function showScoreboardUI(table_data)
 		// $.Msg( "class_icon = ", class_icon);
 		// $.Msg( "dmg_done = ", dmg_done);
 		// $.Msg( "dmg_taken = ", dmg_taken);
-
-		CreateBossScoreBoardRow(val)
 	}
-	
 }
 
 
@@ -143,11 +194,10 @@ function CreateBossScoreBoardRow(rowData)
 	else {
 		$.Msg("bsbTableContainer/ #bsb_table_rows null. ")	
 	}
-
-		
 }
 
 //Subscribe these events to these functions. 
 //These functions are called/triggered from lua via: CustomGameEventManager:Send_ServerToAllClients("showScoreboardUIEvent", {})
 GameEvents.Subscribe( "showScoreboardUIEvent", showScoreboardUI);
 GameEvents.Subscribe( "hideScoreboardUIEvent", hideScoreboardUI);
+GameEvents.Subscribe( "showDpsMeterUIEvent", showDpsMeterUI);

@@ -58,13 +58,13 @@ function PlayerManager:SetUpMovement()
 
             bsbRows[#bsbRows+1] = bsbRow
         end
+        print( args.playerId.." requested to see the scoreboard. Showing data: " ..dump(bsbRows))
+        print(" HeroList:GetAllHeroes() contains ".. #HeroList:GetAllHeroes() .. " heroes")
 
         local luaPlayer = EntIndexToHScript(args.heroIndex):GetPlayerOwner()
         local convarClient = Convars:GetCommandClient()
         local player = PlayerResource:GetPlayer(args.playerId)
-        print("luaPlayer = ", luaPlayer)
-        print("player = ", player)
-        print("convarClient = ", convarClient)
+        
 
         --CustomGameEventManager:Send_ServerToPlayer( player, "showScoreboardUIEvent", bsbRows )
         --CustomGameEventManager:Send_ServerToPlayer( heroIndex, "showScoreboardUIEvent", bsbRows )

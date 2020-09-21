@@ -1,34 +1,59 @@
 
--- https://developer.valvesoftware.com/wiki/Dota_2_Workshop_Tools/Custom_Nettables
+--Loops over table to find the smallest/earliest timeOf entry
+function FindEarliestEntryInTable(tbl)
+    --find earliest entry in table:    
+    local earliestTime = tbl[1].timeOf
+    for index, row in pairs(tbl) do
+        if row[index].timeOf < earliestTime then
+            earliestTime = row[index].timeOf
+        end
+    end
+    return earliestTime
+end
 
---Sets a the data for a custom nettable called dps_meter
+function GetStartTime(damageTable)
+    --This is safe to do because damageTable is filled up over time, the first entry is the earliest.
+    return damageTable[1].timeOf
+end
+
+function GetEndTime(damageTable)
+--This is safe to do because damageTable is filled up over time, the last entry is the latest. 
+    return damageTable[#damageTable].timeOf
+end
+
 function UpdateDamageMeter()
+    local startTime = GetStartTime(_G.DamageTable)
+    local endTime = GetEndTime(_G.DamageTable)
+
     dpsTable = {}
     local heroes = HeroList:GetAllHeroes()
     for _, hero in pairs(heroes) do
         heroDps = {}
         heroDps.hero = PlayerResource:GetPlayerName(hero:GetPlayerOwnerID())
         -- heroDps.dps = DpsInLastMinute(hero:GetEntityIndex()) -- todo: trim the float to 2 digits
-        heroDps.dps = string.format("%.2f", DpsInLastMinute(hero:GetEntityIndex()) )
+
+        heroDps.dps = string.format("%.2f", Dps(_G.DamageTable, hero:GetEntityIndex(), startTime, endTime))
         dpsTable[#dpsTable+1] = heroDps
     end
-    --CustomNetTables:SetTableValue("dps_meter", "key", dpsTable)
+    CustomNetTables:SetTableValue("dps_meter", "key", dpsTable)
 end
 
-function DpsInLastMinute(attackerEntity)
-    local currentTime = GameRules:GetGameTime()
+--Expects: _G.DamageTable and playerEntity, startTime, endTime
+    --startTime and endTime are used to calculate duration the dmg was done over, 
+        --You could add timestamps into _G.DamageTable and remove these params. Would cost memory and cpu 
+function Dps(damageTable, attackerEntity, startTime, endTime)
+    local timeDuration = endTime - startTime
+    local totalDmgDone = GetDamageDone(attackerEntity)
 
-    local dmg = 0
-    for i,dmgEntry in pairs(_G.DamageTable) do
-        if dmgEntry.attackerEntity == attackerEntity then
+    --DEBUG:
+    -- print("damageTable = ", damageTable)
+    -- print("attackerEntity = ", attackerEntity)
+    -- print("startTime = ", startTime)
+    -- print("endTime = ", endTime)
+    -- print("timeDuration = ", timeDuration)
+    -- print("totalDmgDone = ", totalDmgDone)
 
-            local dt = currentTime - dmgEntry.timeOf
-            if ( dt < 60 ) then
-                dmg = dmg + dmgEntry.dmg
-            end
-        end 
-    end
-    return dmg / 60
+    return totalDmgDone / timeDuration
 end
 
 function StoreDamageDone(keys)
