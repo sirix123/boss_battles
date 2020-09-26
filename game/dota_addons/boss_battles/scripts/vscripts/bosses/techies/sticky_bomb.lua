@@ -1,5 +1,5 @@
 sticky_bomb = class({})
-LinkLuaModifier( "modifier_sticky_bomb", "bosses/techies/modifiers/modifier_sticky_bomb", LUA_MODIFIER_MOTION_HORIZONTAL )
+LinkLuaModifier( "modifier_sticky_bomb", "bosses/techies/modifiers/modifier_sticky_bomb", LUA_MODIFIER_MOTION_NONE )
 
 function sticky_bomb:OnAbilityPhaseStart()
     if IsServer() then
@@ -14,14 +14,14 @@ function sticky_bomb:OnSpellStart()
 	-- unit identifier
 	self.caster = self:GetCaster()
     self.target = nil
-    self.duration = self:GetSpecialValueFor( "damage" )
+    self.duration = self:GetSpecialValueFor( "duration" )
 
     self.speed = 900
 
 	-- find targets
     local targets = FindUnitsInRadius(
         self.caster:GetTeamNumber(),	-- int, your team number
-        self.caster:GetOrigin(),	-- point, center point
+        self.caster:GetAbsOrigin(),	-- point, center point
         nil,	-- handle, cacheUnit. (not known)
         4000,	-- float, radius. or use FIND_UNITS_EVERYWHERE
 		DOTA_UNIT_TARGET_TEAM_ENEMY,

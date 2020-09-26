@@ -2,7 +2,7 @@ bear_death_modifier = class({})
 -----------------------------------------------------------------------------
 
 function bear_death_modifier:RemoveOnDeath()
-    return false
+    return true
 end
 
 function bear_death_modifier:OnCreated( kv )
@@ -46,7 +46,7 @@ function bear_death_modifier:OnDestroy()
     for _, unit in pairs(units) do
         if unit:GetUnitName() == "npc_beastmaster" then
             -- adds modifier to bear that increases as and ms
-            unit:AddNewModifier( self:GetCaster(), self, "bear_bloodlust_modifier", { duration = -1, as_bonus = 10, ms_bonus = 10 } )
+            unit:AddNewModifier( self:GetCaster(), self, "bear_bloodlust_modifier", { duration = -1, as_bonus = 7, ms_bonus = 5 } )
             -- add stack
             local hBuff = unit:FindModifierByName( "bear_bloodlust_modifier" )
             hBuff:IncrementStackCount()
@@ -62,6 +62,10 @@ function bear_death_modifier:OnDestroy()
             EmitGlobalSound("beastmaster_beas_death_14")
 
             --print("why does everyhting fire this?")
+
+            local nfx = ParticleManager:CreateParticle("particles/beastmaster/beastmaster_razor_static_link.vpcf", PATTACH_POINT_FOLLOW, self:GetParent())
+            ParticleManager:SetParticleControlEnt(nfx, 0, self:GetParent(), PATTACH_POINT_FOLLOW, "attach_static", self:GetParent():GetAbsOrigin(), true)
+            ParticleManager:SetParticleControlEnt(nfx, 1, unit, PATTACH_POINT_FOLLOW, "attach_hitloc", unit:GetAbsOrigin(), true)
 
         end
 

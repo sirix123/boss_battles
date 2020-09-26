@@ -25,6 +25,7 @@
 					m_model = resource:"models/heroes/techies/fx_techies_remotebomb.vmdl"
 				},
 			]
+			m_bOrientZ = true
 		},
 	]
 	m_Operators = 

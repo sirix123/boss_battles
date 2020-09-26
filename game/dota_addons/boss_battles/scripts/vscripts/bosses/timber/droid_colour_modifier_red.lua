@@ -19,7 +19,7 @@ function droid_colour_modifier_red:OnCreated( kv )
         local parent	=	self:GetParent()
 		local particle	=	"particles/timber/droid_red.vpcf"
 		self.particle_fx = ParticleManager:CreateParticle(particle, PATTACH_CUSTOMORIGIN, parent)
-		ParticleManager:SetParticleControlEnt(self.particle_fx, 0, parent, PATTACH_POINT_FOLLOW, "attach_attack1", parent:GetAbsOrigin(), true)
+		ParticleManager:SetParticleControlEnt(self.particle_fx, 0, parent, PATTACH_POINT_FOLLOW, "attach_hitloc", parent:GetAbsOrigin(), true)
     end
 end
 

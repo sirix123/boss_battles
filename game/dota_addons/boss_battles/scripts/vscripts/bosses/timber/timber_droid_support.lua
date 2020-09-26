@@ -4,33 +4,38 @@ LinkLuaModifier( "timber_droid_support_thinker", "bosses/timber/timber_droid_sup
 function timber_droid_support:OnSpellStart()
 
 	-- number of cast locations per cast, level up every phase?
-	self.numberLocations = self:GetSpecialValueFor( "numberLocations" )
+	self.droidsPerLocation = self:GetSpecialValueFor( "droidsPerLocation" )
 
 	-- init
 	local caster = self:GetCaster()
-	local delay = 2
+	local delay = 0.2
 
-	self.tPositions = {}
+	self.tDroids = {"npc_smelter_droid", "npc_stun_droid"}
 
-	for i = 1, self.numberLocations, 1 do
-		local vNewPositionX = RandomInt(6590, 10467)
-		local vNewPositionY = RandomInt(11248, 15090)
-		table.insert(self.tPositions, Vector(vNewPositionX, vNewPositionY, 255))
-	end
+	local i = 0
+	Timers:CreateTimer(delay, function()
+		--print("i ", i)
+		--print("droidsPerLocation ", droidsPerLocation)
+		if i == self.droidsPerLocation then
+			return false
+		end
 
+		local vTargetPos = Vector(RandomInt(8622,11441),RandomInt(-11882,-8917),130)
 
-	for i = 1, #self.tPositions, 1 do
-		-- create modifier thinker
-		CreateModifierThinker(
-			caster,
-			self,
-			"timber_droid_support_thinker",
-			{ duration = delay },
-			self.tPositions[i],
-			caster:GetTeamNumber(),
-			false
-		)
-	end
+		local particle_cast = "particles/units/heroes/hero_rattletrap/rattletrap_cog_deploy.vpcf"
+		local effect_cast = ParticleManager:CreateParticle(particle_cast, PATTACH_WORLDORIGIN, nil)
+		ParticleManager:SetParticleControl(effect_cast, 0, vTargetPos)
+		ParticleManager:ReleaseParticleIndex(effect_cast)
+
+		-- sound effect
+		local sound_cast = "Hero_Rattletrap.Power_Cogs"
+		EmitSoundOn(sound_cast,self:GetCaster())
+
+		CreateUnitByName(self.tDroids[RandomInt(1,#self.tDroids)], vTargetPos, true, self:GetCaster(), self:GetCaster():GetOwner(), caster:GetTeamNumber())
+
+		i = i  +  1
+		return delay
+	end)
 
 	local sound_cast = "tinker_tink_ability_marchofthemachines_04"
 	--sounds/vo/tinker/tink_rare_02.vsnd

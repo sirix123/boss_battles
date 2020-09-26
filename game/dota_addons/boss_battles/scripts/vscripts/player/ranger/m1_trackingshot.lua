@@ -8,16 +8,23 @@ function m1_trackingshot:OnAbilityPhaseStart()
 
         if self:GetCaster():HasModifier("e_rain_of_arrows_modifier") then
             self:SetOverrideCastPoint( 0.3 )
+
+            -- add casting modifier
+            self:GetCaster():AddNewModifier(self:GetCaster(), self, "casting_modifier_thinker",
+            {
+                duration = 0.3,
+                pMovespeedReduction = -50,
+            })
         else
             self:SetOverrideCastPoint( self:GetCastPoint() )
-        end
 
-        -- add casting modifier
-        self:GetCaster():AddNewModifier(self:GetCaster(), self, "casting_modifier_thinker",
-        {
-            duration = self:GetCastPoint(),
-            pMovespeedReduction = -50,
-        })
+            -- add casting modifier
+            self:GetCaster():AddNewModifier(self:GetCaster(), self, "casting_modifier_thinker",
+            {
+                duration = self:GetCastPoint(),
+                pMovespeedReduction = -50,
+            })
+        end
 
         -- sound effect
         EmitSoundOn( "Hero_Windrunner.Attack", self:GetCaster() )

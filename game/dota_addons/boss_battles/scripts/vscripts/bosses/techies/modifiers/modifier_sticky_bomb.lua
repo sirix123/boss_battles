@@ -25,6 +25,7 @@ function modifier_sticky_bomb:OnCreated( kv )
 
 	self.damage = self:GetAbility():GetSpecialValueFor( "damage" )
 	self.radius = self:GetAbility():GetSpecialValueFor( "radius" )
+
 	-- precache damage
 	self.damage = self.damage
 	self.damageTable = {
@@ -48,12 +49,19 @@ end
 function modifier_sticky_bomb:OnDestroy()
 	if not IsServer() then return end
 
+	EmitSoundOn("Hero_Techies.RemoteMine.Detonate", self:GetParent())
+
+	local particle = "particles/units/heroes/hero_techies/techies_remote_mines_detonate.vpcf"
+	self.nFXIndex_1 = ParticleManager:CreateParticle( particle, PATTACH_ABSORIGIN , self:GetParent()  )
+    ParticleManager:SetParticleControl( self.nFXIndex_1, 0, self:GetParent():GetAbsOrigin() )
+    ParticleManager:ReleaseParticleIndex( self.nFXIndex_1 )
+
 	-- explode dealing damage, divided by number of enemies
 	local enemies = FindUnitsInRadius(
 		self:GetCaster():GetTeamNumber(),
 		self:GetParent():GetAbsOrigin(),
 		nil,
-		self.radius,	
+		self.radius,
 		DOTA_UNIT_TARGET_TEAM_ENEMY,
 		DOTA_UNIT_TARGET_ALL,
 		0,	-- int, flag filter

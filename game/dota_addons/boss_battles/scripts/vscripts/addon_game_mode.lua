@@ -49,8 +49,16 @@ function Precache( context ) -- this needs to be in a seperate file
   PrecacheUnitByNameSync("npc_mine_droid", context)
   PrecacheUnitByNameSync("npc_stun_droid", context)
   PrecacheUnitByNameSync("npc_smelter_droid", context)
+  PrecacheUnitByNameSync("npc_techies", context)
+  PrecacheUnitByNameSync("npc_guard", context)
 
-   -- ice mage prcache
+  -- warlord preachce
+  PrecacheUnitByNameSync("npc_ward", context)
+
+  -- rogue preachce
+  PrecacheUnitByNameSync("npc_shadow", context)
+
+  -- ice mage prcache
   PrecacheResource("particle", "particles/units/heroes/hero_winter_wyvern/wyvern_cold_embrace_buff.vpcf", context)
   PrecacheResource("soundfile", "soundevents/game_sounds_heroes/game_sounds_winter_wyvern.vsndevts", context)
 
@@ -64,6 +72,9 @@ function Precache( context ) -- this needs to be in a seperate file
   PrecacheResource("soundfile", "soundevents/game_sounds_heroes/game_sounds_tiny.vsndevts", context)
   PrecacheResource("soundfile", "soundevents/game_sounds_heroes/game_sounds_rattletrap.vsndevts", context)
   PrecacheResource("soundfile", "soundevents/voscripts/game_sounds_vo_rattletrap.vsndevts", context)
+
+  -- techies prechace
+  PrecacheResource("soundfile", "soundevents/voscripts/game_sounds_vo_techies.vsndevts", context)
 
 end
 

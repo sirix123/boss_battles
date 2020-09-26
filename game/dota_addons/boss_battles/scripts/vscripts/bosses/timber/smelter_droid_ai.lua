@@ -7,6 +7,8 @@ function Spawn( entityKeyValues )
 
 	thisEntity.smelter_droid_enhance = thisEntity:FindAbilityByName( "smelter_droid_enhance" )
 
+	--thisEntity:AddNewModifier( nil, nil, "modifier_phased", { duration = -1 })
+
 	thisEntity:AddNewModifier(thisEntity, self, "droid_colour_modifier_green", {duration = 9000})
 
 	thisEntity:SetHullRadius(60)

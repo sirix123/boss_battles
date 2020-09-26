@@ -48,12 +48,9 @@ function DpsMeterUpdate( table_name, key, data )
 	// $.Msg("key = ", key)
 	// $.Msg("data = ", data)
 
-	//TODO: make it find and then update just the dps.text instead of delete and re-drawing the UI panels.
-
 	var dpsMeterContainer = $("#dps_meter")
 	if (dpsMeterContainer)
 	{
-
 		for (i = 0; i < dpsMeterContainer.GetChildCount(); i++  )
 		{
 			//Skip first child, its the col header 
@@ -61,7 +58,6 @@ function DpsMeterUpdate( table_name, key, data )
 				continue;
 			var child = dpsMeterContainer.GetChild(i)
 			child.DeleteAsync(0);
-
 		}
 
 		for (var row in data)
@@ -104,10 +100,10 @@ function hideScoreboardUI()
 
 function showScoreboardUI(table_data)
 {
-	//$.Msg("showScoreboardUI tableData = ", table_data)
 	var bsb = $("#bsb");
 	if (bsb)
 		bsb.style.visibility = "visible";
+
 	//Net tables version: not currently used. 
 	//var table_data = CustomNetTables.GetAllTableValues("dmg_done");
 
@@ -130,28 +126,49 @@ function showScoreboardUI(table_data)
 	bossDuration.text = "1:47"
 	bossWinLose.text = "Defeat!"
 
-	var bsbTableContainer = $("#bsb_table_rows");
-
-	//DELETE all current rows and then re-create them
-	for (i = 0; i < bsbTableContainer.GetChildCount(); i++  )
-	{
-		var child = bsbTableContainer.GetChild(i)
-		child.DeleteAsync(0);
-	}
 
 	//Player scoreboard rows section:
+
+	//$.Msg( "table_data = ", table_data);	
 	for(var row in table_data)
 	{
+		var key = row
 		var val = table_data[row]
-		CreateBossScoreBoardRow(val, row)
+
+		CreateBossScoreBoardRow(val)
+
+		//DEBUG:
+		// var player_name = val.player_name
+		// var class_name = val.class_name
+		// var class_icon = val.class_icon
+		// var dmg_done = val.dmg_done
+		// var dmg_taken = val.dmg_taken
+		// $.Msg( "key = ", key);			
+		// $.Msg( "val = ", val);			
+		// $.Msg( "player_name = ", player_name);
+		// $.Msg( "class_name = ", class_name);
+		// $.Msg( "class_icon = ", class_icon);
+		// $.Msg( "dmg_done = ", dmg_done);
+		// $.Msg( "dmg_taken = ", dmg_taken);
 	}
 }
 
 
-function CreateBossScoreBoardRow(rowData, rowId)
+function CreateBossScoreBoardRow(rowData)
 {
-	//$.Msg("CreateBossScoreBoardRow(rowData, rowId). rowId = ", rowId)
+	//$.Msg( "CreateBossScoreBoardRow called. rowData  = ", rowData );	
 	var bsbTableContainer = $("#bsb_table_rows");
+
+	//TODO: figure out how to get children and update their values instead of deleting and re-creating
+	//DELETE all current rows and then re-create them
+	//$.Msg("total ",bsbTableContainer.GetChildCount())
+	for (i = 0; i < bsbTableContainer.GetChildCount(); i++  )
+	{
+		//$.Msg("i ",i)
+		var child = bsbTableContainer.GetChild(i)
+		child.DeleteAsync(0);
+	}
+
 	if (bsbTableContainer) 
 	{
 		var containerPanel = $.CreatePanel("Panel", bsbTableContainer, rowData);
@@ -161,10 +178,10 @@ function CreateBossScoreBoardRow(rowData, rowId)
 		var classImage = containerPanel.FindChildInLayoutFile("bsb_table_row_class")
 			classImage.SetImage(rowData.class_icon);
 
+
 		var playerName = containerPanel.FindChildInLayoutFile("bsb_table_row_player")
 		if (!!playerName) //if not null, set text
 			playerName.text = rowData.player_name
-		
 
 		var dmgDone = containerPanel.FindChildInLayoutFile("bsb_table_row_dmgDone")
 		if (!!dmgDone) //if not null, set text

@@ -12,7 +12,7 @@ function cluster_mine_throw_thinker:OnCreated( kv )
     self.parent = self:GetParent()
     self.caster = self:GetCaster()
 
-    -- ref kv 
+    -- ref kv
     self.triggerRadius = kv.triggerRadius
     self.explosion_delay = kv.explosion_delay
     self.damage = kv.damage
@@ -20,14 +20,17 @@ function cluster_mine_throw_thinker:OnCreated( kv )
     self.explosion_range = kv.explosion_range
     self.thinkInterval = FrameTime()
 
+    -- invul
+    self.invul = true
+
     -- get current pos from kv
     self.currentPosition = Vector( kv.target_x, kv.target_y, kv.target_z)
 
-    -- init dmg table 
+    -- init dmg table
 	self.damageTable = {
         victim = nil,
 		attacker = self.caster,
-		damage = self.damage ,
+		damage = self.damage,
 		damage_type = DAMAGE_TYPE_PHYSICAL,
 	}
 
@@ -42,8 +45,6 @@ function cluster_mine_throw_thinker:OnCreated( kv )
         self.active = true
         self:StartIntervalThink( self.thinkInterval )
     end)
-    
-
 end
 --------------------------------------------------------------------------------
 
@@ -87,7 +88,8 @@ function cluster_mine_throw_thinker:OnIntervalThink()
 
             -- Check if the mine should blow up
             if self.trigger_time >= self.explosion_delay then
-                self:Explode()
+                self.invul = false
+                self:Destroy()
             end
         else
             self.triggered = false
@@ -95,9 +97,22 @@ function cluster_mine_throw_thinker:OnIntervalThink()
         end
     end
 
+    local areAllHeroesDead = true --start on true, then set to false if you find one hero alive.
+    local heroes = HeroList:GetAllHeroes()
+    for _, hero in pairs(heroes) do
+        if hero.playerLives > 0 then
+            areAllHeroesDead = false
+            break
+        end
+    end
+    if areAllHeroesDead then
+        --Timers:CreateTimer(1.0, function()
+            self:Destroy()
+        --end)
+    end
+
 end
 --------------------------------------------------------------------------------
-
 
 function cluster_mine_throw_thinker:Explode()
 
@@ -162,11 +177,16 @@ function cluster_mine_throw_thinker:Explode()
         end
     end
 
-	self:Destroy()
+	--self:Destroy()
 end
+--------------------------------------------------------------------------------
 
 function cluster_mine_throw_thinker:OnDestroy()
     if not IsServer() then return end
+    self:Explode()
     self.parent:ForceKill(false)
     UTIL_Remove( self.parent )
 end
+--------------------------------------------------------------------------------
+
+function cluster_mine_throw_thinker:CheckState() return {[MODIFIER_STATE_INVULNERABLE] = self.invul, [MODIFIER_STATE_NO_HEALTH_BAR] = true} end
