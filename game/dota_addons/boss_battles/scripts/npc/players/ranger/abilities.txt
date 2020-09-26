@@ -28,7 +28,7 @@
 			"02"{ "var_type"			"FIELD_INTEGER"		"proj_speed"						"1000" }
 			"03"{ "var_type"			"FIELD_INTEGER"		"base_dmg"							"30" }
 			"04"{ "var_type"			"FIELD_FLOAT"		"dmg_dist_multi"					"0.08" }
-			"05"{ "var_type"			"FIELD_FLOAT"		"rain_of_arrows_bonus_proj_speed"	"600" }
+			"05"{ "var_type"			"FIELD_FLOAT"		"rain_of_arrows_bonus_proj_speed"	"800" }
 			"06"{ "var_type"			"FIELD_INTEGER"		"mana_gain_percent"             	"5" }
 		}
 
@@ -136,7 +136,7 @@
         
 		"AbilitySpecial"
 		{
-			"01"{ "var_type"			"FIELD_INTEGER"		"base_duration"			"5" 	}
+			"01"{ "var_type"			"FIELD_INTEGER"		"base_duration"			"10" 	}
 		}
 
 		"precache"
