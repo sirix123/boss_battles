@@ -5,8 +5,19 @@ LinkLuaModifier( "blast_wave_modifier", "bosses/timber/blast_wave_modifier", LUA
 
 local tProjectileData = {}
 
+function blast_wave:OnAbilityPhaseStart()
+    if IsServer() then
+        self:GetCaster():StartGestureWithPlaybackRate(ACT_DOTA_TELEPORT_END, 1.0)
+
+        return true
+    end
+end
+
+
 function blast_wave:OnSpellStart()
-	if IsServer() then
+    if IsServer() then
+        
+        self:GetCaster():RemoveGesture(ACT_DOTA_TELEPORT_END)
 
         -- init
 		self.caster = self:GetCaster()

@@ -13,14 +13,18 @@ function Spawn( entityKeyValues )
 	-- set mana to 0 on spawn
 	thisEntity:SetMana(0)
 
+	thisEntity:AddNewModifier( nil, nil, "modifier_phased", { duration = -1 })
+
 	-- saw blade references and init
 	thisEntity.saw_blade = thisEntity:FindAbilityByName( "saw_blade" )
+	thisEntity.saw_blade:StartCooldown(10)
 	thisEntity.nMaxSawBlades = thisEntity.saw_blade:GetLevelSpecialValueFor("nMaxSawBlades", thisEntity.saw_blade:GetLevel())
 	thisEntity.nCurrentSawBlades = 0
 	thisEntity.return_saw_blades = thisEntity:FindAbilityByName( "return_saw_blades" )
 
 	-- chain references and init
 	thisEntity.chain = thisEntity:FindAbilityByName( "chain" )
+	thisEntity.chain:StartCooldown(5)
 
 	-- fire shell references and init
 	thisEntity.fire_shell = thisEntity:FindAbilityByName( "fire_shell" )
@@ -69,31 +73,31 @@ function TimberThink()
 	end
 
 	-- saw blade cast logic
-	if thisEntity:GetHealthPercent() < 95 and thisEntity.saw_blade ~= nil and thisEntity.saw_blade:IsFullyCastable() and thisEntity.nCurrentSawBlades < thisEntity.nMaxSawBlades then
+	if thisEntity.saw_blade ~= nil and thisEntity.saw_blade:IsFullyCastable() and thisEntity.nCurrentSawBlades < thisEntity.nMaxSawBlades and thisEntity.saw_blade:IsCooldownReady() then
 		thisEntity.nCurrentSawBlades = thisEntity.nCurrentSawBlades + 1
 		return CastSawBlade()
-	elseif thisEntity.return_saw_blades ~= nil and thisEntity.saw_blade:IsFullyCastable() and thisEntity.nCurrentSawBlades == thisEntity.nMaxSawBlades then
+	elseif thisEntity.return_saw_blades ~= nil and thisEntity.saw_blade:IsFullyCastable() and thisEntity.nCurrentSawBlades == thisEntity.nMaxSawBlades and thisEntity.return_saw_blades:IsCooldownReady() then
 		thisEntity.nCurrentSawBlades = 0
 		return CastReturnSawBlade()
 	end
 
 	-- chain cast logic
-	if thisEntity:GetHealthPercent() < 95 and thisEntity.chain ~= nil and thisEntity.chain:IsFullyCastable() then
+	if thisEntity.chain ~= nil and thisEntity.chain:IsFullyCastable() and thisEntity.chain:IsCooldownReady() then
 		return CastChain()
 	end
 
 	-- fire shell logic
-	if thisEntity:GetHealthPercent() < 95 and thisEntity.fire_shell ~= nil and thisEntity.fire_shell:IsFullyCastable() then
+	if thisEntity:GetHealthPercent() < 95 and thisEntity.fire_shell ~= nil and thisEntity.fire_shell:IsFullyCastable() and thisEntity.fire_shell:IsCooldownReady() then
 		return CastFireShell()
 	end
 
 	-- droid support logic
-	if thisEntity:GetHealthPercent() < 75 and thisEntity.timber_droid_support ~= nil and thisEntity.timber_droid_support:IsFullyCastable() then
+	if thisEntity:GetHealthPercent() < 85 and thisEntity.timber_droid_support ~= nil and thisEntity.timber_droid_support:IsFullyCastable() and thisEntity.timber_droid_support:IsCooldownReady() then
 		return CastDroidSupport()
 	end
 
 	-- blast wave (hardmode) logic 
-	if thisEntity.blast_wave ~= nil and thisEntity.blast_wave:IsFullyCastable() and thisEntity:GetHealthPercent() < 85 then
+	if thisEntity.blast_wave ~= nil and thisEntity.blast_wave:IsFullyCastable() and thisEntity:GetHealthPercent() < 80 and thisEntity.blast_wave:IsCooldownReady() then
 		return CastBlastWave()
 	end
 
@@ -146,7 +150,7 @@ function AttackClosestPlayer()
 		DOTA_TEAM_BADGUYS,
 		thisEntity:GetAbsOrigin(),
 		nil,
-		FIND_UNITS_EVERYWHERE,
+		3000,
 		DOTA_UNIT_TARGET_TEAM_ENEMY,
 		DOTA_UNIT_TARGET_ALL,
 		DOTA_UNIT_TARGET_FLAG_NONE,
@@ -174,7 +178,7 @@ function CastSawBlade()
 		DOTA_TEAM_BADGUYS,
 		thisEntity:GetAbsOrigin(),
 		nil, 
-		FIND_UNITS_EVERYWHERE,
+		3000,
 		DOTA_UNIT_TARGET_TEAM_ENEMY,
 		DOTA_UNIT_TARGET_ALL,
 		DOTA_UNIT_TARGET_FLAG_NONE,
@@ -211,51 +215,14 @@ end
 
 function CastChain()
 
-	-- find closet player
-	local enemies = FindUnitsInRadius(
-		DOTA_TEAM_BADGUYS,
-		thisEntity:GetAbsOrigin(),
-		nil,
-		FIND_UNITS_EVERYWHERE,
-		DOTA_UNIT_TARGET_TEAM_ENEMY,
-		DOTA_UNIT_TARGET_ALL,
-		DOTA_UNIT_TARGET_FLAG_NONE,
-		FIND_CLOSEST,
-		false )
+	ExecuteOrderFromTable({
+		UnitIndex = thisEntity:entindex(),
+		OrderType = DOTA_UNIT_ORDER_CAST_NO_TARGET,
+		AbilityIndex = thisEntity.chain:entindex(),
+		Queue = 0,
+	})
 
-
-	local vTargetPos = nil
-	local tTargets = {}
-
-	for _, enemy in pairs(enemies) do
-		local dist = ( thisEntity:GetAbsOrigin() - enemy:GetAbsOrigin() ):Length2D()
-		if dist > 400 then
-			table.insert(tTargets,enemy)
-		end
-	end
-
-	if tTargets ~= nil and #tTargets ~= 0 then
-		vTargetPos = tTargets[RandomInt(1,#tTargets)]:GetAbsOrigin()
-	else
-		return 0.5
-	end
-
-	if vTargetPos ~= nil then
-
-		ExecuteOrderFromTable({
-			UnitIndex = thisEntity:entindex(),
-			OrderType = DOTA_UNIT_ORDER_CAST_POSITION,
-			AbilityIndex = thisEntity.chain:entindex(),
-			Position = thisEntity.vLocation,
-			Queue = 0,
-		})
-
-		return 0.5
-	else
-		return 0.5
-	end
-
-	return 0.5
+	return 2
 end
 --------------------------------------------------------------------------------
 
@@ -287,7 +254,7 @@ function CastBlastWave()
 		DOTA_TEAM_BADGUYS,
 		thisEntity:GetAbsOrigin(),
 		nil,
-		FIND_UNITS_EVERYWHERE,
+		3000,
 		DOTA_UNIT_TARGET_TEAM_ENEMY,
 		DOTA_UNIT_TARGET_ALL,
 		DOTA_UNIT_TARGET_FLAG_NONE,

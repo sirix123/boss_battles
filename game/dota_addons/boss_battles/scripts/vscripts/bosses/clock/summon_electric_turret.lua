@@ -11,17 +11,17 @@ function summon_electric_turret:OnSpellStart()
 
         -- logic to do the map magic
         -- point 1 top left, point 2 top right, point 3 bot left, point 4 bot right
-        local point_1 = Vector(6617,8497,256)
-        local point_2 = Vector(10028,8497,256)
-        local point_3 = Vector(6617,5575,256)
-        local point_4 = Vector(10028,5575,256)
+        local point_1 = Vector(-3717,3010,162)
+        local point_2 = Vector(-810,3010,256)
+        local point_3 = Vector(-3717,212,256)
+        local point_4 = Vector(-810,212,256)
 
         local tSpawns =
         {
-            Vector(7211,7089,256),
-            Vector(8305,6165,256),
-            Vector(9193,7089,256),
-            Vector(8305,7885,256)
+            Vector(-2193,2719,162),
+            Vector(-3256,1691,162),
+            Vector(-2274,717,162),
+            Vector(-1259,1689,162)
         }
 
 

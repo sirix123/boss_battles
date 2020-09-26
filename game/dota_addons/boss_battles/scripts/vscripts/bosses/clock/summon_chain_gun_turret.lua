@@ -11,10 +11,10 @@ function summon_chain_gun_turret:OnSpellStart()
 
         -- logic to do the map magic
         -- point 1 top left, point 2 top right, point 3 bot left, point 4 bot right
-        local point_1 = Vector(6617,8497,256)
-        local point_2 = Vector(10028,8497,256)
-        local point_3 = Vector(6617,5575,256)
-        local point_4 = Vector(10028,5575,256)
+        local point_1 = Vector(-3717,3010,162)
+        local point_2 = Vector(-810,3010,256)
+        local point_3 = Vector(-3717,212,256)
+        local point_4 = Vector(-810,212,256)
 
         local j = 0
         Timers:CreateTimer(0.5, function()
@@ -24,7 +24,7 @@ function summon_chain_gun_turret:OnSpellStart()
             end
 
             -- get spawn vector
-            local spawnVector = Vector(RandomInt(6617,10028),RandomInt(5575,8497),256)
+            local spawnVector = Vector(RandomInt(-3717,-810),RandomInt(212,3010),256)
 
             --particle effect start
             local particle_cast = "particles/units/heroes/hero_rattletrap/rattletrap_cog_deploy.vpcf"

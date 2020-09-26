@@ -14,7 +14,7 @@ LinkLuaModifier( "cluster_mine_throw_thinker", "bosses/techies/modifiers/cluster
 
 function cluster_mine_throw:OnAbilityPhaseStart()
     if IsServer() then
-        self:GetCaster():StartGestureWithPlaybackRate(ACT_DOTA_ATTACK, 1.0)
+        self:GetCaster():StartGestureWithPlaybackRate(ACT_DOTA_CAST_ABILITY_1, 1.0)
 
         return true
     end
@@ -24,6 +24,8 @@ end
 function cluster_mine_throw:OnSpellStart()
     if IsServer() then
         local caster = self:GetCaster()
+
+        self:GetCaster():RemoveGesture(ACT_DOTA_CAST_ABILITY_1)
 
         local delay = 0.1
         local point = Vector(0,0,0)
@@ -37,9 +39,13 @@ function cluster_mine_throw:OnSpellStart()
         self.activationTime = self:GetSpecialValueFor( "activationTime" )
         self.explosion_range = self:GetSpecialValueFor( "explosion_range" )
 
-        -- find a random point inside the map arena
-        local vTargetPos = Vector(caster.mouse.x, caster.mouse.y, caster.mouse.z) -- for testing
-        --local vTargetPos = Vector(Rand)
+        -- find a random point inside the map arena (cell)
+        --local vTargetPos = Vector(caster.mouse.x, caster.mouse.y, caster.mouse.z) -- for testing
+        local vTargetPos = self:GetCursorPosition()
+        --print(vTargetPos)
+
+        -- play sound
+        EmitSoundOnLocationWithCaster(vTargetPos,"Hero_Techies.LandMine.Plant",caster)
 
         local i = 0
         Timers:CreateTimer(delay, function()
@@ -52,11 +58,25 @@ function cluster_mine_throw:OnSpellStart()
             point.x = RandomInt(vTargetPos.x - radius, vTargetPos.x + radius)
             point.y = RandomInt(vTargetPos.y - radius, vTargetPos.y + radius)
 
-            point = Vector(point.x,point.y,0)
+            point = Vector(point.x,point.y,130)
 
             local land_mine = CreateUnitByName("npc_dota_techies_land_mine", point, true, self:GetCaster(), self:GetCaster():GetOwner(), caster:GetTeamNumber())
 
-            CreateModifierThinker(
+            --unit:AddNewModifier( self:GetCaster(), self, "bear_bloodlust_modifier", { duration = -1, as_bonus = 10, ms_bonus = 10 } )
+
+            land_mine:AddNewModifier(caster, self, "cluster_mine_throw_thinker",
+            {
+                target_x = point.x,
+                target_y = point.y,
+                target_z = point.z,
+                triggerRadius = self.triggerRadius,
+                explosion_delay = self.explosion_delay,
+                damage = self.damage,
+                activationTime = self.activationTime,
+                explosion_range = self.explosion_range,
+            })
+
+            --[[CreateModifierThinker(
                 caster,
                 self,
                 "cluster_mine_throw_thinker",
@@ -72,7 +92,7 @@ function cluster_mine_throw:OnSpellStart()
                 },
                 land_mine:GetAbsOrigin(),
                 caster:GetTeamNumber(),
-                false)
+                false)]]
 
             i = i  +  1
             return delay

@@ -68,9 +68,9 @@ function PlayerManager:SetUpMovement()
 
         --CustomGameEventManager:Send_ServerToPlayer( player, "showScoreboardUIEvent", bsbRows )
         --CustomGameEventManager:Send_ServerToPlayer( heroIndex, "showScoreboardUIEvent", bsbRows )
-        CustomGameEventManager:Send_ServerToPlayer( luaPlayer, "showScoreboardUIEvent", bsbRows )
+        --CustomGameEventManager:Send_ServerToPlayer( luaPlayer, "showScoreboardUIEvent", bsbRows )
         CustomGameEventManager:Send_ServerToPlayer( player, "showScoreboardUIEvent", bsbRows )
-        CustomGameEventManager:Send_ServerToPlayer( convarClient, "showScoreboardUIEvent", bsbRows )
+        --CustomGameEventManager:Send_ServerToPlayer( convarClient, "showScoreboardUIEvent", bsbRows )
     end)
 
     --Listen for hideScoreboardUIEvent from JS, then send hideScoreboardUIEvent event back to JS

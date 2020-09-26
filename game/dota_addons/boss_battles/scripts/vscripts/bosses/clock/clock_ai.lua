@@ -10,6 +10,16 @@ function Spawn( entityKeyValues )
 		return
 	end
 
+	-- summon furnace
+	local furnace_1 = Entities:FindByName(nil, "furnace_1"):GetAbsOrigin()
+	local furnace_2 = Entities:FindByName(nil, "furnace_2"):GetAbsOrigin()
+	local furnace_3 = Entities:FindByName(nil, "furnace_3"):GetAbsOrigin()
+	local furnace_4 = Entities:FindByName(nil, "furnace_4"):GetAbsOrigin()
+	CreateUnitByName("furnace", furnace_1, true, nil, nil, DOTA_TEAM_BADGUYS)
+	CreateUnitByName("furnace", furnace_2, true, nil, nil, DOTA_TEAM_BADGUYS)
+	CreateUnitByName("furnace", furnace_3, true, nil, nil, DOTA_TEAM_BADGUYS)
+	CreateUnitByName("furnace", furnace_4, true, nil, nil, DOTA_TEAM_BADGUYS)
+
 	-- set mana to 0 on spawn
 	thisEntity:SetMana(0)
 

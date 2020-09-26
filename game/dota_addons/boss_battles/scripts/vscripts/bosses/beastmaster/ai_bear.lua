@@ -67,10 +67,9 @@ function BearThink()
 	for _, enemy in pairs(enemies) do
 		if enemy:HasModifier("beastmaster_mark_modifier") then
 			thisEntity.target = enemy
+			thisEntity:MoveToTargetToAttack(thisEntity.target)
 		end
 	end
-
-	thisEntity:MoveToTargetToAttack(thisEntity.target)
 
 	if thisEntity.hClaw ~= nil and thisEntity.hClaw:IsFullyCastable() and thisEntity.hBloodlust:IsCooldownReady() then
 		return CastClaw(thisEntity.target)

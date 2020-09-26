@@ -62,13 +62,27 @@ function saw_blade_thinker:OnCreated( kv )
 	}
 
     self:StartIntervalThink( self.move_interval )
-  
+
     self:PlayMoveEffects()
 
 end
 --------------------------------------------------------------------------------
 
 function saw_blade_thinker:OnIntervalThink()
+
+	-- if no heroes destroy
+	local areAllHeroesDead = true --start on true, then set to false if you find one hero alive.
+    local heroes = HeroList:GetAllHeroes()
+    for _, hero in pairs(heroes) do
+        if hero.playerLives > 0 then
+            areAllHeroesDead = false
+            break
+        end
+    end
+    if areAllHeroesDead then
+		self:Destroy()
+    end
+
     -- check mode
 	if self.mode == MODE_MOVE then
 		self:MoveThink()
@@ -179,9 +193,9 @@ function saw_blade_thinker:NewPositionLogic()
 	local vNewPosition = Vector(0,0,0)
 
 	--	the numbers in the X Y are the map diemensions
-	local vNewPositionX = RandomInt(6590, 10467) + 200
-	local vNewPositionY = RandomInt(11248, 15090) + 200
-	vNewPosition = Vector(vNewPositionX, vNewPositionY, 255)
+	local vNewPositionX = RandomInt(8622, 11550)
+	local vNewPositionY = RandomInt(-11882, -8910)
+	vNewPosition = Vector(vNewPositionX, vNewPositionY, 131)
 
 	return vNewPosition
 end
@@ -240,11 +254,11 @@ function saw_blade_thinker:PlayMoveEffects()
 	if self.bFirstBlade ~= true then
 		ParticleManager:DestroyParticle( self.effect_cast, false )
 		ParticleManager:ReleaseParticleIndex( self.effect_cast )
-		StopSoundOn( sound_cast, self.parent )
+		--StopSoundOn( sound_cast, self.parent )
 	end
 
     local particle_cast = "particles/units/heroes/hero_shredder/shredder_chakram.vpcf"
-	local sound_cast = "Hero_Shredder.Chakram"
+	--local sound_cast = "Hero_Shredder.Chakram"
 
 	local direction = ( self.currentTarget - self.parent:GetOrigin() )
 	direction.z = 0
@@ -257,7 +271,7 @@ function saw_blade_thinker:PlayMoveEffects()
 	ParticleManager:SetParticleControl( self.effect_cast, 1, direction * self.speed )
     ParticleManager:SetParticleControl( self.effect_cast, 16, Vector( 0, 0, 0 ) )
     
-    EmitSoundOn( sound_cast, self.parent )
+    --EmitSoundOn( sound_cast, self.parent )
 end
 --------------------------------------------------------------------------------
 

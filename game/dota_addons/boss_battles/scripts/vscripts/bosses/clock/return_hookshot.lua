@@ -30,7 +30,7 @@ function return_hookshot:OnSpellStart()
 
         EmitSoundOn("rattletrap_ratt_ability_hook_02", caster)
 
-        self.point = Entities:FindByName(nil, "clock_spawn"):GetAbsOrigin()
+        self.point = Entities:FindByName(nil, "clock_boss_spawn"):GetAbsOrigin()
 
         local direction = (self.point - origin):Normalized()
         direction.z = 0
