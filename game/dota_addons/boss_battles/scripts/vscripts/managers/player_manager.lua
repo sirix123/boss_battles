@@ -55,16 +55,12 @@ function PlayerManager:SetUpMovement()
             bsbRow.player_name = playerName
             bsbRow.dmg_done = dmgDone
             bsbRow.dmg_taken = dmgTaken
-
             bsbRows[#bsbRows+1] = bsbRow
         end
-        print( args.playerId.." requested to see the scoreboard. Showing data: " ..dump(bsbRows))
-        print(" HeroList:GetAllHeroes() contains ".. #HeroList:GetAllHeroes() .. " heroes")
 
         local luaPlayer = EntIndexToHScript(args.heroIndex):GetPlayerOwner()
         local convarClient = Convars:GetCommandClient()
         local player = PlayerResource:GetPlayer(args.playerId)
-        
 
         --CustomGameEventManager:Send_ServerToPlayer( player, "showScoreboardUIEvent", bsbRows )
         --CustomGameEventManager:Send_ServerToPlayer( heroIndex, "showScoreboardUIEvent", bsbRows )
@@ -79,21 +75,10 @@ function PlayerManager:SetUpMovement()
         local convarClient = Convars:GetCommandClient()
         local player = PlayerResource:GetPlayer(args.playerId)
 
-        CustomGameEventManager:Send_ServerToPlayer( luaPlayer, "hideScoreboardUIEvent", {} )
-        CustomGameEventManager:Send_ServerToPlayer( convarClient, "hideScoreboardUIEvent", {} )
+        --CustomGameEventManager:Send_ServerToPlayer( luaPlayer, "hideScoreboardUIEvent", {} )
+        --CustomGameEventManager:Send_ServerToPlayer( convarClient, "hideScoreboardUIEvent", {} )
         CustomGameEventManager:Send_ServerToPlayer( player, "hideScoreboardUIEvent", {} )
     end)
-
-
-
-
-
-
-
-
-
-
-
 
 
 
