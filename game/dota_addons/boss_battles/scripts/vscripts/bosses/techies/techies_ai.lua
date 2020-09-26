@@ -176,8 +176,8 @@ end
 function CastClusterMines( locationToMine )
 
     --thisEntity:RemoveModifierByName("modifier_invisible")
-    DebugDrawCircle(locationToMine,Vector(255,255,0),128,100,true,60)
-    print("location to mine: ",locationToMine)
+    --DebugDrawCircle(locationToMine,Vector(255,255,0),128,100,true,60)
+    --print("location to mine: ",locationToMine)
 
     ExecuteOrderFromTable({
         UnitIndex = thisEntity:entindex(),

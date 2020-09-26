@@ -6,7 +6,7 @@ LinkLuaModifier( "modifier_beastmaster_net", "bosses/beastmaster/modifier_beastm
 function beastmaster_net:OnAbilityPhaseStart()
     if IsServer() then
 
-		self:GetCaster():StartGestureWithPlaybackRate(ACT_DOTA_CAST_ABILITY_1, 0.8)
+		self:GetCaster():StartGestureWithPlaybackRate(ACT_DOTA_CAST_ABILITY_1, 0.5)
 
 		EmitSoundOn( "beastmaster_beas_ability_axes_03", self:GetCaster() )
 
