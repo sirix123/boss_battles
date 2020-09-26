@@ -104,7 +104,8 @@ function hideScoreboardUI()
 
 function showScoreboardUI(table_data)
 {
-	//$.Msg("showScoreboardUI tableData = ", table_data)
+	$.Msg("showScoreboardUI tableData = ", table_data)
+	$.Msg("Version v1.0")
 	var bsb = $("#bsb");
 	if (bsb)
 		bsb.style.visibility = "visible";

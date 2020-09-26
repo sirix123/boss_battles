@@ -454,6 +454,38 @@ function GameSetup:InitCommands()
     end, "  ", FCVAR_CHEAT)
 
 end
+-----------------------------------------------------------------------------------------------------
+
+function GameSetup:StartBoss( a )
+
+        print("set_trigger_boss ", RAID_TABLES[a].spawnLocation)
+        print("set_trigger_boss ", RAID_TABLES[a].arena)
+        print("set_trigger_boss ", RAID_TABLES[a].boss)
+
+        local heroes = HeroList:GetAllHeroes()
+
+        self.boss_arena_name     = RAID_TABLES[a].spawnLocation
+        self.player_arena_name   = RAID_TABLES[a].arena
+
+        self.boss_spawn = Entities:FindByName(nil, self.boss_arena_name):GetAbsOrigin()
+        self.player_spawn = Entities:FindByName(nil, self.player_arena_name):GetAbsOrigin()
+
+        for _,hero in pairs(heroes) do
+            if hero:GetUnitName() ~= "npc_dota_hero_phantom_assassin" then
+                hero:SetMana(0)
+            end
+            FindClearSpaceForUnit(hero, self.player_spawn, true)
+        end
+
+        -- spawn boss
+        Timers:CreateTimer(1.0, function()
+            -- look at raidtables and spawn the boss depending on the encounter counter
+            CreateUnitByName(RAID_TABLES[a].boss, self.boss_spawn, true, nil, nil, DOTA_TEAM_BADGUYS)
+        end)
+
+        -- reset wipe flag
+        --self.wipe_flag = nil
+end
 
 -----------------------------------------------------------------------------------------------------
 function GameSetup:OnPlayerChat(keys)
@@ -488,14 +520,25 @@ function GameSetup:OnPlayerChat(keys)
             print("found start boss command")
             local parts = mysplit(text)
             local bossName = parts[3]
-            if bossName == "beast-master" then
+            if bossName == "beastmaster" then
                 print("TODO: start boss ", bossName)
+                self:StartBoss(2)
+            end
+            if bossName == "timber" then
+                print("TODO: start boss ", bossName)
+                self:StartBoss(3)
+            end
+            if bossName == "techies" then
+                print("TODO: start boss ", bossName)
+                self:StartBoss(4)
             end
             if bossName == "clock" then
                 print("TODO: start boss ", bossName)
+                self:StartBoss(5)
             end
             if bossName == "gyro" then
                 print("TODO: start boss ", bossName)
+                self:StartBoss(6)
             end
         end
 
