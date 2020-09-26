@@ -47,7 +47,7 @@ tRAID_INIT_TABLE = {
 		description = "MANY ANIMALS",
 		arena = "techies_player_spawn",
 		spawnLocation = "techies_boss_spawn",
-		boss = "npc_guard",
+		boss = "npc_techies",
 	},
 
 	[5] = {

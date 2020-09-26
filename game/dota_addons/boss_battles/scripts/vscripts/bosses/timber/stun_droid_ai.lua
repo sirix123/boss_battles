@@ -9,8 +9,6 @@ function Spawn( entityKeyValues )
 	if not IsServer() then return end
 
 	thisEntity.stun_droid_zap = thisEntity:FindAbilityByName( "stun_droid_zap" )
-
-	--thisEntity:AddNewModifier( nil, nil, "modifier_phased", { duration = -1 })
 	
 	thisEntity:AddNewModifier(thisEntity, self, "droid_colour_modifier_blue", {duration = 9000})
 

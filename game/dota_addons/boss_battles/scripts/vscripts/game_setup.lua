@@ -38,7 +38,7 @@ function GameSetup:init()
     GameRules:GetGameModeEntity():SetFixedRespawnTime( 3 )
     GameRules:GetGameModeEntity():SetCameraDistanceOverride( 1800 )
     GameRules:GetGameModeEntity():SetBuybackEnabled( false )
-    --GameRules:GetGameModeEntity():SetFogOfWarDisabled(true)
+    GameRules:GetGameModeEntity():SetFogOfWarDisabled(true)
     GameRules:GetGameModeEntity():SetTPScrollSlotItemOverride( "" )
 
     -- reg console commands
@@ -144,34 +144,32 @@ function GameSetup:RegisterRaidWipe( )
     Timers:CreateTimer(function()
 
         if #self.player_deaths == HeroList:GetHeroCount() then
-            Timers:CreateTimer(5.0, function()
 
-                -- revive and move dead heroes
-                for _, killedHero in pairs(self.player_deaths) do
-                    killedHero:SetRespawnPosition( BOSS_BATTLES_INTERMISSION_SPAWN_LOCATION )
-                    self.respawn_time = BOSS_BATTLES_RESPAWN_TIME
-                    killedHero:SetTimeUntilRespawn(self.respawn_time)
-                    killedHero.playerLives = BOSS_BATTLES_PLAYER_LIVES
+            -- revive and move dead heroes
+            for _, killedHero in pairs(self.player_deaths) do
+                killedHero:SetRespawnPosition( BOSS_BATTLES_INTERMISSION_SPAWN_LOCATION )
+                self.respawn_time = BOSS_BATTLES_RESPAWN_TIME
+                killedHero:SetTimeUntilRespawn(self.respawn_time)
+                killedHero.playerLives = BOSS_BATTLES_PLAYER_LIVES
+            end
+
+            --[[ edge case that a player is dead then boss dies
+            local heroes = HeroList:GetAllHeroes()
+            for _, hero in pairs(heroes) do
+                if hero:IsAlive() then
+                    FindClearSpaceForUnit(hero, BOSS_BATTLES_INTERMISSION_SPAWN_LOCATION, true)
                 end
+            end]]
 
-                --[[ edge case that a player is dead then boss dies
-                local heroes = HeroList:GetAllHeroes()
-                for _, hero in pairs(heroes) do
-                    if hero:IsAlive() then
-                        FindClearSpaceForUnit(hero, BOSS_BATTLES_INTERMISSION_SPAWN_LOCATION, true)
-                    end
-                end]]
+            -- call boss cleanup function
+            self:EncounterCleanUp( self.boss_spawn )
 
-                -- call boss cleanup function
-                self:EncounterCleanUp( self.boss_spawn )
+            -- reset  death counter
+            self.player_deaths = {}
 
-                -- reset  death counter
-                self.player_deaths = {}
+            -- wipe flag / -- register a wipe for current boss
+            --self.wipe_flag = true
 
-                -- wipe flag / -- register a wipe for current boss
-                --self.wipe_flag = true
-
-            end)
         end
 
         return 0.5
@@ -396,10 +394,10 @@ function GameSetup:EncounterCleanUp( origin )
         DOTA_TEAM_BADGUYS,
         origin,
         nil,
-        5000,
+        3000,
         DOTA_UNIT_TARGET_TEAM_BOTH,
         DOTA_UNIT_TARGET_ALL,
-        DOTA_UNIT_TARGET_FLAG_INVULNERABLE,
+        DOTA_UNIT_TARGET_FLAG_NONE,
         FIND_ANY_ORDER,
         false)
 

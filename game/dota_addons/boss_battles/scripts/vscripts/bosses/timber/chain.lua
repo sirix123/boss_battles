@@ -1,46 +1,32 @@
+--[[
+
+    This script needs to handle the following: 
+        Initial cast location 
+        Handle modifier 
+
+
+]]
 LinkLuaModifier( "chain_modifier", "bosses/timber/chain_modifier", LUA_MODIFIER_MOTION_HORIZONTAL )
 
 chain = class({})
-
-function chain:OnAbilityPhaseStart()
-    if IsServer() then
-        self:GetCaster():StartGestureWithPlaybackRate(ACT_DOTA_CAST_ABILITY_2, 1.0)
-
-        self.units = FindUnitsInRadius(
-            self:GetCaster():GetTeamNumber(),	-- int, your team number
-            self:GetCaster():GetAbsOrigin(),	-- point, center point
-            nil,	-- handle, cacheUnit. (not known)
-            5000,	-- float, radius. or use FIND_UNITS_EVERYWHERE
-            DOTA_UNIT_TARGET_TEAM_ENEMY,
-            DOTA_UNIT_TARGET_ALL,
-            DOTA_UNIT_TARGET_FLAG_NONE,	-- int, flag filter
-            0,	-- int, order filter
-            false	-- bool, can grow cache
-        )
-
-		if self.units == nil or #self.units == 0 then
-            return false
-		else
-            return true
-        end
-    end
-end
 
 -- Ability Start
 function chain:OnSpellStart()
 	-- unit identifier
 	local caster = self:GetCaster()
+	--self.point = self:GetCursorPosition()
 
-	self:GetCaster():RemoveGesture(ACT_DOTA_CAST_ABILITY_2)
-
-	self.point = self.units[RandomInt(1, #self.units)]:GetAbsOrigin()
-
+	if self:GetCursorTarget() then
+		self.point = self:GetCursorTarget():GetOrigin()
+	else
+		self.point = self:GetCursorPosition()
+	end
 
 	-- load data
 	local projectile_speed = self:GetSpecialValueFor( "speed" )
 	local projectile_distance = self:GetSpecialValueFor( "range" )
 	local projectile_radius = self:GetSpecialValueFor( "radius" )
-	local projectile_direction = self.point-caster:GetAbsOrigin()
+	local projectile_direction = self.point-caster:GetOrigin()
 	projectile_direction.z = 0
 	projectile_direction = projectile_direction:Normalized()
 

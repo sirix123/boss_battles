@@ -69,7 +69,6 @@
 					m_vDomainMaxs = [ 0.0, 0.0 ]
 				}
 			}
-			m_bOrientZ = true
 		},
 	]
 	m_Operators = 
@@ -96,7 +95,7 @@
 		},
 		{
 			_class = "C_OP_ColorInterpolate"
-			m_ColorFade = [ 0, 255, 110, 255 ]
+			m_ColorFade = [ 255, 0, 0, 255 ]
 			m_flFadeEndTime = 0.5
 		},
 		{

@@ -6,19 +6,9 @@ LinkLuaModifier( "modifier_beastmaster_net", "bosses/beastmaster/modifier_beastm
 function beastmaster_net:OnAbilityPhaseStart()
     if IsServer() then
 
-		self:GetCaster():StartGestureWithPlaybackRate(ACT_DOTA_CAST_ABILITY_1, 0.8)
+		self:GetCaster():StartGestureWithPlaybackRate(ACT_DOTA_CAST_ABILITY_1, 0.5)
 
 		EmitSoundOn( "beastmaster_beas_ability_axes_03", self:GetCaster() )
-
-		self.vTargetPos = nil
-		if self:GetCursorTarget() then
-			self.vTargetPos = self:GetCursorTarget():GetOrigin()
-		else
-			self.vTargetPos = self:GetCursorPosition()
-		end
-
-        self:GetCaster():SetForwardVector(self.vTargetPos)
-        self:GetCaster():FaceTowards(self.vTargetPos)
 
         return true
     end
@@ -53,11 +43,18 @@ function beastmaster_net:OnSpellStart()
 		local projectile_direction = caster:GetForwardVector()
 		local offset = 20
 
-		local fRangeToTarget = ( self:GetCaster():GetOrigin() - self.vTargetPos ):Length2D()
+		local vTargetPos = nil
+		if self:GetCursorTarget() then
+			vTargetPos = self:GetCursorTarget():GetOrigin()
+		else
+			vTargetPos = self:GetCursorPosition()
+		end
+
+		local fRangeToTarget = ( self:GetCaster():GetOrigin() - vTargetPos ):Length2D()
 
 		local projectile = {
 			EffectName = "particles/econ/items/mars/mars_ti9_immortal/mars_ti9_immortal_crimson_spear.vpcf",--"particles/units/heroes/hero_meepo/meepo_earthbind_projectile_fx.vpcf",--"particles/units/heroes/hero_meepo/meepo_earthbind_projectile_fx.vpcf", --"particles/econ/items/mars/mars_ti9_immortal/mars_ti9_immortal_crimson_spear.vpcf",--"particles/units/heroes/hero_meepo/meepo_earthbind_projectile_fx.vpcf",
-			vSpawnOrigin = origin + Vector(0, 100, 80),
+			vSpawnOrigin = origin + Vector(projectile_direction.x * offset, projectile_direction.y * offset, 80),
 			--hero:GetAbsOrigin(), attach="attach_attack1", offset=Vector(0,0,0), 
 			fDistance = 5500, -- self:GetSpecialValueFor("projectile_distance") ~= 0 and self:GetSpecialValueFor("projectile_distance") or self:GetCastRange(Vector(0,0,0), nil),
 			fStartRadius = radius,

@@ -113,7 +113,7 @@ function smelter_droid_enhance_modifier_thinker:PlayEffects()
 		0,
 		self:GetCaster(),
 		PATTACH_POINT_FOLLOW,
-		"attach_hitloc",
+		"attach_mouth",
 		Vector(0,0,0), -- unknown
 		true -- unknown, true
 	)

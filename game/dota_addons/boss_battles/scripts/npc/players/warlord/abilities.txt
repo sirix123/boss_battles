@@ -171,6 +171,7 @@
 			"05"{ "var_type"			"FIELD_INTEGER"		"buff_duration"			"10" }
 			"06"{ "var_type"			"FIELD_INTEGER"		"dmg_reduction"			"20" }
 			"07"{ "var_type"			"FIELD_INTEGER"		"heal_amount_per_tick"	"20" }
+			
 		}
 
         "precache"
@@ -208,7 +209,8 @@
 			"03"{ "var_type"			"FIELD_INTEGER"		"radius"				"300" }
 			"04"{ "var_type"			"FIELD_INTEGER"		"damage"				"120" }
 			"05"{ "var_type"			"FIELD_INTEGER"		"mana_degen"			"-15" }
-			"06"{ "var_type"			"FIELD_FLOAT"		"mana_gain_percent"		"5" }	
+			"06"{ "var_type"			"FIELD_FLOAT"		"mana_gain_percent"		"5" }
+			
 		}
 
         "precache"

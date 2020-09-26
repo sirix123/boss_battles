@@ -7,13 +7,9 @@ function Spawn( entityKeyValues )
 
 	thisEntity.electric_vortex = thisEntity:FindAbilityByName( "electric_vortex" )
 
-	thisEntity:AddNewModifier( nil, nil, "modifier_phased", { duration = -1 })
-
-	EmitSoundOnLocationWithCaster(thisEntity:GetAbsOrigin(),"Hero_Techies.StasisTrap.Plant",thisEntity)
-
     thisEntity:SetHullRadius(60)
 
-	thisEntity:SetContextThink( "ElectricTurretThink", ElectricTurretThink, RandomInt(1,10) )
+	thisEntity:SetContextThink( "ElectricTurretThink", ElectricTurretThink, 1 )
 
 end
 --------------------------------------------------------------------------------
@@ -38,7 +34,7 @@ function ElectricTurretThink()
         })
     end
 
-	return RandomInt(1,10)
+	return 5
 end
 
 --------------------------------------------------------------------------------

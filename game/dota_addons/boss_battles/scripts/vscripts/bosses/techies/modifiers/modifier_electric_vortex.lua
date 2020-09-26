@@ -21,10 +21,10 @@ end
 --------------------------------------------------------------------------------
 -- Initializations
 function modifier_electric_vortex:OnCreated( kv )
-	if not IsServer() then return end
-
+	-- references
 	self.distance = self:GetAbility():GetSpecialValueFor( "electric_vortex_pull_distance" )
 
+	if not IsServer() then return end
 	self.center = Vector( kv.x, kv.y, 0 )
 	self.center = GetGroundPosition( self.center, nil )
 

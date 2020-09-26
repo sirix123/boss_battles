@@ -23,7 +23,7 @@ function ActivateFurnace()
 	if not IsServer() then return end
 
 	if ( not thisEntity:IsAlive() ) then
-		--ParticleManager:DestroyParticle(thisEntity.pfx, true)
+		ParticleManager:DestroyParticle(thisEntity.pfx)
 		return -1
 	end
 

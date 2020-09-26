@@ -47,7 +47,7 @@ function quillboar_puddle_modifier:OnIntervalThink()
 			ApplyDamage( self.damageTable )
 		end
 
-		--[[local units = FindUnitsInRadius(
+		local units = FindUnitsInRadius(
 			self:GetParent():GetTeamNumber(),	-- int, your team number
 			self:GetParent():GetOrigin(),	-- point, center point
 			nil,	-- handle, cacheUnit. (not known)
@@ -61,9 +61,9 @@ function quillboar_puddle_modifier:OnIntervalThink()
 
 		if units == nil or #units == 0 then
 			self:Destroy()
-		end]]
+		end
 
-		local areAllHeroesDead = true --start on true, then set to false if you find one hero alive.
+		--[[local areAllHeroesDead = true --start on true, then set to false if you find one hero alive.
 		local heroes = HeroList:GetAllHeroes()
 		for _, hero in pairs(heroes) do
 			if hero.playerLives > 0 then
@@ -72,10 +72,10 @@ function quillboar_puddle_modifier:OnIntervalThink()
 			end
 		end
 		if areAllHeroesDead then
-			--Timers:CreateTimer(1.0, function()
+			Timers:CreateTimer(1.0, function()
 				self:Destroy()
-			--end)
-		end
+			end)
+		end]]
 
 	end
 end

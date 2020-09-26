@@ -21,17 +21,8 @@ end
 -----------------------------------------------------------------------------
 
 function bear_bloodlust_modifier:OnCreated( kv )
-
-	--print("unit bloodlust on ", self:GetParent():GetUnitName())
-	--print("stacks ", self:GetStackCount())
-	--print("------------------------------")
 	self.bloodlust_speed = kv.ms_bonus
 	self.bloodlust_as_speed = kv.as_bonus
-end
-
-function bear_bloodlust_modifier:OnRefresh( kv )
-
-	self:OnCreated(kv)
 end
 
 -----------------------------------------------------------------------------
@@ -48,13 +39,13 @@ end
 -----------------------------------------------------------------------------
 
 function bear_bloodlust_modifier:GetModifierMoveSpeedBonus_Percentage( params )
-	return self.bloodlust_speed + (self.bloodlust_speed * self:GetStackCount())
+	return self.bloodlust_speed * self:GetStackCount()
 end
 
 --------------------------------------------------------------------------------
 
 function bear_bloodlust_modifier:GetModifierAttackSpeedBonus_Constant( params )
-		return self.bloodlust_as_speed + (self.bloodlust_as_speed * self:GetStackCount())
+		return self.bloodlust_as_speed * self:GetStackCount()
 end
 
 

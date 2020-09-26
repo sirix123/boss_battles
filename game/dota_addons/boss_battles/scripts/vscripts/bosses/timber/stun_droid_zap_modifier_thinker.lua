@@ -90,7 +90,7 @@ function stun_droid_zap_modifier_thinker:PlayEffects1()
 		self:GetParent(),
 		PATTACH_ABSORIGIN_FOLLOW,
 		nil,
-		self:GetParent():GetAbsOrigin(), -- unknown
+		self:GetParent():GetOrigin(), -- unknown
 		true -- unknown, true
 	)
 
