@@ -340,7 +340,7 @@ function GuardDeadCheck()
     )
 
     for _, friend in pairs(friendlies) do
-        print(friend:GetUnitName())
+        --print(friend:GetUnitName())
         if friend:GetUnitName() == "npc_guard" and friend:IsAlive() then
             thisEntity.guardIsDead = false
         elseif friend:GetUnitName() == "npc_guard" and friend:IsAlive() == false then

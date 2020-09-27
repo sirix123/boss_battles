@@ -310,12 +310,12 @@
 
 		// General
 		//----------------------------------------------------------------
-		"Model"						"models/heroes/tinker/mom.vmdl"	// Model.
+		"Model"						"models/items/warlock/golem/ti9_cache_warlock_tribal_warlock_golem/ti9_cache_warlock_tribal_golem_alt.vmdl"	// Model.
 		"BaseClass"					"npc_dota_creature"
 		"SoundSet"					"Hero_Shredder"
 		"GameSoundsFile"			"soundevents/game_sounds_heroes/game_sounds_shredder.vsndevts"
 		"Level"						"1"
-		"ModelScale" 				"0.2"
+		"ModelScale" 				"0.7"
 
 		// Abilities
 		//----------------------------------------------------------------
@@ -329,7 +329,7 @@
 
 		// Armor
 		//----------------------------------------------------------------
-		"ArmorPhysical"				"100"			
+		"ArmorPhysical"				"0"			
 
 		// Attack
 		//----------------------------------------------------------------

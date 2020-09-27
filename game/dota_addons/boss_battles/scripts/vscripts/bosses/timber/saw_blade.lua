@@ -30,6 +30,7 @@ function saw_blade:OnSpellStart()
 
         EmitSoundOn(tSoundEffects[ RandomInt( 1, #tSoundEffects ) ], self.caster)
 
+        --print("#_G.tSummonedSawBlades: ",#_G.tSummonedSawBlades, " self.nMaxSawBlades: ", self.nMaxSawBlades )
         if #_G.tSummonedSawBlades < self.nMaxSawBlades then
             self.caster = CreateModifierThinker(
                 self.caster,

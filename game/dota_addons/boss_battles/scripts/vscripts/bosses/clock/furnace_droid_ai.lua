@@ -10,6 +10,8 @@ function Spawn( entityKeyValues )
     thisEntity.step = 1
     thisEntity.radius = FIND_UNITS_EVERYWHERE
 
+    thisEntity:AddNewModifier( nil, nil, "modifier_phased", { duration = -1 } )
+
     thisEntity:SetContextThink( "FurnaceDroidThink", FurnaceDroidThink, 0.5 )
 end
 --------------------------------------------------------------------------------
@@ -63,8 +65,15 @@ function FurnaceDroidThink()
                     if unit:GetUnitName() == "npc_clock" then
                         thisEntity:MoveToPosition(unit:GetAbsOrigin()) -- external in electric modifier code, when droid gets close to boss it explodes
                         thisEntity.step = 3
-                        thisEntity.radius = 200 -- set find units radius to something smaller to find clock when close, then die
-                        return 0.5
+                        --thisEntity.radius = 200 -- set find units radius to something smaller to find clock when close, then die
+                        thisEntity.radius = FIND_UNITS_EVERYWHERE
+
+                        -- calc time to get pos and add little buffer
+                        local distance = ( thisEntity:GetAbsOrigin() - unit:GetAbsOrigin() ):Length2D()
+                        local velocity = thisEntity:GetBaseMoveSpeed()
+                        local time = distance / velocity
+
+                        return time + 2
                     end
                 end
             end
@@ -83,7 +92,8 @@ function FurnaceDroidThink()
 
     -- STEP 3 --
     if thisEntity.step == 3 then
-        if #units ~= 0 and units ~= nil then
+        thisEntity.step = 1 -- after goign to clock they go get more mana and do more things
+        --[[if #units ~= 0 and units ~= nil then
             for _, unit in pairs(units) do
                 if unit:GetUnitName() == "npc_clock" then
                     PlayEffects()
@@ -91,7 +101,7 @@ function FurnaceDroidThink()
                     return 0.5
                 end
             end
-        end
+        end]]
     end
 
 	return 0.5

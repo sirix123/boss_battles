@@ -15,9 +15,8 @@ end
 -----------------------------------------------------------------------------
 
 function smelter_droid_enhance_modifier:OnCreated( kv )
-	self.stack_armor = 1
-	self.stack_magic = 1
-	self.mana_regen = 0.2
+	self.stack_armor = 15
+	self.healthregen = 15
 end
 
 -----------------------------------------------------------------------------
@@ -26,8 +25,7 @@ function smelter_droid_enhance_modifier:DeclareFunctions()
 	local funcs =
 	{
 		MODIFIER_PROPERTY_PHYSICAL_ARMOR_BONUS,
-		MODIFIER_PROPERTY_MAGICAL_RESISTANCE_BONUS,
-		MODIFIER_PROPERTY_MANA_REGEN_CONSTANT,
+		MODIFIER_PROPERTY_HEALTH_REGEN_CONSTANT,
 	}
 	return funcs
 end
@@ -35,13 +33,11 @@ end
 -----------------------------------------------------------------------------
 
 function smelter_droid_enhance_modifier:GetModifierPhysicalArmorBonus()
-	return self:GetStackCount() * self.stack_armor
+	return self.stack_armor
 end
 
-function smelter_droid_enhance_modifier:GetModifierMagicalResistanceBonus()
-	return self:GetStackCount() * self.stack_magic
+function smelter_droid_enhance_modifier:GetModifierConstantHealthRegen()
+	return self.healthregen
 end
 
-function smelter_droid_enhance_modifier:GetModifierConstantManaRegen()
-	return self:GetStackCount() * self.mana_regen
-end
+

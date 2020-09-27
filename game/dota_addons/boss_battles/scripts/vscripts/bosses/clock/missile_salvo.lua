@@ -7,9 +7,9 @@ function missile_salvo:OnSpellStart()
         self:GetCaster():EmitSound("rattletrap_ratt_laugh_01")
         -- point 1 top left, point 2 top right, point 3 bot left, point 4 bot right
         local point_1 = Vector(-3717,3010,162)
-        local point_2 = Vector(-810,3010,256)
-        local point_3 = Vector(-3717,212,256)
-        local point_4 = Vector(-810,212,256)
+        local point_2 = Vector(-810,3010,162)
+        local point_3 = Vector(-3717,212,162)
+        local point_4 = Vector(-810,212,162)
 
         --de bug for corner check
         --DebugDrawCircle(point_1,Vector(255,255,255),128,100,true,60)
@@ -21,7 +21,7 @@ function missile_salvo:OnSpellStart()
 
         local length =          math.abs( point_2.y - point_4.y )
         local width =           math.abs( point_3.x - point_4.x )
-        local missile_size =    Vector(missile_radius,missile_radius,256)
+        local missile_size =    Vector(missile_radius,missile_radius,162)
 
         local nColumns =        math.floor( width / missile_size.x )
         local nRows =           math.floor( length / missile_size.y )

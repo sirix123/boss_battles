@@ -53,9 +53,9 @@ function DroidThink()
 			thisEntity.distanceFromTimber = ( thisEntity:GetAbsOrigin() - friendly:GetAbsOrigin() ):Length2D()
 
 			-- cast enhance
-			if thisEntity.smelter_droid_enhance:IsCooldownReady() and ( thisEntity.distanceFromTimber < 400 ) then
+			if thisEntity.smelter_droid_enhance:IsCooldownReady() and ( thisEntity.distanceFromTimber < 800 ) then
 				CastEnhance()
-			elseif thisEntity.distanceFromTimber > 400 then
+			elseif thisEntity.distanceFromTimber > 800 then
 				thisEntity:MoveToPosition( friendly:GetAbsOrigin() )
 			end
 		end

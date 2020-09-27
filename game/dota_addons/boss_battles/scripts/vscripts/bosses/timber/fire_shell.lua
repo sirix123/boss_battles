@@ -46,8 +46,17 @@ fire_shell = class({})
 
 local tProjectileData = {}
 
+function fire_shell:OnAbilityPhaseStart()
+    if IsServer() then
+		self:GetCaster():StartGestureWithPlaybackRate(ACT_DOTA_GENERIC_CHANNEL_1, 1.0)
+		return true
+    end
+end
+
 function fire_shell:OnSpellStart()
 	if IsServer() then
+
+		self:GetCaster():RemoveGesture(ACT_DOTA_GENERIC_CHANNEL_1)
 
         -- init
 		local caster = self:GetCaster()

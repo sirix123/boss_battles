@@ -198,6 +198,16 @@ function CheckRaidTableForBossName(enemy)
     end
 end
 
+-- check globals to see if projectiles should be allowed to hit things
+function CheckGlobalUnitTableForUnitName(enemy)
+	for k1, unit in pairs(tUNIT_TABLE) do
+		--print(unit)
+        if unit == enemy:GetUnitName() then
+            return false
+        end
+    end
+end
+
 function PrintTable(t, indent, done)
 	--print (string.format ('PrintTable type %s', type(keys)))
 	if type(t) ~= "table" then return end

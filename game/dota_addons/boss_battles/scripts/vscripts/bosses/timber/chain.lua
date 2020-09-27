@@ -4,7 +4,7 @@ chain = class({})
 
 function chain:OnAbilityPhaseStart()
     if IsServer() then
-        self:GetCaster():StartGestureWithPlaybackRate(ACT_DOTA_CAST_ABILITY_2, 1.0)
+        self:GetCaster():StartGestureWithPlaybackRate(ACT_DOTA_CAST_ABILITY_2, 0.7)
 
         self.units = FindUnitsInRadius(
             self:GetCaster():GetTeamNumber(),	-- int, your team number

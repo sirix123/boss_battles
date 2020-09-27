@@ -61,10 +61,15 @@ function TimberThink()
 		return 0.5
 	end
 
-	-- 10 second timer after max sawblades hit then return
+	--print("current saw blades ",thisEntity.nCurrentSawBlades," max saw blades ",thisEntity.nMaxSawBlades)
+
+	--[[ 10 second timer after max sawblades hit then return
 	if thisEntity.nCurrentSawBlades == thisEntity.nMaxSawBlades then
+		print("setting return saw blades coolodnw")
 		thisEntity.return_saw_blades:StartCooldown(10)
-	end
+	end]]
+
+	--print("mana  timber ",thisEntity:GetMana())
 
 	-- find cloest player and attack if nothing else can be cast... add everything not ready?
 	-- GetAggroTarget
@@ -75,8 +80,10 @@ function TimberThink()
 	-- saw blade cast logic
 	if thisEntity.saw_blade ~= nil and thisEntity.saw_blade:IsFullyCastable() and thisEntity.nCurrentSawBlades < thisEntity.nMaxSawBlades and thisEntity.saw_blade:IsCooldownReady() then
 		thisEntity.nCurrentSawBlades = thisEntity.nCurrentSawBlades + 1
+		--print("casting saw baldes")
 		return CastSawBlade()
 	elseif thisEntity.return_saw_blades ~= nil and thisEntity.saw_blade:IsFullyCastable() and thisEntity.nCurrentSawBlades == thisEntity.nMaxSawBlades and thisEntity.return_saw_blades:IsCooldownReady() then
+		--print("casting return sawblades")
 		thisEntity.nCurrentSawBlades = 0
 		return CastReturnSawBlade()
 	end
@@ -87,7 +94,8 @@ function TimberThink()
 	end
 
 	-- fire shell logic
-	if thisEntity:GetHealthPercent() < 95 and thisEntity.fire_shell ~= nil and thisEntity.fire_shell:IsFullyCastable() and thisEntity.fire_shell:IsCooldownReady() then
+	if thisEntity:GetHealthPercent() < 99 and thisEntity.fire_shell ~= nil and thisEntity.fire_shell:IsFullyCastable() and thisEntity.fire_shell:IsCooldownReady() then
+		--print("casting fireshell")
 		return CastFireShell()
 	end
 
@@ -249,33 +257,13 @@ end
 --------------------------------------------------------------------------------
 
 function CastBlastWave()
-	-- find closet player
-	local enemies = FindUnitsInRadius(
-		DOTA_TEAM_BADGUYS,
-		thisEntity:GetAbsOrigin(),
-		nil,
-		3000,
-		DOTA_UNIT_TARGET_TEAM_ENEMY,
-		DOTA_UNIT_TARGET_ALL,
-		DOTA_UNIT_TARGET_FLAG_NONE,
-		FIND_CLOSEST,
-		false )
-
-	if #enemies == 0 or enemies == nil then
-		return 0.5
-	else
-		local randomEnemy = RandomInt(1,#enemies)
-		thisEntity.vLocation = enemies[randomEnemy]:GetAbsOrigin()
-	end
-
 	ExecuteOrderFromTable({
 		UnitIndex = thisEntity:entindex(),
 		OrderType = DOTA_UNIT_ORDER_CAST_NO_TARGET,
 		AbilityIndex = thisEntity.blast_wave:entindex(),
-		Position = thisEntity.vLocation,
 		Queue = 0,
 	})
 
-	return 0.5
+	return 1
 end
 --------------------------------------------------------------------------------

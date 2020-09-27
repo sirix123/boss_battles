@@ -29,7 +29,8 @@ function Spawn( entityKeyValues )
 	thisEntity.summon_chain_gun_turret = thisEntity:FindAbilityByName( "summon_chain_gun_turret" )
 	thisEntity.summon_chain_gun_turret:StartCooldown(thisEntity.summon_chain_gun_turret:GetCooldown(thisEntity.summon_chain_gun_turret:GetLevel()))
 	thisEntity.summon_furnace_droid = thisEntity:FindAbilityByName( "summon_furnace_droid" )
-	thisEntity.summon_furnace_droid:StartCooldown(thisEntity.summon_furnace_droid:GetCooldown(thisEntity.summon_furnace_droid:GetLevel()))
+	--thisEntity.summon_furnace_droid:StartCooldown(thisEntity.summon_furnace_droid:GetCooldown(thisEntity.summon_furnace_droid:GetLevel()))
+	thisEntity.summon_furnace_droid:EndCooldown()
 
 	-- electric turret
 	thisEntity.summon_electric_turret = thisEntity:FindAbilityByName( "summon_electric_turret" )
@@ -95,7 +96,7 @@ function ClockThink()
 	if nActiveFurnaces == 1 and thisEntity.levelTracker == 1 then
 		if thisEntity.SpawnFurnaceAssistant == true then
 			thisEntity.SpawnFurnaceAssistant = false
-			CreateUnitByName("npc_assistant", Vector(7414,7809,256), true, nil, nil, DOTA_TEAM_BADGUYS) -- summon furnace assistant
+			--CreateUnitByName("npc_assistant", Vector(7414,7809,256), true, nil, nil, DOTA_TEAM_BADGUYS) -- summon furnace assistant
 		end
 	end
 	if nActiveFurnaces == 2 and thisEntity.levelTracker == 2 then

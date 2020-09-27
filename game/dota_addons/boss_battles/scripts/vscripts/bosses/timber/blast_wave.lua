@@ -9,7 +9,38 @@ function blast_wave:OnAbilityPhaseStart()
     if IsServer() then
         self:GetCaster():StartGestureWithPlaybackRate(ACT_DOTA_TELEPORT_END, 1.0)
 
-        return true
+        local units = FindUnitsInRadius(
+            self:GetCaster():GetTeamNumber(),	-- int, your team number
+            self:GetCaster():GetOrigin(),	-- point, center point
+            nil,	-- handle, cacheUnit. (not known)
+            5000,	-- float, radius. or use FIND_UNITS_EVERYWHERE
+            DOTA_UNIT_TARGET_TEAM_ENEMY,
+            DOTA_UNIT_TARGET_ALL,
+            DOTA_UNIT_TARGET_FLAG_NONE,	-- int, flag filter
+            0,	-- int, order filter
+            false	-- bool, can grow cache
+        )
+
+        if units == nil or #units == 0 then
+            return false
+        else
+            self.vTargetPos = units[RandomInt(1, #units)]:GetAbsOrigin()
+
+            self:GetCaster():SetForwardVector(self.vTargetPos)
+            self:GetCaster():FaceTowards(self.vTargetPos)
+
+            local radius = 350
+            self.nPreviewFXIndex = ParticleManager:CreateParticle( "particles/econ/events/darkmoon_2017/darkmoon_calldown_marker.vpcf", PATTACH_CUSTOMORIGIN, nil )
+            ParticleManager:SetParticleControl( self.nPreviewFXIndex, 0, self.vTargetPos )
+            ParticleManager:SetParticleControl( self.nPreviewFXIndex, 1, Vector( radius, -radius, -radius ) )
+            ParticleManager:SetParticleControl( self.nPreviewFXIndex, 2, Vector( self:GetCastPoint(), 0, 0 ) );
+            ParticleManager:ReleaseParticleIndex( self.nPreviewFXIndex )
+
+            -- play voice line
+            EmitSoundOn("shredder_timb_cast_03", self:GetCaster())
+
+            return true
+        end
     end
 end
 
@@ -28,13 +59,6 @@ function blast_wave:OnSpellStart()
         self.duration = self:GetSpecialValueFor( "duration" )
         self.damage_1 = self:GetSpecialValueFor( "damage_1" )
         self.damage_2 = self:GetSpecialValueFor( "damage_2" )
-
-        local vTargetPos = nil
-		if self:GetCursorTarget() then
-			vTargetPos = self:GetCursorTarget():GetOrigin()
-		else
-			vTargetPos = self:GetCursorPosition()
-		end
 
         self.damageTable = {
             attacker = self.caster,

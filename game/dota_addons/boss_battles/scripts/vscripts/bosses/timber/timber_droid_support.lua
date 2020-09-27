@@ -5,7 +5,7 @@ function timber_droid_support:OnSpellStart()
 
 	-- number of cast locations per cast, level up every phase?
 	self.droidsPerLocation = self:GetSpecialValueFor( "droidsPerLocation" )
-
+	--print("droids per loc: ",self.droidsPerLocation)
 	-- init
 	local caster = self:GetCaster()
 	local delay = 0.2
@@ -15,13 +15,13 @@ function timber_droid_support:OnSpellStart()
 	local i = 0
 	Timers:CreateTimer(delay, function()
 		--print("i ", i)
-		--print("droidsPerLocation ", droidsPerLocation)
+		--print("droidsPerLocation ", self.droidsPerLocation)
 		if i == self.droidsPerLocation then
 			return false
 		end
-
+		
 		local vTargetPos = Vector(RandomInt(8622,11441),RandomInt(-11882,-8917),130)
-
+		--DebugDrawCircle(vTargetPos,Vector(255,255,255),128,60,true,60)
 		local particle_cast = "particles/units/heroes/hero_rattletrap/rattletrap_cog_deploy.vpcf"
 		local effect_cast = ParticleManager:CreateParticle(particle_cast, PATTACH_WORLDORIGIN, nil)
 		ParticleManager:SetParticleControl(effect_cast, 0, vTargetPos)

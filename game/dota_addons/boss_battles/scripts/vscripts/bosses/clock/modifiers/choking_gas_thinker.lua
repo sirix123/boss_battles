@@ -56,7 +56,7 @@ function choking_gas_thinker:StartApplyDamageLoop()
             self.currentTarget,	-- point, center point
             nil,	-- handle, cacheUnit. (not known)
             self.radius,	-- float, radius. or use FIND_UNITS_EVERYWHERE
-            DOTA_UNIT_TARGET_TEAM_FRIENDLY,	-- int, team filter
+            DOTA_UNIT_TARGET_TEAM_ENEMY,	-- int, team filter
             DOTA_UNIT_TARGET_HERO + DOTA_UNIT_TARGET_BASIC,	-- int, type filter
             0,	-- int, flag filter
             0,	-- int, order filter
@@ -67,8 +67,8 @@ function choking_gas_thinker:StartApplyDamageLoop()
 			local dmgTable = {
                 victim = enemy,
                 attacker = self:GetCaster(),
-                damage = 100,
-                damage_type = self.dmgType,
+                damage = self.dmg,
+                damage_type = DAMAGE_TYPE_PHYSICAL,
             }
 
             ApplyDamage(dmgTable)

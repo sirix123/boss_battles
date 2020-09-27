@@ -11,7 +11,7 @@ function smelter_droid_enhance:OnSpellStart()
 
 	-- kv reference
     local duration = 5
-	local radius = 500
+	local radius = 1000
 	--local radius = 500 -- replace with cast range
 
     -- find enemies
