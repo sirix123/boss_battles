@@ -1,5 +1,5 @@
 e_icefall_modifier_thinker = class({})
-LinkLuaModifier("chill_modifier", "player/icemage/modifiers/chill_modifier", LUA_MODIFIER_MOTION_NONE)
+LinkLuaModifier("chill_modifier_blizzard", "player/icemage/modifiers/chill_modifier_blizzard", LUA_MODIFIER_MOTION_NONE)
 
 function e_icefall_modifier_thinker:IsHidden()
 	return false
@@ -86,7 +86,7 @@ function e_icefall_modifier_thinker:StartApplyDamageLoop()
                 }
 
                 ApplyDamage(self.dmgTable)
-                enemy:AddNewModifier(self.caster, self, "chill_modifier", { duration = self:GetAbility():GetSpecialValueFor( "chill_duration"), ms_slow = self.ms_slow, as_slow = self.as_slow })
+                enemy:AddNewModifier(self.caster, self, "chill_modifier_blizzard", { duration = self:GetAbility():GetSpecialValueFor( "chill_duration"), ms_slow = self.ms_slow, as_slow = self.as_slow })
             end
         end
         --DebugDrawCircle(self.currentTarget, Vector(0,0,255), 60, self.radius, true, 60)

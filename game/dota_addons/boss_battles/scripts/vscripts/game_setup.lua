@@ -6,7 +6,7 @@ RAID_TABLES = require('managers/raid_init_tables')
 
 LinkLuaModifier( "movement_modifier_thinker", "player/generic/movement_modifier_thinker", LUA_MODIFIER_MOTION_NONE )
 LinkLuaModifier( "remove_attack_modifier", "player/generic/remove_attack_modifier", LUA_MODIFIER_MOTION_NONE )
-LinkLuaModifier( "modifier_respawn", "core/modifier_respawn", LUA_MODIFIER_MOTION_NONE )
+LinkLuaModifier( "modifier_grace_period", "player/generic/modifier_grace_period", LUA_MODIFIER_MOTION_NONE )
 
 function GameSetup:init()
 
@@ -83,6 +83,11 @@ end
 function GameSetup:OnNPCSpawned(keys)
     local npc = EntIndexToHScript(keys.entindex)
 
+    if npc:IsRealHero() == true then
+        -- add grace period when respawning..
+        npc:AddNewModifier( npc, nil, "modifier_grace_period", { duration = 3 } )
+    end
+
     if npc:IsRealHero() and npc.bFirstSpawned == nil then
         npc.bFirstSpawned = true
 
@@ -98,6 +103,7 @@ function GameSetup:OnNPCSpawned(keys)
         or npc:GetUnitName() == "npc_dota_hero_medusa"
         or npc:GetUnitName() == "npc_dota_hero_juggernaut"
         or npc:GetUnitName() == "npc_dota_hero_phantom_assassin"
+        or npc:GetUnitName() == "npc_dota_hero_templar_assassin"
         then
 
             local index = 0

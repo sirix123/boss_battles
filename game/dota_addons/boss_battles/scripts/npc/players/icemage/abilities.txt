@@ -29,8 +29,8 @@
 			"04"{ "var_type"			"FIELD_INTEGER"		"chill_duration"				"5" }
 			"05"{ "var_type"			"FIELD_INTEGER"		"shatter_duration"				"-1" }
 			"06"{ "var_type"			"FIELD_INTEGER"		"max_shatter_stacks"			"3" }
-			"07"{ "var_type"			"FIELD_INTEGER"		"as_slow"             			"-10" }
-			"08"{ "var_type"			"FIELD_INTEGER"		"ms_slow"             			"-30" }
+			"07"{ "var_type"			"FIELD_INTEGER"		"as_slow"             			"-50" }
+			"08"{ "var_type"			"FIELD_INTEGER"		"ms_slow"             			"-50" }
 			"09"{ "var_type"			"FIELD_INTEGER"		"mana_gain_percent"             "5" }
 			
 		}

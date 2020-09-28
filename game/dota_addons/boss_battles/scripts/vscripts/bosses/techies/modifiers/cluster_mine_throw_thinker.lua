@@ -86,12 +86,22 @@ function cluster_mine_throw_thinker:OnIntervalThink()
         if enemy_found then
             self.trigger_time = self.trigger_time + self.thinkInterval
 
+            -- play explosion range particle effect
+            self.nPreviewFXIndex = ParticleManager:CreateParticle( "particles/econ/events/darkmoon_2017/darkmoon_calldown_marker.vpcf", PATTACH_CUSTOMORIGIN, nil )
+            ParticleManager:SetParticleControl( self.nPreviewFXIndex, 0, self.currentPosition )
+            ParticleManager:SetParticleControl( self.nPreviewFXIndex, 1, Vector( self.explosion_range, -self.explosion_range, -self.explosion_range ) )
+            ParticleManager:SetParticleControl( self.nPreviewFXIndex, 2, Vector( self.explosion_delay, 0, 0 ) );
+            ParticleManager:ReleaseParticleIndex( self.nPreviewFXIndex )
+
             -- Check if the mine should blow up
             if self.trigger_time >= self.explosion_delay then
                 self.invul = false
                 self:Destroy()
             end
         else
+            -- destroy explosion range particle effect
+            ParticleManager:DestroyParticle(self.nPreviewFXIndex, true)
+
             self.triggered = false
             self.trigger_time = 0
         end

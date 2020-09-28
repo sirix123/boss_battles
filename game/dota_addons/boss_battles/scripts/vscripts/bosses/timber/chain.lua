@@ -4,23 +4,28 @@ chain = class({})
 
 function chain:OnAbilityPhaseStart()
     if IsServer() then
-        self:GetCaster():StartGestureWithPlaybackRate(ACT_DOTA_CAST_ABILITY_2, 0.7)
-
-        self.units = FindUnitsInRadius(
+		self:GetCaster():StartGestureWithPlaybackRate(ACT_DOTA_CAST_ABILITY_2, 0.4)
+		
+		local units = FindUnitsInRadius(
             self:GetCaster():GetTeamNumber(),	-- int, your team number
-            self:GetCaster():GetAbsOrigin(),	-- point, center point
+            self:GetCaster():GetOrigin(),	-- point, center point
             nil,	-- handle, cacheUnit. (not known)
             5000,	-- float, radius. or use FIND_UNITS_EVERYWHERE
             DOTA_UNIT_TARGET_TEAM_ENEMY,
             DOTA_UNIT_TARGET_ALL,
             DOTA_UNIT_TARGET_FLAG_NONE,	-- int, flag filter
-            0,	-- int, order filter
+            FIND_CLOSEST,	-- int, order filter
             false	-- bool, can grow cache
         )
 
-		if self.units == nil or #self.units == 0 then
+        if units == nil or #units == 0 then
             return false
-		else
+        else
+			self.vTargetPos = units[RandomInt(1, #units)]:GetAbsOrigin()
+
+            self:GetCaster():SetForwardVector(self.vTargetPos)
+            self:GetCaster():FaceTowards(self.vTargetPos)
+
             return true
         end
     end
@@ -33,14 +38,15 @@ function chain:OnSpellStart()
 
 	self:GetCaster():RemoveGesture(ACT_DOTA_CAST_ABILITY_2)
 
-	self.point = self.units[RandomInt(1, #self.units)]:GetAbsOrigin()
+	self:GetCaster():SetForwardVector(self.vTargetPos)
+	self:GetCaster():FaceTowards(self.vTargetPos)
 
 
 	-- load data
 	local projectile_speed = self:GetSpecialValueFor( "speed" )
 	local projectile_distance = self:GetSpecialValueFor( "range" )
 	local projectile_radius = self:GetSpecialValueFor( "radius" )
-	local projectile_direction = self.point-caster:GetAbsOrigin()
+	local projectile_direction = self.vTargetPos-caster:GetAbsOrigin()
 	projectile_direction.z = 0
 	projectile_direction = projectile_direction:Normalized()
 
@@ -107,31 +113,31 @@ function chain:OnProjectileThinkHandle( handle )
 	-- get data
 	local ExtraData = self.projectiles[ handle ]
 	local location = ProjectileManager:GetLinearProjectileLocation( handle )
-	local dist = (location - Vector(self.point.x,self.point.y,self.point.z)):Length2D()
+	local dist = (location - Vector(self.vTargetPos.x,self.vTargetPos.y,self.vTargetPos.z)):Length2D()
 
-	if dist < 50 then
+	if dist < 150 then
 		-- snag
 		self:GetCaster():AddNewModifier(
 			self:GetCaster(), -- player source
 			self, -- ability source
 			"chain_modifier", -- modifier name
 			{
-				point_x = self.point.x,
-				point_y = self.point.y,
-				point_z = self.point.z,
+				point_x = self.vTargetPos.x,
+				point_y = self.vTargetPos.y,
+				point_z = self.vTargetPos.z,
 				effect = ExtraData.effect,
 			} -- kv
 		)
 
 		-- modify effects
-		self:ModifyEffects2( ExtraData.effect, self.point )
+		self:ModifyEffects2( ExtraData.effect, self.vTargetPos )
 
 		-- destroy projectile
 		ProjectileManager:DestroyLinearProjectile( handle )
 		self.projectiles[ handle ] = nil
 
 		-- add vision
-		AddFOWViewer( self:GetCaster():GetTeamNumber(), self.point, 400, 1, true )
+		AddFOWViewer( self:GetCaster():GetTeamNumber(), self.vTargetPos, 400, 1, true )
 	end
 end
 

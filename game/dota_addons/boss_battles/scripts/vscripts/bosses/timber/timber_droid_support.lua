@@ -21,6 +21,8 @@ function timber_droid_support:OnSpellStart()
 		end
 		
 		local vTargetPos = Vector(RandomInt(8622,11441),RandomInt(-11882,-8917),130)
+		--local vTargetPos = Vector(caster.mouse.x, caster.mouse.y, caster.mouse.z)
+
 		--DebugDrawCircle(vTargetPos,Vector(255,255,255),128,60,true,60)
 		local particle_cast = "particles/units/heroes/hero_rattletrap/rattletrap_cog_deploy.vpcf"
 		local effect_cast = ParticleManager:CreateParticle(particle_cast, PATTACH_WORLDORIGIN, nil)

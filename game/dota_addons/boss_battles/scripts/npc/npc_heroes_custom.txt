@@ -14,8 +14,8 @@
 		"override_hero"				"npc_dota_hero_templar_assassin"			// Hero to override
 		"Ability1"					"m1_iceshot"									// Ability 1
 		"Ability2"					""										// Ability 2
-		"Ability3"					"chain"								// Ability 3
-		"Ability4"					"sticky_bomb"							// Ability 4
+		"Ability3"					"sticky_bomb"								// Ability 3
+		"Ability4"					"sticky_bomb_fire"							// Ability 4
 		"Ability5"					""						// Ability 5
 		"Ability6"					""						// Ability 6
 		"Ability7"					""						// Ability 7

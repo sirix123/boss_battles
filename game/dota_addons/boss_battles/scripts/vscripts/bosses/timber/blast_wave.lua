@@ -60,6 +60,9 @@ function blast_wave:OnSpellStart()
         self.damage_1 = self:GetSpecialValueFor( "damage_1" )
         self.damage_2 = self:GetSpecialValueFor( "damage_2" )
 
+        self:GetCaster():SetForwardVector(self.vTargetPos)
+        self:GetCaster():FaceTowards(self.vTargetPos)
+
         self.damageTable = {
             attacker = self.caster,
             damage = self.damage_1,

@@ -25,7 +25,8 @@ end
 function blast_off_fog_modifier:DeclareFunctions()
 	local funcs = {
         MODIFIER_PROPERTY_BONUS_DAY_VISION,
-        MODIFIER_PROPERTY_BONUS_NIGHT_VISION,
+		MODIFIER_PROPERTY_BONUS_NIGHT_VISION,
+		MODIFIER_PROPERTY_BONUS_VISION_PERCENTAGE,
 	}
 
 	return funcs
@@ -37,5 +38,9 @@ end
 
 function blast_off_fog_modifier:GetBonusNightVision()
 	return self.reduceFog
+end
+
+function blast_off_fog_modifier:GetBonusVisionPercentage ()
+	return -99
 end
 

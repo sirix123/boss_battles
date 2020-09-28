@@ -14,6 +14,8 @@ function Spawn( entityKeyValues )
 	
 	thisEntity:AddNewModifier(thisEntity, self, "droid_colour_modifier_blue", {duration = 9000})
 
+	thisEntity.found_player = false
+
 	thisEntity:SetHullRadius(60)
 
 	thisEntity:SetContextThink( "DroidThink", DroidThink, 0.5 )
@@ -33,30 +35,35 @@ function DroidThink()
 	end
 
 	-- find closet player
-	local enemies = FindUnitsInRadius(
-		DOTA_TEAM_BADGUYS,
-		thisEntity:GetAbsOrigin(),
-		nil, 
-		FIND_UNITS_EVERYWHERE,
-		DOTA_UNIT_TARGET_TEAM_ENEMY,
-		DOTA_UNIT_TARGET_ALL,
-		DOTA_UNIT_TARGET_FLAG_NONE,
-		FIND_CLOSEST,
-		false )
+	if thisEntity.found_player == false then
+		thisEntity.enemies = FindUnitsInRadius(
+			thisEntity:GetTeamNumber(),
+			thisEntity:GetAbsOrigin(),
+			nil, 
+			5000,
+			DOTA_UNIT_TARGET_TEAM_ENEMY,
+			DOTA_UNIT_TARGET_ALL,
+			DOTA_UNIT_TARGET_FLAG_NONE,
+			FIND_CLOSEST,
+			false )
 
-	if #enemies == 0 then
-		return 0.5
+		thisEntity.found_player = true
 	end
 
-	-- runtowards closest player
-	thisEntity:MoveToPosition( enemies[1]:GetAbsOrigin() )
+	if thisEntity.enemies ~= nil then
 
-	-- distance from droid to player 
-	local distanceFromPlayer = ( enemies[1]:GetAbsOrigin() - thisEntity:GetAbsOrigin() ):Length2D()
+		-- runtowards closest player
+		thisEntity:MoveToPosition( thisEntity.enemies[1]:GetAbsOrigin() )
 
-    -- cast zap
-	if thisEntity.stun_droid_zap:IsCooldownReady() and ( distanceFromPlayer < 200 ) then
-		CastZap()
+		-- distance from droid to player
+		thisEntity.distanceFromPlayer = ( thisEntity.enemies[1]:GetAbsOrigin() - thisEntity:GetAbsOrigin() ):Length2D()
+
+		-- cast zap
+		if thisEntity.stun_droid_zap:IsCooldownReady() and ( thisEntity.distanceFromPlayer < 200 ) then
+			CastZap()
+		end
+	else
+		thisEntity.found_player = false
 	end
 
 	return 1.0

@@ -52,9 +52,11 @@ function modifier_sticky_bomb:OnDestroy()
 	EmitSoundOn("Hero_Techies.RemoteMine.Detonate", self:GetParent())
 
 	local particle = "particles/units/heroes/hero_techies/techies_remote_mines_detonate.vpcf"
-	self.nFXIndex_1 = ParticleManager:CreateParticle( particle, PATTACH_ABSORIGIN , self:GetParent()  )
-    ParticleManager:SetParticleControl( self.nFXIndex_1, 0, self:GetParent():GetAbsOrigin() )
-    ParticleManager:ReleaseParticleIndex( self.nFXIndex_1 )
+	self.nFXIndex_1 = ParticleManager:CreateParticle( particle, PATTACH_WORLDORIGIN , self:GetParent()  )
+	ParticleManager:SetParticleControl(self.nFXIndex_1, 0, self:GetParent():GetAbsOrigin())
+	ParticleManager:SetParticleControl(self.nFXIndex_1, 1, Vector(self.radius, 1, 1))
+	ParticleManager:SetParticleControl(self.nFXIndex_1, 3, self:GetParent():GetAbsOrigin())
+	ParticleManager:ReleaseParticleIndex(self.nFXIndex_1)
 
 	-- explode dealing damage, divided by number of enemies
 	local enemies = FindUnitsInRadius(

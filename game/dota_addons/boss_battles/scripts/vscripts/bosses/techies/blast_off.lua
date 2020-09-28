@@ -118,7 +118,7 @@ function blast_off:BlowUp()
             false	-- bool, can grow cache
         )
 
-        if units ~= nil or #units ~= 0 then
+        if units ~= nil and #units ~= 0 then
             for _, unit in pairs(units) do
 
                 self.damageTable = {
@@ -157,7 +157,7 @@ function blast_off:BlowUp()
             false	-- bool, can grow cache
         )
 
-        if unitsFog ~= nil or #unitsFog ~= 0 then
+        if unitsFog ~= nil and #unitsFog ~= 0 then
             for _, unitFog in pairs(unitsFog) do
                 unitFog:AddNewModifier(
                     self:GetCaster(), -- player source
