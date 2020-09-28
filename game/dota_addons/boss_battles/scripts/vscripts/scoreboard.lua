@@ -44,29 +44,20 @@ end
 function Dps(damageTable, attackerEntity, startTime, endTime)
     local timeDuration = endTime - startTime
     local totalDmgDone = GetDamageDone(attackerEntity)
-
-    --DEBUG:
-    -- print("damageTable = ", damageTable)
-    -- print("attackerEntity = ", attackerEntity)
-    -- print("startTime = ", startTime)
-    -- print("endTime = ", endTime)
-    -- print("timeDuration = ", timeDuration)
-    -- print("totalDmgDone = ", totalDmgDone)
-
     return totalDmgDone / timeDuration
 end
 
 function StoreDamageDone(keys)
     local data = {}
-    data["dmg"] = keys.damage
-    data["dmgBits"] = keys.damagebits 
     data["victimEntity"] = keys.entindex_killed
     data["attackerEntity"] = keys.entindex_attacker
     data["victimName"] = EntIndexToHScript(keys.entindex_killed):GetUnitName()
     data["attackerName"] = EntIndexToHScript(keys.entindex_attacker):GetUnitName()
+    data["inflictorName"] = keys.entindex_inflictor and EntIndexToHScript(keys.entindex_inflictor):GetName()
+    data["dmg"] = keys.damage
+    data["dmgBits"] = keys.damagebits 
     data["timeOf"] = GameRules:GetGameTime()
 
-    --TEST: Not sure this is correct...
     table.insert(_G.DamageTable, data)
 
     --NET TABLES EXAMPLE:
@@ -95,8 +86,3 @@ function GetDamageTaken(victimEntity)
     return sum
 end
 
---TODO: implement this elsewhere...
-function GetClassName(unitName)
-    --TODO: implement this the current classes...
-    return "ice_mage"
-end

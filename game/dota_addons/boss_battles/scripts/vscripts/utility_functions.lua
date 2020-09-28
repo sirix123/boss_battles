@@ -1,5 +1,42 @@
 --[[ utility_functions.lua ]]
 
+
+---String mapping functions to translate dota terms into our game terms
+function GetClassName(unitName)
+	local unitNameClassNameMap = {}
+	unitNameClassNameMap["npc_dota_hero_crystal_maiden"] = "ice_mage"
+	unitNameClassNameMap["npc_dota_hero_medusa"] = "ranger"
+	unitNameClassNameMap["npc_dota_hero_phantom_assassin"] = "rogue"
+	unitNameClassNameMap["npc_dota_hero_juggernaut"] = "warlord"
+
+	if unitNameClassNameMap[unitName] ~= nil then
+		return unitNameClassNameMap[unitName] 
+	else
+		return "no_class_name"
+	end
+end
+
+
+--class name like: ice_mage, ranger, rogue, warlord
+function GetClassIcon(className)
+    --TODO: for each class get the icon file/location
+    if className == "ice_mage" then 
+    	return "file://{images}/class_icons/icon_staff.png"
+    end
+    if className == "ranger" then 
+    	return "file://{images}/class_icons/icon_bow.png"
+    end
+    if className == "rogue" then 
+    	return "file://{images}/class_icons/icon_sword.png"
+    end
+    if className == "warlord" then 
+    	return "file://{images}/class_icons/icon_person.png"
+    end
+
+    return "file://{images}/class_icons/icon_person.png"
+end
+
+
 ---------------------------------------------------------------------------
 -- Handle messages
 ---------------------------------------------------------------------------

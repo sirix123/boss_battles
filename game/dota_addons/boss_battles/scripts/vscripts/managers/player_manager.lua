@@ -11,12 +11,6 @@ local isTimerRunning
 local timerInterval = 0.1
 
 
---TODO implement. 
-function GetClassIcon(className)
-    --TODO: for each class get the icon file/location
-    return "file://{images}/class_icons/icon_person.png"
-end
-
 function PlayerManager:SetUpMovement()
     --TODO: move this code elsewhere. Basically RegisterListener at the start of game
 

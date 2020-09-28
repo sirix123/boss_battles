@@ -4,32 +4,162 @@
   height:100%;
 }
 
-.PlayerContainer
-{
-    width: 200px;
-    height: 200px;
+/* Player Ui Frame */
 
-    horizontal-align: left;
-    vertical-align: center;
+.PlayersUiContainer {
+  margin-top: 15%;
+  height: 60%;
+  width: 15%;
 
-    background-color: blue; 
+  flow-children: down; /* flex col.... */
+
+  visibility: collapse;
+  border: 1px solid red;
 }
 
-.PlayerFrameAll 
+
+
+
+/* End Player Ui Frame */
+
+
+/* values taken from dota ui. Useful for examples */
+
+/*#HealthLabel {
+  font-weight: bold;
+  font-size: 18px;
+  color: white;
+  text-shadow: 1px 1px 0px 2.0 #000000;
+  overflow: noclip;
+  font-family: monospaceNumbersFont;
+}*/
+
+/*#HealthProgress.ProgressBarLeft {
+  border-radius: 3px;
+  background-color: gradient( linear, 0% 0%, 0% 100%, from( #425d25  ), color-stop( 0.2, #5BA539 ), color-stop( .5, #4D9030), to( #425d25) );
+  brightness: 1;
+}
+
+#HealthProgress.ProgressBarRight {
+  background-color: gradient( linear, 0% 0%, 0% 100%, from( #17200d  ), color-stop( 0.2, #222e13 ), color-stop( .5, #1e2911), to( #17200d) );
+}*/
+
+
+/* BossFrame */
+
+.BossFrameContainer 
 {
   width: 100%;
-	height: 20%;
-
-	margin-left: 4px;
-	margin-top: 4px;
-	margin-bottom: 4px;
-
-    background-color: #00000088; /* argb? */
+  height: 100%;
 }
 
-.PlayerNamePanel
+.BossFrame 
 {
-  width: 25%;
+  margin-top: 2%;
+  margin-left: 35%;
+
+  width: 30%;
+  height: 6%;
+  
+  flow-children: right-wrap; /* flex row... */
+}
+
+
+.BossFrameHpPanelContainer 
+{
   height: 50%;
-  background-color: #00000088; /* argb? */
+  width: 100%;
+  flow-children: right;
+}
+
+/* Green HP bar: */
+/* background-color: gradient( linear, 0% 0%, 0% 100%, from( #425d25  ), color-stop( 0.2, #5BA539 ), color-stop( .5, #4D9030), to( #425d25) ); */
+
+/* Red HP bar: */
+/* background-color: gradient( linear, 0% 0%, 0% 100%, from( #425d25  ), color-stop( 0.2, #5BA539 ), color-stop( .5, #4D9030), to( #425d25) ); */
+
+.BossFrameHpPanelLeft 
+{
+  height:100%;
+  width: 100%;
+  border: 1px solid #222222;
+
+
+  background-color: gradient( linear, 0% 0%, 0% 100%, from( #425d25  ), color-stop( 0.2, #5BA539 ), color-stop( .5, #4D9030), to( #425d25) );
+  margin: 0;
+}
+
+.BossFrameHpPanelRight
+{
+  height:100%;
+  width: 0%;
+  background-color: gradient( linear, 0% 0%, 0% 100%, from( #1b260f  ), color-stop( 0.2, #223013 ), color-stop( .5, #2d401a), to( #1b260f) );
+  margin: 0;
+}
+
+.BossFrameMpPanelContainer 
+{
+  /*visibility: collapse;*/
+  height: 50%;
+  width: 100%;
+  flow-children: right;
+}
+
+.BossFrameMpPanelLeft 
+{
+  height:100%;
+  width: 100%;
+  border: 1px solid #222222;
+
+  background-color: gradient( linear, 0% 0%, 0% 100%, from( #2b4287  ), color-stop( 0.2, #4165ce ), color-stop( .5, #4a73ea), to( #2b4287) );
+  margin: 0;
+}
+
+.BossFrameMpPanelRight
+{
+  height:100%;
+  width: 0%;
+  background-color: gradient( linear, 0% 0%, 0% 100%, from( #202121  ), color-stop( 0.2, #2f3030 ), color-stop( .5, #3c3d3d), to( #202121) );
+  margin: 0;
+}
+
+.BossFrameCastbarPanel
+{
+  visibility: collapse;
+  height:50%;
+  width:50%;
+
+  border: 1px solid #222222;
+  border-radius: 3px;
+  background-color: gradient( linear, 0% 0%, 0% 100%, from( #45484a  ), color-stop( 0.2, #5d6163 ), color-stop( .5, #7c7e80), to( #45484a) );
+}
+
+.BossFrameText
+{
+  width: 100%;
+  height: 100%;
+  text-align: center;
+  /* margin-top to make it look centered veritcally. kind of hacky */
+  margin-top: 33%;
+  font-weight: bold;
+  font-size: 18px;
+  color: white;
+  text-shadow: 1px 1px 0px 2.0 #000000;
+  overflow: noclip;
+  font-family: monospaceNumbersFont;
+}
+
+#BossFrameHpLabel
+{
+
+}
+
+#BossFrameMpLabel
+{
+
+}
+
+#BossFrameCastbarLabel
+{
+
 }

@@ -6,46 +6,42 @@
         <include src="file://{resources}/styles/custom_game/raid_status.css" />
     </styles>
 
-    <!--
-        |      PlayerName       |
-        |      Picture Icon     |
-        |      Picture Icon     |
-        |      Picture Icon     |
-        |      HealthBar        |
-        |      HealthBar        |
-        |      manabar          |
-        |      manabar          |   
-    -->
 
     <snippets>
+        
 
-        <snippet name="PlayerFrame">
-            <Panel hittest="false" class="PlayerFrameAll" >
 
-                <Panel hittest="false" class="PlayerNamePanel" id="PlayerNameLabel">
-                    <Label text="player name lads" class="PlayerNamePanel" id="PlayerNameLabel" />
+        <snippet name="BossFrame">
+            <Panel class="BossFrame">
+
+                <Panel hittest="false" class="BossFrameHpPanelContainer" id="BossFrameHpPanelContainer"> 
+                    <Panel hittest="false" class="BossFrameHpPanelLeft" id="BossFrameHpPanelLeft">
+                        <Label text="100%" class="BossFrameText" id="BossFrameHpLabel" />
+                    </Panel>
+                    <Panel hittest="false" class="BossFrameHpPanelRight" id="BossFrameHpPanelRight"> </Panel>
                 </Panel>
 
-                <Panel hittest="false" class="PictureIconPanel" id="PictureIconLabel">
-                    <Label text="picture icon" class="PictureIconPanel" id="PictureIconLabel" />
+                <Panel hittest="false" class="BossFrameMpPanelContainer" id="BossFrameMpPanelContainer"> 
+                    <Panel hittest="false" class="BossFrameMpPanelLeft" id="BossFrameMpPanelLeft">
+                        <Label text="100%" class="BossFrameText" id="BossFrameMpLabel" />
+                    </Panel>
+                    <Panel hittest="false" class="BossFrameMpPanelRight" id="BossFrameMpPanelRight"> </Panel>
                 </Panel>
-
-                <Panel hittest="false" class="HealthBarPanel" id="HealthBarPanelLabel">
-                    <Label text="healthbar 1234" class="HealthBarPanel" id="HealthBarPanelLabel" />
+                <Panel hittest="false" class="BossFrameCastbarPanel" id="BossFrameCastbarPanel">
+                    <Label text="Fireball" class="BossFrameText" id="BossFrameCastbarLabel" />
                 </Panel>
-
-                <Panel hittest="false" class="ManaBarPanel" id="ManaBarPanelLabel">
-                    <Label text="manabar 1234" class="ManaBarPanel" id="ManaBarPanelLabel" />
-                </Panel>
-
             </Panel>
+
         </snippet>
+
     </snippets>
 
-  <Panel hittest="false" class="parent">
-      <Panel class="PlayerContainer" id="PlayerContainer"> 
-
-      </Panel>
-  </Panel>
-
+    <Panel hittest="false" class="parent">
+        <Panel class="PlayersUiContainer" id="PlayersUIContainer">
+            <!-- JS will insert snippet PlayerUiFrame here -->
+        </Panel>
+        <Panel class="BossFrameContainer" id="BossFrameContainer"> 
+            <!-- JS will insert snippet BossFrame here -->
+        </Panel>
+    </Panel>
 </root>

@@ -1,36 +1,3 @@
-///////////////////////////////
-//SUBSCRIBE TO NET TABLE IN JS EXAMPLE:
-
-// SubscribeToNetTableKey("main", "targetingIndicators", true, function(data){
-//     targetingIndicators = data;
-// });
-
-
-//CODE FROM LUA THAT CALLS THIS:
-
-// function TargetingIndicator:Load()
-//     local abilities_kv = LoadKeyValues("scripts/npc/npc_abilities_custom.txt")
-//     local targetingIndicators = {}
-
-//     for key, ability in pairs(abilities_kv) do
-//         if ability.TargetingIndicator then
-//             targetingIndicators[key] = ability.TargetingIndicator
-//         end
-//     end
-
-//     CustomNetTables:SetTableValue("main", "targetingIndicators", targetingIndicators)
-// end
-
-// CustomNetTables.SubscribeNetTableListener("dmg_done", DmgDoneTableChange);
-
-// function DmgDoneTableChange(table_name, key, data){
-// 	$.Msg( "1. JS DmgDoneTableChange " );
-
-// 	$.Msg( "DmgDoneTableChange table_name = ", table_name );
-// 	$.Msg( "DmgDoneTableChange key = ", key );
-// 	$.Msg( "DmgDoneTableChange data = ", data );
-// }
-
 function getRandomColor() {
   var letters = '0123456789ABCDEF';
   var color = '#';
@@ -53,7 +20,6 @@ function DpsMeterUpdate( table_name, key, data )
 	var dpsMeterContainer = $("#dps_meter")
 	if (dpsMeterContainer)
 	{
-
 		for (i = 0; i < dpsMeterContainer.GetChildCount(); i++  )
 		{
 			//Skip first child, its the col header 
@@ -61,16 +27,13 @@ function DpsMeterUpdate( table_name, key, data )
 				continue;
 			var child = dpsMeterContainer.GetChild(i)
 			child.DeleteAsync(0);
-
 		}
-
 		for (var row in data)
 		{
 			var containerPanel = $.CreatePanel("Panel", dpsMeterContainer, data);
 		 	containerPanel.BLoadLayoutSnippet("dps_meter_row");
 
 			var dpsRowContainer = containerPanel.FindChildInLayoutFile("dps_row")
-
 			//Update text of UI Label elements
 			var playerName = dpsRowContainer.FindChildInLayoutFile("dps_meter_playerName")
 			var dps = dpsRowContainer.FindChildInLayoutFile("dps_meter_dps")
@@ -95,6 +58,10 @@ function showDpsMeterUI()
 }
 
 
+//END DPS METER
+
+// SHOW BOSS SCOREBOARD
+
 function hideScoreboardUI()
 {
 	var bsb = $("#bsb");
@@ -105,7 +72,6 @@ function hideScoreboardUI()
 function showScoreboardUI(table_data)
 {
 	$.Msg("showScoreboardUI tableData = ", table_data)
-	$.Msg("Version v1.0")
 	var bsb = $("#bsb");
 	if (bsb)
 		bsb.style.visibility = "visible";
@@ -179,6 +145,8 @@ function CreateBossScoreBoardRow(rowData, rowId)
 		$.Msg("bsbTableContainer/ #bsb_table_rows null. ")	
 	}
 }
+
+// END SHOW BOSS SCOREBOARD
 
 //Subscribe these events to these functions. 
 //These functions are called/triggered from lua via: CustomGameEventManager:Send_ServerToAllClients("showScoreboardUIEvent", {})

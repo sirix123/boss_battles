@@ -58,6 +58,12 @@ function GameSetup:init()
     ListenToGameEvent('player_chat', Dynamic_Wrap(self, 'OnPlayerChat'), self)
 
 end
+
+
+
+
+
+
 --------------------------------------------------------------------------------------------------
 
 function GameSetup:OnStateChange()
@@ -124,23 +130,28 @@ function GameSetup:RegisterPlayer( hero )
         --print("[game_setup] Error invalid player id")
         return
     else
-        --print("[game_setup] payload ....")
-        -- TODO need to add boss energy, hp, castbar, here?
-        Timers:CreateTimer(function()
-            local data = {
-                entity_index = hero:GetEntityIndex(),
-                teamID = hero:GetTeam(),
-                playerID = hero:GetPlayerOwnerID(),
-                health = hero:GetHealth(),
-                max_health = hero:GetMaxHealth(),
-                mana = hero:GetMana(),
-                max_mana = hero:GetMaxMana(),
-                current_lives = hero.playerLives,
-            }
-            CustomNetTables:SetTableValue("heroes", "index_" .. data.entity_index, data)
 
-            return 0.1
+        --Player UI Frames:
+        Timers:CreateTimer(function()
+            local heroes = HeroList:GetAllHeroes()
+            local playerData = {}
+            local i = 1
+            for _, hero in pairs(heroes) do
+                playerData[i] = {}
+                playerData[i].entityIndex = hero:GetEntityIndex()
+                playerData[i].hp = hero:GetHealth()
+                playerData[i].maxHp = hero:GetMaxHealth()
+                playerData[i].hpPercent = hero:GetHealthPercent()
+                playerData[i].mp = hero:GetMana()
+                playerData[i].maxMp = hero:GetMaxMana()
+                playerData[i].mpPercent = hero:GetManaPercent()
+                playerData[i].lives = hero.playerLives
+                i = i +1
+            end
+            return 0.2
         end)
+        CustomNetTables:SetTableValue("heroes", "key", playerData)
+
     end
 end
 --------------------------------------------------------------------------------------------------
@@ -275,8 +286,8 @@ end
 --------------------------------------------------------------------------------------------------
 
 function GameSetup:OnEntityHurt(keys)
-    local damagebits = keys.damagebits
-    --PrintTable(keys, indent, done)
+    -- print("GameSetup:OnEntityHurt(keys). Printing keys: ")
+    -- PrintTable(keys, indent, done)
 
     -- Store the dmg done in a table to maintain history. 
     -- StoreDamageDone(keys)
@@ -303,6 +314,7 @@ function GameSetup:OnEntityHurt(keys)
 
         if keys.entindex_inflictor ~= nil then
             damagingAbility = EntIndexToHScript(keys.entindex_inflictor)
+
         end
 
         local word_length = string.len(tostring(math.floor(keys.damage)))
@@ -349,9 +361,42 @@ function GameSetup:ReadyupCheck() -- called from trigger lua file for activators
     -- message duration = timer below in spawn boss
 
     -- spawn boss
+    local boss = nil
     Timers:CreateTimer(1.0, function()
         -- look at raidtables and spawn the boss depending on the encounter counter
-        CreateUnitByName(RAID_TABLES[BOSS_BATTLES_ENCOUNTER_COUNTER].boss, self.boss_spawn, true, nil, nil, DOTA_TEAM_BADGUYS)
+        boss = CreateUnitByName(RAID_TABLES[BOSS_BATTLES_ENCOUNTER_COUNTER].boss, self.boss_spawn, true, nil, nil, DOTA_TEAM_BADGUYS)
+    end)
+
+
+    --Update the bosses hp and mp UI every tick
+    Timers:CreateTimer(function()
+        if boss ~= nil then
+            if boss:GetHealthPercent() == 0 then
+                CustomNetTables:SetTableValue("boss_frame", "hide", {})
+                return 1
+            end
+            local hp = boss:GetHealth()
+            local maxHp = boss:GetMaxHealth()
+            local hpPercent = boss:GetHealthPercent()
+            local mpPercent = boss:GetManaPercent()
+
+            local bossFrameData = {}
+            bossFrameData.hp = boss:GetHealth()
+            bossFrameData.maxHp = boss:GetMaxHealth()
+            bossFrameData.hpPercent = boss:GetHealthPercent()
+
+            bossFrameData.mp = boss:GetMana()
+            bossFrameData.maxMp = boss:GetMaxMana()
+            bossFrameData.mpPercent = boss:GetManaPercent()
+
+            print("boss:GetManaPercent() = ", boss:GetManaPercent())
+
+            CustomNetTables:SetTableValue("boss_frame", "key", bossFrameData)
+        else
+            --CustomNetTables:SetTableValue("boss_frame", "hide", {})
+            --wait for the boss to spawn...
+        end
+        return 1;
     end)
 
     -- reset wipe flag
@@ -392,6 +437,9 @@ end
 
 function GameSetup:EncounterCleanUp( origin )
     if origin == nil then return end
+
+
+    CustomNetTables:SetTableValue("boss_frame", "hide", {})
 
     -- reset cd of all players abilties
 
@@ -449,13 +497,46 @@ function GameSetup:InitCommands()
         end
 
         -- spawn boss
+        local boss = nil
         Timers:CreateTimer(1.0, function()
             -- look at raidtables and spawn the boss depending on the encounter counter
-            CreateUnitByName(RAID_TABLES[a].boss, self.boss_spawn, true, nil, nil, DOTA_TEAM_BADGUYS)
+            boss = CreateUnitByName(RAID_TABLES[a].boss, self.boss_spawn, true, nil, nil, DOTA_TEAM_BADGUYS)
         end)
 
         -- reset wipe flag
         --self.wipe_flag = nil
+
+
+        --Update the bosses hp and mp UI every tick
+        Timers:CreateTimer(function()
+            if boss ~= nil then
+                if boss:GetHealthPercent() == 0 then
+                    CustomNetTables:SetTableValue("boss_frame", "hide", {})
+                    return 1
+                end
+                local hp = boss:GetHealth()
+                local maxHp = boss:GetMaxHealth()
+                local hpPercent = boss:GetHealthPercent()
+                local mpPercent = boss:GetManaPercent()
+
+                local bossFrameData = {}
+                bossFrameData.hp = boss:GetHealth()
+                bossFrameData.maxHp = boss:GetMaxHealth()
+                bossFrameData.hpPercent = boss:GetHealthPercent()
+
+                bossFrameData.mp = boss:GetMana()
+                bossFrameData.maxMp = boss:GetMaxMana()
+                bossFrameData.mpPercent = boss:GetManaPercent()
+
+                print("boss:GetManaPercent() = ", boss:GetManaPercent())
+
+                CustomNetTables:SetTableValue("boss_frame", "key", bossFrameData)
+            else
+                --CustomNetTables:SetTableValue("boss_frame", "hide", {})
+                --wait for the boss to spawn...
+            end
+            return 1;
+        end)
 
     end, "  ", FCVAR_CHEAT)
 
@@ -484,13 +565,50 @@ function GameSetup:StartBoss( a )
         end
 
         -- spawn boss
+        local boss = nil
         Timers:CreateTimer(1.0, function()
             -- look at raidtables and spawn the boss depending on the encounter counter
-            CreateUnitByName(RAID_TABLES[a].boss, self.boss_spawn, true, nil, nil, DOTA_TEAM_BADGUYS)
+            boss = CreateUnitByName(RAID_TABLES[a].boss, self.boss_spawn, true, nil, nil, DOTA_TEAM_BADGUYS)
         end)
 
         -- reset wipe flag
         --self.wipe_flag = nil
+
+
+
+    --Update the bosses hp and mp UI every tick
+    Timers:CreateTimer(function()
+        if boss ~= nil then
+            if boss:GetHealthPercent() == 0 then
+                CustomNetTables:SetTableValue("boss_frame", "hide", {})
+                return 1
+            end
+            local hp = boss:GetHealth()
+            local maxHp = boss:GetMaxHealth()
+            local hpPercent = boss:GetHealthPercent()
+            local mpPercent = boss:GetManaPercent()
+
+            local bossFrameData = {}
+            bossFrameData.hp = boss:GetHealth()
+            bossFrameData.maxHp = boss:GetMaxHealth()
+            bossFrameData.hpPercent = boss:GetHealthPercent()
+
+            bossFrameData.mp = boss:GetMana()
+            bossFrameData.maxMp = boss:GetMaxMana()
+            bossFrameData.mpPercent = boss:GetManaPercent()
+
+            print("boss:GetManaPercent() = ", boss:GetManaPercent())
+
+            CustomNetTables:SetTableValue("boss_frame", "key", bossFrameData)
+        else
+            --CustomNetTables:SetTableValue("boss_frame", "hide", {})
+            --wait for the boss to spawn...
+        end
+        return 1;
+    end)
+
+
+
 end
 
 -----------------------------------------------------------------------------------------------------

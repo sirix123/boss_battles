@@ -1,38 +1,90 @@
-/* 
-(function()
+/* Boss Frame UI */
+
+function bossFrameUpdate( table_name, key, data )
 {
-    $.Msg("hello123")
-    var container = $("#RaidStatus");
-    var containerPanel = $.CreatePanel("Panel", container, {});
-    containerPanel.BLoadLayoutSnippet("HeroStatus");
-    var table_data = CustomNetTables.GetAllTableValues("heroes");
-    $.Msg("table data ", table_data)
-    $.Msg("--------------------------------------")
+    //$.Msg("bossFrameUpdate( table_name, key, data )")
+    // $.Msg("table_name = ", table_name)
+    //$.Msg("key = ", key)
+    // $.Msg("data = ", data)
+    
+    var bossFrameContainer = $("#BossFrameContainer")
+    if (key === "hide")
+    {
+        bossFrameContainer.style.visibility = "collapse";
+        var hpRightPanel = $("#BossFrameHpPanelRight")
 
-})();  
+        if (hpRightPanel)
+        hpRightPanel.style.visibility = "collapse";
 
-init - get hero data 
+        for (i = 0; i < bossFrameContainer.GetChildCount(); i++  )
+        {
+            var child = bossFrameContainer.GetChild(i)
+            child.DeleteAsync(0);
+        }
+        return;
+    }
+    else if (bossFrameContainer.style.visibility === "collapse")
+        bossFrameContainer.style.visibility = "visible";
 
-CustomNetTables.SubscribeNetTableListener("heroes", function(table, key, data){
-    $.Msg("v2 data ", data)
-});*/
+    if (bossFrameContainer)
+    {
+        for (i = 0; i < bossFrameContainer.GetChildCount(); i++  )
+        {
+            var child = bossFrameContainer.GetChild(i)
+            child.DeleteAsync(0);
+        }
 
-function AddDebugPlayer()
-{
-    // make new panel
-    var playerContainer = $("#PlayerContainer");
-    var containerPanel = $.CreatePanel("Panel", playerContainer, {});
-    containerPanel.BLoadLayoutSnippet("PlayerFrame");
+        var containerPanel = $.CreatePanel("Panel", bossFrameContainer, data);
+        containerPanel.BLoadLayoutSnippet("BossFrame");
+
+        var hpPanelLeft = containerPanel.FindChildInLayoutFile("BossFrameHpPanelLeft")
+        var hpPanelRight = containerPanel.FindChildInLayoutFile("BossFrameHpPanelRight")
+        hpPanelLeft.style.width = data["hpPercent"]+"%"
+        var hpGone = 100 - data["hpPercent"]
+        hpPanelRight.style.width = hpGone+"%"
+
+        //TODO: the same thing as above for mp 
+        //Need to create the panels in xml and css first        
+        var mpPanelLeft = containerPanel.FindChildInLayoutFile("BossFrameMpPanelLeft")
+        var mpPanelRight = containerPanel.FindChildInLayoutFile("BossFrameMpPanelRight")
+        mpPanelLeft.style.width = data["mpPercent"]+"%"
+        var mpGone = 100 - data["mpPercent"]
+        mpPanelRight.style.width = mpGone+"%"
+
+
+        var hpLabel = containerPanel.FindChildInLayoutFile("BossFrameHpLabel")
+        var mpLabel = containerPanel.FindChildInLayoutFile("BossFrameMpLabel")
+        var castbarLabel = containerPanel.FindChildInLayoutFile("BossFrameCastbarLabel")
+
+        hpLabel.text = data["hpPercent"] + "%"
+        mpLabel.text = data["mpPercent"]+"%"
+
+        // playerName.text = data[row].hero
+        // dps.text = data[row].dps
+        // for (var row in data)
+        // {
+        // }
+    }
 }
 
-function debug()
-{  
-    $.Msg("helloword")
-    AddDebugPlayer()
-}
- 
-//debug();
+CustomNetTables.SubscribeNetTableListener( "boss_frame", bossFrameUpdate );
 
-/*var data = CustomNetTables.GetAllTableValues("heroes")
-$.Msg("------ data ------")
-$.Msg(data)*/
+/* END Boss Frame UI */
+
+
+/* Player UI Frames */
+
+
+function heroFrameUpdate( table_name, key, data )
+{
+    // $.Msg("heroFrameUpdate( table_name, key, data )")
+    // $.Msg("table_name = ", table_name)
+    // $.Msg("key = ", key)
+    // $.Msg("data = ", data)
+}
+
+
+CustomNetTables.SubscribeNetTableListener( "heroes", heroFrameUpdate );
+
+
+/* END Player UI Frames */

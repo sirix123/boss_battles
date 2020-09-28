@@ -165,6 +165,9 @@ end
 
 
 function WebApi:GetDummyScoreboardData()
+--TODO: get dmg data from 
+-- _G.DamageTotalsTable[entindex_attacker]["totalDmg"]
+
 	data = {}
 	data[1] = {}
 	data[1].playerName = "MooMoo"
@@ -201,15 +204,21 @@ function WebApi:GetDummyScoreboardData()
 	return data
 end
 
-function WebApi:GetScoreboardData()
+function WebApi:GetScoreboardData(heroIndex)
 	print("WebApi:GetScoreboardData()" )
 
 	print("Using Dummy data for scoreboard" )	
 	local dummyData = WebApi:GetDummyScoreboardData()
+
+	--HACK: hardcoded to test one val
+    --dummyData[1].dmgDone = _G.DamageTotalsTable[heroIndex]["totalDmg"]
+	_G.scoreboardData = dummyData
+
     if _G.scoreboardData == nil then
         CustomGameEventManager:Send_ServerToAllClients("setupScoreboard", dummyData)
     end
-	_G.scoreboardData = dummyData
+
+    
 	
 
 
@@ -265,7 +274,6 @@ function WebApi:PostPlayHistory(data)
 	local request = CreateHTTPRequestScriptVM("POST", firebaseUrl ..  "/playHistory.json/")
 	request:SetHTTPRequestRawPostBody("application/json", json.encode(data))
       request:Send(function(response) 
-
         if response.StatusCode == 200 then
           print("POST request successfully sent")
         else
