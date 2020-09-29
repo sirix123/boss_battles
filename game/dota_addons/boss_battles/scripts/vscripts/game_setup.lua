@@ -390,12 +390,9 @@ function GameSetup:ReadyupCheck() -- called from trigger lua file for activators
             bossFrameData.hp = boss:GetHealth()
             bossFrameData.maxHp = boss:GetMaxHealth()
             bossFrameData.hpPercent = boss:GetHealthPercent()
-
             bossFrameData.mp = boss:GetMana()
             bossFrameData.maxMp = boss:GetMaxMana()
             bossFrameData.mpPercent = boss:GetManaPercent()
-
-            print("boss:GetManaPercent() = ", boss:GetManaPercent())
 
             CustomNetTables:SetTableValue("boss_frame", "key", bossFrameData)
         else
