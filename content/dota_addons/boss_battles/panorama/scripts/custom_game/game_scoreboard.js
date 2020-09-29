@@ -1,3 +1,5 @@
+
+
 function getRandomColor() {
   var letters = '0123456789ABCDEF';
   var color = '#';
@@ -93,9 +95,9 @@ function showScoreboardUI(table_data)
 	var bossDuration = bsb_bossInfoContainer.FindChildInLayoutFile("bsb_header_boss_duration")
 	var bossWinLose = bsb_bossInfoContainer.FindChildInLayoutFile("bsb_header_boss_winLose")
 
-	bossName.text = "Beastmaster"
-	bossDuration.text = "1:47"
-	bossWinLose.text = "Defeat!"
+	bossName.text = table_data.bossName
+	bossDuration.text = table_data.bossDuration
+	bossWinLose.text = table_data.bossWinLose
 
 	var bsbTableContainer = $("#bsb_table_rows");
 
@@ -109,8 +111,20 @@ function showScoreboardUI(table_data)
 	//Player scoreboard rows section:
 	for(var row in table_data)
 	{
-		var val = table_data[row]
-		CreateBossScoreBoardRow(val, row)
+		//rows where row is an int, are the player rows
+		if (row > 0 ) 
+		{
+			var val = table_data[row]
+			CreateBossScoreBoardRow(val, row)
+		}
+		else 
+		{
+			//skip these rows. they're the bossName, bossDuration, bossWinLose
+		}
+
+		//DEBUG 
+		// $.Msg("row = ", row)
+		// $.Msg("table_data[row] = ", table_data[row])
 	}
 }
 
@@ -131,11 +145,14 @@ function CreateBossScoreBoardRow(rowData, rowId)
 		var playerName = containerPanel.FindChildInLayoutFile("bsb_table_row_player")
 		if (!!playerName) //if not null, set text
 			playerName.text = rowData.player_name
-		
 
 		var dmgDone = containerPanel.FindChildInLayoutFile("bsb_table_row_dmgDone")
 		if (!!dmgDone) //if not null, set text
 			dmgDone.text = rowData.dmg_done
+
+		var dpsDone = containerPanel.FindChildInLayoutFile("bsb_table_row_dpsDone")
+		if (!!dpsDone) //if not null, set text
+			dpsDone.text = rowData.dps
 
 		var dmgTaken = containerPanel.FindChildInLayoutFile("bsb_table_row_dmgTaken")
 		if (!!dmgTaken)

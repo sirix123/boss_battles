@@ -1,5 +1,7 @@
 /* CSS EXAMPLES: */
 
+/* possible web dev double border approach: https://stackoverflow.com/questions/19463904/double-border-with-different-color */
+
 
 /*background-blur: gaussian( 2.5 );*/
 
@@ -110,18 +112,31 @@ background-size: 100% 100%; // image fills the panel*/
 {
   flow-children: right; /* flex row... */
   width: 100%;
-  height: 10%;
+  height: 5%;
 }
 
 /* Boss scoreboard th cell */
 .bsb_table_header_cell
 {
-  background-color: #00000088; /* rgba */
+  background-color: #000000cc; /* rgba */
   border: 1px solid black;
-  padding-top: 50%;
-  padding-left: 5%;
+  padding-left: 3%;
+  padding-top: 3%;
   width: 25%;
   height: 100%;
+
+  font-size: 28px;
+  color: #ffffff;
+}
+
+.bsb_table_header_cell_small 
+{
+  background-color: #000000cc; /* rgba */
+  border: 1px solid black;
+  width: 15%;
+  height: 100%;
+  padding-left: 3%;
+  padding-top: 3%;
 
   font-size: 28px;
   color: #ffffff;
@@ -147,22 +162,39 @@ background-size: 100% 100%; // image fills the panel*/
 {
   flow-children: right; /* flex row... */
   width: 100%;
-  height: 25%;
+  height: 15%;
 }
 
 /* Boss scoreboard tr cell */
 .bsb_table_row_cell
 {
-  background-color: #00000088; /* rgba */
+  background-color: #000000aa; /* rgba */
   border: 1px solid black;
   width: 25%;
   height: 100%;
 
-  padding-top: 25%;
-  text-align: center;
-  font-size: 18px;
+  padding-left: 3%;
+  padding-top: 30%; /* HACK: solution for centering text vertically. increase/decrease with font-size and container size */
+  /*text-align: center;*/
+  font-size: 22px;
   color: #ffffff;
 }
+
+.bsb_table_row_cell_small
+{
+  background-color: #000000aa; /* rgba */
+  border: 1px solid black;
+  width: 15%;
+  height: 100%;
+
+  padding-left: 3%;
+  padding-top: 30%; /* HACK: solution for centering text vertically. increase/decrease with font-size and container size */
+  /*text-align: center;*/
+  font-size: 22px;
+  color: #ffffff;
+}
+
+
 
 
 /* END BOSS SCOREBOARD - GENERIC TABLE ELEMENTS */
@@ -200,10 +232,15 @@ background-size: 100% 100%; // image fills the panel*/
 
 #bsb_table_row_player
 {
-  font-size: 28px;
+  
 }
 
 #bsb_table_row_dmgDone
+{
+
+}
+
+#bsb_table_row_dmgDps
 {
 
 }

@@ -32,26 +32,38 @@ function PlayerManager:SetUpMovement()
 
     --Listen for showScoreboardUIEvent from JS, then send showScoreboardUIEvent event back to JS
     CustomGameEventManager:RegisterListener('showScoreboardUIEvent', function(eventSourceIndex, args)
-        -- print("showScoreboardUIEvent caught")
-        -- print("getting boss scoreboard data for " ..#HeroList:GetAllHeroes().." heroes")                
+        --BSB player rows:
         local bsbRows = {}
         local heroes = HeroList:GetAllHeroes()
+        local startTime = GetStartTime(_G.DamageTable)
+        local endTime = GetEndTime(_G.DamageTable)
+
         for _, hero in pairs(heroes) do
             local unitName = EntIndexToHScript(hero:GetEntityIndex()):GetUnitName()
             local className = GetClassName(unitName)
             local playerName = PlayerResource:GetPlayerName(EntIndexToHScript(hero:GetEntityIndex()):GetPlayerOwnerID())
             local dmgTaken = GetDamageTaken(hero:GetEntityIndex())
             local dmgDone = GetDamageDone(hero:GetEntityIndex())
+            local dps = Dps(_G.DamageTable, hero:GetEntityIndex(), startTime, endTime)
+            --format dps to 2 decimals:
+            dps = string.format("%.2f",dps)
 
             bsbRow = {}
             bsbRow.class_name = className
             bsbRow.class_icon = GetClassIcon(className)
             bsbRow.player_name = playerName
+            bsbRow.dps = dps
+
             bsbRow.dmg_done = dmgDone
             bsbRow.dmg_taken = dmgTaken
             bsbRows[#bsbRows+1] = bsbRow
         end
 
+        --BSB header. Boss info
+        bsbRows.bossName = "bossName"
+        bsbRows.bossDuration = "1:00"
+        bsbRows.bossWinLose = "WIN"
+            
         local luaPlayer = EntIndexToHScript(args.heroIndex):GetPlayerOwner()
         local convarClient = Convars:GetCommandClient()
         local player = PlayerResource:GetPlayer(args.playerId)

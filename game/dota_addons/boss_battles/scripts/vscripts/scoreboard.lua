@@ -13,12 +13,20 @@ end
 
 function GetStartTime(damageTable)
     --This is safe to do because damageTable is filled up over time, the first entry is the earliest.
-    return damageTable[1].timeOf
+    if damageTable ~= nil and #damageTable > 0 then
+        return damageTable[1].timeOf
+    else 
+        return GameRules:GetGameTime()
+    end
 end
 
 function GetEndTime(damageTable)
 --This is safe to do because damageTable is filled up over time, the last entry is the latest. 
-    return damageTable[#damageTable].timeOf
+    if damageTable ~= nil and #damageTable > 0 then
+        return damageTable[#damageTable].timeOf
+    else 
+        return GameRules:GetGameTime()
+    end
 end
 
 function UpdateDamageMeter()

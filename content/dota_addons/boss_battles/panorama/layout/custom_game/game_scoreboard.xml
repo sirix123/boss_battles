@@ -28,6 +28,7 @@ entryPanel.BLoadLayoutSnippet("ScoreboardRow"); -->
                 <Image src="file://{images}/class_icons/icon_person.png" class="bsb_table_row_cell" id="bsb_table_row_class"  />
                 <Label text="playerName" class="bsb_table_row_cell" id="bsb_table_row_player"/>
                 <Label text="10,500" class="bsb_table_row_cell" id="bsb_table_row_dmgDone"/>
+                <Label text="500" class="bsb_table_row_cell_small" id="bsb_table_row_dpsDone"/>
                 <Label text="5,000" class="bsb_table_row_cell" id="bsb_table_row_dmgTaken"/>
             </Panel>
         </snippet>
@@ -43,6 +44,9 @@ entryPanel.BLoadLayoutSnippet("ScoreboardRow"); -->
         </Panel>
       </snippet>
     </snippets>
+
+
+
 
   <Panel hittest="false" class="parent">
       <Panel class="dps_meter" id="dps_meter">
@@ -60,10 +64,11 @@ entryPanel.BLoadLayoutSnippet("ScoreboardRow"); -->
           </Panel>
 
           <Panel class="bsb_table_header" id="bsb_table_header">
-            <Label text="Class:"  class="bsb_table_header_cell" id="bsb_table_header_class"/>
-            <Label text="Player:"  class="bsb_table_header_cell" id="bsb_table_header_player"/>
-            <Label text="Dmg Done:"  class="bsb_table_header_cell" id="bsb_table_header_dmgDone"/>
-            <Label text="Dmg Taken:"  class="bsb_table_header_cell" id="bsb_table_header_dmgTaken"/>
+            <Label text="Class"  class="bsb_table_header_cell" id="bsb_table_header_class"/>
+            <Label text="Player"  class="bsb_table_header_cell" id="bsb_table_header_player"/>
+            <Label text="Dmg Done"  class="bsb_table_header_cell" id="bsb_table_header_dmgDone"/>
+            <Label text="Dps Done"  class="bsb_table_header_cell_small" id="bsb_table_header_dpsDone"/>
+            <Label text="Dmg Taken"  class="bsb_table_header_cell" id="bsb_table_header_dmgTaken"/>
           </Panel>    
 
           <Panel class="bsb_body" id="bsb_body"> 
