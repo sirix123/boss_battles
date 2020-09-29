@@ -75,17 +75,14 @@
 /* Green HP bar: */
 /* background-color: gradient( linear, 0% 0%, 0% 100%, from( #425d25  ), color-stop( 0.2, #5BA539 ), color-stop( .5, #4D9030), to( #425d25) ); */
 
-/* Red HP bar: */
-/* background-color: gradient( linear, 0% 0%, 0% 100%, from( #425d25  ), color-stop( 0.2, #5BA539 ), color-stop( .5, #4D9030), to( #425d25) ); */
-
 .BossFrameHpPanelLeft 
 {
   height:100%;
   width: 100%;
   border: 1px solid #222222;
 
-
-  background-color: gradient( linear, 0% 0%, 0% 100%, from( #425d25  ), color-stop( 0.2, #5BA539 ), color-stop( .5, #4D9030), to( #425d25) );
+  /* Red HP Bar */
+  background-color: gradient( linear, 0% 0%, 0% 100%, from( #a32929ee  ), color-stop( 0.2, #c70c0cee ), color-stop( .5, #d62020ee), to( #a32929ee ) );
   margin: 0;
 }
 
