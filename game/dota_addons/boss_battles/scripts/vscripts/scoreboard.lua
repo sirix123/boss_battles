@@ -66,6 +66,54 @@ function StoreDamageDone(keys)
     --CustomNetTables:SetTableValue("dmg_done", tostring(entindex_attacker), _G.DamageTotalsTable)
 end
 
+
+
+
+
+--UNTESTED
+function GetDamageTableBetweenTime(startTime, endTime, damageTable)
+--loop over table, and build a new table between dmg rain
+    local results = {}
+    for i, dmgEntry in pairs(damageTable) do
+        --TODO: figure out how to check if between time...
+        if dmgEntry.timeOf > startTime and dmgEntry.timeOf < endTime then
+            results[#results+1] = dmgEntry
+        end
+    end
+    return results
+end
+
+--UNTESTED
+function GetDamageDoneByInflictor(inflictorName)
+    local sum = 0
+    for i,dmgEntry in pairs(_G.DamageTable) do
+        if dmgEntry.inflictorName == inflictorName then
+            sum = sum + dmgEntry.dmg
+        end 
+    end
+    return sum
+end
+
+--UNTESTED
+function GetDamageDoneByInflictorToTarget(inflictorName, victimEntity)
+    local sum = 0
+    for i,dmgEntry in pairs(_G.DamageTable) do
+        if dmgEntry.inflictorName == inflictorName and dmgEntry.victimEntity == victimEntity then
+            sum = sum + dmgEntry.dmg
+        end 
+    end
+    return sum
+end
+
+function GetDamageDoneToTargetByInflictor(victimEntity, inflictorName)
+    return GetDamageDoneByInflictorToTarget(inflictorName, victimEntity)
+end
+
+
+
+
+
+
 function GetDamageDone(attackerEntity)
     local sum = 0
     for i,dmgEntry in pairs(_G.DamageTable) do
@@ -75,6 +123,11 @@ function GetDamageDone(attackerEntity)
     end
     return sum
 end
+
+function GetDamageDoneByEntity(attackerEntity)
+    return GetDamageDone(attackerEntity)
+end
+
 
 function GetDamageTaken(victimEntity)
     local sum = 0
@@ -86,3 +139,6 @@ function GetDamageTaken(victimEntity)
     return sum
 end
 
+function GetDamageTakenByEntity(victimEntity)
+    return GetDamageTaken(victimEntity)
+end

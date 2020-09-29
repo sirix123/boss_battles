@@ -292,6 +292,12 @@ function GameSetup:OnEntityHurt(keys)
     -- Store the dmg done in a table to maintain history. 
     -- StoreDamageDone(keys)
 
+
+    --DEBUG:    
+    local inflictor = keys.entindex_inflictor and EntIndexToHScript(keys.entindex_inflictor):GetName()
+    if inflictor == nil then inflictor = "unknown_ability" end
+    --print("" ..EntIndexToHScript(keys.entindex_attacker):GetUnitName().. " attacked " ..EntIndexToHScript(keys.entindex_killed):GetUnitName().. " with " ..inflictor.. " dealing " ..keys.damage)
+
     -- Only process dmg if from or too a player Hero.
     local heroes = HeroList:GetAllHeroes()
     for _, hero in pairs(heroes) do
