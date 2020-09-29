@@ -45,14 +45,17 @@ function PlayerManager:SetUpMovement()
             local dmgTaken = GetDamageTaken(hero:GetEntityIndex())
             local dmgDone = GetDamageDone(hero:GetEntityIndex())
             local dps = Dps(_G.DamageTable, hero:GetEntityIndex(), startTime, endTime)
-            --format dps to 2 decimals:
+            --format to 2 decimals:
             dps = string.format("%.2f",dps)
+            dmgDone = string.format("%.2f",dmgDone)
+            dmgTaken = string.format("%.2f",dmgTaken)
 
             bsbRow = {}
             bsbRow.class_name = className
             bsbRow.class_icon = GetClassIcon(className)
             bsbRow.player_name = playerName
             bsbRow.dps = dps
+
 
             bsbRow.dmg_done = dmgDone
             bsbRow.dmg_taken = dmgTaken
