@@ -367,7 +367,7 @@ function GameSetup:ReadyupCheck() -- called from trigger lua file for activators
     -- message duration = timer below in spawn boss
 
     -- spawn boss
-    local boss = nil
+    boss = nil
     Timers:CreateTimer(1.0, function()
         -- look at raidtables and spawn the boss depending on the encounter counter
         boss = CreateUnitByName(RAID_TABLES[BOSS_BATTLES_ENCOUNTER_COUNTER].boss, self.boss_spawn, true, nil, nil, DOTA_TEAM_BADGUYS)
@@ -500,7 +500,7 @@ function GameSetup:InitCommands()
         end
 
         -- spawn boss
-        local boss = nil
+        boss = nil
         Timers:CreateTimer(1.0, function()
             -- look at raidtables and spawn the boss depending on the encounter counter
             boss = CreateUnitByName(RAID_TABLES[a].boss, self.boss_spawn, true, nil, nil, DOTA_TEAM_BADGUYS)
@@ -530,8 +530,6 @@ function GameSetup:InitCommands()
                 bossFrameData.mp = boss:GetMana()
                 bossFrameData.maxMp = boss:GetMaxMana()
                 bossFrameData.mpPercent = boss:GetManaPercent()
-
-                print("boss:GetManaPercent() = ", boss:GetManaPercent())
 
                 CustomNetTables:SetTableValue("boss_frame", "key", bossFrameData)
             else
@@ -568,7 +566,7 @@ function GameSetup:StartBoss( a )
         end
 
         -- spawn boss
-        local boss = nil
+        boss = nil
         Timers:CreateTimer(1.0, function()
             -- look at raidtables and spawn the boss depending on the encounter counter
             boss = CreateUnitByName(RAID_TABLES[a].boss, self.boss_spawn, true, nil, nil, DOTA_TEAM_BADGUYS)
@@ -599,8 +597,6 @@ function GameSetup:StartBoss( a )
             bossFrameData.mp = boss:GetMana()
             bossFrameData.maxMp = boss:GetMaxMana()
             bossFrameData.mpPercent = boss:GetManaPercent()
-
-            print("boss:GetManaPercent() = ", boss:GetManaPercent())
 
             CustomNetTables:SetTableValue("boss_frame", "key", bossFrameData)
         else
