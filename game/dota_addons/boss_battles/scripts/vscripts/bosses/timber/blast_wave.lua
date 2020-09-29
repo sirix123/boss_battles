@@ -67,6 +67,7 @@ function blast_wave:OnSpellStart()
             attacker = self.caster,
             damage = self.damage_1,
             damage_type = DAMAGE_TYPE_PHYSICAL,
+            ability = self,
         }
 
         local hProjectile = {

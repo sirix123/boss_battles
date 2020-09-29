@@ -70,6 +70,7 @@ function m1_combo_hit_3:OnSpellStart()
 			attacker = caster,
 			damage = damage,
 			damage_type = self:GetAbilityDamageType(),
+			ability = self,
 		}
 
         EmitSoundOn( "phantom_assassin_phass_attack_02", self:GetCaster() )

@@ -105,6 +105,7 @@ function m1_trackingshot:OnSpellStart()
                     attacker = self.caster,
                     damage = dmg,
                     damage_type = self:GetAbilityDamageType(),
+                    ability = self,
                 }
 
                 -- give mana

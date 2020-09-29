@@ -41,6 +41,7 @@ function fire_turret_flame:OnSpellStart()
                     attacker = caster,
                     damage = self:GetSpecialValueFor( "dmg" ), -- 100
                     damage_type = self:GetAbilityDamageType(),
+                    ability = self,
                 }
 
                 ApplyDamage(dmgTable)

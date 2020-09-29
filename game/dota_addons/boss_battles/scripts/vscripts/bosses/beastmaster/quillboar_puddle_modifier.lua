@@ -42,6 +42,7 @@ function quillboar_puddle_modifier:OnIntervalThink()
 				attacker = self:GetParent(),
 				damage = self.dmg,
 				damage_type = DAMAGE_TYPE_PHYSICAL,
+				ability = self,
 			}
 
 			ApplyDamage( self.damageTable )

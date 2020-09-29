@@ -29,6 +29,7 @@ function mine_droid_laymine_thinker:OnCreated( kv )
 		attacker = self.caster,
 		damage = self.damage ,
 		damage_type = DAMAGE_TYPE_PHYSICAL,
+        ability = self,
 	}
 
     -- Set the mine as inactive

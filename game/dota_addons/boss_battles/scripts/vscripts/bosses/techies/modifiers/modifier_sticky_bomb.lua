@@ -32,6 +32,7 @@ function modifier_sticky_bomb:OnCreated( kv )
 		attacker = self:GetCaster(),
 		damage_type = self:GetAbility():GetAbilityDamageType(),
 		ability = self:GetAbility(),
+		-- ability = self, 
 	}
 
 end

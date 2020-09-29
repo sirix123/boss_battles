@@ -13,6 +13,7 @@ function e_rainofarrows_thinker:OnCreated( kv )
 			attacker = self:GetCaster(),
 			damage_type = self:GetAbility():GetAbilityDamageType(),
 			ability = self:GetAbility(),
+			ability = self,
 		}
 
 		-- Start interval

@@ -39,7 +39,9 @@ function r_whirlwind_modifier:OnCreated( kv )
 			attacker = self:GetParent(),
 			damage = self.dps,
 			damage_type = self:GetAbility():GetAbilityDamageType(),
-			ability = self:GetAbility(),
+			ability = self:GetAbility(), 
+			--ability = self, --this is used for OnEntityHurt. The above might cause a bug for OnEntityHurt. 
+
 		}
 
 		self:StartIntervalThink( self.tick )

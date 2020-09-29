@@ -127,6 +127,7 @@ function m2_icelance:OnSpellStart()
                         attacker = self.caster,
                         damage = self:GetSpecialValueFor( "dmg" ),
                         damage_type = self:GetAbilityDamageType(),
+                        ability = self,
                     }
 
                     -- give mana
@@ -192,6 +193,7 @@ function m2_icelance:ApplyBoneChill(unit)
                     attacker = self.caster,
                     damage = self.baseShatterDmg + ( nStackCount * self.shatterDmg ),
                     damage_type = self:GetAbilityDamageType(),
+                    ability = self,
                 }
 
                 ApplyDamage( dmgShatterTable )
@@ -214,6 +216,7 @@ function m2_icelance:ApplyBoneChill(unit)
                     attacker = self.caster,
                     damage = self.baseShatterDmg + ( nStackCount * self.shatterDmg ),
                     damage_type = self:GetAbilityDamageType(),
+                    ability = self,
                 }
 
                 ApplyDamage( dmgShatterTable )

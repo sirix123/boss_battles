@@ -102,6 +102,7 @@ function ActivateFurnace()
                 attacker = thisEntity,
                 damage = 1,
                 damage_type = DAMAGE_TYPE_PHYSICAL,
+                ability = self,
             }
 
             ApplyDamage(dmgTable)

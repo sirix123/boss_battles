@@ -112,6 +112,7 @@ function m2_combo_breaker:OnSpellStart()
 			attacker = caster,
 			damage = damage,
 			damage_type = self:GetAbilityDamageType(),
+            ability = self,
 		}
 
         EmitSoundOn( "Hero_PhantomAssassin.CoupDeGrace", self:GetCaster() )

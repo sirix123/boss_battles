@@ -59,6 +59,7 @@ function saw_blade_thinker:OnCreated( kv )
 		attacker = self.caster,
 		damage = self.damage,
 		damage_type = self:GetAbility():GetAbilityDamageType(),
+		ability = self,
 	}
 
     self:StartIntervalThink( self.move_interval )

@@ -21,7 +21,7 @@ function modifier_beastmaster_net_dot:OnCreated( kv )
 			attacker = self:GetCaster(),
 			damage = self.dmgBear ,
 			damage_type = DAMAGE_TYPE_MAGICAL,
-			ability = self, --Optional.
+			ability = self, 
 		}
 
 		self:StartIntervalThink( self.interval )
@@ -44,7 +44,7 @@ function modifier_beastmaster_net_dot:OnRefresh( kv )
 			damage = self.dmgBear ,
 			damage_type = DAMAGE_TYPE_MAGICAL,
 			damage_flags = DOTA_DAMAGE_FLAG_NONE, --Optional.
-			ability = self, --Optional.
+			ability = self, 
 		}
 
 		self:StartIntervalThink( self.interval )

@@ -50,6 +50,7 @@ function oil_leak_modifier_thinker:DamageLoop()
                     attacker = self:GetParent(),
                     damage = self.dmg,
                     damage_type = DAMAGE_TYPE_PHYSICAL,
+                    ability = self,
                 }
 
                 ApplyDamage(self.dmgTable)

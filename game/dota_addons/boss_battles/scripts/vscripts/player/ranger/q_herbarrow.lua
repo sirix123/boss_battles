@@ -104,6 +104,7 @@ function q_herbarrow:OnProjectileHit( hTarget, vLocation)
 				attacker = self.caster,
 				damage = self.dmg,
 				damage_type = self:GetAbilityDamageType(),
+				ability = self,
 			}
 
 			ApplyDamage(dmgTable)

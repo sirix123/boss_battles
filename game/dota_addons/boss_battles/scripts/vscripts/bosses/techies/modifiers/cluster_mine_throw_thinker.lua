@@ -32,6 +32,7 @@ function cluster_mine_throw_thinker:OnCreated( kv )
 		attacker = self.caster,
 		damage = self.damage,
 		damage_type = DAMAGE_TYPE_PHYSICAL,
+        ability = self,
 	}
 
     -- Set the mine as inactive
@@ -156,6 +157,7 @@ function cluster_mine_throw_thinker:Explode()
             attacker = self.caster,
             damage = self.damage ,
             damage_type = DAMAGE_TYPE_PHYSICAL,
+            ability = self,
         }
 
         ApplyDamage(self.damageTable)

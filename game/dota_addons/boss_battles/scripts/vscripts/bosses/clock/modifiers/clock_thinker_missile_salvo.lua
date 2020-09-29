@@ -57,6 +57,7 @@ function clock_thinker_missile_salvo:StartApplyDamageLoop()
                 attacker = self.caster,
                 damage = self.dmg_dot,
                 damage_type = self:GetAbility():GetAbilityDamageType(),
+                ability = self,
             }
 
             ApplyDamage(self.dmgTable)

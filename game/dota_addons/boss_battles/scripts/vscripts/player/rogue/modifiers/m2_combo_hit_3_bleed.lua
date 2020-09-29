@@ -76,6 +76,7 @@ function m2_combo_hit_3_bleed:StartApplyDamageLoop()
                 attacker = self.caster,
                 damage = self.dmg,
                 damage_type = self.damage_type,
+                ability = self,
             }
 
             ApplyDamage(self.dmgTable)

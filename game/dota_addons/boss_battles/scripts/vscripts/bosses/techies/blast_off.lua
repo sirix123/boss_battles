@@ -126,6 +126,7 @@ function blast_off:BlowUp()
                     attacker = self:GetCaster(),
                     damage = self.damage,
                     damage_type = DAMAGE_TYPE_PHYSICAL,
+                    ability = self,
                 }
 
                 ApplyDamage(self.damageTable)

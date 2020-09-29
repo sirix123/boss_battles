@@ -510,6 +510,7 @@ function CastCallDownAt(location)
 					victim = enemy, attacker = thisEntity,
 					damage = 5000, --TODO: calc this / get from somewhere
 					damage_type = 4, -- TODO: get this from ability file ... 4 = DAMAGE_TYPE_PURE 
+					ability = self,
 				}
 				local dmgDealt = ApplyDamage(damageInfo)
 			end

@@ -167,6 +167,7 @@ function missile_salvo:OnProjectileHit( hTarget, vLocation)
                 attacker = self.caster,
                 damage = self.dmg_hit,
                 damage_type = self.damage_type,
+                ability = self,
             }
 
             ApplyDamage(dmgTable)

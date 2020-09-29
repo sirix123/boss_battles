@@ -75,6 +75,7 @@ function m1_iceshot:OnSpellStart()
                     attacker = self.caster,
                     damage = self:GetSpecialValueFor( "dmg" ),
                     damage_type = self:GetAbilityDamageType(),
+                    ability = self,
                 }
 
                 -- give mana

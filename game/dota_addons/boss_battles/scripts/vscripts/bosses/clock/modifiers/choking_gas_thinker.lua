@@ -69,6 +69,7 @@ function choking_gas_thinker:StartApplyDamageLoop()
                 attacker = self:GetCaster(),
                 damage = self.dmg,
                 damage_type = DAMAGE_TYPE_PHYSICAL,
+                ability = self,
             }
 
             ApplyDamage(dmgTable)

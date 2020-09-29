@@ -73,6 +73,7 @@ function e_swallow_potion:OnSpellStart()
 			attacker = caster,
 			damage = damage,
 			damage_type = self:GetAbilityDamageType(),
+			ability = self,
         }
 
         -- add modifier

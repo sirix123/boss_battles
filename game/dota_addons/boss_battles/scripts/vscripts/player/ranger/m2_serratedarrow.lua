@@ -103,6 +103,7 @@ function m2_serratedarrow:OnSpellStart()
                     attacker = self.caster,
                     damage = dmg,
                     damage_type = self:GetAbilityDamageType(),
+                    ability = self,
                 }
 
                 -- give mana

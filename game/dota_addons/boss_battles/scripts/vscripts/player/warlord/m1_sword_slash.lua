@@ -73,6 +73,7 @@ function m1_sword_slash:OnSpellStart()
 			attacker = caster,
 			damage = damage,
 			damage_type = self:GetAbilityDamageType(),
+			ability = self,
 		}
 
         ApplyDamage(dmgTable)

@@ -54,6 +54,7 @@ function fire_bomb_ground_modifier:DamageLoop()
                     attacker = self.caster,
                     damage = self.dmg,
                     damage_type = DAMAGE_TYPE_PHYSICAL,
+                    ability = self,
                 }
 
                 ApplyDamage(self.dmgTable)

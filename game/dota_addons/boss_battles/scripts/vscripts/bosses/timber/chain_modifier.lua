@@ -47,6 +47,7 @@ function chain_modifier:OnCreated( kv )
 		damage = damage,
 		damage_type = self:GetAbility():GetAbilityDamageType(),
 		ability = self:GetAbility(), --Optional.
+		--ability = self,
 	}
 
 	-- init
@@ -193,7 +194,7 @@ function chain_modifier:WhirlingDeathStart()
 		attacker = caster,
 		damage = self.wd_damage,
 		damage_type = DAMAGE_TYPE_PHYSICAL,
-		ability = self, --Optional.
+		ability = self, 
 	}
 
 	local enemies = FindUnitsInRadius(

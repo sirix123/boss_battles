@@ -76,6 +76,7 @@ function r_rupture:OnSpellStart()
                     attacker = self.caster,
                     damage = self:GetSpecialValueFor( "dmg" ),
                     damage_type = self:GetAbilityDamageType(),
+                    ability = self,
                 }
 
                 -- play hit sound

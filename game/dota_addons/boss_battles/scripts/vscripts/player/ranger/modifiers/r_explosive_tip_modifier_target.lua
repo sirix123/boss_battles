@@ -78,6 +78,7 @@ function r_explosive_tip_modifier_target:OnDestroy()
 					attacker = self.caster,
 					damage = dmg,
 					damage_type = self.ability:GetAbilityDamageType(),
+					ability = self,
 				}
 
 				ApplyDamage(dmgTable)
