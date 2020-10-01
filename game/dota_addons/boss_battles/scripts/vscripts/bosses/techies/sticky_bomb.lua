@@ -23,7 +23,7 @@ function sticky_bomb:OnSpellStart()
         self.caster:GetTeamNumber(),	-- int, your team number
         self.caster:GetAbsOrigin(),	-- point, center point
         nil,	-- handle, cacheUnit. (not known)
-        4000,	-- float, radius. or use FIND_UNITS_EVERYWHERE
+        3000,	-- float, radius. or use FIND_UNITS_EVERYWHERE
 		DOTA_UNIT_TARGET_TEAM_ENEMY,
 		DOTA_UNIT_TARGET_ALL,
         DOTA_UNIT_TARGET_FLAG_NONE,	-- int, flag filter

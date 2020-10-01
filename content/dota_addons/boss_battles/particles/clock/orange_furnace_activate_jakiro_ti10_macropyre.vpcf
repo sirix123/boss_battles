@@ -70,6 +70,7 @@
 		},
 		{
 			m_ChildRef = resource:"particles/econ/items/jakiro/jakiro_ti10_immortal/jakiro_ti10_macropyre_embers.vpcf"
+			m_bDisableChild = true
 		},
 		{
 			m_ChildRef = resource:"particles/econ/items/jakiro/jakiro_ti10_immortal/jakiro_ti10_macropyre_projectile_flame.vpcf"
@@ -81,7 +82,7 @@
 			m_bDisableChild = true
 		},
 		{
-			m_ChildRef = resource:"particles\\clock\\clock_green_jakiro_ti10_macropyre_lava_splash.vpcf"
+			m_ChildRef = resource:"particles\\clock\\clock_orange_jakiro_ti10_macropyre_lava_splash.vpcf"
 		},
 		{
 			m_ChildRef = resource:"particles/econ/items/jakiro/jakiro_ti10_immortal/jakiro_ti10_macropyre_ice_chunks.vpcf"

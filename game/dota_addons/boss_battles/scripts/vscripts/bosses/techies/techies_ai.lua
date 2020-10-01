@@ -19,13 +19,13 @@ function Spawn( entityKeyValues )
     thisEntity.explode_proxy_mines = thisEntity:FindAbilityByName( "explode_proxy_mines" )
 
     thisEntity.summon_electric_vortex_turret = thisEntity:FindAbilityByName( "summon_electric_vortex_turret" )
-    thisEntity.summon_electric_vortex_turret:StartCooldown(10)
+    thisEntity.summon_electric_vortex_turret:StartCooldown(60)
 
     thisEntity.sticky_bomb_fire = thisEntity:FindAbilityByName( "sticky_bomb_fire" )
-    thisEntity.sticky_bomb_fire:StartCooldown(25)
+    thisEntity.sticky_bomb_fire:StartCooldown(30)
 
     thisEntity.sticky_bomb = thisEntity:FindAbilityByName( "sticky_bomb" )
-    thisEntity.sticky_bomb:StartCooldown(25)
+    thisEntity.sticky_bomb:StartCooldown(30)
 
     -- divide map into 3x3 grid
     thisEntity.tCenterGrid = GridifyMap()
@@ -77,10 +77,11 @@ function TechiesThinker()
         thisEntity.phase = 2
     end
 
-    -- phase state check (check guard is dead)
+    --phase state check (check guard is dead)
     if thisEntity.guardIsDead == true then
         thisEntity.phase = 3
     else
+        print("checking if gaurd is dead")
         GuardDeadCheck()
     end
 
@@ -327,6 +328,7 @@ end
 function GuardDeadCheck()
     if not IsServer() then return end
 
+    -- use a timer to check this
     local friendlies = FindUnitsInRadius(
         thisEntity:GetTeamNumber(),
         thisEntity:GetAbsOrigin(),
@@ -341,10 +343,8 @@ function GuardDeadCheck()
 
     for _, friend in pairs(friendlies) do
         --print(friend:GetUnitName())
-        if friend:GetUnitName() == "npc_guard" and friend:IsAlive() then
-            thisEntity.guardIsDead = false
-        elseif friend:GetUnitName() == "npc_guard" and friend:IsAlive() == false then
-            thisEntity.guardIsDead = true
+        if friend:GetUnitName() == "npc_guard"  then
+            print("guard is; ",friend:IsAlive())
         end
     end
 
