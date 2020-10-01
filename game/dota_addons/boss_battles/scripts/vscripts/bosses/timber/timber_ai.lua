@@ -1,3 +1,5 @@
+LinkLuaModifier("modifier_remove_healthbar", "core/modifier_remove_healthbar", LUA_MODIFIER_MOTION_NONE)
+
 timber_ai = class({})
 
 function Spawn( entityKeyValues )
@@ -12,6 +14,8 @@ function Spawn( entityKeyValues )
 
 	-- set mana to 0 on spawn
 	thisEntity:SetMana(0)
+
+	thisEntity:AddNewModifier( nil, nil, "modifier_remove_healthbar", { duration = -1 } )
 
 	thisEntity:AddNewModifier( nil, nil, "modifier_phased", { duration = -1 })
 

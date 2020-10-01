@@ -5,32 +5,11 @@ LinkLuaModifier( "stunned_modifier", "player/generic/stunned_modifier", LUA_MODI
 
 function hookshot:OnAbilityPhaseStart()
     if IsServer() then
-
-        -- start casting animation
-        -- the 1 below is imporant if set incorrectly the animation will stutter (second variable in startgesture is the playback override)
         self:GetCaster():StartGestureWithPlaybackRate(ACT_DOTA_RATTLETRAP_HOOKSHOT_START, 1.2)
-        --ACT_DOTA_RATTLETRAP_HOOKSHOT_START ACT_DOTA_ATTACK
-        self:GetCaster():EmitSound("rattletrap_ratt_ability_hook_03")
-        return true
-    end
-end
----------------------------------------------------------------------------
 
-function hookshot:OnSpellStart()
-    if IsServer() then
-
-        -- when spell starts fade gesture
-        self:GetCaster():FadeGesture(ACT_DOTA_ATTACK)
-
-        -- init
-		local caster = self:GetCaster()
-        local origin = caster:GetAbsOrigin()
-
-        self:GetCaster():EmitSound("Hero_Rattletrap.Hookshot.Fire")
-
-        local enemies = FindUnitsInRadius(
+        self.units = FindUnitsInRadius(
             DOTA_TEAM_BADGUYS,
-            origin,
+            self:GetCaster():GetAbsOrigin(),
             nil,
             5000,
             DOTA_UNIT_TARGET_TEAM_ENEMY,
@@ -39,15 +18,41 @@ function hookshot:OnSpellStart()
             FIND_CLOSEST,
             false )
 
-        if #enemies == 0 then
-            return 0.5
-        end
+        if self.units == nil or #self.units == 0 then
+            return false
+        else
 
-        local i = RandomInt(1,#enemies)
+            self.vTargetPos = self.units[RandomInt(1, #self.units)]:GetAbsOrigin()
+
+            self:GetCaster():SetForwardVector(self.vTargetPos)
+            self:GetCaster():FaceTowards(self.vTargetPos)
+
+            self:GetCaster():EmitSound("rattletrap_ratt_ability_hook_03")
+
+            return true
+        end
+    end
+end
+---------------------------------------------------------------------------------------------------------------------------------------
+
+function hookshot:OnSpellStart()
+    if IsServer() then
+
+        -- when spell starts fade gesture
+        self:GetCaster():FadeGesture(ACT_DOTA_RATTLETRAP_HOOKSHOT_START)
+
+        self:GetCaster():SetForwardVector(self.vTargetPos)
+        self:GetCaster():FaceTowards(self.vTargetPos)
+
+        -- init
+		local caster = self:GetCaster()
+        local origin = caster:GetAbsOrigin()
+
+        self:GetCaster():EmitSound("Hero_Rattletrap.Hookshot.Fire")
 
         EmitSoundOn("rattletrap_ratt_ability_hook_02", caster)
 
-        self.point = enemies[i]:GetAbsOrigin()
+        self.point = self.vTargetPos
 
         local direction = (self.point - origin):Normalized()
         direction.z = 0

@@ -8,6 +8,26 @@ function Spawn( entityKeyValues )
 
     thisEntity.chain_gun_shoot = thisEntity:FindAbilityByName( "chain_gun_shoot" )
 
+	local friendlies = FindUnitsInRadius(
+        thisEntity:GetTeamNumber(),
+        thisEntity:GetAbsOrigin(),
+        nil,
+        5000,
+        DOTA_UNIT_TARGET_TEAM_FRIENDLY,
+        DOTA_UNIT_TARGET_ALL,
+        DOTA_UNIT_TARGET_FLAG_NONE,
+        FIND_CLOSEST,
+        false
+    )
+
+    for _, friend in pairs(friendlies) do
+        if friend:GetUnitName() == "npc_clock"  then
+			if friend:HasModifier("furnace_modifier_1") then
+				thisEntity:AddNewModifier( nil, nil, "electric_turret_minion_buff", { duration = -1 } )
+			end
+        end
+    end
+
     Timers:CreateTimer(2, function()
 
         ExecuteOrderFromTable({

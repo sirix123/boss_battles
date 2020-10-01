@@ -70,6 +70,7 @@
 		},
 		{
 			m_ChildRef = resource:"particles/econ/items/jakiro/jakiro_ti10_immortal/jakiro_ti10_macropyre_embers.vpcf"
+			m_bDisableChild = true
 		},
 		{
 			m_ChildRef = resource:"particles/econ/items/jakiro/jakiro_ti10_immortal/jakiro_ti10_macropyre_projectile_flame.vpcf"

@@ -1,4 +1,5 @@
 LinkLuaModifier("ai_bear", "bosses/beastmaster/ai_bear", LUA_MODIFIER_MOTION_NONE)
+LinkLuaModifier("modifier_remove_healthbar", "core/modifier_remove_healthbar", LUA_MODIFIER_MOTION_NONE)
 --------------------------------------------------------------------------------
 
 function Spawn( entityKeyValues )
@@ -9,6 +10,8 @@ function Spawn( entityKeyValues )
 	if thisEntity == nil then
 		return
 	end
+
+	thisEntity:AddNewModifier( nil, nil, "modifier_remove_healthbar", { duration = -1 } )
 
 	-- max bears
 	thisEntity.BEAST_MASTER_SUMMONED_BEARS = {  }

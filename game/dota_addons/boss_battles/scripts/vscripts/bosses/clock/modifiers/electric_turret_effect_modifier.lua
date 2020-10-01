@@ -11,7 +11,7 @@ end
 function electric_turret_effect_modifier:OnCreated( kv )
     if IsServer() then
         self.parent = self:GetParent()
-        self.radius = kv.radius
+        self.radius = 250
 
         -- Create Particle
         -- play effect

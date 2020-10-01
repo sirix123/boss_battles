@@ -14,6 +14,8 @@ function Spawn( entityKeyValues )
 	thisEntity.radius = 300
 	thisEntity.furnaceActivated = false
 
+	DebugDrawCircle(thisEntity:GetAbsOrigin(), Vector(0,0,255), 128, thisEntity.radius, true, 60)
+
     thisEntity:SetContextThink( "ActivateFurnace", ActivateFurnace, 0.5 )
 
 end

@@ -7,14 +7,14 @@
 	"npc_clock"	
 	{
 		// script
-		"vscripts"					"bosses/clock/clock_ai.lua"
+		"vscripts"					"bosses/clock/clock_ai_v2.lua"
 
 		// General
 		//----------------------------------------------------------------
 		"Model"						"models/heroes/rattletrap/rattletrap.vmdl"	// Model.
 		"BaseClass"					"npc_dota_creature"
 		"SoundSet"					"Hero_Shredder"
-		"GameSoundsFile"			"soundevents/game_sounds_heroes/game_sounds_shredder.vsndevts"
+		"GameSoundsFile"			"soundevents/game_sounds_heroes/game_sounds_rattletrap.vsndevts"
 		"Level"						"1"
 		"ModelScale" 				"1.5"
 
@@ -28,6 +28,7 @@
 		"Ability6"					"summon_electric_turret"		// Ability 6
 		"Ability7"					"summon_furnace_droid"			// Ability 7
 		"Ability8"					"return_hookshot"			// Ability 7
+		"Ability9"					"fire_missile"			// Ability 7
 		
 		// Armor
 		//----------------------------------------------------------------
@@ -35,9 +36,9 @@
 
 		// Attack
 		//----------------------------------------------------------------
-		"AttackCapabilities"		"DOTA_UNIT_CAP_NO_ATTACK"
-		"AttackDamageMin"			"1"		
-		"AttackDamageMax"			"2"		
+		"AttackCapabilities"		"DOTA_UNIT_CAP_MELEE_ATTACK"
+		"AttackDamageMin"			"10"		
+		"AttackDamageMax"			"20"		
 		"AttackRate"				"0.8"		// Speed of attack.
 		"AttackAnimationPoint"		"0.1"		// Normalized time in animation cycle to attack.
 		"AttackAcquisitionRange"	"10000"		// Range within a target can be acquired.
@@ -51,11 +52,11 @@
 		// Movement
 		//----------------------------------------------------------------
 		"MovementCapabilities"		"DOTA_UNIT_CAP_MOVE_GROUND"//"DOTA_UNIT_CAP_MOVE_NONE"
-		"MovementSpeed"				"400"					
+		"MovementSpeed"				"410"					
 
 		// Status
 		//----------------------------------------------------------------
-		"StatusHealth"				"500"		// Base health.
+		"StatusHealth"				"100000"		// Base health.
 		"StatusHealthRegen"			"0.0"		// Health regeneration rate.
 		"StatusMana"				"100"		// Base mana.
 		"StatusManaRegen"			"0.0"		// Mana regeneration rate.		 
@@ -137,7 +138,7 @@
 
 		// Status
 		//----------------------------------------------------------------
-		"StatusHealth"				"500"		// Base health.
+		"StatusHealth"				"2000"		// Base health.
 		"StatusHealthRegen"			"0.0"		// Health regeneration rate.
 		"StatusMana"				"100"		// Base mana.
 		"StatusManaRegen"			"0.0"		// Mana regeneration rate.		 
@@ -257,7 +258,7 @@
 
 		// Armor
 		//----------------------------------------------------------------
-		"ArmorPhysical"				"100"			
+		"ArmorPhysical"				"0"			
 
 		// Attack
 		//----------------------------------------------------------------
@@ -281,7 +282,7 @@
 
 		// Status
 		//----------------------------------------------------------------
-		"StatusHealth"				"500"		// Base health.
+		"StatusHealth"				"5000"		// Base health.
 		"StatusHealthRegen"			"0.0"		// Health regeneration rate.
 		"StatusMana"				"100"		// Base mana.
 		"StatusManaRegen"			"0.0"		// Mana regeneration rate.		 
@@ -306,16 +307,16 @@
 	"furnace_droid"	
 	{
 		// script
-		"vscripts"					"bosses/clock/furnace_droid_ai.lua"
+		"vscripts"					"bosses/clock/furnace_droid_ai_v2.lua"
 
 		// General
 		//----------------------------------------------------------------
 		"Model"						"models/items/warlock/golem/ti9_cache_warlock_tribal_warlock_golem/ti9_cache_warlock_tribal_golem_alt.vmdl"	// Model.
 		"BaseClass"					"npc_dota_creature"
-		"SoundSet"					"Hero_Shredder"
-		"GameSoundsFile"			"soundevents/game_sounds_heroes/game_sounds_shredder.vsndevts"
+		"SoundSet"					"Hero_WarlockGolem"
+		"GameSoundsFile"			"soundevents/game_sounds_heroes/game_sounds_warlock.vsndevts"
 		"Level"						"1"
-		"ModelScale" 				"0.7"
+		"ModelScale" 				"0.8"
 
 		// Abilities
 		//----------------------------------------------------------------
@@ -333,13 +334,13 @@
 
 		// Attack
 		//----------------------------------------------------------------
-		"AttackCapabilities"		"DOTA_UNIT_CAP_NO_ATTACK"
-		"AttackDamageMin"			"1"		
-		"AttackDamageMax"			"2"		
-		"AttackRate"				"1.6"		// Speed of attack.
-		"AttackAnimationPoint"		"0.9"		// Normalized time in animation cycle to attack.
+		"AttackCapabilities"		"DOTA_UNIT_CAP_MELEE_ATTACK"
+		"AttackDamageMin"			"10"		
+		"AttackDamageMax"			"20"		
+		"AttackRate"				"0.8"		// Speed of attack.
+		"AttackAnimationPoint"		"0.1"		// Normalized time in animation cycle to attack.
 		"AttackAcquisitionRange"	"10000"		// Range within a target can be acquired.
-		"AttackRange"				"50"		
+		"AttackRange"				"100"		
 
 		// Bounds
 		//----------------------------------------------------------------
@@ -349,19 +350,19 @@
 		// Movement
 		//----------------------------------------------------------------
 		"MovementCapabilities"		"DOTA_UNIT_CAP_MOVE_GROUND"//"DOTA_UNIT_CAP_MOVE_NONE"
-		"MovementSpeed"				"300"					
+		"MovementSpeed"				"340"					
 
 		// Status
 		//----------------------------------------------------------------
-		"StatusHealth"				"500"		// Base health.
+		"StatusHealth"				"800"		// Base health.
 		"StatusHealthRegen"			"0.0"		// Health regeneration rate.
 		"StatusMana"				"100"		// Base mana.
 		"StatusManaRegen"			"0.0"		// Mana regeneration rate.		 
 		
 		// Vision
 		//----------------------------------------------------------------
-		"VisionDaytimeRange"		"5000"		// Range of vision during day light.
-		"VisionNighttimeRange"		"5000"		// Range of vision at night time.
+		"VisionDaytimeRange"		"10000"		// Range of vision during day light.
+		"VisionNighttimeRange"		"10000"		// Range of vision at night time.
 
 		// Team
 		//----------------------------------------------------------------
@@ -391,7 +392,79 @@
 
 		// Abilities
 		//----------------------------------------------------------------
-		"Ability1"					"electric_turret_electric_charge"		// Ability 1
+		"Ability1"					"summon_furnace_droid"		// Ability 1
+		"Ability2"					""					// Ability 2
+		"Ability3"					""					// Ability 3
+		"Ability4"					""					// Ability 4
+		"Ability5"					""					// Ability 5
+		"Ability6"					""					// Ability 6
+		"Ability7"					""					// Ability 7
+
+		// Armor
+		//----------------------------------------------------------------
+		"ArmorPhysical"				"0"			
+
+		// Attack
+		//----------------------------------------------------------------
+		"AttackCapabilities"		"DOTA_UNIT_CAP_NO_ATTACK"
+		"AttackDamageMin"			"1"		
+		"AttackDamageMax"			"2"		
+		"AttackRate"				"1.6"		// Speed of attack.
+		"AttackAnimationPoint"		"0.9"		// Normalized time in animation cycle to attack.
+		"AttackAcquisitionRange"	"10000"		// Range within a target can be acquired.
+		"AttackRange"				"50"		
+
+		// Bounds
+		//----------------------------------------------------------------
+		"RingRadius"				"40"
+		"HealthBarOffset"			"170"
+
+		// Movement
+		//----------------------------------------------------------------
+		"MovementCapabilities"		"DOTA_UNIT_CAP_MOVE_NONE"//"DOTA_UNIT_CAP_MOVE_NONE"
+		"MovementSpeed"				"400"					
+
+		// Status
+		//----------------------------------------------------------------
+		"StatusHealth"				"5000"		// Base health.
+		"StatusHealthRegen"			"0.0"		// Health regeneration rate.
+		"StatusMana"				"100"		// Base mana.
+		"StatusManaRegen"			"0.0"		// Mana regeneration rate.		 
+		
+		// Vision
+		//----------------------------------------------------------------
+		"VisionDaytimeRange"		"5000"		// Range of vision during day light.
+		"VisionNighttimeRange"		"5000"		// Range of vision at night time.
+
+		// Team
+		//----------------------------------------------------------------
+		"TeamName"					"DOTA_TEAM_BADGUYS"						// Team name.
+		"CombatClassAttack"			"DOTA_COMBAT_CLASS_ATTACK_PIERCE"
+		"CombatClassDefend"			"DOTA_COMBAT_CLASS_DEFEND_BASIC"
+		"UnitRelationshipClass"		"DOTA_NPC_UNIT_RELATIONSHIP_TYPE_DEFAULT"
+
+	}
+
+	//=================================================================================	
+	//  clock furnace
+	//=================================================================================
+	"furnace_1"	
+	{
+		// script
+		"vscripts"					"bosses/clock/furnace_ai_v2.lua"
+
+		// General
+		//----------------------------------------------------------------
+		"Model"						"models/development/invisiblebox.vmdl"	// Model.
+		"BaseClass"					"npc_dota_creature"
+		"SoundSet"					""
+		"GameSoundsFile"			""
+		"Level"						"1"
+		"ModelScale" 				"1.0"
+
+		// Abilities
+		//----------------------------------------------------------------
+		"Ability1"					""					// Ability 1
 		"Ability2"					""					// Ability 2
 		"Ability3"					""					// Ability 3
 		"Ability4"					""					// Ability 4
@@ -447,10 +520,154 @@
 	//=================================================================================	
 	//  clock furnace
 	//=================================================================================
-	"furnace"	
+	"furnace_2"	
 	{
 		// script
-		"vscripts"					"bosses/clock/furnace_ai.lua"
+		"vscripts"					"bosses/clock/furnace_ai_v2.lua"
+
+		// General
+		//----------------------------------------------------------------
+		"Model"						"models/development/invisiblebox.vmdl"	// Model.
+		"BaseClass"					"npc_dota_creature"
+		"SoundSet"					""
+		"GameSoundsFile"			""
+		"Level"						"1"
+		"ModelScale" 				"1.0"
+
+		// Abilities
+		//----------------------------------------------------------------
+		"Ability1"					""					// Ability 1
+		"Ability2"					""					// Ability 2
+		"Ability3"					""					// Ability 3
+		"Ability4"					""					// Ability 4
+		"Ability5"					""					// Ability 5
+		"Ability6"					""					// Ability 6
+		"Ability7"					""					// Ability 7
+
+		// Armor
+		//----------------------------------------------------------------
+		"ArmorPhysical"				"100"			
+
+		// Attack
+		//----------------------------------------------------------------
+		"AttackCapabilities"		"DOTA_UNIT_CAP_NO_ATTACK"
+		"AttackDamageMin"			"1"		
+		"AttackDamageMax"			"2"		
+		"AttackRate"				"1.6"		// Speed of attack.
+		"AttackAnimationPoint"		"0.9"		// Normalized time in animation cycle to attack.
+		"AttackAcquisitionRange"	"10000"		// Range within a target can be acquired.
+		"AttackRange"				"50"		
+
+		// Bounds
+		//----------------------------------------------------------------
+		"RingRadius"				"40"
+		"HealthBarOffset"			"170"
+
+		// Movement
+		//----------------------------------------------------------------
+		"MovementCapabilities"		"DOTA_UNIT_CAP_MOVE_NONE"//"DOTA_UNIT_CAP_MOVE_NONE"
+		"MovementSpeed"				"400"					
+
+		// Status
+		//----------------------------------------------------------------
+		"StatusHealth"				"500"		// Base health.
+		"StatusHealthRegen"			"0.0"		// Health regeneration rate.
+		"StatusMana"				"100"		// Base mana.
+		"StatusManaRegen"			"0.0"		// Mana regeneration rate.		 
+		
+		// Vision
+		//----------------------------------------------------------------
+		"VisionDaytimeRange"		"5000"		// Range of vision during day light.
+		"VisionNighttimeRange"		"5000"		// Range of vision at night time.
+
+		// Team
+		//----------------------------------------------------------------
+		"TeamName"					"DOTA_TEAM_BADGUYS"						// Team name.
+		"CombatClassAttack"			"DOTA_COMBAT_CLASS_ATTACK_PIERCE"
+		"CombatClassDefend"			"DOTA_COMBAT_CLASS_DEFEND_BASIC"
+		"UnitRelationshipClass"		"DOTA_NPC_UNIT_RELATIONSHIP_TYPE_DEFAULT"
+
+	}
+
+	//=================================================================================	
+	//  clock furnace
+	//=================================================================================
+	"furnace_3"	
+	{
+		// script
+		"vscripts"					"bosses/clock/furnace_ai_v2.lua"
+
+		// General
+		//----------------------------------------------------------------
+		"Model"						"models/development/invisiblebox.vmdl"	// Model.
+		"BaseClass"					"npc_dota_creature"
+		"SoundSet"					""
+		"GameSoundsFile"			""
+		"Level"						"1"
+		"ModelScale" 				"1.0"
+
+		// Abilities
+		//----------------------------------------------------------------
+		"Ability1"					""					// Ability 1
+		"Ability2"					""					// Ability 2
+		"Ability3"					""					// Ability 3
+		"Ability4"					""					// Ability 4
+		"Ability5"					""					// Ability 5
+		"Ability6"					""					// Ability 6
+		"Ability7"					""					// Ability 7
+
+		// Armor
+		//----------------------------------------------------------------
+		"ArmorPhysical"				"100"			
+
+		// Attack
+		//----------------------------------------------------------------
+		"AttackCapabilities"		"DOTA_UNIT_CAP_NO_ATTACK"
+		"AttackDamageMin"			"1"		
+		"AttackDamageMax"			"2"		
+		"AttackRate"				"1.6"		// Speed of attack.
+		"AttackAnimationPoint"		"0.9"		// Normalized time in animation cycle to attack.
+		"AttackAcquisitionRange"	"10000"		// Range within a target can be acquired.
+		"AttackRange"				"50"		
+
+		// Bounds
+		//----------------------------------------------------------------
+		"RingRadius"				"40"
+		"HealthBarOffset"			"170"
+
+		// Movement
+		//----------------------------------------------------------------
+		"MovementCapabilities"		"DOTA_UNIT_CAP_MOVE_NONE"//"DOTA_UNIT_CAP_MOVE_NONE"
+		"MovementSpeed"				"400"					
+
+		// Status
+		//----------------------------------------------------------------
+		"StatusHealth"				"500"		// Base health.
+		"StatusHealthRegen"			"0.0"		// Health regeneration rate.
+		"StatusMana"				"100"		// Base mana.
+		"StatusManaRegen"			"0.0"		// Mana regeneration rate.		 
+		
+		// Vision
+		//----------------------------------------------------------------
+		"VisionDaytimeRange"		"5000"		// Range of vision during day light.
+		"VisionNighttimeRange"		"5000"		// Range of vision at night time.
+
+		// Team
+		//----------------------------------------------------------------
+		"TeamName"					"DOTA_TEAM_BADGUYS"						// Team name.
+		"CombatClassAttack"			"DOTA_COMBAT_CLASS_ATTACK_PIERCE"
+		"CombatClassDefend"			"DOTA_COMBAT_CLASS_DEFEND_BASIC"
+		"UnitRelationshipClass"		"DOTA_NPC_UNIT_RELATIONSHIP_TYPE_DEFAULT"
+
+	}
+
+	//=================================================================================	
+	//  clock furnace
+	//=================================================================================
+	"furnace_4"	
+	{
+		// script
+		"vscripts"					"bosses/clock/furnace_ai_v2.lua"
 
 		// General
 		//----------------------------------------------------------------
