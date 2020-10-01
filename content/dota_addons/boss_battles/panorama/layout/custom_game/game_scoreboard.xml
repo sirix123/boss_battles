@@ -16,7 +16,7 @@ entryPanel.BLoadLayoutSnippet("ScoreboardRow"); -->
     <!-- BOSS SCOREBOARD SNIPPETS -->
         <!-- Boss info section-->
         <snippet name="bsb_header_bossFight_info">
-            <Panel class="bsb_header_bossFight_info" >  
+            <Panel class="bsb_header_bossFight_info" hittest="false"  >  
                 <Label text="BOSS NAME"  class="boss_header_bossFight_infoText" id="bsb_header_boss_name"/>
                 <Label text="1:00"  class="boss_header_bossFight_infoText" id="bsb_header_boss_duration"/>                
                 <Label text="VICTORY"  class="boss_header_bossFight_infoText" id="bsb_header_boss_winLose"/>
@@ -49,7 +49,7 @@ entryPanel.BLoadLayoutSnippet("ScoreboardRow"); -->
 
 
   <Panel hittest="false" class="parent">
-      <Panel class="dps_meter" id="dps_meter">
+      <Panel class="dps_meter" id="dps_meter" hittest="false">
           <Label text="Dps Meter" class="" id="dps_meter_heading"/>
         <!-- snippet: dps_meter_row goes here -->
       </Panel>
@@ -58,12 +58,12 @@ entryPanel.BLoadLayoutSnippet("ScoreboardRow"); -->
       <!-- Header. Boss info section. boss_name, fight_duration, VICTORY/DEFEAT -->
       <!-- Then a table ranking players dmg done for the boss fight. -->
       <!-- Table cols: class, player, dmg done, dmg taken -->
-      <Panel class="bsb" id="bsb"> 
-          <Panel class="bsb_boss_header" id="bsb_boss_header">       
+      <Panel class="bsb" id="bsb" hittest="false"> 
+          <Panel class="bsb_boss_header" id="bsb_boss_header" hittest="false">       
             <!-- snippet: bsb_header_bossFight_info goes here -->
           </Panel>
 
-          <Panel class="bsb_table_header" id="bsb_table_header">
+          <Panel class="bsb_table_header" id="bsb_table_header" hittest="false">
             <Label text="Class"  class="bsb_table_header_cell" id="bsb_table_header_class"/>
             <Label text="Player"  class="bsb_table_header_cell" id="bsb_table_header_player"/>
             <Label text="Dmg Done"  class="bsb_table_header_cell" id="bsb_table_header_dmgDone"/>
@@ -71,8 +71,8 @@ entryPanel.BLoadLayoutSnippet("ScoreboardRow"); -->
             <Label text="Dmg Taken"  class="bsb_table_header_cell" id="bsb_table_header_dmgTaken"/>
           </Panel>    
 
-          <Panel class="bsb_body" id="bsb_body"> 
-            <Panel class="bsb_table_rows" id="bsb_table_rows">
+          <Panel class="bsb_body" id="bsb_body" hittest="false"> 
+            <Panel class="bsb_table_rows" id="bsb_table_rows" hittest="false">
               <!-- snippet: bsb_table_row goes here -->
             </Panel>
           </Panel>

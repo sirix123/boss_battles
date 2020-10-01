@@ -11,8 +11,9 @@
         
 
 
+
         <snippet name="BossFrame">
-            <Panel class="BossFrame">
+            <Panel class="BossFrame" hittest="false">
 
                 <Panel hittest="false" class="BossFrameHpPanelContainer" id="BossFrameHpPanelContainer"> 
                     <Panel hittest="false" class="BossFrameHpPanelLeft" id="BossFrameHpPanelLeft">
@@ -37,10 +38,10 @@
     </snippets>
 
     <Panel hittest="false" class="parent">
-        <Panel class="PlayersUiContainer" id="PlayersUIContainer">
+        <Panel class="PlayersUiContainer" id="PlayersUiContainer" hittest="false">
             <!-- JS will insert snippet PlayerUiFrame here -->
         </Panel>
-        <Panel class="BossFrameContainer" id="BossFrameContainer"> 
+        <Panel class="BossFrameContainer" id="BossFrameContainer" hittest="false"> 
             <!-- JS will insert snippet BossFrame here -->
         </Panel>
     </Panel>
