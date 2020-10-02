@@ -1,6 +1,6 @@
 assistant_ai = class({})
 LinkLuaModifier( "oil_leak_modifier", "bosses/techies/modifiers/oil_leak_modifier", LUA_MODIFIER_MOTION_NONE )
-
+LinkLuaModifier( "guard_death_modifier", "bosses/techies/modifiers/guard_death_modifier", LUA_MODIFIER_MOTION_NONE )
 --------------------------------------------------------------------------------
 
 function Spawn( entityKeyValues )
@@ -9,6 +9,7 @@ function Spawn( entityKeyValues )
 
 	thisEntity:AddNewModifier( nil, nil, "modifier_phased", { duration = -1 })
 	thisEntity:AddNewModifier( nil, nil, "oil_leak_modifier", { duration = -1 })
+	thisEntity:AddNewModifier( nil, nil, "guard_death_modifier", { duration = -1 })
 
 	thisEntity.stomp_push = thisEntity:FindAbilityByName( "stomp_push" )
     thisEntity.stomp_push:StartCooldown(5)

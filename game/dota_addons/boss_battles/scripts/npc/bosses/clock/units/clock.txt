@@ -13,7 +13,7 @@
 		//----------------------------------------------------------------
 		"Model"						"models/heroes/rattletrap/rattletrap.vmdl"	// Model.
 		"BaseClass"					"npc_dota_creature"
-		"SoundSet"					"Hero_Shredder"
+		"SoundSet"					"Hero_Rattletrap"
 		"GameSoundsFile"			"soundevents/game_sounds_heroes/game_sounds_rattletrap.vsndevts"
 		"Level"						"1"
 		"ModelScale" 				"1.5"
@@ -39,7 +39,7 @@
 		"AttackCapabilities"		"DOTA_UNIT_CAP_MELEE_ATTACK"
 		"AttackDamageMin"			"10"		
 		"AttackDamageMax"			"20"		
-		"AttackRate"				"0.8"		// Speed of attack.
+		"AttackRate"				"1.5"		// Speed of attack.
 		"AttackAnimationPoint"		"0.1"		// Normalized time in animation cycle to attack.
 		"AttackAcquisitionRange"	"10000"		// Range within a target can be acquired.
 		"AttackRange"				"50"		
@@ -312,7 +312,7 @@
 		// General
 		//----------------------------------------------------------------
 		"Model"						"models/items/warlock/golem/ti9_cache_warlock_tribal_warlock_golem/ti9_cache_warlock_tribal_golem_alt.vmdl"	// Model.
-		"BaseClass"					"npc_dota_creature"
+		"BaseClass"					"npc_dota_warlock_golem"
 		"SoundSet"					"Hero_WarlockGolem"
 		"GameSoundsFile"			"soundevents/game_sounds_heroes/game_sounds_warlock.vsndevts"
 		"Level"						"1"
@@ -337,7 +337,7 @@
 		"AttackCapabilities"		"DOTA_UNIT_CAP_MELEE_ATTACK"
 		"AttackDamageMin"			"10"		
 		"AttackDamageMax"			"20"		
-		"AttackRate"				"0.8"		// Speed of attack.
+		"AttackRate"				"1"		// Speed of attack.
 		"AttackAnimationPoint"		"0.1"		// Normalized time in animation cycle to attack.
 		"AttackAcquisitionRange"	"10000"		// Range within a target can be acquired.
 		"AttackRange"				"100"		

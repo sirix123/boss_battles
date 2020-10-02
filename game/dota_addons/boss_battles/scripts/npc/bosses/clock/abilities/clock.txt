@@ -21,7 +21,7 @@
 
         // Time     
         //-------------------------------------------------------------------------------------------------------------
-        "AbilityCooldown"               "70 60 50 40"
+        "AbilityCooldown"               "70 60 60 55"
 
         // Cost
         //-------------------------------------------------------------------------------------------------------------
@@ -34,7 +34,7 @@
             "01"{ "var_type"			"FIELD_INTEGER"		"missile_radius"		"200" }
             "02"{ "var_type"			"FIELD_INTEGER"		"flTimeBetweenWaves"	"6" }
             "03"{ "var_type"			"FIELD_INTEGER"		"nMaxWaves"				"4" }
-            "04"{ "var_type"			"FIELD_INTEGER"		"dmg_hit"				"200" }
+            "04"{ "var_type"			"FIELD_INTEGER"		"dmg_hit"				"150" }
             "05"{ "var_type"			"FIELD_INTEGER"		"dmg_dot"				"10" }
             "06"{ "var_type"			"FIELD_INTEGER"		"dmg_interval"			"1" }
             "07"{ "var_type"			"FIELD_INTEGER"		"duration"			    "2" }
@@ -313,7 +313,7 @@
         //-------------------------------------------------------------------------------------------------------------
 		"AbilitySpecial"
 		{
-            "01"{ "var_type"			"FIELD_INTEGER"		"number_of_turrets_to_spawn"		"2 3 3 3" }
+            "01"{ "var_type"			"FIELD_INTEGER"		"number_of_turrets_to_spawn"		"1 2 2 3" }
 		}
 
 		"precache"
@@ -383,7 +383,7 @@
         //-------------------------------------------------------------------------------------------------------------
 		"AbilitySpecial"
 		{
-            "01"{ "var_type"			"FIELD_INTEGER"		"number_of_turrets_to_spawn"		    "2 2 2 3" }
+            "01"{ "var_type"			"FIELD_INTEGER"		"number_of_turrets_to_spawn"		    "1 2 2 2" }
             "02"{ "var_type"			"FIELD_INTEGER"		"delay_between_turrets_spawning"		"2" } //obvs need more than one turret to spawn for this
 		}
 
@@ -446,7 +446,7 @@
         //-------------------------------------------------------------------------------------------------------------
 		"AbilitySpecial"
 		{
-            "01"{ "var_type"			"FIELD_INTEGER"		"number_of_turrets_to_spawn"		    "2" }
+            "01"{ "var_type"			"FIELD_INTEGER"		"number_of_turrets_to_spawn"		    "1" }
             "02"{ "var_type"			"FIELD_INTEGER"		"delay_between_turrets_spawning"		"1" }
 		}
 

@@ -27,6 +27,12 @@ function space_chain_hook:OnAbilityPhaseStart()
 
         if #units ~= 0 and units ~= nil then
 
+            for _, unit in pairs(units) do
+                if unit:GetUnitName() == "furnace_1" or unit:GetUnitName() == "furnace_2" or unit:GetUnitName() == "furnace_3" or unit:GetUnitName() == "furnace_4" then
+                    return false
+                end
+            end
+
             -- start casting animation
             self:GetCaster():StartGestureWithPlaybackRate(ACT_DOTA_ATTACK, 1.5)
 

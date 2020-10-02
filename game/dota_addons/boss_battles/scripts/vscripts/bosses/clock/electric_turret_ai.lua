@@ -8,7 +8,7 @@ LinkLuaModifier("electric_turret_effect_modifier", "bosses/clock/modifiers/elect
 function Spawn( entityKeyValues )
 	if not IsServer() then return end
 
-	thisEntity:AddNewModifier( nil, nil, "electric_turret_effect_modifier", { duration = -1 } )
+	thisEntity:AddNewModifier( thisEntity, thisEntity, "electric_turret_effect_modifier", { duration = -1,} )
 
     thisEntity.summon_furnace_droid = thisEntity:FindAbilityByName( "summon_furnace_droid" )
 	thisEntity.summon_furnace_droid:StartCooldown(thisEntity.summon_furnace_droid:GetCooldown(thisEntity.summon_furnace_droid:GetLevel()))

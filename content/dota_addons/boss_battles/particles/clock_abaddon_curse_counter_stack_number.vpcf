@@ -32,7 +32,7 @@
 		},
 		{
 			_class = "C_OP_SetToCP"
-			m_vecOffset = [ 0.0, 0.0, 20.0 ]
+			m_vecOffset = [ 0.0, 0.0, 50.0 ]
 		},
 		{
 			_class = "C_OP_RemapCPtoScalar"

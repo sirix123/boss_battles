@@ -78,11 +78,8 @@ function TechiesThinker()
     end
 
     --phase state check (check guard is dead)
-    if thisEntity.guardIsDead == true then
+    if thisEntity:HasModifier("modifier_invulnerable") == false then
         thisEntity.phase = 3
-    else
-        print("checking if gaurd is dead")
-        GuardDeadCheck()
     end
 
     if thisEntity.phase == 1 then
@@ -152,11 +149,7 @@ function TechiesThinker()
     end
 
     if thisEntity.phase == 3 then
-        --print("entering phase 3")
-
-        thisEntity:RemoveModifierByName("modifier_invulnerable")
-        --thisEntity:RemoveModifierByName("modifier_invisible")
-        thisEntity:RemoveModifierByName( "modifier_phased")
+        print("entering phase 3")
 
         thisEntity:SetBaseMoveSpeed(700)
 
@@ -322,31 +315,5 @@ function GridifyMap()
     end
 
     return tGrid
-end
---------------------------------------------------------------------------------
-
-function GuardDeadCheck()
-    if not IsServer() then return end
-
-    -- use a timer to check this
-    local friendlies = FindUnitsInRadius(
-        thisEntity:GetTeamNumber(),
-        thisEntity:GetAbsOrigin(),
-        nil,
-        5000,
-        DOTA_UNIT_TARGET_TEAM_FRIENDLY,
-        DOTA_UNIT_TARGET_ALL,
-        DOTA_UNIT_TARGET_FLAG_NONE,
-        FIND_CLOSEST,
-        false
-    )
-
-    for _, friend in pairs(friendlies) do
-        --print(friend:GetUnitName())
-        if friend:GetUnitName() == "npc_guard"  then
-            print("guard is; ",friend:IsAlive())
-        end
-    end
-
 end
 --------------------------------------------------------------------------------

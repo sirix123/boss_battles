@@ -13,11 +13,11 @@ function fire_turret_flame:OnSpellStart()
         -- init projectile params
         local speed = self:GetSpecialValueFor( "speed" ) --500
         local direction = caster:GetForwardVector()
-        local particleEffect = "particles/clock/clock_flame_turret_invoker_chaos_meteor.vpcf"
+        local particleEffect = "particles/clock/clocknon_speed_flame_turret_invoker_chaos_meteor.vpcf"
 
         if caster:HasModifier("electric_turret_minion_buff") == true then
             speed = speed * 2
-            particleEffect = "particles/clock/speed_up_clock_flame_turret_invoker_chaos_meteor.vpcf"
+            particleEffect = "particles/clock/clock_flame_turret_invoker_chaos_meteor.vpcf"
         end
 
         local projectile = {

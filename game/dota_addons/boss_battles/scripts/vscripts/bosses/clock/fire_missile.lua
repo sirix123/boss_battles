@@ -20,7 +20,7 @@ function fire_missile:OnAbilityPhaseStart()
         self.nPreviewFXIndex = ParticleManager:CreateParticle( "particles/econ/events/darkmoon_2017/darkmoon_calldown_marker.vpcf", PATTACH_CUSTOMORIGIN, nil )
         ParticleManager:SetParticleControl( self.nPreviewFXIndex, 0, self.vTargetPos )
         ParticleManager:SetParticleControl( self.nPreviewFXIndex, 1, Vector( self.missile_radius, -self.missile_radius, -self.missile_radius ) )
-        ParticleManager:SetParticleControl( self.nPreviewFXIndex, 2, Vector( 1, 0, 0 ) );
+        ParticleManager:SetParticleControl( self.nPreviewFXIndex, 2, Vector( 99, 0, 0 ) );
         --ParticleManager:ReleaseParticleIndex( self.nPreviewFXIndex )
 
         return true

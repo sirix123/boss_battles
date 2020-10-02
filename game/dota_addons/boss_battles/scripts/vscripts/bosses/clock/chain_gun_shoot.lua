@@ -29,7 +29,7 @@ function chain_gun_shoot:OnSpellStart()
                 speed = speed * 2
                 angleIncrement = angleIncrement / 2
                 delay_between_shots = delay_between_shots / 3
-                effect = "particles/clock/v3___chain_gun_vengeful_magic_missle.vpcf"
+                effect = "particles/clock/v4_blue___chain_gun_vengeful_magic_missle.vpcf"
             end
 
             -- if we have run out of proj in the batch end this timer

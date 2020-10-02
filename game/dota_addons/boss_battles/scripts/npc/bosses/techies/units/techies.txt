@@ -170,9 +170,9 @@
 		// General
 		//----------------------------------------------------------------
 		"Model"						"models/items/warlock/golem/mystery_of_the_lost_ores_golem/mystery_of_the_lost_ores_golem.vmdl"	// Model.
-		"BaseClass"					"npc_dota_creature"
-		"SoundSet"					"Hero_Shredder"
-		"GameSoundsFile"			"soundevents/game_sounds_heroes/game_sounds_shredder.vsndevts"
+		"BaseClass"					"npc_dota_warlock_golem"
+		"SoundSet"					"Hero_WarlockGolem"
+		"GameSoundsFile"			"soundevents/game_sounds_heroes/game_sounds_warlock.vsndevts"
 		"Level"						"1"
 		"ModelScale" 				"1.3"
 
@@ -212,7 +212,7 @@
 
 		// Status
 		//----------------------------------------------------------------
-		"StatusHealth"				"1"//"100000"		// Base health.
+		"StatusHealth"				"100000"//"100000"		// Base health.
 		"StatusHealthRegen"			"0.0"		// Health regeneration rate.
 		"StatusMana"				"100"		// Base mana.
 		"StatusManaRegen"			"0.0"		// Mana regeneration rate.		 

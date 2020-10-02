@@ -112,6 +112,10 @@ function ClockThink()
 	end
 
 	if ( not thisEntity:IsAlive() ) then
+		ParticleManager:DestroyParticle(thisEntity.pfx_1, true)
+		ParticleManager:DestroyParticle(thisEntity.pfx_2, true)
+		ParticleManager:DestroyParticle(thisEntity.pfx_3, true)
+		ParticleManager:DestroyParticle(thisEntity.pfx_4, true)
 		return -1
 	end
 
@@ -146,8 +150,9 @@ function ClockThink()
 		LevelUpAbilities() -- forces all abilities to be level 4
 	end
 
-	if thisEntity.fire_missile:IsFullyCastable() and thisEntity.fire_missile:IsCooldownReady() then
-		return ChaseTargetFireMissile()
+	if thisEntity.fire_missile:IsFullyCastable() and thisEntity.fire_missile:IsCooldownReady() and thisEntity.main_target ~= nil then
+		return CastFireMissile( thisEntity.main_target )
+		--return ChaseTargetFireMissile()
 	end
 
 	if thisEntity.hookshot:IsFullyCastable() and thisEntity.hookshot:IsCooldownReady() and thisEntity:HasModifier("furnace_modifier_4") then
@@ -213,10 +218,20 @@ function FindNewTarget()
 			false )
 
 		if #enemies ~= 0 and enemies ~= nil then
-			thisEntity.main_target = enemies[RandomInt(1,#enemies)]
-			print(thisEntity.main_target:GetUnitName())
 
-			return 10
+			local random_target = RandomInt(1,#enemies)
+			local test_target = enemies[random_target]:GetAbsOrigin()
+
+			local distance_from_target = ( thisEntity:GetAbsOrigin() - test_target ):Length2D()
+
+			if distance_from_target < 800 then
+				thisEntity.main_target = nil
+				return 0.1
+			else
+				thisEntity.main_target = test_target
+				return 0.5
+			end
+
 		end
 
 		return 0.5
@@ -254,7 +269,7 @@ function CastFireMissile( vTarget )
         Queue = false,
 	})
 
-	return 0.5
+	return 0.7
 end
 --------------------------------------------------------------------------------
 

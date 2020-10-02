@@ -27,11 +27,53 @@ function bear_bloodlust_modifier:OnCreated( kv )
 	--print("------------------------------")
 	self.bloodlust_speed = kv.ms_bonus
 	self.bloodlust_as_speed = kv.as_bonus
+
+	--print("self:GetStackCount() ",self:GetStackCount())
+	--print("self.bloodlust_speed ",self.bloodlust_speed)
+	--print("self.bloodlust_as_speed ",self.bloodlust_as_speed)
+
+	self.effect = ParticleManager:CreateParticle( "particles/clock/beast_abaddon_curse_counter_stack.vpcf", PATTACH_OVERHEAD_FOLLOW, self:GetParent() )
+	ParticleManager:SetParticleControl( self.effect, 0, self:GetParent():GetAbsOrigin() )
+	ParticleManager:SetParticleControl( self.effect, 1, Vector(1, self:GetStackCount(), 0) )
+	ParticleManager:SetParticleControl( self.effect, 3, self:GetParent():GetAbsOrigin() )
+
 end
 
-function bear_bloodlust_modifier:OnRefresh( kv )
+function bear_bloodlust_modifier:OnDestroy()
+    if IsServer() then
+        ParticleManager:DestroyParticle(self.effect, true)
+    end
+end
 
-	self:OnCreated(kv)
+function bear_bloodlust_modifier:OnStackCountChanged( param )
+    if IsServer() then
+
+        if self.effect ~= nil then
+            ParticleManager:DestroyParticle(self.effect, true)
+        end
+
+        if param ~= nil then
+            param = self:GetStackCount() + 1
+        end
+
+		--print("prevstackcount ",param)
+		--print("self:GetStackCount() ",self:GetStackCount())
+		--print("self.bloodlust_speed ",self.bloodlust_speed)
+		--print("self.bloodlust_as_speed ",self.bloodlust_as_speed)
+		--print("total as ",self:GetParent():GetAttackSpeed())
+		--print("total ms ",self:GetParent():GetMoveSpeedModifier())
+		--print("--------------------------------------")
+
+        self.effect = ParticleManager:CreateParticle( "particles/beastmaster/beast_abaddon_curse_counter_stack.vpcf", PATTACH_OVERHEAD_FOLLOW, self:GetParent() )
+        ParticleManager:SetParticleControl( self.effect, 0, self:GetParent():GetAbsOrigin() )
+        ParticleManager:SetParticleControl( self.effect, 1, Vector(1, param - 1, 0) )
+        ParticleManager:SetParticleControl( self.effect, 3, self:GetParent():GetAbsOrigin() )
+
+        if self:GetStackCount() == 0 then
+            self:Destroy()
+        end
+
+	end
 end
 
 -----------------------------------------------------------------------------
@@ -48,13 +90,13 @@ end
 -----------------------------------------------------------------------------
 
 function bear_bloodlust_modifier:GetModifierMoveSpeedBonus_Percentage( params )
-	return self.bloodlust_speed + (self.bloodlust_speed * self:GetStackCount())
+	return self.bloodlust_speed * self:GetStackCount()
 end
 
 --------------------------------------------------------------------------------
 
 function bear_bloodlust_modifier:GetModifierAttackSpeedBonus_Constant( params )
-		return self.bloodlust_as_speed + (self.bloodlust_as_speed * self:GetStackCount())
+		return self.bloodlust_as_speed * self:GetStackCount()
 end
 
 
