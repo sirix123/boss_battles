@@ -242,7 +242,7 @@
         //-------------------------------------------------------------------------------------------------------------
 		"AbilitySpecial"
 		{
-            "01"{ "var_type"			"FIELD_INTEGER"		"speed"		            "1500" }
+            "01"{ "var_type"			"FIELD_INTEGER"		"speed"		            "1900" }
             "02"{ "var_type"			"FIELD_INTEGER"		"latch_radius"		    "100" }
 			"03"{ "var_type"			"FIELD_INTEGER"		"find_radius"		    "150" }
 		}
