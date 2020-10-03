@@ -13,7 +13,7 @@
         "AbilityBehavior"				"DOTA_ABILITY_BEHAVIOR_POINT"
 		"AbilityCastRange" 				"200"
         "AbilityCooldown"				"0"
-        "AbilityCastPoint"              "0.2"
+        "AbilityCastPoint"              "0.3"
 		"AbilityManaCost"        		"0"
 
 		"TargetingIndicator"
@@ -42,7 +42,7 @@
         "AbilityBehavior"				"DOTA_ABILITY_BEHAVIOR_POINT | DOTA_ABILITY_BEHAVIOR_HIDDEN"
 		"AbilityCastRange" 				"200"
         "AbilityCooldown"				"0"
-        "AbilityCastPoint"              "0.2"
+        "AbilityCastPoint"              "0.3"
 		"AbilityManaCost"        		"0"
 
 		"TargetingIndicator"
@@ -75,7 +75,7 @@
         "AbilityBehavior"				"DOTA_ABILITY_BEHAVIOR_POINT"
 		"AbilityCastRange" 				"200"
         "AbilityCooldown"				"0"
-        "AbilityCastPoint"              "0.2"
+        "AbilityCastPoint"              "0.3"
 		"AbilityManaCost"        		"50"
 
 		"TargetingIndicator"
@@ -133,7 +133,7 @@
         "AbilityBehavior"				"DOTA_ABILITY_BEHAVIOR_POINT"
 		"AbilityCastRange" 				"200"
         "AbilityCooldown"				"5"
-        "AbilityCastPoint"              "0.2"
+        "AbilityCastPoint"              "0.3"
 		"AbilityManaCost"        		"15"
 
 		"TargetingIndicator"
