@@ -2,72 +2,58 @@
 
 function bossFrameUpdate( table_name, key, data )
 {
-    //$.Msg("bossFrameUpdate( table_name, key, data )")
+    //$.Msg("bossFrameUpdate called")
     // $.Msg("table_name = ", table_name)
     //$.Msg("key = ", key)
     // $.Msg("data = ", data)
     
     var bossFrameContainer = $("#BossFrameContainer")
-    if (key === "hide")
+    //remove any existing children:
+    bossFrameContainer.RemoveAndDeleteChildren()
+
+    //Draw the boss frame. 
+    if (key != "hide" )
     {
-        bossFrameContainer.style.visibility = "collapse";
-        var hpRightPanel = $("#BossFrameHpPanelRight")
-
-        if (hpRightPanel)
-        hpRightPanel.style.visibility = "collapse";
-
-        for (i = 0; i < bossFrameContainer.GetChildCount(); i++  )
+        if (bossFrameContainer)
         {
-            var child = bossFrameContainer.GetChild(i)
-            child.DeleteAsync(0);
+            var containerPanel = $.CreatePanel("Panel", bossFrameContainer, data);
+            containerPanel.BLoadLayoutSnippet("BossFrame");
+
+            //update hp bar 
+            var bossHealthLabel = $("#BossHealthLabel")
+            var bossHealthProgressLeft = $("#BossHealthProgressLeft")
+            var bossHealthProgressRight = $("#BossHealthProgressRight")
+            bossHealthProgressLeft.style.width = data["hpPercent"]+"%"
+            var hpGone = 100 - data["hpPercent"]
+            bossHealthProgressRight.style.width = hpGone+"%"
+            bossHealthLabel.text = data["hpPercent"] + "%"
+
+            //update mana bar
+            var bossManaLabel = $("#BossManaLabel")
+            var bossManaProgressLeft = $("#BossManaProgressLeft")
+            var bossManaProgressRight = $("#BossManaProgressRight")
+            bossManaProgressLeft.style.width = data["mpPercent"]+"%"
+            var mpGone = 100 - data["mpPercent"]
+            bossManaProgressRight.style.width = mpGone+"%"
+            bossManaLabel.text = data["mpPercent"]+"%"
+
+            //update status/buff/debuffs bar
+            //TODO: actually get this data into a table..
         }
-        return;
     }
-    else if (bossFrameContainer.style.visibility === "collapse")
-        bossFrameContainer.style.visibility = "visible";
-
-    if (bossFrameContainer)
-    {
-        for (i = 0; i < bossFrameContainer.GetChildCount(); i++  )
-        {
-            var child = bossFrameContainer.GetChild(i)
-            child.DeleteAsync(0);
-        }
-
-        var containerPanel = $.CreatePanel("Panel", bossFrameContainer, data);
-        containerPanel.BLoadLayoutSnippet("BossFrame");
-
-        var hpPanelLeft = containerPanel.FindChildInLayoutFile("BossFrameHpPanelLeft")
-        var hpPanelRight = containerPanel.FindChildInLayoutFile("BossFrameHpPanelRight")
-        hpPanelLeft.style.width = data["hpPercent"]+"%"
-        var hpGone = 100 - data["hpPercent"]
-        hpPanelRight.style.width = hpGone+"%"
-
-        //TODO: the same thing as above for mp 
-        //Need to create the panels in xml and css first        
-        var mpPanelLeft = containerPanel.FindChildInLayoutFile("BossFrameMpPanelLeft")
-        var mpPanelRight = containerPanel.FindChildInLayoutFile("BossFrameMpPanelRight")
-        mpPanelLeft.style.width = data["mpPercent"]+"%"
-        var mpGone = 100 - data["mpPercent"]
-        mpPanelRight.style.width = mpGone+"%"
+    else {
+    } //Don't draw. effectively hiding/removing the ui
+}
 
 
-        var hpLabel = containerPanel.FindChildInLayoutFile("BossFrameHpLabel")
-        var mpLabel = containerPanel.FindChildInLayoutFile("BossFrameMpLabel")
-        var castbarLabel = containerPanel.FindChildInLayoutFile("BossFrameCastbarLabel")
-
-        hpLabel.text = data["hpPercent"] + "%"
-        mpLabel.text = data["mpPercent"]+"%"
-
-        // playerName.text = data[row].hero
-        // dps.text = data[row].dps
-        // for (var row in data)
-        // {
-        // }
-    }
+function hideBossFrame( table_name, key, data )
+{
+    var bossFrameContainer = $("#BossFrameContainer")
+    bossFrameContainer.RemoveAndDeleteChildren()
 }
 
 CustomNetTables.SubscribeNetTableListener( "boss_frame", bossFrameUpdate );
+CustomNetTables.SubscribeNetTableListener( "hide_boss_frame", hideBossFrame );
 
 /* END Boss Frame UI */
 

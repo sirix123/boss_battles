@@ -8,31 +8,34 @@
 
 
     <snippets>
+
+
+
         
-
-
-
         <snippet name="BossFrame">
-            <Panel class="BossFrame" hittest="false">
+            <Panel class="BossFrame ">
+                <Panel id="BossHealthManaContainer">
 
-                <Panel hittest="false" class="BossFrameHpPanelContainer" id="BossFrameHpPanelContainer"> 
-                    <Panel hittest="false" class="BossFrameHpPanelLeft" id="BossFrameHpPanelLeft">
-                        <Label text="100%" class="BossFrameText" id="BossFrameHpLabel" />
+                    <Panel id="BossHealthContainer">
+                        <Label text="" id="BossHealthLabel"/> 
+                        <Panel id="BossHealthProgressContainer">
+                            <Panel id="BossHealthProgressLeft"> </Panel>
+                            <Panel id="BossHealthProgressRight"> </Panel>
+                        </Panel>
                     </Panel>
-                    <Panel hittest="false" class="BossFrameHpPanelRight" id="BossFrameHpPanelRight"> </Panel>
-                </Panel>
 
-                <Panel hittest="false" class="BossFrameMpPanelContainer" id="BossFrameMpPanelContainer"> 
-                    <Panel hittest="false" class="BossFrameMpPanelLeft" id="BossFrameMpPanelLeft">
-                        <Label text="100%" class="BossFrameText" id="BossFrameMpLabel" />
+                    <Panel id="BossHealthManaSpacer"> </Panel>
+
+                    <Panel id="BossManaContainer">
+                        <Label text="" id="BossManaLabel"/> 
+                        <Panel id="BossManaProgressContainer">
+                            <Panel id="BossManaProgressLeft"> </Panel>
+                            <Panel id="BossManaProgressRight"> </Panel>
+                        </Panel>
                     </Panel>
-                    <Panel hittest="false" class="BossFrameMpPanelRight" id="BossFrameMpPanelRight"> </Panel>
-                </Panel>
-                <Panel hittest="false" class="BossFrameCastbarPanel" id="BossFrameCastbarPanel">
-                    <Label text="Fireball" class="BossFrameText" id="BossFrameCastbarLabel" />
+
                 </Panel>
             </Panel>
-
         </snippet>
 
     </snippets>

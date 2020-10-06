@@ -379,7 +379,7 @@ function GameSetup:ReadyupCheck() -- called from trigger lua file for activators
         if boss ~= nil then
             if boss:GetHealthPercent() == 0 then
                 CustomNetTables:SetTableValue("boss_frame", "hide", {})
-                return 1
+                return false
             end
             local hp = boss:GetHealth()
             local maxHp = boss:GetMaxHealth()
@@ -396,7 +396,7 @@ function GameSetup:ReadyupCheck() -- called from trigger lua file for activators
 
             CustomNetTables:SetTableValue("boss_frame", "key", bossFrameData)
         else
-            --CustomNetTables:SetTableValue("boss_frame", "hide", {})
+            CustomNetTables:SetTableValue("boss_frame", "hide", {})
             --wait for the boss to spawn...
         end
         return 1;
@@ -441,11 +441,13 @@ end
 function GameSetup:EncounterCleanUp( origin )
     if origin == nil then return end
 
-
-    CustomNetTables:SetTableValue("boss_frame", "hide", {})
+    --set boss nil and disable the bossFrame
+    if boss ~= nil then
+        boss = nil
+        CustomNetTables:SetTableValue("hide_boss_frame", "hide", {})
+    end
 
     -- reset cd of all players abilties
-
     -- destroy thinkers.. -- gotta handle in the thinkers
 
     -- find all units, kill them
@@ -533,7 +535,7 @@ function GameSetup:InitCommands()
 
                 CustomNetTables:SetTableValue("boss_frame", "key", bossFrameData)
             else
-                --CustomNetTables:SetTableValue("boss_frame", "hide", {})
+                CustomNetTables:SetTableValue("boss_frame", "hide", {})
                 --wait for the boss to spawn...
             end
             return 1;
@@ -545,7 +547,6 @@ end
 -----------------------------------------------------------------------------------------------------
 
 function GameSetup:StartBoss( a )
-
         print("set_trigger_boss ", RAID_TABLES[a].spawnLocation)
         print("set_trigger_boss ", RAID_TABLES[a].arena)
         print("set_trigger_boss ", RAID_TABLES[a].boss)
@@ -582,7 +583,7 @@ function GameSetup:StartBoss( a )
         if boss ~= nil then
             if boss:GetHealthPercent() == 0 then
                 CustomNetTables:SetTableValue("boss_frame", "hide", {})
-                return 1
+                return false
             end
             local hp = boss:GetHealth()
             local maxHp = boss:GetMaxHealth()
@@ -600,7 +601,7 @@ function GameSetup:StartBoss( a )
 
             CustomNetTables:SetTableValue("boss_frame", "key", bossFrameData)
         else
-            --CustomNetTables:SetTableValue("boss_frame", "hide", {})
+            CustomNetTables:SetTableValue("boss_frame", "hide", {})
             --wait for the boss to spawn...
         end
         return 1;

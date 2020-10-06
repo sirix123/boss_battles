@@ -45,6 +45,134 @@
 }*/
 
 
+
+
+/* BossFrame v2 */ 
+/* Trying to simplify, and copying valve implementation */
+
+.BossFrame
+{
+  margin-top: 2%;
+  margin-left: 35%;
+  width: 30%;
+  height: 55px;
+}
+
+
+
+/* Currently the only thing in the BossFrame is hp and mana, so this fills the whole frame */
+#BossHealthManaContainer
+{
+  width: 100%;
+  height: 100%;
+  flow-children: down;
+}
+
+#BossHealthManaSpacer 
+{
+  height: 1px;
+  width: 100%;
+  opacity: 0;
+
+}
+
+#BossHealthLabel
+{
+  text-align: center;
+  horizontal-align: center;
+  vertical-align: center;
+  color: white;
+  text-shadow: 1px 1px 0px 2.0 #000000;
+  overflow: noclip;
+  font-size: 18px;
+  font-weight: bold;
+  font-family: monospaceNumbersFont;
+  z-index: 4;
+}
+
+#BossHealthContainer
+{
+  width: 100%;
+  height: 26px;
+}
+
+#BossHealthProgressContainer
+{
+  flow-children: right;
+  height: 100%;
+  width: 100%;
+  z-index: 2;
+}
+
+#BossHealthProgressLeft
+{
+  width: 100%;
+  height: 100%;
+
+  background-color: gradient( linear, 0% 0%, 0% 100%, from( #425d25  ), color-stop( 0.2, #5BA539 ), color-stop( .5, #4D9030), to( #425d25) );
+  margin: 0;
+}
+
+#BossHealthProgressRight
+{
+  height:100%;
+  width: 0%;
+  background-color: gradient( linear, 0% 0%, 0% 100%, from( #1b260f  ), color-stop( 0.2, #223013 ), color-stop( .5, #2d401a), to( #1b260f) );
+  margin: 0;
+}
+
+#BossManaLabel
+{
+  text-align: center;
+  horizontal-align: center;
+  vertical-align: center;
+  color: white;
+  text-shadow: 1px 1px 0px 2.0 #000000;
+  overflow: noclip;
+  font-size: 18px;
+  font-weight: bold;
+  font-family: monospaceNumbersFont;
+  z-index: 4;
+}
+
+
+#BossManaContainer
+{
+  width: 100%;
+  height: 26px;
+}
+
+#BossManaProgressContainer
+{
+  flow-children: right;
+  height: 100%;
+  width: 100%;
+
+  z-index: 2;
+}
+
+#BossManaProgressLeft
+{
+  height:100%;
+  width: 100%;
+
+  background-color: gradient( linear, 0% 0%, 0% 100%, from( #2b4287  ), color-stop( 0.2, #4165ce ), color-stop( .5, #4a73ea), to( #2b4287) );
+  margin: 0;
+}
+
+#BossManaProgressRight
+{
+  height:100%;
+  width: 0%;
+  background-color: gradient( linear, 0% 0%, 0% 100%, from( #202121  ), color-stop( 0.2, #2f3030 ), color-stop( .5, #3c3d3d), to( #202121) );
+  margin: 0;
+}
+
+
+
+
+
+/* END BossFrame v2 */ 
 /* BossFrame */
 
 .BossFrameContainer 

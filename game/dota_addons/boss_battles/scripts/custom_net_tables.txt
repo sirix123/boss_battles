@@ -11,5 +11,6 @@
     "dmg_done",
     "dps_meter",
     "boss_frame",
+    "hide_boss_frame",
   ]
 }
