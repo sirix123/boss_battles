@@ -92,7 +92,7 @@ end
 function fire_bomb_ground_modifier:PlayEffects()
 
 	--  raidus that affects players is not linked to particel radisu need to change that as well in particle manager
-	local particle_cast = "particles/techies/jakiro_ti10_macropyre_line_flames.vpcf"
+	local particle_cast = "particles/techies/fibrebomb_v2_jakiro_ti10_macropyre_line_flames.vpcf"
 	self.nFXIndex_1 = ParticleManager:CreateParticle( particle_cast, PATTACH_ABSORIGIN , self:GetParent()  )
     ParticleManager:SetParticleControl( self.nFXIndex_1, 0, self:GetParent():GetAbsOrigin() )
     ParticleManager:SetParticleControl( self.nFXIndex_1, 1, self:GetParent():GetAbsOrigin() )

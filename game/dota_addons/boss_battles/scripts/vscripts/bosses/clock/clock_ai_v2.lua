@@ -6,6 +6,7 @@ LinkLuaModifier("furnace_modifier_3", "bosses/clock/modifiers/furnace_modifier_3
 LinkLuaModifier("furnace_modifier_4", "bosses/clock/modifiers/furnace_modifier_4", LUA_MODIFIER_MOTION_NONE)
 
 LinkLuaModifier("armor_buff_modifier", "bosses/clock/modifiers/armor_buff_modifier", LUA_MODIFIER_MOTION_NONE)
+LinkLuaModifier("enrage", "bosses/clock/modifiers/enrage", LUA_MODIFIER_MOTION_NONE)
 
 LinkLuaModifier("modifier_remove_healthbar", "core/modifier_remove_healthbar", LUA_MODIFIER_MOTION_NONE)
 
@@ -51,7 +52,7 @@ function Spawn( entityKeyValues )
 
 	thisEntity.t_activated_furnaces = {thisEntity.furnace_1_unit, thisEntity.furnace_2_unit, thisEntity.furnace_3_unit, thisEntity.furnace_4_unit}
 
-	thisEntity.cool_down_between_furnaces = 10
+	thisEntity.cool_down_between_furnaces = 20
 
 	-- spawn arrows in furnace location
 	thisEntity.spawn_arrows = true
@@ -59,6 +60,11 @@ function Spawn( entityKeyValues )
 	-- setup timers
 	FindNewTarget()
 	ActivateFurnace()
+	CheckFurnace()
+	CheckEnrage()
+
+	thisEntity.i = 0
+	thisEntity.nActivatedFurnaces = 0
 
 	-- set mana to 0 on spawn
 	thisEntity:SetMana(0)
@@ -116,6 +122,11 @@ function ClockThink()
 		ParticleManager:DestroyParticle(thisEntity.pfx_2, true)
 		ParticleManager:DestroyParticle(thisEntity.pfx_3, true)
 		ParticleManager:DestroyParticle(thisEntity.pfx_4, true)
+
+		ParticleManager:ReleaseParticleIndex(thisEntity.pfx_1)
+		ParticleManager:ReleaseParticleIndex(thisEntity.pfx_2)
+		ParticleManager:ReleaseParticleIndex(thisEntity.pfx_3)
+		ParticleManager:ReleaseParticleIndex(thisEntity.pfx_4)
 		return -1
 	end
 
@@ -343,7 +354,6 @@ end
 
 function SpawnArrows()
 	thisEntity.spawn_arrows = false
-	print("spawn the arrows")
 
 	local particleName_1 = "particles/clock/blue_clock_npx_moveto_arrow.vpcf"
 	thisEntity.pfx_1 = ParticleManager:CreateParticle( particleName_1, PATTACH_WORLDORIGIN, thisEntity )
@@ -507,7 +517,108 @@ function ResetArrows()
 	end)
 end
 --------------------------------------------------------------------------------
+function CheckEnrage()
+	Timers:CreateTimer(function()
+		if ( not thisEntity:IsAlive() ) then
+			print("end timer?")
+			return false
+		end
 
+		if thisEntity:HasModifier("enrage") == true and thisEntity.nActivatedFurnaces == thisEntity.i then
+			print("removing enrage buff")
+			thisEntity:RemoveModifierByName("enrage")
+		end
+
+		return 0.5
+	end)
+end
+--------------------------------------------------------------------------------
+
+function CheckFurnace()
+
+	-- check if furnace count is increasing every 2mins
+	-- 120
+	Timers:CreateTimer(10,function()
+		if ( not thisEntity:IsAlive() ) then
+			thisEntity.i = 0
+			print("end timer?")
+			return false
+		end
+
+		thisEntity.i = thisEntity.i + 1
+		print("thisEntity.i ", thisEntity.i)
+		print("thisEntity.nActivatedFurnaces ", thisEntity.nActivatedFurnaces)
+
+		-- if all furnace active stop timer
+		if thisEntity.nActivatedFurnaces == 4 then
+			print("end timer... dont check for enrage anymore cause all furnace are active")
+			return false
+		end
+
+		-- check if furnace count is the same as before and boss doesn't have enrage buff, give enrage buff and end timer
+		if thisEntity:HasModifier("enrage") ~= true and thisEntity.nActivatedFurnaces < thisEntity.i then
+
+			-- link the non activated furnaces
+			if thisEntity.furnace_1_activated == false then
+				thisEntity.nfx_1 = ParticleManager:CreateParticle("particles/beastmaster/beastmaster_razor_static_link.vpcf", PATTACH_POINT_FOLLOW, thisEntity)
+				ParticleManager:SetParticleControlEnt(thisEntity.nfx_1, 0, thisEntity, PATTACH_POINT_FOLLOW, "attach_hitloc", thisEntity:GetAbsOrigin(), true)
+				ParticleManager:SetParticleControl(thisEntity.nfx_1, 1, thisEntity.furnace_1)
+			end
+
+			if thisEntity.furnace_2_activated == false then
+				thisEntity.nfx_2 = ParticleManager:CreateParticle("particles/beastmaster/beastmaster_razor_static_link.vpcf", PATTACH_POINT_FOLLOW, thisEntity)
+				ParticleManager:SetParticleControlEnt(thisEntity.nfx_2 , 0, thisEntity, PATTACH_POINT_FOLLOW, "attach_hitloc", thisEntity:GetAbsOrigin(), true)
+				ParticleManager:SetParticleControl(thisEntity.nfx_2 , 1, thisEntity.furnace_2)
+			end
+
+			if thisEntity.furnace_3_activated == false then
+				thisEntity.nfx_3 = ParticleManager:CreateParticle("particles/beastmaster/beastmaster_razor_static_link.vpcf", PATTACH_POINT_FOLLOW, thisEntity)
+				ParticleManager:SetParticleControlEnt(thisEntity.nfx_3, 0, thisEntity, PATTACH_POINT_FOLLOW, "attach_hitloc", thisEntity:GetAbsOrigin(), true)
+				ParticleManager:SetParticleControl(thisEntity.nfx_3, 1, thisEntity.furnace_3)
+			end
+
+			if thisEntity.furnace_4_activated == false then
+				thisEntity.nfx_4 = ParticleManager:CreateParticle("particles/beastmaster/beastmaster_razor_static_link.vpcf", PATTACH_POINT_FOLLOW, thisEntity)
+				ParticleManager:SetParticleControlEnt(thisEntity.nfx_4, 0, thisEntity, PATTACH_POINT_FOLLOW, "attach_hitloc", thisEntity:GetAbsOrigin(), true)
+				ParticleManager:SetParticleControl(thisEntity.nfx_4, 1, thisEntity.furnace_4)
+			end
+
+			--after x seconds enrage
+			Timers:CreateTimer(7,function()
+
+				-- destroy particle effect
+				if thisEntity.nfx_1 ~= nil then
+					ParticleManager:DestroyParticle(thisEntity.nfx_1, true)
+				end
+				if thisEntity.nfx_2 ~= nil then
+					ParticleManager:DestroyParticle(thisEntity.nfx_2, true)
+				end
+				if thisEntity.nfx_3 ~= nil then
+					ParticleManager:DestroyParticle(thisEntity.nfx_3, true)
+				end
+				if thisEntity.nfx_4 ~= nil then
+					ParticleManager:DestroyParticle(thisEntity.nfx_4, true)
+				end
+
+				-- apply enrage
+				print("applying enrage buff")
+
+				-- play voice line
+				EmitGlobalSound("rattletrap_ratt_immort_01")
+
+
+				thisEntity:AddNewModifier( nil, nil, "enrage", { duration = -1 } )
+			end)
+
+			return 120
+		else
+			return 120
+		end
+
+	end)
+end
+
+--------------------------------------------------------------------------------
 function ActivateFurnace()
 
 	Timers:CreateTimer(function()

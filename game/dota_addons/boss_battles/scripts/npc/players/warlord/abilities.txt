@@ -83,7 +83,7 @@
         "AbilityBehavior"				"DOTA_ABILITY_BEHAVIOR_NO_TARGET | DOTA_ABILITY_BEHAVIOR_HIDDEN"
 		"AbilityCastRange" 				"600"
         "AbilityCooldown"				"0.0"
-        "AbilityCastPoint"              "0.2"
+        "AbilityCastPoint"              "0.0"
 		"AbilityManaCost"        		"0"
 
 		"TargetingIndicator"
@@ -118,7 +118,7 @@
         "AbilityBehavior"				"DOTA_ABILITY_BEHAVIOR_NO_TARGET"
 		"AbilityCastRange" 				"600"
         "AbilityCooldown"				"0.0"
-        "AbilityCastPoint"              "0.2"
+        "AbilityCastPoint"              "0.0"
 		"AbilityManaCost"        		"0"
 
 		"TargetingIndicator"
@@ -154,7 +154,7 @@
 		"AbilityCastRange" 				"1000"
         "AbilityCooldown"				"50"
         "AbilityCastPoint"              "0.5"
-		"AbilityManaCost"        		"40"
+		"AbilityManaCost"        		"30"
 
 		"TargetingIndicator"
 		{
@@ -203,11 +203,11 @@
         
 		"AbilitySpecial"
 		{
-			"01"{ "var_type"			"FIELD_INTEGER"		"duration"				"10" }	
+			"01"{ "var_type"			"FIELD_INTEGER"		"duration"				"6" }	
 			"02"{ "var_type"			"FIELD_FLOAT"		"tick"					"0.5" }
 			"03"{ "var_type"			"FIELD_INTEGER"		"radius"				"300" }
-			"04"{ "var_type"			"FIELD_INTEGER"		"damage"				"120" }
-			"05"{ "var_type"			"FIELD_INTEGER"		"mana_degen"			"-15" }
+			"04"{ "var_type"			"FIELD_INTEGER"		"damage"				"250" }
+			"05"{ "var_type"			"FIELD_INTEGER"		"mana_degen"			"-25" }
 			"06"{ "var_type"			"FIELD_FLOAT"		"mana_gain_percent"		"5" }	
 		}
 

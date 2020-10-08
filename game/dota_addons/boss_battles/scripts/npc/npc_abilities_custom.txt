@@ -4,6 +4,7 @@
 #base "bosses/clock/abilities/clock.txt"
 #base "bosses/timber/abilities/timber.txt"
 #base "bosses/techies/abilities/techies.txt"
+#base "bosses/tinker/abilities.txt"
 
 // player
 #base "players/warrior/abilities.txt"

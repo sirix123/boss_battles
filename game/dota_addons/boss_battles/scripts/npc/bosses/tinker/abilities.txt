@@ -1,0 +1,45 @@
+
+"DOTAAbilities"
+{
+    //=================================================================================================================
+    // Tinker: green_beam
+    //=================================================================================================================
+    "green_beam"
+    { 
+        "BaseClass"                     "ability_lua"
+        "ScriptFile"                    "bosses/tinker/green_beam"
+        "MaxLevel"						"4"
+
+        // General
+        //-------------------------------------------------------------------------------------------------------------
+        "AbilityBehavior"               "DOTA_ABILITY_BEHAVIOR_NO_TARGET"
+        "AbilityUnitDamageType"         "DAMAGE_TYPE_PHYSICAL"  
+
+        // Casting
+        //-------------------------------------------------------------------------------------------------------------
+        "AbilityCastPoint"              "0.0 0.0 0.0 0.0"
+        "AbilityCastRange" 				"60"
+
+        // Time     
+        //-------------------------------------------------------------------------------------------------------------
+        "AbilityCooldown"               "1 1 1 1"
+
+        // Cost
+        //-------------------------------------------------------------------------------------------------------------
+        "AbilityManaCost"               "0"
+
+        // Special
+        //-------------------------------------------------------------------------------------------------------------
+		"AbilitySpecial"
+		{
+            //"01"{ "var_type"			"FIELD_INTEGER"		"max_mines"		        "5" }
+		}
+
+        "precache"
+		{
+			//"soundfile"  "sounds/weapons/hero/techies/land_mine_plant.vsnd"
+            //"soundfile"  "soundevents/game_sounds_heroes/game_sounds_techies.vsndevts"
+		}
+    }
+}
+

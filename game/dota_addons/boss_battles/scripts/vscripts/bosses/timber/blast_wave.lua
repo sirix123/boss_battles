@@ -11,20 +11,20 @@ function blast_wave:OnAbilityPhaseStart()
 
         local units = FindUnitsInRadius(
             self:GetCaster():GetTeamNumber(),	-- int, your team number
-            self:GetCaster():GetOrigin(),	-- point, center point
+            self:GetCaster():GetAbsOrigin(),	-- point, center point
             nil,	-- handle, cacheUnit. (not known)
             5000,	-- float, radius. or use FIND_UNITS_EVERYWHERE
             DOTA_UNIT_TARGET_TEAM_ENEMY,
             DOTA_UNIT_TARGET_ALL,
             DOTA_UNIT_TARGET_FLAG_NONE,	-- int, flag filter
-            0,	-- int, order filter
+            FIND_CLOSEST,	-- int, order filter
             false	-- bool, can grow cache
         )
 
         if units == nil or #units == 0 then
             return false
         else
-            self.vTargetPos = units[RandomInt(1, #units)]:GetAbsOrigin()
+            self.vTargetPos = units[1]:GetAbsOrigin()
 
             self:GetCaster():SetForwardVector(self.vTargetPos)
             self:GetCaster():FaceTowards(self.vTargetPos)
@@ -34,7 +34,7 @@ function blast_wave:OnAbilityPhaseStart()
             ParticleManager:SetParticleControl( self.nPreviewFXIndex, 0, self.vTargetPos )
             ParticleManager:SetParticleControl( self.nPreviewFXIndex, 1, Vector( radius, -radius, -radius ) )
             ParticleManager:SetParticleControl( self.nPreviewFXIndex, 2, Vector( self:GetCastPoint(), 0, 0 ) );
-            ParticleManager:ReleaseParticleIndex( self.nPreviewFXIndex )
+            --ParticleManager:ReleaseParticleIndex( self.nPreviewFXIndex )
 
             -- play voice line
             EmitSoundOn("shredder_timb_cast_03", self:GetCaster())
@@ -47,7 +47,7 @@ end
 
 function blast_wave:OnSpellStart()
     if IsServer() then
-        
+
         self:GetCaster():RemoveGesture(ACT_DOTA_TELEPORT_END)
 
         -- init
@@ -62,6 +62,10 @@ function blast_wave:OnSpellStart()
 
         self:GetCaster():SetForwardVector(self.vTargetPos)
         self:GetCaster():FaceTowards(self.vTargetPos)
+
+        local projectile_direction = self.vTargetPos-self.caster:GetAbsOrigin()
+        projectile_direction.z = 0
+        projectile_direction = projectile_direction:Normalized()
 
         self.damageTable = {
             attacker = self.caster,
@@ -80,9 +84,9 @@ function blast_wave:OnSpellStart()
             iUnitTargetType = DOTA_UNIT_TARGET_HERO + DOTA_UNIT_TARGET_BASIC,
             EffectName = "particles/timber/blast_wave.vpcf",
             fDistance = 2000,
-            fStartRadius = self.radius,
+            fStartRadius = self.radius / 6,
             fEndRadius = self.radius,
-            vVelocity = self.caster:GetForwardVector() * projectile_speed,
+            vVelocity = projectile_direction * projectile_speed,
             bHasFrontalCone = false,
             bReplaceExisting = false,
             fExpireTime = GameRules:GetGameTime() + 30.0,

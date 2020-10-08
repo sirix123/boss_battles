@@ -7,18 +7,28 @@ end
 
 --------------------------------------------------------------------------------
 function blast_off_fog_modifier:OnCreated(kv)
-    --if IsServer() then
+    if IsServer() then
 
-        self.reduceFog = -4900
+		self.reduceFog = -4900
+		self.reduceFog_percent = -99
 
-	--end
+		self.original_vision_night = self:GetParent():GetBaseNightTimeVisionRange()
+		self.original_vision_day = self:GetParent():GetBaseDayTimeVisionRange()
+
+		self:GetParent():SetNightTimeVisionRange(1)
+		self:GetParent():SetDayTimeVisionRange(1)
+
+	end
 end
 --------------------------------------------------------------------------------
 
 function blast_off_fog_modifier:OnDestroy( kv )
-    --if IsServer() then
-
-	--end
+    if IsServer() then
+		self.original_vision_night = self:GetParent():SetNightTimeVisionRange(self.original_vision_night)
+		self.original_vision_day = self:GetParent():SetDayTimeVisionRange(self.original_vision_day)
+		self.reduceFog = 5000
+		self.reduceFog_percent = 100
+	end
 end
 
 -- Modifier Effects
@@ -41,6 +51,6 @@ function blast_off_fog_modifier:GetBonusNightVision()
 end
 
 function blast_off_fog_modifier:GetBonusVisionPercentage ()
-	return -99
+	return self.reduceFog_percent
 end
 

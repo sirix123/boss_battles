@@ -11,7 +11,7 @@
 			m_nRefractBlurRadius = 3
 			m_nRefractBlurType = "BLURFILTER_BOX"
 			m_bGammaCorrectVertexColors = false
-			m_hTexture = resource:"materials/particle/ring01.vtex"
+			m_hTexture = resource:"materials/models/particle/crater_color.vtex"
 			m_nOrientationType = 2
 			m_flAnimationRate = 3.0
 			m_OutlineColor = [ 64, 31, 9, 255 ]
@@ -91,7 +91,7 @@
 		},
 		{
 			_class = "C_INIT_RandomColor"
-			m_ColorMin = [ 255, 102, 0, 255 ]
+			m_ColorMin = [ 65, 0, 0, 255 ]
 			m_ColorMax = [ 85, 7, 7, 255 ]
 		},
 		{

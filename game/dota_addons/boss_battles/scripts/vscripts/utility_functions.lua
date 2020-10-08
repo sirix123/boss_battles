@@ -288,3 +288,62 @@ function PrintTable(t, indent, done)
 		end
 	end
 end
+
+function FindUnitsInCirclesProjection(nTeamNumber, vCenterPos, vStartPos, vEndPos, fStartRadius, fEndRadius, hCacheUnit, nTeamFilter, nTypeFilter, nFlagFilter, nOrderFilter, bCanGrowCache)
+	-- vCenterPos is used to determine searching center (FIND_CLOSEST will refer to units closest to vCenterPos)
+
+	-- get cast direction and length distance
+	local direction = vEndPos - vStartPos
+	direction.z = 0
+
+	local distance = direction:Length2D()
+	direction = direction:Normalized()
+
+	-- get max radius circle search
+	local big_radius = distance + math.max(fStartRadius, fEndRadius)
+
+	-- find enemies closest to primary target within max radius
+	local units = FindUnitsInRadius(
+		nTeamNumber,	-- int, your team number
+		vCenterPos,	-- point, center point
+		hCacheUnit,	-- handle, cacheUnit. (not known)
+		big_radius,	-- float, radius. or use FIND_UNITS_EVERYWHERE
+		nTeamFilter,	-- int, team filter
+		nTypeFilter,	-- int, type filter
+		nFlagFilter,	-- int, flag filter
+		nOrderFilter,	-- int, order filter
+		bCanGrowCache	-- bool, can grow cache
+	)
+
+	DebugDrawCircle(vStartPos, Vector(255,0,0), 5, fStartRadius, false, 1.0)
+	DebugDrawCircle(vEndPos, Vector(255,255,0), 5, fEndRadius, false, 1.0)
+
+	-- Filter within cone
+	local targets = {}
+	for _,unit in pairs(units) do
+		-- get unit vector relative to vStartPos
+		local vUnitPos = unit:GetAbsOrigin() - vStartPos
+
+		-- get projection scalar of vUnitPos onto direction using dot-product
+		local fProjection = vUnitPos.x * direction.x + vUnitPos.y * direction.y + vUnitPos.z * direction.z
+
+		-- clamp projected scalar to [0,distance]
+		fProjection = math.max(math.min(fProjection, distance),0)
+		
+		-- get projected vector of vUnitPos onto direction
+		local vProjection = direction * fProjection
+
+		-- calculate distance between vUnitPos and the projected vector
+		local fUnitRadius = (vUnitPos - vProjection):Length2D()
+
+		-- calculate interpolated search radius at projected vector
+		local fInterpRadius = Interpolate((fProjection/distance), fEndRadius, fStartRadius)
+		
+		-- if unit is within distance, add them
+		if fUnitRadius <= fInterpRadius then
+			table.insert(targets, unit)
+		end
+	end
+
+	return targets
+end

@@ -22,7 +22,7 @@ function explode_proxy_mines:OnSpellStart()
         -- find targets
         local targets = FindUnitsInRadius(
             self.caster:GetTeamNumber(),	-- int, your team number
-            self.caster:GetOrigin(),	-- point, center point
+            self.caster:GetAbsOrigin(),	-- point, center point
             nil,	-- handle, cacheUnit. (not known)
             FIND_UNITS_EVERYWHERE,	-- float, radius. or use FIND_UNITS_EVERYWHERE
             DOTA_UNIT_TARGET_TEAM_FRIENDLY,

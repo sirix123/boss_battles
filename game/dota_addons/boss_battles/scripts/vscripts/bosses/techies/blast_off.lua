@@ -60,7 +60,7 @@ function blast_off:OnSpellStart()
         local distance = (caster:GetAbsOrigin() - self.vTargetPos):Length2D()
         local speed = 1500 -- special value
         local height = 300
-        self.fog_duration = 5
+        self.fog_duration = 12
         self.radius_fog = 9000
         self.radius_dmg = 500
         self.reduceFog = -4900
@@ -93,6 +93,7 @@ function blast_off:OnSpellStart()
             ParticleManager:DestroyParticle(nFXIndex,false)
 
             -- blowup
+            --print("call back arc")
             self:BlowUp()
 
         end)
@@ -153,7 +154,7 @@ function blast_off:BlowUp()
             self.radius_fog,	-- float, radius. or use FIND_UNITS_EVERYWHERE
             DOTA_UNIT_TARGET_TEAM_ENEMY,
             DOTA_UNIT_TARGET_ALL,
-            DOTA_UNIT_TARGET_FLAG_NONE,	-- int, flag filter
+            DOTA_UNIT_TARGET_FLAG_INVULNERABLE + DOTA_UNIT_TARGET_FLAG_DEAD,	-- int, flag filter
             0,	-- int, order filter
             false	-- bool, can grow cache
         )

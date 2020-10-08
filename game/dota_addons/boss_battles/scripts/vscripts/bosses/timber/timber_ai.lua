@@ -245,7 +245,7 @@ function CastFireShell()
 		AbilityIndex = thisEntity.fire_shell:entindex(),
 		Queue = 0,
 	})
-	return (thisEntity.nMaxWaves * thisEntity.fTimeBetweenWaves) + 2
+	return (thisEntity.nMaxWaves * thisEntity.fTimeBetweenWaves) + 4
 end
 --------------------------------------------------------------------------------
 

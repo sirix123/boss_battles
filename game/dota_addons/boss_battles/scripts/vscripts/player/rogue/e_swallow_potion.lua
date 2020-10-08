@@ -81,7 +81,7 @@ function e_swallow_potion:OnSpellStart()
             caster, -- player source
             self, -- ability source
             "e_swallow_potion_modifier_debuff", -- modifier name
-            { duration = -1 } -- kv
+            { duration = duration } -- kv
         )
 
 		EmitSoundOn( "Hero_PhantomAssassin.Attack", self:GetCaster() )
@@ -96,7 +96,7 @@ function e_swallow_potion:OnSpellStart()
             caster, -- player source
             self, -- ability source
             "e_swallow_potion_modifier", -- modifier name
-            { duration = duration } -- kv
+            { duration = -1 } -- kv
         )
 	end
 

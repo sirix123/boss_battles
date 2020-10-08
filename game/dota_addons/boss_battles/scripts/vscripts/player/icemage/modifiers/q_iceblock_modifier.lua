@@ -1,5 +1,9 @@
 q_iceblock_modifier = class({})
 
+function q_iceblock_modifier:RemoveOnDeath()
+    return true
+end
+
 function q_iceblock_modifier:IsHidden()
 	return false
 end

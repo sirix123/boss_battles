@@ -21,6 +21,10 @@ function e_swallow_potion_modifier_debuff:OnCreated( kv )
         -- references
 		--self.ms_bonus = self:GetAbility():GetSpecialValueFor( "movespeed_bonus_pct" )
 
+		local particle_cast = "particles/rogue/rogue_abaddon_curse_counter_debuff.vpcf"
+        self.effect_cast = ParticleManager:CreateParticle(particle_cast, PATTACH_OVERHEAD_FOLLOW, self:GetParent())
+        ParticleManager:SetParticleControl(self.effect_cast, 0, self:GetParent():GetAbsOrigin())
+
     end
 end
 
@@ -34,7 +38,9 @@ function e_swallow_potion_modifier_debuff:OnRemoved()
 end
 
 function e_swallow_potion_modifier_debuff:OnDestroy()
-
+	if IsServer() then
+		ParticleManager:DestroyParticle(self.effect_cast, true)
+	end
 end
 
 --------------------------------------------------------------------------------
@@ -54,9 +60,9 @@ end]]
 --------------------------------------------------------------------------------
 --[[ Graphics & Animations
 function e_swallow_potion_modifier_debuff:GetEffectName()
-	return "particles/status_fx/status_effect_goo_crimson.vpcf"
+	return "particles/rogue/rogue_abaddon_curse_counter_debuff.vpcf"
 end
 
 function e_swallow_potion_modifier_debuff:GetEffectAttachType()
-	return PATTACH_ABSORIGIN_FOLLOW
+	return PATTACH_OVERHEAD_FOLLOW
 end]]

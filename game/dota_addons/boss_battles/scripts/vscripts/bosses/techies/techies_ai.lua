@@ -10,6 +10,8 @@ function Spawn( entityKeyValues )
     --thisEntity:AddNewModifier( nil, nil, "modifier_invisible", { duration = -1 } )
     thisEntity:AddNewModifier( nil, nil, "modifier_phased", { duration = -1 })
 
+    CreateUnitByName( "npc_guard", Vector(10126,1776,0), true, thisEntity, thisEntity, DOTA_TEAM_BADGUYS)
+
     -- spells
     thisEntity.cluster_mine_throw = thisEntity:FindAbilityByName( "cluster_mine_throw" )
 
@@ -159,7 +161,7 @@ function TechiesThinker()
 
         thisEntity:MoveToPosition( thisEntity.tCenterGrid[randomIndex] )
 
-        return 5
+        return 1
 
     end
 

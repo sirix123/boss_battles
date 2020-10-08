@@ -13,7 +13,7 @@ function armor_buff_modifier:OnCreated(  )
     if IsServer() then
 
         -- armor buff
-        self.bonus_armor = 3
+        self.bonus_armor = 10
         --self:SetStackCount(3)
 
         print("self:GetStackCount() ",self:GetStackCount())

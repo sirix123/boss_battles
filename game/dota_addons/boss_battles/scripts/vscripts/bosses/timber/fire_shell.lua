@@ -56,8 +56,6 @@ end
 function fire_shell:OnSpellStart()
 	if IsServer() then
 
-		self:GetCaster():RemoveGesture(ACT_DOTA_GENERIC_CHANNEL_1)
-
         -- init
 		local caster = self:GetCaster()
 		local origin = caster:GetAbsOrigin()
@@ -88,6 +86,7 @@ function fire_shell:OnSpellStart()
 		-- start of the main loop
 		Timers:CreateTimer(1, function()
 			if nWaves == nMaxWaves then
+				self:GetCaster():RemoveGesture(ACT_DOTA_GENERIC_CHANNEL_1)
 				return false
 			end
 

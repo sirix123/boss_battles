@@ -8,8 +8,8 @@
 		"override_hero"			"npc_dota_hero_medusa" 			// Hero to override
 		"Ability1"              "m1_trackingshot" 
         "Ability2"              "m2_serratedarrow" 
-        "Ability3"              "q_herbarrow" 
-        "Ability4"              "e_rainofarrows_v2"
+        "Ability3"              "q_healing_arrow" 
+        "Ability4"              "e_rainofarrows"
         "Ability5"              "r_explosive_tip"
         "Ability6"              "space_sprint"
         "Ability7"              "r_explosive_tip_explode"
@@ -50,7 +50,7 @@
         "StatusMana"                "-700"
         "StatusManaRegen"           "0.0"
 
-        "VisionDaytimeRange"        "2500"
-        "VisionNighttimeRange"      "2500"
+        "VisionDaytimeRange"        "5000"
+        "VisionNighttimeRange"      "5000"
 	}
 }

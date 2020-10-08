@@ -14,7 +14,7 @@ function Spawn( entityKeyValues )
 	thisEntity.stomp_push = thisEntity:FindAbilityByName( "stomp_push" )
     thisEntity.stomp_push:StartCooldown(5)
 
-	CreateUnitByName( "npc_techies", Vector(10126,1776,0), true, thisEntity, thisEntity, DOTA_TEAM_BADGUYS)
+	--CreateUnitByName( "npc_techies", Vector(10126,1776,0), true, thisEntity, thisEntity, DOTA_TEAM_BADGUYS)
 
 	thisEntity:SetHullRadius(80)
 

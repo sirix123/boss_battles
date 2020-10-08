@@ -3,6 +3,8 @@
 #base "bosses/timber/units/timber.txt"
 #base "bosses/techies/units/techies.txt"
 #base "bosses/clock/units/clock.txt"
+#base "bosses/tinker/units.txt"
+#base "bosses/tinker/tinker.txt"
 #base "players/rogue/rogue_units.txt"
 #base "core/npc_trigger_plates.txt"
 

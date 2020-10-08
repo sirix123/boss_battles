@@ -50,7 +50,7 @@
         "StatusMana"                "100"
         "StatusManaRegen"           "-3.0"
 
-        "VisionDaytimeRange"        "2500"
-        "VisionNighttimeRange"      "2500"
+        "VisionDaytimeRange"        "5000"
+        "VisionNighttimeRange"      "5000"
 	}
 }

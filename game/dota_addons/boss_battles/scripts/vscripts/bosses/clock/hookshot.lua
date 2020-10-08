@@ -115,5 +115,30 @@ function hookshot:OnProjectileHit(hTarget, vLocation)
                 latch_radius = self.latch_radius,
                 speed = self.speed
             })
+
+        local targets = FindUnitsInRadius(
+            self:GetCaster():GetTeamNumber(),
+            vLocation,
+            nil,
+            300,
+            DOTA_UNIT_TARGET_TEAM_ENEMY,
+            DOTA_UNIT_TARGET_HERO + DOTA_UNIT_TARGET_BASIC,
+            0,
+            0,
+            false
+        )
+
+        -- initial hit 
+        for _, target in pairs(targets) do
+            local dmgTable =
+            {
+                victim = target,
+                attacker = self:GetCaster(),
+                damage = 150,
+                damage_type = DAMAGE_TYPE_PHYSICAL,
+            }
+
+            ApplyDamage(dmgTable)
+        end
     end
 end

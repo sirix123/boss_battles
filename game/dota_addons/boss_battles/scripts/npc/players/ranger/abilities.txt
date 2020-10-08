@@ -71,62 +71,55 @@
 		}
 	}
 
-	"q_herbarrow"
+	"q_healing_arrow"
 	{
 		"BaseClass"						"ability_lua"
-		"ScriptFile"					"player/ranger/q_herbarrow"
+		"ScriptFile"					"player/ranger/q_healing_arrow"
 		"MaxLevel"						"1"
 
-		"AbilityTextureName"			"medusa_mystic_snake"
-		"AbilityUnitTargetTeam"			"DOTA_UNIT_TARGET_TEAM_BOTH"
-		"AbilityUnitTargetType"			"DOTA_UNIT_TARGET_HERO | DOTA_UNIT_TARGET_CREEP"
+		"AbilityTextureName"			"furion_wrath_of_nature"
+		"AbilityUnitTargetTeam"			"DOTA_UNIT_TARGET_TEAM_FRIENDLY"
 		"AbilityUnitDamageType"			"DAMAGE_TYPE_PHYSICAL"	
 		"SpellImmunityType"				"SPELL_IMMUNITY_ENEMIES_YES"
-        "AbilityBehavior"				"DOTA_ABILITY_BEHAVIOR_UNIT_TARGET"
-		"AbilityCastRange" 				"1500"
-        "AbilityCooldown"				"20"
-        "AbilityCastPoint"              "0.2"
+        "AbilityBehavior"				"DOTA_ABILITY_BEHAVIOR_POINT"
+		"AbilityCastRange" 				"1400"
+        "AbilityCooldown"				"15"
+        "AbilityCastPoint"              "0.5"
 
 
 		"TargetingIndicator"
 		{
-			//"Type"						"TARGETING_INDICATOR_LINE"
-			//"Fixed"						"1"
+			"Type"						"TARGETING_INDICATOR_LINE"
+			"Fixed"						"1"
 		}
         
 		"AbilitySpecial"
 		{
-			"01"{ "var_type"			"FIELD_INTEGER"		"bounce_range"			"1000" 	}	
-			"02"{ "var_type"			"FIELD_INTEGER"		"speed"					"900" 	}	
-			"03"{ "var_type"			"FIELD_INTEGER"		"max_bounces"			"5" 	}
-			"04"{ "var_type"			"FIELD_INTEGER"		"heal_amount"			"250" 	}
-			"05"{ "var_type"			"FIELD_INTEGER"		"dmg"					"200" 	}		
+			"01"{ "var_type"			"FIELD_INTEGER"		"hit_box"							"100" }
+			"02"{ "var_type"			"FIELD_INTEGER"		"proj_speed"						"1200" }
+			"03"{ "var_type"			"FIELD_INTEGER"		"heal"								"120" }
+			"04"{ "var_type"			"FIELD_FLOAT"		"heal_dist_multi"					"0.08" }
 		}
 
 		"precache"
 		{
-			"soundfile"	"soundevents/game_sounds_heroes/game_sounds_medusa.vsndevts"
-			"soundfile"	"soundevents/game_sounds_heroes/game_sounds_enchantress.vsndevts"
-			"particle"	"particles/units/heroes/hero_medusa/medusa_mystic_snake_cast.vpcf"
-			"particle"	"particles/ranger/q_herbaroow_medusa_mystic_snake_impact.vpcf"
-			"particle"	"particles/units/heroes/hero_medusa/medusa_mystic_snake_projectile.vpcf"
+			"soundfile"	"soundevents/game_sounds_heroes/game_sounds_windrunner.vsndevts"
 		}
 	}
 
-	"e_rainofarrows_v2"
+	"e_rainofarrows"
 	{
 		"BaseClass"						"ability_lua"
-		"ScriptFile"					"player/ranger/e_rainofarrows_v2"
+		"ScriptFile"					"player/ranger/e_rainofarrows"
 		"MaxLevel"						"1"
 
-		"AbilityTextureName"			"skywrath_mage_mystic_flare"
+		"AbilityTextureName"			"legion_commander_overwhelming_odds"
 		"AbilityUnitDamageType"			"DAMAGE_TYPE_PHYSICAL"	
 		"SpellImmunityType"				"SPELL_IMMUNITY_ENEMIES_YES"
-        "AbilityBehavior"				"DOTA_ABILITY_BEHAVIOR_NO_TARGET" //"DOTA_ABILITY_BEHAVIOR_POINT | DOTA_ABILITY_BEHAVIOR_AOE" //| DOTA_ABILITY_BEHAVIOR_IGNORE_BACKSWING"
+        "AbilityBehavior"				"DOTA_ABILITY_BEHAVIOR_POINT | DOTA_ABILITY_BEHAVIOR_AOE"
 		"AbilityCastRange" 				"1500"
         "AbilityCooldown"				"30"//"50"
         "AbilityCastPoint"              "0.2"
-
 
 		"TargetingIndicator"
 		{
@@ -136,13 +129,13 @@
         
 		"AbilitySpecial"
 		{
-			"01"{ "var_type"			"FIELD_INTEGER"		"base_duration"			"10" 	}
+			"01"{ "var_type"			"FIELD_INTEGER"		"radius"				"300" 	}
+			"02"{ "var_type"			"FIELD_INTEGER"		"dmg"					"1000" 	}
 		}
 
 		"precache"
 		{
-			"soundfile"	"soundevents/game_sounds_heroes/game_sounds_skywrath_mage.vsndevts"
-			"particle"	"particles/units/heroes/hero_skywrath_mage/skywrath_mage_mystic_flare_ambient.vpcf"
+			"soundfile"	"soundevents/game_sounds_heroes/game_sounds_legion_commander.vsndevts"
 		}
 	}
 

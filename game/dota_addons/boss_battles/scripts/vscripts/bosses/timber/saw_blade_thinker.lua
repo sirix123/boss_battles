@@ -42,6 +42,8 @@ function saw_blade_thinker:OnCreated( kv )
 	self.damage = self:GetAbility():GetSpecialValueFor("damage")
 	self.manaAmount = self:GetAbility():GetSpecialValueFor("manaAmount")
 
+	self.caught_enemies = {}
+
     -- ref from main ability
     self.currentTarget = Vector( kv.target_x, kv.target_y, kv.target_z )
 	self.interval = 1
@@ -235,6 +237,52 @@ function saw_blade_thinker:ApplySawBladeDamage()
 		for _,enemy in pairs(enemies) do
 			-- damage
 			self.damageTable.victim = enemy
+			self.damageTable.damage = self.damage
+			ApplyDamage( self.damageTable )
+
+			-- particle effect on player hit 
+			-- particles/econ/items/lifestealer/ls_ti9_immortal/ls_ti9_open_wounds_blood_spray.vpcf
+			local particle = "particles/timber/ls_ti9_open_wounds_blood_spray_sawblade_blood.vpcf"
+
+			local particle_cast = ParticleManager:CreateParticle(particle, PATTACH_ABSORIGIN_FOLLOW, enemy)
+
+			ParticleManager:ReleaseParticleIndex( particle_cast )
+		end
+	
+		-- whens player touches the sawablade does dmg
+		for _,enemy in pairs(enemies) do
+			if not self.caught_enemies[enemy] then
+				self.caught_enemies[enemy] = true
+
+				self.damageTable.victim = enemy
+				self.damageTable.damage = 70
+
+				ApplyDamage( self.damageTable )
+			end
+		end
+	end
+end
+--------------------------------------------------------------------------------
+
+function saw_blade_thinker:MovingHit()
+
+	if self.currentSawbladeLocation ~= 0 then
+		-- find enemies
+		local enemies = FindUnitsInRadius(
+			self.caster:GetTeamNumber(),	-- int, your team number
+			self.currentSawbladeLocation,	-- point, center point
+			nil,	-- handle, cacheUnit. (not known)
+			self.radius,	-- float, radius. or use FIND_UNITS_EVERYWHERE
+			DOTA_UNIT_TARGET_TEAM_ENEMY,	-- int, team filter
+			DOTA_UNIT_TARGET_HERO + DOTA_UNIT_TARGET_BASIC,	-- int, type filter
+			0,	-- int, flag filter
+			0,	-- int, order filter
+			false	-- bool, can grow cache
+		)
+
+		for _,enemy in pairs(enemies) do
+			-- damage
+			self.damageTable.victim = enemy
 			ApplyDamage( self.damageTable )
 
 			-- particle effect on player hit 
@@ -246,6 +294,8 @@ function saw_blade_thinker:ApplySawBladeDamage()
 			ParticleManager:ReleaseParticleIndex( particle_cast )
 		end
 	end
+
+
 end
 --------------------------------------------------------------------------------
 
@@ -327,6 +377,8 @@ end
 
 function saw_blade_thinker:OnDestroy()
 	if not IsServer() then return end
+
+	self.caught_enemies = {}
 
 	-- stop effects
 	self:StopEffects()

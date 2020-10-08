@@ -104,6 +104,16 @@ function GameSetup:OnNPCSpawned(keys)
         self:RegisterPlayer(npc)
         self:RegisterRaidWipe()
 
+        -- if warlord give the stance modifier
+        if npc:GetUnitName() == "npc_dota_hero_juggernaut" then
+            npc:AddNewModifier(
+                npc, -- player source
+                nil, -- ability source
+                "q_warlord_dps_stance_modifier", -- modifier name
+                {} -- kv
+            )
+        end
+
         -- level up abilities for all heroes to level 1
         if npc:GetUnitName() == "npc_dota_hero_crystal_maiden"
         or npc:GetUnitName() == "npc_dota_hero_medusa"
@@ -221,6 +231,9 @@ function GameSetup:SpawnTestingStuff(keys)
 
     -- target dummy (1 moving)
     CreateUnitByName("npc_dota_creature_gnoll_assassin_moving", Vector(-11077,-8747,256), true, nil, nil, DOTA_TEAM_BADGUYS)
+
+    -- target dummy friendly
+    CreateUnitByName("npc_dota_creature_dummy_target_boss", Vector(-12757,-9789,256), true, nil, nil, DOTA_TEAM_GOODGUYS)
 
     --test
     --PrintTable(RAID_TABLES, indent, done)
