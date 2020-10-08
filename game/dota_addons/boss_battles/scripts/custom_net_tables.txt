@@ -6,11 +6,12 @@
     "selection",
     "progress_bars",
     "main",
-    "heroes",
     "score_board",
     "dmg_done",
     "dps_meter",
     "boss_frame",
     "hide_boss_frame",
+    "player_frame",
+    "hide_player_frame",
   ]
 }

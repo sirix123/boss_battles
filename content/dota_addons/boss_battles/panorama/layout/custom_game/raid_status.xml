@@ -8,10 +8,6 @@
 
 
     <snippets>
-
-
-
-        
         <snippet name="BossFrame">
             <Panel class="BossFrame ">
                 <Panel id="BossHealthManaContainer">
@@ -38,14 +34,53 @@
             </Panel>
         </snippet>
 
+        <!-- a single player frame --> 
+        <!-- player frame consists of, player_name, hp, mana, lives --> 
+        <snippet name="PlayerFrame">
+            <Panel class="PlayerFrameContainer">
+                <Panel class="PlayerFrameHeroImageContainer" >
+                    <!-- TODO: image -->
+
+                    <!-- Trying to do animation from valve -->
+                    <!-- <DOTAParticleScenePanel id="PortraitStreakParticle" class="SceneLoaded PlayerFrameHeroAnimTest" hittest="false" map="scenes/dota_ui_particle_scene_panel_empty" camera="default_camera" /> -->
+                </Panel>
+
+                <Panel class="PlayerFrame">
+                    <Panel id="PlayerNameContainer">
+                        <Label text="" id="PlayerNameLabel"/> 
+                    </Panel>
+
+                    <Panel id="PlayerHealthContainer">
+                        <Label text="1" id="PlayerHealthLabel"/> 
+                        <Panel id="PlayerHealthProgressContainer">
+                            <Panel id="PlayerHealthProgressLeft"> </Panel>
+                            <Panel id="PlayerHealthProgressRight"> </Panel>
+                        </Panel>
+                    </Panel>
+
+                    <Panel id="PlayerManaContainer">
+                        <Label text="" id="PlayerManaLabel"/> 
+                        <Panel id="PlayerManaProgressContainer">
+                            <Panel id="PlayerManaProgressLeft"> </Panel>
+                            <Panel id="PlayerManaProgressRight"> </Panel>
+                        </Panel>
+                    </Panel>
+
+                </Panel>
+
+            </Panel>
+        </snippet>
+
     </snippets>
 
     <Panel hittest="false" class="parent">
-        <Panel class="PlayersUiContainer" id="PlayersUiContainer" hittest="false">
-            <!-- JS will insert snippet PlayerUiFrame here -->
-        </Panel>
         <Panel class="BossFrameContainer" id="BossFrameContainer" hittest="false"> 
             <!-- JS will insert snippet BossFrame here -->
         </Panel>
+
+        <Panel class="PlayersFrameContainer" id="PlayersFrameContainer" hittest="false">
+            <!-- JS will insert snippet PlayerUiFrame here -->
+        </Panel>
+
     </Panel>
 </root>
