@@ -538,7 +538,7 @@ function CheckFurnace()
 
 	-- check if furnace count is increasing every 2mins
 	-- 120
-	Timers:CreateTimer(10,function()
+	Timers:CreateTimer(120,function()
 		if ( not thisEntity:IsAlive() ) then
 			thisEntity.i = 0
 			print("end timer?")
