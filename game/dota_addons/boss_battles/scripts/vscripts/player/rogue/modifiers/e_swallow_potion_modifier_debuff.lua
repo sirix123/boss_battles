@@ -22,7 +22,7 @@ function e_swallow_potion_modifier_debuff:OnCreated( kv )
 		--self.ms_bonus = self:GetAbility():GetSpecialValueFor( "movespeed_bonus_pct" )
 
 		local particle_cast = "particles/rogue/rogue_abaddon_curse_counter_debuff.vpcf"
-        self.effect_cast = ParticleManager:CreateParticle(particle_cast, PATTACH_OVERHEAD_FOLLOW, self:GetParent())
+        self.effect_cast = ParticleManager:CreateParticleForPlayer(particle_cast, PATTACH_OVERHEAD_FOLLOW, self:GetParent(), self.caster:GetPlayerOwner())
         ParticleManager:SetParticleControl(self.effect_cast, 0, self:GetParent():GetAbsOrigin())
 
     end
