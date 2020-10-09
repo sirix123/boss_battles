@@ -42,8 +42,8 @@ function cluster_mine_throw:OnSpellStart()
         -- find a random point inside the map arena (cell)
         --local vTargetPos = Vector(caster.mouse.x, caster.mouse.y, caster.mouse.z) -- for testing
         local vTargetPos = self:GetCursorPosition()
-        print("self:GetCursorPosition() ",self:GetCursorPosition())
-        DebugDrawCircle(vTargetPos, Vector(0,255,0), 128, 100, true, 60)
+        --print("self:GetCursorPosition() ",self:GetCursorPosition())
+        --DebugDrawCircle(vTargetPos, Vector(0,255,0), 128, 100, true, 60)
         --print(vTargetPos)
 
         self:GetCaster():SetForwardVector(vTargetPos)
@@ -64,7 +64,7 @@ function cluster_mine_throw:OnSpellStart()
             point.y = RandomInt(vTargetPos.y - radius, vTargetPos.y + radius)
 
             point = Vector(point.x,point.y,vTargetPos.z)
-            DebugDrawCircle(point, Vector(0,0,255), 128, 20, true, 60)
+            --DebugDrawCircle(point, Vector(0,0,255), 128, 20, true, 60)
 
             local land_mine = CreateUnitByName("npc_dota_techies_land_mine", point, true, self:GetCaster(), self:GetCaster():GetOwner(), caster:GetTeamNumber())
 

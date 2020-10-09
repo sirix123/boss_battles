@@ -24,15 +24,16 @@ function summon_electric_vortex_turret:OnSpellStart()
 
         -- there are 4 lines cause square
         -- they are..
-        --local left_side = Vector(-3643,RandomInt(348,3060),0)
-        --local right_side = Vector(-750,RandomInt(197,3060),0)
-        --local top_side = Vector(RandomInt(-3643,-770),300,0)
-        --local bottom_side = Vector(RandomInt(-3710,-839),3050,0)
+        local left_side = Vector(8862,RandomInt(497,2929),0)
+        local right_side = Vector(11320,RandomInt(497,2929),0)
+        local top_side = Vector(RandomInt(8862,1132),2929,0)
+        local bottom_side = Vector(RandomInt(8862,1132),497,0)
 
-        --local tSides = {left_side, right_side, top_side, bottom_side}
+        local tSides = {left_side, right_side, top_side, bottom_side}
 
-        --local vTargetPos = tSides[RandomInt(1,#tSides)]
-        local vTargetPos = Vector(RandomInt(9126,11000),RandomInt(1500,1800),0)
+        local vTargetPos = tSides[RandomInt(1,#tSides)]
+        --local vTargetPos = Vector(RandomInt(9126,11000),RandomInt(1500,1800),0)
+        --DebugDrawCircle(vTargetPos, Vector(0,255,0), 128, 500, true, 60)
 
         local i = 0
         Timers:CreateTimer(delay, function()

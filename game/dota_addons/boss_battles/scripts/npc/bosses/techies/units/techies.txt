@@ -174,7 +174,7 @@
 		"SoundSet"					"Hero_WarlockGolem"
 		"GameSoundsFile"			"soundevents/game_sounds_heroes/game_sounds_warlock.vsndevts"
 		"Level"						"1"
-		"ModelScale" 				"1.3"
+		"ModelScale" 				"1.1"
 
 		// Abilities
 		//----------------------------------------------------------------
@@ -195,8 +195,8 @@
 		"AttackCapabilities"		"DOTA_UNIT_CAP_MELEE_ATTACK"
 		"AttackDamageMin"			"35"		
 		"AttackDamageMax"			"55"		
-		"AttackRate"				"0.9"		// Speed of attack.
-		"AttackAnimationPoint"		"0.1"		// Normalized time in animation cycle to attack.
+		"AttackRate"				"1.2"		// Speed of attack.
+		"AttackAnimationPoint"		"0.2"		// Normalized time in animation cycle to attack.
 		"AttackAcquisitionRange"	"10000"		// Range within a target can be acquired.
 		"AttackRange"				"100"		
 

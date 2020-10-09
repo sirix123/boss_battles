@@ -31,6 +31,8 @@ end
 function guard_death_modifier:OnDestroy()
     if not IsServer() then return nil end
 
+    EmitGlobalSound("warlock_golem_wargol_wardead_13")
+
     local units = FindUnitsInRadius(
         self:GetParent():GetTeamNumber(),	-- int, your team number
         self:GetParent():GetOrigin(),	-- point, center point

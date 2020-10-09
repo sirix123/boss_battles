@@ -14,8 +14,14 @@ function modifier_stomp_push:OnCreated()
 	self.pfx = ParticleManager:CreateParticle(particle_name, PATTACH_ABSORIGIN_FOLLOW, self:GetParent())
 	self:GetParent():StartGesture(ACT_DOTA_FLAIL)
 	self:StartIntervalThink(FrameTime())
-	self.angle = self:GetParent():GetForwardVector():Normalized()
-	self.distance =  1000 / ( self:GetDuration() / FrameTime()) --self:GetAbility():GetSpecialValueFor("push_length")
+	--self.angle = self:GetParent():GetForwardVector():Normalized()
+
+	--regardless of parents angle send them x units away from the centre of the parent
+	self.angle = self:GetCaster():GetAbsOrigin()
+	self:GetParent():FaceTowards(self.angle * (-1))
+	self:GetParent():SetForwardVector((self:GetParent():GetAbsOrigin() - self.angle):Normalized())
+
+	self.distance =  2000 --/ ( self:GetDuration() / FrameTime()) --self:GetAbility():GetSpecialValueFor("push_length")
 end
 
 function modifier_stomp_push:OnDestroy()
@@ -34,9 +40,8 @@ end
 function modifier_stomp_push:HorizontalMotion(unit, time)
 	if not IsServer() then return end
 
-	local pos = unit:GetAbsOrigin()
-	GridNav:DestroyTreesAroundPoint(pos, 80, false)
-	local pos_p = self.angle * self.distance
-	local next_pos = GetGroundPosition(pos + pos_p,unit)
-	unit:SetAbsOrigin(next_pos)
+
+	local distance = (unit:GetOrigin() - self.angle):Normalized()
+	unit:SetOrigin( unit:GetOrigin() + distance * 1200 * time )
+
 end

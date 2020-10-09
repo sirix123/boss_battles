@@ -399,9 +399,9 @@ function Projectiles:CreateProjectile(projectile)
 
           if IsValidEntity(v) and v.GetUnitName and v:IsAlive() and (not projectile.bIgnoreSource or (projectile.bIgnoreSource and v ~= projectile.Source)) and nozCheck and zCheck then
             --VectorDistanceSq(nozpos, org) <= rad2 and subpos.z >= orgz + zOffset and subpos.z <= orgz + height then
-            if CheckGlobalUnitTableForUnitName(v) == false then
-              return false
-            end
+            --if CheckGlobalUnitTableForUnitName(v) == false then
+              --return false
+            --end
 
 
             local time = projectile.rehit[v:entindex()]

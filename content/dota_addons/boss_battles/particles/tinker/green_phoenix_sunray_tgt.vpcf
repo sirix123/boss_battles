@@ -11,16 +11,16 @@
 			m_ChildRef = resource:"particles\\tinker\\green_phoenix_sunray_tgt_ring.vpcf"
 		},
 		{
-			m_ChildRef = resource:"particles/units/heroes/hero_phoenix/phoenix_sunray_tgt_ring_core.vpcf"
+			m_ChildRef = resource:"particles\\tinker\\green_phoenix_sunray_tgt_ring_core.vpcf"
 		},
 		{
 			m_ChildRef = resource:"particles\\tinker\\green_phoenix_sunray_tgt_sphere.vpcf"
 		},
 		{
-			m_ChildRef = resource:"particles/units/heroes/hero_phoenix/phoenix_sunray_tgt_lava_ring.vpcf"
+			m_ChildRef = resource:"particles\\tinker\\green_phoenix_sunray_tgt_lava_ring.vpcf"
 		},
 		{
-			m_ChildRef = resource:"particles/units/heroes/hero_phoenix/phoenix_sunray_tgt_ember.vpcf"
+			m_ChildRef = resource:"particles\\tinker\\green_phoenix_sunray_tgt_ember.vpcf"
 		},
 		{
 			m_ChildRef = resource:"particles\\tinker\\green_phoenix_sunray_tgt_fire.vpcf"

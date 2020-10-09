@@ -67,7 +67,7 @@ function e_icefall_modifier_thinker:StartApplyDamageLoop()
 
         for _, enemy in pairs(enemies) do
 
-            if CheckRaidTableForBossName(enemy) == true then
+            if CheckRaidTableForBossName(enemy) == true or unit:GetUnitName() == "npc_guard"then
 
                 self.dmgTable = {
                     victim = enemy,

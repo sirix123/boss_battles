@@ -37,7 +37,7 @@ function green_beam:OnSpellStart()
 
             local end_pos = ( RotatePosition(caster:GetAbsOrigin(), QAngle(0,currentAngle,0), point ) )
 			end_pos = GetGroundPosition( end_pos, nil )
-			end_pos.z = end_pos.z + 100
+			end_pos.z = caster:GetAbsOrigin().z + 100
             --DebugDrawCircle(end_pos, Vector(0,155,0),128,50,true,60)
 
             ParticleManager:SetParticleControl( self.pfx, 1, end_pos )

@@ -100,22 +100,22 @@
 			m_ChildRef = resource:"particles/units/heroes/hero_phoenix/phoenix_sunray_ground.vpcf"
 		},
 		{
-			m_ChildRef = resource:"particles/units/heroes/hero_phoenix/phoenix_sunray_beam.vpcf"
+			m_ChildRef = resource:"particles\\green_phoenix_sunray_beam.vpcf"
 		},
 		{
 			m_ChildRef = resource:"particles\\tinker\\green_phoenix_sunray_energy.vpcf"
 		},
 		{
-			m_ChildRef = resource:"particles/units/heroes/hero_phoenix/phoenix_sunray_bird_trail.vpcf"
+			m_ChildRef = resource:"particles\\tinker\\green_phoenix_sunray_bird_trail.vpcf"
 		},
 		{
 			m_ChildRef = resource:"particles\\tinker\\green_phoenix_sunray_tgt.vpcf"
 		},
 		{
-			m_ChildRef = resource:"particles/units/heroes/hero_phoenix/phoenix_sunray_mane.vpcf"
+			m_ChildRef = resource:"particles\\tinker\\green_phoenix_sunray_mane.vpcf"
 		},
 		{
-			m_ChildRef = resource:"particles/units/heroes/hero_phoenix/phoenix_sunray_flare.vpcf"
+			m_ChildRef = resource:"particles\\tinker\\green_phoenix_sunray_flare.vpcf"
 		},
 		{
 			m_ChildRef = resource:"particles/units/heroes/hero_phoenix/phoenix_sunray_ripple.vpcf"
