@@ -7,6 +7,9 @@ function Spawn( entityKeyValues )
     if thisEntity == nil then return end
 
     thisEntity.green_beam = thisEntity:FindAbilityByName( "green_beam" )
+    thisEntity.spawn_rocks = thisEntity:FindAbilityByName( "spawn_rocks" )
+
+    thisEntity:AddNewModifier( nil, nil, "modifier_invulnerable", { duration = -1 } )
 
     thisEntity:SetContextThink( "CrystalThinker", CrystalThinker, 0.1 )
 
@@ -24,11 +27,15 @@ function CrystalThinker()
 		return 0.5
     end
 
+    if thisEntity.spawn_rocks ~= nil and thisEntity.spawn_rocks:IsFullyCastable() and thisEntity.spawn_rocks:IsCooldownReady() then
+        return SpawnRocks()
+    end
+
     if thisEntity.green_beam ~= nil and thisEntity.green_beam:IsFullyCastable() and thisEntity.green_beam:IsCooldownReady() then
         return CastGreenBeam()
     end
 
-	return 9999
+	return 0.5
 end
 --------------------------------------------------------------------------------
 
@@ -41,6 +48,20 @@ function CastGreenBeam(  )
         Queue = false,
     })
 
-    return 9999
+    return 0.5
 end
 --------------------------------------------------------------------------------
+
+function SpawnRocks(  )
+
+    ExecuteOrderFromTable({
+        UnitIndex = thisEntity:entindex(),
+        OrderType = DOTA_UNIT_ORDER_CAST_NO_TARGET,
+        AbilityIndex = thisEntity.spawn_rocks:entindex(),
+        Queue = false,
+    })
+
+    return 0.5
+end
+--------------------------------------------------------------------------------
+

@@ -15,12 +15,12 @@
 		"SoundSet"					"Hero_Techies"
 		"GameSoundsFile"			"soundevents/game_sounds_heroes/game_sounds_techies.vsndevts"
 		"Level"						"1"
-		"ModelScale" 				"1.5"
+		"ModelScale" 				"2"
 
 		// Abilities
 		//----------------------------------------------------------------
 		"Ability1"					"green_beam"					// Ability 1
-		"Ability2"					""					// Ability 2
+		"Ability2"					"spawn_rocks"					// Ability 2
 		"Ability3"					""					// Ability 3
 		"Ability4"					""					// Ability 4
 		"Ability5"					""					// Ability 5

@@ -1,19 +1,19 @@
-choking_gas_thinker = class({})
+biting_frost_modifier_debuff = class({})
 
-function choking_gas_thinker:IsHidden()
+function biting_frost_modifier_debuff:IsHidden()
 	return false
 end
 
-function choking_gas_thinker:IsDebuff()
+function biting_frost_modifier_debuff:IsDebuff()
 	return true
 end
 
-function choking_gas_thinker:IsPurgable()
+function biting_frost_modifier_debuff:IsPurgable()s
 	return false
 end
 ---------------------------------------------------------------------------
 
-function choking_gas_thinker:OnCreated( kv )
+function biting_frost_modifier_debuff:OnCreated( kv )
     if IsServer() then
         self.parent = self:GetParent()
         self.caster = self:GetCaster()
@@ -37,14 +37,14 @@ function choking_gas_thinker:OnCreated( kv )
 end
 ---------------------------------------------------------------------------
 
-function choking_gas_thinker:OnIntervalThink()
+function biting_frost_modifier_debuff:OnIntervalThink()
     if IsServer() then
 
     end
 end
 ---------------------------------------------------------------------------
 
-function choking_gas_thinker:StartApplyDamageLoop()
+function biting_frost_modifier_debuff:StartApplyDamageLoop()
 
     Timers:CreateTimer(self.damage_interval, function()
 	    if self.stopDamageLoop == true then
@@ -79,7 +79,7 @@ end
 --------------------------------------------------------------------------------
 
 
-function choking_gas_thinker:OnDestroy( kv )
+function biting_frost_modifier_debuff:OnDestroy( kv )
     if IsServer() then
         self.stopDamageLoop = true
         ParticleManager:DestroyParticle(self.nfx,false)

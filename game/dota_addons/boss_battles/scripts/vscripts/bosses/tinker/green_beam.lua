@@ -16,7 +16,7 @@ end
 function green_beam:OnSpellStart()
     if IsServer() then
         local caster = self:GetCaster()
-        local beam_length = 2000
+        local beam_length = 3000
         local radius = 100
 
         local angleIncrement = 1
@@ -53,7 +53,7 @@ function green_beam:OnSpellStart()
                 DOTA_UNIT_TARGET_FLAG_NONE)
 
 			for _,unit in pairs(units) do
-				print(unit:GetUnitName())
+				--print(unit:GetUnitName())
 			end
 
             currentAngle = currentAngle + angleIncrement
