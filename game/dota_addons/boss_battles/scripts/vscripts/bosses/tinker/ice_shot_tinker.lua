@@ -71,12 +71,9 @@ function ice_shot_tinker:OnSpellStart()
 
                 if unit:GetUnitName() == "npc_crystal" then
                     self:HitCrystal( unit )
-
                 elseif unit:GetTeamNumber() == DOTA_UNIT_TARGET_TEAM_ENEMY then
-                    -- small particle effect apply debuff to all players
                     self:HitPlayer()
                 elseif unit:GetUnitName() == "npc_ice_ele" then
-                    -- give buff to ele
                     self:HitIceEle()
                 end
 
@@ -128,7 +125,7 @@ function ice_shot_tinker:HitCrystal( crystal )
 
         if units ~= nil and #units ~= 0 then
             for _, unit in pairs(units) do
-                if unit:GetUnitName() ~= "npc_rock" then
+                if unit:GetUnitName() ~= "npc_rock" and unit:GetUnitName() ~= "npc_tinker"then
                     -- references
                     self.speed = 500 -- special value
 

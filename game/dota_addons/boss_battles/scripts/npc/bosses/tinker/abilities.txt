@@ -173,6 +173,7 @@
         "BaseClass"                     "ability_lua"
         "ScriptFile"                    "bosses/tinker/ice_shot_tinker"
         "MaxLevel"						"4"
+        "AbilityTextureName"			"crystal_maiden_crystal_nova"
 
         // General
         //-------------------------------------------------------------------------------------------------------------
@@ -203,6 +204,132 @@
 		{
 			//"particle"  "particles/units/heroes/hero_razor/razor_plasmafield.vpcf"
 			"soundfile" "sounds/vo/rubick/rub_arc_attack_03.vsnd"
+		}
+    }
+
+    //=================================================================================================================
+    // Tinker: summon_bird
+    //=================================================================================================================
+    "summon_bird"
+    { 
+        "BaseClass"                     "ability_lua"
+        "ScriptFile"                    "bosses/tinker/summon_bird"
+        "MaxLevel"						"4"
+        "AbilityTextureName"			""
+
+        // General
+        //-------------------------------------------------------------------------------------------------------------
+        "AbilityBehavior"               "DOTA_ABILITY_BEHAVIOR_NO_TARGET"
+        "AbilityUnitDamageType"         "DAMAGE_TYPE_PHYSICAL"  
+
+        // Casting
+        //-------------------------------------------------------------------------------------------------------------
+        "AbilityCastPoint"              "2.0 0.0 0.0 0.0"
+        "AbilityCastRange" 				"2000"
+
+        // Time     
+        //-------------------------------------------------------------------------------------------------------------
+        "AbilityCooldown"               "1 1 1 1"
+
+        // Cost
+        //-------------------------------------------------------------------------------------------------------------
+        "AbilityManaCost"               "0"
+
+        // Special
+        //-------------------------------------------------------------------------------------------------------------
+		"AbilitySpecial"
+		{
+            //"01"{ "var_type"			"FIELD_INTEGER"		"max_mines"		        "5" }
+		}
+
+        "precache"
+		{
+			//"particle"  "particles/units/heroes/hero_razor/razor_plasmafield.vpcf"
+			//"soundfile" "sounds/vo/rubick/rub_arc_attack_03.vsnd"
+		}
+    }
+
+    //=================================================================================================================
+    // Tinker: bird_aoe_spell
+    //=================================================================================================================
+    "bird_aoe_spell"
+    { 
+        "BaseClass"                     "ability_lua"
+        "ScriptFile"                    "bosses/tinker/bird_aoe_spell"
+        "MaxLevel"						"4"
+        "AbilityTextureName"			""
+
+        // General
+        //-------------------------------------------------------------------------------------------------------------
+        "AbilityBehavior"               "DOTA_ABILITY_BEHAVIOR_NO_TARGET"
+        "AbilityUnitDamageType"         "DAMAGE_TYPE_PHYSICAL"  
+
+        // Casting
+        //-------------------------------------------------------------------------------------------------------------
+        "AbilityCastPoint"              "1.0 1.0 1.0 1.0"
+        "AbilityCastRange" 				"2000"
+
+        // Time     
+        //-------------------------------------------------------------------------------------------------------------
+        "AbilityCooldown"               "1 1 1 1"
+
+        // Cost
+        //-------------------------------------------------------------------------------------------------------------
+        "AbilityManaCost"               "0"
+
+        // Special
+        //-------------------------------------------------------------------------------------------------------------
+		"AbilitySpecial"
+		{
+            //"01"{ "var_type"			"FIELD_INTEGER"		"max_mines"		        "5" }
+		}
+
+        "precache"
+		{
+			//"particle"  "particles/units/heroes/hero_razor/razor_plasmafield.vpcf"
+			//"soundfile" "sounds/vo/rubick/rub_arc_attack_03.vsnd"
+		}
+    }
+
+    //=================================================================================================================
+    // Tinker: bird_wave_spell
+    //=================================================================================================================
+    "bird_wave_spell"
+    { 
+        "BaseClass"                     "ability_lua"
+        "ScriptFile"                    "bosses/tinker/bird_wave_spell"
+        "MaxLevel"						"4"
+        "AbilityTextureName"			""
+
+        // General
+        //-------------------------------------------------------------------------------------------------------------
+        "AbilityBehavior"               "DOTA_ABILITY_BEHAVIOR_NO_TARGET"
+        "AbilityUnitDamageType"         "DAMAGE_TYPE_PHYSICAL"  
+
+        // Casting
+        //-------------------------------------------------------------------------------------------------------------
+        "AbilityCastPoint"              "1.0 1.0 1.0 1.0"
+        "AbilityCastRange" 				"2000"
+
+        // Time     
+        //-------------------------------------------------------------------------------------------------------------
+        "AbilityCooldown"               "1 1 1 1"
+
+        // Cost
+        //-------------------------------------------------------------------------------------------------------------
+        "AbilityManaCost"               "0"
+
+        // Special
+        //-------------------------------------------------------------------------------------------------------------
+		"AbilitySpecial"
+		{
+            //"01"{ "var_type"			"FIELD_INTEGER"		"max_mines"		        "5" }
+		}
+
+        "precache"
+		{
+			//"particle"  "particles/units/heroes/hero_razor/razor_plasmafield.vpcf"
+			//"soundfile" "sounds/vo/rubick/rub_arc_attack_03.vsnd"
 		}
     }
 }
