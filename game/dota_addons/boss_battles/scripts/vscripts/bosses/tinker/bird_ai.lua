@@ -2,7 +2,7 @@ bird_ai = class({})
 
 LinkLuaModifier("bird_floor_nofly", "bosses/tinker/modifiers/bird_floor_nofly", LUA_MODIFIER_MOTION_NONE)
 LinkLuaModifier("modifier_flying", "bosses/tinker/modifiers/modifier_flying", LUA_MODIFIER_MOTION_NONE)
-
+LinkLuaModifier("bird_puddle_thinker", "bosses/tinker/modifiers/bird_puddle_thinker", LUA_MODIFIER_MOTION_NONE)
 
 --------------------------------------------------------------------------------
 
@@ -78,8 +78,27 @@ function BirdThinker()
     end
 
     -- fly again, invul again, find the crystal and fly towards it
+    -- just before flying up, place a lava puddle on the ground
     if thisEntity.PHASE == 4 then
         --print("thisEntity.PHASE ",thisEntity.PHASE)
+
+        -- create a thinker where the puddle is
+        thisEntity.fire_puddle_thinker = CreateModifierThinker(
+            thisEntity,
+            thisEntity,
+            "bird_puddle_thinker",
+            {
+                duration = -1,
+                target_x = thisEntity:GetAbsOrigin().x,
+                target_y = thisEntity:GetAbsOrigin().y,
+                target_z = thisEntity:GetAbsOrigin().z,
+            },
+            thisEntity:GetAbsOrigin(),
+            thisEntity:GetTeamNumber(),
+            false
+        )
+
+
         thisEntity:RemoveGesture(ACT_DOTA_CAST_ABILITY_1)
         thisEntity:AddNewModifier( nil, nil, "modifier_invulnerable", { duration = -1 } )
         thisEntity:AddNewModifier( nil, nil, "modifier_flying", { duration = -1 } )
