@@ -240,7 +240,7 @@ function CheckGlobalUnitTableForUnitName(enemy)
 	for k1, unit in pairs(tUNIT_TABLE) do
 		--print(unit)
         if unit == enemy:GetUnitName() then
-            return false
+            return true
         end
     end
 end

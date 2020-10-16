@@ -98,7 +98,6 @@ function BirdThinker()
             false
         )
 
-
         thisEntity:RemoveGesture(ACT_DOTA_CAST_ABILITY_1)
         thisEntity:AddNewModifier( nil, nil, "modifier_invulnerable", { duration = -1 } )
         thisEntity:AddNewModifier( nil, nil, "modifier_flying", { duration = -1 } )
@@ -113,7 +112,7 @@ function BirdThinker()
 
         thisEntity.PHASE = 5
 
-        return time
+        return time + 2
     end
 
     if thisEntity.PHASE == 5 then
@@ -138,11 +137,11 @@ end
 --------------------------------------------------------------------------------
 function CalcMovePositions()
 
-    local centre_point = Vector(-11571,-8864,256)
-    local radius = 500
+    local centre_point = Vector(-10633,11918,130.33)
+    local radius = 2816
 
     -- random x y for max pos
-    local max_moves = 2
+    local max_moves = 5
 
     for i = 1, max_moves, 1 do
         local x = RandomInt(centre_point.x - radius, centre_point.x + radius)
@@ -163,7 +162,7 @@ function FindCrystal()
         3000,	-- float, radius. or use FIND_UNITS_EVERYWHERE
         DOTA_UNIT_TARGET_TEAM_FRIENDLY,	-- int, team filter
         DOTA_UNIT_TARGET_HERO + DOTA_UNIT_TARGET_BASIC,	-- int, type filter
-        0,	-- int, flag filter
+        DOTA_UNIT_TARGET_FLAG_INVULNERABLE,	-- int, flag filter
         0,	-- int, order filter
         false	-- bool, can grow cache
     )
