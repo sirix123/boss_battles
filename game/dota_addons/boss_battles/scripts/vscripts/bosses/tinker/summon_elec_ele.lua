@@ -4,7 +4,7 @@ summon_elec_ele = class({})
 function summon_elec_ele:OnSpellStart()
     if IsServer() then
         -- number of cast locations per cast, level up every phase?
-        self.numEle = 4
+        self.run_times = 2
         local delay = 0.1--self:GetSpecialValueFor( "delay" )
 
         -- init
@@ -18,16 +18,21 @@ function summon_elec_ele:OnSpellStart()
 
         local tSpawns = {spawn_1, spawn_2, spawn_3, spawn_4}
 
-        local j = 0
+        local j = 1
         Timers:CreateTimer(0.1, function()
 
-            if j == self.numEle then
+            if j == self.run_times then
                 return false
             end
 
-            CreateUnitByName( "npc_fire_ele", tSpawns[i], true, nil, nil, DOTA_TEAM_BADGUYS)
+            local random_index = RandomInt(1,#tSpawns)
 
-            j = j  +  1
+            CreateUnitByName( "npc_elec_ele", tSpawns[random_index], true, nil, nil, DOTA_TEAM_BADGUYS)
+            CreateUnitByName( "npc_elec_ele", tSpawns[random_index], true, nil, nil, DOTA_TEAM_BADGUYS)
+            CreateUnitByName( "npc_elec_ele", tSpawns[random_index], true, nil, nil, DOTA_TEAM_BADGUYS)
+            CreateUnitByName( "npc_elec_ele", tSpawns[random_index], true, nil, nil, DOTA_TEAM_BADGUYS)
+
+            j = j + 1
             return delay
         end)
     end

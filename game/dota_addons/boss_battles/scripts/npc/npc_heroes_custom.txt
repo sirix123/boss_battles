@@ -15,16 +15,17 @@
 		"Ability1"					"m1_iceshot"									// Ability 1
 		"Ability2"					""										// Ability 2
 		"Ability3"					"summon_bird"								// Ability 3
-		"Ability4"					"bird_aoe_spell"							// Ability 4
-		"Ability5"					"sticky_bomb"						// Ability 5
-		"Ability6"					""						// Ability 6
+		"Ability4"					"summon_ice_ele"							// Ability 4
+		"Ability5"					"summon_fire_ele"						// Ability 5
+		"Ability6"					"summon_elec_ele"						// Ability 6
 		"Ability7"					""						// Ability 7
 		"Ability8"					""							// Ability 8
 		"Ability9"					""							// Ability 8
 		
 		
 
-		"VisionNighttimeRange"		"1800"										// Range of vision at night time.
+		"VisionNighttimeRange"		"5000"										// Range of vision at night time.
+		"VisionDaytimeRange"		"5000"	
 	}
 
 	"npc_dota_hero_kunkka_template"

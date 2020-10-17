@@ -27,11 +27,8 @@ function CrystalThinker()
 		return 0.5
     end
 
-    if thisEntity.spawn_rocks ~= nil and thisEntity.spawn_rocks:IsFullyCastable() and thisEntity.spawn_rocks:IsCooldownReady() then
-        return SpawnRocks()
-    end
-
-    if thisEntity.green_beam ~= nil and thisEntity.green_beam:IsFullyCastable() and thisEntity.green_beam:IsCooldownReady() then
+    if thisEntity.green_beam ~= nil and thisEntity.green_beam:IsFullyCastable() and thisEntity.green_beam:IsCooldownReady() and thisEntity.spawn_rocks ~= nil and thisEntity.spawn_rocks:IsFullyCastable() and thisEntity.spawn_rocks:IsCooldownReady() then
+        SpawnRocks()
         return CastGreenBeam()
     end
 
@@ -47,8 +44,6 @@ function CastGreenBeam(  )
         AbilityIndex = thisEntity.green_beam:entindex(),
         Queue = false,
     })
-
-    return 0.5
 end
 --------------------------------------------------------------------------------
 
@@ -61,7 +56,7 @@ function SpawnRocks(  )
         Queue = false,
     })
 
-    return 0.5
+    return 5
 end
 --------------------------------------------------------------------------------
 

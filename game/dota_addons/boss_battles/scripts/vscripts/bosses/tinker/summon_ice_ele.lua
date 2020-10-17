@@ -16,16 +16,17 @@ function summon_ice_ele:OnSpellStart()
         local spawn_3 = Entities:FindByName(nil, "tinker_add_spawn_3"):GetAbsOrigin()
         local spawn_4 = Entities:FindByName(nil, "tinker_add_spawn_4"):GetAbsOrigin()
 
-        local tSpawns = {spawn_1, spawn_2, spawn_3, spawn_4}
+        self.tSpawns = {spawn_1, spawn_2, spawn_3, spawn_4}
+        --print("self.tSpawns ",self.tSpawns[1])
 
-        local j = 0
+        local j = 1
         Timers:CreateTimer(0.1, function()
 
-            if j == self.numEle then
+            if j > self.numEle then
                 return false
             end
 
-            CreateUnitByName( "npc_ice_ele", tSpawns[i], true, nil, nil, DOTA_TEAM_BADGUYS)
+            CreateUnitByName( "npc_ice_ele", self.tSpawns[j], true, nil, nil, DOTA_TEAM_BADGUYS)
 
             j = j  +  1
             return delay
