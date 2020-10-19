@@ -12,7 +12,7 @@
         "Ability4"              "e_icefall"
         "Ability5"              "r_frostbomb"
         "Ability6"              "space_frostblink"
-        "Ability7"              "cancel_ice_block"
+        "Ability7"              ""
         "Ability8"              ""
         "Ability9"              ""
         "Ability10"             ""

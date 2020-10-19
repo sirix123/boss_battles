@@ -237,10 +237,10 @@ end
 
 -- check globals to see if projectiles should be allowed to hit things
 function CheckGlobalUnitTableForUnitName(enemy)
-	for k1, unit in pairs(tUNIT_TABLE) do
+	for _, unit in pairs(tUNIT_TABLE) do
 		--print(unit)
         if unit == enemy:GetUnitName() then
-            return true
+			return true
         end
     end
 end

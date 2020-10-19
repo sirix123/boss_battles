@@ -5,6 +5,10 @@ function blast_off_fog_modifier:IsHidden()
 	return false
 end
 
+function blast_off_fog_modifier:RemoveOnDeath()
+    return false
+end
+
 --------------------------------------------------------------------------------
 function blast_off_fog_modifier:OnCreated(kv)
     if IsServer() then

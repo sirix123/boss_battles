@@ -99,7 +99,7 @@
 			"01"{ "var_type"			"FIELD_INTEGER"		"duration"				"5" }
 			"02"{ "var_type"			"FIELD_INTEGER"		"armor_bonus"			"90" }
 			"03"{ "var_type"			"FIELD_INTEGER"		"magic_res_bonus"		"0" }
-			"04"{ "var_type"			"FIELD_INTEGER"		"health_regen_percent"	"15" }
+			"04"{ "var_type"			"FIELD_INTEGER"		"health_regen_percent"	"17" }
 			"05"{ "var_type"			"FIELD_INTEGER"		"bone_chill_duration"	"10" }
 			"06"{ "var_type"			"FIELD_FLOAT"		"i_frame"				"0.3" }
 			"07"{ "var_type"			"FIELD_FLOAT"		"find_radius"			"100" }

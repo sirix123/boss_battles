@@ -70,7 +70,7 @@ function q_healing_arrow:OnSpellStart()
             GroundBehavior = PROJECTILES_NOTHING,
             fGroundOffset = 80,
             UnitTest = function(_self, unit)
-                return unit:GetTeamNumber() == self.caster:GetTeamNumber() and unit:GetModelName() ~= "models/development/invisiblebox.vmdl"
+                return unit:GetTeamNumber() == self.caster:GetTeamNumber() and unit:GetModelName() ~= "models/development/invisiblebox.vmdl" and CheckGlobalUnitTableForUnitName(unit) ~= true
             end,
             OnUnitHit = function(_self, unit)
 

@@ -12,8 +12,20 @@ _G.tSummonedSawBlades = {  }
 
 saw_blade = class({})
 
+function saw_blade:OnAbilityPhaseStart()
+    if IsServer() then
+
+        self:GetCaster():StartGestureWithPlaybackRate(ACT_DOTA_SPAWN, 1.0)
+
+        return true
+    end
+end
+
 function saw_blade:OnSpellStart()
     if IsServer() then
+
+        self:GetCaster():RemoveGesture(ACT_DOTA_SPAWN)
+
         self.caster = self:GetCaster()
         local point = self:GetCursorPosition()
 

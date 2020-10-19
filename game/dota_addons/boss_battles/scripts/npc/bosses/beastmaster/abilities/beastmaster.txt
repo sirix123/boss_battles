@@ -264,7 +264,7 @@
             "01"
             {
                 "var_type"      "FIELD_FLOAT"
-                "radius"     	"150"
+                "radius"     	"110"
             }        
             "02"
             {
@@ -371,7 +371,7 @@
             "01"
             {
                 "var_type"                      "FIELD_FLOAT"
-                "number_of_boars"     	        "3"
+                "number_of_boars"     	        "4"
             }
 
             "02"

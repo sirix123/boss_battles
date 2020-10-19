@@ -35,6 +35,12 @@ function TinkerThinker()
 	print("thisEntity.light_phase ",thisEntity.light_phase)
 	print("------------------------ ")]]
 
+	-- normal phase
+
+	-- do something else when the crystal is active
+
+	-- end phase 1 and start phase 2..... (maybe spawn another tinker on death? different unit name might be easier to handle)
+
 
 
 	return 0.5

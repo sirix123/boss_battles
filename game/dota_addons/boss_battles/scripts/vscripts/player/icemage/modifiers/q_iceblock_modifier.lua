@@ -53,9 +53,9 @@ end
 
 function q_iceblock_modifier:OnDestroy()
 	if IsServer() then
-		if self:GetCaster():GetAbilityByIndex(2):GetAbilityName() == "cancel_ice_block" then
+		--[[if self:GetCaster():GetAbilityByIndex(2):GetAbilityName() == "cancel_ice_block" then
 			self:GetCaster():SwapAbilities("q_iceblock", "cancel_ice_block", true, false)
-		end
+		end]]
 	end
 end
 ----------------------------------------------------------------------------

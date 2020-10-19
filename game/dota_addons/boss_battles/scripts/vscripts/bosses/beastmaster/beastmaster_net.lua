@@ -51,16 +51,16 @@ function beastmaster_net:OnSpellStart()
 		local origin = caster:GetOrigin()
 		local hero = self:GetCaster()
 		local projectile_direction = caster:GetForwardVector()
-		local offset = 20
+		local offset = 150
 
 		local fRangeToTarget = ( self:GetCaster():GetOrigin() - self.vTargetPos ):Length2D()
 
 		local projectile = {
 			EffectName = "particles/econ/items/mars/mars_ti9_immortal/mars_ti9_immortal_crimson_spear.vpcf",--"particles/units/heroes/hero_meepo/meepo_earthbind_projectile_fx.vpcf",--"particles/units/heroes/hero_meepo/meepo_earthbind_projectile_fx.vpcf", --"particles/econ/items/mars/mars_ti9_immortal/mars_ti9_immortal_crimson_spear.vpcf",--"particles/units/heroes/hero_meepo/meepo_earthbind_projectile_fx.vpcf",
-			vSpawnOrigin = origin,
+			vSpawnOrigin = origin + caster:GetForwardVector() * offset,
 			--hero:GetAbsOrigin(), attach="attach_attack1", offset=Vector(0,0,0), 
 			fDistance = 5500, -- self:GetSpecialValueFor("projectile_distance") ~= 0 and self:GetSpecialValueFor("projectile_distance") or self:GetCastRange(Vector(0,0,0), nil),
-			fStartRadius = radius / 6,
+			fStartRadius = radius,
 			fEndRadius = radius,
 			--fUniqueRadius = self:GetSpecialValueFor("hitbox"),
 			Source = caster,
@@ -71,7 +71,7 @@ function beastmaster_net:OnSpellStart()
 			WallBehavior = PROJECTILES_DESTROY,
 			GroundBehavior = PROJECTILES_FOLLOW,
 			fGroundOffset = 80,
-			draw = true,
+			draw = false,
 			UnitTest = function(_self, unit) return unit:GetTeamNumber() ~= hero:GetTeamNumber() and unit:GetTeamNumber() ~= DOTA_TEAM_NEUTRALS end,
 			OnUnitHit = function(_self, unit) 
 				if unit ~= nil and (unit:GetUnitName() ~= nil) then
