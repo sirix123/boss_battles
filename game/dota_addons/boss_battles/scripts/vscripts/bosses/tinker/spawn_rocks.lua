@@ -7,7 +7,7 @@ function spawn_rocks:OnAbilityPhaseStart()
 
         -- play voice line
         EmitSoundOn("techies_tech_suicidesquad_01", self:GetCaster())
-
+        --print("in spell spawning rocks")
         return true
     end
 end
@@ -16,22 +16,14 @@ end
 function spawn_rocks:OnSpellStart()
     if IsServer() then
         local caster = self:GetCaster()
-
-        -- calculate line (caster + arena radius)
-        -- calculate a random directional vector
-        -- line length
-        -- rock size (radius/hitbox)
-        -- how many rocks can we fit in the line?
-
-        -- get a vector location for each rock along the line
-        -- insert rocks into the table
-        -- randomly remove 1/multiple rocks up to xyz amount
-        -- for rocks in the table spawn them
-        -- make it look like a sexy fissure?
-
         local max_lines = 4
 
+        -- todo, push units away in the area where the rocks spawn (sml push and fast)
+        -- min angle
+        -- i think ned to start spawning at some offset from the centre cause of the models that will be in the centre
+
         for i = 1, max_lines, 1 do
+            --print("in spell spawning rocks")
             local beam_length = 3000
             local rock_size = 200
             local fit_rocks = ( beam_length / rock_size )

@@ -19,7 +19,7 @@ end
 function fire_ele_melt_debuff:OnRefresh(table)
     --if IsServer() then
         --self:IncrementStackCount()
-        print("self:GetStackCount() ",self:GetStackCount())
+        --print("self:GetStackCount() ",self:GetStackCount())
     --end
 end
 

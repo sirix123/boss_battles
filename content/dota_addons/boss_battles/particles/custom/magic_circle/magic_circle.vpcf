@@ -161,12 +161,15 @@
 	[
 		{
 			m_ChildRef = resource:"particles/custom/magic_circle/magic_circle_sparks.vpcf"
+			m_bDisableChild = true
 		},
 		{
 			m_ChildRef = resource:"particles/custom/magic_circle/magic_circle_ring.vpcf"
+			m_bDisableChild = true
 		},
 		{
 			m_ChildRef = resource:"particles/custom/magic_circle/magic_circle_pulse.vpcf"
+			m_bDisableChild = true
 		},
 	]
 	m_nMaxParticles = 1

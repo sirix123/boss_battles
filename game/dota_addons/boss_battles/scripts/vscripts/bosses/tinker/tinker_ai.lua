@@ -55,7 +55,7 @@ function ElementalPhaseTimer()
 			return false
 		end
 
-		print("this running?")
+		--print("this running?")
 		if i > 3 then
 			i = 1
 		end

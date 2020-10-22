@@ -18,8 +18,10 @@ function bird_aoe_spell:OnSpellStart()
     self.stopDamageLoop = false
     self.duration = 12
 
+    self.i = 0
+
     Timers:CreateTimer(self.damage_interval, function()
-	    if self.stopDamageLoop == true then
+	    if self.i == self.duration then
 		    return false
         end
 
@@ -52,6 +54,8 @@ function bird_aoe_spell:OnSpellStart()
 
             ApplyDamage(dmgTable)
         end
+
+        self.i = self.i + 1
 		return self.damage_interval
 	end)
 

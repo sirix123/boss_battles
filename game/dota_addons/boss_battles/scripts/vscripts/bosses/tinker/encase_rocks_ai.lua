@@ -1,4 +1,6 @@
-npc_elec_ai = class({})
+encase_rocks_ai = class({})
+
+LinkLuaModifier("encaserocks_death_modifier", "bosses/tinker/modifiers/encaserocks_death_modifier", LUA_MODIFIER_MOTION_NONE)
 
 --------------------------------------------------------------------------------
 
@@ -6,12 +8,14 @@ function Spawn( entityKeyValues )
     if not IsServer() then return end
     if thisEntity == nil then return end
 
-    thisEntity:SetContextThink( "ElecThinker", ElecThinker, 0.1 )
+    thisEntity:AddNewModifier( nil, nil, "encaserocks_death_modifier", { duration = -1 } )
+
+    thisEntity:SetContextThink( "EncaseRocksThinker", EncaseRocksThinker, 0.1 )
 
 end
 --------------------------------------------------------------------------------
 
-function ElecThinker()
+function EncaseRocksThinker()
 	if not IsServer() then return end
 
 	if ( not thisEntity:IsAlive() ) then
@@ -21,9 +25,6 @@ function ElecThinker()
 	if GameRules:IsGamePaused() == true then
 		return 0.5
 	end
-
-	-- find a target and fly towards it
-	-- once close change phase and explode
 
 	return 0.5
 end

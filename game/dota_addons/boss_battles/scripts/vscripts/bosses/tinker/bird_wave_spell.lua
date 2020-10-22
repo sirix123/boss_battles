@@ -18,10 +18,44 @@ function bird_wave_spell:OnSpellStart()
     self.stopDamageLoop = false
     self.duration = 12
 
-    local particle_cast = "particles/tinker/fire_bird_aoe_portal_revealed_nothing_good_ring.vpcf"
+    --[[local particle_cast = "particles/custom/tinker_blast_wave/tinker_blast_wave.vpcf"
     self.effect_cast = ParticleManager:CreateParticle( particle_cast, PATTACH_WORLDORIGIN, nil )
     ParticleManager:SetParticleControl( self.effect_cast, 0, self.caster:GetAbsOrigin() )
+    ParticleManager:SetParticleControl( self.effect_cast, 1, Vector(0,500,0) )
+    ParticleManager:ReleaseParticleIndex( self.effect_cast )]]
+
+    local particle_cast = "particles/custom/gyro_expand_circle/gyro_expand_circle.vpcf"
+    self.effect_cast = ParticleManager:CreateParticle( particle_cast, PATTACH_WORLDORIGIN, nil )
+    ParticleManager:SetParticleControl( self.effect_cast, 0, self.caster:GetAbsOrigin() )
+    ParticleManager:SetParticleControl( self.effect_cast, 1, Vector(1500,0,0) )
     ParticleManager:ReleaseParticleIndex( self.effect_cast )
+
+    local projectile_speed = 500
+    local vTargetPos = Vector(self.caster.mouse.x, self.caster.mouse.y, self.caster.mouse.z)
+    local projectile_direction = (Vector( vTargetPos.x - self.caster:GetAbsOrigin().x, vTargetPos.y - self.caster:GetAbsOrigin().y, 0 )):Normalized()
+
+    local projectile = {
+        EffectName = "particles/custom/tinker_blast_wave/tinker_blast_wave.vpcf",
+        vSpawnOrigin = self.caster:GetAbsOrigin() + Vector(0, 0, 100),
+        fDistance = 5000,
+        fUniqueRadius = 50,
+        Source = self.caster,
+        vVelocity = projectile_direction * projectile_speed,
+        UnitBehavior = PROJECTILES_DESTROY,
+        TreeBehavior = PROJECTILES_DESTROY,
+        WallBehavior = PROJECTILES_DESTROY,
+        GroundBehavior = PROJECTILES_NOTHING,
+        fGroundOffset = 80,
+        UnitTest = function(_self, unit)
+            return unit:GetTeamNumber() ~= self.caster:GetTeamNumber() and unit:GetModelName() ~= "models/development/invisiblebox.vmdl" and CheckGlobalUnitTableForUnitName(unit) ~= true
+        end,
+        OnUnitHit = function(_self, unit)
+        end,
+        OnFinish = function(_self, pos)
+        end,
+    }
+
+    Projectiles:CreateProjectile(projectile)
 
     --DebugDrawCircle(self.caster:GetAbsOrigin(), Vector(0,0,255), 128, self.radius, true, 60)
 

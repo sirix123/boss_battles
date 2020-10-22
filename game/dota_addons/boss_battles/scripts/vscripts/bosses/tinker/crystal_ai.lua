@@ -27,9 +27,12 @@ function CrystalThinker()
 		return 0.5
     end
 
-    if thisEntity.green_beam ~= nil and thisEntity.green_beam:IsFullyCastable() and thisEntity.green_beam:IsCooldownReady() and thisEntity.spawn_rocks ~= nil and thisEntity.spawn_rocks:IsFullyCastable() and thisEntity.spawn_rocks:IsCooldownReady() then
-        SpawnRocks()
+    if thisEntity.green_beam ~= nil and thisEntity.green_beam:IsFullyCastable() and thisEntity.green_beam:IsCooldownReady() then
         return CastGreenBeam()
+    end
+
+    if thisEntity.spawn_rocks ~= nil and thisEntity.spawn_rocks:IsFullyCastable() and thisEntity.spawn_rocks:IsCooldownReady() then
+        return SpawnRocks()
     end
 
 	return 0.5
@@ -44,19 +47,18 @@ function CastGreenBeam(  )
         AbilityIndex = thisEntity.green_beam:entindex(),
         Queue = false,
     })
+    return 1
 end
 --------------------------------------------------------------------------------
 
 function SpawnRocks(  )
-
     ExecuteOrderFromTable({
         UnitIndex = thisEntity:entindex(),
         OrderType = DOTA_UNIT_ORDER_CAST_NO_TARGET,
         AbilityIndex = thisEntity.spawn_rocks:entindex(),
         Queue = false,
     })
-
-    return 5
+    return 1
 end
 --------------------------------------------------------------------------------
 
