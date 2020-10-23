@@ -27,7 +27,7 @@ function ice_ele_attack:OnSpellStart()
 		self.attack_speed = self.attack_speed * ( self.attack_distance / ( self.attack_distance - self.attack_width_initial ) )
 
 		local info = {
-			EffectName = "particles/icemage/icemage_m1_maiden_base_attack.vpcf",
+			EffectName = "particles/units/heroes/hero_tusk/tusk_ice_shards_projectile.vpcf",
 			Ability = self,
 			vSpawnOrigin = self:GetCaster():GetOrigin(), 
 			fStartRadius = self.attack_width_initial,

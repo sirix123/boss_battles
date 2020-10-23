@@ -71,10 +71,10 @@
 		}
 	}
 
-	"q_healing_arrow_v2"
+	"q_healing_arrow"
 	{
 		"BaseClass"						"ability_lua"
-		"ScriptFile"					"player/ranger/q_healing_arrow_v2"
+		"ScriptFile"					"player/ranger/q_healing_arrow"
 		"MaxLevel"						"1"
 
 		"AbilityTextureName"			"furion_wrath_of_nature"

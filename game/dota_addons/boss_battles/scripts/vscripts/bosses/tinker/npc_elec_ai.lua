@@ -9,6 +9,8 @@ function Spawn( entityKeyValues )
 	thisEntity.approach_target = nil
 	thisEntity.target = nil
 
+	thisEntity.elec_explode = thisEntity:FindAbilityByName( "elec_explode" )
+
     thisEntity:SetContextThink( "ElecThinker", ElecThinker, 0.1 )
 
 end
@@ -29,8 +31,13 @@ function ElecThinker()
 		return FindEnemy()
 	end
 
-	if thisEntity.approach_target == nil then
-		return ApproachTarget()
+	--if thisEntity.approach_target == nil then
+		ApproachTarget()
+	--end
+
+	if ( thisEntity:GetAbsOrigin() - thisEntity.approach_target:GetAbsOrigin() ):Length2D() < 200 then
+		--print("casting spell")
+		return CastExplode()
 	end
 
 	return 0.5
@@ -53,7 +60,7 @@ function FindEnemy()
 		return 0.5
 	end
 
-	thisEntity.target = enemies[RandomInt(1,#enemies)]
+	thisEntity.target = enemies[1]
 
 	return 1
 end
@@ -61,7 +68,19 @@ end
 function ApproachTarget()
 
 	thisEntity.approach_target = thisEntity.target
-	thisEntity:MoveToPosition(unit:GetOrigin())
+	thisEntity:MoveToPosition(thisEntity.approach_target:GetOrigin())
+
+	--return 1
+end
+
+function CastExplode()
+
+	ExecuteOrderFromTable({
+		UnitIndex = thisEntity:entindex(),
+		OrderType = DOTA_UNIT_ORDER_CAST_NO_TARGET,
+		AbilityIndex = thisEntity.elec_explode:entindex(),
+		Queue = false,
+	})
 
 	return 1
 end

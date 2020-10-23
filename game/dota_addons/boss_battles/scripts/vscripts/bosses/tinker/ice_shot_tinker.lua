@@ -94,7 +94,7 @@ end
 
 function ice_shot_tinker:DestroyEffect(pos)
     if IsServer() then
-        print("runing?")
+        --print("runing?")
         local particle = "particles/units/heroes/hero_tusk/tusk_snowball_destroy.vpcf"
         local effect_cast = ParticleManager:CreateParticle(particle, PATTACH_WORLDORIGIN, nil)
         ParticleManager:SetParticleControl(effect_cast, 0, pos)
@@ -131,7 +131,7 @@ function ice_shot_tinker:HitCrystal( crystal )
 
                     -- create projectile
                     local info = {
-                        EffectName = "particles/tinker/tinker_v2_winter_wyvern_base_attack.vpcf",
+                        EffectName = "particles/tinker/green_iceshot__invoker_chaos_meteor.vpcf",
                         Ability = self,
                         iMoveSpeed = self.speed,
                         Source = crystal,

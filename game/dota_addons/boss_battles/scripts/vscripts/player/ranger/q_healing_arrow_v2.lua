@@ -1,7 +1,6 @@
-m2_serratedarrow = class({})
-LinkLuaModifier("r_explosive_tip_modifier_target", "player/ranger/modifiers/r_explosive_tip_modifier_target", LUA_MODIFIER_MOTION_NONE)
+q_healing_arrow_v2 = class({})
 
-function m2_serratedarrow:OnAbilityPhaseStart()
+function q_healing_arrow_v2:OnAbilityPhaseStart()
     if IsServer() then
 
         self.caster = self:GetCaster()
@@ -29,7 +28,7 @@ function m2_serratedarrow:OnAbilityPhaseStart()
 end
 ---------------------------------------------------------------------------
 
-function m2_serratedarrow:OnAbilityPhaseInterrupted()
+function q_healing_arrow_v2:OnAbilityPhaseInterrupted()
     if IsServer() then
 
         -- remove casting animation
@@ -45,7 +44,7 @@ function m2_serratedarrow:OnAbilityPhaseInterrupted()
 end
 ---------------------------------------------------------------------------
 
-function m2_serratedarrow:OnSpellStart()
+function q_healing_arrow_v2:OnSpellStart()
     if IsServer() then
 
         -- destroy channel particle
@@ -58,8 +57,8 @@ function m2_serratedarrow:OnSpellStart()
 		self.caster = self:GetCaster()
         local origin = self.caster:GetAbsOrigin()
         local projectile_speed = self:GetSpecialValueFor( "proj_speed" )
-        local dmg = self:GetSpecialValueFor( "dmg" )
-        local dmg_dist_multi = self:GetSpecialValueFor( "dmg_dist_multi" )
+        local heal = self:GetSpecialValueFor( "heal" )
+        local heal_dist_multi = self:GetSpecialValueFor( "heal_dist_multi" )
 
         -- play sound
         EmitSoundOn("Ability.Powershot", self.caster)
@@ -69,12 +68,10 @@ function m2_serratedarrow:OnSpellStart()
         vTargetPos = Vector(self.caster.mouse.x, self.caster.mouse.y, self.caster.mouse.z)
         local projectile_direction = (Vector( vTargetPos.x - origin.x, vTargetPos.y - origin.y, 0 )):Normalized()
         -- init effect
-        local enEffect = "particles/units/heroes/hero_windrunner/windrunner_spell_powershot.vpcf"
+        local enEffect = "particles/ranger/ranger_windrunner_spell_powershot_ti6.vpcf"
 
-        -- check for explosive tip modifier and if we have it change arrow effect and apply explosive stack
-        if self.caster:HasModifier("r_explosive_tip_modifier") then
-            enEffect = "particles/units/heroes/hero_windrunner/windrunner_spell_powershot.vpcf"
-        end
+        -- ensure to heal self on cast
+        self.caster:Heal(heal, self.caster)
 
         local projectile = {
             EffectName = enEffect,
@@ -95,31 +92,12 @@ function m2_serratedarrow:OnSpellStart()
 
                 local distanceFromHero = (unit:GetAbsOrigin() - origin ):Length2D()
 
-                dmg = dmg + ( distanceFromHero * dmg_dist_multi )
+                heal = heal + ( distanceFromHero * heal_dist_multi )
 
-                -- init icelance dmg table
-                local dmgTable = {
-                    victim = unit,
-                    attacker = self.caster,
-                    damage = dmg,
-                    damage_type = self:GetAbilityDamageType(),
-                    ability = self,
-                }
-
-                -- give mana
-                self.caster:ManaOnHit(self:GetSpecialValueFor( "mana_gain_percent"))
-
-                if self.caster:HasModifier("r_explosive_tip_modifier") then
-                    local hbuff = self.caster:FindModifierByNameAndCaster("r_explosive_tip_modifier", self.caster)
-                    local flBuffTimeRemaining = hbuff:GetRemainingTime()
-                    unit:AddNewModifier(self.caster, self, "r_explosive_tip_modifier_target", {duration = flBuffTimeRemaining})
-                end
+                unit:Heal(heal, self.caster)
 
                 -- play hit sound
                 StartSoundEvent( "Hero_Windrunner.PowershotDamage", unit )
-
-                -- applys base dmg icelance regardles of stacks
-                ApplyDamage(dmgTable)
 
             end,
             OnFinish = function(_self, pos)

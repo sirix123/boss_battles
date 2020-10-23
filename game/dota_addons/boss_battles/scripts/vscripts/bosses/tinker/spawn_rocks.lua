@@ -81,8 +81,8 @@ function spawn_rocks:PushBack( vRock )
         )
 
         -- apply modifier
-        if self.units ~= nil or #self.units ~= 0 then
-            for _, unit in pairs(self.units) do
+        if units ~= nil or #units ~= 0 then
+            for _, unit in pairs(units) do
                 EmitSoundOn("DOTA_Item.ForceStaff.Activate", unit)
                 unit:AddNewModifier(self:GetCaster(), ability, "modifier_stomp_push", {duration = 0.5})
             end
