@@ -1,6 +1,6 @@
 spawn_rocks = class({})
 
---LinkLuaModifier( "spawn_rocks_modifier", "bosses/techies/modifiers/spawn_rocks_modifier", LUA_MODIFIER_MOTION_BOTH  )
+LinkLuaModifier( "modifier_rock_push", "bosses/techies/modifiers/modifier_rock_push", LUA_MODIFIER_MOTION_NONE )
 
 function spawn_rocks:OnAbilityPhaseStart()
     if IsServer() then
@@ -55,7 +55,38 @@ function spawn_rocks:OnSpellStart()
                 local rock_unit = CreateUnitByName("npc_rock", rock, true, nil, nil, DOTA_TEAM_BADGUYS)
                 rock_unit:SetHullRadius(rock_size - 60 )
                 rock_unit:AddNewModifier( nil, nil, "modifier_invulnerable", { duration = -1 } )
+
+                -- find units around each rock and push them back (apply the modifier)
+                self:PushBack( rock )
             end
         end
+    end
+end
+---------------------------------------------------------------------------------------------------------------------------------------
+
+function spawn_rocks:PushBack( vRock )
+    if IsServer() then
+
+        -- find units
+        local units = FindUnitsInRadius(
+            self:GetCaster():GetTeamNumber(),	-- int, your team number
+            vRock,	-- point, center point
+            nil,	-- handle, cacheUnit. (not known)
+            80,	-- float, radius. or use FIND_UNITS_EVERYWHERE
+            DOTA_UNIT_TARGET_TEAM_ENEMY,
+            DOTA_UNIT_TARGET_ALL,
+            DOTA_UNIT_TARGET_FLAG_NONE,	-- int, flag filter
+            0,	-- int, order filter
+            false	-- bool, can grow cache
+        )
+
+        -- apply modifier
+        if self.units ~= nil or #self.units ~= 0 then
+            for _, unit in pairs(self.units) do
+                EmitSoundOn("DOTA_Item.ForceStaff.Activate", unit)
+                unit:AddNewModifier(self:GetCaster(), ability, "modifier_stomp_push", {duration = 0.5})
+            end
+        end
+
     end
 end
