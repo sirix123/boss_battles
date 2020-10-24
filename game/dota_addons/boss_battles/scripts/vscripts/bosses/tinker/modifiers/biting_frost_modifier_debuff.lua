@@ -63,7 +63,7 @@ function biting_frost_modifier_debuff:StartApplyDamageLoop()
             false	-- bool, can grow cache
         )
 
-        print("self:GetStackCount() ",self:GetStackCount())
+        --print("self:GetStackCount() ",self:GetStackCount())
 
         for _, friend in pairs(friendly) do
 			local dmgTable = {

@@ -19,9 +19,11 @@ function electric_field_modifier:OnCreated(keys)
     local damage = 10--self:GetTalentSpecialValueFor("damage")
     local currentRadius = 0
 
-    local nfx = ParticleManager:CreateParticle("particles/units/heroes/hero_razor/razor_plasmafield.vpcf", PATTACH_POINT_FOLLOW, caster)
+    --DebugDrawCircle(caster:GetAbsOrigin(), Vector(0,255,0),128,maxRadius,true,60)
+
+    local nfx = ParticleManager:CreateParticle("particles/tinker/tinker_razor_plasmafield.vpcf", PATTACH_POINT_FOLLOW, caster)
     ParticleManager:SetParticleControl(nfx, 0, caster:GetAbsOrigin())
-    ParticleManager:SetParticleControl(nfx, 1, Vector(speed, maxRadius, 1))
+    ParticleManager:SetParticleControl(nfx, 1, Vector(speed, maxRadius + 500, 1))
 
     local enemyHit = {}
 

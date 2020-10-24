@@ -1,13 +1,15 @@
 ice_shot_tinker = class({})
 
 LinkLuaModifier( "biting_frost_modifier_debuff", "bosses/tinker/modifiers/biting_frost_modifier_debuff", LUA_MODIFIER_MOTION_NONE  )
+LinkLuaModifier( "biting_frost_modifier_buff_elec", "bosses/tinker/modifiers/biting_frost_modifier_buff_elec", LUA_MODIFIER_MOTION_NONE  )
+LinkLuaModifier( "biting_frost_modifier_buff_fire", "bosses/tinker/modifiers/biting_frost_modifier_buff_fire", LUA_MODIFIER_MOTION_NONE  )
 LinkLuaModifier( "biting_frost_modifier_buff", "bosses/tinker/modifiers/biting_frost_modifier_buff", LUA_MODIFIER_MOTION_NONE  )
 
 function ice_shot_tinker:OnAbilityPhaseStart()
     if IsServer() then
 
         local units = FindUnitsInRadius(
-            self:GetCaster():GetTeamNumber(),	-- int, your team number
+            self:GetCaster():GetTeamNumber(),	-- int, your team numbers
             self:GetCaster():GetAbsOrigin(),	-- point, center point
             nil,	-- handle, cacheUnit. (not known)
             5000,	-- float, radius. or use FIND_UNITS_EVERYWHERE
@@ -74,7 +76,11 @@ function ice_shot_tinker:OnSpellStart()
                 elseif unit:GetTeamNumber() == DOTA_UNIT_TARGET_TEAM_ENEMY then
                     self:HitPlayer()
                 elseif unit:GetUnitName() == "npc_ice_ele" then
-                    self:HitIceEle()
+                    self:HitEle(unit)
+                elseif unit:GetUnitName() == "npc_fire_ele" then
+                    self:HitEle(unit)
+                elseif unit:GetUnitName() == "npc_elec_ele" then
+                    self:HitEle(unit)
                 end
 
                 self:DestroyEffect(unit:GetAbsOrigin())
@@ -125,7 +131,7 @@ function ice_shot_tinker:HitCrystal( crystal )
 
         if units ~= nil and #units ~= 0 then
             for _, unit in pairs(units) do
-                if unit:GetUnitName() ~= "npc_rock" and unit:GetUnitName() ~= "npc_tinker"then
+                if unit:GetUnitName() ~= "npc_rock" and unit:GetUnitName() ~= "npc_tinker" and unit:GetUnitName() ~= "npc_bird"then
                     -- references
                     self.speed = 500 -- special value
 
@@ -155,6 +161,8 @@ end
 
 function ice_shot_tinker:OnProjectileHit( hTarget, vLocation)
     if IsServer() then
+        if hTarget == nil then return end
+        if not hTarget:IsAlive() then return end
 
         if hTarget:GetTeam() == DOTA_TEAM_GOODGUYS then
             -- apply debuff
@@ -163,8 +171,35 @@ function ice_shot_tinker:OnProjectileHit( hTarget, vLocation)
 
         -- apply buff
         if hTarget:GetTeam() == DOTA_TEAM_BADGUYS then
+            print("hit fire ele")
             -- apply debuff
-            hTarget:AddNewModifier(self:GetCaster(), self, "biting_frost_modifier_buff", {duration = -1})
+            self:HitEle(hTarget)
+        end
+
+        -- remove encased debuff if they have it and destroy rock
+        if hTarget:HasModifier("fire_ele_encase_rocks_debuff") then
+            hTarget:RemoveModifierByName("modifier_rooted")
+            hTarget:RemoveModifierByName("fire_ele_encase_rocks_debuff")
+
+            local rocks = FindUnitsInRadius(
+                self:GetCaster():GetTeamNumber(),	-- int, your team number
+                hTarget:GetAbsOrigin(),	-- point, center point
+                nil,	-- handle, cacheUnit. (not known)
+                100,	-- float, radius. or use FIND_UNITS_EVERYWHERE
+                DOTA_UNIT_TARGET_TEAM_BOTH,
+                DOTA_UNIT_TARGET_ALL,
+                DOTA_UNIT_TARGET_FLAG_INVULNERABLE,	-- int, flag filter
+                0,	-- int, order filter
+                false	-- bool, can grow cache
+            )
+
+            if rocks ~= nil and #rocks ~= 0 then
+                for _, rock in pairs(rocks) do
+                    if rock:GetUnitName() == "npc_encase_rocks" then
+                        rock:ForceKill(false)
+                    end
+                end
+            end
         end
 
     end
@@ -173,15 +208,23 @@ end
 
 function ice_shot_tinker:HitPlayer(unit)
     if IsServer() then
-        hTarget:AddNewModifier(self:GetCaster(), self, "biting_frost_modifier_debuff", {duration = 15})
+        unit:AddNewModifier(self:GetCaster(), self, "biting_frost_modifier_debuff", {duration = 15})
 
     end
 end
 ------------------------------------------------------------------------------------------------
 
-function ice_shot_tinker:HitIceEle(unit)
+function ice_shot_tinker:HitEle(unit)
     if IsServer() then
-        hTarget:AddNewModifier(self:GetCaster(), self, "biting_frost_modifier_buff", {duration = -1})
+
+        -- if it hits any element add do what it needs to do
+        if unit:GetUnitName() == "npc_ice_ele" then
+            unit:AddNewModifier(self:GetCaster(), self, "biting_frost_modifier_buff", {duration = -1})
+        elseif unit:GetUnitName() == "npc_fire_ele" then
+            unit:AddNewModifier(self:GetCaster(), self, "biting_frost_modifier_buff_fire", {duration = -1})
+        elseif unit:GetUnitName() == "npc_elec_ele" then
+            unit:AddNewModifier(self:GetCaster(), self, "biting_frost_modifier_buff_elec", {duration = -1})
+        end
 
     end
 end

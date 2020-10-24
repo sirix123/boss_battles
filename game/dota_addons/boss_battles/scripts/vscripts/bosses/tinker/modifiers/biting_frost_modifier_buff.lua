@@ -16,7 +16,7 @@ end
 function biting_frost_modifier_buff:OnCreated( kv )
     if IsServer() then
 
-
+		-- gives proj speed in spell and changes the particle effect
 	end
 end
 ---------------------------------------------------------------------------

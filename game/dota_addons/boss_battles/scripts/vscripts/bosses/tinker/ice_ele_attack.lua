@@ -2,9 +2,6 @@ ice_ele_attack = class({})
 
 function ice_ele_attack:OnSpellStart()
 	if IsServer() then
-		--ParticleManager:DestroyParticle( self.nPreviewFX, false )
-
-		--StopSoundOn( "Dungeon.ArcherPullArrow", self:GetCaster() )
 
 		self.attack_speed = self:GetSpecialValueFor( "attack_speed" )
 		self.attack_width_initial = self:GetSpecialValueFor( "attack_width_initial" )
@@ -25,9 +22,15 @@ function ice_ele_attack:OnSpellStart()
 		vDirection = vDirection:Normalized()
 
 		self.attack_speed = self.attack_speed * ( self.attack_distance / ( self.attack_distance - self.attack_width_initial ) )
+		local effectName = "particles/units/heroes/hero_tusk/tusk_ice_shards_projectile.vpcf"
+
+		if self:GetCaster():HasModifier("biting_frost_modifier_buff") then
+			self.attack_speed = self.attack_speed + 500
+			effectName = "particles/tinker/tinker_tusk_ice_shards_projectile.vpcf"
+		end
 
 		local info = {
-			EffectName = "particles/units/heroes/hero_tusk/tusk_ice_shards_projectile.vpcf",
+			EffectName = effectName,
 			Ability = self,
 			vSpawnOrigin = self:GetCaster():GetOrigin(), 
 			fStartRadius = self.attack_width_initial,
