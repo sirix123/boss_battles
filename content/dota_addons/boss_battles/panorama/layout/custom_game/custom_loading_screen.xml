@@ -1,0 +1,20 @@
+<root>
+	<styles>
+		<include src="file://{resources}/styles/custom_game/custom_loading_screen.css" />
+	</styles>
+	<Panel class="AddonLoadingRoot">
+		<!--<Panel id="BackGround" >
+			<Image src="file://{images}/loading_screen/loading.png" scaling="stretch-to-fit-preserve-aspect" />
+		</Panel>-->
+		<Panel id="TitlePanel" style="border: 1px solid red;">
+			<Label id="AddonTitle" text="#addon_game_name" style="" />
+			<Label id="Raid" text="Tinkers Madness" style="" />
+		</Panel>
+		<Panel id="Socials" style="border: 1px solid red;">
+			<Label id="Socials" text="Socials" style="" />
+		</Panel>
+		<Panel id="LeaderBoard" style="border: 1px solid red;">
+			<Label id="LeaderBoard" text="LeaderBoard" style="" />
+		</Panel>
+	</Panel>
+</root>

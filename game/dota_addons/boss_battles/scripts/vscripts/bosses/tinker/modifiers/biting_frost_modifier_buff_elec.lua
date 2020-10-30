@@ -39,7 +39,7 @@ end
 -----------------------------------------------------------------------------
 
 function biting_frost_modifier_buff_elec:GetModifierMoveSpeedBonus_Constant( params )
-	return 200
+	return -200
 end
 
 --------------------------------------------------------------------------------

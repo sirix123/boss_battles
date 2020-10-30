@@ -1,0 +1,65 @@
+.AddonLoadingRoot
+{
+    width: 100%;
+    height: 100%;
+    background-color: black;
+}
+
+#BackGround
+{
+    horizontal-align: left;
+    vertical-align: center;
+    margin-left: 150px;
+}
+
+#TitlePanel
+{
+	horizontal-align: left;
+	vertical-align: bottom;
+	margin-bottom: 150px;
+	margin-left: 350px;
+	flow-children: down;
+}
+
+#Raid
+{
+	horizontal-align: left;
+	vertical-align: bottom;
+	margin-bottom: 10px;
+	margin-left: 10px;
+}
+
+#AddonTitle
+{
+	margin-bottom: 100px;
+	margin-left: -300px;
+	horizontal-align: left;
+	vertical-align: bottom;
+	text-transform: none;
+	font-size: 75px;
+	color: rgb(226, 28, 21);
+	text-shadow: 10px 5px 3px #100005;
+	text-decoration: none;
+}
+
+#LeaderBoard
+{
+	horizontal-align: left;
+	vertical-align: top;
+	margin-top: 150px;
+	margin-left: 50px;
+	width: 15%;
+    height: 50%;
+    background-color:  rgb(21, 226, 72);
+}
+
+#Socials
+{
+	horizontal-align: left;
+	vertical-align: top;
+	width: 15%;
+    height: 10%;
+	margin-top: 50px;
+	margin-left: 50px;
+	background-color:  rgb(21, 62, 100);
+}

@@ -1,5 +1,7 @@
 tinker_ai = class({})
 
+LinkLuaModifier("shield_effect", "bosses/tinker/modifiers/shield_effect", LUA_MODIFIER_MOTION_NONE)
+
 --------------------------------------------------------------------------------
 
 function Spawn( entityKeyValues )
@@ -8,11 +10,24 @@ function Spawn( entityKeyValues )
 
 	CreateUnitByName( "npc_crystal", Vector(-10673,11950,0), true, thisEntity, thisEntity, DOTA_TEAM_BADGUYS)
 
-	-- elemental buff phase timer -- summon timer
-	thisEntity.ice_phase = true
-	thisEntity.fire_phase = false
-	thisEntity.light_phase = false
-	ElementalPhaseTimer()
+	thisEntity:AddNewModifier( nil, nil, "shield_effect", { duration = -1 } )
+	thisEntity:AddNewModifier( nil, nil, "modifier_invulnerable", { duration = -1 } )
+	thisEntity:AddNewModifier( nil, nil, "modifier_phased", { duration = -1 } )
+
+	thisEntity.PHASE = 1
+	thisEntity.stack_count = 0
+
+	thisEntity.chain_light = thisEntity:FindAbilityByName( "chain_light" )
+	thisEntity.chain_light:StartCooldown(thisEntity.chain_light:GetCooldown(thisEntity.chain_light:GetLevel()))
+
+	thisEntity.ice_shot_tinker = thisEntity:FindAbilityByName( "ice_shot_tinker" )
+	thisEntity.ice_shot_tinker:StartCooldown(thisEntity.ice_shot_tinker:GetCooldown(thisEntity.ice_shot_tinker:GetLevel()))
+
+	thisEntity.summon_bird = thisEntity:FindAbilityByName( "summon_bird" )
+	thisEntity.summon_bird:StartCooldown(thisEntity.summon_bird:GetCooldown(thisEntity.summon_bird:GetLevel()))
+
+	thisEntity.tinker_teleport = thisEntity:FindAbilityByName( "tinker_teleport" )
+	thisEntity.tinker_teleport:StartCooldown(thisEntity.tinker_teleport:GetCooldown(thisEntity.tinker_teleport:GetLevel()))
 
     thisEntity:SetContextThink( "TinkerThinker", TinkerThinker, 0.1 )
 
@@ -30,53 +45,107 @@ function TinkerThinker()
 		return 0.5
 	end
 
-	--[[print("thisEntity.ice_phase ",thisEntity.ice_phase)
-	print("thisEntity.fire_phase ",thisEntity.fire_phase)
-	print("thisEntity.light_phase ",thisEntity.light_phase)
-	print("------------------------ ")]]
+	--print("tinker thisEntity.PHASE ", thisEntity.PHASE)
 
-	-- normal phase
+	-- handles the phase changes etc
+	if thisEntity:HasModifier("beam_counter") then
+		thisEntity.stack_count = thisEntity:FindModifierByName("beam_counter"):GetStackCount()
+		--print("stack_count ", thisEntity.stack_count)
+	end
 
-	-- do something else when the crystal is active
+	-- if this unit has the beam phase modiifier then phase == 2
+	if thisEntity:HasModifier("beam_phase") then
+		thisEntity.PHASE = 2
+	else
+		thisEntity.PHASE = 1
+	end
 
-	-- end phase 1 and start phase 2..... (maybe spawn another tinker on death? different unit name might be easier to handle)
+	if thisEntity.stack_count == 5 then
+		thisEntity:RemoveModifierByName("shield_effect")
+		thisEntity.PHASE = 3
+	end
 
+	-- phase 1
+	if thisEntity.PHASE == 1 then
+		if thisEntity.tinker_teleport ~= nil and thisEntity.tinker_teleport:IsFullyCastable() and thisEntity.tinker_teleport:IsCooldownReady() then
+			return CastTeleport()
+		end
 
+		if thisEntity.chain_light ~= nil and thisEntity.chain_light:IsFullyCastable() and thisEntity.chain_light:IsCooldownReady() then
+			--return CastChainLight()
+		end
+
+		if thisEntity.ice_shot_tinker ~= nil and thisEntity.ice_shot_tinker:IsFullyCastable() and thisEntity.ice_shot_tinker:IsCooldownReady() then
+			return CastIceShot()
+		end
+
+		if thisEntity.summon_bird ~= nil and thisEntity.summon_bird:IsFullyCastable() and thisEntity.summon_bird:IsCooldownReady() then
+			--return CastSummonBird()
+		end
+
+	end
+
+	-- crystal phase
+	if thisEntity.PHASE == 2 then
+		if thisEntity.tinker_teleport ~= nil and thisEntity.tinker_teleport:IsFullyCastable() and thisEntity.tinker_teleport:IsCooldownReady() then
+			return CastTeleport()
+		end
+	end
+
+	-- phase 2
+	if thisEntity.PHASE == 2 then
+
+	end
 
 	return 0.5
 end
 --------------------------------------------------------------------------------
 
-function ElementalPhaseTimer()
-	local i = 1
-	Timers:CreateTimer(5,function()
-		if ( not thisEntity:IsAlive() ) then
-			print("end timer?")
-			return false
-		end
+function CastTeleport(  )
 
-		--print("this running?")
-		if i > 3 then
-			i = 1
-		end
-
-		if i == 1 then
-			thisEntity.ice_phase = true
-			thisEntity.fire_phase = false
-			thisEntity.light_phase = false
-		elseif i == 2 then
-			thisEntity.ice_phase = false
-			thisEntity.fire_phase = true
-			thisEntity.light_phase = false
-		elseif i == 3 then
-			thisEntity.ice_phase = false
-			thisEntity.fire_phase = false
-			thisEntity.light_phase = true
-		end
-
-		i = i + 1
-
-		return 5
-	end)
+    ExecuteOrderFromTable({
+        UnitIndex = thisEntity:entindex(),
+        OrderType = DOTA_UNIT_ORDER_CAST_NO_TARGET,
+        AbilityIndex = thisEntity.tinker_teleport:entindex(),
+        Queue = false,
+    })
+    return 1
 end
 --------------------------------------------------------------------------------
+
+function CastChainLight(  )
+
+    ExecuteOrderFromTable({
+        UnitIndex = thisEntity:entindex(),
+        OrderType = DOTA_UNIT_ORDER_CAST_NO_TARGET,
+        AbilityIndex = thisEntity.chain_light:entindex(),
+        Queue = false,
+    })
+    return 1
+end
+--------------------------------------------------------------------------------
+
+function CastIceShot(  )
+
+    ExecuteOrderFromTable({
+        UnitIndex = thisEntity:entindex(),
+        OrderType = DOTA_UNIT_ORDER_CAST_NO_TARGET,
+        AbilityIndex = thisEntity.ice_shot_tinker:entindex(),
+        Queue = false,
+    })
+    return 1
+end
+--------------------------------------------------------------------------------
+
+function CastSummonBird(  )
+
+    ExecuteOrderFromTable({
+        UnitIndex = thisEntity:entindex(),
+        OrderType = DOTA_UNIT_ORDER_CAST_NO_TARGET,
+        AbilityIndex = thisEntity.summon_bird:entindex(),
+        Queue = false,
+    })
+    return 1
+end
+--------------------------------------------------------------------------------
+

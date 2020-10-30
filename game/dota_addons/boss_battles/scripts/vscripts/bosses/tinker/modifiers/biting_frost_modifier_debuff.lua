@@ -29,6 +29,13 @@ function biting_frost_modifier_debuff:OnCreated( kv )
 end
 ---------------------------------------------------------------------------
 
+function biting_frost_modifier_debuff:OnRefresh(table)
+    if IsServer() then
+        self:IncrementStackCount()
+	end
+end
+---------------------------------------------------------------------------
+
 function biting_frost_modifier_debuff:OnIntervalThink()
     if IsServer() then
 

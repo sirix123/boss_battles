@@ -2,6 +2,9 @@ chain_light = class({})
 
 LinkLuaModifier( "chain_light_modifier", "bosses/tinker/modifiers/chain_light_modifier", LUA_MODIFIER_MOTION_NONE  )
 LinkLuaModifier( "cast_electric_field", "bosses/tinker/modifiers/cast_electric_field", LUA_MODIFIER_MOTION_NONE  )
+LinkLuaModifier( "electric_encase_rocks", "bosses/tinker/modifiers/electric_encase_rocks", LUA_MODIFIER_MOTION_NONE  )
+LinkLuaModifier( "modifier_generic_stunned", "bosses/core/modifier_generic_stunned", LUA_MODIFIER_MOTION_NONE  )
+LinkLuaModifier( "chain_light_buff_elec", "bosses/tinker/modifiers/chain_light_buff_elec", LUA_MODIFIER_MOTION_NONE  )
 
 function chain_light:OnAbilityPhaseStart()
     if IsServer() then

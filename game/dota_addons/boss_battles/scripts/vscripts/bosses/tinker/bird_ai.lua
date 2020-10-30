@@ -13,7 +13,7 @@ function Spawn( entityKeyValues )
     thisEntity.bird_aoe_spell = thisEntity:FindAbilityByName( "bird_aoe_spell" )
 
     thisEntity:AddNewModifier( nil, nil, "modifier_invulnerable", { duration = -1 } )
-    thisEntity:AddNewModifier( nil, nil, "modifier_flying", { duration = -1 } )
+    thisEntity:AddNewModifier( thisEntity, nil, "modifier_flying", { duration = -1 } )
 
     -- fire particle effect, sit on bird to make it look firey
 
@@ -100,15 +100,15 @@ function BirdThinker()
 
         thisEntity:RemoveGesture(ACT_DOTA_CAST_ABILITY_1)
         thisEntity:AddNewModifier( nil, nil, "modifier_invulnerable", { duration = -1 } )
-        thisEntity:AddNewModifier( nil, nil, "modifier_flying", { duration = -1 } )
+        thisEntity:AddNewModifier( thisEntity, nil, "modifier_flying", { duration = -1 } )
 
         -- find the crystal
-        local distance = ( thisEntity:GetAbsOrigin() - FindCrystal() ):Length2D()
+        local distance = ( thisEntity:GetAbsOrigin() - FindCrystal():GetAbsOrigin() ):Length2D()
         local velocity = thisEntity:GetBaseMoveSpeed()
         local time = distance / velocity
 
         -- fly towards it
-        MoveToPos(FindCrystal())
+        MoveToPos(FindCrystal():GetAbsOrigin())
 
         thisEntity.PHASE = 5
 
@@ -129,6 +129,9 @@ function BirdThinker()
     if thisEntity.PHASE == 6 then
         thisEntity:ForceKill(false)
 
+        -- give tinker mana
+        FindCrystal():GiveMana(10)
+
         -- green destroy effect or something
     end
 
@@ -138,7 +141,7 @@ end
 function CalcMovePositions()
 
     local centre_point = Vector(-10633,11918,130.33)
-    local radius = 2816
+    local radius = 1250
 
     -- random x y for max pos
     local max_moves = 5
@@ -169,7 +172,7 @@ function FindCrystal()
 
     for _, unit in pairs(units) do
         if unit:GetUnitName() == "npc_crystal" then
-            return unit:GetAbsOrigin()
+            return unit
         end
     end
 end

@@ -21,10 +21,10 @@
 		//----------------------------------------------------------------
 		"Ability1"					"green_beam"					// Ability 1
 		"Ability2"					"spawn_rocks"					// Ability 2
-		"Ability3"					"electric_field"					// Ability 3
-		"Ability4"					""					// Ability 4
-		"Ability5"					""					// Ability 5
-		"Ability6"					""					// Ability 6
+		"Ability3"					"electric_field"				// Ability 3
+		"Ability4"					"summon_ice_ele"				// Ability 4
+		"Ability5"					"summon_fire_ele"				// Ability 5
+		"Ability6"					"summon_elec_ele"				// Ability 6
 		"Ability7"					""					// Ability 7
 		"Ability8"					""					// Ability 7
 		
@@ -88,14 +88,14 @@
 		"SoundSet"					"Hero_Tinker"
 		"GameSoundsFile"			"soundevents/game_sounds_heroes/game_sounds_tinker.vsndevts"
 		"Level"						"1"
-		"ModelScale" 				"1.5"
+		"ModelScale" 				"1.2"
 
 		// Abilities
 		//----------------------------------------------------------------
-		"Ability1"					""					// Ability 1
-		"Ability2"					""					// Ability 2
-		"Ability3"					""					// Ability 3
-		"Ability4"					""					// Ability 4
+		"Ability1"					"tinker_teleport"					// Ability 1
+		"Ability2"					"chain_light"					// Ability 2
+		"Ability3"					"ice_shot_tinker"					// Ability 3
+		"Ability4"					"summon_bird"					// Ability 4
 		"Ability5"					""					// Ability 5
 		"Ability6"					""					// Ability 6
 		"Ability7"					""					// Ability 7
@@ -122,7 +122,7 @@
 
 		// Movement
 		//----------------------------------------------------------------
-		"MovementCapabilities"		"DOTA_UNIT_CAP_MOVE_GROUND"//"DOTA_UNIT_CAP_MOVE_NONE"
+		"MovementCapabilities"		"DOTA_UNIT_CAP_MOVE_NONE"//"DOTA_UNIT_CAP_MOVE_NONE"
 		"MovementSpeed"				"220"					
 
 		// Status
@@ -143,6 +143,21 @@
 		"CombatClassAttack"			"DOTA_COMBAT_CLASS_ATTACK_PIERCE"
 		"CombatClassDefend"			"DOTA_COMBAT_CLASS_DEFEND_BASIC"
 		"UnitRelationshipClass"		"DOTA_NPC_UNIT_RELATIONSHIP_TYPE_DEFAULT"
+
+		"Creature"
+		{
+			"AttachWearables" // Default npc_dota_hero_tinker
+			{
+				"1" { "ItemDef" "466" } // Tinker's Head
+				"2" { "ItemDef" "467" } // Tinker's Cape
+				"3" { "ItemDef" "464" } // Tinker's Shoulders
+				"4" { "ItemDef" "465" } // Tinker's Helmet
+				"5" { "ItemDef" "618" } // Tinker's Misc
+				"6" { "ItemDef" "515" } // Tinker's Ambient Effects
+				"7" { "ItemDef" "367" } // Tinker's Right Arm
+				"8" { "ItemDef" "463" } // Tinker's Left Arm
+			}
+    	}
 
 	}
 }

@@ -42,7 +42,7 @@ function modifier_rock_push:HorizontalMotion(unit, time)
 
 
 	local distance = (unit:GetOrigin() - self.angle):Normalized()
-	unit:SetOrigin( unit:GetOrigin() + distance * 1200 * time )
+	--unit:SetOrigin( unit:GetOrigin() + distance * 1200 * time )
 	unit:SetOrigin( unit:GetOrigin() + self.parent:GetRightVector() * 1200 * time )
 
 end

@@ -1,4 +1,6 @@
-tinker_ai = class({})
+crystal_ai = class({})
+
+
 
 --------------------------------------------------------------------------------
 
@@ -10,10 +12,27 @@ function Spawn( entityKeyValues )
     thisEntity.spawn_rocks = thisEntity:FindAbilityByName( "spawn_rocks" )
     thisEntity.electric_field = thisEntity:FindAbilityByName( "electric_field" )
 
+    thisEntity.summon_ice_ele = thisEntity:FindAbilityByName( "summon_ice_ele" )
+    thisEntity.summon_fire_ele = thisEntity:FindAbilityByName( "summon_fire_ele" )
+    thisEntity.summon_elec_ele = thisEntity:FindAbilityByName( "summon_elec_ele" )
+
+    -- elemental buff phase timer -- summon timer
+	thisEntity.ice_phase = true
+	thisEntity.fire_phase = false
+	thisEntity.light_phase = false
+    ElementalPhaseTimer()
+
+    thisEntity:SetHullRadius(80)
+
+    thisEntity.beam_phase = false
+
+    thisEntity.stack_count = 0
+
+    thisEntity:SetMana(0)
+
     thisEntity:AddNewModifier( nil, nil, "modifier_invulnerable", { duration = -1 } )
 
     thisEntity:SetContextThink( "CrystalThinker", CrystalThinker, 0.1 )
-    
 
     -- during an activation phase particles/units/heroes/hero_rubick/rubick_golem_ambient.vpcf use this particle
 
@@ -31,17 +50,80 @@ function CrystalThinker()
 		return 0.5
     end
 
-    if thisEntity.electric_field ~= nil and thisEntity.electric_field:IsFullyCastable() and thisEntity.electric_field:IsCooldownReady() then
-        --thisEntity:RemoveModifierByName("cast_electric_field") and thisEntity:HasModifier("cast_electric_field")
+    -- find tinker and if he has x stacks of the modifier do something else...
+    local friends = FindUnitsInRadius(
+        thisEntity:GetTeamNumber(),
+        thisEntity:GetAbsOrigin(),
+        nil,
+        4000,
+        DOTA_UNIT_TARGET_TEAM_FRIENDLY,
+        DOTA_UNIT_TARGET_HERO + DOTA_UNIT_TARGET_BASIC,
+        DOTA_UNIT_TARGET_FLAG_INVULNERABLE,
+        FIND_CLOSEST,
+        false
+    )
+
+    if #friends == 0 then
+        --print("#friends ", #friends)
+		return 0.5
+    end
+
+    for _, friend in pairs(friends) do
+        --print("npc unit name", friend:GetUnitName())
+        if friend:GetUnitName() == "npc_tinker" then
+            if friend:HasModifier("beam_counter") then
+                thisEntity.stack_count = friend:FindModifierByName("beam_counter"):GetStackCount()
+                --print(" crystakl stack_count ", thisEntity.stack_count)
+            end
+        end
+    end
+
+    if thisEntity.stack_count == 5 then
+        -- do cool stuff when destroyed and setup arena
+        CastDestroySelf()
+
+        thisEntity:RemoveSelf()
+        return 1
+    end
+
+    if thisEntity.electric_field ~= nil and thisEntity.electric_field:IsFullyCastable() and thisEntity.electric_field:IsCooldownReady() and thisEntity:HasModifier("cast_electric_field") then
+        thisEntity:RemoveModifierByName("cast_electric_field")
         return CastElectricField()
     end
 
-    if thisEntity.green_beam ~= nil and thisEntity.green_beam:IsFullyCastable() and thisEntity.green_beam:IsCooldownReady() then
-        --return CastGreenBeam()
+    if thisEntity.beam_phase == false then
+
+        if thisEntity.summon_ice_ele ~= nil and thisEntity.summon_ice_ele:IsFullyCastable() and thisEntity.summon_ice_ele:IsCooldownReady() and thisEntity.ice_phase == true then
+            --return CastSummonIceEle()
+        end
+
+        if thisEntity.summon_fire_ele ~= nil and thisEntity.summon_fire_ele:IsFullyCastable() and thisEntity.summon_fire_ele:IsCooldownReady() and thisEntity.fire_phase == true then
+            --return CastSummonFireEle()
+        end
+
+        if thisEntity.summon_elec_ele ~= nil and thisEntity.summon_elec_ele:IsFullyCastable() and thisEntity.summon_elec_ele:IsCooldownReady() and thisEntity.elec_phase == true then
+            --return CastSummonElecEle()
+        end
+
     end
 
-    if thisEntity.spawn_rocks ~= nil and thisEntity.spawn_rocks:IsFullyCastable() and thisEntity.spawn_rocks:IsCooldownReady() then
-        --return SpawnRocks()
+    --print("thisEntity:GetManaPercent() ", thisEntity:GetManaPercent())
+
+    if thisEntity:GetManaPercent() == 100 then
+        thisEntity.beam_phase = true
+
+        if thisEntity.spawn_rocks ~= nil and thisEntity.spawn_rocks:IsFullyCastable() and thisEntity.spawn_rocks:IsCooldownReady() then
+            return SpawnRocks()
+        end
+
+        if thisEntity.green_beam ~= nil and thisEntity.green_beam:IsFullyCastable() and thisEntity.green_beam:IsCooldownReady() then
+            print("casting green bea")
+            return CastGreenBeam()
+        end
+
+        thisEntity:SetMana(0)
+        thisEntity.beam_phase = false
+
     end
 
 	return 0.5
@@ -56,7 +138,7 @@ function CastGreenBeam(  )
         AbilityIndex = thisEntity.green_beam:entindex(),
         Queue = false,
     })
-    return 1
+    return 20
 end
 --------------------------------------------------------------------------------
 
@@ -67,7 +149,7 @@ function SpawnRocks(  )
         AbilityIndex = thisEntity.spawn_rocks:entindex(),
         Queue = false,
     })
-    return 1
+    return 7
 end
 --------------------------------------------------------------------------------
 
@@ -82,3 +164,84 @@ function CastElectricField(  )
 end
 --------------------------------------------------------------------------------
 
+function CastDestroySelf(  )
+
+    -- fog the players
+
+    -- spawn little crystals and rocks around the map 
+
+    -- play rubick freedom VO
+
+    -- play explosion sound
+
+    -- dust particles all around map for a while that slowly disappear
+
+end
+--------------------------------------------------------------------------------
+
+function CastSummonIceEle(  )
+    ExecuteOrderFromTable({
+        UnitIndex = thisEntity:entindex(),
+        OrderType = DOTA_UNIT_ORDER_CAST_NO_TARGET,
+        AbilityIndex = thisEntity.summon_ice_ele:entindex(),
+        Queue = false,
+    })
+    return 1
+end
+--------------------------------------------------------------------------------
+
+function CastSummonFireEle(  )
+    ExecuteOrderFromTable({
+        UnitIndex = thisEntity:entindex(),
+        OrderType = DOTA_UNIT_ORDER_CAST_NO_TARGET,
+        AbilityIndex = thisEntity.summon_fire_ele:entindex(),
+        Queue = false,
+    })
+    return 1
+end
+--------------------------------------------------------------------------------
+
+function CastSummonElecEle(  )
+    ExecuteOrderFromTable({
+        UnitIndex = thisEntity:entindex(),
+        OrderType = DOTA_UNIT_ORDER_CAST_NO_TARGET,
+        AbilityIndex = thisEntity.summon_elec_ele:entindex(),
+        Queue = false,
+    })
+    return 1
+end
+--------------------------------------------------------------------------------
+
+function ElementalPhaseTimer()
+	local i = 1
+	Timers:CreateTimer(function()
+		if ( not thisEntity:IsAlive() ) then
+			print("end timer?")
+			return false
+		end
+
+		--print("this running?")
+		if i > 3 then
+			i = 1
+		end
+
+		if i == 1 then
+			thisEntity.ice_phase = true
+			thisEntity.fire_phase = false
+			thisEntity.light_phase = false
+		elseif i == 2 then
+			thisEntity.ice_phase = false
+			thisEntity.fire_phase = true
+			thisEntity.light_phase = false
+		elseif i == 3 then
+			thisEntity.ice_phase = false
+			thisEntity.fire_phase = false
+			thisEntity.light_phase = true
+		end
+
+		i = i + 1
+
+		return 20
+	end)
+end
+--------------------------------------------------------------------------------

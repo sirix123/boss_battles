@@ -16,11 +16,15 @@ end
 --------------------------------------------------------------------------------
 -- Initializations
 function modifier_flying:OnCreated( kv )
-
+	table.insert(tUNIT_TABLE, self:GetCaster():GetUnitName() )
 end
 
 function modifier_flying:OnDestroy()
-
+	for k, unit in pairs(tUNIT_TABLE) do
+        if unit == self:GetCaster():GetUnitName() then
+            table.remove(tUNIT_TABLE,k)
+        end
+    end
 end
 
 --------------------------------------------------------------------------------

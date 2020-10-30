@@ -141,6 +141,7 @@
 			_class = "C_OP_RenderSprites"
 			m_nOrientationType = 3
 			m_hTexture = resource:"materials/particle/particle_ring_cog_01.vtex"
+			m_bDisableOperator = true
 		},
 		{
 			_class = "C_OP_RenderSprites"
@@ -400,6 +401,7 @@
 		},
 		{
 			m_ChildRef = resource:"particles/custom/sirix/scan_wings.vpcf"
+			m_bDisableChild = true
 		},
 		{
 			m_ChildRef = resource:"particles/custom/sirix/scan_signal.vpcf"

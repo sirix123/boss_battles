@@ -58,6 +58,38 @@ function bird_puddle_thinker:StartApplyDamageLoop()
             false	-- bool, can grow cache
         )
 
+        local friendlies = FindUnitsInRadius(
+            self:GetCaster():GetTeamNumber(),	-- int, your team number
+            self.currentTarget,	-- point, center point
+            nil,	-- handle, cacheUnit. (not known)
+            self.radius,	-- float, radius. or use FIND_UNITS_EVERYWHERE
+            DOTA_UNIT_TARGET_TEAM_FRIENDLY,	-- int, team filter
+            DOTA_UNIT_TARGET_HERO + DOTA_UNIT_TARGET_BASIC,	-- int, type filter
+            0,	-- int, flag filter
+            0,	-- int, order filter
+            false	-- bool, can grow cache
+        )
+
+        for _, friend in pairs(friendlies) do
+            if friend:GetUnitName("npc_ice_ele") == true then
+                self.dmgTable = {
+                    victim = friend,
+                    attacker = self.caster,
+                    damage = self.dmg_dot + 500,
+                    damage_type = DAMAGE_TYPE_PHYSICAL,
+                    ability = self,
+                }
+
+                ApplyDamage(self.dmgTable)
+
+            elseif friend:GetUnitName("npc_fire_ele") then
+                friend:Heal(50, nil)
+
+            elseif friend:GetUnitName("npc_elec_ele") then
+                self:Destroy()
+            end
+        end
+
         for _, enemy in pairs(enemies) do
 
             self.dmgTable = {

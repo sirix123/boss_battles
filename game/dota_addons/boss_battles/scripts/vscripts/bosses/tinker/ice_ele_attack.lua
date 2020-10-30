@@ -1,7 +1,16 @@
 ice_ele_attack = class({})
 
+function ice_ele_attack:OnAbilityPhaseStart()
+    if IsServer() then
+        self:GetCaster():StartGestureWithPlaybackRate(ACT_DOTA_COLD_FEET, 1.0)
+        return true
+    end
+end
+
 function ice_ele_attack:OnSpellStart()
 	if IsServer() then
+
+		self:GetCaster():RemoveGesture(ACT_DOTA_COLD_FEET)
 
 		self.attack_speed = self:GetSpecialValueFor( "attack_speed" )
 		self.attack_width_initial = self:GetSpecialValueFor( "attack_width_initial" )

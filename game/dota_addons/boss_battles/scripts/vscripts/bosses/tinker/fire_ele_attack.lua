@@ -5,7 +5,7 @@ LinkLuaModifier("fire_ele_encase_rocks_debuff", "bosses/tinker/modifiers/fire_el
 
 function fire_ele_attack:OnAbilityPhaseStart()
     if IsServer() then
-        self:GetCaster():StartGestureWithPlaybackRate(ACT_DOTA_ATTACK, 7.0)
+        self:GetCaster():StartGestureWithPlaybackRate(ACT_DOTA_ATTACK, 1.2)
 
         self.vTargetPos = self:GetCursorTarget()
 

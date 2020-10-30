@@ -57,7 +57,7 @@ function ice_shot_tinker:OnSpellStart()
         local projectile = {
             EffectName = "particles/tinker/iceshot__invoker_chaos_meteor.vpcf", --particles/tinker/iceshot__invoker_chaos_meteor.vpcf
             vSpawnOrigin = origin,
-            fDistance = self:GetCastRange(Vector(0,0,0), nil),
+            fDistance = 5000,
             fUniqueRadius = 200,
             Source = caster,
             vVelocity = direction * speed,
@@ -72,9 +72,10 @@ function ice_shot_tinker:OnSpellStart()
             OnUnitHit = function(_self, unit)
 
                 if unit:GetUnitName() == "npc_crystal" then
+                    unit:GiveMana(50)
                     self:HitCrystal( unit )
                 elseif unit:GetTeamNumber() == DOTA_UNIT_TARGET_TEAM_ENEMY then
-                    self:HitPlayer()
+                    self:HitPlayer(unit)
                 elseif unit:GetUnitName() == "npc_ice_ele" then
                     self:HitEle(unit)
                 elseif unit:GetUnitName() == "npc_fire_ele" then
@@ -131,10 +132,10 @@ function ice_shot_tinker:HitCrystal( crystal )
 
         if units ~= nil and #units ~= 0 then
             for _, unit in pairs(units) do
-                if unit:GetUnitName() ~= "npc_rock" and unit:GetUnitName() ~= "npc_tinker" and unit:GetUnitName() ~= "npc_bird"then
+                if unit ~= self and unit:GetUnitName() ~= "" and unit:GetUnitName() ~= "npc_rock" and unit:GetUnitName() ~= "npc_tinker" and unit:GetUnitName() ~= "npc_bird" and unit:GetUnitName() ~= "npc_green_bird" and unit:GetUnitName() ~= "npc_crystal"  then
                     -- references
                     self.speed = 500 -- special value
-
+                    print("unit:GetUnitName() ", unit:GetUnitName())
                     -- create projectile
                     local info = {
                         EffectName = "particles/tinker/green_iceshot__invoker_chaos_meteor.vpcf",
@@ -143,7 +144,7 @@ function ice_shot_tinker:HitCrystal( crystal )
                         Source = crystal,
                         Target = unit,
                         bDodgeable = false,
-                        iSourceAttachment = DOTA_PROJECTILE_ATTACHMENT_HITLOCATION,
+                        --iSourceAttachment = DOTA_PROJECTILE_ATTACHMENT_ATTACK_1,
                         bProvidesVision = true,
                         iVisionTeamNumber = crystal:GetTeamNumber(),
                         iVisionRadius = 300,
@@ -166,12 +167,13 @@ function ice_shot_tinker:OnProjectileHit( hTarget, vLocation)
 
         if hTarget:GetTeam() == DOTA_TEAM_GOODGUYS then
             -- apply debuff
-            hTarget:AddNewModifier(self:GetCaster(), self, "biting_frost_modifier_debuff", {duration = 15})
+            hTarget:AddNewModifier(self:GetCaster(), self, "biting_frost_modifier_debuff", {duration = 20})
+            --hBuff:IncrementStackCount()
         end
 
         -- apply buff
         if hTarget:GetTeam() == DOTA_TEAM_BADGUYS then
-            print("hit fire ele")
+            --print("hit fire ele")
             -- apply debuff
             self:HitEle(hTarget)
         end
@@ -196,7 +198,12 @@ function ice_shot_tinker:OnProjectileHit( hTarget, vLocation)
             if rocks ~= nil and #rocks ~= 0 then
                 for _, rock in pairs(rocks) do
                     if rock:GetUnitName() == "npc_encase_rocks" then
-                        rock:ForceKill(false)
+                        local particle_destroy = "particles/tinker/tinker_tiny_prestige_lvl4_death_rocks.vpcf"
+                        local particle_effect = ParticleManager:CreateParticle( particle_destroy, PATTACH_WORLDORIGIN, nil )
+                        ParticleManager:SetParticleControl(particle_effect, 0, rock:GetAbsOrigin() )
+                        ParticleManager:ReleaseParticleIndex(particle_effect)
+
+                        rock:RemoveSelf()
                     end
                 end
             end
@@ -209,7 +216,7 @@ end
 function ice_shot_tinker:HitPlayer(unit)
     if IsServer() then
         unit:AddNewModifier(self:GetCaster(), self, "biting_frost_modifier_debuff", {duration = 15})
-
+        --hBuff:IncrementStackCount()
     end
 end
 ------------------------------------------------------------------------------------------------
