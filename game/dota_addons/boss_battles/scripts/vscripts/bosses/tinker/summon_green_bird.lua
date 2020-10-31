@@ -3,7 +3,7 @@ summon_green_bird = class({})
 function summon_green_bird:OnSpellStart()
     if IsServer() then
         -- number of cast locations per cast, level up every phase?
-        self.numBirds = 3
+        self.numBirds = 1
         local delay = 0.1--self:GetSpecialValueFor( "delay" )
 
         -- init

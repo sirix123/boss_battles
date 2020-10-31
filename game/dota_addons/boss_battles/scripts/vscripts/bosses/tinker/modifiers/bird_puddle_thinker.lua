@@ -47,7 +47,7 @@ function bird_puddle_thinker:StartApplyDamageLoop()
         end
 
         local enemies = FindUnitsInRadius(
-            self:GetCaster():GetTeamNumber(),	-- int, your team number
+            self.parent:GetTeamNumber(),	-- int, your team number
             self.currentTarget,	-- point, center point
             nil,	-- handle, cacheUnit. (not known)
             self.radius,	-- float, radius. or use FIND_UNITS_EVERYWHERE
@@ -59,7 +59,7 @@ function bird_puddle_thinker:StartApplyDamageLoop()
         )
 
         local friendlies = FindUnitsInRadius(
-            self:GetCaster():GetTeamNumber(),	-- int, your team number
+            self.parent:GetTeamNumber(),	-- int, your team number
             self.currentTarget,	-- point, center point
             nil,	-- handle, cacheUnit. (not known)
             self.radius,	-- float, radius. or use FIND_UNITS_EVERYWHERE
@@ -74,7 +74,7 @@ function bird_puddle_thinker:StartApplyDamageLoop()
             if friend:GetUnitName("npc_ice_ele") == true then
                 self.dmgTable = {
                     victim = friend,
-                    attacker = self.caster,
+                    attacker = self.parent,
                     damage = self.dmg_dot + 500,
                     damage_type = DAMAGE_TYPE_PHYSICAL,
                     ability = self,
@@ -94,7 +94,7 @@ function bird_puddle_thinker:StartApplyDamageLoop()
 
             self.dmgTable = {
                 victim = enemy,
-                attacker = self.caster,
+                attacker = self.parent,
                 damage = self.dmg_dot,
                 damage_type = DAMAGE_TYPE_PHYSICAL,
                 ability = self,

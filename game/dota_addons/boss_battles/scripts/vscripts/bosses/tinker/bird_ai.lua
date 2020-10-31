@@ -11,6 +11,7 @@ function Spawn( entityKeyValues )
     if thisEntity == nil then return end
 
     thisEntity.bird_aoe_spell = thisEntity:FindAbilityByName( "bird_aoe_spell" )
+    thisEntity.summon_green_bird = thisEntity:FindAbilityByName( "summon_green_bird" )
 
     thisEntity:AddNewModifier( nil, nil, "modifier_invulnerable", { duration = -1 } )
     thisEntity:AddNewModifier( thisEntity, nil, "modifier_flying", { duration = -1 } )
@@ -37,6 +38,8 @@ function BirdThinker()
 	if GameRules:IsGamePaused() == true then
 		return 0.5
     end
+
+    --print(" bird thisEntity.PHASE ",thisEntity.PHASE)
 
     -- move to random pos around the arena until table is 0 then go to phase 2 (pos calc in spawn function)
     if thisEntity.PHASE == 1 then
@@ -117,13 +120,13 @@ function BirdThinker()
 
     if thisEntity.PHASE == 5 then
 
-        if thisEntity.bird_aoe_spell ~= nil and thisEntity.bird_aoe_spell:IsFullyCastable() and thisEntity.bird_aoe_spell:IsCooldownReady() then
-            CastWaveSpell(  )
+        if thisEntity.summon_green_bird ~= nil and thisEntity.summon_green_bird:IsFullyCastable() and thisEntity.summon_green_bird:IsCooldownReady() then
+            CastSummonGreenBird(  )
         end
 
         thisEntity.PHASE = 6
 
-        return 2
+        return 0.5
     end
 
     if thisEntity.PHASE == 6 then
@@ -200,12 +203,12 @@ function CastAoeSpell(  )
 end
 --------------------------------------------------------------------------------
 
-function CastWaveSpell(  )
+function CastSummonGreenBird(  )
 
     ExecuteOrderFromTable({
         UnitIndex = thisEntity:entindex(),
         OrderType = DOTA_UNIT_ORDER_CAST_NO_TARGET,
-        AbilityIndex = thisEntity.bird_aoe_spell:entindex(),
+        AbilityIndex = thisEntity.summon_green_bird:entindex(),
         Queue = false,
     })
 end

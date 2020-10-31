@@ -24,7 +24,7 @@ function Spawn( entityKeyValues )
 	thisEntity.ice_shot_tinker:StartCooldown(thisEntity.ice_shot_tinker:GetCooldown(thisEntity.ice_shot_tinker:GetLevel()))
 
 	thisEntity.summon_bird = thisEntity:FindAbilityByName( "summon_bird" )
-	thisEntity.summon_bird:StartCooldown(thisEntity.summon_bird:GetCooldown(thisEntity.summon_bird:GetLevel()))
+	--thisEntity.summon_bird:StartCooldown(thisEntity.summon_bird:GetCooldown(thisEntity.summon_bird:GetLevel()))
 
 	thisEntity.tinker_teleport = thisEntity:FindAbilityByName( "tinker_teleport" )
 	thisEntity.tinker_teleport:StartCooldown(thisEntity.tinker_teleport:GetCooldown(thisEntity.tinker_teleport:GetLevel()))
@@ -68,7 +68,7 @@ function TinkerThinker()
 	-- phase 1
 	if thisEntity.PHASE == 1 then
 		if thisEntity.tinker_teleport ~= nil and thisEntity.tinker_teleport:IsFullyCastable() and thisEntity.tinker_teleport:IsCooldownReady() then
-			return CastTeleport()
+			--return CastTeleport()
 		end
 
 		if thisEntity.chain_light ~= nil and thisEntity.chain_light:IsFullyCastable() and thisEntity.chain_light:IsCooldownReady() then
@@ -76,11 +76,11 @@ function TinkerThinker()
 		end
 
 		if thisEntity.ice_shot_tinker ~= nil and thisEntity.ice_shot_tinker:IsFullyCastable() and thisEntity.ice_shot_tinker:IsCooldownReady() then
-			return CastIceShot()
+			--return CastIceShot()
 		end
 
 		if thisEntity.summon_bird ~= nil and thisEntity.summon_bird:IsFullyCastable() and thisEntity.summon_bird:IsCooldownReady() then
-			--return CastSummonBird()
+			return CastSummonBird()
 		end
 
 	end

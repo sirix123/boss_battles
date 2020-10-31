@@ -20,7 +20,7 @@ function green_beam:OnSpellStart()
         local beam_length = 2700
         local radius = 30
 
-        local angleIncrement = 0.7
+        local angleIncrement = 0.6
         local currentAngle = 1
 
         self.stopFireWave = false

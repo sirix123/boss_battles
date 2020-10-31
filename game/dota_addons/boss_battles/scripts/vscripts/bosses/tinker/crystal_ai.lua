@@ -107,7 +107,7 @@ function CrystalThinker()
 
     end
 
-    --print("thisEntity:GetManaPercent() ", thisEntity:GetManaPercent())
+    --print("crystal thisEntity:GetManaPercent() ", thisEntity:GetManaPercent())
 
     if thisEntity:GetManaPercent() == 100 then
         thisEntity.beam_phase = true
