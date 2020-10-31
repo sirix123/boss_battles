@@ -17,7 +17,13 @@ end
 -- Initializations
 function modifier_flying:OnCreated( kv )
     if IsServer() then
-        table.insert(tUNIT_TABLE, self:GetCaster():GetUnitName() )
+
+        -- unqie unit name
+        UNQIUE_INT = UNQIUE_INT + 1
+        self:GetParent():SetUnitName(self:GetCaster():GetUnitName() .. UNQIUE_INT)
+        --print("self:GetParent():GetUnitName() ", self:GetParent():GetUnitName())
+
+        table.insert(tUNIT_TABLE, self:GetParent():GetUnitName() )
     end
 end
 
@@ -25,7 +31,7 @@ function modifier_flying:OnRemoved()
     if IsServer() then
         for k, unit in pairs(tUNIT_TABLE) do
             --print("unit:GetUnitName() ",unit)
-            if unit == self:GetCaster():GetUnitName() then
+            if unit == self:GetParent():GetUnitName() then
                 table.remove(tUNIT_TABLE,k)
             end
         end

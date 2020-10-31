@@ -17,8 +17,8 @@ function Spawn( entityKeyValues )
 	thisEntity.PHASE = 1
 	thisEntity.stack_count = 0
 
-	thisEntity.chain_light = thisEntity:FindAbilityByName( "chain_light" )
-	thisEntity.chain_light:StartCooldown(thisEntity.chain_light:GetCooldown(thisEntity.chain_light:GetLevel()))
+	thisEntity.chain_light_v2 = thisEntity:FindAbilityByName( "chain_light_v2" )
+	thisEntity.chain_light_v2:StartCooldown(thisEntity.chain_light_v2:GetCooldown(thisEntity.chain_light_v2:GetLevel()))
 
 	thisEntity.ice_shot_tinker = thisEntity:FindAbilityByName( "ice_shot_tinker" )
 	thisEntity.ice_shot_tinker:StartCooldown(thisEntity.ice_shot_tinker:GetCooldown(thisEntity.ice_shot_tinker:GetLevel()))
@@ -71,8 +71,8 @@ function TinkerThinker()
 			--return CastTeleport()
 		end
 
-		if thisEntity.chain_light ~= nil and thisEntity.chain_light:IsFullyCastable() and thisEntity.chain_light:IsCooldownReady() then
-			--return CastChainLight()
+		if thisEntity.chain_light_v2 ~= nil and thisEntity.chain_light_v2:IsFullyCastable() and thisEntity.chain_light_v2:IsCooldownReady() then
+			return CastChainLight()
 		end
 
 		if thisEntity.ice_shot_tinker ~= nil and thisEntity.ice_shot_tinker:IsFullyCastable() and thisEntity.ice_shot_tinker:IsCooldownReady() then
@@ -80,7 +80,7 @@ function TinkerThinker()
 		end
 
 		if thisEntity.summon_bird ~= nil and thisEntity.summon_bird:IsFullyCastable() and thisEntity.summon_bird:IsCooldownReady() then
-			return CastSummonBird()
+			--return CastSummonBird()
 		end
 
 	end
@@ -118,7 +118,7 @@ function CastChainLight(  )
     ExecuteOrderFromTable({
         UnitIndex = thisEntity:entindex(),
         OrderType = DOTA_UNIT_ORDER_CAST_NO_TARGET,
-        AbilityIndex = thisEntity.chain_light:entindex(),
+        AbilityIndex = thisEntity.chain_light_v2:entindex(),
         Queue = false,
     })
     return 1

@@ -93,7 +93,7 @@
 		// Abilities
 		//----------------------------------------------------------------
 		"Ability1"					"tinker_teleport"					// Ability 1
-		"Ability2"					"chain_light"					// Ability 2
+		"Ability2"					"chain_light_v2"					// Ability 2
 		"Ability3"					"ice_shot_tinker"					// Ability 3
 		"Ability4"					"summon_bird"					// Ability 4
 		"Ability5"					""					// Ability 5

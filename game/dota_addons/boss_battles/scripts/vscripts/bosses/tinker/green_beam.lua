@@ -27,7 +27,7 @@ function green_beam:OnSpellStart()
 
         -- start a timer that fires the blast wave projectile every x seconds, look at the endpos var every timer run
         Timers:CreateTimer(0.5, function()
-            if self.stopFireWave == true then
+            if self.stopFireWave == true or caster:IsAlive() == false then
                 return false
             end
 
@@ -55,7 +55,7 @@ function green_beam:OnSpellStart()
 
         for _, friend in pairs(friendlies) do
             if friend:GetUnitName() == "npc_tinker" then
-                print("trying to apply beam phase here")
+                --print("trying to apply beam phase here")
 
                 self.tinker_origin = friend:GetAbsOrigin()
             end
@@ -72,6 +72,10 @@ function green_beam:OnSpellStart()
         local particleName = "particles/tinker/green_phoenix_sunray.vpcf"
         self.pfx = ParticleManager:CreateParticle( particleName, PATTACH_ABSORIGIN, caster )
         caster:SetContextThink( DoUniqueString( "updateSunRay" ), function ( )
+
+            if caster:IsAlive() == false then
+                return -1
+            end
 
             --print("caster:SetContextThink( DoUniqueString")
 
@@ -178,6 +182,9 @@ function green_beam:FireBlastWave(direction)
             fGroundOffset = 80,
             draw = false,
             UnitTest = function(_self, unit)
+                if unit == nil then
+                    return false
+                end
                 return unit:GetTeamNumber() ~= self:GetCaster():GetTeamNumber() and unit:GetModelName() ~= "models/development/invisiblebox.vmdl" and CheckGlobalUnitTableForUnitName(unit) ~= true
             end,
             OnUnitHit = function(_self, unit)

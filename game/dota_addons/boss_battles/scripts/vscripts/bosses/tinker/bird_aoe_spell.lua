@@ -21,7 +21,7 @@ function bird_aoe_spell:OnSpellStart()
     self.i = 0
 
     Timers:CreateTimer(self.damage_interval, function()
-	    if self.i == self.duration then
+	    if self.i == self.duration or self.caster:IsAlive() == false then
 		    return false
         end
 

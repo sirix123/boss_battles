@@ -86,43 +86,43 @@
     //=================================================================================================================
     // Tinker: chain_light
     //=================================================================================================================
-    "chain_light"
-    { 
-        "BaseClass"                     "ability_lua"
-        "ScriptFile"                    "bosses/tinker/chain_light"
-        "MaxLevel"						"4"
+    "chain_light_v2"
+	{
+		"BaseClass"						"ability_lua"
+		"ScriptFile"					"bosses/tinker/chain_light_v2"
+		"MaxLevel"						"1"
 
-        // General
-        //-------------------------------------------------------------------------------------------------------------
         "AbilityBehavior"               "DOTA_ABILITY_BEHAVIOR_NO_TARGET"
-        "AbilityUnitDamageType"         "DAMAGE_TYPE_PHYSICAL"  
+        "AbilityUnitDamageType"         "DAMAGE_TYPE_PHYSICAL"
+		"AbilityCastRange" 				"1500"
+        "AbilityCooldown"				"5"
+        "AbilityCastPoint"              "2.0"
 
-        // Casting
-        //-------------------------------------------------------------------------------------------------------------
-        "AbilityCastPoint"              "1 0.0 0.0 0.0"
-        "AbilityCastRange" 				"0"
 
-        // Time     
-        //-------------------------------------------------------------------------------------------------------------
-        "AbilityCooldown"               "25 25 25 25"
-
-        // Cost
-        //-------------------------------------------------------------------------------------------------------------
-        "AbilityManaCost"               "0"
-
-        // Special
-        //-------------------------------------------------------------------------------------------------------------
+		"TargetingIndicator"
+		{
+			//"Type"						"TARGETING_INDICATOR_LINE"
+			//"Fixed"						"1"
+		}
+        
 		"AbilitySpecial"
 		{
-            //"01"{ "var_type"			"FIELD_INTEGER"		"max_mines"		        "5" }
+			"01"{ "var_type"			"FIELD_INTEGER"		"duration"				"20" 	}
+			"02"{ "var_type"			"FIELD_INTEGER"		"bounce_range"			"1200" 	}	
+			"03"{ "var_type"			"FIELD_INTEGER"		"speed"					"1500" 	}	
+			"04"{ "var_type"			"FIELD_INTEGER"		"max_bounces"			"5" 	}		
 		}
 
-        "precache"
+		"precache"
 		{
-			"soundfile" "soundevents/game_sounds_heroes/game_sounds_zuus.vsndevts"
-            //"soundfile"  "soundevents/game_sounds_heroes/game_sounds_zuus.vsndevts"
+			"soundfile"     "sounds/weapons/hero/zuus/arc_lightning.vsnd"
+            "soundfile"     "sounds/items/item_mael_lightning_01.vsnd"
+            "soundfile"     "sounds/items/item_mael_lightning_02.vsnd"
+            "soundfile"     "sounds/items/item_mael_lightning_03.vsnd"
+            "soundfile"     "sounds/items/item_mael_lightning_04.vsnd"
+            "soundfile"     "sounds/items/item_mael_lightning_05.vsnd"
 		}
-    }
+	}
 
     //=================================================================================================================
     // Tinker: electric_field
@@ -229,7 +229,7 @@
 
         // Time     
         //-------------------------------------------------------------------------------------------------------------
-        "AbilityCooldown"               "40 25 25 25"
+        "AbilityCooldown"               "25 25 25 25"
 
         // Cost
         //-------------------------------------------------------------------------------------------------------------

@@ -541,17 +541,17 @@ function CheckFurnace()
 	Timers:CreateTimer(120,function()
 		if ( not thisEntity:IsAlive() ) then
 			thisEntity.i = 0
-			print("end timer?")
+			--print("end timer?")
 			return false
 		end
 
 		thisEntity.i = thisEntity.i + 1
-		print("thisEntity.i ", thisEntity.i)
-		print("thisEntity.nActivatedFurnaces ", thisEntity.nActivatedFurnaces)
+		--print("thisEntity.i ", thisEntity.i)
+		--print("thisEntity.nActivatedFurnaces ", thisEntity.nActivatedFurnaces)
 
 		-- if all furnace active stop timer
 		if thisEntity.nActivatedFurnaces == 4 then
-			print("end timer... dont check for enrage anymore cause all furnace are active")
+			--print("end timer... dont check for enrage anymore cause all furnace are active")
 			return false
 		end
 
@@ -601,7 +601,7 @@ function CheckFurnace()
 				end
 
 				-- apply enrage
-				print("applying enrage buff")
+				--print("applying enrage buff")
 
 				-- play voice line
 				EmitGlobalSound("rattletrap_ratt_immort_01")

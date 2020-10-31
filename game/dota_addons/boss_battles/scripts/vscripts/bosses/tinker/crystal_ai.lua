@@ -22,6 +22,8 @@ function Spawn( entityKeyValues )
 	thisEntity.light_phase = false
     ElementalPhaseTimer()
 
+    thisEntity.stop_timers = false
+
     thisEntity:SetHullRadius(80)
 
     thisEntity.beam_phase = false
@@ -42,7 +44,8 @@ end
 function CrystalThinker()
 	if not IsServer() then return end
 
-	if ( not thisEntity:IsAlive() ) then
+    if ( not thisEntity:IsAlive() ) then
+        thisEntity.stop_timers = true
 		return -1
 	end
 
@@ -94,7 +97,7 @@ function CrystalThinker()
     if thisEntity.beam_phase == false then
 
         if thisEntity.summon_ice_ele ~= nil and thisEntity.summon_ice_ele:IsFullyCastable() and thisEntity.summon_ice_ele:IsCooldownReady() and thisEntity.ice_phase == true then
-            --return CastSummonIceEle()
+            return CastSummonIceEle()
         end
 
         if thisEntity.summon_fire_ele ~= nil and thisEntity.summon_fire_ele:IsFullyCastable() and thisEntity.summon_fire_ele:IsCooldownReady() and thisEntity.fire_phase == true then
@@ -117,7 +120,7 @@ function CrystalThinker()
         end
 
         if thisEntity.green_beam ~= nil and thisEntity.green_beam:IsFullyCastable() and thisEntity.green_beam:IsCooldownReady() then
-            print("casting green bea")
+            --print("casting green bea")
             return CastGreenBeam()
         end
 
@@ -213,10 +216,11 @@ end
 --------------------------------------------------------------------------------
 
 function ElementalPhaseTimer()
-	local i = 1
+    local i = 1
+
 	Timers:CreateTimer(function()
-		if ( not thisEntity:IsAlive() ) then
-			print("end timer?")
+		if thisEntity.stop_timers == true then
+			--print("end timer?")
 			return false
 		end
 

@@ -17,8 +17,8 @@ function biting_frost_modifier_debuff:OnCreated( kv )
     if IsServer() then
         self.parent = self:GetParent()
         self.caster = self:GetCaster()
-        self.radius = 200 --kv.radius
-        self.dmg = 1 --kv.dmg
+        self.radius = 150 --kv.radius
+        self.dmg = 1--50 --kv.dmg
         self.stopDamageLoop = false
         self.damage_interval = 2 --kv.damage_interval
         self:IncrementStackCount()
@@ -59,7 +59,7 @@ function biting_frost_modifier_debuff:StartApplyDamageLoop()
         ParticleManager:ReleaseParticleIndex( self.effect_cast )
 
         local friendly = FindUnitsInRadius(
-            self:GetCaster():GetTeamNumber(),	-- int, your team number
+            self.parent:GetTeamNumber(),	-- int, your team number
             self.parent:GetAbsOrigin(),	-- point, center point
             nil,	-- handle, cacheUnit. (not known)
             self.radius,	-- float, radius. or use FIND_UNITS_EVERYWHERE
@@ -91,7 +91,10 @@ end
 function biting_frost_modifier_debuff:OnDestroy( kv )
     if IsServer() then
         self.stopDamageLoop = true
-        ParticleManager:DestroyParticle(self.effect_cast,false)
+
+        if self.effect_cast ~= nil then
+            ParticleManager:DestroyParticle(self.effect_cast,false)
+        end
 	end
 end
 ---------------------------------------------------------------------------

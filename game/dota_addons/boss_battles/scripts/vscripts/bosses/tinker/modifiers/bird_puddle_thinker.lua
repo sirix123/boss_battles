@@ -70,49 +70,67 @@ function bird_puddle_thinker:StartApplyDamageLoop()
             false	-- bool, can grow cache
         )
 
-        for _, friend in pairs(friendlies) do
-            if friend:GetUnitName("npc_ice_ele") == true then
+        if friendlies ~= nil and #friendlies ~= 0 then
+            for _, friend in pairs(friendlies) do
+                if friend:GetUnitName() == "npc_ice_ele" then
+                    self.dmgTable = {
+                        victim = friend,
+                        attacker = self.parent,
+                        damage = self.dmg_dot + 500,
+                        damage_type = DAMAGE_TYPE_PHYSICAL,
+                        ability = self,
+                    }
+
+                    ApplyDamage(self.dmgTable)
+
+                elseif friend:GetUnitName() == "npc_fire_ele" then
+                    friend:Heal(50, nil)
+
+                elseif friend:GetUnitName() == "npc_elec_ele"then
+                    self:Destroy()
+                end
+            end
+        end
+
+        if enemies ~= nil and #enemies ~= 0 then
+            for _, enemy in pairs(enemies) do
+
                 self.dmgTable = {
-                    victim = friend,
+                    victim = enemy,
                     attacker = self.parent,
-                    damage = self.dmg_dot + 500,
+                    damage = self.dmg_dot,
                     damage_type = DAMAGE_TYPE_PHYSICAL,
                     ability = self,
                 }
 
+                if enemy:HasModifier("biting_frost_modifier_debuff") then
+                    -- little steam particle effect here?
+                    local particle = "particles/units/heroes/hero_phoenix/phoenix_supernova_death_steam.vpcf"
+                    local effect_cast = ParticleManager:CreateParticle( particle, PATTACH_WORLDORIGIN, self.parent )
+                    ParticleManager:SetParticleControl( effect_cast, 1, self.parent:GetAbsOrigin() )
+                    ParticleManager:ReleaseParticleIndex( effect_cast )
+
+                    enemy:RemoveModifierByName("biting_frost_modifier_debuff")
+                    self:Destroy()
+                end
+
                 ApplyDamage(self.dmgTable)
-
-            elseif friend:GetUnitName("npc_fire_ele") then
-                friend:Heal(50, nil)
-
-            elseif friend:GetUnitName("npc_elec_ele") then
-                self:Destroy()
             end
         end
 
-        for _, enemy in pairs(enemies) do
-
-            self.dmgTable = {
-                victim = enemy,
-                attacker = self.parent,
-                damage = self.dmg_dot,
-                damage_type = DAMAGE_TYPE_PHYSICAL,
-                ability = self,
-            }
-
-            if enemy:HasModifier("biting_frost_modifier_debuff") then
-                -- little steam particle effect here?
-                local particle = "particles/units/heroes/hero_phoenix/phoenix_supernova_death_steam.vpcf"
-                local effect_cast = ParticleManager:CreateParticle( particle, PATTACH_WORLDORIGIN, self.parent )
-                ParticleManager:SetParticleControl( effect_cast, 1, self.parent:GetAbsOrigin() )
-                ParticleManager:ReleaseParticleIndex( effect_cast )
-
-                enemy:RemoveModifier("biting_frost_modifier_debuff")
-                self:Destroy()
-            end
-
-            ApplyDamage(self.dmgTable)
-        end
+        local areAllHeroesDead = true --start on true, then set to false if you find one hero alive.
+		local heroes = HeroList:GetAllHeroes()
+		for _, hero in pairs(heroes) do
+			if hero.playerLives > 0 then
+				areAllHeroesDead = false
+				break
+			end
+		end
+		if areAllHeroesDead then
+			--Timers:CreateTimer(1.0, function()
+				self:Destroy()
+			--end)
+		end
 
 		return self.damage_interval
 	end)

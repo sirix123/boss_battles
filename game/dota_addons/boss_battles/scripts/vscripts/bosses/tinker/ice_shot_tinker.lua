@@ -132,10 +132,19 @@ function ice_shot_tinker:HitCrystal( crystal )
 
         if units ~= nil and #units ~= 0 then
             for _, unit in pairs(units) do
-                if unit ~= self and unit:GetUnitName() ~= "" and unit:GetUnitName() ~= "npc_rock" and unit:GetUnitName() ~= "npc_tinker" and unit:GetUnitName() ~= "npc_bird" and unit:GetUnitName() ~= "npc_green_bird" and unit:GetUnitName() ~= "npc_crystal"  then
+                if unit ~= self 
+                    and unit:GetUnitName() ~= ""
+                    and unit:GetUnitName() ~= "npc_rock"
+                    and unit:GetUnitName() ~= "npc_tinker"
+                    and unit:GetUnitName() ~= "npc_bird"
+                    and unit:GetUnitName() ~= "npc_green_bird"
+                    and unit:GetUnitName() ~= "npc_crystal"
+                    and CheckGlobalUnitTableForUnitName(unit) ~= true then
+
+
                     -- references
                     self.speed = 500 -- special value
-                    print("unit:GetUnitName() ", unit:GetUnitName())
+                    --print("unit:GetUnitName() ", unit:GetUnitName())
                     -- create projectile
                     local info = {
                         EffectName = "particles/tinker/green_iceshot__invoker_chaos_meteor.vpcf",
