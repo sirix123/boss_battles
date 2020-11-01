@@ -120,3 +120,34 @@ function ShowWearables( unit )
     v:RemoveEffects(EF_NODRAW)
   end
 end
+
+-- Remove/Clear the whole set
+function Clear(set)
+ for k,v in pairs(set) do
+   set[k] = nil
+ end
+end
+
+-- Remove this key from the set
+function Remove(set, key)
+ set[key] = nil
+end
+
+-- Check if the set contains this key
+function Contains(set, key)
+    return set[key] ~= nil
+end
+
+function shallowcopy(orig)
+    local orig_type = type(orig)
+    local copy
+    if orig_type == 'table' then
+        copy = {}
+        for orig_key, orig_value in pairs(orig) do
+            copy[orig_key] = orig_value
+        end
+    else -- number, string, boolean, etc
+        copy = orig
+    end
+    return copy
+end

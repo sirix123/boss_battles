@@ -15,6 +15,17 @@ require('libraries/animations')
 function Precache( context ) -- this needs to be in a seperate file
   --PrecacheUnitByName('npc_flame_turret')
 
+
+  --OUR CUSTOM SOUND EVENTS:
+  --print("OUR CUSTOM SOUND EVENTS")
+  --PrecacheResource("soundfile", "soundevents/custom_sounds.vsndevts", context)
+
+
+  -- gyro precache:
+  PrecacheResource("soundfile", "soundevents/game_sounds_heroes/game_sounds_gyrocopter.vsndevts", context)
+  PrecacheResource("soundfile", "soundevents/voscripts/game_sounds_vo_gyrocopter.vsndevts", context)
+
+
   PrecacheResource("soundfile", "soundevents/game_sounds_heroes/game_sounds_tusk.vsndevts", context)
   PrecacheResource("soundfile", "soundevents/game_sounds_heroes/game_sounds_beastmaster.vsndevts", context)
   PrecacheResource("soundfile", "soundevents/voscripts/game_sounds_vo_beastmaster.vsndevts", context)

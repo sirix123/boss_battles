@@ -3,11 +3,11 @@ rocket_barrage = class({})
 --As the spell level increases the dmg increase, perhaps the radius or duration too. 
 
 
-local spellDuration = 10 -- Spell duration in seconds
+local spellDuration = 2 -- Spell duration in seconds
 local tickDuration = 0.1 -- Amount of time to delay between ticks
 local tickLimit = spellDuration / tickDuration
 
-local totalDamage = 50000
+local totalDamage = 50
 local tickDamage = totalDamage / tickLimit
 
 
@@ -16,9 +16,16 @@ local radius = 400
 
 --Rocket barrage targets all enemies in the radius and deals tickDamage to them every tickDuration.
 function rocket_barrage:OnSpellStart()
-	print("rocket_barrage:OnSpellStart()")
-
+	-- print("rocket_barrage:OnSpellStart()")
 	local caster = self:GetCaster()
+	--doesn't work
+	--self:GetCaster():EmitSound('gyrocopter_gyro_attack_08')
+
+	
+	-- print("rocket_barrage. caster = ", caster)
+	-- print("rocket_barrage. caster:GetAbsOrigin() = ", caster:GetAbsOrigin())
+
+
 	--local particle = "particles/units/heroes/hero_gyrocopter/gyro_rocket_barrage.vpcf"
 	local particle = "particles/gyrocopter/gyro_rocket_barrage.vpcf"
 
@@ -58,7 +65,7 @@ function rocket_barrage:OnSpellStart()
 
 		--check if we've reached the end of the spell
 		if tickCount >= tickLimit then
-			print("tickCount >= tickLimit. Returning.")
+			--print("tickCount >= tickLimit. Returning.")
 			return 
 		end
 

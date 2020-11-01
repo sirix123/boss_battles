@@ -27,6 +27,7 @@
         //-------------------------------------------------------------------------------------------------------------
         "AbilityManaCost"               "0"
 
+
     }
 
     //=================================================================================================================
@@ -109,6 +110,20 @@
             "particle" "particles/gyrocopter/gyro_rocket_barrage.vpcf"
         }
 
+        
+        // Precache
+        //-------------------------------------------------------------------------------------------------------------
+        "precache"
+        {
+            "soundfile"  "sounds/vo/gyrocopter/gyro_attack_01.vsnd"
+            "soundfile"  "sounds/vo/gyrocopter/gyro_attack_02.vsnd"
+            "soundfile"  "sounds/vo/gyrocopter/gyro_attack_08.vsnd"
+            "soundfile"  "sounds/vo/gyrocopter/gyro_attack_09.vsnd"
+            "soundfile"  "sounds/vo/gyrocopter/gyro_attack_12.vsnd"
+            "soundfile"  "sounds/vo/gyrocopter/gyro_attack_14.vsnd"
+            "soundfile"  "sounds/vo/gyrocopter/gyro_call_down_05.vsnd"
+            "soundfile"  "soundevents/game_sounds_heroes/game_sounds_gyrocopter.vsndevts"
+        }
     }    
 
     //=================================================================================================================
@@ -144,15 +159,19 @@
         {
             "01"
             {
-                "var_type"                      "FIELD_INTEGER"
-                "maxStacks"                     "2 3 4 5"
+                "var_type"                   "FIELD_INTEGER"
+                "stacks"                     "5 5 5 5"
             }
             "02"
             {
                 "var_type"                          "FIELD_INTEGER"
-                "duration"                             "10 12 14 16"
+                "duration"                             "12 12 12 12"
             }
-            "03"{ "var_type"            "FIELD_INTEGER"     "radius"                    "2000"   }
+            "03"
+            { 
+                "var_type"            "FIELD_INTEGER"
+                 "radius"                    "2000"   
+            }
 
         }
 
