@@ -16,16 +16,18 @@ function electric_field_modifier:OnCreated(keys)
 
     local maxRadius = 2500--self:GetTalentSpecialValueFor("radius")
     local speed = 1200--self:GetTalentSpecialValueFor("speed")
-    local damage = 10--self:GetTalentSpecialValueFor("damage")
+    local damage = 100--self:GetTalentSpecialValueFor("damage")
     local currentRadius = 0
 
     --DebugDrawCircle(caster:GetAbsOrigin(), Vector(0,255,0),128,maxRadius,true,60)
 
     local nfx = ParticleManager:CreateParticle("particles/tinker/tinker_razor_plasmafield.vpcf", PATTACH_POINT_FOLLOW, caster)
     ParticleManager:SetParticleControl(nfx, 0, caster:GetAbsOrigin())
-    ParticleManager:SetParticleControl(nfx, 1, Vector(speed, maxRadius + 500, 1))
+    ParticleManager:SetParticleControl(nfx, 1, Vector(speed, maxRadius, 1))
 
     local enemyHit = {}
+
+    FindEnemyUnitsInRing(caster:GetAbsOrigin(), maxRadius, currentRadius, self:GetCaster():GetTeamNumber())
 
     -- flag for returning
     local return_field = false
@@ -33,17 +35,7 @@ function electric_field_modifier:OnCreated(keys)
     Timers:CreateTimer(0, function()
         if currentRadius < maxRadius and return_field == false then
 
-            local enemies = FindUnitsInRadius(
-                self:GetCaster():GetTeamNumber(),
-                caster:GetAbsOrigin(),
-                nil,
-                currentRadius,
-                DOTA_UNIT_TARGET_TEAM_ENEMY,
-                DOTA_UNIT_TARGET_ALL,
-                0,	-- int, flag filter
-                0,	-- int, order filter
-                false	-- bool, can grow cache
-            )
+            local enemies = FindEnemyUnitsInRing(caster:GetAbsOrigin(), maxRadius, currentRadius, self:GetCaster():GetTeamNumber())
 
             for _, enemy in pairs(enemies) do
                 if not enemyHit[enemy] then
@@ -62,8 +54,9 @@ function electric_field_modifier:OnCreated(keys)
                     enemyHit[enemy] = true
                 end
             end
-
+            DebugDrawCircle(caster:GetAbsOrigin(), Vector(0,255,0),128,currentRadius,true,0.2)
             currentRadius = currentRadius + maxRadius*FrameTime()
+            print("currentRadius ",currentRadius)
             return 0.06
 
         else

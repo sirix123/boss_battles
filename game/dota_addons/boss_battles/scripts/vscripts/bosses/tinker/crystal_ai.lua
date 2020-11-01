@@ -101,11 +101,11 @@ function CrystalThinker()
         end
 
         if thisEntity.summon_fire_ele ~= nil and thisEntity.summon_fire_ele:IsFullyCastable() and thisEntity.summon_fire_ele:IsCooldownReady() and thisEntity.fire_phase == true then
-            --return CastSummonFireEle()
+            return CastSummonFireEle()
         end
 
         if thisEntity.summon_elec_ele ~= nil and thisEntity.summon_elec_ele:IsFullyCastable() and thisEntity.summon_elec_ele:IsCooldownReady() and thisEntity.elec_phase == true then
-            --return CastSummonElecEle()
+            return CastSummonElecEle()
         end
 
     end

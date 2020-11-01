@@ -306,7 +306,7 @@
         "AbilityUnitDamageType"         "DAMAGE_TYPE_PHYSICAL" 
         "MaxLevel"						"4"
         "AbilityCastRange" 				"10000"
-        "AbilityCooldown"				"20"
+        "AbilityCooldown"				"35"
         "AbilityCastPoint"              "0"
         "AbilityManaCost"               "0"
 
@@ -376,7 +376,7 @@
         "AbilityUnitDamageType"         "DAMAGE_TYPE_PHYSICAL" 
         "MaxLevel"						"4"
         "AbilityCastRange" 				"10000"
-        "AbilityCooldown"				"20"
+        "AbilityCooldown"				"35"
         "AbilityCastPoint"              "0"
         "AbilityManaCost"               "0"
 
@@ -439,7 +439,7 @@
         "AbilityUnitDamageType"         "DAMAGE_TYPE_PHYSICAL" 
         "MaxLevel"						"4"
         "AbilityCastRange" 				"10000"
-        "AbilityCooldown"				"30"
+        "AbilityCooldown"				"35"
         "AbilityCastPoint"              "0"
         "AbilityManaCost"               "0"
 

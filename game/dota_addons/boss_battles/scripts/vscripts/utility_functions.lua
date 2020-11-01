@@ -298,6 +298,10 @@ function FindEnemyUnitsInRing(position, maxRadius, minRadius, team)
 
 		local innerRing = FindUnitsInRadius(team, position, nil, minRadius, iTeam, iType, iFlag, iOrder, false)
 		local outerRing = FindUnitsInRadius(team, position, nil, maxRadius, iTeam, iType, iFlag, iOrder, false)
+
+		--DebugDrawCircle(position,Vector(255,0,0),128,maxRadius,true,60)
+		--DebugDrawCircle(position,Vector(0,0,255),128,minRadius,true,60)
+
 		local resultTable = {}
 		for _, unit in ipairs(outerRing) do
 			if not unit:IsNull() then

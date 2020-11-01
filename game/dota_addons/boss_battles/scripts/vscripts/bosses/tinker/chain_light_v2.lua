@@ -97,7 +97,7 @@ function chain_light_v2:OnProjectileHit( hTarget, vLocation)
 	if IsServer() then
 		if hTarget == nil then return end
 
-		hTarget:EmitSound("Hero_Zuus.ArcLightning.Target")
+		EmitSoundOn("Hero_Zuus.ArcLightning.Target", hTarget)
 
 		-- get unit hits team
 		local hTargetsTeam = hTarget:GetTeam()
@@ -106,13 +106,13 @@ function chain_light_v2:OnProjectileHit( hTarget, vLocation)
 
 		-- target ~= casters team
 		if hTargetsTeam == self.caster:GetTeam() then
-			print("this is working")
+			--print("this is working")
 			if hTarget:GetUnitName() == "npc_crystal" then
-				print("npc_crystal")
+				--print("npc_crystal")
 				hTarget:GiveMana(10)
 				hTarget:AddNewModifier( self.caster, self, "cast_electric_field", { duration = -1 } )
 			elseif hTarget:GetUnitName() == "npc_ice_ele" then
-				print("npc_ice_ele")
+				--print("npc_ice_ele")
 				hTarget:AddNewModifier( self.caster, self, "stunned_modifier", { duration = 5 } )
 			elseif hTarget:GetUnitName() == "npc_fire_ele" then
 				hTarget:AddNewModifier( self.caster, self, "stunned_modifier", { duration = 5 } )

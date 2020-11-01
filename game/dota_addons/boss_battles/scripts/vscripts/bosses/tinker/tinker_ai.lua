@@ -68,7 +68,7 @@ function TinkerThinker()
 	-- phase 1
 	if thisEntity.PHASE == 1 then
 		if thisEntity.tinker_teleport ~= nil and thisEntity.tinker_teleport:IsFullyCastable() and thisEntity.tinker_teleport:IsCooldownReady() then
-			--return CastTeleport()
+			return CastTeleport()
 		end
 
 		if thisEntity.chain_light_v2 ~= nil and thisEntity.chain_light_v2:IsFullyCastable() and thisEntity.chain_light_v2:IsCooldownReady() then
@@ -76,11 +76,11 @@ function TinkerThinker()
 		end
 
 		if thisEntity.ice_shot_tinker ~= nil and thisEntity.ice_shot_tinker:IsFullyCastable() and thisEntity.ice_shot_tinker:IsCooldownReady() then
-			--return CastIceShot()
+			return CastIceShot()
 		end
 
 		if thisEntity.summon_bird ~= nil and thisEntity.summon_bird:IsFullyCastable() and thisEntity.summon_bird:IsCooldownReady() then
-			--return CastSummonBird()
+			return CastSummonBird()
 		end
 
 	end

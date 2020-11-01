@@ -87,6 +87,9 @@ function Precache( context ) -- this needs to be in a seperate file
   -- techies prechace
   PrecacheResource("soundfile", "soundevents/voscripts/game_sounds_vo_techies.vsndevts", context)
 
+  -- tinker
+  PrecacheResource("soundfile", "soundevents/game_sounds_heroes/game_sounds_zuus.vsndevts", context)
+
 end
 
 function Activate()
