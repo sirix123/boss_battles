@@ -83,7 +83,7 @@
 
 		// General
 		//----------------------------------------------------------------
-		"Model"						"models/heroes/visage/visage_familiar.vmdl"	// Model.
+		"Model"						"models/heroes/visage/visage_familiar.vmdl"//"models/heroes/visage/visage_familiar.vmdl"	// Model. models/courier/courier_mech/courier_mech_flying.vmdl
 		"BaseClass"					"npc_dota_creature"
 		"SoundSet"					"Hero_Techies"
 		"GameSoundsFile"			"soundevents/game_sounds_heroes/game_sounds_techies.vsndevts"
@@ -93,7 +93,7 @@
 		// Abilities
 		//----------------------------------------------------------------
 		"Ability1"					"bird_aoe_spell"					// Ability 1
-		"Ability2"					""					// Ability 2
+		"Ability2"					"summon_green_bird"					// Ability 2
 		"Ability3"					""					// Ability 3
 		"Ability4"					""					// Ability 4
 		"Ability5"					""					// Ability 5
@@ -165,7 +165,7 @@
 
 		// Abilities
 		//----------------------------------------------------------------
-		"Ability1"					"bird_aoe_spell"					// Ability 1
+		"Ability1"					"green_bird_explode"					// Ability 1
 		"Ability2"					""					// Ability 2
 		"Ability3"					""					// Ability 3
 		"Ability4"					""					// Ability 4
@@ -385,7 +385,7 @@
 		"SoundSet"					"Hero_Techies"
 		"GameSoundsFile"			"soundevents/game_sounds_heroes/game_sounds_techies.vsndevts"
 		"Level"						"1"
-		"ModelScale" 				"0.8"
+		"ModelScale" 				"0.4"
 
 		// Abilities
 		//----------------------------------------------------------------

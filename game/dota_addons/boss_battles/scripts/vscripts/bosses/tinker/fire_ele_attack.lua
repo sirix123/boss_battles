@@ -1,7 +1,6 @@
 fire_ele_attack = class({})
 
 LinkLuaModifier("fire_ele_melt_debuff", "bosses/tinker/modifiers/fire_ele_melt_debuff", LUA_MODIFIER_MOTION_NONE)
-LinkLuaModifier("fire_ele_encase_rocks_debuff", "bosses/tinker/modifiers/fire_ele_encase_rocks_debuff", LUA_MODIFIER_MOTION_NONE)
 
 function fire_ele_attack:OnAbilityPhaseStart()
     if IsServer() then
@@ -83,17 +82,6 @@ function fire_ele_attack:OnProjectileHit( hTarget, vLocation)
             local hBuff = hTarget:AddNewModifier( self:GetCaster(), self, "fire_ele_melt_debuff", { duration = 7 } )
             if hTarget:HasModifier("fire_ele_melt_debuff") == true and hBuff:GetStackCount() < self.max_stacks  then
                 hBuff:IncrementStackCount()
-
-                -- check stack count, if >x then encase in rocks
-                local stackCount = hBuff:GetStackCount()
-
-                if stackCount == self.max_stacks and hTarget:HasModifier("fire_ele_encase_rocks_debuff") ~= true then
-                    local hRocks = CreateUnitByName( "npc_encase_rocks", vLocation, false, nil, nil, DOTA_TEAM_BADGUYS)
-                    hRocks:AddNewModifier( nil, nil, "modifier_phased", { duration = -1 })
-
-                    hTarget:AddNewModifier( self:GetCaster(), self, "fire_ele_encase_rocks_debuff", { duration = -1 } )
-                    hTarget:AddNewModifier( self:GetCaster(), self, "modifier_rooted", { duration = -1 } )
-                end
             end
         end
     end

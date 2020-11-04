@@ -1,12 +1,12 @@
 spawn_rocks = class({})
 
 LinkLuaModifier( "modifier_rock_push", "bosses/techies/modifiers/modifier_rock_push", LUA_MODIFIER_MOTION_NONE )
-LinkLuaModifier("beam_phase", "bosses/tinker/modifiers/beam_phase", LUA_MODIFIER_MOTION_NONE)
+--LinkLuaModifier("beam_phase", "bosses/tinker/modifiers/beam_phase", LUA_MODIFIER_MOTION_NONE)
 
 function spawn_rocks:OnAbilityPhaseStart()
     if IsServer() then
 
-        -- find tinker and get the direction from tinker to the crystral, use this as the starting direction vector for the beam
+        --[[ find tinker and get the direction from tinker to the crystral, use this as the starting direction vector for the beam
         local friendlies = FindUnitsInRadius(
             self:GetCaster():GetTeamNumber(),	-- int, your team number
             self:GetCaster():GetAbsOrigin(),	-- point, center point
@@ -23,7 +23,7 @@ function spawn_rocks:OnAbilityPhaseStart()
             if friend:GetUnitName() == "npc_tinker" then
                 friend:AddNewModifier( caster, self, "beam_phase", { duration = -1 } )
             end
-        end
+        end]]
 
         -- play voice line
         EmitSoundOn("techies_tech_suicidesquad_01", self:GetCaster())
@@ -36,35 +36,25 @@ end
 function spawn_rocks:OnSpellStart()
     if IsServer() then
         local caster = self:GetCaster()
-        local max_lines = 6
         local end_pos_direction = Vector(0,0,0)
-        local tAngles = {}
+        local currentAngle = 0
 
-        for i = 1, max_lines, 1 do
-            local beam_length = 2700
-            local rock_size = 200
-            local fit_rocks = ( beam_length / rock_size )
-            local tRocks = {}
-            local max_rocks_remove = 5
+        --for i = 1, max_lines, 1 do
+        local beam_length = 2500
+        local rock_size = 200
+        local fit_rocks = ( beam_length / rock_size )
+        local tRocks = {}
+        local max_rocks_remove = 5
 
-            end_pos_direction = Vector(	RandomFloat( -1 	, 1 ), RandomFloat( -1 , 1 ), 0 ):Normalized()
-            local acos = math.acos( Dot(end_pos_direction,caster:GetForwardVector()) / (Mag(end_pos_direction) * Mag(caster:GetForwardVector())))
+        local maxAngle = 360 --increase beyond 360 for ... more laps around, more density. You probably don't want that.
+        local minIncrement = 20
+        while (currentAngle < maxAngle) do
 
-            if i > 1 then
-                for _, angle in pairs(tAngles) do
-                    local j = 0 -- limit the number of tries
-                    while math.abs(acos - angle) < 30 do
-                        j = j + 1
-                        if j == 5 then break end
-                        end_pos_direction = Vector(	RandomFloat( -1 	, 1 ), RandomFloat( -1 , 1 ), 0 ):Normalized()
-                        acos = math.acos( Dot(end_pos_direction,caster:GetForwardVector()) / (Mag(end_pos_direction) * Mag(caster:GetForwardVector())))
-                    end
-                end
-
-                table.insert(tAngles, math.deg(acos))
-            elseif i == 1 then
-                table.insert(tAngles, math.deg(acos))
-            end
+            local randomIncrement = RandomInt(1,30) --TODO: make this random val between 1 and 30?
+            currentAngle =  currentAngle + ( minIncrement + randomIncrement )
+            local radAngle = currentAngle * 0.0174532925 --angle in radians
+            local point = Vector(beam_length * math.cos(radAngle), beam_length * math.sin(radAngle), 0)
+            end_pos_direction = point:Normalized()
 
             -- calculate the rock spots along the line
             for i = 1, fit_rocks, 1 do
@@ -74,49 +64,51 @@ function spawn_rocks:OnSpellStart()
                 table.insert(tRocks, vRock)
             end
 
+            --DebugDrawLine_vCol(caster:GetAbsOrigin(), caster:GetAbsOrigin() + ( end_pos_direction * beam_length ) , Vector(255,0,0), true, 8)
+
             -- remove random amount of rocks
             local remove_rocks = RandomInt(1,max_rocks_remove)
             for i = 1, remove_rocks, 1 do
                 table.remove(tRocks, RandomInt(1,#tRocks))
             end
+        end
 
-            -- encase this in a timer... (spawning the rocks, then before this comment rumble the ground) this is wrok around... 
-            -- kill the player if they stand on the rocks spawning...
-            -- can remove the pushback code then... also add a particle effect
-            -- how to show them rising from the ground?
-            -- going to have to create a particle effect with that rock model...when the effect ends spawns the model in the same spot...
-            for _, rock in pairs(tRocks) do
-                --print("ROCKS")
-                --DebugDrawCircle(rock, Vector(0,155,0),128,50,true,60)
-                -- play particle effect at each location (swirl)
-                --particles/tinker/tinker_rock_spawns_enigma_blackhole_ti5_dark_swirl.vpcf "particles/custom/swirl/dota_swirl.vpcf"
-                local particle_rock_spawn = "particles/custom/swirl/dota_swirl.vpcf"
-                local particle_effect_rock_spawn = ParticleManager:CreateParticle( particle_rock_spawn, PATTACH_WORLDORIGIN, self:GetCaster() )
-                ParticleManager:SetParticleControl(particle_effect_rock_spawn, 0, rock )
-                ParticleManager:SetParticleControl(particle_effect_rock_spawn, 1, Vector(5,0,0) )
-                ParticleManager:ReleaseParticleIndex(particle_effect_rock_spawn)
-
-            end
-
-            Timers:CreateTimer(5, function()
-
-                -- for rocks that remain, spawn them, at each location check for units and kill him,
-                for _, rock in pairs(tRocks) do
-                    local rock_unit = CreateUnitByName("npc_rock", rock, true, nil, nil, DOTA_TEAM_BADGUYS)
-                    rock_unit:SetHullRadius(rock_size - 60 )
-                    rock_unit:AddNewModifier( nil, nil, "modifier_invulnerable", { duration = -1 } )
-
-                    -- find units around each rock and push them back (apply the modifier)
-                    --self:PushBack( rock )
-
-                    -- kill anyone on top of a rock that spawns
-                    self:KillUnits( rock )
-                end
-
-                return false
-            end)
+        -- encase this in a timer... (spawning the rocks, then before this comment rumble the ground) this is wrok around... 
+        -- kill the player if they stand on the rocks spawning...
+        -- can remove the pushback code then... also add a particle effect
+        -- how to show them rising from the ground?
+        -- going to have to create a particle effect with that rock model...when the effect ends spawns the model in the same spot...
+        for _, rock in pairs(tRocks) do
+            --print("ROCKS")
+            --DebugDrawCircle(rock, Vector(0,155,0),128,50,true,60)
+            -- play particle effect at each location (swirl)
+            --particles/tinker/tinker_rock_spawns_enigma_blackhole_ti5_dark_swirl.vpcf "particles/custom/swirl/dota_swirl.vpcf"
+            local particle_rock_spawn = "particles/custom/swirl/dota_swirl.vpcf"
+            local particle_effect_rock_spawn = ParticleManager:CreateParticle( particle_rock_spawn, PATTACH_WORLDORIGIN, self:GetCaster() )
+            ParticleManager:SetParticleControl(particle_effect_rock_spawn, 0, rock )
+            ParticleManager:SetParticleControl(particle_effect_rock_spawn, 1, Vector(5,0,0) )
+            ParticleManager:ReleaseParticleIndex(particle_effect_rock_spawn)
 
         end
+
+        Timers:CreateTimer(5, function()
+
+            -- for rocks that remain, spawn them, at each location check for units and kill him,
+            for _, rock in pairs(tRocks) do
+                local rock_unit = CreateUnitByName("npc_rock", rock, true, nil, nil, DOTA_TEAM_BADGUYS)
+                rock_unit:SetHullRadius(rock_size - 60 )
+                rock_unit:AddNewModifier( nil, nil, "modifier_invulnerable", { duration = -1 } )
+
+                -- find units around each rock and push them back (apply the modifier)
+                --self:PushBack( rock )
+
+                -- kill anyone on top of a rock that spawns
+                self:KillUnits( rock )
+            end
+
+            return false
+        end)
+
     end
 end
 ---------------------------------------------------------------------------------------------------------------------------------------

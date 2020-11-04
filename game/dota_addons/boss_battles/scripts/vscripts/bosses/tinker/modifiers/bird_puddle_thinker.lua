@@ -18,13 +18,15 @@ function bird_puddle_thinker:OnCreated( kv )
     if IsServer() then
         self.parent = self:GetParent()
         self.caster = self:GetCaster()
-        self.radius = 150
+        self.radius = 200
         self.dmg_dot = 20
         self.stopDamageLoop = false
         self.damage_interval = 1
 
         -- ref from spell 
         self.currentTarget = Vector( kv.target_x, kv.target_y, kv.target_z )
+
+        --DebugDrawCircle(self.parent:GetAbsOrigin(), Vector(0,0,255), 128, self.radius, true, 60)
 
         -- particle effect lava puddle
         local particle_cast2 = "particles/clock/tinker_hero_snapfire_ultimate_linger.vpcf"

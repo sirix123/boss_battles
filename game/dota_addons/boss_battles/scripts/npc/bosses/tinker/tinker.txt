@@ -21,7 +21,7 @@
 		//----------------------------------------------------------------
 		"Ability1"					"green_beam"					// Ability 1
 		"Ability2"					"spawn_rocks"					// Ability 2
-		"Ability3"					"electric_field"				// Ability 3
+		"Ability3"					"electric_field_v2"				// Ability 3
 		"Ability4"					"summon_ice_ele"				// Ability 4
 		"Ability5"					"summon_fire_ele"				// Ability 5
 		"Ability6"					"summon_elec_ele"				// Ability 6

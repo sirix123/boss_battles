@@ -2,12 +2,32 @@ green_beam = class({})
 
 --LinkLuaModifier( "green_beam_modifier", "bosses/techies/modifiers/green_beam_modifier", LUA_MODIFIER_MOTION_BOTH  )
 LinkLuaModifier("beam_counter", "bosses/tinker/modifiers/beam_counter", LUA_MODIFIER_MOTION_NONE)
+LinkLuaModifier("beam_phase", "bosses/tinker/modifiers/beam_phase", LUA_MODIFIER_MOTION_NONE)
 
 function green_beam:OnAbilityPhaseStart()
     if IsServer() then
 
+        -- find tinker and get the direction from tinker to the crystral, use this as the starting direction vector for the beam
+        local friendlies = FindUnitsInRadius(
+            self:GetCaster():GetTeamNumber(),	-- int, your team number
+            self:GetCaster():GetAbsOrigin(),	-- point, center point
+            nil,	-- handle, cacheUnit. (not known)
+            5000,	-- float, radius. or use FIND_UNITS_EVERYWHERE
+            DOTA_UNIT_TARGET_TEAM_FRIENDLY,	-- int, team filter
+            DOTA_UNIT_TARGET_HERO + DOTA_UNIT_TARGET_BASIC,	-- int, type filter
+            DOTA_UNIT_TARGET_FLAG_INVULNERABLE,	-- int, flag filter
+            0,	-- int, order filter
+            false	-- bool, can grow cache
+        )
+
+        for _, friend in pairs(friendlies) do
+            if friend:GetUnitName() == "npc_tinker" then
+                friend:AddNewModifier( caster, self, "beam_phase", { duration = -1 } )
+            end
+        end
+
         -- play voice line
-        EmitSoundOn("techies_tech_suicidesquad_01", self:GetCaster())
+        EmitSoundOn("rubick_rub_arc_levelup_06 ", self:GetCaster())
 
         return true
     end
@@ -66,7 +86,7 @@ function green_beam:OnSpellStart()
         --local beam_point = caster:GetAbsOrigin() + vTinkerDirectionInverse * beam_length
         local beam_point = caster:GetAbsOrigin() + vTinkerDirection * beam_length
         beam_point = ( RotatePosition(caster:GetAbsOrigin(), QAngle(0,-150,0), beam_point ) )
-        DebugDrawCircle(beam_point, Vector(155,0,0),128,50,true,60)
+        --DebugDrawCircle(beam_point, Vector(155,0,0),128,50,true,60)
 
         -- create particle effect
         local particleName = "particles/tinker/green_phoenix_sunray.vpcf"
@@ -165,7 +185,7 @@ end
 
 function green_beam:FireBlastWave(direction)
     if IsServer() then
-        local projectile_speed = 600
+        local projectile_speed = 700
 
         local projectile = {
             EffectName = "particles/tinker/tinker_napalm_wave_basedtidehuntergushupgrade.vpcf",
@@ -175,7 +195,7 @@ function green_beam:FireBlastWave(direction)
 			fEndRadius = 200,
             Source = self:GetCaster(),
             vVelocity = direction * projectile_speed,
-            UnitBehavior = PROJECTILES_DESTROY,
+            UnitBehavior = PROJECTILES_NOTHING,
             TreeBehavior = PROJECTILES_DESTROY,
             WallBehavior = PROJECTILES_DESTROY,
             GroundBehavior = PROJECTILES_NOTHING,

@@ -43,3 +43,13 @@ function biting_frost_modifier_buff_elec:GetModifierMoveSpeedBonus_Constant( par
 end
 
 --------------------------------------------------------------------------------
+
+function biting_frost_modifier_buff_elec:GetEffectName()
+	return "particles/units/heroes/hero_winter_wyvern/wyvern_arctic_burn_slow.vpcf"
+end
+
+-----------------------------------------------------------------------------
+
+function biting_frost_modifier_buff_elec:GetStatusEffectName()
+	return "particles/status_fx/status_effect_wyvern_arctic_burn.vpcf"
+end

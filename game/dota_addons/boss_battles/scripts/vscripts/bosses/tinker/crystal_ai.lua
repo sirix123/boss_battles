@@ -10,16 +10,21 @@ function Spawn( entityKeyValues )
 
     thisEntity.green_beam = thisEntity:FindAbilityByName( "green_beam" )
     thisEntity.spawn_rocks = thisEntity:FindAbilityByName( "spawn_rocks" )
-    thisEntity.electric_field = thisEntity:FindAbilityByName( "electric_field" )
+    thisEntity.electric_field_v2 = thisEntity:FindAbilityByName( "electric_field_v2" )
 
     thisEntity.summon_ice_ele = thisEntity:FindAbilityByName( "summon_ice_ele" )
     thisEntity.summon_fire_ele = thisEntity:FindAbilityByName( "summon_fire_ele" )
     thisEntity.summon_elec_ele = thisEntity:FindAbilityByName( "summon_elec_ele" )
 
+    thisEntity.summon_ice_ele:StartCooldown(thisEntity.summon_ice_ele:GetCooldown(thisEntity.summon_ice_ele:GetLevel()))
+    thisEntity.summon_fire_ele:StartCooldown(thisEntity.summon_fire_ele:GetCooldown(thisEntity.summon_fire_ele:GetLevel()))
+    thisEntity.summon_elec_ele:StartCooldown(thisEntity.summon_elec_ele:GetCooldown(thisEntity.summon_elec_ele:GetLevel()))
+
     -- elemental buff phase timer -- summon timer
-	thisEntity.ice_phase = true
+	thisEntity.ice_phase = false
 	thisEntity.fire_phase = false
-	thisEntity.light_phase = false
+    thisEntity.elec_phase = false
+    thisEntity.start_summoning = 10
     ElementalPhaseTimer()
 
     thisEntity.stop_timers = false
@@ -28,7 +33,8 @@ function Spawn( entityKeyValues )
 
     thisEntity.beam_phase = false
 
-    thisEntity.stack_count = 0
+    thisEntity.beam_stack_count = 0
+    thisEntity.total_beams = 7
 
     thisEntity:SetMana(0)
 
@@ -75,13 +81,14 @@ function CrystalThinker()
         --print("npc unit name", friend:GetUnitName())
         if friend:GetUnitName() == "npc_tinker" then
             if friend:HasModifier("beam_counter") then
-                thisEntity.stack_count = friend:FindModifierByName("beam_counter"):GetStackCount()
-                --print(" crystakl stack_count ", thisEntity.stack_count)
+                thisEntity.beam_stack_count = friend:FindModifierByName("beam_counter"):GetStackCount()
+                --print(" crystakl beam_stack_count ", thisEntity.beam_stack_count)
             end
         end
     end
 
-    if thisEntity.stack_count == 5 then
+    -- start next phase
+    if thisEntity.beam_stack_count == total_beams then
         -- do cool stuff when destroyed and setup arena
         CastDestroySelf()
 
@@ -89,13 +96,12 @@ function CrystalThinker()
         return 1
     end
 
-    if thisEntity.electric_field ~= nil and thisEntity.electric_field:IsFullyCastable() and thisEntity.electric_field:IsCooldownReady() and thisEntity:HasModifier("cast_electric_field") then
+    if thisEntity.electric_field_v2 ~= nil and thisEntity.electric_field_v2:IsFullyCastable() and thisEntity.electric_field_v2:IsCooldownReady() and thisEntity:HasModifier("cast_electric_field") then
         thisEntity:RemoveModifierByName("cast_electric_field")
         return CastElectricField()
     end
 
     if thisEntity.beam_phase == false then
-
         if thisEntity.summon_ice_ele ~= nil and thisEntity.summon_ice_ele:IsFullyCastable() and thisEntity.summon_ice_ele:IsCooldownReady() and thisEntity.ice_phase == true then
             return CastSummonIceEle()
         end
@@ -114,18 +120,28 @@ function CrystalThinker()
 
     if thisEntity:GetManaPercent() == 100 then
         thisEntity.beam_phase = true
+        thisEntity.green_beam:EndCooldown()
+        thisEntity.spawn_rocks:EndCooldown()
 
         if thisEntity.spawn_rocks ~= nil and thisEntity.spawn_rocks:IsFullyCastable() and thisEntity.spawn_rocks:IsCooldownReady() then
-            return SpawnRocks()
+            SpawnRocks()
         end
 
-        if thisEntity.green_beam ~= nil and thisEntity.green_beam:IsFullyCastable() and thisEntity.green_beam:IsCooldownReady() then
-            --print("casting green bea")
-            return CastGreenBeam()
-        end
+        Timers:CreateTimer(7,function()
+
+            if thisEntity.green_beam ~= nil and thisEntity.green_beam:IsFullyCastable() and thisEntity.green_beam:IsCooldownReady() then
+                CastGreenBeam()
+            end
+
+            return false
+
+        end)
 
         thisEntity:SetMana(0)
         thisEntity.beam_phase = false
+
+        -- rough beam duration to go all the way around
+        return 30
 
     end
 
@@ -141,7 +157,7 @@ function CastGreenBeam(  )
         AbilityIndex = thisEntity.green_beam:entindex(),
         Queue = false,
     })
-    return 20
+
 end
 --------------------------------------------------------------------------------
 
@@ -152,7 +168,7 @@ function SpawnRocks(  )
         AbilityIndex = thisEntity.spawn_rocks:entindex(),
         Queue = false,
     })
-    return 7
+
 end
 --------------------------------------------------------------------------------
 
@@ -160,7 +176,7 @@ function CastElectricField(  )
     ExecuteOrderFromTable({
         UnitIndex = thisEntity:entindex(),
         OrderType = DOTA_UNIT_ORDER_CAST_NO_TARGET,
-        AbilityIndex = thisEntity.electric_field:entindex(),
+        AbilityIndex = thisEntity.electric_field_v2:entindex(),
         Queue = false,
     })
     return 1
@@ -216,36 +232,55 @@ end
 --------------------------------------------------------------------------------
 
 function ElementalPhaseTimer()
-    local i = 1
-
-	Timers:CreateTimer(function()
+	Timers:CreateTimer(thisEntity.start_summoning,function()
 		if thisEntity.stop_timers == true then
 			--print("end timer?")
 			return false
 		end
 
-		--print("this running?")
-		if i > 3 then
-			i = 1
-		end
+        --[[
+        thisEntity.ice_phase = true
+        thisEntity.fire_phase = true
+        thisEntity.elec_phase = true
+        ]]
 
-		if i == 1 then
-			thisEntity.ice_phase = true
-			thisEntity.fire_phase = false
-			thisEntity.light_phase = false
-		elseif i == 2 then
-			thisEntity.ice_phase = false
-			thisEntity.fire_phase = true
-			thisEntity.light_phase = false
-		elseif i == 3 then
-			thisEntity.ice_phase = false
-			thisEntity.fire_phase = false
-			thisEntity.light_phase = true
-		end
+            if thisEntity.beam_stack_count == 0 then
+                thisEntity.ice_phase = true
+                thisEntity.fire_phase = false
+                thisEntity.elec_phase = false
+            elseif thisEntity.beam_stack_count == 2 or thisEntity.beam_stack_count == 1 then
+                thisEntity.ice_phase = true
+                thisEntity.fire_phase = true
+                thisEntity.elec_phase = false
+            elseif thisEntity.beam_stack_count == 3 then
+                local random_summon_pool = RandomInt(1,3)
 
-		i = i + 1
+                if random_summon_pool == 1 then
+                    thisEntity.ice_phase = true
+                    thisEntity.fire_phase = true
+                    thisEntity.elec_phase = false
+                elseif random_summon_pool == 2 then
+                    thisEntity.ice_phase = true
+                    thisEntity.fire_phase = true
+                    thisEntity.elec_phase = true
+                elseif random_summon_pool == 3 then
+                    thisEntity.ice_phase = false
+                    thisEntity.fire_phase = true
+                    thisEntity.elec_phase = true
+                end
 
-		return 20
+            elseif thisEntity.beam_stack_count == 5 then
+                thisEntity.ice_phase = true
+                thisEntity.fire_phase = true
+                thisEntity.elec_phase = true
+            end
+
+
+        thisEntity.summon_ice_ele:EndCooldown()
+        thisEntity.summon_fire_ele:EndCooldown()
+        thisEntity.summon_elec_ele:EndCooldown()
+
+		return 60
 	end)
 end
 --------------------------------------------------------------------------------

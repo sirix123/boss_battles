@@ -72,7 +72,7 @@ function ice_shot_tinker:OnSpellStart()
             OnUnitHit = function(_self, unit)
 
                 if unit:GetUnitName() == "npc_crystal" then
-                    unit:GiveMana(50)
+                    unit:GiveMana(20)
                     self:HitCrystal( unit )
                 elseif unit:GetTeamNumber() == DOTA_UNIT_TARGET_TEAM_ENEMY then
                     self:HitPlayer(unit)
@@ -102,10 +102,10 @@ end
 function ice_shot_tinker:DestroyEffect(pos)
     if IsServer() then
         --print("runing?")
-        local particle = "particles/units/heroes/hero_tusk/tusk_snowball_destroy.vpcf"
-        local effect_cast = ParticleManager:CreateParticle(particle, PATTACH_WORLDORIGIN, nil)
+        local particle_cast = "particles/units/heroes/hero_crystalmaiden/maiden_base_attack_explosion.vpcf"
+        local effect_cast = ParticleManager:CreateParticle(particle_cast, PATTACH_WORLDORIGIN, nil)
         ParticleManager:SetParticleControl(effect_cast, 0, pos)
-        ParticleManager:SetParticleControl(effect_cast, 4, Vector(1,1,1))
+        ParticleManager:SetParticleControl(effect_cast, 3, pos)
         ParticleManager:ReleaseParticleIndex(effect_cast)
 
     end

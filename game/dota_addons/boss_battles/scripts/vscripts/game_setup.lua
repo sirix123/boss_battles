@@ -58,12 +58,6 @@ function GameSetup:init()
     ListenToGameEvent('player_chat', Dynamic_Wrap(self, 'OnPlayerChat'), self)
 
 end
-
-
-
-
-
-
 --------------------------------------------------------------------------------------------------
 
 function GameSetup:OnStateChange()

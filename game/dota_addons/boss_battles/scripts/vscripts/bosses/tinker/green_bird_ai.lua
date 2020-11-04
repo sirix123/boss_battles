@@ -10,15 +10,22 @@ function Spawn( entityKeyValues )
 
     thisEntity:AddNewModifier( nil, nil, "modifier_invulnerable", { duration = -1 } )
     thisEntity:AddNewModifier( thisEntity, nil, "modifier_flying", { duration = -1 } )
+    thisEntity:AddNewModifier( thisEntity, nil, "modifier_phased", { duration = -1 } )
 
-    -- fire particle effect, sit on bird to make it look firey
+    thisEntity.green_bird_explode = thisEntity:FindAbilityByName( "green_bird_explode" )
+
+    thisEntity.PHASE = 1
+
+    thisEntity.vPlayerLocation = nil
+
+    --FindAPlayer()
 
     thisEntity:SetContextThink( "BirdGreenThinker", BirdGreenThinker, 0.1 )
 
 end
 --------------------------------------------------------------------------------
 
-function BirdThinker()
+function BirdGreenThinker()
 	if not IsServer() then return end
 
 	if ( not thisEntity:IsAlive() ) then
@@ -29,29 +36,60 @@ function BirdThinker()
 		return 0.5
     end
 
+    --print("thisEntity.PHASE ",thisEntity.PHASE)
+
+    if thisEntity.PHASE == 1 then
+        if thisEntity.vPlayerLocation ~= nil then
+            return MoveToPos(thisEntity.vPlayerLocation)
+        else
+            FindAPlayer()
+            return 0.5
+        end
+    end
+
+    if thisEntity.PHASE == 2 then
+        --print("thisEntity.PHASE ",thisEntity.PHASE)
+        thisEntity:StartGestureWithPlaybackRate(ACT_DOTA_CAST_ABILITY_1, 0.5)
+        --thisEntity:RemoveModifierByName("modifier_invulnerable")
+        thisEntity:RemoveModifierByName("modifier_flying")
+        thisEntity.PHASE = 3
+
+        -- falling to ground time buff
+        return 1
+    end
+
+    if thisEntity.PHASE == 3 then
+
+        if thisEntity.green_bird_explode ~= nil and thisEntity.green_bird_explode:IsFullyCastable() and thisEntity.green_bird_explode:IsCooldownReady() then
+            CastExplode(  )
+        end
+
+        return 1
+    end
+
 	return 0.5
 end
 --------------------------------------------------------------------------------
 
-function FindCrystal()
+function FindAPlayer()
 
     local units = FindUnitsInRadius(
         thisEntity:GetTeamNumber(),	-- int, your team number
         thisEntity:GetAbsOrigin(),	-- point, center point
         nil,	-- handle, cacheUnit. (not known)
-        3000,	-- float, radius. or use FIND_UNITS_EVERYWHERE
-        DOTA_UNIT_TARGET_TEAM_FRIENDLY,	-- int, team filter
-        DOTA_UNIT_TARGET_HERO + DOTA_UNIT_TARGET_BASIC,	-- int, type filter
-        DOTA_UNIT_TARGET_FLAG_INVULNERABLE,	-- int, flag filter
+        4000,	-- float, radius. or use FIND_UNITS_EVERYWHERE
+        DOTA_UNIT_TARGET_TEAM_ENEMY,
+        DOTA_UNIT_TARGET_ALL,
+        DOTA_UNIT_TARGET_FLAG_NONE,	-- int, flag filter
         0,	-- int, order filter
         false	-- bool, can grow cache
     )
 
-    for _, unit in pairs(units) do
-        if unit:GetUnitName() == "npc_crystal" then
-            return unit
-        end
+    if units ~= nil and #units ~= 0 then
+        thisEntity.vPlayerLocation = units[RandomInt(1,#units)]:GetAbsOrigin()
+        --print("thisEntity.vPlayerLocation ",thisEntity.vPlayerLocation)
     end
+
 end
 --------------------------------------------------------------------------------
 
@@ -62,16 +100,18 @@ function MoveToPos( pos_to_move_to )
     local velocity = thisEntity:GetBaseMoveSpeed()
     local time = distance / velocity
 
+    thisEntity.PHASE = 2
+
     return time + 1
 end
 
 --------------------------------------------------------------------------------
-function CastAoeSpell(  )
+function CastExplode(  )
 
     ExecuteOrderFromTable({
         UnitIndex = thisEntity:entindex(),
         OrderType = DOTA_UNIT_ORDER_CAST_NO_TARGET,
-        AbilityIndex = thisEntity.bird_aoe_spell:entindex(),
+        AbilityIndex = thisEntity.green_bird_explode:entindex(),
         Queue = false,
     })
 end

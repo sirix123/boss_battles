@@ -29,6 +29,8 @@ function saw_blade:OnSpellStart()
         self.caster = self:GetCaster()
         local point = self:GetCursorPosition()
 
+        -- particle particles/units/heroes/hero_visage/visage_summon_familiars.vpcf
+
         -- ref kv
         self.nMaxSawBlades = self:GetSpecialValueFor("nMaxSawBlades")
 

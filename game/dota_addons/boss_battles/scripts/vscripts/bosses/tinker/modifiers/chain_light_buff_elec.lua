@@ -22,11 +22,26 @@ end
 ---------------------------------------------------------------------------
 
 function chain_light_buff_elec:OnDestroy( kv )
-    if IsServer() then
+	if IsServer() then
 
-        CreateUnitByName( "npc_elec_ele", self:GetCaster():GetAbsOrigin(), true, nil, nil, DOTA_TEAM_BADGUYS)
-        CreateUnitByName( "npc_elec_ele", self:GetCaster():GetAbsOrigin(), true, nil, nil, DOTA_TEAM_BADGUYS)
+		self.death_pos = self:GetParent():GetAbsOrigin()
+
+		-- particle effect
+		local particle = "particles/tinker/summon_elementals_portal_open_good.vpcf"
+        self.effect_cast_1 = ParticleManager:CreateParticle(particle, PATTACH_WORLDORIGIN, self:GetParent())
+		ParticleManager:SetParticleControl(self.effect_cast_1, 0, self.death_pos)
+
+		Timers:CreateTimer(2, function()
+			ParticleManager:DestroyParticle(self.effect_cast_1,false )
+			CreateUnitByName( "npc_elec_ele", self.death_pos, true, nil, nil, DOTA_TEAM_BADGUYS)
+			CreateUnitByName( "npc_elec_ele", self.death_pos, true, nil, nil, DOTA_TEAM_BADGUYS)
+			return false
+		end)
 
 	end
 end
 ---------------------------------------------------------------------------
+
+function chain_light_buff_elec:GetStatusEffectName()
+	return "particles/status_fx/status_effect_electrical.vpcf"
+end

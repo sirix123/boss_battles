@@ -3,6 +3,7 @@ bird_ai = class({})
 LinkLuaModifier("bird_floor_nofly", "bosses/tinker/modifiers/bird_floor_nofly", LUA_MODIFIER_MOTION_NONE)
 LinkLuaModifier("modifier_flying", "bosses/tinker/modifiers/modifier_flying", LUA_MODIFIER_MOTION_NONE)
 LinkLuaModifier("bird_puddle_thinker", "bosses/tinker/modifiers/bird_puddle_thinker", LUA_MODIFIER_MOTION_NONE)
+LinkLuaModifier("bird_fire_effect", "bosses/tinker/modifiers/bird_fire_effect", LUA_MODIFIER_MOTION_NONE)
 
 --------------------------------------------------------------------------------
 
@@ -15,6 +16,8 @@ function Spawn( entityKeyValues )
 
     thisEntity:AddNewModifier( nil, nil, "modifier_invulnerable", { duration = -1 } )
     thisEntity:AddNewModifier( thisEntity, nil, "modifier_flying", { duration = -1 } )
+    thisEntity:AddNewModifier( thisEntity, nil, "bird_fire_effect", { duration = -1 } )
+    thisEntity:AddNewModifier( thisEntity, nil, "modifier_phased", { duration = -1 } )
 
     -- fire particle effect, sit on bird to make it look firey
 
@@ -124,9 +127,11 @@ function BirdThinker()
             CastSummonGreenBird(  )
         end
 
+        --print("summonigng green bird")
+
         thisEntity.PHASE = 6
 
-        return 0.5
+        return 2
     end
 
     if thisEntity.PHASE == 6 then
@@ -136,6 +141,8 @@ function BirdThinker()
         FindCrystal():GiveMana(10)
 
         -- green destroy effect or something
+
+
     end
 
 	return 0.5
@@ -147,7 +154,7 @@ function CalcMovePositions()
     local radius = 1250
 
     -- random x y for max pos
-    local max_moves = 5
+    local max_moves = 1--5
 
     for i = 1, max_moves, 1 do
         local x = RandomInt(centre_point.x - radius, centre_point.x + radius)
@@ -204,6 +211,8 @@ end
 --------------------------------------------------------------------------------
 
 function CastSummonGreenBird(  )
+
+    --print("casting summong green")
 
     ExecuteOrderFromTable({
         UnitIndex = thisEntity:entindex(),

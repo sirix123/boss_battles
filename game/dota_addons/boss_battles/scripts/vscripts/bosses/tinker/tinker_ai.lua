@@ -24,7 +24,7 @@ function Spawn( entityKeyValues )
 	thisEntity.ice_shot_tinker:StartCooldown(thisEntity.ice_shot_tinker:GetCooldown(thisEntity.ice_shot_tinker:GetLevel()))
 
 	thisEntity.summon_bird = thisEntity:FindAbilityByName( "summon_bird" )
-	--thisEntity.summon_bird:StartCooldown(thisEntity.summon_bird:GetCooldown(thisEntity.summon_bird:GetLevel()))
+	thisEntity.summon_bird:StartCooldown(thisEntity.summon_bird:GetCooldown(thisEntity.summon_bird:GetLevel()))
 
 	thisEntity.tinker_teleport = thisEntity:FindAbilityByName( "tinker_teleport" )
 	thisEntity.tinker_teleport:StartCooldown(thisEntity.tinker_teleport:GetCooldown(thisEntity.tinker_teleport:GetLevel()))
@@ -60,7 +60,7 @@ function TinkerThinker()
 		thisEntity.PHASE = 1
 	end
 
-	if thisEntity.stack_count == 5 then
+	if thisEntity.stack_count == 7 then
 		thisEntity:RemoveModifierByName("shield_effect")
 		thisEntity.PHASE = 3
 	end
@@ -71,7 +71,7 @@ function TinkerThinker()
 			return CastTeleport()
 		end
 
-		if thisEntity.chain_light_v2 ~= nil and thisEntity.chain_light_v2:IsFullyCastable() and thisEntity.chain_light_v2:IsCooldownReady() then
+		if thisEntity.chain_light_v2 ~= nil and thisEntity.chain_light_v2:IsFullyCastable() and thisEntity.chain_light_v2:IsCooldownReady() and thisEntity.stack_count >= 2 then
 			return CastChainLight()
 		end
 
@@ -79,7 +79,7 @@ function TinkerThinker()
 			return CastIceShot()
 		end
 
-		if thisEntity.summon_bird ~= nil and thisEntity.summon_bird:IsFullyCastable() and thisEntity.summon_bird:IsCooldownReady() then
+		if thisEntity.summon_bird ~= nil and thisEntity.summon_bird:IsFullyCastable() and thisEntity.summon_bird:IsCooldownReady() and thisEntity.stack_count >= 3 then
 			return CastSummonBird()
 		end
 
@@ -87,9 +87,14 @@ function TinkerThinker()
 
 	-- crystal phase
 	if thisEntity.PHASE == 2 then
-		if thisEntity.tinker_teleport ~= nil and thisEntity.tinker_teleport:IsFullyCastable() and thisEntity.tinker_teleport:IsCooldownReady() then
-			return CastTeleport()
-		end
+
+		Timers:CreateTimer(10,function()
+			if thisEntity.tinker_teleport ~= nil and thisEntity.tinker_teleport:IsFullyCastable() and thisEntity.tinker_teleport:IsCooldownReady() then
+				return CastTeleport()
+			end
+
+			return false
+		end)
 	end
 
 	-- phase 2

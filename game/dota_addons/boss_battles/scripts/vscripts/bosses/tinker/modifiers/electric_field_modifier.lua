@@ -54,9 +54,9 @@ function electric_field_modifier:OnCreated(keys)
                     enemyHit[enemy] = true
                 end
             end
-            DebugDrawCircle(caster:GetAbsOrigin(), Vector(0,255,0),128,currentRadius,true,0.2)
+            --DebugDrawCircle(caster:GetAbsOrigin(), Vector(255,0,0),128,currentRadius,true,0.06)
             currentRadius = currentRadius + maxRadius*FrameTime()
-            print("currentRadius ",currentRadius)
+            --print("currentRadius ",currentRadius)
             return 0.06
 
         else

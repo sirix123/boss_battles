@@ -89,6 +89,14 @@ function Precache( context ) -- this needs to be in a seperate file
 
   -- tinker
   PrecacheResource("soundfile", "soundevents/game_sounds_heroes/game_sounds_zuus.vsndevts", context)
+  PrecacheResource("soundfile", "soundevents/game_sounds_heroes/game_sounds_rubick.vsndevts", context)
+  PrecacheResource("soundfile", "soundevents/voscripts/game_sounds_vo_rubick.vsndevts", context)
+
+  --[[local npcs = LoadKeyValues("scripts/npc/npc_heroes_custom.txt")
+
+  for _, data in pairs(npcs) do
+      PrecacheUnitByNameSync(data.override_hero, context)
+  end]]
 
 end
 
