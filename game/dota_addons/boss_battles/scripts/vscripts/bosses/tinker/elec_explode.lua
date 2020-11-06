@@ -12,19 +12,21 @@ function elec_explode:OnSpellStart()
     if IsServer() then
         local caster = self:GetCaster()
         self.radius = 150
-        self.damage = 90
+        self.damage = self:GetSpecialValueFor( "dmg" )
 
         -- end particle effect
         ParticleManager:DestroyParticle(self.effect_cast,true)
 
         -- play explode effect
-        local particle_cast = "particles/timber/droid_stun_grimstroke_ink_swell_aoe.vpcf"
+        local particle_cast = "particles/items4_fx/nullifier_proj_impact.vpcf"
         local sound_target = "Hero_Alchemist.UnstableConcoction.Stun"
 
         -- Create Particle
         local effect_cast = ParticleManager:CreateParticle( particle_cast, PATTACH_ABSORIGIN_FOLLOW, caster )
-        ParticleManager:SetParticleControl( effect_cast, 2, Vector( self.radius, self.radius, self.radius ) )
-        ParticleManager:ReleaseParticleIndex( effect_cast )
+		ParticleManager:SetParticleControl( effect_cast, 0, caster:GetAbsOrigin() )
+		ParticleManager:SetParticleControl( effect_cast, 1,	caster:GetAbsOrigin() )
+		ParticleManager:SetParticleControl( effect_cast, 3, caster:GetAbsOrigin() )
+		ParticleManager:ReleaseParticleIndex( effect_cast ) 
 
         EmitSoundOn( sound_target, caster )
 

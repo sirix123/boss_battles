@@ -14,7 +14,7 @@ function Spawn( entityKeyValues )
 	
 	thisEntity:AddNewModifier(thisEntity, self, "droid_colour_modifier_blue", {duration = 9000})
 
-	thisEntity.found_player = false
+	thisEntity.target = nil
 
 	thisEntity:SetHullRadius(60)
 
@@ -34,39 +34,52 @@ function DroidThink()
 		return 0.5
 	end
 
-	-- find closet player
-	if thisEntity.found_player == false then
-		thisEntity.enemies = FindUnitsInRadius(
-			thisEntity:GetTeamNumber(),
-			thisEntity:GetAbsOrigin(),
-			nil, 
-			5000,
-			DOTA_UNIT_TARGET_TEAM_ENEMY,
-			DOTA_UNIT_TARGET_ALL,
-			DOTA_UNIT_TARGET_FLAG_NONE,
-			FIND_CLOSEST,
-			false )
-
-		thisEntity.found_player = true
+	if thisEntity.target == nil then
+		return FindEnemy()
 	end
 
-	if thisEntity.enemies ~= nil then
+	--if thisEntity.approach_target == nil then
+		ApproachTarget()
+	--end
 
-		-- runtowards closest player
-		thisEntity:MoveToPosition( thisEntity.enemies[1]:GetAbsOrigin() )
-
-		-- distance from droid to player
-		thisEntity.distanceFromPlayer = ( thisEntity.enemies[1]:GetAbsOrigin() - thisEntity:GetAbsOrigin() ):Length2D()
-
-		-- cast zap
-		if thisEntity.stun_droid_zap:IsCooldownReady() and ( thisEntity.distanceFromPlayer < 200 ) then
-			CastZap()
-		end
-	else
-		thisEntity.found_player = false
+	if ( thisEntity:GetAbsOrigin() - thisEntity.approach_target:GetAbsOrigin() ):Length2D() < 200 then
+		--print("casting spell")
+		return CastZap()
 	end
 
-	return 1.0
+	return 0.5
+end
+--------------------------------------------------------------------------------
+
+function FindEnemy()
+	local enemies = FindUnitsInRadius(
+        thisEntity:GetTeamNumber(),
+        thisEntity:GetAbsOrigin(),
+        nil,
+        5000,
+        DOTA_UNIT_TARGET_TEAM_ENEMY,
+        DOTA_UNIT_TARGET_HERO,
+        DOTA_UNIT_TARGET_FLAG_NONE,
+        FIND_CLOSEST,
+        false
+    )
+
+	if #enemies == 0 or enemies == nil then
+		return 0.5
+	end
+
+	thisEntity.target = enemies[RandomInt(1,#enemies)]
+
+	return 1
+end
+--------------------------------------------------------------------------------
+
+function ApproachTarget()
+
+	thisEntity.approach_target = thisEntity.target
+	thisEntity:MoveToPosition(thisEntity.approach_target:GetOrigin())
+
+	--return 1
 end
 
 --------------------------------------------------------------------------------

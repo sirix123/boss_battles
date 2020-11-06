@@ -47,11 +47,24 @@ function ice_shot_tinker:OnSpellStart()
 		local caster = self:GetCaster()
         local origin = caster:GetAbsOrigin()
 
+        self.stack_count = 0
+
+        if caster:HasModifier("beam_counter") then
+            self.stack_count = caster:FindModifierByName("beam_counter"):GetStackCount()
+        end
+
+        EmitSoundOn( "Hero_Tinker.Attack", self:GetCaster() )
+
         self:GetCaster():SetForwardVector(self.target:GetAbsOrigin())
         self:GetCaster():FaceTowards(self.target:GetAbsOrigin())
 
         -- init projectile params
-        local speed = 500
+        local speed = self:GetSpecialValueFor( "speed" ) --500
+        self.dmg = self:GetSpecialValueFor( "dmg" )
+        self.radius = self:GetSpecialValueFor( "radius" )
+        self.dmg_interval = self:GetSpecialValueFor( "interval" )
+        self.duration = self:GetSpecialValueFor( "duration" )
+
         local direction = (self.target:GetAbsOrigin() - caster:GetAbsOrigin() ):Normalized()
 
         local projectile = {
@@ -71,8 +84,14 @@ function ice_shot_tinker:OnSpellStart()
             end,
             OnUnitHit = function(_self, unit)
 
+                EmitSoundOn( "Hero_Tinker.ProjectileImpact", unit )
+
                 if unit:GetUnitName() == "npc_crystal" then
-                    unit:GiveMana(20)
+                    if self.stack_count == 0 then
+                        unit:GiveMana(20)
+                    else
+                        unit:GiveMana(10)
+                    end
                     self:HitCrystal( unit )
                 elseif unit:GetTeamNumber() == DOTA_UNIT_TARGET_TEAM_ENEMY then
                     self:HitPlayer(unit)
@@ -115,12 +134,12 @@ end
 function ice_shot_tinker:HitCrystal( crystal )
     if IsServer() then
 
-        EmitSoundOn( "rubick_rub_arc_attack_03 ", self:GetCaster() )
+        EmitSoundOn( "Hero_Rubick.Attack", crystal )
 
         -- find all players
         local units = FindUnitsInRadius(
             self:GetCaster():GetTeamNumber(),	-- int, your team number
-            self:GetCaster():GetAbsOrigin(),	-- point, center point
+            crystal:GetAbsOrigin(),	-- point, center point
             nil,	-- handle, cacheUnit. (not known)
             3000,	-- float, radius. or use FIND_UNITS_EVERYWHERE
             DOTA_UNIT_TARGET_TEAM_BOTH,
@@ -139,8 +158,9 @@ function ice_shot_tinker:HitCrystal( crystal )
                     and unit:GetUnitName() ~= "npc_bird"
                     and unit:GetUnitName() ~= "npc_green_bird"
                     and unit:GetUnitName() ~= "npc_crystal"
-                    and CheckGlobalUnitTableForUnitName(unit) ~= true then
+                    and CheckGlobalUnitTableForUnitName(unit) ~= false then
 
+                        -- this will still hit birds that aren't flying.. bit hard to work around.. so we will work it into the game :D
 
                     -- references
                     self.speed = 500 -- special value
@@ -153,7 +173,7 @@ function ice_shot_tinker:HitCrystal( crystal )
                         Source = crystal,
                         Target = unit,
                         bDodgeable = false,
-                        --iSourceAttachment = DOTA_PROJECTILE_ATTACHMENT_ATTACK_1,
+                        iSourceAttachment = DOTA_PROJECTILE_ATTACHMENT_HITLOCATION,
                         bProvidesVision = true,
                         iVisionTeamNumber = crystal:GetTeamNumber(),
                         iVisionRadius = 300,
@@ -174,9 +194,17 @@ function ice_shot_tinker:OnProjectileHit( hTarget, vLocation)
         if hTarget == nil then return end
         if not hTarget:IsAlive() then return end
 
+        EmitSoundOn( "Hero_Rubick.ProjectileImpact", hTarget )
+
         if hTarget:GetTeam() == DOTA_TEAM_GOODGUYS then
             -- apply debuff
-            hTarget:AddNewModifier(self:GetCaster(), self, "biting_frost_modifier_debuff", {duration = 20})
+            hTarget:AddNewModifier(self:GetCaster(), self, "biting_frost_modifier_debuff",
+            {
+                duration = self.duration,
+                dmg = self.dmg,
+                radius = self.radius,
+                interval = self.dmg_interval,
+            })
             --hBuff:IncrementStackCount()
         end
 
@@ -224,7 +252,13 @@ end
 
 function ice_shot_tinker:HitPlayer(unit)
     if IsServer() then
-        unit:AddNewModifier(self:GetCaster(), self, "biting_frost_modifier_debuff", {duration = 15})
+        unit:AddNewModifier(self:GetCaster(), self, "biting_frost_modifier_debuff",
+            {
+                duration = self.duration,
+                dmg = self.dmg,
+                radius = self.radius,
+                interval = self.dmg_interval,
+            })
         --hBuff:IncrementStackCount()
     end
 end
@@ -239,6 +273,8 @@ function ice_shot_tinker:HitEle(unit)
         elseif unit:GetUnitName() == "npc_fire_ele" then
             unit:AddNewModifier(self:GetCaster(), self, "biting_frost_modifier_buff_fire", {duration = -1})
         elseif unit:GetUnitName() == "npc_elec_ele" then
+            unit:AddNewModifier(self:GetCaster(), self, "biting_frost_modifier_buff_elec", {duration = -1})
+        else
             unit:AddNewModifier(self:GetCaster(), self, "biting_frost_modifier_buff_elec", {duration = -1})
         end
 

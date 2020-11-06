@@ -91,6 +91,19 @@ function Precache( context ) -- this needs to be in a seperate file
   PrecacheResource("soundfile", "soundevents/game_sounds_heroes/game_sounds_zuus.vsndevts", context)
   PrecacheResource("soundfile", "soundevents/game_sounds_heroes/game_sounds_rubick.vsndevts", context)
   PrecacheResource("soundfile", "soundevents/voscripts/game_sounds_vo_rubick.vsndevts", context)
+  PrecacheResource("soundfile", "soundevents/game_sounds_heroes/game_sounds_tinker.vsndevts", context)
+  PrecacheResource("soundfile", "soundevents/voscripts/game_sounds_vo_tinker.vsndevts", context)
+  PrecacheResource("soundfile", "soundevents/voscripts/game_sounds_vo_tusk.vsndevts", context)
+  PrecacheResource("soundfile", "soundevents/game_sounds_heroes/game_sounds_tusk.vsndevts", context)
+  PrecacheResource("soundfile", "soundevents/game_sounds_heroes/game_sounds_phoenix.vsndevts", context)
+  PrecacheResource("soundfile", "soundevents/game_sounds_heroes/game_sounds_visage.vsndevts", context)
+  PrecacheResource("soundfile", "soundevents/game_sounds_heroes/game_sounds_templar_assassin.vsndevts", context)
+
+  PrecacheUnitByNameSync("npc_crystal", context)
+  PrecacheUnitByNameSync("npc_tinker", context)
+  PrecacheUnitByNameSync("npc_ice_ele", context)
+  PrecacheUnitByNameSync("npc_fire_ele", context)
+  PrecacheUnitByNameSync("npc_elec_ele", context)
 
   --[[local npcs = LoadKeyValues("scripts/npc/npc_heroes_custom.txt")
 

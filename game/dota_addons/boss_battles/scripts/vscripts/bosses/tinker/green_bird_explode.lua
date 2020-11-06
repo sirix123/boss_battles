@@ -10,16 +10,17 @@ end
 function green_bird_explode:OnSpellStart()
     if IsServer() then
         local caster = self:GetCaster()
-        self.radius = 150
-        self.damage = 90
+        self.radius = self:GetSpecialValueFor( "radius" )
+        self.damage = self:GetSpecialValueFor( "dmg" )
 
         -- play explode effect
-        local particle_cast = "particles/timber/droid_stun_grimstroke_ink_swell_aoe.vpcf"
+        local particle_cast = "particles/econ/items/rubick/rubick_arcana/rbck_arc_sandking_epicenter.vpcf"
         local sound_target = "Hero_TemplarAssassin.Trap.Explode"
 
         -- Create Particle
         local effect_cast = ParticleManager:CreateParticle( particle_cast, PATTACH_ABSORIGIN_FOLLOW, caster )
-        ParticleManager:SetParticleControl( effect_cast, 2, Vector( self.radius, self.radius, self.radius ) )
+        ParticleManager:SetParticleControl( effect_cast, 0, caster:GetAbsOrigin() )
+        ParticleManager:SetParticleControl( effect_cast, 1, Vector( self.radius, self.radius, self.radius ) )
         ParticleManager:ReleaseParticleIndex( effect_cast )
 
         EmitSoundOn( sound_target, caster )

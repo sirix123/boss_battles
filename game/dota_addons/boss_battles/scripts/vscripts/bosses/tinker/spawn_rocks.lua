@@ -1,32 +1,13 @@
 spawn_rocks = class({})
 
 LinkLuaModifier( "modifier_rock_push", "bosses/techies/modifiers/modifier_rock_push", LUA_MODIFIER_MOTION_NONE )
---LinkLuaModifier("beam_phase", "bosses/tinker/modifiers/beam_phase", LUA_MODIFIER_MOTION_NONE)
 
 function spawn_rocks:OnAbilityPhaseStart()
     if IsServer() then
 
-        --[[ find tinker and get the direction from tinker to the crystral, use this as the starting direction vector for the beam
-        local friendlies = FindUnitsInRadius(
-            self:GetCaster():GetTeamNumber(),	-- int, your team number
-            self:GetCaster():GetAbsOrigin(),	-- point, center point
-            nil,	-- handle, cacheUnit. (not known)
-            5000,	-- float, radius. or use FIND_UNITS_EVERYWHERE
-            DOTA_UNIT_TARGET_TEAM_FRIENDLY,	-- int, team filter
-            DOTA_UNIT_TARGET_HERO + DOTA_UNIT_TARGET_BASIC,	-- int, type filter
-            DOTA_UNIT_TARGET_FLAG_INVULNERABLE,	-- int, flag filter
-            0,	-- int, order filter
-            false	-- bool, can grow cache
-        )
-
-        for _, friend in pairs(friendlies) do
-            if friend:GetUnitName() == "npc_tinker" then
-                friend:AddNewModifier( caster, self, "beam_phase", { duration = -1 } )
-            end
-        end]]
-
         -- play voice line
-        EmitSoundOn("techies_tech_suicidesquad_01", self:GetCaster())
+        EmitSoundOn("rubick_rub_arc_pain_04", self:GetCaster())
+        EmitSoundOn("rubick_rub_arc_attack_06", self:GetCaster())
         --print("in spell spawning rocks")
         return true
     end

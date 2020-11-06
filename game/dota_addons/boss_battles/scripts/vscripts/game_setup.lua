@@ -495,9 +495,6 @@ function GameSetup:EncounterCleanUp( origin )
         CustomNetTables:SetTableValue("hide_boss_frame", "hide", {})
     end
 
-    -- reset cd of all players abilties
-    -- destroy thinkers.. -- gotta handle in the thinkers
-
     -- find all units, kill them
     local units = FindUnitsInRadius(
         DOTA_TEAM_BADGUYS,
@@ -512,11 +509,6 @@ function GameSetup:EncounterCleanUp( origin )
 
     if units ~= nil then
         for _, unit in pairs(units) do
-
-            --[[if unit:GetUnitName() ~= RAID_TABLES[BOSS_BATTLES_ENCOUNTER_COUNTER].boss then
-                BOSS_BATTLES_ENCOUNTER_COUNTER = BOSS_BATTLES_ENCOUNTER_COUNTER + 1
-            end]]
-
             unit:ForceKill(false)
         end
     end

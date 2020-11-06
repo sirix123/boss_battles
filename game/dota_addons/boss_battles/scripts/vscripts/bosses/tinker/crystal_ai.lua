@@ -243,12 +243,13 @@ function ElementalPhaseTimer()
         thisEntity.fire_phase = true
         thisEntity.elec_phase = true
         ]]
+        EmitSoundOn( "tinker_tink_ability_marchofthemachines_01", thisEntity )
 
             if thisEntity.beam_stack_count == 0 then
                 thisEntity.ice_phase = true
                 thisEntity.fire_phase = false
                 thisEntity.elec_phase = false
-            elseif thisEntity.beam_stack_count == 2 or thisEntity.beam_stack_count == 1 then
+            elseif thisEntity.beam_stack_count == 2 then
                 thisEntity.ice_phase = true
                 thisEntity.fire_phase = true
                 thisEntity.elec_phase = false
@@ -261,7 +262,7 @@ function ElementalPhaseTimer()
                     thisEntity.elec_phase = false
                 elseif random_summon_pool == 2 then
                     thisEntity.ice_phase = true
-                    thisEntity.fire_phase = true
+                    thisEntity.fire_phase = false
                     thisEntity.elec_phase = true
                 elseif random_summon_pool == 3 then
                     thisEntity.ice_phase = false

@@ -13,8 +13,8 @@ end
 function blast_off_fog_modifier:OnCreated(kv)
     if IsServer() then
 
-		self.reduceFog = -4900
-		self.reduceFog_percent = -99
+		self.reduceFog = -4700
+		self.reduceFog_percent = -90
 
 		self.original_vision_night = self:GetParent():GetBaseNightTimeVisionRange()
 		self.original_vision_day = self:GetParent():GetBaseDayTimeVisionRange()

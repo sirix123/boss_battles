@@ -123,10 +123,6 @@ function chain_light_v2:OnProjectileHit( hTarget, vLocation)
 		-- damage target
 		else
 
-			if hTarget:HasModifier("fire_ele_encase_rocks_debuff") == true then
-				hTarget:AddNewModifier( self.caster, self, "electric_encase_rocks", { duration = 10 } )
-			end
-
 			local dmgTable = {
 				victim = hTarget,
 				attacker = self.caster,

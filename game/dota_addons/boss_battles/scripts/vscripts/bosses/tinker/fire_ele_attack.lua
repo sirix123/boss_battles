@@ -37,9 +37,10 @@ function fire_ele_attack:OnSpellStart()
         --self:GetCaster():FaceTowards(self.vTargetPos:GetAbsOrigin())
 
         -- references
-        self.speed = 600 -- special value
-        self.damage = 40
-        self.max_stacks = 5
+        self.speed = self:GetSpecialValueFor( "speed" ) --600 -- special value
+        self.damage = self:GetSpecialValueFor( "damage" ) -- 40
+        self.max_stacks = self:GetSpecialValueFor( "max_stacks" ) --5
+        self.duration = self:GetSpecialValueFor( "duration" )
 
         -- create projectile
         local info = {
@@ -79,7 +80,7 @@ function fire_ele_attack:OnProjectileHit( hTarget, vLocation)
 
             ApplyDamage(dmgTable)
 
-            local hBuff = hTarget:AddNewModifier( self:GetCaster(), self, "fire_ele_melt_debuff", { duration = 7 } )
+            local hBuff = hTarget:AddNewModifier( self:GetCaster(), self, "fire_ele_melt_debuff", { duration = self.duration } )
             if hTarget:HasModifier("fire_ele_melt_debuff") == true and hBuff:GetStackCount() < self.max_stacks  then
                 hBuff:IncrementStackCount()
             end

@@ -27,7 +27,7 @@ function green_beam:OnAbilityPhaseStart()
         end
 
         -- play voice line
-        EmitSoundOn("rubick_rub_arc_levelup_06 ", self:GetCaster())
+        EmitSoundOn("Hero_Phoenix.SunRay.Cast", self:GetCaster())
 
         return true
     end
@@ -37,23 +37,30 @@ end
 function green_beam:OnSpellStart()
     if IsServer() then
         local caster = self:GetCaster()
-        local beam_length = 2700
-        local radius = 30
+        local beam_length = self:GetSpecialValueFor( "beam_length" ) -- 2700
+        local radius = self:GetSpecialValueFor( "radius" ) --30
+        local dmg = self:GetSpecialValueFor( "damage" ) --10
+        self.wave_dmg = self:GetSpecialValueFor( "wave_dmg" ) --10
+        local angleIncrement = self:GetSpecialValueFor( "beam_speed_angle_increment" ) -- 0.6
 
-        local angleIncrement = 0.6
         local currentAngle = 1
-
         self.stopFireWave = false
 
         -- start a timer that fires the blast wave projectile every x seconds, look at the endpos var every timer run
         Timers:CreateTimer(0.5, function()
             if self.stopFireWave == true or caster:IsAlive() == false then
+
+                EmitSoundOn("Hero_Phoenix.SunRay.Stop", self:GetCaster())
+
                 return false
             end
+
+            EmitSoundOn("Hero_Phoenix.SunRay.Loop", self:GetCaster())
 
             if self.end_pos ~= nil and self.end_pos ~= 0 then
                 --print("self.end_pos ",self.end_pos)
                 local blastwaveDirection = -( self:GetCaster():GetAbsOrigin() - self.end_pos ):Normalized()
+                blastwaveDirection.z = 0
                 self:FireBlastWave(blastwaveDirection)
             end
 
@@ -124,6 +131,8 @@ function green_beam:OnSpellStart()
                     if unit:GetUnitName() == "npc_tinker" then
                         self.stopFireWave = true
 
+                        EmitSoundOn("tinker_tink_death_03", self:GetCaster())
+
                         -- this code holds the beam on tinker until the timer after this function ends
                         ParticleManager:SetParticleControl( self.pfx, 1, Vector( unit:GetAbsOrigin().x,unit:GetAbsOrigin().y, unit:GetAbsOrigin().z + 100 ))
 
@@ -170,6 +179,30 @@ function green_beam:OnSpellStart()
                 end
             end
 
+            -- handles dmging players
+            local units_2 = FindUnitsInLine(
+                caster:GetTeamNumber(),
+				caster:GetAbsOrigin(),
+				self.end_pos,
+				nil,
+				radius,
+				DOTA_UNIT_TARGET_TEAM_ENEMY,
+				DOTA_UNIT_TARGET_HERO + DOTA_UNIT_TARGET_BASIC,
+                0)
+
+                if units_2 ~= nil and #units_2 ~= 0 then
+                    for _,unit in pairs(units_2) do
+                        local damage = {
+                            victim = unit,
+                            attacker = self:GetCaster(),
+                            damage = dmg,
+                            damage_type = DAMAGE_TYPE_PHYSICAL,
+                            ability = self
+                        }
+                        ApplyDamage( damage )
+                    end
+                end
+
             if currentAngle == 360 then
                 currentAngle = 0
             end
@@ -189,13 +222,14 @@ function green_beam:FireBlastWave(direction)
 
         local projectile = {
             EffectName = "particles/tinker/tinker_napalm_wave_basedtidehuntergushupgrade.vpcf",
-            vSpawnOrigin = self:GetCaster():GetAbsOrigin() + Vector(0, 0, 100),
+            vSpawnOrigin = self:GetCaster():GetAbsOrigin() + Vector(0, 0, 0),
             fDistance = 5000,
             fStartRadius = 200,
 			fEndRadius = 200,
             Source = self:GetCaster(),
             vVelocity = direction * projectile_speed,
             UnitBehavior = PROJECTILES_NOTHING,
+            bMultipleHits = false,
             TreeBehavior = PROJECTILES_DESTROY,
             WallBehavior = PROJECTILES_DESTROY,
             GroundBehavior = PROJECTILES_NOTHING,
@@ -205,9 +239,21 @@ function green_beam:FireBlastWave(direction)
                 if unit == nil then
                     return false
                 end
-                return unit:GetTeamNumber() ~= self:GetCaster():GetTeamNumber() and unit:GetModelName() ~= "models/development/invisiblebox.vmdl" and CheckGlobalUnitTableForUnitName(unit) ~= true
+                return unit:GetTeamNumber() ~= self:GetCaster():GetTeamNumber() and unit:GetModelName() ~= "models/development/invisiblebox.vmdl" --and CheckGlobalUnitTableForUnitName(unit) ~= true
             end,
             OnUnitHit = function(_self, unit)
+                --print("running on hit?")
+
+                --print("unit ", unit:GetUnitName())
+
+                local dmgTable = {
+                    victim = unit,
+                    attacker = self:GetCaster(),
+                    damage = self.wave_dmg,
+                    damage_type = DAMAGE_TYPE_PHYSICAL,
+                }
+                ApplyDamage( dmgTable )
+
             end,
             OnFinish = function(_self, pos)
             end,
@@ -216,6 +262,7 @@ function green_beam:FireBlastWave(direction)
         Projectiles:CreateProjectile(projectile)
     end
 end
+------------------------------------------------------------------------------------------------------------------------------
 
 function green_beam:CleanUpRemainingRocks()
     if IsServer() then

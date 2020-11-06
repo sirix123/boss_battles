@@ -38,6 +38,7 @@ function TinkerThinker()
 	if not IsServer() then return end
 
 	if ( not thisEntity:IsAlive() ) then
+		thisEntity.stop_timers = true
 		return -1
 	end
 
@@ -71,7 +72,7 @@ function TinkerThinker()
 			return CastTeleport()
 		end
 
-		if thisEntity.chain_light_v2 ~= nil and thisEntity.chain_light_v2:IsFullyCastable() and thisEntity.chain_light_v2:IsCooldownReady() and thisEntity.stack_count >= 2 then
+		if thisEntity.chain_light_v2 ~= nil and thisEntity.chain_light_v2:IsFullyCastable() and thisEntity.chain_light_v2:IsCooldownReady() and thisEntity.stack_count >= 3 then
 			return CastChainLight()
 		end
 
@@ -79,7 +80,7 @@ function TinkerThinker()
 			return CastIceShot()
 		end
 
-		if thisEntity.summon_bird ~= nil and thisEntity.summon_bird:IsFullyCastable() and thisEntity.summon_bird:IsCooldownReady() and thisEntity.stack_count >= 3 then
+		if thisEntity.summon_bird ~= nil and thisEntity.summon_bird:IsFullyCastable() and thisEntity.summon_bird:IsCooldownReady() and thisEntity.stack_count >= 1 then
 			return CastSummonBird()
 		end
 
@@ -88,7 +89,11 @@ function TinkerThinker()
 	-- crystal phase
 	if thisEntity.PHASE == 2 then
 
-		Timers:CreateTimer(10,function()
+		Timers:CreateTimer(12,function()
+			if thisEntity.stop_timers == true then
+				return false
+			end
+
 			if thisEntity.tinker_teleport ~= nil and thisEntity.tinker_teleport:IsFullyCastable() and thisEntity.tinker_teleport:IsCooldownReady() then
 				return CastTeleport()
 			end

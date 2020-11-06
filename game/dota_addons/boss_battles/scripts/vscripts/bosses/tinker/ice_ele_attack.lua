@@ -2,7 +2,7 @@ ice_ele_attack = class({})
 
 function ice_ele_attack:OnAbilityPhaseStart()
     if IsServer() then
-        self:GetCaster():StartGestureWithPlaybackRate(ACT_DOTA_COLD_FEET, 1.0)
+        self:GetCaster():StartGestureWithPlaybackRate(ACT_DOTA_IDLE_RARE, 2.0)
         return true
     end
 end
@@ -10,7 +10,7 @@ end
 function ice_ele_attack:OnSpellStart()
 	if IsServer() then
 
-		self:GetCaster():RemoveGesture(ACT_DOTA_COLD_FEET)
+		self:GetCaster():RemoveGesture(ACT_DOTA_IDLE_RARE)
 
 		self.attack_speed = self:GetSpecialValueFor( "attack_speed" )
 		self.attack_width_initial = self:GetSpecialValueFor( "attack_width_initial" )
@@ -53,7 +53,7 @@ function ice_ele_attack:OnSpellStart()
 
 		ProjectileManager:CreateLinearProjectile( info )
 
-		EmitSoundOn( "Dungeon.ArcherShootArrow", self:GetCaster() )
+		EmitSoundOn( "Hero_Tusk.IceShards.Cast", self:GetCaster() )
 	end
 end
 
@@ -80,7 +80,7 @@ function ice_ele_attack:OnProjectileHit( hTarget, vLocation )
 			ParticleManager:SetParticleControlEnt( nFXIndex, 10, hTarget, PATTACH_ABSORIGIN_FOLLOW, nil, hTarget:GetOrigin(), true )
 			ParticleManager:ReleaseParticleIndex( nFXIndex )
 
-			EmitSoundOn( "Dungeon.BloodSplatterImpact", hTarget )
+			EmitSoundOn( "Hero_Tinker.ProjectileImpact", hTarget )
 		end
 
 		return true

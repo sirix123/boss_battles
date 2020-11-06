@@ -127,6 +127,10 @@ function TimberThink()
 		LevelUpAbilities() -- forces all abilities to be level 4
 	end
 
+	if thisEntity:GetMana() >= 99 then
+		fire_shell:EndCooldown()
+	end
+
 	return 0.5
 end
 --------------------------------------------------------------------------------

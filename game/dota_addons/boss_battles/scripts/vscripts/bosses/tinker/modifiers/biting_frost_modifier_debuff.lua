@@ -17,10 +17,10 @@ function biting_frost_modifier_debuff:OnCreated( kv )
     if IsServer() then
         self.parent = self:GetParent()
         self.caster = self:GetCaster()
-        self.radius = 150 --kv.radius
-        self.dmg = 1--50 --kv.dmg
+        self.radius = kv.radius
+        self.dmg = kv.dmg
         self.stopDamageLoop = false
-        self.damage_interval = 2 --kv.damage_interval
+        self.damage_interval = kv.interval
         self:IncrementStackCount()
 
         self:StartApplyDamageLoop()

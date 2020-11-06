@@ -69,7 +69,7 @@ function electric_field_v2:OnSpellStart()
 
         ProjectileManager:CreateTrackingProjectile( info )
 
-        EmitSoundOn( "Hero_Zuus.ArcLightning.Cast", self:GetCaster() )
+        EmitSoundOn( "Hero_Rubick.FadeBolt.Cast", self:GetCaster() )
 
         local nFXIndex = ParticleManager:CreateParticle( "particles/econ/items/rubick/rubick_ti8_immortal/rubick_ti8_immortal_fade_bolt.vpcf", PATTACH_CUSTOMORIGIN, nil )
         ParticleManager:SetParticleControlEnt( nFXIndex, 0, self:GetCaster(), PATTACH_POINT_FOLLOW, "attach_attack1", self:GetCaster():GetOrigin(), true )
@@ -87,7 +87,7 @@ function electric_field_v2:OnProjectileHit( hTarget, vLocation)
 	if IsServer() then
 		if hTarget == nil then return end
 
-		EmitSoundOn("Hero_Zuus.ArcLightning.Target", hTarget)
+		EmitSoundOn("Hero_Rubick.FadeBolt.Target", hTarget)
 
 		local dmgTable = {
 			victim = hTarget,

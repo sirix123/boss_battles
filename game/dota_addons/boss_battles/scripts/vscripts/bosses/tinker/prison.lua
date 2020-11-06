@@ -98,6 +98,9 @@ function prison:OnProjectileHit( hTarget, vLocation)
             false	-- bool, can grow cache
         )
 
+        -- particle effect on ground
+        -- ehre
+
         EmitSoundOn("Hero_Zuus.ArcLightning.Target", hTarget)
 
         if units == nil or #units == 0 then return end

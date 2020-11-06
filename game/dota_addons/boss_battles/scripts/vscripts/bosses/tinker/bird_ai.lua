@@ -66,6 +66,8 @@ function BirdThinker()
         thisEntity:RemoveModifierByName("modifier_flying")
         thisEntity.PHASE = 3
 
+        EmitSoundOn("Visage_Familar.StoneForm.Cast", thisEntity)
+
         -- falling to ground time buff
         return 1
     end

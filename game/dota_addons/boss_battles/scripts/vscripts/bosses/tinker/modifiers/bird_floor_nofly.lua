@@ -28,7 +28,7 @@ function bird_floor_nofly:OnCreated( kv )
         self:AddParticle(particle, false, false, -1, false, false)
 
         self.flying = false
-        print("self.flying ", self.flying)
+        --print("self.flying ", self.flying)
 	--end
 end
 
@@ -36,7 +36,7 @@ function bird_floor_nofly:OnDestroy()
     --if IsServer() then
         local particle = ParticleManager:CreateParticle("particles/units/heroes/hero_visage/visage_familiar_transform.vpcf", PATTACH_ABSORIGIN_FOLLOW, self:GetParent())
         ParticleManager:ReleaseParticleIndex(particle)
-        print("flying modifier OnDestroy")
+        --print("flying modifier OnDestroy")
         self.flying = true
     --end
 end

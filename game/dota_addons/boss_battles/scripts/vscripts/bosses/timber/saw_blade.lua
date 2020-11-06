@@ -17,6 +17,16 @@ function saw_blade:OnAbilityPhaseStart()
 
         self:GetCaster():StartGestureWithPlaybackRate(ACT_DOTA_SPAWN, 1.0)
 
+        local radius = 2000
+        local x = RandomInt(10138 - radius, 10138+ radius)
+        local y = RandomInt(-10138 - radius, -10138 + radius)
+
+        self.point = Vector(x,y,137)
+
+        local nFXIndex = ParticleManager:CreateParticle( "particles/units/heroes/hero_visage/visage_summon_familiars.vpcf", PATTACH_WORLDORIGIN, nil )
+        ParticleManager:SetParticleControl(nFXIndex, 0, self.point)
+		ParticleManager:ReleaseParticleIndex( nFXIndex )
+
         return true
     end
 end
@@ -27,7 +37,7 @@ function saw_blade:OnSpellStart()
         self:GetCaster():RemoveGesture(ACT_DOTA_SPAWN)
 
         self.caster = self:GetCaster()
-        local point = self:GetCursorPosition()
+        local point = self.point--self:GetCursorPosition()
 
         -- particle particles/units/heroes/hero_visage/visage_summon_familiars.vpcf
 
@@ -55,9 +65,9 @@ function saw_blade:OnSpellStart()
                     target_y = point.y,
                     target_z = point.z,
                 },
-                self.caster:GetOrigin(),
+                self.point,
                 self.caster:GetTeamNumber(),
-                false 
+                false
             )
     
             local sound_cast = "Hero_Shredder.Chakram.Cast"

@@ -13,7 +13,7 @@ end
 function bird_wave_spell:OnSpellStart()
     self.caster = self:GetCaster()
 	self.radius = 200
-	self.dmg = 10
+	self.dmg = self:GetSpecialValueFor( "dmg" )
     self.damage_interval = 1
     self.stopDamageLoop = false
     self.duration = 12

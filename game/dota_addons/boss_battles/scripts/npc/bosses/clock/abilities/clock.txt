@@ -33,7 +33,7 @@
 		{
             "01"{ "var_type"			"FIELD_INTEGER"		"missile_radius"		"200" }
             "02"{ "var_type"			"FIELD_INTEGER"		"flTimeBetweenWaves"	"6" }
-            "03"{ "var_type"			"FIELD_INTEGER"		"nMaxWaves"				"4" }
+            "03"{ "var_type"			"FIELD_INTEGER"		"nMaxWaves"				"3" }
             "04"{ "var_type"			"FIELD_INTEGER"		"dmg_hit"				"150" }
             "05"{ "var_type"			"FIELD_INTEGER"		"dmg_dot"				"10" }
             "06"{ "var_type"			"FIELD_INTEGER"		"dmg_interval"			"1" }
@@ -64,8 +64,8 @@
 
         // Casting
         //-------------------------------------------------------------------------------------------------------------
-        "AbilityCastPoint"              "0.5 0.5 0.5 0.5"
-        "AbilityCooldown"               "20 20 20 20"
+        "AbilityCastPoint"              "0.8 0.8 0.8 0.8"
+        "AbilityCooldown"               "30 30 30 30"
         "AbilityManaCost"               "0"
         "AbilityCastRange" 				"9000"
 
@@ -74,7 +74,7 @@
 		"AbilitySpecial"
 		{
             "01"{ "var_type"			"FIELD_INTEGER"		"speed"		            "1800" }
-            "02"{ "var_type"			"FIELD_INTEGER"		"latch_radius"		    "50" }
+            "02"{ "var_type"			"FIELD_INTEGER"		"latch_radius"		    "150" }
             "03"{ "var_type"			"FIELD_INTEGER"		"knock_speed"		    "500" }
             "04"{ "var_type"			"FIELD_INTEGER"		"knock_distance"	    "1000" }
             "05"{ "var_type"			"FIELD_INTEGER"		"knock_height"		    "200" }
@@ -143,7 +143,7 @@
         // Casting
         //-------------------------------------------------------------------------------------------------------------
         "AbilityCastPoint"              "0.0 0.0 0.0 0.0"
-        "AbilityCooldown"               "45 45 45 45"
+        "AbilityCooldown"               "60 60 50 50"
         "AbilityManaCost"               "0"
         "AbilityCastRange" 				"9000"
 
@@ -152,7 +152,7 @@
 		"AbilitySpecial"
 		{
             "01"{ "var_type"			"FIELD_FLOAT"		"cloud_spawn_interval"		            "0.5 0.5 0.5 0.5" }
-            "02"{ "var_type"			"FIELD_INTEGER"		"duration_cloud"		                "60 60 60 60" }
+            "02"{ "var_type"			"FIELD_INTEGER"		"duration_cloud"		                "150 150 150 150" }
             "03"{ "var_type"			"FIELD_INTEGER"		"radius"		                        "150 150 150 150" }
             "04"{ "var_type"			"FIELD_INTEGER"		"dmg"		                            "100 100 100 100" }
             "05"{ "var_type"			"FIELD_INTEGER"		"dmg_interval"		                    "1 1 1 1" }
@@ -306,7 +306,7 @@
         "AbilityUnitDamageType"         "DAMAGE_TYPE_PHYSICAL" 
         "MaxLevel"						"4"
         "AbilityCastRange" 				"10000"
-        "AbilityCooldown"				"35"
+        "AbilityCooldown"				"45"
         "AbilityCastPoint"              "0"
         "AbilityManaCost"               "0"
 
@@ -350,8 +350,8 @@
             "01"{ "var_type"			"FIELD_INTEGER"		"speed"		            "500" }
             "02"{ "var_type"			"FIELD_INTEGER"		"dmg"		            "100" }
             "03"{ "var_type"			"FIELD_INTEGER"		"hit_box"		        "200" }
-            "04"{ "var_type"			"FIELD_INTEGER"		"angleIncrement"		"10"  }
-            "05"{ "var_type"			"FIELD_INTEGER"		"delay_between_shots"	"1.7" }
+            "04"{ "var_type"			"FIELD_INTEGER"		"angleIncrement"		"15"  }
+            "05"{ "var_type"			"FIELD_INTEGER"		"delay_between_shots"	"2" }
 		}
 
 		"precache"
@@ -376,7 +376,7 @@
         "AbilityUnitDamageType"         "DAMAGE_TYPE_PHYSICAL" 
         "MaxLevel"						"4"
         "AbilityCastRange" 				"10000"
-        "AbilityCooldown"				"35"
+        "AbilityCooldown"				"45"
         "AbilityCastPoint"              "0"
         "AbilityManaCost"               "0"
 

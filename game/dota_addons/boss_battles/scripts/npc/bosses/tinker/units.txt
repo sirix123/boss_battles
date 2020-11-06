@@ -229,12 +229,12 @@
 
 		// General
 		//----------------------------------------------------------------
-		"Model"						"models/heroes/ancient_apparition/ancient_apparition.vmdl"	// Model.
+		"Model"						"models/items/courier/tinkbot/tinkbot.vmdl"	// Model.
 		"BaseClass"					"npc_dota_creature"
 		"SoundSet"					"Hero_Techies"
 		"GameSoundsFile"			"soundevents/game_sounds_heroes/game_sounds_techies.vsndevts"
 		"Level"						"1"
-		"ModelScale" 				"1.3"
+		"ModelScale" 				"1.5"
 
 		// Abilities
 		//----------------------------------------------------------------
