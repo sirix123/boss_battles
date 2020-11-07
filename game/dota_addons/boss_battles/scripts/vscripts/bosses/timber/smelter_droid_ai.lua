@@ -10,6 +10,7 @@ function Spawn( entityKeyValues )
 	--thisEntity:AddNewModifier( nil, nil, "modifier_phased", { duration = -1 })
 
 	thisEntity:AddNewModifier(thisEntity, self, "droid_colour_modifier_green", {duration = 9000})
+	thisEntity:AddNewModifier( nil, nil, "modifier_phased", { duration = -1 })
 
 	thisEntity:SetHullRadius(60)
 

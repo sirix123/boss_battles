@@ -82,7 +82,7 @@ function TimberThink()
 	end
 
 	-- saw blade cast logic
-	if thisEntity.saw_blade ~= nil and thisEntity.saw_blade:IsFullyCastable() and thisEntity.nCurrentSawBlades < thisEntity.nMaxSawBlades and thisEntity.saw_blade:IsCooldownReady() then
+	if thisEntity.saw_blade:IsInAbilityPhase() == false and thisEntity.saw_blade ~= nil and thisEntity.saw_blade:IsFullyCastable() and thisEntity.nCurrentSawBlades < thisEntity.nMaxSawBlades and thisEntity.saw_blade:IsCooldownReady() then
 		thisEntity.nCurrentSawBlades = thisEntity.nCurrentSawBlades + 1
 		--print("casting saw baldes")
 		return CastSawBlade()
@@ -128,7 +128,7 @@ function TimberThink()
 	end
 
 	if thisEntity:GetMana() >= 99 then
-		fire_shell:EndCooldown()
+		thisEntity.fire_shell:EndCooldown()
 	end
 
 	return 0.5
@@ -225,7 +225,7 @@ function CastReturnSawBlade()
 		AbilityIndex = thisEntity.return_saw_blades:entindex(),
 		Queue = 0,
 	})
-	return 10.0
+	return 3
 end
 --------------------------------------------------------------------------------
 
@@ -238,7 +238,7 @@ function CastChain()
 		Queue = 0,
 	})
 
-	return 2
+	return 4
 end
 --------------------------------------------------------------------------------
 

@@ -20,7 +20,7 @@ function smelter_droid_enhance_modifier:OnCreated( kv )
 end
 
 -----------------------------------------------------------------------------
-
+--[[
 function smelter_droid_enhance_modifier:DeclareFunctions()
 	local funcs =
 	{
@@ -38,6 +38,6 @@ end
 
 function smelter_droid_enhance_modifier:GetModifierConstantHealthRegen()
 	return self.healthregen
-end
+end]]
 
 

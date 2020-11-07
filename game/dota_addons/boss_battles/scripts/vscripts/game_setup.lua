@@ -24,9 +24,9 @@ function GameSetup:init()
 
     GameRules:EnableCustomGameSetupAutoLaunch(false)
     GameRules:SetCustomGameSetupAutoLaunchDelay(0)
-    GameRules:SetHeroSelectionTime(30)
+    GameRules:SetHeroSelectionTime(60)
     GameRules:SetStrategyTime(0)
-    GameRules:SetPreGameTime(1)
+    GameRules:SetPreGameTime(0)
     GameRules:SetShowcaseTime(0)
     GameRules:SetPostGameTime(5)
     GameRules:SetSameHeroSelectionEnabled(true)
@@ -295,8 +295,6 @@ function GameSetup:OnEntityKilled(keys)
 
     -- handles encounter/boss dying
     if npc:GetUnitName() == RAID_TABLES[BOSS_BATTLES_ENCOUNTER_COUNTER].boss then
-        -- increase encounter counter
-
         -- repsawn deadplayers and reset lifes
         local isHeroAlive = false
         local heroes = HeroList:GetAllHeroes()
@@ -548,10 +546,6 @@ function GameSetup:InitCommands()
             boss = CreateUnitByName(RAID_TABLES[a].boss, self.boss_spawn, true, nil, nil, DOTA_TEAM_BADGUYS)
         end)
 
-        -- reset wipe flag
-        --self.wipe_flag = nil
-
-
         --Update the bosses hp and mp UI every tick
         Timers:CreateTimer(function()
             if boss ~= nil then
@@ -612,11 +606,6 @@ function GameSetup:StartBoss( a )
             -- look at raidtables and spawn the boss depending on the encounter counter
             boss = CreateUnitByName(RAID_TABLES[a].boss, self.boss_spawn, true, nil, nil, DOTA_TEAM_BADGUYS)
         end)
-
-        -- reset wipe flag
-        --self.wipe_flag = nil
-
-
 
     --Update the bosses hp and mp UI every tick
     Timers:CreateTimer(function()

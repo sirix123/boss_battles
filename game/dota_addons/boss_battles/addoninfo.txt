@@ -48,7 +48,7 @@
 	map_options = 
 	[
 		{
-			MaxPlayers = 6
+			MaxPlayers = 4
 			map = "main_map"
 		},
 	]
@@ -66,6 +66,6 @@
 	ForceDefaultGuide = true
 	MinimalPrecache = false
 	MinPlayers = 1
-	MaxPlayers = 6
+	MaxPlayers = 4
 	PenaltiesEnabled = false
 }

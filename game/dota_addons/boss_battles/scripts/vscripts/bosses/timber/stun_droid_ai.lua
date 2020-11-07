@@ -11,8 +11,8 @@ function Spawn( entityKeyValues )
 	thisEntity.stun_droid_zap = thisEntity:FindAbilityByName( "stun_droid_zap" )
 
 	--thisEntity:AddNewModifier( nil, nil, "modifier_phased", { duration = -1 })
-	
 	thisEntity:AddNewModifier(thisEntity, self, "droid_colour_modifier_blue", {duration = 9000})
+	thisEntity:AddNewModifier( nil, nil, "modifier_phased", { duration = -1 })
 
 	thisEntity.target = nil
 
@@ -42,7 +42,7 @@ function DroidThink()
 		ApproachTarget()
 	--end
 
-	if ( thisEntity:GetAbsOrigin() - thisEntity.approach_target:GetAbsOrigin() ):Length2D() < 200 then
+	if ( thisEntity:GetAbsOrigin() - thisEntity.approach_target:GetAbsOrigin() ):Length2D() < 200 and thisEntity.stun_droid_zap:IsCooldownReady() and thisEntity.stun_droid_zap:IsInAbilityPhase() == false then
 		--print("casting spell")
 		return CastZap()
 	end

@@ -151,7 +151,7 @@ function TechiesThinker()
     end
 
     if thisEntity.phase == 3 then
-        print("entering phase 3")
+        --print("entering phase 3")
 
         thisEntity:SetBaseMoveSpeed(700)
 

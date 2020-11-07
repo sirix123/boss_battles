@@ -27,6 +27,8 @@ function smelter_droid_enhance_modifier_thinker:OnCreated( kv )
 	-- references
 	self.radius = 600
 	local interval = 1.5
+	self.mana = 2
+	self.heal = 50
 
 	if IsServer() then
 		self.parent = self:GetParent()
@@ -83,6 +85,11 @@ function smelter_droid_enhance_modifier_thinker:OnIntervalThink()
 		self.sound_cast = "shredder_timb_reactivearmor_05"
 		EmitGlobalSound(self.sound_cast)
 	end
+
+	-- every internval give him mana and health and playthis particle effect
+
+	target:GiveMana(self.mana)
+	target:Heal(self.heal, self:GetCaster())
 
 	-- check distance
 	if (target:GetOrigin()-self:GetCaster():GetOrigin()):Length2D()>self.radius then
