@@ -1,0 +1,99 @@
+<root>
+	<!-- Include stylesheets -->
+	<styles>
+		<include src="file://{resources}/styles/custom_game/picking_screen.css" />
+	</styles>
+
+	<!-- Include script files -->
+	<scripts>
+		<!-- Panel script -->
+		<include src="file://{resources}/scripts/custom_game/hero_selection.js" />
+	</scripts>
+
+	<Panel hittest="false" style="width: 100%; height: 100%;">
+		<Panel hittest="true" id="PickingScreen">
+
+			<!-- Timer container
+			==================================================================-->
+			<Panel id='PickTimer' style="border: 1px solid red;">
+				<Label id='TimerTxt' />
+			</Panel>
+
+			<!-- Hero rows
+			==================================================================-->
+			<Panel class="ContainerHero" >
+
+				<!-- Pick list (showing options) | Row 1 | -->
+				<Panel id="PickListRowOne" style="border: 1px solid red;" >
+
+					<Panel id="1" class="HeroOption">
+						<DOTAHeroImage heroname="npc_dota_hero_templar_assassin" heroimagestyle="portrait" scaling="none" onactivate="SelectHero('npc_dota_hero_templar_assassin')"/>
+					</Panel>
+
+					<Panel id="2" class="HeroOption" >
+						<DOTAHeroImage heroname="npc_dota_hero_crystal_maiden" heroimagestyle="portrait" scaling="none" onactivate="SelectHero('npc_dota_hero_crystal_maiden')"/>
+					</Panel>
+
+					<Panel id="3" class="HeroOption" >
+						<DOTAHeroImage heroname="npc_dota_hero_juggernaut" heroimagestyle="portrait" scaling="none" onactivate="SelectHero('npc_dota_hero_juggernaut')"/>
+					</Panel>
+
+					<Panel id="4" class="HeroOption" >
+						<DOTAHeroImage heroname="npc_dota_hero_medusa" heroimagestyle="portrait" scaling="none" onactivate="SelectHero('npc_dota_hero_medusa')"/>
+					</Panel>
+
+					<Panel id="5" class="HeroOption" >
+						<DOTAHeroImage heroname="npc_dota_hero_phantom_assassin" heroimagestyle="portrait" scaling="none" onactivate="SelectHero('npc_dota_hero_phantom_assassin')"/>
+					</Panel>
+
+					<Panel id="6" class="HeroOption" >
+						<DOTAHeroImage heroname="npc_dota_hero_kunkka" heroimagestyle="portrait" scaling="none" onactivate="SelectHero('npc_dota_hero_kunkka')"/>
+					</Panel>
+
+				</Panel>
+
+				<!-- Pick list (showing options) | Row 2 | 
+				<Panel id="PickListRowTwo" style="border: 1px solid red;">
+					<Panel id="5" class="HeroOption" >
+						<DOTAHeroImage heroname="npc_dota_hero_antimage" heroimagestyle="portrait" scaling="none" onactivate="SelectHero('puck')"/>
+					</Panel>
+
+					<Panel id="6" class="HeroOption" >
+						<DOTAHeroImage heroname="npc_dota_hero_antimage" heroimagestyle="portrait" scaling="none" onactivate="SelectHero('puck')"/>
+					</Panel>
+
+					<Panel id="7" class="HeroOption" >
+						<DOTAHeroImage heroname="npc_dota_hero_antimage" heroimagestyle="portrait" scaling="none" onactivate="SelectHero('puck')"/>
+					</Panel>
+
+					<Panel id="8" class="HeroOption" >
+						<DOTAHeroImage heroname="npc_dota_hero_antimage" heroimagestyle="portrait" scaling="none" onactivate="SelectHero('puck')"/>
+					</Panel>
+
+				</Panel>
+				========================================================-->
+			</Panel>
+
+			<!-- Player display and name
+			
+			<Panel class="ContainerPlayerRow" style="border: 1px solid red;">
+				<Panel id="PlayerRow" style="border: 1px solid red;">
+					<Panel id="npc_dota_hero_antimage" class="PlayerOption"/>
+					<Panel id="npc_dota_hero_legion_commander" class="PlayerOption"/>
+					<Panel id="npc_dota_hero_drow_ranger" class="PlayerOption"/>
+					<Panel id="npc_dota_hero_rubick" class="PlayerOption"/>
+				</Panel>
+			</Panel>
+			==================================================================-->
+
+			<!-- enter game button 
+			==================================================================-->
+			<Panel id="EnterGame">
+				<Button id="EnterGameBtn" class="disabled" onactivate="EnterGame()" >
+					<Label id="EnterGameBtnTxt" text="Waiting for other players..." />
+				</Button>
+			</Panel>	
+
+		</Panel>
+	</Panel>
+</root>

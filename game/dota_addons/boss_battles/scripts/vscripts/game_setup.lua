@@ -18,6 +18,9 @@ function GameSetup:init()
     --DOTA_MAX_SPECTATOR_TEAM_SIZE = 2
     --GameRules:SetCustomGameTeamMaxPlayers(DOTA_TEAM_SPECTATORS, 2)
 
+    -- testing custom hero select
+    --GameRules:GetGameModeEntity():SetCustomGameForceHero( "npc_dota_hero_jakiro" )
+
     GameRules:SetCustomGameTeamMaxPlayers(DOTA_TEAM_GOODGUYS, 4)
     GameRules:SetCustomGameTeamMaxPlayers(DOTA_TEAM_BADGUYS, 0)
     GameRules:SetCustomGameTeamMaxPlayers(DOTA_TEAM_CUSTOM_1, 0)
@@ -56,6 +59,7 @@ function GameSetup:init()
     ListenToGameEvent('entity_killed', Dynamic_Wrap(self, 'OnEntityKilled'), self) --
     ListenToGameEvent('entity_hurt', Dynamic_Wrap(self, 'OnEntityHurt'), self)
     ListenToGameEvent('player_chat', Dynamic_Wrap(self, 'OnPlayerChat'), self)
+    ListenToGameEvent('player_class', Dynamic_Wrap(self, 'OnPlayerChange'), self)
 
 end
 --------------------------------------------------------------------------------------------------
@@ -70,6 +74,10 @@ function GameSetup:OnStateChange()
 
     end
 
+    if GameRules:State_Get() == DOTA_GAMERULES_STATE_HERO_SELECTION then
+        --HeroSelection:Start()
+    end
+
     if GameRules:State_Get() == DOTA_GAMERULES_STATE_GAME_IN_PROGRESS then
 
         -- spawn testing stuff
@@ -77,6 +85,48 @@ function GameSetup:OnStateChange()
 
     end
 
+end
+--------------------------------------------------------------------------------------------------
+function GameSetup:OnPlayerChange(keys)
+    local npc = EntIndexToHScript(keys.entindex)
+
+    if npc:IsRealHero() == true then
+
+        npc:AddNewModifier( npc, nil, "modifier_grace_period", { duration = 3 } )
+
+        npc:AddNewModifier( npc,  nil, "movement_modifier_thinker", { } )
+        npc:AddNewModifier( npc,  nil, "remove_attack_modifier", { } )
+
+        npc:Initialize(keys)
+        self:RegisterPlayer(npc)
+        self:RegisterRaidWipe()
+
+        -- if warlord give the stance modifier
+        if npc:GetUnitName() == "npc_dota_hero_juggernaut" then
+            npc:AddNewModifier(
+                npc, -- player source
+                nil, -- ability source
+                "q_warlord_dps_stance_modifier", -- modifier name
+                {} -- kv
+            )
+        end
+
+        -- level up abilities for all heroes to level 1
+        if npc:GetUnitName() == "npc_dota_hero_crystal_maiden"
+        or npc:GetUnitName() == "npc_dota_hero_medusa"
+        or npc:GetUnitName() == "npc_dota_hero_juggernaut"
+        or npc:GetUnitName() == "npc_dota_hero_phantom_assassin"
+        or npc:GetUnitName() == "npc_dota_hero_templar_assassin"
+        then
+
+            local index = 0
+
+            while (npc:GetAbilityByIndex(index) ~= nil) do
+                npc:GetAbilityByIndex(index):SetLevel(1)
+                index = index +1
+            end
+        end
+    end
 end
 --------------------------------------------------------------------------------------------------
 

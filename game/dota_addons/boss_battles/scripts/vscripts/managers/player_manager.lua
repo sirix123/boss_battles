@@ -100,7 +100,7 @@ function PlayerManager:SetUpMovement()
 --Using Almouse ProgressBars Library: https://gitlab.com/ZSmith/dota2-modding-libraries/-/tree/master/ProgressBars
 ------------------------------------------------------------------------------------------------------------------
 
-        local config = {
+        --[[local config = {
             progressBarType = "duration",
             reversedProgress = false, --figure out which way true/false go.
 
@@ -118,7 +118,7 @@ function PlayerManager:SetUpMovement()
         }
         local heroEntity = EntIndexToHScript(args.heroEntity)
         -- via lua:
-        ProgressBars:AddProgressBar(heroEntity, "casting_modifier_thinker", config)
+        ProgressBars:AddProgressBar(heroEntity, "casting_modifier_thinker", config)]]
         
         -- OR via js, doesn't work atm : 
         --CustomGameEventManager:Send_ServerToAllClients("progress_bar", config)
