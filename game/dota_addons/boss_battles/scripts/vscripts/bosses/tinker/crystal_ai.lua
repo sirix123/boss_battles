@@ -34,7 +34,7 @@ function Spawn( entityKeyValues )
     thisEntity.beam_phase = false
 
     thisEntity.beam_stack_count = 0
-    thisEntity.total_beams = 7
+    thisEntity.total_beams = 1
 
     thisEntity:SetMana(0)
 
@@ -88,11 +88,11 @@ function CrystalThinker()
     end
 
     -- start next phase
-    if thisEntity.beam_stack_count == total_beams then
+    if thisEntity.beam_stack_count == thisEntity.total_beams then
         -- do cool stuff when destroyed and setup arena
         CastDestroySelf()
 
-        thisEntity:RemoveSelf()
+        --thisEntity:RemoveSelf()
         return 1
     end
 
@@ -184,16 +184,6 @@ end
 --------------------------------------------------------------------------------
 
 function CastDestroySelf(  )
-
-    -- fog the players
-
-    -- spawn little crystals and rocks around the map 
-
-    -- play rubick freedom VO
-
-    -- play explosion sound
-
-    -- dust particles all around map for a while that slowly disappear
 
 end
 --------------------------------------------------------------------------------

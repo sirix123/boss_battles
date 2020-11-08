@@ -1,6 +1,7 @@
 tinker_ai = class({})
 
 LinkLuaModifier("shield_effect", "bosses/tinker/modifiers/shield_effect", LUA_MODIFIER_MOTION_NONE)
+LinkLuaModifier("phase_1_fog", "bosses/tinker/modifiers/phase_1_fog", LUA_MODIFIER_MOTION_NONE)
 
 --------------------------------------------------------------------------------
 
@@ -16,6 +17,7 @@ function Spawn( entityKeyValues )
 
 	thisEntity.PHASE = 1
 	thisEntity.stack_count = 0
+	thisEntity.max_beam_stacks = 1
 
 	thisEntity.chain_light_v2 = thisEntity:FindAbilityByName( "chain_light_v2" )
 	thisEntity.chain_light_v2:StartCooldown(thisEntity.chain_light_v2:GetCooldown(thisEntity.chain_light_v2:GetLevel()))
@@ -57,13 +59,18 @@ function TinkerThinker()
 	-- if this unit has the beam phase modiifier then phase == 2
 	if thisEntity:HasModifier("beam_phase") then
 		thisEntity.PHASE = 2
-	else
+	elseif thisEntity.PHASE ~= 3 then
 		thisEntity.PHASE = 1
 	end
 
-	if thisEntity.stack_count == 7 then
+	if thisEntity.stack_count == thisEntity.max_beam_stacks then
 		thisEntity:RemoveModifierByName("shield_effect")
+		thisEntity:RemoveModifierByName("beam_counter")
+		thisEntity.stack_count = 0
 		thisEntity.PHASE = 3
+
+		-- transition to phase 3, fog reduce etc
+		return Transition()
 	end
 
 	-- phase 1
@@ -103,7 +110,7 @@ function TinkerThinker()
 	end
 
 	-- phase 2
-	if thisEntity.PHASE == 2 then
+	if thisEntity.PHASE == 3 then
 
 	end
 
@@ -158,4 +165,163 @@ function CastSummonBird(  )
     return 1
 end
 --------------------------------------------------------------------------------
+
+function Transition(  )
+
+	-- expldoe crystal
+	local particle_explode = "particles/tinker/rubick_invoker_emp.vpcf"
+	thisEntity.particle_explode_nfx = ParticleManager:CreateParticle( particle_explode, PATTACH_WORLDORIGIN, thisEntity )
+	ParticleManager:SetParticleControl(thisEntity.particle_explode_nfx, 0, FindCrystal():GetAbsOrigin() )
+
+	EmitSoundOn( "Hero_Invoker.EMP.Cast", FindCrystal() )
+	EmitSoundOn( "Hero_Invoker.EMP.Charge", FindCrystal() )
+
+	Timers:CreateTimer(5, function()
+
+		ParticleManager:DestroyParticle(thisEntity.particle_explode_nfx, false)
+		StopSoundOn("Hero_Invoker.EMP.Charge", FindCrystal())
+		EmitSoundOn( "Hero_Invoker.EMP.Discharge", FindCrystal())
+
+		Timers:CreateTimer(0.2, function()
+
+			-- find all players, reduce vision to something small
+			local units = FindUnitsInRadius(
+				thisEntity:GetTeamNumber(),	-- int, your team number
+				thisEntity:GetAbsOrigin(),	-- point, center point
+				nil,	-- handle, cacheUnit. (not known)
+				5000,	-- float, radius. or use FIND_UNITS_EVERYWHERE
+				DOTA_UNIT_TARGET_TEAM_ENEMY,	-- int, team filter
+				DOTA_UNIT_TARGET_HERO + DOTA_UNIT_TARGET_BASIC,	-- int, type filter
+				DOTA_UNIT_TARGET_FLAG_INVULNERABLE,	-- int, flag filter
+				0,	-- int, order filter
+				false	-- bool, can grow cache
+			)
+
+			if units ~= nil and #units ~= 0 then
+				for _, unit in pairs(units) do
+					unit:AddNewModifier(thisEntity, nil, "phase_1_fog", {duration = 10})
+				end
+			end
+
+			-- calculate postions inside arena and put into a table npc_phase2_rock and npc_phase2_crystal
+			local numRocks = 15
+			local numCrystals = 5
+			local tRockCrystals = {}
+			local tRocks = {}
+
+			local centre_point = FindCrystal():GetAbsOrigin()
+			local radius = 1800
+
+			for i = 1, numRocks, 1 do 
+				local x = RandomInt(centre_point.x - radius, centre_point.x + radius)
+				local y = RandomInt(centre_point.y - radius, centre_point.y + radius)
+				local spawn_pos = Vector(x,y,0)
+				table.insert(tRocks, spawn_pos)
+			end
+
+			for i = 1, numCrystals, 1 do
+				local x = RandomInt(centre_point.x - radius, centre_point.x + radius)
+				local y = RandomInt(centre_point.y - radius, centre_point.y + radius)
+				local spawn_pos = Vector(x,y,0)
+				table.insert(tRockCrystals, spawn_pos)
+			end
+
+			-- create swirls on the ground
+			for _, rock in pairs(tRocks) do
+				local particle_rock_spawn = "particles/custom/swirl/dota_swirl.vpcf"
+				local particle_effect_rock_spawn = ParticleManager:CreateParticle( particle_rock_spawn, PATTACH_WORLDORIGIN, thisEntity )
+				ParticleManager:SetParticleControl(particle_effect_rock_spawn, 0, rock )
+				ParticleManager:SetParticleControl(particle_effect_rock_spawn, 1, Vector(5,0,0) )
+				ParticleManager:ReleaseParticleIndex(particle_effect_rock_spawn)
+			end
+
+			for _, crystal in pairs(tRockCrystals) do
+				local particle_rock_spawn = "particles/custom/swirl/dota_swirl.vpcf"
+				local particle_effect_rock_spawn = ParticleManager:CreateParticle( particle_rock_spawn, PATTACH_WORLDORIGIN, thisEntity )
+				ParticleManager:SetParticleControl(particle_effect_rock_spawn, 0, crystal )
+				ParticleManager:SetParticleControl(particle_effect_rock_spawn, 1, Vector(5,0,0) )
+				ParticleManager:ReleaseParticleIndex(particle_effect_rock_spawn)
+			end
+
+			-- play a couple of voice lines from rubick?
+			EmitGlobalSound("rubick_rub_arc_respawn_10")
+
+			-- then spawn rocks and crystals inside the arena
+			Timers:CreateTimer(5, function()
+
+				-- play a couple of voice lines from tinker?
+				EmitGlobalSound("tinker_tink_spawn_05")
+
+				for _, rock in pairs(tRocks) do
+					local rock_unit = CreateUnitByName("npc_phase2_rock", rock, true, nil, nil, DOTA_TEAM_BADGUYS)
+					rock_unit:AddNewModifier( nil, nil, "modifier_invulnerable", { duration = -1 } )
+					KillUnits( rock )
+				end
+
+				for _, crystal in pairs(tRockCrystals) do
+					local rock_unit = CreateUnitByName("npc_phase2_crystal", crystal, true, nil, nil, DOTA_TEAM_BADGUYS)
+					rock_unit:AddNewModifier( nil, nil, "modifier_invulnerable", { duration = -1 } )
+					KillUnits( crystal )
+				end
+
+				return false
+			end)
+
+			return false
+		end)
+
+		FindCrystal():RemoveSelf()
+
+		return false
+	end)
+
+	return 10
+end
+--------------------------------------------------------------------------------
+
+function KillUnits( pos )
+
+	-- find units
+	local units = FindUnitsInRadius(
+		thisEntity:GetTeamNumber(),	-- int, your team number
+		pos,	-- point, center point
+		nil,	-- handle, cacheUnit. (not known)
+		105,	-- float, radius. or use FIND_UNITS_EVERYWHERE
+		DOTA_UNIT_TARGET_TEAM_ENEMY,
+		DOTA_UNIT_TARGET_ALL,
+		DOTA_UNIT_TARGET_FLAG_NONE,	-- int, flag filter
+		0,	-- int, order filter
+		false	-- bool, can grow cache
+	)
+
+	-- apply modifier
+	if units ~= nil and #units ~= 0 then
+		for _, unit in pairs(units) do
+			unit:ForceKill(false)
+		end
+	end
+
+end
+--------------------------------------------------------------------------------
+
+function FindCrystal()
+
+    local units = FindUnitsInRadius(
+        thisEntity:GetTeamNumber(),	-- int, your team number
+        thisEntity:GetAbsOrigin(),	-- point, center point
+        nil,	-- handle, cacheUnit. (not known)
+        3000,	-- float, radius. or use FIND_UNITS_EVERYWHERE
+        DOTA_UNIT_TARGET_TEAM_FRIENDLY,	-- int, team filter
+        DOTA_UNIT_TARGET_HERO + DOTA_UNIT_TARGET_BASIC,	-- int, type filter
+        DOTA_UNIT_TARGET_FLAG_INVULNERABLE,	-- int, flag filter
+        0,	-- int, order filter
+        false	-- bool, can grow cache
+    )
+
+    for _, unit in pairs(units) do
+        if unit:GetUnitName() == "npc_crystal" then
+            return unit
+        end
+    end
+end
 

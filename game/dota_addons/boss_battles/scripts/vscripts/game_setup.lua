@@ -12,12 +12,6 @@ function GameSetup:init()
 
     self.player_deaths = {}
 
-    -- doesn't work :(
-    -- spectator teamID
-    --DOTA_TEAM_SPECTATORS = 1
-    --DOTA_MAX_SPECTATOR_TEAM_SIZE = 2
-    --GameRules:SetCustomGameTeamMaxPlayers(DOTA_TEAM_SPECTATORS, 2)
-
     -- testing custom hero select
     --GameRules:GetGameModeEntity():SetCustomGameForceHero( "npc_dota_hero_jakiro" )
 
@@ -41,7 +35,6 @@ function GameSetup:init()
     GameRules:GetGameModeEntity():SetFixedRespawnTime( 3 )
     GameRules:GetGameModeEntity():SetCameraDistanceOverride( 1800 )
     GameRules:GetGameModeEntity():SetBuybackEnabled( false )
-    --GameRules:GetGameModeEntity():SetFogOfWarDisabled(true)
     GameRules:GetGameModeEntity():SetTPScrollSlotItemOverride( "" )
 
     -- reg console commands
