@@ -1,6 +1,55 @@
 
 "DOTAAbilities"
 {
+    "rocket_barrage_melee"
+    { 
+        "BaseClass"                     "ability_lua"
+        "ScriptFile"                    "bosses/gyrocopter/rocket_barrage_melee"
+
+        "AbilityBehavior"               "DOTA_ABILITY_BEHAVIOR_NO_TARGET"
+        "AbilityUnitDamageType"         "DAMAGE_TYPE_PHYSICAL"  
+
+        "AbilityCastPoint"              "0.0"
+        "AbilityCooldown"               "0.0"
+        "AbilityManaCost"               "0"
+    }
+    "rocket_barrage_ranged"
+    { 
+        "BaseClass"                     "ability_lua"
+        "ScriptFile"                    "bosses/gyrocopter/rocket_barrage_ranged"
+
+        "AbilityBehavior"               "DOTA_ABILITY_BEHAVIOR_NO_TARGET"
+        "AbilityUnitDamageType"         "DAMAGE_TYPE_PHYSICAL"  
+
+        "AbilityCastPoint"              "0.0"
+        "AbilityCooldown"               "0.0"
+        "AbilityManaCost"               "0"
+    }
+    "whirlwind"
+    { 
+        "BaseClass"                     "ability_lua"
+        "ScriptFile"                    "bosses/gyrocopter/whirlwind"
+
+        "AbilityBehavior"               "DOTA_ABILITY_BEHAVIOR_NO_TARGET"
+        "AbilityUnitDamageType"         "DAMAGE_TYPE_PHYSICAL"  
+
+        "AbilityCastPoint"              "0.0"
+        "AbilityCooldown"               "0.0"
+        "AbilityManaCost"               "0"
+    }    
+    "gyro_base_attack"
+    { 
+        "BaseClass"                     "ability_lua"
+        "ScriptFile"                    "bosses/gyrocopter/gyro_base_attack"
+
+        "AbilityBehavior"               "DOTA_ABILITY_BEHAVIOR_NO_TARGET"
+        "AbilityUnitDamageType"         "DAMAGE_TYPE_PHYSICAL"  
+
+        "AbilityCastPoint"              "0.0"
+        "AbilityCooldown"               "0.0"
+        "AbilityManaCost"               "0"
+    }
+
     //=================================================================================================================
     // Gyrocopter: Radar Scan
     //=================================================================================================================

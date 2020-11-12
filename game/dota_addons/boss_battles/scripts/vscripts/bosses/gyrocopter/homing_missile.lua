@@ -1,14 +1,14 @@
 homing_missile = class({})
 
-
+local displayDebug = true
 
 --Homing missile should always be passed it's target. 
 -- The code here will treat the target different for each different lvl of homing missile. 
 -- lvl 1, gets target current location and goes there
 -- lvl 2, gets target current location and starts going there, then updates target position every 5 sec
 -- lvl3, update location/pos/ every sec
-
 -- lvl 4 the rocket has a target but will change it's target if another one comes closer when it checks, every 1 sec
+
 local tracking_interval = 0.1
 
 function homing_missile:OnSpellStart()
@@ -64,8 +64,20 @@ function homing_missile:InitialiseRocket(velocity, acceleration, detonationRadiu
     	target_lastKnownLocation = targetLocationCopy,
     	direction = direction,
     }
-
     local missile = CreateUnitByName("npc_dota_gyrocopter_homing_missile", self:GetCaster():GetAbsOrigin(), true, self:GetCaster(), self:GetCaster(), self:GetCaster():GetTeamNumber())
+    --Adjust size of the rocket based on the level
+	if self:GetLevel() == 1 then
+		missile:SetModelScale(1)
+	end
+	if self:GetLevel() == 2 then
+		missile:SetModelScale(1.25)
+	end
+	if self:GetLevel() == 3 then
+		missile:SetModelScale(1.5)
+	end
+	if self:GetLevel() == 4 then
+		missile:SetModelScale(1.75)
+	end
 
 	if #_G.ActiveHomingMissiles ~= nil then
 		for i = 1, #_G.ActiveHomingMissiles, 1 do
@@ -76,7 +88,6 @@ function homing_missile:InitialiseRocket(velocity, acceleration, detonationRadiu
 	end
 
     local tickCount = 0
-
     Timers:CreateTimer(function()     		
     		tickCount = tickCount +1
 			--need to delay 3 seconds for the 'prepare' animation the missile does
@@ -84,30 +95,30 @@ function homing_missile:InitialiseRocket(velocity, acceleration, detonationRadiu
 			if tickCount < waitAmount then
 				return tracking_interval;  --do nothing until the missile animation is ready to be moved.
 			end				
-
+			
+			--update model
 			rocket.velocity = rocket.velocity + acceleration
-
-			--update rocket's location
 			rocket.location = rocket.location + rocket.direction * rocket.velocity
 			missile:SetAbsOrigin(rocket.location)			
 			missile:SetForwardVector(rocket.direction)
-
 			distance = (rocket.target_lastKnownLocation - rocket.location):Length2D()
+
+			--DEBUG DRAW:
+			if displayDebug then
+				DebugDrawCircle(rocket.target_lastKnownLocation, Vector(255,0,0), 128, 10, true, tracking_interval)
+			end
+
+			--ROCKET NEAR TARGET:
 			if distance < detonationRadius * 1.5 then
     			--TODO: find a sound effect to use, the rocket is about to blowup, maybe a fizzle? maybe techies mine warning?
 				EmitSoundOn( "techies_tech_mineblowsup_01", self:GetCaster() )
 			end
+			--ROCKET "HIT"(near enough to be considered collision) TARGET:
     		if ( distance < detonationRadius  ) then
-
-
-    			--TODO: get enemies at ..  rocket.location + aoeDistance
 				local enemies = FindUnitsInRadius(DOTA_TEAM_BADGUYS, rocket.location, nil, aoeRadius,
 				DOTA_UNIT_TARGET_TEAM_ENEMY, DOTA_UNIT_TARGET_ALL, DOTA_UNIT_TARGET_FLAG_NONE, FIND_CLOSEST, false )
-
 				for _,enemy in pairs(enemies) do 
 					local enemyDistance = (enemy:GetAbsOrigin() - rocket.location):Length2D()
-					--print("Rocket hit enemy. Enemy is distance =  ", enemyDistance)
-					--print("damage amount : ", damage - enemyDistance)
 					local damageInfo = 
 					{
 						victim = rocket.target,
@@ -133,12 +144,8 @@ function homing_missile:InitialiseRocket(velocity, acceleration, detonationRadiu
 						_G.ActiveHomingMissiles[i] = nil 
 					end
 				end
-
     			return 
     		end			
-
-			-- DEBUG: display rocket's target. blue circle 
-			DebugDrawCircle(rocket.target_lastKnownLocation, Vector(255,0,0), 255, 3, true, tracking_interval)
 
 			--only update the rocket's tracking info if an enemy has been scanned, otherwise continue on current course/direction
 			if #_G.ActiveHomingMissiles > 0 then

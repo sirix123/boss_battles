@@ -23,9 +23,12 @@
 		//----------------------------------------------------------------
 		"Ability1"					"radar_scan"			
 		"Ability2"					"homing_missile"			
-		"Ability3"					"rocket_barrage"			
-		"Ability4"					"flak_cannon"			
-		"Ability5"					"call_down"			
+		"Ability3"					"rocket_barrage_melee"
+		"Ability4"					"rocket_barrage_ranged"
+		"Ability5"					"flak_cannon"			
+		"Ability6"					"call_down"			
+		"Ability7"					"gyro_base_attack"
+		"Ability8"					"whirlwind"
 
 		// Precache
 		//-------------------------------------------------------------------------------------------------------------
