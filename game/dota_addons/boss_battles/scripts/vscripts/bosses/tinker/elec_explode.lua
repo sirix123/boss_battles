@@ -1,7 +1,15 @@
 elec_explode = class({})
 
 function elec_explode:OnAbilityPhaseStart()
-    if IsServer() then
+	if IsServer() then
+
+		local radius = 200
+		self.nPreviewFXIndex = ParticleManager:CreateParticle( "particles/econ/events/darkmoon_2017/darkmoon_calldown_marker.vpcf", PATTACH_CUSTOMORIGIN, nil )
+		ParticleManager:SetParticleControl( self.nPreviewFXIndex, 0, self:GetCaster():GetAbsOrigin() )
+		ParticleManager:SetParticleControl( self.nPreviewFXIndex, 1, Vector( radius, -radius, -radius ) )
+		ParticleManager:SetParticleControl( self.nPreviewFXIndex, 2, Vector( self:GetCastPoint(), 0, 0 ) );
+		ParticleManager:ReleaseParticleIndex( self.nPreviewFXIndex )
+
         self:PlayEffects1()
         return true
     end
@@ -18,15 +26,13 @@ function elec_explode:OnSpellStart()
         ParticleManager:DestroyParticle(self.effect_cast,true)
 
         -- play explode effect
-        local particle_cast = "particles/items4_fx/nullifier_proj_impact.vpcf"
+        local particle_cast = "particles/tinker/tinker_elecvoid_spirit_taunt_impact_shockwave.vpcf"
         local sound_target = "Hero_Alchemist.UnstableConcoction.Stun"
 
         -- Create Particle
         local effect_cast = ParticleManager:CreateParticle( particle_cast, PATTACH_ABSORIGIN_FOLLOW, caster )
 		ParticleManager:SetParticleControl( effect_cast, 0, caster:GetAbsOrigin() )
-		ParticleManager:SetParticleControl( effect_cast, 1,	caster:GetAbsOrigin() )
-		ParticleManager:SetParticleControl( effect_cast, 3, caster:GetAbsOrigin() )
-		ParticleManager:ReleaseParticleIndex( effect_cast ) 
+		ParticleManager:ReleaseParticleIndex( effect_cast )
 
         EmitSoundOn( sound_target, caster )
 

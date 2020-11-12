@@ -14,7 +14,7 @@
 		"override_hero"				"npc_dota_hero_templar_assassin"			// Hero to override
 		"Ability1"					"elec_explode"									// Ability 1
 		"Ability2"					"green_bird_explode"										// Ability 2
-		"Ability3"					"summon_bird"								// Ability 3
+		"Ability3"					"march"								// Ability 3
 		"Ability4"					"summon_ice_ele"							// Ability 4
 		"Ability5"					"summon_fire_ele"						// Ability 5
 		"Ability6"					"summon_elec_ele"						// Ability 6

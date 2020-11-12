@@ -526,12 +526,12 @@
 
 		// General
 		//----------------------------------------------------------------
-		"Model"						"models/props_rock/stalagmite_01.vmdl"	// Model.
+		"Model"						"models/tinker_rubble_v2.vmdl"	// Model.
 		"BaseClass"					"npc_dota_creature"
 		"SoundSet"					"Hero_Techies"
 		"GameSoundsFile"			"soundevents/game_sounds_heroes/game_sounds_techies.vsndevts"
 		"Level"						"1"
-		"ModelScale" 				"0.6"
+		"ModelScale" 				"4.0"
 
 		// Abilities
 		//----------------------------------------------------------------
@@ -599,12 +599,12 @@
 
 		// General
 		//----------------------------------------------------------------
-		"Model"						"maps/cavern_assets/models/crystals/crystal03.vmdl"		// Model.
+		"Model"						"maps/cavern_assets/models/crystals/crystal_chunk002.vmdl"		// Model.
 		"BaseClass"					"npc_dota_creature"
 		"SoundSet"					"Hero_Techies"
 		"GameSoundsFile"			"soundevents/game_sounds_heroes/game_sounds_techies.vsndevts"
 		"Level"						"1"
-		"ModelScale" 				"0.6"
+		"ModelScale" 				"0.8"
 
 		// Abilities
 		//----------------------------------------------------------------

@@ -29,11 +29,11 @@ function Spawn( entityKeyValues )
 
     thisEntity.stop_timers = false
 
-    thisEntity:SetHullRadius(80)
+    thisEntity:SetHullRadius(100)
 
     thisEntity.beam_phase = false
 
-    thisEntity.beam_stack_count = 0
+    thisEntity.beam_stack_count = 1
     thisEntity.total_beams = 1
 
     thisEntity:SetMana(0)
@@ -265,7 +265,6 @@ function ElementalPhaseTimer()
                 thisEntity.fire_phase = true
                 thisEntity.elec_phase = true
             end
-
 
         thisEntity.summon_ice_ele:EndCooldown()
         thisEntity.summon_fire_ele:EndCooldown()

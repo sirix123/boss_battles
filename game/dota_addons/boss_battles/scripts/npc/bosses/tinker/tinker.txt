@@ -96,8 +96,8 @@
 		"Ability2"					"chain_light_v2"					// Ability 2
 		"Ability3"					"ice_shot_tinker"					// Ability 3
 		"Ability4"					"summon_bird"					// Ability 4
-		"Ability5"					""					// Ability 5
-		"Ability6"					""					// Ability 6
+		"Ability5"					"laser"					// Ability 5
+		"Ability6"					"march"					// Ability 6
 		"Ability7"					""					// Ability 7
 		"Ability8"					""					// Ability 7
 		

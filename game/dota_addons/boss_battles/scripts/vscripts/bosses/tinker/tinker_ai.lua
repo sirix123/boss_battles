@@ -7,7 +7,7 @@ LinkLuaModifier("phase_1_fog", "bosses/tinker/modifiers/phase_1_fog", LUA_MODIFI
 
 function Spawn( entityKeyValues )
     if not IsServer() then return end
-    if thisEntity == nil then return end
+	if thisEntity == nil then return end
 
 	CreateUnitByName( "npc_crystal", Vector(-10673,11950,0), true, thisEntity, thisEntity, DOTA_TEAM_BADGUYS)
 
@@ -16,8 +16,12 @@ function Spawn( entityKeyValues )
 	thisEntity:AddNewModifier( nil, nil, "modifier_phased", { duration = -1 } )
 
 	thisEntity.PHASE = 1
-	thisEntity.stack_count = 0
+	thisEntity.stack_count = 1
 	thisEntity.max_beam_stacks = 1
+
+	thisEntity.rearm = true
+
+	thisEntity:SetHullRadius(100)
 
 	thisEntity.chain_light_v2 = thisEntity:FindAbilityByName( "chain_light_v2" )
 	thisEntity.chain_light_v2:StartCooldown(thisEntity.chain_light_v2:GetCooldown(thisEntity.chain_light_v2:GetLevel()))
@@ -30,6 +34,11 @@ function Spawn( entityKeyValues )
 
 	thisEntity.tinker_teleport = thisEntity:FindAbilityByName( "tinker_teleport" )
 	thisEntity.tinker_teleport:StartCooldown(thisEntity.tinker_teleport:GetCooldown(thisEntity.tinker_teleport:GetLevel()))
+
+	thisEntity.missile = thisEntity:FindAbilityByName( "missile" )
+	thisEntity.laser = thisEntity:FindAbilityByName( "laser" )
+	thisEntity.march = thisEntity:FindAbilityByName( "march" )
+	thisEntity.prisonbeam = thisEntity:FindAbilityByName( "prisonbeam" )
 
     thisEntity:SetContextThink( "TinkerThinker", TinkerThinker, 0.1 )
 
@@ -66,6 +75,7 @@ function TinkerThinker()
 	if thisEntity.stack_count == thisEntity.max_beam_stacks then
 		thisEntity:RemoveModifierByName("shield_effect")
 		thisEntity:RemoveModifierByName("beam_counter")
+		thisEntity:RemoveModifierByName("modifier_invulnerable")
 		thisEntity.stack_count = 0
 		thisEntity.PHASE = 3
 
@@ -111,6 +121,24 @@ function TinkerThinker()
 
 	-- phase 2
 	if thisEntity.PHASE == 3 then
+
+		if thisEntity.march ~= nil and thisEntity.march:IsFullyCastable() and thisEntity.march:IsCooldownReady() and thisEntity.march:IsInAbilityPhase() == false then
+			return CastMarch()
+		end
+
+		--print("laser cd is? ", thisEntity.laser:GetCooldownTimeRemaining())
+		if thisEntity.laser ~= nil and thisEntity.laser:IsFullyCastable() and thisEntity.laser:IsCooldownReady() and thisEntity.laser:IsInAbilityPhase() == false then
+			--print("casting laser")
+			--return CastLaser()
+		end
+
+		if thisEntity.prisonbeam ~= nil and thisEntity.prisonbeam:IsFullyCastable() and thisEntity.prisonbeam:IsCooldownReady() and thisEntity.prisonbeam:IsInAbilityPhase() == false then
+			return CastPrisonBeam()
+		end
+
+		if thisEntity.missile ~= nil and thisEntity.missile:IsFullyCastable() and thisEntity.missile:IsCooldownReady() and thisEntity.missile:IsInAbilityPhase() == false then
+			return CastMissile()
+		end
 
 	end
 
@@ -199,30 +227,30 @@ function Transition(  )
 
 			if units ~= nil and #units ~= 0 then
 				for _, unit in pairs(units) do
-					unit:AddNewModifier(thisEntity, nil, "phase_1_fog", {duration = 10})
+					unit:AddNewModifier(thisEntity, nil, "phase_1_fog", {duration = 7})
 				end
 			end
 
 			-- calculate postions inside arena and put into a table npc_phase2_rock and npc_phase2_crystal
-			local numRocks = 15
+			local numRocks = 10
 			local numCrystals = 5
 			local tRockCrystals = {}
 			local tRocks = {}
 
-			local centre_point = FindCrystal():GetAbsOrigin()
+			local centre_point = Vector(-10633,11918,130.33)
 			local radius = 1800
 
-			for i = 1, numRocks, 1 do 
+			for i = 1, numRocks, 1 do
 				local x = RandomInt(centre_point.x - radius, centre_point.x + radius)
 				local y = RandomInt(centre_point.y - radius, centre_point.y + radius)
-				local spawn_pos = Vector(x,y,0)
+				local spawn_pos = Vector(x,y,131)
 				table.insert(tRocks, spawn_pos)
 			end
 
 			for i = 1, numCrystals, 1 do
 				local x = RandomInt(centre_point.x - radius, centre_point.x + radius)
 				local y = RandomInt(centre_point.y - radius, centre_point.y + radius)
-				local spawn_pos = Vector(x,y,0)
+				local spawn_pos = Vector(x,y,131)
 				table.insert(tRockCrystals, spawn_pos)
 			end
 
@@ -255,12 +283,22 @@ function Transition(  )
 				for _, rock in pairs(tRocks) do
 					local rock_unit = CreateUnitByName("npc_phase2_rock", rock, true, nil, nil, DOTA_TEAM_BADGUYS)
 					rock_unit:AddNewModifier( nil, nil, "modifier_invulnerable", { duration = -1 } )
+					rock_unit:SetHullRadius(160)
+					DebugDrawCircle(rock,Vector(0,0,255),128,160,true,360)
+					--RandomInt(-1,1)
+					--local randomVector = Vector( RandomInt(-1,1), RandomInt(-1,1), 0)
+					--rock_unit:SetForwardVector(randomVector)
 					KillUnits( rock )
 				end
 
 				for _, crystal in pairs(tRockCrystals) do
-					local rock_unit = CreateUnitByName("npc_phase2_crystal", crystal, true, nil, nil, DOTA_TEAM_BADGUYS)
-					rock_unit:AddNewModifier( nil, nil, "modifier_invulnerable", { duration = -1 } )
+					local crystal_unit = CreateUnitByName("npc_phase2_crystal", crystal, true, nil, nil, DOTA_TEAM_BADGUYS)
+					crystal_unit:AddNewModifier( nil, nil, "modifier_invulnerable", { duration = -1 } )
+					crystal_unit:SetHullRadius(50)
+					--DebugDrawCircle(crystal_unit,Vector(0,0,255),128,50,true,360)
+					-- RandomInt(-1,1)
+					local randomVector = Vector( RandomInt(-1,1), RandomInt(-1,1), 0 )
+					crystal_unit:SetForwardVector(randomVector)
 					KillUnits( crystal )
 				end
 
@@ -324,4 +362,105 @@ function FindCrystal()
         end
     end
 end
+--------------------------------------------------------------------------------
+
+
+--------------------------------------------------------------------------------
+-- phase 2 spells
+--------------------------------------------------------------------------------
+function CastRearm(spell)
+	-- reset cd
+	spell:EndCooldown()
+
+	-- voiceline
+	EmitGlobalSound("tinker_tink_ability_rearm_01")
+
+	-- sound
+	EmitSoundOn("Hero_Tinker.Rearm",thisEntity)
+
+	-- animation
+	thisEntity:StartGestureWithPlaybackRate(ACT_DOTA_TINKER_REARM1, 1.0)
+
+	-- particle
+	local particle = "particles/units/heroes/hero_tinker/tinker_rearm.vpcf"
+	local particle_rearm = ParticleManager:CreateParticle( particle, PATTACH_WORLDORIGIN, thisEntity )
+	ParticleManager:SetParticleControl(particle_rearm, 0, thisEntity:GetAbsOrigin() )
+
+	-- debugg
+	print("rearming")
+	print("spell name ", spell:GetAbilityName())
+	print("spell cd ", spell:GetCooldownTimeRemaining())
+
+	return 4
+end
+--------------------------------------------------------------------------------
+
+function CastMarch()
+
+	ExecuteOrderFromTable({
+        UnitIndex = thisEntity:entindex(),
+        OrderType = DOTA_UNIT_ORDER_CAST_NO_TARGET,
+        AbilityIndex = thisEntity.march:entindex(),
+        Queue = false,
+	})
+
+
+
+	return 2
+end
+--------------------------------------------------------------------------------
+
+function CastLaser()
+	ExecuteOrderFromTable({
+        UnitIndex = thisEntity:entindex(),
+        OrderType = DOTA_UNIT_ORDER_CAST_NO_TARGET,
+        AbilityIndex = thisEntity.laser:entindex(),
+        Queue = false,
+	})
+
+	Timers:CreateTimer(thisEntity.laser:GetCastPoint() + 0.5, function() -- use the spells castpoint here + buffer?
+	local rearmChance = RandomInt(1,2)
+
+		if rearmChance == 2 then
+			CastRearm(thisEntity.laser)
+		end
+
+		return false
+	end)
+
+	return 4
+end
+--------------------------------------------------------------------------------
+
+function CastMissile()
+
+	ExecuteOrderFromTable({
+        UnitIndex = thisEntity:entindex(),
+        OrderType = DOTA_UNIT_ORDER_CAST_NO_TARGET,
+        AbilityIndex = thisEntity.missile:entindex(),
+        Queue = false,
+	})
+
+
+
+
+	return 2
+end
+--------------------------------------------------------------------------------
+
+function CastPrisonBeam()
+
+	ExecuteOrderFromTable({
+        UnitIndex = thisEntity:entindex(),
+        OrderType = DOTA_UNIT_ORDER_CAST_NO_TARGET,
+        AbilityIndex = thisEntity.prisonbeam:entindex(),
+        Queue = false,
+	})
+
+
+
+
+	return 2
+end
+--------------------------------------------------------------------------------
 
