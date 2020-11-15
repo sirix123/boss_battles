@@ -23,8 +23,8 @@
         
 		"AbilitySpecial"
 		{
-			//"01"{ "var_type"			"FIELD_INTEGER"		"dmg"							"100" } 
-			"01"{ "var_type"			"FIELD_INTEGER"		"dmg"							"100100" } // for testing
+			"01"{ "var_type"			"FIELD_INTEGER"		"dmg"							"100" } 
+			//"01"{ "var_type"			"FIELD_INTEGER"		"dmg"							"100100" } // for testing
 			"02"{ "var_type"			"FIELD_INTEGER"		"hit_box"						"80" }
 			"03"{ "var_type"			"FIELD_INTEGER"		"proj_speed"					"1200" }
 			"04"{ "var_type"			"FIELD_INTEGER"		"chill_duration"				"5" }

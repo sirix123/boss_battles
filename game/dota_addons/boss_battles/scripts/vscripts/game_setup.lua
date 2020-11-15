@@ -86,7 +86,6 @@ function GameSetup:OnPlayerChange(keys)
     if npc:IsRealHero() == true then
 
         npc:AddNewModifier( npc, nil, "modifier_grace_period", { duration = 3 } )
-
         npc:AddNewModifier( npc,  nil, "movement_modifier_thinker", { } )
         npc:AddNewModifier( npc,  nil, "remove_attack_modifier", { } )
 
@@ -110,6 +109,7 @@ function GameSetup:OnPlayerChange(keys)
         or npc:GetUnitName() == "npc_dota_hero_juggernaut"
         or npc:GetUnitName() == "npc_dota_hero_phantom_assassin"
         or npc:GetUnitName() == "npc_dota_hero_templar_assassin"
+        or npc:GetUnitName() == "npc_dota_hero_grimstroke"
         then
 
             local index = 0
@@ -157,6 +157,7 @@ function GameSetup:OnNPCSpawned(keys)
         or npc:GetUnitName() == "npc_dota_hero_juggernaut"
         or npc:GetUnitName() == "npc_dota_hero_phantom_assassin"
         or npc:GetUnitName() == "npc_dota_hero_templar_assassin"
+        or npc:GetUnitName() == "npc_dota_hero_grimstroke"
         then
 
             local index = 0

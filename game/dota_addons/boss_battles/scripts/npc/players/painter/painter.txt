@@ -3,15 +3,15 @@
 	//=================================================================================================================
 	// HERO: Ice Mage - Player Character
 	//=================================================================================================================
-	"npc_dota_hero_crystal_maiden"
+	"npc_dota_hero_grimstroke"
 	{
-		"override_hero"			"npc_dota_hero_crystal_maiden" 			// Hero to override
-		"Ability1"              "m1_iceshot" 
-        "Ability2"              "m2_icelance" 
-        "Ability3"              "q_iceblock" 
-        "Ability4"              "e_icefall"
-        "Ability5"              "r_frostbomb"
-        "Ability6"              "space_frostblink"
+		"override_hero"			"npc_dota_hero_grimstroke" 			// Hero to override
+		"Ability1"              "m1_basic_attack" 
+        "Ability2"              "" 
+        "Ability3"              "" 
+        "Ability4"              ""
+        "Ability5"              ""
+        "Ability6"              ""
         "Ability7"              ""
         "Ability8"              ""
         "Ability9"              ""

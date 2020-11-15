@@ -1,0 +1,31 @@
+"DOTAAbilities"
+{
+	"m1_basic_attack"
+	{
+		"BaseClass"						"ability_lua"
+		"ScriptFile"					"player/painter/m1_basic_attack"
+		"MaxLevel"						"1"
+
+		"AbilityTextureName"			"grimstroke_darkartistry"
+		"AbilityUnitTargetTeam"			"DOTA_UNIT_TARGET_TEAM_ENEMY"
+		"AbilityUnitDamageType"			"DAMAGE_TYPE_PHYSICAL"	
+        "AbilityBehavior"				"DOTA_ABILITY_BEHAVIOR_POINT"
+		"AbilityCastRange" 				"900"
+        "AbilityCooldown"				"0.0"
+        "AbilityCastPoint"              "1.0"
+
+
+		"TargetingIndicator"
+		{
+			"Type"						"TARGETING_INDICATOR_LINE"
+			"Fixed"						"1"
+		}
+        
+		"AbilitySpecial"
+		{
+			"01"{ "var_type"			"FIELD_INTEGER"		"dmg"							"110" } 
+			"02"{ "var_type"			"FIELD_INTEGER"		"hit_box"						"80" }
+			"03"{ "var_type"			"FIELD_INTEGER"		"proj_speed"					"800" }
+		}
+	}
+}

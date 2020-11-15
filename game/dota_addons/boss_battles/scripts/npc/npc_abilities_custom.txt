@@ -21,6 +21,9 @@
 //rogue
 #base "players/rogue/abilities.txt"
 
+//painter
+#base "players/painter/abilities.txt"
+
 
 "DOTAAbilities"
 {
