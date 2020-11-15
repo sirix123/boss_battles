@@ -25,7 +25,8 @@ function spawn_rocks:OnSpellStart()
         local rock_size = 200
         local fit_rocks = ( beam_length / rock_size )
         local tRocks = {}
-        local max_rocks_remove = 5
+        local max_rocks_remove = 9
+        local min_rocks_remove = 3
 
         local maxAngle = 360 --increase beyond 360 for ... more laps around, more density. You probably don't want that.
         local minIncrement = 20
@@ -48,7 +49,7 @@ function spawn_rocks:OnSpellStart()
             --DebugDrawLine_vCol(caster:GetAbsOrigin(), caster:GetAbsOrigin() + ( end_pos_direction * beam_length ) , Vector(255,0,0), true, 8)
 
             -- remove random amount of rocks
-            local remove_rocks = RandomInt(1,max_rocks_remove)
+            local remove_rocks = RandomInt(min_rocks_remove,max_rocks_remove)
             for i = 1, remove_rocks, 1 do
                 table.remove(tRocks, RandomInt(1,#tRocks))
             end

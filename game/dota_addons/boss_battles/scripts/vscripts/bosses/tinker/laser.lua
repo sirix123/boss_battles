@@ -92,11 +92,11 @@ function laser:OnSpellStart()
             DOTA_UNIT_TARGET_HERO + DOTA_UNIT_TARGET_BASIC,
             DOTA_UNIT_TARGET_FLAG_INVULNERABLE)
 
-        DebugDrawLine_vCol(caster:GetAbsOrigin(), self.vTargetPos , Vector(255,0,0), true, 2)
+        --DebugDrawLine_vCol(caster:GetAbsOrigin(), self.vTargetPos , Vector(255,0,0), true, 2)
 
         if units ~= nil and #units ~= 0 then
-            print(" unit:GetUnitName()" ,units[index]:GetUnitName())
-            print(" -------------------------------------- ")
+            --print(" unit:GetUnitName()" ,units[index]:GetUnitName())
+            --print(" -------------------------------------- ")
 
             if units[index]:GetUnitName() == caster:GetUnitName() then
                 index = 2
@@ -111,7 +111,7 @@ function laser:OnSpellStart()
                     -- explode rock
                     local explode_rock = "particles/econ/events/ti10/hot_potato/hot_potato_explode.vpcf"
                     local explode_rock_index = ParticleManager:CreateParticle( explode_rock, PATTACH_WORLDORIGIN, nil )
-                    ParticleManager:SetParticleControl( explode_rock_index, 0, units[1]:GetAbsOrigin() )
+                    ParticleManager:SetParticleControl( explode_rock_index, 0, units[index]:GetAbsOrigin() )
                     ParticleManager:SetParticleControl( explode_rock_index, 1, Vector(0,0,100))
                     --ParticleManager:SetParticleControl( explode_rock_index, 1, Vector(255,0,0))
                     ParticleManager:ReleaseParticleIndex(explode_rock_index)
@@ -131,9 +131,30 @@ function laser:OnSpellStart()
                     units[index]:RemoveSelf()
 
                 elseif units[index]:GetUnitName() == "npc_phase2_crystal" then -- crystal
-                    -- shoot out little green electric field things, dont destroy the crystal
 
                     self:PlayEffects( units[index]  ) -- laser effects
+
+                    -- explode rock
+                    local explode_rock = "particles/econ/events/ti10/hot_potato/hot_potato_explode.vpcf"
+                    local explode_rock_index = ParticleManager:CreateParticle( explode_rock, PATTACH_WORLDORIGIN, nil )
+                    ParticleManager:SetParticleControl( explode_rock_index, 0,units[index]:GetAbsOrigin() )
+                    ParticleManager:SetParticleControl( explode_rock_index, 1, Vector(0,0,100))
+                    --ParticleManager:SetParticleControl( explode_rock_index, 1, Vector(255,0,0))
+                    ParticleManager:ReleaseParticleIndex(explode_rock_index)
+
+                    local explode_rock_2 = "particles/tinker/tinker_dire_tower_attack_explode.vpcf"
+                    local explode_rock_index_2 = ParticleManager:CreateParticle( explode_rock_2, PATTACH_WORLDORIGIN, nil )
+                    ParticleManager:SetParticleControl( explode_rock_index_2, 3, units[index]:GetAbsOrigin())
+                    ParticleManager:ReleaseParticleIndex(explode_rock_index_2)
+
+                    local vLava = Vector(units[index]:GetAbsOrigin().x, units[index]:GetAbsOrigin().y, units[index]:GetAbsOrigin().z )
+                    vLava.z = vLava.z + 200
+                    local explode_rock_3 = "particles/tinker/tinker_lion_spell_impale_ti9_lava.vpcf"
+                    local explode_rock_index_3 = ParticleManager:CreateParticle( explode_rock_3, PATTACH_WORLDORIGIN, nil )
+                    ParticleManager:SetParticleControl( explode_rock_index_3, 3, vLava)
+                    ParticleManager:ReleaseParticleIndex(explode_rock_index_3)
+
+                    units[index]:RemoveSelf()
 
                 elseif units[index]:GetUnitName() ~= "npc_phase2_rock" and units[index]:GetUnitName() ~= "npc_phase2_crystal" and units[index]:GetUnitName() ~= caster:GetUnitName() then -- player
                     local dmgTable = {

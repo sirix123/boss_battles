@@ -28,7 +28,7 @@ function electric_field_v2:OnAbilityPhaseStart()
             self.target = units[random_unit]
 
             -- play voice line
-			EmitSoundOn("techies_tech_suicidesquad_01", self:GetCaster())
+			EmitSoundOn("rubick_rub_arc_fadebolt_06 ", self:GetCaster())
 
             return true
         end

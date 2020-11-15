@@ -16,8 +16,8 @@ function Spawn( entityKeyValues )
 	thisEntity:AddNewModifier( nil, nil, "modifier_phased", { duration = -1 } )
 
 	thisEntity.PHASE = 1
-	thisEntity.stack_count = 1
-	thisEntity.max_beam_stacks = 1
+	thisEntity.stack_count = 0
+	thisEntity.max_beam_stacks = 5
 
 	thisEntity.rearm = true
 
@@ -36,8 +36,13 @@ function Spawn( entityKeyValues )
 	thisEntity.tinker_teleport:StartCooldown(thisEntity.tinker_teleport:GetCooldown(thisEntity.tinker_teleport:GetLevel()))
 
 	thisEntity.missile = thisEntity:FindAbilityByName( "missile" )
+
 	thisEntity.laser = thisEntity:FindAbilityByName( "laser" )
+
 	thisEntity.march = thisEntity:FindAbilityByName( "march" )
+	thisEntity.current_rearms_march = 0
+	thisEntity.max_rearms_march = 3
+
 	thisEntity.prisonbeam = thisEntity:FindAbilityByName( "prisonbeam" )
 
     thisEntity:SetContextThink( "TinkerThinker", TinkerThinker, 0.1 )
@@ -62,7 +67,7 @@ function TinkerThinker()
 	-- handles the phase changes etc
 	if thisEntity:HasModifier("beam_counter") then
 		thisEntity.stack_count = thisEntity:FindModifierByName("beam_counter"):GetStackCount()
-		--print("stack_count ", thisEntity.stack_count)
+		print("stack_count ", thisEntity.stack_count)
 	end
 
 	-- if this unit has the beam phase modiifier then phase == 2
@@ -126,10 +131,8 @@ function TinkerThinker()
 			return CastMarch()
 		end
 
-		--print("laser cd is? ", thisEntity.laser:GetCooldownTimeRemaining())
 		if thisEntity.laser ~= nil and thisEntity.laser:IsFullyCastable() and thisEntity.laser:IsCooldownReady() and thisEntity.laser:IsInAbilityPhase() == false then
-			--print("casting laser")
-			--return CastLaser()
+			return CastLaser()
 		end
 
 		if thisEntity.prisonbeam ~= nil and thisEntity.prisonbeam:IsFullyCastable() and thisEntity.prisonbeam:IsCooldownReady() and thisEntity.prisonbeam:IsInAbilityPhase() == false then
@@ -138,6 +141,10 @@ function TinkerThinker()
 
 		if thisEntity.missile ~= nil and thisEntity.missile:IsFullyCastable() and thisEntity.missile:IsCooldownReady() and thisEntity.missile:IsInAbilityPhase() == false then
 			return CastMissile()
+		end
+
+		if thisEntity.tinker_teleport ~= nil and thisEntity.tinker_teleport:IsFullyCastable() and thisEntity.tinker_teleport:IsCooldownReady() and thisEntity.tinker_teleport:IsInAbilityPhase() then
+			return CastTeleport()
 		end
 
 	end
@@ -153,8 +160,20 @@ function CastTeleport(  )
         OrderType = DOTA_UNIT_ORDER_CAST_NO_TARGET,
         AbilityIndex = thisEntity.tinker_teleport:entindex(),
         Queue = false,
-    })
-    return 1
+	})
+
+	if thisEntity.PHASE == 3 then
+		Timers:CreateTimer(thisEntity.tinker_teleport:GetCastPoint() + 0.5, function() -- use the spells castpoint here + buffer?
+			local rearmChance = RandomInt(1,2)
+			if rearmChance == 2 then
+				CastRearm(thisEntity.tinker_teleport)
+			end
+
+			return false
+		end)
+	end
+
+    return 3
 end
 --------------------------------------------------------------------------------
 
@@ -283,8 +302,8 @@ function Transition(  )
 				for _, rock in pairs(tRocks) do
 					local rock_unit = CreateUnitByName("npc_phase2_rock", rock, true, nil, nil, DOTA_TEAM_BADGUYS)
 					rock_unit:AddNewModifier( nil, nil, "modifier_invulnerable", { duration = -1 } )
-					rock_unit:SetHullRadius(160)
-					DebugDrawCircle(rock,Vector(0,0,255),128,160,true,360)
+					rock_unit:SetHullRadius(120)
+					--DebugDrawCircle(rock,Vector(0,0,255),128,120,true,360)
 					--RandomInt(-1,1)
 					--local randomVector = Vector( RandomInt(-1,1), RandomInt(-1,1), 0)
 					--rock_unit:SetForwardVector(randomVector)
@@ -294,11 +313,11 @@ function Transition(  )
 				for _, crystal in pairs(tRockCrystals) do
 					local crystal_unit = CreateUnitByName("npc_phase2_crystal", crystal, true, nil, nil, DOTA_TEAM_BADGUYS)
 					crystal_unit:AddNewModifier( nil, nil, "modifier_invulnerable", { duration = -1 } )
-					crystal_unit:SetHullRadius(50)
-					--DebugDrawCircle(crystal_unit,Vector(0,0,255),128,50,true,360)
+					crystal_unit:SetHullRadius(100)
+					--DebugDrawCircle(crystal,Vector(255,0,0),128,100,true,360)
 					-- RandomInt(-1,1)
-					local randomVector = Vector( RandomInt(-1,1), RandomInt(-1,1), 0 )
-					crystal_unit:SetForwardVector(randomVector)
+					--local randomVector = Vector( RandomInt(-1,1), RandomInt(-1,1), 0 )
+					--crystal_unit:SetForwardVector(randomVector)
 					KillUnits( crystal )
 				end
 
@@ -313,7 +332,7 @@ function Transition(  )
 		return false
 	end)
 
-	return 10
+	return 15
 end
 --------------------------------------------------------------------------------
 
@@ -363,8 +382,6 @@ function FindCrystal()
     end
 end
 --------------------------------------------------------------------------------
-
-
 --------------------------------------------------------------------------------
 -- phase 2 spells
 --------------------------------------------------------------------------------
@@ -387,9 +404,9 @@ function CastRearm(spell)
 	ParticleManager:SetParticleControl(particle_rearm, 0, thisEntity:GetAbsOrigin() )
 
 	-- debugg
-	print("rearming")
-	print("spell name ", spell:GetAbilityName())
-	print("spell cd ", spell:GetCooldownTimeRemaining())
+	--print("rearming")
+	--print("spell name ", spell:GetAbilityName())
+	--print("spell cd ", spell:GetCooldownTimeRemaining())
 
 	return 4
 end
@@ -404,7 +421,21 @@ function CastMarch()
         Queue = false,
 	})
 
+	Timers:CreateTimer(thisEntity.march:GetCastPoint() + 0.5, function() -- use the spells castpoint here + buffer?
+		local rearmChance = RandomInt(1,2)
 
+		if rearmChance == 2 then
+			thisEntity.current_rearms_march = thisEntity.current_rearms_march + 1
+			if thisEntity.current_rearms_march < thisEntity.max_rearms_march then
+				CastRearm(thisEntity.march)
+			elseif thisEntity.current_rearms_march > thisEntity.max_rearms_march then
+				thisEntity.current_rearms_march = 0
+				return false
+			end
+		end
+
+		return false
+	end)
 
 	return 2
 end
@@ -419,7 +450,7 @@ function CastLaser()
 	})
 
 	Timers:CreateTimer(thisEntity.laser:GetCastPoint() + 0.5, function() -- use the spells castpoint here + buffer?
-	local rearmChance = RandomInt(1,2)
+		local rearmChance = RandomInt(1,2)
 
 		if rearmChance == 2 then
 			CastRearm(thisEntity.laser)
@@ -457,10 +488,17 @@ function CastPrisonBeam()
         Queue = false,
 	})
 
+	Timers:CreateTimer(thisEntity.prisonbeam:GetCastPoint() + 0.5, function() -- use the spells castpoint here + buffer?
+		local rearmChance = RandomInt(1,2)
 
+		if rearmChance == 2 then
+			CastRearm(thisEntity.prisonbeam)
+		end
 
+		return false
+	end)
 
-	return 2
+	return 4
 end
 --------------------------------------------------------------------------------
 

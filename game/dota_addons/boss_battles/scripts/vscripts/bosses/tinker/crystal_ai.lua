@@ -33,8 +33,8 @@ function Spawn( entityKeyValues )
 
     thisEntity.beam_phase = false
 
-    thisEntity.beam_stack_count = 1
-    thisEntity.total_beams = 1
+    thisEntity.beam_stack_count = 0
+    thisEntity.total_beams = 5
 
     thisEntity:SetMana(0)
 
@@ -239,11 +239,11 @@ function ElementalPhaseTimer()
                 thisEntity.ice_phase = true
                 thisEntity.fire_phase = false
                 thisEntity.elec_phase = false
-            elseif thisEntity.beam_stack_count == 2 then
+            elseif thisEntity.beam_stack_count == 1 then
                 thisEntity.ice_phase = true
                 thisEntity.fire_phase = true
                 thisEntity.elec_phase = false
-            elseif thisEntity.beam_stack_count == 3 then
+            elseif thisEntity.beam_stack_count == 2 then
                 local random_summon_pool = RandomInt(1,3)
 
                 if random_summon_pool == 1 then
@@ -260,7 +260,7 @@ function ElementalPhaseTimer()
                     thisEntity.elec_phase = true
                 end
 
-            elseif thisEntity.beam_stack_count == 5 then
+            elseif thisEntity.beam_stack_count == 3 then
                 thisEntity.ice_phase = true
                 thisEntity.fire_phase = true
                 thisEntity.elec_phase = true

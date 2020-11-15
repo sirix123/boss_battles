@@ -4,6 +4,27 @@ function march:OnAbilityPhaseStart()
 	if IsServer() then
         self:GetCaster():StartGestureWithPlaybackRate(ACT_DOTA_CAST_ABILITY_3, 1.0)
 
+        local sound_random = math.random(1,11)
+        if sound_random <= 9 then
+            self:GetCaster():EmitSound("tinker_tink_ability_marchofthemachines_0"..sound_random)
+        else
+            self:GetCaster():EmitSound("tinker_tink_ability_marchofthemachines_"..sound_random)
+        end
+
+        local particle_cast = "particles/units/heroes/hero_tinker/tinker_motm.vpcf"
+
+        local effect_cast = ParticleManager:CreateParticle( particle_cast, PATTACH_ABSORIGIN_FOLLOW, self:GetCaster() )
+        ParticleManager:SetParticleControlEnt(
+            effect_cast,
+            0,
+            self:GetCaster(),
+            PATTACH_POINT_FOLLOW,
+            "attach_attack1",
+            Vector(0,0,0), -- unknown
+            true -- unknown, true
+        )
+        ParticleManager:ReleaseParticleIndex( effect_cast )
+
         return true
     end
 end
@@ -15,29 +36,29 @@ function march:OnSpellStart()
         self:GetCaster():FadeGesture(ACT_DOTA_CAST_ABILITY_3)
 
         local sound_cast = "Hero_Tinker.March_of_the_Machines"
-		--EmitSoundOn( sound_cast, self:GetCaster() )
+		EmitSoundOn( sound_cast, self:GetCaster() )
 
         -- init
         self.caster = self:GetCaster()
 
         -- there are 4 lines around the map (off screen)
-        local top_start = Vector(-12588,13678,130)
+        local top_start = Vector(-13286,14643,130)
         local top_fill_direction = Vector(1,0,0)
         local top_proj_direction = Vector(0,-1,0)
 
-        local right_start = Vector(-8850,13853,130)
+        local right_start = Vector(-7964,14673,130)
         local right_fill_direction = Vector(0,-1,0)
         local right_proj_direction = Vector(-1,0,0)
 
-        local bot_start = Vector(-8850,10574,130)
+        local bot_start = Vector(-8145,8927,130)
         local bot_fill_direction = Vector(-1,0,0)
         local bot_proj_direction = Vector(0,1,0)
 
-        local left_start = Vector(-11141,8850,130)
+        local left_start = Vector(-13224,8981,130)
         local left_fill_direction = Vector(0,1,0)
         local left_proj_direction = Vector(1,0,0)
 
-        local num_lines = 2
+        local num_lines = 1
         local previous_index = 0
         local tStartSpawns = { }
         local spawnInfo = { }
@@ -88,7 +109,7 @@ function march:OnSpellStart()
         end
 
         self.proj_radius = 100
-        local length = 3500
+        local length = 4400
         local nProj = length / self.proj_radius
         local maxWaves = 4
         local numWaves = 0
@@ -100,22 +121,23 @@ function march:OnSpellStart()
 
             for _, start_spawn in pairs(tStartSpawns) do
                 for i = 1, nProj, 1 do
-                    local offset = self.proj_radius  * i
+                    local offset = self.proj_radius * i
                     local vSpawnOrigin = start_spawn.vSpawn + ( start_spawn.vFillDirection * offset )
-                    local randomVelocity = RandomInt(300, 500)
-                    self:CreateProjectile(vSpawnOrigin, start_spawn.vProjDirection, randomVelocity)
+                    local randomSpeed = RandomInt(300, 500)
+                    self:CreateProjectile(vSpawnOrigin, start_spawn.vProjDirection, randomSpeed)
+                    --print("vSpawnOrigin ", vSpawnOrigin)
                     --DebugDrawCircle(vSpawnOrigin, Vector(0,0,255), 128, 10, true, 60)
                 end
             end
 
             numWaves = numWaves + 1
-            return 4.0
+            return 7.0
         end)
 	end
 end
 ---------------------------------------------------------------------------
 
-function march:CreateProjectile(vOrigin, vDirection, velocity)
+function march:CreateProjectile(vOrigin, vDirection, speed)
     if IsServer() then
 
         local hProjectile = {
@@ -127,13 +149,13 @@ function march:CreateProjectile(vOrigin, vDirection, velocity)
             iUnitTargetFlags = DOTA_UNIT_TARGET_FLAG_INVULNERABLE,
             iUnitTargetType = DOTA_UNIT_TARGET_HERO + DOTA_UNIT_TARGET_BASIC,
             EffectName = "particles/tinker/tinker_rollermaw_larger_tinker.vpcf",
-            fDistance = 4000,
-            fStartRadius = 200,
-            fEndRadius = 200,
-            vVelocity = vDirection * velocity,
+            fDistance = 8000,
+            fStartRadius = self.proj_radius,
+            fEndRadius = self.proj_radius,
+            vVelocity = vDirection * speed,
             bHasFrontalCone = false,
             bReplaceExisting = false,
-            fExpireTime = GameRules:GetGameTime() + 30.0,
+            fExpireTime = GameRules:GetGameTime() + 40.0,
             bProvidesVision = true,
             iVisionRadius = 200,
             iVisionTeamNumber = self:GetCaster():GetTeamNumber(),
@@ -149,8 +171,31 @@ function march:OnProjectileHit(hTarget, vLocation)
     if IsServer() then
         if hTarget ~= nil then
 
-            print("target name ",hTarget:GetUnitName())
+            local enemies = FindUnitsInRadius(
+                self:GetCaster():GetTeamNumber(),	-- int, your team number
+                vLocation,	-- point, center point
+                nil,	-- handle, cacheUnit. (not known)
+                150,	-- float, radius. or use FIND_UNITS_EVERYWHERE
+                DOTA_UNIT_TARGET_TEAM_ENEMY,	-- int, team filter
+                DOTA_UNIT_TARGET_HERO + DOTA_UNIT_TARGET_BASIC,	-- int, type filter
+                0,	-- int, flag filter
+                0,	-- int, order filter
+                false	-- bool, can grow cache
+            )
 
+            local damageTable = {
+                attacker = self:GetCaster(),
+                damage = 50,
+                damage_type = DAMAGE_TYPE_PHYSICAL,
+                ability = self,
+            }
+
+            for _,enemy in pairs(enemies) do
+                damageTable.victim = enemy
+                ApplyDamage(damageTable)
+            end
+
+            return true
         end
 	end
 end

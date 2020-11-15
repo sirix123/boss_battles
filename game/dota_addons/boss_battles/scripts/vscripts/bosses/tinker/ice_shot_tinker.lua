@@ -88,7 +88,7 @@ function ice_shot_tinker:OnSpellStart()
 
                 if unit:GetUnitName() == "npc_crystal" then
                     if self.stack_count == 0 then
-                        unit:GiveMana(20)
+                        unit:GiveMana(10)
                     else
                         unit:GiveMana(10)
                     end
