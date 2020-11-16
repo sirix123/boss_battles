@@ -172,14 +172,14 @@ end
 function homing_missile:Rocket1()
 	--print("homing_missile:Rocket1()")
 	--InitialiseRocket(velocity, acceleration, detonationRadius, aoeRadius, damage)
-	self:InitialiseRocket(10, 0.01, 120, 200, 200)
+	self:InitialiseRocket(10, 0.01, 120, 300, 300)
 end
 
 function homing_missile:Rocket2()
 	-- print("homing_missile:Rocket2()")
 
 	--InitialiseRocket(velocity, acceleration, detonationRadius, aoeRadius, damage)
-	self:InitialiseRocket(10, 0.02, 120, 250, 250)
+	self:InitialiseRocket(10, 0.02, 120, 350, 350)
 
 end
 
@@ -187,7 +187,7 @@ function homing_missile:Rocket3()
 	-- print("homing_missile:Rocket3()")
 
 	--InitialiseRocket(velocity, acceleration, detonationRadius, aoeRadius, damage)
-	self:InitialiseRocket(10, 0.05, 120, 300, 300)
+	self:InitialiseRocket(10, 0.05, 120, 400, 400)
 
 	--find self in: ActiveHomingMissiles
 	local rocketIndex = nil
@@ -212,10 +212,7 @@ function homing_missile:Rocket3()
 		return interval
 	end)
 
-
 	--update the enemies location 
-
-
 
 end
 
@@ -223,7 +220,7 @@ function homing_missile:Rocket4()
 	-- print("homing_missile:Rocket4()")
 
 	--InitialiseRocket(velocity, acceleration, detonationRadius, aoeRadius, damage)
-	self:InitialiseRocket(10, 0.1, 120, 350, 350)
+	self:InitialiseRocket(10, 0.1, 120, 450, 450)
 
 	--find self in: ActiveHomingMissiles
 	local rocketIndex = nil
@@ -260,7 +257,11 @@ function Rocket3RadarPulse(rocketIndex)
 	local radiusGrowthRate = 25
 
 	local frameDuration = 0.05
+	local tickCount = 0
 	Timers:CreateTimer(function()	
+		tickCount = tickCount + 1
+		--delay for 4 seconds before starting
+		if tickCount == 1 then return 4 end
 		if _G.ActiveHomingMissiles[rocketIndex] == nil then 
 			--print("_G.ActiveHomingMissiles[rocketIndex] == nil. Returning.")
 			return
@@ -303,13 +304,19 @@ function Rocket4RadarPulse(rocketIndex)
 	local radiusGrowthRate = 25
 
 	local frameDuration = 0.05
+
+	local tickCount = 0
 	Timers:CreateTimer(function()	
+		tickCount = tickCount + 1
+		--delay for 4 seconds before starting
+		if tickCount == 1 then return 4 end
+
 		if _G.ActiveHomingMissiles[rocketIndex] == nil then 
-			--print("_G.ActiveHomingMissiles[rocketIndex] == nil. Returning.")
+			print("_G.ActiveHomingMissiles[rocketIndex] == nil. Returning.")
 			return
 		end
 		if _G.ActiveHomingMissiles[rocketIndex].MissileUnit == nil then
-			--print("_G.ActiveHomingMissiles[rocketIndex].MissileUnit == nil. Returning.")
+			print("_G.ActiveHomingMissiles[rocketIndex].MissileUnit == nil. Returning.")
 			return
 		end
 		

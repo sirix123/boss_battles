@@ -9,6 +9,7 @@ LinkLuaModifier( "flak_cannon_modifier", "bosses/gyrocopter/flak_cannon_modifier
 _G.ActiveHomingMissiles = {}
 
 --Cooldowns:
+--no longer used in current impl
 local COOLDOWN_RADARSCAN = 8 --change this variable as he learns new radar scans 
 local COOLDOWN_RB_FC = 13 --RocketBarrage or FlakCannon cooldown. They share a cooldown, he does one or the other. 
 local COOLDOWN_WHIRLWIND = 75
@@ -22,9 +23,14 @@ local RocketRadarPulse = 4
 
 local displayDebug = true
 
+local whirlWindDuration = 20 -- seconds
+local radarPulseDuration = 6
+local barrageDuration = 4
+local radarScanDuration = 8
+
 -- On Spawn, init any vars, start MainThinker
 function Spawn( entityKeyValues )
-	print("Spawn( entityKeyValues ) called")
+	--print("Spawn( entityKeyValues ) called")
 
 	thisEntity.homing_missile = thisEntity:FindAbilityByName( "homing_missile" )
 	thisEntity.flak_cannon = thisEntity:FindAbilityByName( "flak_cannon" )
@@ -34,7 +40,6 @@ function Spawn( entityKeyValues )
 	thisEntity.rocket_barrage_ranged = thisEntity:FindAbilityByName( "rocket_barrage_ranged" )
 
 	thisEntity.call_down = thisEntity:FindAbilityByName( "call_down" )
-	thisEntity.whirlwind = thisEntity:FindAbilityByName( "whirlwind" )
 	--TODO: if any of these are nil, we got a problem
 	thisEntity:SetContextThink( "MainThinker", MainThinker, 1 )
 	thisEntity:SetContextThink( "AbilityQueue", AbilityQueue, 0.1)
@@ -111,8 +116,6 @@ function AbilityQueue()
 	return tickDelay
 end
 
-
-
 -- usage: addToAbilityQueue(thisEntity.homing_missile, DOTA_UNIT_ORDER_CAST_TARGET, target, true)  
 -- Can use this for abilities but also any action. like DOTA_UNIT_ORDER_MOVE_TO_TARGET or DOTA_UNIT_ORDER_HOLD_POSITION
 -- castAsap : means, castNext, castImmediately, skipQueue, frontOfQueue, 
@@ -135,16 +138,7 @@ end
 function CurrentTestCode()
 	--ContinuousRadarScan()	
 	--Barrage()
-
-
-	-- local heroes = HeroList:GetAllHeroes()
-	-- AddToAbilityQueue(thisEntity.gyro_base_attack, DOTA_UNIT_ORDER_CAST_TARGET, heroes[1], false, "gyrocopter_gyro_attack_01")
-
-
 	NewWhirlWind()
-	--TEST: base attack on heroes[1]
-
-
 
 -- effectName = "particles/custom/sirix/scan.vpcf"	
  --  	local p1Index = ParticleManager:CreateParticle(effectName, PATTACH_POINT, thisEntity)
@@ -161,16 +155,16 @@ function CurrentTestCode()
 	--this works now that i've precached the write file in addon_game_mode.lua:
 	--thisEntity:EmitSound("gyrocopter_gyro_attack_01")
 
-
 	-- Whirlwind-in: sucks players toward gyro, like vacuum but slower, just changing their movement vector
 	-- Whirlwind-out:
 	 --WhirlWind()
 end
 
-
+local continuousRadarScanStarted = false
 local tickCount = 0
 local dt = 1
 --Main AI for Gyrocopter:
+local waitAmount = 0
 function MainThinker()
 	--print ("MainThinker called")
 	--Check certain game states and return early if needed
@@ -179,43 +173,84 @@ function MainThinker()
 	if GameRules:IsGamePaused() == true then return 0.5 end
 
 	tickCount = tickCount+1	
+
+
 	--TESTING:
-
-
-
 	--if (tickCount % 2 == 0) then
-	if (tickCount == 5) then
-		CurrentTestCode()
+	if (tickCount == 2) then
+		--CurrentTestCode()
+		--ContinuousRadarScan()
 	end
-
 	--Script the first x seconds to introduce the spells, then use CDs..
 
 	-- Whirlwind at the start of the fight:
-	-- if (tickCount == 2) then WhirlWind() end
+	if (tickCount == 2) then 
+		NewWhirlWind() 
+	end
+	--after newWhirlWind, radarPulse to send rockets
+	if tickCount == 4 + whirlWindDuration then 
+		NewRadarPulse() 
+	end
+	--after rockets, do barrage
+	if tickCount == 4 +whirlWindDuration + radarPulseDuration then
+		Barrage()
+	end
+	-- after barrage. do whirlwind, newRadarPulse combo again, then finally calldown scan
+	if tickCount == 4 + whirlWindDuration + radarPulseDuration + barrageDuration then 
+		NewWhirlWind()
+	end
 	
-	-- -- After whirlwind over, radar pulse and send rockets.
-	-- if tickCount == 20 then 
-	-- 	NewRadarPulse()
-	-- end
+	if tickCount == 4 + whirlWindDuration + radarPulseDuration + barrageDuration + whirlWindDuration then 
+		thisEntity.homing_missile:SetLevel(thisEntity.homing_missile:GetLevel() +1)
+		NewRadarPulse()
+	end
+	if tickCount == 4 + whirlWindDuration + radarPulseDuration + barrageDuration + whirlWindDuration + radarPulseDuration then 
+		RadarScan()
+	end
 
-	-- -- After rockets, scan and drop calldowns?
-	-- if tickCount == 30 then
-	-- 	RadarScan()
-	-- end
+	-- start this loop after the introductory sequence.
+	-- rockets, followed by Barrage or Whirlwind
+	if tickCount > 4 + whirlWindDuration + radarPulseDuration + barrageDuration + whirlWindDuration + radarPulseDuration + radarScanDuration then 
+		waitAmount = waitAmount - 1
+		if waitAmount < 1 then
+			--level up rocket. 
+			if thisEntity.homing_missile:GetLevel() < 4 then 
+				thisEntity.homing_missile:SetLevel(thisEntity.homing_missile:GetLevel() +1)
+			end
 
+			--cast barrage and then x seconds afterwards cast the next ability
+			NewRadarPulse()
 
+			--pick a spell and cast it.
+			local spellNum = RandomInt(1,2) 
+			if spellNum == 1 then
+				waitAmount = waitAmount + radarPulseDuration + barrageDuration
 
-	-- Level up abilities every x seconds. 
-	local lvlUpCd = COOLDOWN_RADARSCAN +5
-	if (tickCount % lvlUpCd) == 0 then
-		if thisEntity.homing_missile:GetLevel() < 4 then
-		 	thisEntity.homing_missile:SetLevel(thisEntity.homing_missile:GetLevel() +1)
-		 	print("leveling up homing_missile to ",thisEntity.homing_missile:GetLevel())
+				Timers:CreateTimer({
+					endTime = radarPulseDuration, -- when this timer should first execute, you can omit this if you want it to run first on the next frame
+					callback = function()
+						Barrage()
+					end
+				})
+			end
+			if spellNum == 2 then
+				waitAmount = waitAmount + radarPulseDuration + whirlWindDuration
+				Timers:CreateTimer({
+					endTime = radarPulseDuration, -- when this timer should first execute, you can omit this if you want it to run first on the next frame
+					callback = function()
+						NewWhirlWind()
+					end
+				})
+			end
 		end
 	end
 
-	if tickCount % COOLDOWN_WHIRLWIND == 0 then
-		WhirlWind()
+	--ENRAGE PHASE
+	--if hp below % then start ContinuousRadarScan
+	if thisEntity:GetHealthPercent() < 50 and not continuousRadarScanStarted then
+		--print("Casting ContinuousRadarScan()")
+		ContinuousRadarScan()
+		continuousRadarScanStarted = true
 	end
 
 	--initial delay isn't working how I think it is... need to debug this in excel.
@@ -307,7 +342,10 @@ end
 
 --BARRAGE ability:
 --rocket barrage all melee units, then rocket barrage all ranged units. 
+
+
 function Barrage()
+	--print("Barrage() called")
 	--TODO: need to know the duration of these spells somehow...
 	--currently it's just 3.5s for each spell.
 	--mele first and then ranged.
@@ -321,44 +359,38 @@ function Barrage()
 	})
 end	
 
-
-
-
+local wwsuckDuration = 7
 _G.whirlwindTargets = {}
 function NewWhirlWind()
-	print("NewWhirlWind() called")
-	thisEntity:SetAttackCapability(0)
-
-	local length = 1000
-
+	--print("NewWhirlWind() called")
+	--thisEntity:SetAttackCapability(0)
+	local length = 1200
+	
 	local timerDelay = 0.1
+	local totalTicks = whirlWindDuration / timerDelay
+	local currentTick = 0
 
 	--could rename all this; 
-	--currentRotation
-	--rotationVelocity
-	--rotationAcceleration
-	local currentAngle = 0
-	local angleIncrement = 2
-	
+	local currentRotation = 0
+	local rotationVelocity = 2
 
-	
-	-- minimum amount of angleIncrement
-	local minimumSpeed = 0.05 
+	local minSpeed = 0.05
 	local maxSpeed = 45
-	--rotationSpeed is added to angleIncremen
-	--probably should rename is : accelerationSpeed or acceleration
-	local rotationSpeed = minimumSpeed
+	local rotationSpeed = minSpeed
 
 	Timers:CreateTimer(function()
+		currentTick = currentTick + 1
+		if currentTick >= (totalTicks - (wwsuckDuration / timerDelay) ) then return end
+
 		-- Calculate a new position based on an angle and length
-		currentAngle =  currentAngle + angleIncrement
-		local radAngle = currentAngle * 0.0174532925 --angle in radians
+		currentRotation =  currentRotation + rotationVelocity
+		local radAngle = currentRotation * 0.0174532925 --angle in radians
 		local point = Vector(length * math.cos(radAngle), length * math.sin(radAngle), 0)
 		local endPoint = point + thisEntity:GetAbsOrigin()
 
 		--rotate gyro:
 		local newForwardVector = Vector(0,0,0)
-		local rotated = RotatePosition(Vector(0,0,0), QAngle(0,currentAngle,0), Vector(1,0,0))  
+		local rotated = RotatePosition(Vector(0,0,0), QAngle(0,currentRotation,0), Vector(1,0,0))  
 		thisEntity:SetForwardVector(rotated)
 
 		local originZeroZ = Vector(thisEntity:GetAbsOrigin().x, thisEntity:GetAbsOrigin().y, 0)
@@ -373,46 +405,45 @@ function NewWhirlWind()
 		--each tick, if no enemies detected, speed up rotation rate
 		if #enemies == 0 then
 			--perhaps do a linear increase by n until you hit x, then increase by 2n until you hit 2x, then 3n etc
-			--angleIncrement = angleIncrement * 1.02
+			--rotationVelocity = rotationVelocity * 1.02
 
 			--slowly build up rotation speed. acceleration curve...
-			if angleIncrement < (maxSpeed / 8) then				
-				rotationSpeed = rotationSpeed + 0.01
-			end
-			if (angleIncrement > (maxSpeed / 8)) and (angleIncrement < (maxSpeed / 4)) then
+			if rotationVelocity < (maxSpeed / 8) then				
 				rotationSpeed = rotationSpeed + 0.02
 			end
-			if (angleIncrement > (maxSpeed / 4)) and (angleIncrement < (maxSpeed / 2)) then
+			if (rotationVelocity > (maxSpeed / 8)) and (rotationVelocity < (maxSpeed / 4)) then
+				rotationSpeed = rotationSpeed + 0.03
+			end
+			if (rotationVelocity > (maxSpeed / 4)) and (rotationVelocity < (maxSpeed / 2)) then
 				rotationSpeed = rotationSpeed + 0.04
 			end
-			if (angleIncrement > (maxSpeed / 2)) and (angleIncrement < maxSpeed) then
-				rotationSpeed = rotationSpeed + 0.08
+			if (rotationVelocity > (maxSpeed / 2)) and (rotationVelocity < maxSpeed) then
+				rotationSpeed = rotationSpeed + 0.05
 			end			
 			--print("rotationSpeed = ", rotationSpeed)
 
-			angleIncrement = angleIncrement + rotationSpeed
+			rotationVelocity = rotationVelocity + rotationSpeed
 
-			--figure out what ... function i want for angleIncrement. figure out the line i want, linear increase, exponential?
+			--figure out what ... function i want for rotationVelocity. figure out the line i want, linear increase, exponential?
 		else
 			--print("enemies found slowing down! ")
 			--slow down by half, instead of subtracting fixed amount
-			angleIncrement = angleIncrement / 2
-			rotationSpeed = minimumSpeed
+			rotationVelocity = rotationVelocity / 1.5
+			rotationSpeed = minSpeed
 			-- never slow below minimum speed
-			if angleIncrement < minimumSpeed then
-				angleIncrement = minimumSpeed
+			if rotationVelocity < minSpeed then
+				rotationVelocity = minSpeed
 			end
 		end
 
-		--print("angleIncrement = " , angleIncrement )
-		if angleIncrement > maxSpeed then
-			--print("angleIncrement greater than 45! Should do tornadoes and suck players in?")
+		--print("rotationVelocity = " , rotationVelocity )
+		if rotationVelocity > maxSpeed then
+			--print("rotationVelocity greater than 45! Should do tornadoes and suck players in?")
 			WhirlWind()
 			return
 		end
 
 		--if enemies detected, slow down rotation rate and shoot at enemy.
-
 		for _,enemy in pairs(enemies) do
 			-- add the enemy to the target list
 			_G.whirlwindTargets[#_G.whirlwindTargets +1] = enemy
@@ -435,14 +466,15 @@ end
 -- param pushEnemyAway if true, pushes enemies away instead of pulling them in
 local flyingMs = 600
 local normalMs = 300
+
 function WhirlWind(pushEnemyAway)
-	print("WhirlWind() called")
+	--print("WhirlWind() called")
 	thisEntity:SetBaseMoveSpeed(flyingMs)
 	
 	local maxHeight = 2000
 	local radius = 9999
 
-	local duration = 7 -- seconds
+	local duration = wwsuckDuration -- seconds
 	local tickInterval = 0.05
 	local totalTicks = duration / tickInterval
 	local currentTick = 1
@@ -521,7 +553,6 @@ function WhirlWind(pushEnemyAway)
 	end)
 end
 
-
 --TODO make the call_down.lua spell do this...
 function CastCallDownAt(location)
 	--spell model:
@@ -596,57 +627,71 @@ function CastCallDownAt(location)
 end
 
 
+
 local enemiesScannedThisRevolution = {}
 function ContinuousRadarScan()
+	print("ContinuousRadarScan() called")
 	local revolutionDuration = 5
-	
 	local frameDuration = 0.05
 
 	local pieSize = 5
-	local angleIncrement = 1
+	local angleIncrement = 2
 	local endAngle = pieSize
 	local startAngle = 0
 	local currentAngle = startAngle
+
 
 	local radius = 1200
 	Timers:CreateTimer(function()
 		local origin = thisEntity:GetAbsOrigin()
 
-		--startAngle endAngle ... this code won't work if i wanna flip the direction of the scan..
-		currentAngle = currentAngle + angleIncrement
-		startAngle = currentAngle
-		endAngle = currentAngle - pieSize
+		startAngle = endAngle - pieSize
+		currentAngle = startAngle
 
-		print("currentAngle = ", currentAngle)
-		print("startAngle = ", startAngle)
-		print("endAngle = ", endAngle)
+		if currentAngle % 360 == 0 then
+			--print("New revolution started")
+			Clear(enemiesScannedThisRevolution)
+			--Reset enemies scanned
+		end
 
-		
-		local linesPerDegree = 10	
-		local totalLines = linesPerDegree * (startAngle - endAngle)
-		print ("totalLines = ", totalLines)
+		 -- print("currentAngle = ", currentAngle)
+		 -- print("startAngle = ", startAngle)
+		 -- print("endAngle = ", endAngle)
+		local linesPerDegree = 20	
+		local totalLines = linesPerDegree * (endAngle - startAngle)
+		-- print ("totalLines = ", totalLines)
 		--Draw a pie for startAngle to endAngle
 		--iterate and draw from startAngle to endAngle
-		local currentLineAngle = currentAngle
-		local color = Vector(255,1,2)
+		local color = Vector(255,0,0)
 		for i = 0, totalLines, 1 do
-			currentLineAngle =  currentLineAngle + ( 1 / linesPerDegree )
-			--print("currentLineAngle = ", currentLineAngle)
+			currentAngle =  currentAngle + ( angleIncrement / linesPerDegree )
+			color.x = color.x -1
+			--color.y = color.y -2
+			--color.z = color.z -2
 
-			color.y = color.y +3
-			color.z = color.z +3
-
-			local radAngle = currentLineAngle * 0.0174532925 --angle in radians
+			local radAngle = currentAngle * 0.0174532925 --angle in radians
 			local point = Vector(radius * math.cos(radAngle), radius * math.sin(radAngle), 0)
 			--print("Calculated point = ", point)
 			local originZeroZ = Vector(origin.x, origin.y,0)
-			
-			--DebugDrawLine(originZeroZ, point + originZeroZ, 255,0,0, true, frameDuration *2)
-			DebugDrawLine_vCol(originZeroZ, point + originZeroZ, color, true, frameDuration)
+			DebugDrawLine_vCol(originZeroZ, point + originZeroZ, color, true, frameDuration + frameDuration)
 
-			--TODO: alternate color based on i..
+
+			local enemies = FindUnitsInLine(DOTA_TEAM_BADGUYS, originZeroZ, point + originZeroZ, thisEntity, 1, DOTA_UNIT_TARGET_TEAM_ENEMY, DOTA_UNIT_TARGET_HERO, DOTA_UNIT_TARGET_FLAG_INVULNERABLE )
+			for _,enemy in pairs(enemies) do
+				if Contains(enemiesScannedThisRevolution, enemy) then -- already hit this enemy
+					--do nothing
+				else -- first time hitting this enemy
+					if displayDebug then
+						DebugDrawCircle(enemy:GetAbsOrigin(), Vector(0,255,0), 128, 100, true, frameDuration)
+					end
+					enemiesScannedThisRevolution[enemy] = true --little hack so Contains works 
+					CastCallDownAt(enemy:GetAbsOrigin())
+				end
+			end
+
 		end
 
+		endAngle = endAngle - angleIncrement
 		return frameDuration
 		--when to stop?
 	end)
@@ -656,6 +701,7 @@ end
 
 enemiesScanned = {}
 function RadarScan()
+	--print("RadarScan() called")
 	--play stefan's particle:
 	-- content/dota_addons/boss_battles/particles/custom/sirix/scan.vpcf
 	-- effectName = "particles/custom/sirix/scan.vpcf"	
@@ -679,6 +725,7 @@ function RadarScan()
 	local pieSize = 30 --degrees. Max allowable difference between startAngle and endAngle
 	local endAngle = pieSize
 	local startAngle = 0
+	local currentAngle = startAngle
 
 	Timers:CreateTimer(function()	
 
@@ -722,17 +769,19 @@ function RadarScan()
 
 					-- check if this enemy is already in the list... we don't want to keep adding them we just want to update the location
 					local isNewEnemy = true
-					if #_G.HomingMissileTargets > 0 then 
-						for i = 1, #_G.HomingMissileTargets, 1 do
-							-- already scanned this enemy, update their location
-							if enemy == _G.HomingMissileTargets[i].Enemy then
-								--_G.HomingMissileTargets[i].Location = shallowcopy(enemy:GetAbsOrigin())
-								isNewEnemy = false
-							end
-						end
-					end
+
+					-- if #_G.HomingMissileTargets > 0 then 
+					-- 	for i = 1, #_G.HomingMissileTargets, 1 do
+					-- 		-- already scanned this enemy, update their location
+					-- 		if enemy == _G.HomingMissileTargets[i].Enemy then
+					-- 			--_G.HomingMissileTargets[i].Location = shallowcopy(enemy:GetAbsOrigin())
+					-- 			isNewEnemy = false
+					-- 		end
+					-- 	end
+					-- end
 					-- first time scanning this enemy, add a new entry for them
 					if isNewEnemy then
+						--print("radarScan hit new enemy. casting calldown at them")
 						--CALL DOWN ABILITY: un/comment if you want to use homing missile via radarScan
 						CastCallDownAt(enemy:GetAbsOrigin())
 
@@ -762,7 +811,7 @@ function NewRadarPulse()
 
 	local enemiesDetected = {}
 
-	local frameDuration = 0.05
+	local frameDuration = 0.02
 	local currentAlpha = 10
 	Timers:CreateTimer(function()	
 		currentAlpha = currentAlpha + 1

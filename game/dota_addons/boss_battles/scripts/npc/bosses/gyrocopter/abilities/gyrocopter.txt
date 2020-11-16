@@ -25,18 +25,6 @@
         "AbilityCooldown"               "0.0"
         "AbilityManaCost"               "0"
     }
-    "whirlwind"
-    { 
-        "BaseClass"                     "ability_lua"
-        "ScriptFile"                    "bosses/gyrocopter/whirlwind"
-
-        "AbilityBehavior"               "DOTA_ABILITY_BEHAVIOR_NO_TARGET"
-        "AbilityUnitDamageType"         "DAMAGE_TYPE_PHYSICAL"  
-
-        "AbilityCastPoint"              "0.0"
-        "AbilityCooldown"               "0.0"
-        "AbilityManaCost"               "0"
-    }    
     "gyro_base_attack"
     { 
         "BaseClass"                     "ability_lua"

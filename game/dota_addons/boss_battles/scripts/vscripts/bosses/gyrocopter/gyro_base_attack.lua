@@ -7,7 +7,7 @@ function gyro_base_attack:OnSpellStart()
 
 	--print("gyro_base_attack:OnSpellStart()")
 
-	self.damage = 10
+	self.damage = 15
 	self.caster = self:GetCaster()
 
 	-- grab target from _G.whirlwindTargets[1], remove it, shoot at it

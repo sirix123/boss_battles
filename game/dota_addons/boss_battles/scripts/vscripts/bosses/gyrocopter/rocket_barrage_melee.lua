@@ -6,7 +6,7 @@ local spellDuration = 3.5 -- Spell duration in seconds
 local tickDuration = 0.1 -- Amount of time to delay between ticks
 local tickLimit = spellDuration / tickDuration
 
-local totalDamage = 200
+local totalDamage = 300
 local tickDamage = totalDamage / tickLimit
 local radius = 400
 

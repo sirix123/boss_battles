@@ -28,7 +28,6 @@
 		"Ability5"					"flak_cannon"			
 		"Ability6"					"call_down"			
 		"Ability7"					"gyro_base_attack"
-		"Ability8"					"whirlwind"
 
 		// Precache
 		//-------------------------------------------------------------------------------------------------------------
@@ -63,7 +62,7 @@
 
 		// Status
 		//----------------------------------------------------------------
-		"StatusHealth"				"50000"		// Base health.
+		"StatusHealth"				"150000"		// Base health.
 		"StatusHealthRegen"			"0.5"		// Health regeneration rate.
 		"StatusMana"				"0"			// Base mana.
 		"StatusManaRegen"			"0.0"		// Mana regeneration rate.		 
