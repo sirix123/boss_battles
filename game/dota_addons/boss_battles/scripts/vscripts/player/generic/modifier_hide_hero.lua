@@ -4,7 +4,6 @@ function modifier_hide_hero:IsHidden() return true end
 
 function modifier_hide_hero:OnCreated()
   if not IsServer() then return end
-  print("does this run>?")
   self.parent = self:GetParent()
   self.parent:AddNoDraw()
 end

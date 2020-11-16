@@ -1,5 +1,7 @@
 "use strict";
 
+GameEvents.Subscribe( "picking_done", MouseInit );
+
 //Globals:
 var nextAbility = null;
 var currentAbility = null;
@@ -407,11 +409,10 @@ function GetMouseCastPosition(  )
 }
 
 //Start a loop to constantly update mouse cast positions
-(function tic()
-{
+function MouseInit(){
     $.Schedule( 1.0/30.0, tic );
     GetMouseCastPosition()
-})();
+}
 
 // handles keyboard hotkeys
 (function()

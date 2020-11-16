@@ -48,6 +48,9 @@ function GameSetup:init()
     -- reg console commands
     self:InitCommands()
 
+    PlayerManager:SetUpMouseUpdater()
+    PlayerManager:SetUpMovement()
+
     --listen to game state event
     -- events here: https://developer.valvesoftware.com/wiki/Dota_2_Workshop_Tools/Scripting/Built-In_Engine_Events
     ListenToGameEvent("game_rules_state_change", Dynamic_Wrap(self, "OnStateChange"), self) -- valve engine event
@@ -93,7 +96,6 @@ function GameSetup:OnNPCSpawned(keys)
     end
 
     if npc:GetUnitName() == "npc_dota_hero_wisp" then
-        print("hello123")
         npc:AddNewModifier(npc,nil,"modifier_hide_hero",{duration = -1})
     end
 
@@ -102,13 +104,10 @@ function GameSetup:OnNPCSpawned(keys)
 
         table.insert(HERO_LIST,npc)
 
-        PlayerManager:SetUpMouseUpdater()
-        PlayerManager:SetUpMovement()
-
         npc:AddNewModifier( npc,  nil, "movement_modifier_thinker", { } )
         npc:AddNewModifier( npc,  nil, "remove_attack_modifier", { } )
 
-        npc:Initialize(keys)
+        npc:Initialize()
         self:RegisterPlayer(npc)
         self:RegisterRaidWipe()
 
