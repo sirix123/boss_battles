@@ -6,6 +6,8 @@ function TargetingIndicator:Load()
     local abilities_kv = LoadKeyValues("scripts/npc/npc_abilities_custom.txt")
     local targetingIndicators = {}
 
+    print("Loading targeting indiciators")
+
     for key, ability in pairs(abilities_kv) do
         if ability.TargetingIndicator then
             targetingIndicators[key] = ability.TargetingIndicator

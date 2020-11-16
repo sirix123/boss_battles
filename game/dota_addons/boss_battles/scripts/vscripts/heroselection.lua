@@ -83,6 +83,9 @@ function HeroSelection:HeroSelect( event )
 		CustomGameEventManager:Send_ServerToAllClients( "picking_player_pick", 
 			{ PlayerID = event.PlayerID, HeroName = event.HeroName} )
 
+		print("event.PlayerID ",event.PlayerID)
+		print("event.HeroName ",event.HeroName)
+
 		--Assign the hero if picking is over
 		if HeroSelection.TimeLeft <= 0 then
 			HeroSelection:AssignHero( event.PlayerID, event.HeroName )
@@ -112,8 +115,16 @@ function HeroSelection:EndPicking()
 		HeroSelection:AssignHero( player, hero )
 	end
 
-	--Signal the picking screen to disappear
-	CustomGameEventManager:Send_ServerToAllClients( "picking_done", {} )
+	-- takes time for the assigning to be done 5sec is too long but leave for now
+	Timers:CreateTimer(1.0, function()
+		--Signal the picking screen to disappear
+		CustomGameEventManager:Send_ServerToAllClients( "picking_done", { } )
+
+		-- use in lua in gamesetup to control other things
+		PICKING_DONE = true
+
+		return false
+	end)
 end
 
 --[[

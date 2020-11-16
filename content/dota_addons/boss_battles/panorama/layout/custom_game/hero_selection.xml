@@ -50,6 +50,10 @@
 						<DOTAHeroImage heroname="npc_dota_hero_kunkka" heroimagestyle="portrait" scaling="none" onactivate="SelectHero('npc_dota_hero_kunkka')"/>
 					</Panel>
 
+					<Panel id="7" class="HeroOption" >
+						<DOTAHeroImage heroname="npc_dota_hero_grimstroke" heroimagestyle="portrait" scaling="none" onactivate="SelectHero('npc_dota_hero_grimstroke')"/>
+					</Panel>
+
 				</Panel>
 
 				<!-- Pick list (showing options) | Row 2 | 

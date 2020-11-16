@@ -1,3 +1,5 @@
+GameEvents.Subscribe( "picking_done", UpdateTargetIndicator );
+
 var targetingIndicators = {};
 
 var playerId = Players.GetLocalPlayer();
@@ -16,6 +18,7 @@ function UpdateTargetIndicator(){
     if(!heroIndex){
         heroIndex = Players.GetPlayerHeroEntityIndex(playerId);
         heroIndex = Players.GetSelectedEntities(playerId)[0];
+        //$.Msg("heroIndex ", heroIndex)
         $.Schedule(1/144, UpdateTargetIndicator);
         return
     }
@@ -24,13 +27,14 @@ function UpdateTargetIndicator(){
     for(var i = 0; i < 5; i++){
         var abilityIndex = Entities.GetAbility(heroIndex, i);
         //var abilityBehavior = Abilities.GetBehavior(abilityIndex)
-
         if( Abilities.IsInAbilityPhase(abilityIndex) ){
+            //$.Msg("abiltiy?")
             active = abilityIndex;
         }
     }
 
     if(active){
+        //$.Msg("targetingIndicators[Abilities.GetAbilityName(active)] ", targetingIndicators[Abilities.GetAbilityName(active)])
         var data = targetingIndicators[Abilities.GetAbilityName(active)];
         if(data){
             var heroOrigin = Entities.GetAbsOrigin(heroIndex)
@@ -215,7 +219,7 @@ function SubscribeToNetTableKey(table, key, loadNow, callback){
     return listener;
 }
 
-UpdateTargetIndicator();
+//UpdateTargetIndicator();
 
 SubscribeToNetTableKey("main", "targetingIndicators", true, function(data){
     targetingIndicators = data;

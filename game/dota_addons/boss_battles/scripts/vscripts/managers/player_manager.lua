@@ -34,7 +34,7 @@ function PlayerManager:SetUpMovement()
     CustomGameEventManager:RegisterListener('showScoreboardUIEvent', function(eventSourceIndex, args)
         --BSB player rows:
         local bsbRows = {}
-        local heroes = HeroList:GetAllHeroes()
+        local heroes = HERO_LIST--HeroList:GetAllHeroes()
         local startTime = GetStartTime(_G.DamageTable)
         local endTime = GetEndTime(_G.DamageTable)
 

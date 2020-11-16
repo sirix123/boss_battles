@@ -7,13 +7,15 @@ RAID_TABLES = require('managers/raid_init_tables')
 LinkLuaModifier( "movement_modifier_thinker", "player/generic/movement_modifier_thinker", LUA_MODIFIER_MOTION_NONE )
 LinkLuaModifier( "remove_attack_modifier", "player/generic/remove_attack_modifier", LUA_MODIFIER_MOTION_NONE )
 LinkLuaModifier( "modifier_grace_period", "player/generic/modifier_grace_period", LUA_MODIFIER_MOTION_NONE )
+LinkLuaModifier( "modifier_hide_hero", "player/generic/modifier_hide_hero", LUA_MODIFIER_MOTION_NONE )
 
 function GameSetup:init()
 
     self.player_deaths = {}
+    self.bFirstSpawned = false
 
     -- testing custom hero select
-    --GameRules:GetGameModeEntity():SetCustomGameForceHero( "npc_dota_hero_jakiro" )
+    GameRules:GetGameModeEntity():SetCustomGameForceHero( "npc_dota_hero_wisp" )
 
     GameRules:SetCustomGameTeamMaxPlayers(DOTA_TEAM_GOODGUYS, 4)
     GameRules:SetCustomGameTeamMaxPlayers(DOTA_TEAM_BADGUYS, 0)
@@ -32,6 +34,12 @@ function GameSetup:init()
 	GameRules:SetGoldTickTime( 999999.0 )
     GameRules:SetGoldPerTick( 0 )
 
+    GameRules:SetHideKillMessageHeaders(true)
+    GameRules:SetUseUniversalShopMode(false)
+
+    GameRules:GetGameModeEntity():SetAnnouncerDisabled(true)
+    GameRules:GetGameModeEntity():SetDeathOverlayDisabled(true)
+
     GameRules:GetGameModeEntity():SetFixedRespawnTime( 3 )
     GameRules:GetGameModeEntity():SetCameraDistanceOverride( 1800 )
     GameRules:GetGameModeEntity():SetBuybackEnabled( false )
@@ -39,10 +47,6 @@ function GameSetup:init()
 
     -- reg console commands
     self:InitCommands()
-
-    -- setup listeners, these also store critical player information in core_functions override for base_npc
-    PlayerManager:SetUpMouseUpdater()
-    PlayerManager:SetUpMovement()
 
     --listen to game state event
     -- events here: https://developer.valvesoftware.com/wiki/Dota_2_Workshop_Tools/Scripting/Built-In_Engine_Events
@@ -52,7 +56,6 @@ function GameSetup:init()
     ListenToGameEvent('entity_killed', Dynamic_Wrap(self, 'OnEntityKilled'), self) --
     ListenToGameEvent('entity_hurt', Dynamic_Wrap(self, 'OnEntityHurt'), self)
     ListenToGameEvent('player_chat', Dynamic_Wrap(self, 'OnPlayerChat'), self)
-    ListenToGameEvent('player_class', Dynamic_Wrap(self, 'OnPlayerChange'), self)
 
 end
 --------------------------------------------------------------------------------------------------
@@ -68,7 +71,7 @@ function GameSetup:OnStateChange()
     end
 
     if GameRules:State_Get() == DOTA_GAMERULES_STATE_HERO_SELECTION then
-        --HeroSelection:Start()
+        HeroSelection:Start()
     end
 
     if GameRules:State_Get() == DOTA_GAMERULES_STATE_GAME_IN_PROGRESS then
@@ -80,48 +83,6 @@ function GameSetup:OnStateChange()
 
 end
 --------------------------------------------------------------------------------------------------
-function GameSetup:OnPlayerChange(keys)
-    local npc = EntIndexToHScript(keys.entindex)
-
-    if npc:IsRealHero() == true then
-
-        npc:AddNewModifier( npc, nil, "modifier_grace_period", { duration = 3 } )
-        npc:AddNewModifier( npc,  nil, "movement_modifier_thinker", { } )
-        npc:AddNewModifier( npc,  nil, "remove_attack_modifier", { } )
-
-        npc:Initialize(keys)
-        self:RegisterPlayer(npc)
-        self:RegisterRaidWipe()
-
-        -- if warlord give the stance modifier
-        if npc:GetUnitName() == "npc_dota_hero_juggernaut" then
-            npc:AddNewModifier(
-                npc, -- player source
-                nil, -- ability source
-                "q_warlord_dps_stance_modifier", -- modifier name
-                {} -- kv
-            )
-        end
-
-        -- level up abilities for all heroes to level 1
-        if npc:GetUnitName() == "npc_dota_hero_crystal_maiden"
-        or npc:GetUnitName() == "npc_dota_hero_medusa"
-        or npc:GetUnitName() == "npc_dota_hero_juggernaut"
-        or npc:GetUnitName() == "npc_dota_hero_phantom_assassin"
-        or npc:GetUnitName() == "npc_dota_hero_templar_assassin"
-        or npc:GetUnitName() == "npc_dota_hero_grimstroke"
-        then
-
-            local index = 0
-
-            while (npc:GetAbilityByIndex(index) ~= nil) do
-                npc:GetAbilityByIndex(index):SetLevel(1)
-                index = index +1
-            end
-        end
-    end
-end
---------------------------------------------------------------------------------------------------
 
 function GameSetup:OnNPCSpawned(keys)
     local npc = EntIndexToHScript(keys.entindex)
@@ -131,8 +92,18 @@ function GameSetup:OnNPCSpawned(keys)
         npc:AddNewModifier( npc, nil, "modifier_grace_period", { duration = 3 } )
     end
 
-    if npc:IsRealHero() and npc.bFirstSpawned == nil then
-        npc.bFirstSpawned = true
+    if npc:GetUnitName() == "npc_dota_hero_wisp" then
+        print("hello123")
+        npc:AddNewModifier(npc,nil,"modifier_hide_hero",{duration = -1})
+    end
+
+    if npc:IsRealHero() and self.bFirstSpawned == false and npc:GetUnitName() ~= "npc_dota_hero_wisp" then
+        self.bFirstSpawned = true
+
+        table.insert(HERO_LIST,npc)
+
+        PlayerManager:SetUpMouseUpdater()
+        PlayerManager:SetUpMovement()
 
         npc:AddNewModifier( npc,  nil, "movement_modifier_thinker", { } )
         npc:AddNewModifier( npc,  nil, "remove_attack_modifier", { } )
@@ -140,6 +111,8 @@ function GameSetup:OnNPCSpawned(keys)
         npc:Initialize(keys)
         self:RegisterPlayer(npc)
         self:RegisterRaidWipe()
+
+        --print("on spanwed lives ", npc.playerLives )
 
         -- if warlord give the stance modifier
         if npc:GetUnitName() == "npc_dota_hero_juggernaut" then
@@ -181,7 +154,7 @@ function GameSetup:RegisterPlayer( hero )
 
         --Player UI Frames:
         Timers:CreateTimer(function()
-            local heroes = HeroList:GetAllHeroes()
+            local heroes = HERO_LIST--HeroList:GetAllHeroes()
             local playerData = {}
             local i = 1
             for _, hero in pairs(heroes) do
@@ -260,22 +233,11 @@ function GameSetup:RegisterRaidWipe( )
                     killedHero.playerLives = BOSS_BATTLES_PLAYER_LIVES
                 end
 
-                --[[ edge case that a player is dead then boss dies
-                local heroes = HeroList:GetAllHeroes()
-                for _, hero in pairs(heroes) do
-                    if hero:IsAlive() then
-                        FindClearSpaceForUnit(hero, BOSS_BATTLES_INTERMISSION_SPAWN_LOCATION, true)
-                    end
-                end]]
-
                 -- call boss cleanup function
                 self:EncounterCleanUp( self.boss_spawn )
 
                 -- reset  death counter
                 self.player_deaths = {}
-
-                -- wipe flag / -- register a wipe for current boss
-                --self.wipe_flag = true
 
             end)
         end
@@ -323,54 +285,57 @@ end
 function GameSetup:OnEntityKilled(keys)
     local npc = EntIndexToHScript(keys.entindex_killed)
 
-    if npc:GetUnitName() == "npc_dota_creature_dummy_target_boss" then
-        CreateUnitByName("npc_dota_creature_dummy_target_boss", npc:GetAbsOrigin(), true, nil, nil, DOTA_TEAM_BADGUYS)
-    end
+    if PICKING_DONE == true then
 
-    if npc:GetUnitName() == "npc_dota_creature_gnoll_assassin_moving" then
-        CreateUnitByName("npc_dota_creature_gnoll_assassin_moving", npc:GetAbsOrigin(), true, nil, nil, DOTA_TEAM_BADGUYS)
-    end
-
-    -- handles heroes dying
-    if npc:IsRealHero() then
-        self:HeroKilled( keys )
-        return
-    end
-
-    -- handles encounter/boss dying
-    if npc:GetUnitName() == RAID_TABLES[BOSS_BATTLES_ENCOUNTER_COUNTER].boss then
-        -- repsawn deadplayers and reset lifes
-        local isHeroAlive = false
-        local heroes = HeroList:GetAllHeroes()
-        for _, hero in pairs(heroes) do
-            hero:SetRespawnPosition( BOSS_BATTLES_INTERMISSION_SPAWN_LOCATION )
-            self.respawn_time = 1
-            self.player_deaths = {}
-            hero:SetTimeUntilRespawn(self.respawn_time)
-            hero.playerLives = BOSS_BATTLES_PLAYER_LIVES
-
-            if hero:IsAlive() == true then
-                isHeroAlive = true
-            end
+        if npc:GetUnitName() == "npc_dota_creature_dummy_target_boss" then
+            CreateUnitByName("npc_dota_creature_dummy_target_boss", npc:GetAbsOrigin(), true, nil, nil, DOTA_TEAM_BADGUYS)
         end
 
-        if isHeroAlive == true then
-            BOSS_BATTLES_ENCOUNTER_COUNTER = BOSS_BATTLES_ENCOUNTER_COUNTER + 1
+        if npc:GetUnitName() == "npc_dota_creature_gnoll_assassin_moving" then
+            CreateUnitByName("npc_dota_creature_gnoll_assassin_moving", npc:GetAbsOrigin(), true, nil, nil, DOTA_TEAM_BADGUYS)
         end
 
-        -- move alive players to intermission area
-        Timers:CreateTimer(1.0, function()
-            local heroes = HeroList:GetAllHeroes()
-            for _,hero in pairs(heroes) do
-                FindClearSpaceForUnit(hero, BOSS_BATTLES_INTERMISSION_SPAWN_LOCATION, true)
+        -- handles heroes dying
+        if npc:IsRealHero() then
+            self:HeroKilled( keys )
+            return
+        end
+
+        -- handles encounter/boss dying
+        if npc:GetUnitName() == RAID_TABLES[BOSS_BATTLES_ENCOUNTER_COUNTER].boss then
+            -- repsawn deadplayers and reset lifes
+            local isHeroAlive = false
+            local heroes = HERO_LIST--HeroList:GetAllHeroes()
+            for _, hero in pairs(heroes) do
+                hero:SetRespawnPosition( BOSS_BATTLES_INTERMISSION_SPAWN_LOCATION )
+                self.respawn_time = 1
+                self.player_deaths = {}
+                hero:SetTimeUntilRespawn(self.respawn_time)
+                hero.playerLives = BOSS_BATTLES_PLAYER_LIVES
+
+                if hero:IsAlive() == true then
+                    isHeroAlive = true
+                end
             end
-        end)
 
-        Timers:CreateTimer(2.0, function()
-            -- clean up enounter
-            self:EncounterCleanUp( self.beastmasterBossSpawn )
-        end)
+            if isHeroAlive == true then
+                BOSS_BATTLES_ENCOUNTER_COUNTER = BOSS_BATTLES_ENCOUNTER_COUNTER + 1
+            end
 
+            -- move alive players to intermission area
+            Timers:CreateTimer(1.0, function()
+                local heroes = HeroList:GetAllHeroes()
+                for _,hero in pairs(heroes) do
+                    FindClearSpaceForUnit(hero, BOSS_BATTLES_INTERMISSION_SPAWN_LOCATION, true)
+                end
+            end)
+
+            Timers:CreateTimer(2.0, function()
+                -- clean up enounter
+                self:EncounterCleanUp( self.beastmasterBossSpawn )
+            end)
+
+        end
     end
 end
 --------------------------------------------------------------------------------------------------
@@ -381,47 +346,48 @@ function GameSetup:OnEntityHurt(keys)
 
     -- Store the dmg done in a table to maintain history. 
     -- StoreDamageDone(keys)
+    if PICKING_DONE == true then
 
+        --DEBUG:    
+        local inflictor = keys.entindex_inflictor and EntIndexToHScript(keys.entindex_inflictor):GetName()
+        if inflictor == nil then inflictor = "unknown_ability" end
+        --print("" ..EntIndexToHScript(keys.entindex_attacker):GetUnitName().. " attacked " ..EntIndexToHScript(keys.entindex_killed):GetUnitName().. " with " ..inflictor.. " dealing " ..keys.damage)
 
-    --DEBUG:    
-    local inflictor = keys.entindex_inflictor and EntIndexToHScript(keys.entindex_inflictor):GetName()
-    if inflictor == nil then inflictor = "unknown_ability" end
-    --print("" ..EntIndexToHScript(keys.entindex_attacker):GetUnitName().. " attacked " ..EntIndexToHScript(keys.entindex_killed):GetUnitName().. " with " ..inflictor.. " dealing " ..keys.damage)
-
-    -- Only process dmg if from or too a player Hero.
-    local heroes = HeroList:GetAllHeroes()
-    for _, hero in pairs(heroes) do
-        -- Store damage done or received to hero
-        if (hero:GetEntityIndex() == keys.entindex_killed) or (hero:GetEntityIndex() == keys.entindex_attacker) then
-            StoreDamageDone(keys)
-            break
-        end
-    end
-
-    --DPS METER:
-    UpdateDamageMeter()
-
-    if keys.entindex_attacker ~= nil and keys.entindex_killed ~= nil then
-        local entVictim = EntIndexToHScript(keys.entindex_killed)
-        local entAttacker = EntIndexToHScript(keys.entindex_attacker)
-
-        -- The ability/item used to damage, or nil if not damaged by an item/ability
-        local damagingAbility = nil
-
-        if keys.entindex_inflictor ~= nil then
-            damagingAbility = EntIndexToHScript(keys.entindex_inflictor)
-
+        -- Only process dmg if from or too a player Hero.
+        local heroes = HERO_LIST--HeroList:GetAllHeroes()
+        for _, hero in pairs(heroes) do
+            -- Store damage done or received to hero
+            if (hero:GetEntityIndex() == keys.entindex_killed) or (hero:GetEntityIndex() == keys.entindex_attacker) then
+                StoreDamageDone(keys)
+                break
+            end
         end
 
-        local word_length = string.len(tostring(math.floor(keys.damage)))
+        --DPS METER:
+        UpdateDamageMeter()
 
-        local color =  Vector(250, 70, 70)
-        local effect_cast = ParticleManager:CreateParticle("particles/custom_msg_damage.vpcf", PATTACH_WORLDORIGIN, nil) --particles/custom_msg_damage.vpcf particles/msg_fx/msg_damage.vpcf
-        ParticleManager:SetParticleControl(effect_cast, 0, entVictim:GetAbsOrigin())
-        ParticleManager:SetParticleControl(effect_cast, 1, Vector(0, keys.damage, 0))
-        ParticleManager:SetParticleControl(effect_cast, 2, Vector(0.5, word_length, 0)) --vector(math.max(1, keys.damage / 10), word_length, 0))
-        ParticleManager:SetParticleControl(effect_cast, 3, color)
-        ParticleManager:ReleaseParticleIndex(effect_cast)
+        if keys.entindex_attacker ~= nil and keys.entindex_killed ~= nil then
+            local entVictim = EntIndexToHScript(keys.entindex_killed)
+            local entAttacker = EntIndexToHScript(keys.entindex_attacker)
+
+            -- The ability/item used to damage, or nil if not damaged by an item/ability
+            local damagingAbility = nil
+
+            if keys.entindex_inflictor ~= nil then
+                damagingAbility = EntIndexToHScript(keys.entindex_inflictor)
+
+            end
+
+            local word_length = string.len(tostring(math.floor(keys.damage)))
+
+            local color =  Vector(250, 70, 70)
+            local effect_cast = ParticleManager:CreateParticle("particles/custom_msg_damage.vpcf", PATTACH_WORLDORIGIN, nil) --particles/custom_msg_damage.vpcf particles/msg_fx/msg_damage.vpcf
+            ParticleManager:SetParticleControl(effect_cast, 0, entVictim:GetAbsOrigin())
+            ParticleManager:SetParticleControl(effect_cast, 1, Vector(0, keys.damage, 0))
+            ParticleManager:SetParticleControl(effect_cast, 2, Vector(0.5, word_length, 0)) --vector(math.max(1, keys.damage / 10), word_length, 0))
+            ParticleManager:SetParticleControl(effect_cast, 3, color)
+            ParticleManager:ReleaseParticleIndex(effect_cast)
+        end
     end
 
 end
@@ -507,6 +473,7 @@ function GameSetup:HeroKilled( keys )
     end
 
     killedHero.playerLives = killedHero.playerLives - 1
+    --print("OnEntityKilled lives ", killedHero.playerLives )
 
     if killedHero.playerLives <= 0 then
         table.insert(self.player_deaths, killedHero)

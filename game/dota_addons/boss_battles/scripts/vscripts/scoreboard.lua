@@ -34,7 +34,7 @@ function UpdateDamageMeter()
     local endTime = GetEndTime(_G.DamageTable)
 
     dpsTable = {}
-    local heroes = HeroList:GetAllHeroes()
+    local heroes = HERO_LIST--HeroList:GetAllHeroes()
     for _, hero in pairs(heroes) do
         heroDps = {}
         heroDps.hero = PlayerResource:GetPlayerName(hero:GetPlayerOwnerID())
