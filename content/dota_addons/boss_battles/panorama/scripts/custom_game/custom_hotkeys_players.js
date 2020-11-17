@@ -410,7 +410,7 @@ function GetMouseCastPosition(  )
 
 //Start a loop to constantly update mouse cast positions
 function MouseInit(){
-    $.Schedule( 1.0/30.0, tic );
+    $.Schedule( 1.0/30.0, MouseInit );
     GetMouseCastPosition()
 }
 
