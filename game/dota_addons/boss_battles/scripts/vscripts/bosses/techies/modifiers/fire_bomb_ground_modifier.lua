@@ -72,7 +72,7 @@ function fire_bomb_ground_modifier:OnIntervalThink()
 
 
 		local areAllHeroesDead = true --start on true, then set to false if you find one hero alive.
-		local heroes = HeroList:GetAllHeroes()
+		local heroes = HERO_LIST--HeroList:GetAllHeroes()
 		for _, hero in pairs(heroes) do
 			if hero.playerLives > 0 then
 				areAllHeroesDead = false

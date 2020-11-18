@@ -34,7 +34,7 @@ function PlayerManager:SetUpMovement()
     CustomGameEventManager:RegisterListener('showScoreboardUIEvent', function(eventSourceIndex, args)
         --BSB player rows:
         local bsbRows = {}
-        local heroes = HeroList:GetAllHeroes()
+        local heroes = HERO_LIST--HeroList:GetAllHeroes()
         local startTime = GetStartTime(_G.DamageTable)
         local endTime = GetEndTime(_G.DamageTable)
 
@@ -199,8 +199,9 @@ function PlayerManager:SetUpMouseUpdater()
         if unit == nil then return end
 
         --print("MousePosition for playerID: ", args.playerID) -- test player ID
-        --local mouse_position = Vector(args.x, args.y, args.z)
-        --self.mouse_positions[args.playerID] = mouse_position
+        local mouse_position = Vector(args.x, args.y, args.z)
+        self.mouse_positions[args.playerID] = mouse_position
+        --print("MousePosition for playerID: ", mouse_position)
 
         -- testing new code
         unit.mouse.x = args.x
@@ -212,5 +213,5 @@ end
 ---------------------------------------------------------------------------------------------------
 
 -- indicators
--- cast bar 
--- 
+-- cast bar
+--

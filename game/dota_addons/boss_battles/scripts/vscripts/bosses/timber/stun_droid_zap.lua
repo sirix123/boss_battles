@@ -9,7 +9,21 @@ function stun_droid_zap:OnSpellStart()
 
     local duration = self:GetSpecialValueFor( "duration" )
 
-    caster:AddNewModifier(caster, self, "stun_droid_zap_modifier_thinker", {duration = duration})
+    --caster:AddNewModifier(caster, self, "stun_droid_zap_modifier_thinker", {duration = duration})
+    CreateModifierThinker(
+                caster,
+                self,
+                "stun_droid_zap_modifier_thinker",
+                {
+                    duration = duration,
+                    target_x = caster:GetAbsOrigin().x,
+                    target_y = caster:GetAbsOrigin().y,
+                    target_z = caster:GetAbsOrigin().z,
+                },
+                caster:GetAbsOrigin(),
+                caster:GetTeamNumber(),
+                false
+            )
 
     self:PlayEffects()
 

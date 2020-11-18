@@ -6,9 +6,10 @@ stun_droid_zap_modifier_thinker = class ({})
 
 function stun_droid_zap_modifier_thinker:OnCreated( kv )
 	-- references
-	self.interval = 0.1--self:GetAbility():GetSpecialValueFor( "tick_rate" )
-	self.radius = self:GetAbility():GetSpecialValueFor( "radius" )
-	self.base_stun = self:GetAbility():GetSpecialValueFor( "debuff_duration" )
+	self.interval = 0.1
+	self.radius = kv.radius
+	self.base_stun = kv.base_stun
+	self.vLocation = Vector( kv.target_x, kv.target_y, kv.target_z )
 
 	if IsServer() then
 		-- Start interval
@@ -24,7 +25,7 @@ function stun_droid_zap_modifier_thinker:OnIntervalThink()
 	-- find enemies
 	local enemies = FindUnitsInRadius(
 		self:GetCaster():GetTeamNumber(),	-- int, your team number
-		self:GetParent():GetOrigin(),	-- point, center point
+		self.vLocation,	-- point, center point
 		nil,	-- handle, cacheUnit. (not known)
 		self.radius,	-- float, radius. or use FIND_UNITS_EVERYWHERE
 		DOTA_UNIT_TARGET_TEAM_BOTH,	-- int, team filter
@@ -46,8 +47,8 @@ function stun_droid_zap_modifier_thinker:OnDestroy( kv )
 	if IsServer() then
 		-- find enemies
 		local enemies = FindUnitsInRadius(
-			self:GetCaster():GetTeamNumber(),	-- int, your team number
-			self:GetParent():GetOrigin(),	-- point, center point
+			self:GetParent():GetTeamNumber(),	-- int, your team number
+			self.vLocation,	-- point, center point
 			nil,	-- handle, cacheUnit. (not known)
 			self.radius,	-- float, radius. or use FIND_UNITS_EVERYWHERE
 			DOTA_UNIT_TARGET_TEAM_BOTH,	-- int, team filter
@@ -60,8 +61,8 @@ function stun_droid_zap_modifier_thinker:OnDestroy( kv )
 		for _,enemy in pairs(enemies) do
 			-- stun
 			enemy:AddNewModifier(
-				self:GetCaster(), -- player source
-				self:GetAbility(), -- ability source
+				self:GetParent(), -- player source
+				nil, -- ability source
 				"modifier_generic_stunned", -- modifier name
 				{ duration = self.base_stun } -- kv
 			)
@@ -71,7 +72,7 @@ function stun_droid_zap_modifier_thinker:OnDestroy( kv )
         self:PlayEffects3()
         
         -- destroy droid
-        UTIL_Remove( self:GetParent() )
+        UTIL_Remove( self )
  
 	end
 end
@@ -148,5 +149,5 @@ function stun_droid_zap_modifier_thinker:PlayEffects3()
     EmitSoundOn( sound_target, self:GetParent() )
 
     -- kill parent
-    self:GetParent():ForceKill( false )
+    --self:GetParent():ForceKill( false )
 end

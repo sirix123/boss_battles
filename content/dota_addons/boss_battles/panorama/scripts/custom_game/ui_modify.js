@@ -1,3 +1,5 @@
+GameEvents.Subscribe( "picking_done", Init );
+
 function HideOther(top_panel){
     var tp_scroll = top_panel.FindChildTraverse("inventory_tpscroll_container");
     tp_scroll.style.visibility = "collapse";
@@ -59,7 +61,7 @@ function ModifyHotkeyBoxes(top_panel){
     })();
 }
 
-(function() {
+/*(function() {
     var top_panel = $.GetContextPanel();
     while(top_panel.GetParent() != null){
         top_panel = top_panel.GetParent();
@@ -69,4 +71,18 @@ function ModifyHotkeyBoxes(top_panel){
     HideDefaults();
     HideOther(top_panel);
 
-})();
+})();*/
+
+function Init(){
+    var top_panel = $.GetContextPanel();
+    while(top_panel.GetParent() != null)
+    {
+        top_panel = top_panel.GetParent();
+    }
+
+    ModifyHotkeyBoxes(top_panel);
+    HideDefaults();
+    HideOther(top_panel);
+
+}
+

@@ -26,7 +26,7 @@
 		{
 			"01"{ "var_type"			"FIELD_INTEGER"		"hit_box"							"80" }
 			"02"{ "var_type"			"FIELD_INTEGER"		"proj_speed"						"1000" }
-			"03"{ "var_type"			"FIELD_INTEGER"		"base_dmg"							"30" }
+			"03"{ "var_type"			"FIELD_INTEGER"		"base_dmg"							"20" }
 			"04"{ "var_type"			"FIELD_FLOAT"		"dmg_dist_multi"					"0.08" }
 			"05"{ "var_type"			"FIELD_FLOAT"		"rain_of_arrows_bonus_proj_speed"	"800" }
 			"06"{ "var_type"			"FIELD_INTEGER"		"mana_gain_percent"             	"5" }
@@ -118,7 +118,7 @@
 		"SpellImmunityType"				"SPELL_IMMUNITY_ENEMIES_YES"
         "AbilityBehavior"				"DOTA_ABILITY_BEHAVIOR_POINT | DOTA_ABILITY_BEHAVIOR_AOE"
 		"AbilityCastRange" 				"1500"
-        "AbilityCooldown"				"30"//"50"
+        "AbilityCooldown"				"45"//"50"
         "AbilityCastPoint"              "0.2"
 
 		"TargetingIndicator"
@@ -130,7 +130,7 @@
 		"AbilitySpecial"
 		{
 			"01"{ "var_type"			"FIELD_INTEGER"		"radius"				"300" 	}
-			"02"{ "var_type"			"FIELD_INTEGER"		"dmg"					"1000" 	}
+			"02"{ "var_type"			"FIELD_INTEGER"		"dmg"					"2000" 	}
 		}
 
 		"precache"

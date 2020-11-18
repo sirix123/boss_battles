@@ -89,7 +89,26 @@ function smelter_droid_enhance_modifier_thinker:OnIntervalThink()
 	-- every internval give him mana and health and playthis particle effect
 
 	target:GiveMana(self.mana)
+	local mana_word_length = string.len(tostring(math.floor(self.mana)))
+
+	local mana_color =  Vector(70, 70, 250)
+	local mana_effect_cast = ParticleManager:CreateParticle("particles/custom_msg_damage.vpcf", PATTACH_WORLDORIGIN, nil) --particles/custom_msg_damage.vpcf particles/msg_fx/msg_damage.vpcf
+	ParticleManager:SetParticleControl(mana_effect_cast, 0, target:GetAbsOrigin())
+	ParticleManager:SetParticleControl(mana_effect_cast, 1, Vector(0, self.mana, 0))
+	ParticleManager:SetParticleControl(mana_effect_cast, 2, Vector(0.5, mana_word_length, 0)) --vector(math.max(1, keys.damage / 10), word_length, 0))
+	ParticleManager:SetParticleControl(mana_effect_cast, 3, mana_color)
+	ParticleManager:ReleaseParticleIndex(mana_effect_cast)
+
 	target:Heal(self.heal, self:GetCaster())
+	local heal_word_length = string.len(tostring(math.floor(self.heal)))
+
+	local heal_color =  Vector(70, 250, 70)
+	local heal_effect_cast = ParticleManager:CreateParticle("particles/custom_msg_damage.vpcf", PATTACH_WORLDORIGIN, nil) --particles/custom_msg_damage.vpcf particles/msg_fx/msg_damage.vpcf
+	ParticleManager:SetParticleControl(heal_effect_cast, 0, target:GetAbsOrigin())
+	ParticleManager:SetParticleControl(heal_effect_cast, 1, Vector(0, self.heal, 0))
+	ParticleManager:SetParticleControl(heal_effect_cast, 2, Vector(0.5, heal_word_length, 0)) --vector(math.max(1, keys.damage / 10), word_length, 0))
+	ParticleManager:SetParticleControl(heal_effect_cast, 3, heal_color)
+	ParticleManager:ReleaseParticleIndex(heal_effect_cast)
 
 	-- check distance
 	if (target:GetOrigin()-self:GetCaster():GetOrigin()):Length2D()>self.radius then

@@ -75,8 +75,9 @@ function saw_blade_thinker:OnIntervalThink()
 
 	-- if no heroes destroy
 	local areAllHeroesDead = true --start on true, then set to false if you find one hero alive.
-    local heroes = HeroList:GetAllHeroes()
-    for _, hero in pairs(heroes) do
+    local heroes = HERO_LIST
+	for _, hero in pairs(heroes) do
+		--print("hero name ",hero:GetUnitName())
         if hero.playerLives > 0 then
             areAllHeroesDead = false
             break

@@ -20,3 +20,7 @@ _G.tUNIT_TABLE =
 }
 
 _G.UNQIUE_INT = 0
+
+_G.PICKING_DONE = false
+
+_G.HERO_LIST = {}

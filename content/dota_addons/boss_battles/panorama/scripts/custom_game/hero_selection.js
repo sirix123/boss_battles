@@ -1,4 +1,5 @@
 "use strict";
+var playerPanels = {};
 var canEnter = false;
 
 //Subscribe to events
@@ -28,6 +29,21 @@ function OnPlayerPicked( data ) {
 
 /* Functionality
 =========================================================================*/
+
+/* A player has picked a hero, tell the player's panel a hero was picked,
+ * show the hero was taken and if the player that picked is the local player
+ * swap to the hero preview screen. */
+function PlayerPicked( player, hero ) {
+	// player panel / hero select
+	//var playerPanel = Modular.Spawn( "picking_player", $("#LeftPlayers") );
+	
+	//Update the player panel
+	//playerPanels[player].SetHero( hero );
+
+	//Disable the hero button
+	//$('#'+hero).AddClass( "HeroOption.taken" );
+
+}
 
 /* Select a hero, called when a player clicks a hero panel in the layout */
 function SelectHero( heroName ) {
