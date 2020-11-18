@@ -9,9 +9,12 @@ function CDOTA_BaseNPC:Initialize(data)
   self.mouse.y = 0
   self.mouse.z = 0
 
+  self.bFirstSpawned = true
+
   self.animation_modifiers = {}
 
   self.playerId = self:GetPlayerID()
+  print("core functions self.playerId ", self.playerId)
 
   self.playerLives = BOSS_BATTLES_PLAYER_LIVES
   self.playerHP = 0

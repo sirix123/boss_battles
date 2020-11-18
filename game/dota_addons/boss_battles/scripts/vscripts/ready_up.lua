@@ -13,7 +13,7 @@ function OnStartTouch(trigger)
     -- if triggername is not in the table then add it... (so 4 people can't stand on the same trigger)
     table.insert(tTriggers,triggerName)
 
-    if #tTriggers == HeroList:GetHeroCount() or DEBUG then
+    if #tTriggers == #HERO_LIST or DEBUG then
         -- need to clear the table here, so can be re-used
         tTriggers = {}
         GameSetup:ReadyupCheck()

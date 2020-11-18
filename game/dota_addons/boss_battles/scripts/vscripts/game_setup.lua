@@ -12,7 +12,6 @@ LinkLuaModifier( "modifier_hide_hero", "player/generic/modifier_hide_hero", LUA_
 function GameSetup:init()
 
     self.player_deaths = {}
-    self.bFirstSpawned = false
 
     -- testing custom hero select
     GameRules:GetGameModeEntity():SetCustomGameForceHero( "npc_dota_hero_wisp" )
@@ -99,8 +98,8 @@ function GameSetup:OnNPCSpawned(keys)
         npc:AddNewModifier(npc,nil,"modifier_hide_hero",{duration = -1})
     end
 
-    if npc:IsRealHero() and self.bFirstSpawned == false and npc:GetUnitName() ~= "npc_dota_hero_wisp" then
-        self.bFirstSpawned = true
+    if npc:IsRealHero() and npc:GetUnitName() ~= "npc_dota_hero_wisp" and npc.bFirstSpawned == nil then --
+        -- npc.bFirstSpawned is set to true during initlize()
 
         table.insert(HERO_LIST,npc)
 
@@ -374,7 +373,6 @@ function GameSetup:OnEntityHurt(keys)
 
             if keys.entindex_inflictor ~= nil then
                 damagingAbility = EntIndexToHScript(keys.entindex_inflictor)
-
             end
 
             local word_length = string.len(tostring(math.floor(keys.damage)))

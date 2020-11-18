@@ -410,8 +410,10 @@ function GetMouseCastPosition(  )
 
 //Start a loop to constantly update mouse cast positions
 function MouseInit(){
-    $.Schedule( 1.0/30.0, MouseInit );
-    GetMouseCastPosition()
+    $.Schedule( 0.03, function tic(){
+        GetMouseCastPosition()
+        $.Schedule(0.03, tic);
+    } );
 }
 
 // handles keyboard hotkeys
