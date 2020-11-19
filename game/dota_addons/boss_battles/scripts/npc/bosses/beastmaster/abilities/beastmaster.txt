@@ -284,7 +284,7 @@
             "05"
             {
                 "var_type"              "FIELD_FLOAT"
-                "damage_bear"     	        "350"
+                "damage_bear"     	        "500"
             }
             "06"
             {

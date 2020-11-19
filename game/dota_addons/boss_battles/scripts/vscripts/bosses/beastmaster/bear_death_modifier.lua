@@ -46,7 +46,7 @@ function bear_death_modifier:OnDestroy()
     for _, unit in pairs(units) do
         if unit:GetUnitName() == "npc_beastmaster" then
             -- adds modifier to bear that increases as and ms
-            unit:AddNewModifier( self:GetCaster(), self, "bear_bloodlust_modifier", { duration = -1, as_bonus = 20, ms_bonus = 20 } )
+            unit:AddNewModifier( self:GetCaster(), self, "bear_bloodlust_modifier", { duration = -1, as_bonus = 35, ms_bonus = 20 } )
             -- add stack
             local hBuff = unit:FindModifierByName( "bear_bloodlust_modifier" )
             hBuff:IncrementStackCount()

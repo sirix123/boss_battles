@@ -59,7 +59,7 @@ function quilboar_puddle:OnSpellStart()
 				end,
 				OnFinish = function(_self, pos)
 					CreateModifierThinker( self:GetCaster(), self, "quillboar_puddle_modifier", { self:GetSpecialValueFor( "duration" ) }, pos, self:GetCaster():GetTeamNumber(), false )
-					--self:PlayEffects(pos)
+					self:PlayEffects(pos)
 				end,
 			}
 
@@ -75,7 +75,7 @@ end
 
 function quilboar_puddle:PlayEffects(pos)
 	if IsServer() then
-		print("play effects")
+		--print("play effects")
 		local particle_cast = "particles/beastmaster/puddle_explode_venomancer_venomous_gale_impact.vpcf"
 		self.nFXIndex_1 = ParticleManager:CreateParticle( particle_cast, PATTACH_WORLDORIGIN , nil  )
 		ParticleManager:SetParticleControl( self.nFXIndex_1, 0, pos )

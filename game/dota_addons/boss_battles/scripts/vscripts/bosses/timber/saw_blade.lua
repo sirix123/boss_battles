@@ -17,9 +17,13 @@ function saw_blade:OnAbilityPhaseStart()
 
         self:GetCaster():StartGestureWithPlaybackRate(ACT_DOTA_SPAWN, 1.0)
 
-        --[[local nFXIndex = ParticleManager:CreateParticle( "particles/units/heroes/hero_visage/visage_summon_familiars.vpcf", PATTACH_WORLDORIGIN, nil )
-        ParticleManager:SetParticleControl(nFXIndex, 0, self.point)
-		ParticleManager:ReleaseParticleIndex( nFXIndex )]]
+        local vNewPositionX = RandomInt(8622, 11550)
+        local vNewPositionY = RandomInt(-11882, -8910)
+        self.point = Vector(vNewPositionX, vNewPositionY, 131)
+
+        self.nFXIndex = ParticleManager:CreateParticle( "particles/units/heroes/hero_visage/visage_summon_familiars.vpcf", PATTACH_WORLDORIGIN, nil )
+        ParticleManager:SetParticleControl(self.nFXIndex, 0, self.point)
+		ParticleManager:ReleaseParticleIndex( self.nFXIndex )
 
         return true
     end
@@ -30,10 +34,10 @@ function saw_blade:OnSpellStart()
 
         self:GetCaster():RemoveGesture(ACT_DOTA_SPAWN)
 
-        self.caster = self:GetCaster()
-        local point = self:GetCursorPosition() --self.point
+        ParticleManager:DestroyParticle(self.nFXIndex, false)
 
-        -- particle particles/units/heroes/hero_visage/visage_summon_familiars.vpcf
+        self.caster = self:GetCaster()
+        --local point = self:GetCursorPosition() --self.point
 
         -- ref kv
         self.nMaxSawBlades = self:GetSpecialValueFor("nMaxSawBlades")
@@ -55,15 +59,16 @@ function saw_blade:OnSpellStart()
                 self,
                 "saw_blade_thinker",
                 {
-                    target_x = point.x,
-                    target_y = point.y,
-                    target_z = point.z,
+                    target_x = self.point.x,
+                    target_y = self.point.y,
+                    target_z = self.point.z,
                 },
-                self.caster:GetAbsOrigin(),
+                self.point,
+                --self.caster:GetAbsOrigin(),
                 self.caster:GetTeamNumber(),
                 false
             )
-    
+
             local sound_cast = "Hero_Shredder.Chakram.Cast"
             EmitSoundOn( sound_cast, self.caster )
         end

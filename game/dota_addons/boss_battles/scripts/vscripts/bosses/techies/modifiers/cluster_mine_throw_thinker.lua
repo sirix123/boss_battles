@@ -101,7 +101,9 @@ function cluster_mine_throw_thinker:OnIntervalThink()
             end
         else
             -- destroy explosion range particle effect
-            ParticleManager:DestroyParticle(self.nPreviewFXIndex, true)
+            if self.nPreviewFXIndex ~= nil then
+                ParticleManager:DestroyParticle(self.nPreviewFXIndex, true)
+            end
 
             self.triggered = false
             self.trigger_time = 0

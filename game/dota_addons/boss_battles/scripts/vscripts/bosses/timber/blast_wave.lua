@@ -96,7 +96,7 @@ function blast_wave:OnSpellStart()
             iUnitTargetFlags = DOTA_UNIT_TARGET_FLAG_NONE,
             iUnitTargetType = DOTA_UNIT_TARGET_HERO + DOTA_UNIT_TARGET_BASIC,
             EffectName = "particles/timber/blast_wave.vpcf",
-            fDistance = 1600,
+            fDistance = 5000,
             fStartRadius = self.radius,
             fEndRadius = self.radius,
             vVelocity = projectile_direction * projectile_speed,
@@ -134,27 +134,13 @@ end
 function blast_wave:OnProjectileHit(hTarget, vLocation)
 
     if hTarget ~= nil then
-        if hTarget:FindModifierByName( "blast_wave_modifier" ) then
+        self.damageTable.damage = self.damage_1
+        self.damageTable.victim = hTarget
+        ApplyDamage( self.damageTable )
 
-            hTarget:AddNewModifier( self.caster, self, "blast_wave_modifier", { duration = self.duration } )
+        EmitSoundOn("shredder_timb_kill_08", self.caster)
 
-            self.damageTable.damage = self.damage_2
-            self.damageTable.victim = hTarget
-            ApplyDamage( self.damageTable )
-
-            EmitSoundOn("shredder_timb_kill_08", self.caster)
-
-        else
-
-            hTarget:AddNewModifier( self.caster, self, "blast_wave_modifier", { duration = self.duration } )
-
-            self.damageTable.damage = self.damage_1
-            self.damageTable.victim = hTarget
-            ApplyDamage( self.damageTable )
-
-            EmitSoundOn("shredder_timb_happy_01", self.caster)
-
-        end
+        return true
     end
 end
 ------------------------------------------------------------------------------------------------

@@ -383,6 +383,7 @@ function saw_blade_thinker:OnDestroy()
 
 	-- stop effects
 	self:StopEffects()
+	self:OnIntervalThink(-1)
 	-- remove
 	UTIL_Remove( self.parent )
 end

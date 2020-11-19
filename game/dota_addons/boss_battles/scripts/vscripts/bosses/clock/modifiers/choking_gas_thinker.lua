@@ -51,6 +51,20 @@ function choking_gas_thinker:StartApplyDamageLoop()
 		    return false
         end
 
+        local areAllHeroesDead = true --start on true, then set to false if you find one hero alive.
+		local heroes = HERO_LIST--HeroList:GetAllHeroes()
+		for _, hero in pairs(heroes) do
+			if hero.playerLives > 0 then
+				areAllHeroesDead = false
+				break
+			end
+		end
+		if areAllHeroesDead then
+			--Timers:CreateTimer(1.0, function()
+				self:Destroy()
+			--end)
+		end
+
         local enemies = FindUnitsInRadius(
             self:GetCaster():GetTeamNumber(),	-- int, your team number
             self.currentTarget,	-- point, center point

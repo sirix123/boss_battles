@@ -61,7 +61,7 @@ function bear_bloodlust_modifier:OnStackCountChanged( param )
 		--print("self.bloodlust_speed ",self.bloodlust_speed)
 		--print("self.bloodlust_as_speed ",self.bloodlust_as_speed)
 		--print("total as ",self:GetParent():GetAttackSpeed())
-		--print("total ms ",self:GetParent():GetMoveSpeedModifier())
+		--print("total ms ",self:GetParent():GetMoveSpeedModifier(200,true))
 		--print("--------------------------------------")
 
         self.effect = ParticleManager:CreateParticle( "particles/beastmaster/beast_abaddon_curse_counter_stack.vpcf", PATTACH_OVERHEAD_FOLLOW, self:GetParent() )
