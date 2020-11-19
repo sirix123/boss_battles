@@ -322,7 +322,7 @@ function GameSetup:OnEntityKilled(keys)
 
             -- move alive players to intermission area
             Timers:CreateTimer(1.0, function()
-                local heroes = HeroList:GetAllHeroes()
+                local heroes = HERO_LIST --HeroList:GetAllHeroes()
                 for _,hero in pairs(heroes) do
                     FindClearSpaceForUnit(hero, BOSS_BATTLES_INTERMISSION_SPAWN_LOCATION, true)
                 end
@@ -392,7 +392,7 @@ end
 
 -- handles tping players to the boss arena and spawning the boss
 function GameSetup:ReadyupCheck() -- called from trigger lua file for activators (ready_up)
-    local heroes = HeroList:GetAllHeroes()
+    local heroes = HERO_LIST--HeroList:GetAllHeroes()
 
     -- look at raid tables and move players to boss encounter based on counter
     print("game_setup: Start boss counter: ", BOSS_BATTLES_ENCOUNTER_COUNTER," ", RAID_TABLES[BOSS_BATTLES_ENCOUNTER_COUNTER].boss )
@@ -532,7 +532,7 @@ function GameSetup:InitCommands()
         print("set_trigger_boss ", RAID_TABLES[a].arena)
         print("set_trigger_boss ", RAID_TABLES[a].boss)
 
-        local heroes = HeroList:GetAllHeroes()
+        local heroes = HERO_LIST--HeroList:GetAllHeroes()
 
         self.boss_arena_name     = RAID_TABLES[a].spawnLocation
         self.player_arena_name   = RAID_TABLES[a].arena
@@ -593,7 +593,7 @@ function GameSetup:StartBoss( a )
         print("set_trigger_boss ", RAID_TABLES[a].arena)
         print("set_trigger_boss ", RAID_TABLES[a].boss)
 
-        local heroes = HeroList:GetAllHeroes()
+        local heroes = HERO_LIST--HeroList:GetAllHeroes()
 
         self.boss_arena_name     = RAID_TABLES[a].spawnLocation
         self.player_arena_name   = RAID_TABLES[a].arena
@@ -700,6 +700,10 @@ function GameSetup:OnPlayerChat(keys)
             if bossName == "gyro" then
                 print("TODO: start boss ", bossName)
                 self:StartBoss(6)
+            end
+            if bossName == "tinker" then
+                print("TODO: start boss ", bossName)
+                self:StartBoss(7)
             end
         end
 
