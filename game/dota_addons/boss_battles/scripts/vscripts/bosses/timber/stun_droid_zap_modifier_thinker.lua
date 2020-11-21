@@ -36,9 +36,10 @@ function stun_droid_zap_modifier_thinker:OnIntervalThink()
 	)
 
 	for _,enemy in pairs(enemies) do
-
-		-- play effects
-		self:PlayEffects2( enemy )
+		if enemy:GetModelName() ~= "invisiblebox" then
+			-- play effects
+			self:PlayEffects2( enemy )
+		end
 	end
 end
 ----------------------------------------------------------------------------------------------------------------
@@ -113,15 +114,7 @@ function stun_droid_zap_modifier_thinker:PlayEffects2( target )
 
 	-- Create Particle
 	local effect_cast = ParticleManager:CreateParticle( particle_cast, PATTACH_ABSORIGIN_FOLLOW, self:GetParent() )
-	ParticleManager:SetParticleControlEnt(
-		effect_cast,
-		0,
-		self:GetParent(),
-		PATTACH_POINT_FOLLOW,
-		"attach_hitloc",
-		Vector(0,0,0), -- unknown
-		true -- unknown, true
-	)
+	ParticleManager:SetParticleControl( effect_cast, 0, self:GetParent():GetAbsOrigin() )
 	ParticleManager:SetParticleControlEnt(
 		effect_cast,
 		1,

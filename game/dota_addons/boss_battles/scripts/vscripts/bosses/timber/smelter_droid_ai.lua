@@ -1,5 +1,6 @@
 
 LinkLuaModifier( "droid_colour_modifier_green", "bosses/timber/droid_colour_modifier_green", LUA_MODIFIER_MOTION_NONE )
+LinkLuaModifier("modifier_flying_movement_ground", "core/modifier_flying_movement_ground", LUA_MODIFIER_MOTION_NONE)
 --------------------------------------------------------------------------------
 
 function Spawn( entityKeyValues )
@@ -11,6 +12,7 @@ function Spawn( entityKeyValues )
 
 	thisEntity:AddNewModifier(thisEntity, self, "droid_colour_modifier_green", {duration = 9000})
 	thisEntity:AddNewModifier( nil, nil, "modifier_phased", { duration = -1 })
+	thisEntity:AddNewModifier( nil, nil, "modifier_flying_movement_ground", { duration = -1 })
 
 	thisEntity:SetHullRadius(60)
 

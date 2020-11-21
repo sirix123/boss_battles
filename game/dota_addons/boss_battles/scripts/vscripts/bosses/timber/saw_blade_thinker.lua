@@ -83,17 +83,19 @@ function saw_blade_thinker:OnIntervalThink()
             break
         end
     end
-    if areAllHeroesDead then
+    if areAllHeroesDead or self.caster:IsAlive() == false then
 		self:Destroy()
     end
 
-    -- check mode
-	if self.mode == MODE_MOVE then
-		self:MoveThink()
-	elseif self.mode == MODE_STAY then
-		self:StayThink()
-	elseif self.mode == MODE_RETURN then
-		self:ReturnThink()
+	-- check mode
+	if areAllHeroesDead == false then
+		if self.mode == MODE_MOVE then
+			self:MoveThink()
+		elseif self.mode == MODE_STAY then
+			self:StayThink()
+		elseif self.mode == MODE_RETURN then
+			self:ReturnThink()
+		end
 	end
 end
 --------------------------------------------------------------------------------
@@ -170,11 +172,6 @@ function saw_blade_thinker:MoveLogic(previousSawbladeLocation)
 	local direction = (self.currentTarget - previousSawbladeLocation):Normalized()
 	self.currentSawbladeLocation = previousSawbladeLocation + direction * self.speed * self.move_interval
 
-	--print(self.currentSawbladeLocation.z)
-	--if self.currentSawbladeLocation.z > 500 then
-		--print("YO IM REALLY HIGH UP")
-	--end
-
 	self.parent:SetAbsOrigin( self.currentSawbladeLocation )
 	self.bFirstBlade = false
 
@@ -212,9 +209,10 @@ function saw_blade_thinker:DestroyTrees()
 		local trees = GridNav:GetAllTreesAroundPoint( self.currentSawbladeLocation, self.destroy_tree_radius, true )
 		for _,tree in pairs(trees) do
 			EmitSoundOnLocationWithCaster( tree:GetOrigin(), sound_tree, self.parent )
+			tree:CutDown(self.caster:GetTeamNumber())
 			self.caster:GiveMana(self.manaAmount)
 		end
-		GridNav:DestroyTreesAroundPoint( self.currentSawbladeLocation, self.destroy_tree_radius, true )
+		--GridNav:DestroyTreesAroundPoint( self.currentSawbladeLocation, self.destroy_tree_radius, true )
 	end
 end
 --------------------------------------------------------------------------------

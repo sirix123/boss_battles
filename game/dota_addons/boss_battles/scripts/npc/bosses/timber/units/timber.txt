@@ -9,7 +9,9 @@
 	"npc_timber"	
 	{
 		// script
-		"vscripts"					"bosses/timber/timber_ai.lua"
+		//"vscripts"					"bosses/timber/timber_ai.lua"
+		"vscripts"						"bosses/timber/timber_ai_v2.lua"
+		
 
 		// General
 		//----------------------------------------------------------------
@@ -28,7 +30,9 @@
 		"Ability4"					"fire_shell"				// Ability 4
 		"Ability5"					"energy_start_zero"			// Ability 5
 		"Ability6"					"timber_droid_support"		// Ability 6
-		"Ability7"					"blast_wave"				// Ability 7
+		"Ability7"					"blast_wave_v2"				// Ability 7
+		"Ability8"					"chain_map_edge"			// Ability 6
+		"Ability9"					"vertical_saw_blade"		// Ability 7
 
 		// Armor
 		//----------------------------------------------------------------
@@ -37,9 +41,9 @@
 		// Attack
 		//----------------------------------------------------------------
 		"AttackCapabilities"		"DOTA_UNIT_CAP_MELEE_ATTACK"
-		"AttackDamageMin"			"45"		
-		"AttackDamageMax"			"65"		
-		"AttackRate"				"0.8"		// Speed of attack.
+		"AttackDamageMin"			"20"		
+		"AttackDamageMax"			"40"		
+		"AttackRate"				"0.9"		// Speed of attack.
 		"AttackAnimationPoint"		"0.1"		// Normalized time in animation cycle to attack.
 		"AttackAcquisitionRange"	"10000"		// Range within a target can be acquired.
 		"AttackRange"				"50"		

@@ -41,7 +41,7 @@
 			"01"
 			{
 				"var_type"			                "FIELD_INTEGER"
-				"nMaxSawBlades"		                "8 9 11 12" 
+				"nMaxSawBlades"		                "7 7 9 12" 
 			}
             "02"
 			{
@@ -51,7 +51,7 @@
             "03"
 			{
 				"var_type"			                "FIELD_INTEGER"
-				"destroy_tree_radius"		        "50 50 50 50"
+				"destroy_tree_radius"		        "80 80 80 80"
 			}
             "04"
 			{
@@ -61,17 +61,17 @@
             "05"
 			{
 				"var_type"			                "FIELD_INTEGER"
-				"stay_duration"		                "8 7 6 4"
+				"stay_duration"		                "4 4 6 6"
 			}
             "06"
 			{
 				"var_type"			                "FIELD_INTEGER"
-				"damage"		                    "6 6 6 6"
+				"damage"		                    "3 3 3 3"
 			}
             "07"
 			{
 				"var_type"			                "FIELD_FLOAT"
-                "manaAmount"		                "2.0 2.0 1.0 1.0"
+                "manaAmount"		                "0.5 0.5 0.5 0.5"
 			}
 		}
     }
@@ -450,10 +450,10 @@
     //=================================================================================================================
     // Timber: Blast Wave
     //=================================================================================================================
-    "blast_wave"
+    "blast_wave_v2"
     { 
         "BaseClass"                     "ability_lua"
-        "ScriptFile"                    "bosses/timber/blast_wave"
+        "ScriptFile"                    "bosses/timber/blast_wave_v2"
 
         // General
         //-------------------------------------------------------------------------------------------------------------
@@ -468,11 +468,11 @@
 
         // Casting
         //-------------------------------------------------------------------------------------------------------------
-        "AbilityCastPoint"              "0.9 0.9 0.9 0.9"
+        "AbilityCastPoint"              "0.5 0.5 0.5 0.5"
 
         // Time     
         //-------------------------------------------------------------------------------------------------------------
-        "AbilityCooldown"               "12 11 11 10"
+        "AbilityCooldown"               "15 14 13 10"
 
         // Cost
         //-------------------------------------------------------------------------------------------------------------
@@ -525,7 +525,7 @@
 
         // General
         //-------------------------------------------------------------------------------------------------------------
-        "AbilityBehavior"               "DOTA_ABILITY_BEHAVIOR_POINT"
+        "AbilityBehavior"               "DOTA_ABILITY_BEHAVIOR_NO_TARGET"
         "AbilityUnitDamageType"         "DAMAGE_TYPE_PHYSICAL"  
  
 		"precache"
@@ -540,7 +540,7 @@
 
         // Time     
         //-------------------------------------------------------------------------------------------------------------
-        "AbilityCooldown"               "1 1 1 1"
+        "AbilityCooldown"               "2 2 2 2"
 
         // Cost
         //-------------------------------------------------------------------------------------------------------------
@@ -551,6 +551,94 @@
         "AbilitySpecial"
 		{
 
+		}
+    }
+
+    //=================================================================================================================
+    // Timber: chain_map_edge
+    //=================================================================================================================
+    "chain_map_edge"
+    { 
+        "BaseClass"                     "ability_lua"
+        "ScriptFile"                    "bosses/timber/chain_map_edge"
+
+        // General
+        //-------------------------------------------------------------------------------------------------------------
+        "AbilityBehavior"               "DOTA_ABILITY_BEHAVIOR_NO_TARGET"
+        "AbilityUnitDamageType"         "DAMAGE_TYPE_PHYSICAL"  
+
+        "precache"
+		{
+			"soundfile"	"soundevents/game_sounds_heroes/game_sounds_shredder.vsndevts"
+			"particle"	"particles/units/heroes/hero_shredder/shredder_timberchain.vpcf"
+			"particle"	"particles/units/heroes/hero_shredder/shredder_timber_dmg.vpcf"
+		}
+
+        // Casting
+        //-------------------------------------------------------------------------------------------------------------
+        "AbilityCastPoint"              "0.2 0.2 0.2 0.2"
+        "AbilityCastRange"				"10000 10000 10000 10000"
+
+        // Time     
+        //-------------------------------------------------------------------------------------------------------------
+        "AbilityCooldown"               "80 80 80 80"
+
+        // Cost
+        //-------------------------------------------------------------------------------------------------------------
+        "AbilityManaCost"               "0"
+
+		// Damage
+		//-------------------------------------------------------------------------------------------------------------
+
+		// Special
+		//-------------------------------------------------------------------------------------------------------------
+		"AbilitySpecial"
+		{
+			"01"
+			{
+				"var_type"			"FIELD_INTEGER"
+				"chain_radius"		"100 100 100 100"
+			}
+			"02"
+			{
+				"var_type"			"FIELD_INTEGER"
+				"range"				"10000 10000 10000 10000"
+			}
+			"03"
+			{
+				"var_type"			"FIELD_INTEGER"
+				"radius"		    "225 225 225 225"
+			}
+			"04"
+			{	
+				"var_type"			"FIELD_INTEGER"
+				"speed"				"2000 2500 3000 3500"
+			}
+			"05"
+			{	
+				"var_type"			"FIELD_INTEGER"
+				"damage"			"100 100 100 100"
+			}
+            "06"
+			{
+				"var_type"			"FIELD_INTEGER"
+				"wd_radius"		    "300 300 300 300"
+			}
+			"07"
+			{
+				"var_type"			"FIELD_INTEGER"
+				"wd_damage"		    "100 100 100 100"
+			}
+			"08"
+			{	
+				"var_type"			"FIELD_INTEGER"
+				"wd_duration"		"1 2 3 4"
+			}
+			"09"
+			{	
+				"var_type"			"FIELD_INTEGER"
+				"wd_tree_damage"	"2 2 2 2"
+			}
 		}
     }
 }

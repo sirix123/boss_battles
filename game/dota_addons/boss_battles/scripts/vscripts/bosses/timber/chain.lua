@@ -10,7 +10,7 @@ function chain:OnAbilityPhaseStart()
             self:GetCaster():GetTeamNumber(),	-- int, your team number
             self:GetCaster():GetOrigin(),	-- point, center point
             nil,	-- handle, cacheUnit. (not known)
-            5000,	-- float, radius. or use FIND_UNITS_EVERYWHERE
+            3000,	-- float, radius. or use FIND_UNITS_EVERYWHERE
             DOTA_UNIT_TARGET_TEAM_ENEMY,
             DOTA_UNIT_TARGET_ALL,
             DOTA_UNIT_TARGET_FLAG_NONE,	-- int, flag filter

@@ -156,7 +156,7 @@ end
 ------------------------------------------------------------------------------------------------
 
 function fire_shell:OnProjectileThink(vLocation)
-	GridNav:DestroyTreesAroundPoint( vLocation, self.destroy_tree_radius, true )
+	--GridNav:DestroyTreesAroundPoint( vLocation, self.destroy_tree_radius, true )
 	--DebugDrawCircle(vLocation, Vector(0,255,255), 128, 150, true, 60)
 end
 ------------------------------------------------------------------------------------------------

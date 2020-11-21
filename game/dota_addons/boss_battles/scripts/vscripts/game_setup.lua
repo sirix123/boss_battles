@@ -33,6 +33,8 @@ function GameSetup:init()
 	GameRules:SetGoldTickTime( 999999.0 )
     GameRules:SetGoldPerTick( 0 )
 
+    GameRules:SetTreeRegrowTime(30)
+
     GameRules:SetHideKillMessageHeaders(true)
     GameRules:SetUseUniversalShopMode(false)
 
@@ -220,7 +222,7 @@ function GameSetup:RegisterRaidWipe( )
 
     Timers:CreateTimer(function()
 
-        if #self.player_deaths == HeroList:GetHeroCount() then
+        if #self.player_deaths == #HERO_LIST then
             Timers:CreateTimer(5.0, function()
 
                 -- revive and move dead heroes
@@ -330,7 +332,7 @@ function GameSetup:OnEntityKilled(keys)
 
             Timers:CreateTimer(2.0, function()
                 -- clean up enounter
-                self:EncounterCleanUp( self.beastmasterBossSpawn )
+                self:EncounterCleanUp( self.boss_spawn )
             end)
 
         end
@@ -495,6 +497,15 @@ end
 function GameSetup:EncounterCleanUp( origin )
     if origin == nil then return end
 
+    GameRules:SetTreeRegrowTime( 1.0 )
+
+    --[[local trees = GridNav:GetAllTreesAroundPoint( origin, 9000, false )
+    for _,tree in pairs(trees) do
+        if tree:IsStanding() == false then
+            tree:GrowBack()
+        end
+    end]]
+
     --set boss nil and disable the bossFrame
     if boss ~= nil then
         boss = nil
@@ -515,7 +526,8 @@ function GameSetup:EncounterCleanUp( origin )
 
     if units ~= nil then
         for _, unit in pairs(units) do
-            unit:ForceKill(false)
+            --unit:ForceKill(false)
+            unit:RemoveSelf()
         end
     end
 

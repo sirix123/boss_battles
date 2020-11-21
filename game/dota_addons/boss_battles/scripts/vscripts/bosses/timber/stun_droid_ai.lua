@@ -3,6 +3,7 @@ stun_droid_ai = class({})
 
 LinkLuaModifier( "droid_colour_modifier_blue", "bosses/timber/droid_colour_modifier_blue", LUA_MODIFIER_MOTION_NONE )
 LinkLuaModifier( "blue_droid_death_modifier", "bosses/timber/blue_droid_death_modifier", LUA_MODIFIER_MOTION_NONE )
+LinkLuaModifier("modifier_flying_movement_ground", "core/modifier_flying_movement_ground", LUA_MODIFIER_MOTION_NONE)
 
 --------------------------------------------------------------------------------
 
@@ -14,6 +15,7 @@ function Spawn( entityKeyValues )
 	--thisEntity:AddNewModifier( nil, nil, "modifier_phased", { duration = -1 })
 	thisEntity:AddNewModifier(thisEntity, self, "droid_colour_modifier_blue", {duration = 9000})
 	thisEntity:AddNewModifier( nil, nil, "modifier_phased", { duration = -1 })
+	thisEntity:AddNewModifier( nil, nil, "modifier_flying_movement_ground", { duration = -1 })
 	thisEntity:AddNewModifier( nil, nil, "blue_droid_death_modifier", { duration = -1 })
 
 	thisEntity.target = nil
@@ -45,8 +47,6 @@ function DroidThink()
 	--end
 
 	if ( thisEntity:GetAbsOrigin() - thisEntity.approach_target:GetAbsOrigin() ):Length2D() < 200 and thisEntity.stun_droid_zap:IsCooldownReady() and thisEntity.stun_droid_zap:IsInAbilityPhase() == false then
-		--print("casting spell")
-		--return CastZap()
 		thisEntity:ForceKill(false)
 	end
 

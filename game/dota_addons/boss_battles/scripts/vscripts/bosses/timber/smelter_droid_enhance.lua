@@ -26,7 +26,7 @@ function smelter_droid_enhance:OnSpellStart()
 		0,	-- int, order filter
 		false	-- bool, can grow cache
     )
-    
+
     -- find friendly boss
     for _, friend in pairs(friendlies) do
 		-- check if already hit

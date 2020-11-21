@@ -102,9 +102,8 @@
 		{
 			_class = "C_INIT_RandomRotation"
 			m_flDegreesMax = 0.0
-			m_flDegrees = 100.0
-			m_nFieldOutput = 20
-			m_bDisableOperator = true
+			m_flDegrees = -20.0
+			m_nFieldOutput = 12
 		},
 	]
 	m_Operators = 
@@ -142,7 +141,7 @@
 		},
 		{
 			_class = "C_OP_RemapVelocityToVector"
-			m_nFieldOutput = 21
+			m_nFieldOutput = "21"
 			m_bNormalize = true
 		},
 		{

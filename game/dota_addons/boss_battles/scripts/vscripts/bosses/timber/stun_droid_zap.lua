@@ -33,7 +33,8 @@ end
 function stun_droid_zap:PlayEffects()
 
     local particle_cast = "particles/timber/droid_stun_sven_spell_gods_strength.vpcf"
-    local sound_cast = "Hero_StormSpirit.Attack"
+    --local sound_cast = "Hero_StormSpirit.Attack"
+    local sound_cast = "Hero_StormSpirit.StaticRemnantPlant"
 
     local effect_cast = ParticleManager:CreateParticle( particle_cast, PATTACH_ABSORIGIN_FOLLOW, self:GetCaster() )
     ParticleManager:ReleaseParticleIndex( effect_cast )

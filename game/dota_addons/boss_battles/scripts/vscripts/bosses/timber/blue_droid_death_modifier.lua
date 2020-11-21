@@ -58,6 +58,12 @@ function blue_droid_death_modifier:OnDestroy()
                 false
             )
 
+    local particle_cast = "particles/timber/droid_stun_sven_spell_gods_strength.vpcf"
+    local sound_cast = "Hero_StormSpirit.StaticRemnantPlant"
+    local effect_cast = ParticleManager:CreateParticle( particle_cast, PATTACH_ABSORIGIN_FOLLOW, self:GetParent() )
+    ParticleManager:ReleaseParticleIndex( effect_cast )
+    EmitSoundOn( sound_cast, self:GetParent() )
+
     --self:PlayEffects()
 end
 

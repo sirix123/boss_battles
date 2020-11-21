@@ -72,6 +72,7 @@ function blast_wave:OnSpellStart()
         self.duration = self:GetSpecialValueFor( "duration" )
         self.damage_1 = self:GetSpecialValueFor( "damage_1" )
         self.damage_2 = self:GetSpecialValueFor( "damage_2" )
+        local offset = 150
 
         self:GetCaster():SetForwardVector(self.vTargetPos)
         self:GetCaster():FaceTowards(self.vTargetPos)
@@ -90,8 +91,8 @@ function blast_wave:OnSpellStart()
         local hProjectile = {
             Source = self.caster,
             Ability = self,
-            vSpawnOrigin = origin,
-            bDeleteOnHit = true,
+            vSpawnOrigin = origin + self.caster:GetForwardVector() * offset,
+            bDeleteOnHit = false,
             iUnitTargetTeam = DOTA_UNIT_TARGET_TEAM_ENEMY,
             iUnitTargetFlags = DOTA_UNIT_TARGET_FLAG_NONE,
             iUnitTargetType = DOTA_UNIT_TARGET_HERO + DOTA_UNIT_TARGET_BASIC,
