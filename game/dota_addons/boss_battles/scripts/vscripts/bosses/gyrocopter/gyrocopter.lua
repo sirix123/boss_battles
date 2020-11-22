@@ -28,8 +28,13 @@ function Spawn( entityKeyValues )
 	
 	thisEntity:SetContextThink( "AbilityQueue", AbilityQueue, 0.1)
 
+	--old AI:
 	--thisEntity:SetContextThink( "MainThinker", MainThinker, 1 )
-	-- thisEntity:SetContextThink( "GyroAI1", GyroAI1, 1 )
+
+	-- new AI v2 just barrage and rockets:
+	--thisEntity:SetContextThink( "GyroAI1", GyroAI1, 1 )
+	
+	-- new AI v1: whole boss fight.
 	thisEntity:SetContextThink( "GyroAI2", GyroAI2, 1 )
 
 	--disable attacks.
@@ -153,12 +158,12 @@ function CurrentTestCode()
 end
 
 
-
-
 local dt = 1
 local tickCount = 0
+local cooldownStepTime = 7 -- seconds
+local cooldownStepCount = 0
+-- gyro AI1 does 
 function GyroAI1()
-	print ("GyroAI1 called")
 	--Check certain game states and return early if needed
 	if not IsServer() then return end
 	if ( not thisEntity:IsAlive() ) then return -1 end
@@ -166,16 +171,39 @@ function GyroAI1()
 
 	tickCount = tickCount+1
 
-		--Fight initial sequence:
-		--suck players in. 
-		-- then Barrage
-		-- then rockets. 
-		-- begin main loop
+	-- every cooldownStepTime seconds, check if we should cast an ability
+	-- cooldownStepTime-1 so this fires immediately, then every cooldownStepTime'th (e.g 7th) second
+	if (tickCount + (cooldownStepTime-1)) % cooldownStepTime == 0 then
+		cooldownStepCount = cooldownStepCount +1
+		print("cooldown. Step ", cooldownStepCount)
 
+		-- BARRAGE. Happens every 3rd tick so use % 3.
+		-- want this to happen on the first tick, so (cooldownStepCount+2) so that modulus check fires on first tick
+		if (cooldownStepCount + 2 ) % 3 == 0 then
+			print("casting barrage")
+			Barrage()
+		end
+		
+		-- PULSE rockets. Happens every 2nd tick. use % 2
+		-- but I want this to first fire on the third tick. so cooldownStepCount -1, 
+		-- > 2 prevents firing early when cooldownStepCount -1 == 0. whats 0 % 2?
+		if cooldownStepCount > 2 and (cooldownStepCount -1) % 2 == 0 then
+			print("casting NewRadarPulse")
+			NewRadarPulse()
+		end
+	end
 
-	--main loop: 1, from drawing on paper. 
+	--Auto attack closest enemy is no other action is happening:
+	if not _G.IsGyroBusy then
+		local enemies = FindUnitsInRadius(DOTA_TEAM_BADGUYS, thisEntity:GetAbsOrigin(), nil, 3000,
+		DOTA_UNIT_TARGET_TEAM_ENEMY, DOTA_UNIT_TARGET_ALL, DOTA_UNIT_TARGET_FLAG_NONE, FIND_CLOSEST, false )
+		if #enemies > 0 then
+			_G.whirlwindTargets[#_G.whirlwindTargets +1] = enemies[1]
+			AddToAbilityQueue(thisEntity.gyro_base_attack, DOTA_UNIT_ORDER_CAST_NO_TARGET, nil, false, nil)			
+		end
+	end
+
 	return dt
-
 end
 
 
@@ -444,12 +472,12 @@ end
 
 function Barrage()
 	--melee first and then ranged.
-	AddToAbilityQueue(thisEntity.rocket_barrage_melee, DOTA_UNIT_ORDER_CAST_NO_TARGET, nil, false, "gyrocopter_gyro_attack_01")
+	AddToAbilityQueue(thisEntity.rocket_barrage_melee, DOTA_UNIT_ORDER_CAST_NO_TARGET, nil, false, nil)
 	--2.5 seconds delayed, run once
 	Timers:CreateTimer({
 		endTime = 3.5, -- when this timer should first execute, you can omit this if you want it to run first on the next frame
 		callback = function()
-			AddToAbilityQueue(thisEntity.rocket_barrage_ranged, DOTA_UNIT_ORDER_CAST_NO_TARGET, nil, false, "gyrocopter_gyro_attack_01")
+			AddToAbilityQueue(thisEntity.rocket_barrage_ranged, DOTA_UNIT_ORDER_CAST_NO_TARGET, nil, false, nil)
 		end
 	})
 end	
@@ -475,6 +503,10 @@ function NewWhirlWind()
 	local minSpeed = 0.05
 	local maxSpeed = 45
 	local rotationSpeed = minSpeed
+
+	-- "gyrocopter_gyro_move_07" "Rotating!"
+	-- "gyrocopter_gyro_attack_05" "gyrocopter: Turn and burn!"
+	thisEntity:EmitSound("gyrocopter_gyro_attack_05")
 
 	Timers:CreateTimer(function()
 		currentTick = currentTick + 1
@@ -579,6 +611,9 @@ local normalMs = 300
 function WhirlWind(pushEnemyAway)
 	_G.IsGyroBusy = true
 
+	-- "gyrocopter_gyro_attack_15" "gyrocopter: C'mere you!"
+	thisEntity:EmitSound("gyrocopter_gyro_attack_15")
+
 	--print("WhirlWind() called")
 	thisEntity:SetBaseMoveSpeed(flyingMs)
 	
@@ -604,6 +639,29 @@ function WhirlWind(pushEnemyAway)
 	-- print("totalTicks = ", totalTicks)
 
 	Timers:CreateTimer(function()
+		currentTick = currentTick +1
+
+		-- during whirlwind play these:
+		-- "gyrocopter_gyro_move_29" "gyrocopter: Meeeeoooooooowwwwnnn!"
+		-- "gyrocopter_gyro_move_30" "gyrocopter: Eeeooooownnn!"
+		-- "gyrocopter_gyro_move_31" "gyrocopter: Sshhhhhhzzzoooo!"
+		-- "gyrocopter_gyro_move_32" "gyrocopter: Mmmmmw!"
+		if (totalTicks / 4) == currentTick then
+			thisEntity:EmitSound("gyrocopter_gyro_move_29")
+		end
+		--HACK: coz totalTicks / 3 isn't a whole number. it's 46.666666667
+		--if (totalTicks / 3) == currentTick then
+		if currentTick == 47 then
+			thisEntity:EmitSound("gyrocopter_gyro_move_30")
+		end
+		if (totalTicks / 2) == currentTick then
+			thisEntity:EmitSound("gyrocopter_gyro_move_31")
+		end
+		if currentTick == 100 then 
+			thisEntity:EmitSound("gyrocopter_gyro_move_32")
+		end
+
+
 		--start casting CallDown before the end of whirlwind
 		local cooldownLeadTime = 3 / tickInterval --ticks in 3 seconds
 		if currentTick + cooldownLeadTime == totalTicks then
@@ -641,7 +699,6 @@ function WhirlWind(pushEnemyAway)
 
 		--update ability model
 		length = length + lengthIncrement
-		currentTick = currentTick +1
 		velocity = velocity + velocityIncrement
 		thisEntity:SetBaseMoveSpeed(flyingMs+velocity)
 
@@ -879,6 +936,12 @@ function NewRadarPulse()
 	-- print("NewRadarPulse(), setting IsGyroBusy true")
 	-- _G.IsGyroBusy = true	
 
+	-- "gyrocopter_gyro_attack_09" "gyrocopter: I have visual!"
+	-- "gyrocopter_gyro_attack_10" "gyrocopter: Hostile identified."
+	local sound1 = "gyrocopter_gyro_attack_09"
+	local sound2 = "gyrocopter_gyro_attack_10"
+	-- thisEntity:EmitSound(abilityQueue[1].sound)
+
 	local radius = 200
 	local endRadius = 2000
 	local radiusGrowthRate = 25
@@ -902,6 +965,12 @@ function NewRadarPulse()
 		DebugDrawCircle(origin, Vector(255,0,0), currentAlpha, radius, true, frameDuration*2)		
 		DebugDrawCircle(origin, Vector(255,0,0), 0, radius-1, true, frameDuration*2) --draw same thing, radius-1, for double thick line/circle edge
 
+
+		--HACK: to implement some delay, play this sound after a second or two of the spell starting
+		if currentAlpha == 50 then
+			thisEntity:EmitSound(sound2)
+		end
+
 		--check for hits. Maybe don't do this every single tick... but every nth to reduce compute
 		local enemies = FindUnitsInRadius(DOTA_TEAM_BADGUYS, thisEntity:GetAbsOrigin(), nil, radius,
 		DOTA_UNIT_TARGET_TEAM_ENEMY, DOTA_UNIT_TARGET_ALL, DOTA_UNIT_TARGET_FLAG_NONE, FIND_CLOSEST, false )
@@ -909,6 +978,9 @@ function NewRadarPulse()
 		for _,enemy in pairs(enemies) do -- if this enemy has already been hit. only "hit" each enemy once
 			if Contains(enemiesDetected, enemy) then -- do nothing. this gets called every tick after the first tick that detects an enemy
 			else
+
+
+
 				-- enemy detected for the first time this pulse. Gets called once for this Timer
 				enemiesDetected[enemy] = true --little hack so Contains(enemiesDetected,enemy) works 
 				--Update any existing missiles with this new location.
@@ -927,7 +999,7 @@ function NewRadarPulse()
 					_G.ActiveHomingMissiles[#_G.ActiveHomingMissiles].Enemy = enemy
 					_G.ActiveHomingMissiles[#_G.ActiveHomingMissiles].Location = shallowcopy(enemy:GetAbsOrigin())	
 					--Shoot a homing missile at this target:
-					AddToAbilityQueue(thisEntity.homing_missile, DOTA_UNIT_ORDER_CAST_TARGET, enemy, false, "gyrocopter_gyro_attack_01")
+					AddToAbilityQueue(thisEntity.homing_missile, DOTA_UNIT_ORDER_CAST_TARGET, enemy, false, nil)
 			end
 		end
 		return frameDuration

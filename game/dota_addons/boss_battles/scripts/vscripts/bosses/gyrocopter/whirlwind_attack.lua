@@ -46,7 +46,6 @@ function whirlwind_attack:OnSpellStart()
 	else
 		print("whirlwind_attack cast, but no targets found in _G.whirlwindTargets")
 	end
-
 end
 
 

@@ -17,6 +17,8 @@ local displayDebug = true
 function rocket_barrage_ranged:OnSpellStart()
 	_G.IsGyroBusy = true
 
+	EmitSoundOn( "gyrocopter_gyro_rocket_barrage_05", self:GetCaster() )
+
 	local caster = self:GetCaster()
 	local particle = "particles/gyrocopter/gyro_rocket_barrage.vpcf"
 	--Run a timer for spellDuration
@@ -32,7 +34,6 @@ function rocket_barrage_ranged:OnSpellStart()
 
 		--check if we've reached the end of the spell
 		if tickCount >= tickLimit then
-			print("BarrageRanged ended. setitng _G.IsGyroBusy = false")
 			_G.IsGyroBusy = false
 			return
 		 end

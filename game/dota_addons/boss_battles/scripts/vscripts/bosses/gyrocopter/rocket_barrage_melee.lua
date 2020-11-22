@@ -16,6 +16,8 @@ local displayDebug = true
 function rocket_barrage_melee:OnSpellStart()
 	_G.IsGyroBusy = true
 
+	EmitSoundOn( "gyrocopter_gyro_rocket_barrage_01", self:GetCaster() )
+
 	local caster = self:GetCaster()
 	local particle = "particles/gyrocopter/gyro_rocket_barrage.vpcf"
 
