@@ -37,6 +37,18 @@
         "AbilityCooldown"               "0.0"
         "AbilityManaCost"               "0"
     }
+    "whirlwind_attack"
+    { 
+        "BaseClass"                     "ability_lua"
+        "ScriptFile"                    "bosses/gyrocopter/whirlwind_attack"
+
+        "AbilityBehavior"               "DOTA_ABILITY_BEHAVIOR_NO_TARGET"
+        "AbilityUnitDamageType"         "DAMAGE_TYPE_PHYSICAL"  
+
+        "AbilityCastPoint"              "0.0"
+        "AbilityCooldown"               "0.0"
+        "AbilityManaCost"               "0"
+    }
 
     //=================================================================================================================
     // Gyrocopter: Radar Scan
@@ -226,8 +238,10 @@
 
         // General
         //-------------------------------------------------------------------------------------------------------------
-        "AbilityBehavior"               "DOTA_ABILITY_BEHAVIOR_POINT | DOTA_ABILITY_BEHAVIOR_AOE | DOTA_ABILITY_BEHAVIOR_IMMEDIATE"
+        "AbilityBehavior"               "DOTA_ABILITY_BEHAVIOR_AOE | DOTA_ABILITY_BEHAVIOR_POINT"
         "AbilityUnitDamageType"         "DAMAGE_TYPE_PHYSICAL"  
+        "AbilityUnitTargetTeam"         "DOTA_UNIT_TARGET_TEAM_BOTH"
+        "AbilityUnitTargetType"         "DOTA_UNIT_TARGET_HERO | DOTA_UNIT_TARGET_BASIC"
  
         "precache"
         {
@@ -235,6 +249,7 @@
 
         // Casting
         //-------------------------------------------------------------------------------------------------------------
+        "AbilityCastRange"              "9000"
         "AbilityCastPoint"               "0 0 0 0"
 
         // Time     

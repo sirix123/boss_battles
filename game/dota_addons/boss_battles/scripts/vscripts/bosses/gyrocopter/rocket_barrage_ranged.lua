@@ -9,23 +9,40 @@ local tickLimit = spellDuration / tickDuration
 local totalDamage = 300
 local tickDamage = totalDamage / tickLimit
 local radius = 400 -- hit every unit beyond this radius. ignore units within this radius
+local maxRadius = 4000 -- big enough to cover whole arena, but not big enough to hit units outside of arena
+
+local displayDebug = true
 
 --Rocket barrage targets all enemies in the radius and distributes tickDamage amongst them every tickDuration.
 function rocket_barrage_ranged:OnSpellStart()
+	_G.IsGyroBusy = true
+
 	local caster = self:GetCaster()
 	local particle = "particles/gyrocopter/gyro_rocket_barrage.vpcf"
 	--Run a timer for spellDuration
+
+	if displayDebug then 
+		DebugDrawCircle(caster:GetAbsOrigin(), Vector(0,255,0), 96, radius, true, tickDuration*2) -- melee is green
+		DebugDrawCircle(caster:GetAbsOrigin(), Vector(255,0,0), 64, radius*5, true, tickDuration*2) -- ranged is red
+	end
+
 	local tickCount = 0
 	Timers:CreateTimer(function()	
 		tickCount = tickCount + 1
 
 		--check if we've reached the end of the spell
-		if tickCount >= tickLimit then return end
+		if tickCount >= tickLimit then
+			print("BarrageRanged ended. setitng _G.IsGyroBusy = false")
+			_G.IsGyroBusy = false
+			return
+		 end
+
+
 
 		--Get nearby enemies
 		local inRadiusenemies = FindUnitsInRadius(DOTA_TEAM_BADGUYS, caster:GetAbsOrigin(), nil, radius,
 		DOTA_UNIT_TARGET_TEAM_ENEMY, DOTA_UNIT_TARGET_ALL, DOTA_UNIT_TARGET_FLAG_NONE, FIND_CLOSEST, false )
-		local allEnemies = FindUnitsInRadius(DOTA_TEAM_BADGUYS, caster:GetAbsOrigin(), nil, FIND_UNITS_EVERYWHERE,
+		local allEnemies = FindUnitsInRadius(DOTA_TEAM_BADGUYS, caster:GetAbsOrigin(), nil, maxRadius,
 		DOTA_UNIT_TARGET_TEAM_ENEMY, DOTA_UNIT_TARGET_ALL, DOTA_UNIT_TARGET_FLAG_NONE, FIND_CLOSEST, false )
 		local beyondRadiusEnemies = {}
 

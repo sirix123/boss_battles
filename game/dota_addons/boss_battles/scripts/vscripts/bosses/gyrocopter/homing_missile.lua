@@ -90,6 +90,12 @@ function homing_missile:InitialiseRocket(velocity, acceleration, detonationRadiu
     local tickCount = 0
     Timers:CreateTimer(function()     		
     		tickCount = tickCount +1
+			
+			--DEBUG DRAW:
+			if displayDebug then
+				DebugDrawCircle(rocket.target_lastKnownLocation, Vector(255,0,0), 128, 10, true, tracking_interval)
+			end
+
 			--need to delay 3 seconds for the 'prepare' animation the missile does
 			local waitAmount = 3.2 / tracking_interval  
 			if tickCount < waitAmount then
@@ -103,10 +109,7 @@ function homing_missile:InitialiseRocket(velocity, acceleration, detonationRadiu
 			missile:SetForwardVector(rocket.direction)
 			distance = (rocket.target_lastKnownLocation - rocket.location):Length2D()
 
-			--DEBUG DRAW:
-			if displayDebug then
-				DebugDrawCircle(rocket.target_lastKnownLocation, Vector(255,0,0), 128, 10, true, tracking_interval)
-			end
+
 
 			--ROCKET NEAR TARGET:
 			if distance < detonationRadius * 1.5 then
@@ -115,6 +118,11 @@ function homing_missile:InitialiseRocket(velocity, acceleration, detonationRadiu
 			end
 			--ROCKET "HIT"(near enough to be considered collision) TARGET:
     		if ( distance < detonationRadius  ) then
+    			--DEBUG draw, replace with explosion particle
+    			if displayDebug then
+					DebugDrawCircle(missile:GetAbsOrigin(), Vector(255,0,0), 128, aoeRadius, true, tracking_interval *3)
+				end
+    			
 				local enemies = FindUnitsInRadius(DOTA_TEAM_BADGUYS, rocket.location, nil, aoeRadius,
 				DOTA_UNIT_TARGET_TEAM_ENEMY, DOTA_UNIT_TARGET_ALL, DOTA_UNIT_TARGET_FLAG_NONE, FIND_CLOSEST, false )
 				for _,enemy in pairs(enemies) do 
@@ -128,9 +136,6 @@ function homing_missile:InitialiseRocket(velocity, acceleration, detonationRadiu
 						ability = self,
 					}
 					ApplyDamage(damageInfo)
-
-	    			--DEBUG draw, replace with explosion particle
-    				DebugDrawCircle(missile:GetAbsOrigin(), Vector(255,0,0), 128, aoeRadius, true, tracking_interval *2)
 
 					--Particle effect on enemy hit by rocket.
 					local p = ParticleManager:CreateParticle( "particles/econ/items/bloodseeker/bloodseeker_eztzhok_weapon/bloodseeker_bloodbath_eztzhok_burst.vpcf", PATTACH_POINT, rocket.target )

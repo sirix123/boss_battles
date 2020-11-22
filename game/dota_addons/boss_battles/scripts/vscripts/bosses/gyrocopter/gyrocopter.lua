@@ -7,26 +7,9 @@ LinkLuaModifier( "flak_cannon_modifier", "bosses/gyrocopter/flak_cannon_modifier
 --GLOBALS:
 --Tracking variables across multiple gyro abilities:
 _G.ActiveHomingMissiles = {}
-
---Cooldowns:
---no longer used in current impl
-local COOLDOWN_RADARSCAN = 8 --change this variable as he learns new radar scans 
-local COOLDOWN_RB_FC = 13 --RocketBarrage or FlakCannon cooldown. They share a cooldown, he does one or the other. 
-local COOLDOWN_WHIRLWIND = 75
-
--- Setup vars for tracking which Radar Spell to use. 
-local RADAR_SPELL = 2 
-local RADAR_SCAN = 1
-local RADAR_PULSE = 2
-local RadarPulse2 = 3
-local RocketRadarPulse = 4
+_G.IsGyroBusy = false
 
 local displayDebug = true
-
-local whirlWindDuration = 20 -- seconds
-local radarPulseDuration = 6
-local barrageDuration = 4
-local radarScanDuration = 8
 
 -- On Spawn, init any vars, start MainThinker
 function Spawn( entityKeyValues )
@@ -40,9 +23,14 @@ function Spawn( entityKeyValues )
 	thisEntity.rocket_barrage_ranged = thisEntity:FindAbilityByName( "rocket_barrage_ranged" )
 
 	thisEntity.call_down = thisEntity:FindAbilityByName( "call_down" )
-	--TODO: if any of these are nil, we got a problem
-	thisEntity:SetContextThink( "MainThinker", MainThinker, 1 )
+	
+	thisEntity.whirlwind_attack = thisEntity:FindAbilityByName("whirlwind_attack")
+	
 	thisEntity:SetContextThink( "AbilityQueue", AbilityQueue, 0.1)
+
+	--thisEntity:SetContextThink( "MainThinker", MainThinker, 1 )
+	-- thisEntity:SetContextThink( "GyroAI1", GyroAI1, 1 )
+	thisEntity:SetContextThink( "GyroAI2", GyroAI2, 1 )
 
 	--disable attacks.
 	thisEntity:SetAttackCapability(0) --set to DOTA_UNIT_CAP_NO_ATTACK.
@@ -50,9 +38,7 @@ end
 
 
 local abilityQueue = {}
-local tickDelay = 1 -- was working good on 1, but whirlwind needs way faster
 local tickDelay = 0.01 -- TESTING: whirlwild needs to cast 10s of abilities every second
-local isBusy = false
 --abilityQueue structure:
 --abilityQueue[1].ability = ability
 --abilityQueue[1].orderType = DOTA_UNIT_ORDER_CAST_TARGET
@@ -61,7 +47,14 @@ local isBusy = false
 -- OrderType = DOTA_UNIT_ORDER_CAST_TARGET,
 function AbilityQueue()
 	-- gyro should set isBusy flag whenever doing something you don't want
-	if isBusy then return end
+	if _G.IsGyroBusy and #abilityQueue > 0 then
+		-- print("gyro is busy. #abilityQueue = ",#abilityQueue)
+	end
+
+	if _G.IsGyroBusy then
+	 	
+	 	return tickDelay * 50
+	end
 
 	--check if anything in the queue
 	if #abilityQueue > 0 then
@@ -71,22 +64,32 @@ function AbilityQueue()
 
 		--with queue true. boss auto attacks will interupt and prevent spells. 
 		--so make sure you've already set: thisEntity:SetAttackCapability(0) --set to DOTA_UNIT_CAP_NO_ATTACK.
-		
+
+		-- if order type == DOTA_UNIT_ORDER_CAST_POSITION then
+		-- target is a Vector
+		-- if order type == DOTA_UNIT_ORDER_CAST_TARGET then 
+		-- target is a unit. 
 		if abilityQueue[1].target ~= nil then
 			local target = abilityQueue[1].target
-			ExecuteOrderFromTable({
-				UnitIndex = thisEntity:entindex(),
-				OrderType = orderType,
-				TargetIndex = target:entindex(),
-				AbilityIndex = abilityToCast:entindex(),
-				Queue = false, -- I want to set this to queue = true, but when the boss is attacking then this wont work
-			})
-			--print("abilityToCast:GetAbilityName() = ", abilityToCast:GetAbilityName())
-			if abilityToCast:GetAbilityName() == "homing_missile" then
-				--print("AbilityToCast == homing_missile")
-				-- TODO: add to. HomingMissileTargets
-				--_G.HomingMissileTargets[#_G.HomingMissileTargets+1] = target
-				--TODO: later with scans, update this target?
+
+			if abilityQueue[1].orderType == DOTA_UNIT_ORDER_CAST_POSITION then
+				-- thisEntity:SetCursorPosition(target)
+				ExecuteOrderFromTable({
+					UnitIndex = thisEntity:entindex(),
+					OrderType = orderType,
+					Position = target,
+					AbilityIndex = abilityToCast:entindex(),
+					Queue = false, -- I want to set this to queue = true, but when the boss is attacking then this wont work
+				})
+			end
+			if abilityQueue[1].orderType == DOTA_UNIT_ORDER_CAST_TARGET then
+				ExecuteOrderFromTable({
+					UnitIndex = thisEntity:entindex(),
+					OrderType = orderType,
+					TargetIndex = target:entindex(),
+					AbilityIndex = abilityToCast:entindex(),
+					Queue = false, -- I want to set this to queue = true, but when the boss is attacking then this wont work
+				})
 			end
 		else
 			ExecuteOrderFromTable({
@@ -136,28 +139,128 @@ function AddToAbilityQueue(ability, orderType, target, castAsap, sound)
 end
 
 function CurrentTestCode()
-	--ContinuousRadarScan()	
+	--TO TEST: confirm _G.IsGyroBusy works
+	ContinuousRadarScan() -- goes clockwise
+	
+	
+
+	--TESTED, _G.IsGyroBusy working correctly:
 	--Barrage()
-	NewWhirlWind()
+	--NewWhirlWind()
+	--NewRadarPulse()
+	--RadarScan()
 
--- effectName = "particles/custom/sirix/scan.vpcf"	
- --  	local p1Index = ParticleManager:CreateParticle(effectName, PATTACH_POINT, thisEntity)
- --  	ParticleManager:SetParticleControl(p1Index, 0, thisEntity:GetAbsOrigin())
- --  	ParticleManager:ReleaseParticleIndex(p1Index )
+end
 
-	--thisEntity:SetAttackCapability(2) -- range attack
-	--thisEntity:SetAttackCapability(0) -- no attack
 
-	--sound effect test:
-	--this format also works:
-	--thisEntity:EmitSound("Hero_Gyrocopter.FlackCannon")
-	--thisEntity:EmitSound("Hero_Gyrocopter.CallDown.Fire")
-	--this works now that i've precached the write file in addon_game_mode.lua:
-	--thisEntity:EmitSound("gyrocopter_gyro_attack_01")
 
-	-- Whirlwind-in: sucks players toward gyro, like vacuum but slower, just changing their movement vector
-	-- Whirlwind-out:
-	 --WhirlWind()
+
+local dt = 1
+local tickCount = 0
+function GyroAI1()
+	print ("GyroAI1 called")
+	--Check certain game states and return early if needed
+	if not IsServer() then return end
+	if ( not thisEntity:IsAlive() ) then return -1 end
+	if GameRules:IsGamePaused() == true then return 0.5 end
+
+	tickCount = tickCount+1
+
+		--Fight initial sequence:
+		--suck players in. 
+		-- then Barrage
+		-- then rockets. 
+		-- begin main loop
+
+
+	--main loop: 1, from drawing on paper. 
+	return dt
+
+end
+
+
+local dt = 1
+local tickCount = 0
+local sevenCount = 0
+local didJustScan = false
+local isContinuousScanRunning = false
+function GyroAI2()
+	--Check certain game states and return early if needed
+	if not IsServer() then return end
+	if ( not thisEntity:IsAlive() ) then return -1 end
+	if GameRules:IsGamePaused() == true then return 0.5 end
+
+	tickCount = tickCount+1
+
+	--TESTING:
+	--if tickCount % 10 == 0 then
+	-- if tickCount == 2 then
+	-- 	CurrentTestCode()
+	-- end
+
+	-- if tickCount % 10 == 0 then
+	-- 	CurrentTestCode()
+	-- end
+
+
+	-- queue up several ability, IsGyroBusy and abilityQueue should handle when to cast em
+	if tickCount == 2 then
+		WhirlWind()		
+	end
+	if tickCount == 15 then
+		Barrage()
+	end
+
+	-- every 7 seconds, check if we need to cast an ability
+	if tickCount % 7 == 0 then
+		sevenCount = sevenCount +1
+		--barrage every 28 seconds
+		if sevenCount % 4 == 0 then
+			Barrage()
+		end
+		--rocket every 21 seconds
+		if sevenCount % 3 == 0 then
+			NewRadarPulse()
+		end
+		--TODO at 25% enable ContinuousRadarScan() and then no longer do radarScan
+		--every 6 do either scan or whirlwind. 
+		if sevenCount % 6 == 0 then
+			if not didJustScan and not isContinuousScanRunning then
+				RadarScan()
+				didJustScan = true
+			else
+				NewWhirlWind()
+				didJustScan = false
+			end
+
+			--lvl up rocket:
+			if thisEntity.homing_missile:GetLevel() < 4 then 
+				thisEntity.homing_missile:SetLevel(thisEntity.homing_missile:GetLevel() +1)
+			end
+		end
+	end
+
+
+
+	--Auto attack closest enemy is no other action is happening:
+	if not _G.IsGyroBusy then
+		local enemies = FindUnitsInRadius(DOTA_TEAM_BADGUYS, thisEntity:GetAbsOrigin(), nil, 3000,
+		DOTA_UNIT_TARGET_TEAM_ENEMY, DOTA_UNIT_TARGET_ALL, DOTA_UNIT_TARGET_FLAG_NONE, FIND_CLOSEST, false )
+		if #enemies > 0 then
+			_G.whirlwindTargets[#_G.whirlwindTargets +1] = enemies[1]
+			AddToAbilityQueue(thisEntity.gyro_base_attack, DOTA_UNIT_ORDER_CAST_NO_TARGET, nil, false, nil)			
+		end
+	end
+
+	--ENRAGE PHASE
+	--if hp below % then start ContinuousRadarScan
+	if thisEntity:GetHealthPercent() < 25 and not isContinuousScanRunning then
+		ContinuousRadarScan()
+		isContinuousScanRunning = true
+	end
+
+
+	return dt
 end
 
 local continuousRadarScanStarted = false
@@ -174,122 +277,117 @@ function MainThinker()
 
 	tickCount = tickCount+1	
 
+	--Fight initial sequence:
+		--suck players in. 
+		-- then Barrage
+		-- then rockets. 
+		-- begin main loop
+
+	-- main loop; spells ( barrage, newWW, rocketPulse, calldownScan)
+	--cooldown / frequency:
+		-- barrage, semi freq, it lasts for 7ish seconds, so maybe every 21 seconds
+		-- newWW, less freq, lasts 10-20 seconds, so maybe every 60 seconds
+		--rocketPulse, freq (become less freq with lvlUp, it's easy to dodge early and fast to cast. Cast time 2-3 seconds, cooldown 14s?
+		--calldownScan less freq, takes maybe 5-10 seconds for spell to scan and then calldown, cast maybe every 60 seconds
+
+	if tickCount == 2 then
+		WhirlWind()
+	end
+
+
+
 
 	--TESTING:
-	--if (tickCount % 2 == 0) then
-	if (tickCount == 2) then
-		--CurrentTestCode()
-		--ContinuousRadarScan()
-	end
+	-- if (tickCount % 10 == 0) then
+	-- --if (tickCount == 5) then
+	-- 	CurrentTestCode()
+	-- 	--ContinuousRadarScan()
+	-- end
 	--Script the first x seconds to introduce the spells, then use CDs..
 
-	-- Whirlwind at the start of the fight:
-	if (tickCount == 2) then 
-		NewWhirlWind() 
-	end
-	--after newWhirlWind, radarPulse to send rockets
-	if tickCount == 4 + whirlWindDuration then 
-		NewRadarPulse() 
-	end
-	--after rockets, do barrage
-	if tickCount == 4 +whirlWindDuration + radarPulseDuration then
-		Barrage()
-	end
-	-- after barrage. do whirlwind, newRadarPulse combo again, then finally calldown scan
-	if tickCount == 4 + whirlWindDuration + radarPulseDuration + barrageDuration then 
-		NewWhirlWind()
-	end
 	
-	if tickCount == 4 + whirlWindDuration + radarPulseDuration + barrageDuration + whirlWindDuration then 
-		thisEntity.homing_missile:SetLevel(thisEntity.homing_missile:GetLevel() +1)
-		NewRadarPulse()
-	end
-	if tickCount == 4 + whirlWindDuration + radarPulseDuration + barrageDuration + whirlWindDuration + radarPulseDuration then 
-		RadarScan()
-	end
-
 	-- start this loop after the introductory sequence.
 	-- rockets, followed by Barrage or Whirlwind
-	if tickCount > 4 + whirlWindDuration + radarPulseDuration + barrageDuration + whirlWindDuration + radarPulseDuration + radarScanDuration then 
-		waitAmount = waitAmount - 1
-		if waitAmount < 1 then
-			--level up rocket. 
-			if thisEntity.homing_missile:GetLevel() < 4 then 
-				thisEntity.homing_missile:SetLevel(thisEntity.homing_missile:GetLevel() +1)
-			end
+	-- if tickCount > 4 + whirlWindDuration + radarPulseDuration + barrageDuration + whirlWindDuration + radarPulseDuration + radarScanDuration then 
+	-- 	waitAmount = waitAmount - 1
+	-- 	if waitAmount < 1 then
+	-- 		--level up rocket. 
+	-- 		if thisEntity.homing_missile:GetLevel() < 4 then 
+	-- 			thisEntity.homing_missile:SetLevel(thisEntity.homing_missile:GetLevel() +1)
+	-- 		end
 
-			--cast barrage and then x seconds afterwards cast the next ability
-			NewRadarPulse()
+	-- 		--cast barrage and then x seconds afterwards cast the next ability
+	-- 		NewRadarPulse()
 
-			--pick a spell and cast it.
-			local spellNum = RandomInt(1,2) 
-			if spellNum == 1 then
-				waitAmount = waitAmount + radarPulseDuration + barrageDuration
+	-- 		--pick a spell and cast it.
+	-- 		local spellNum = RandomInt(1,2) 
+	-- 		if spellNum == 1 then
+	-- 			waitAmount = waitAmount + radarPulseDuration + barrageDuration
 
-				Timers:CreateTimer({
-					endTime = radarPulseDuration, -- when this timer should first execute, you can omit this if you want it to run first on the next frame
-					callback = function()
-						Barrage()
-					end
-				})
-			end
-			if spellNum == 2 then
-				waitAmount = waitAmount + radarPulseDuration + whirlWindDuration
-				Timers:CreateTimer({
-					endTime = radarPulseDuration, -- when this timer should first execute, you can omit this if you want it to run first on the next frame
-					callback = function()
-						NewWhirlWind()
-					end
-				})
-			end
-		end
-	end
+	-- 			Timers:CreateTimer({
+	-- 				endTime = radarPulseDuration, -- when this timer should first execute, you can omit this if you want it to run first on the next frame
+	-- 				callback = function()
+	-- 					Barrage()
+	-- 				end
+	-- 			})
+	-- 		end
+	-- 		if spellNum == 2 then
+	-- 			waitAmount = waitAmount + radarPulseDuration + whirlWindDuration
+	-- 			Timers:CreateTimer({
+	-- 				endTime = radarPulseDuration, -- when this timer should first execute, you can omit this if you want it to run first on the next frame
+	-- 				callback = function()
+	-- 					NewWhirlWind()
+	-- 				end
+	-- 			})
+	-- 		end
+	-- 	end
+	-- end
 
 	--ENRAGE PHASE
 	--if hp below % then start ContinuousRadarScan
-	if thisEntity:GetHealthPercent() < 50 and not continuousRadarScanStarted then
-		--print("Casting ContinuousRadarScan()")
-		ContinuousRadarScan()
-		continuousRadarScanStarted = true
-	end
+	-- if thisEntity:GetHealthPercent() < 50 and not continuousRadarScanStarted then
+	-- 	--print("Casting ContinuousRadarScan()")
+	-- 	ContinuousRadarScan()
+	-- 	continuousRadarScanStarted = true
+	-- end
 
 	--initial delay isn't working how I think it is... need to debug this in excel.
-	local initialDelay = 2
-	if ( (tickCount - initialDelay ) % COOLDOWN_RADARSCAN ) == 0 then --cast repeatedly
-		--Each scan spell will be responsible for creating
-		if RADAR_SPELL == RADAR_SCAN then
-			--todo: add particle effect from stefan, still use my code to control the 'model' of the spell. replace DebugDraw with particle
-			--RadarScan()
-			--alternate between scan and pulse
-			RADAR_SPELL = RADAR_PULSE
-			return dt
-		end
-		if RADAR_SPELL == RADAR_PULSE then
-			--todo: add particle effect from stefan, still use my code to control the 'model' of the spell. replace DebugDraw with particle
-			--NewRadarPulse()
-			--alternate between scan and pulse
-			--RADAR_SPELL = RADAR_SCAN
-			return dt
-		end
-	end
+	-- local initialDelay = 2
+	-- if ( (tickCount - initialDelay ) % COOLDOWN_RADARSCAN ) == 0 then --cast repeatedly
+	-- 	--Each scan spell will be responsible for creating
+	-- 	if RADAR_SPELL == RADAR_SCAN then
+	-- 		--todo: add particle effect from stefan, still use my code to control the 'model' of the spell. replace DebugDraw with particle
+	-- 		--RadarScan()
+	-- 		--alternate between scan and pulse
+	-- 		RADAR_SPELL = RADAR_PULSE
+	-- 		return dt
+	-- 	end
+	-- 	if RADAR_SPELL == RADAR_PULSE then
+	-- 		--todo: add particle effect from stefan, still use my code to control the 'model' of the spell. replace DebugDraw with particle
+	-- 		--NewRadarPulse()
+	-- 		--alternate between scan and pulse
+	-- 		--RADAR_SPELL = RADAR_SCAN
+	-- 		return dt
+	-- 	end
+	-- end
 
-	initialDelay = 5
-	local rbRadius = 500
-	--Cast either RocketBarrage (RB) or FlakCannon(FC) based on how many units are within rbRadius range
-	if ( (tickCount - initialDelay) % COOLDOWN_RB_FC ) == 0 then --cast repeatedly
- 		local enemies = FindUnitsInRadius(DOTA_TEAM_BADGUYS, thisEntity:GetAbsOrigin(), nil, rbRadius,
- 		DOTA_UNIT_TARGET_TEAM_ENEMY, DOTA_UNIT_TARGET_ALL, DOTA_UNIT_TARGET_FLAG_NONE, FIND_CLOSEST, false )
+	-- initialDelay = 5
+	-- local rbRadius = 500
+	-- --Cast either RocketBarrage (RB) or FlakCannon(FC) based on how many units are within rbRadius range
+	-- if ( (tickCount - initialDelay) % COOLDOWN_RB_FC ) == 0 then --cast repeatedly
+ -- 		local enemies = FindUnitsInRadius(DOTA_TEAM_BADGUYS, thisEntity:GetAbsOrigin(), nil, rbRadius,
+ -- 		DOTA_UNIT_TARGET_TEAM_ENEMY, DOTA_UNIT_TARGET_ALL, DOTA_UNIT_TARGET_FLAG_NONE, FIND_CLOSEST, false )
 
- 		if #enemies > 0 then
- 			--print("Enemies nearby, casting RocketBarrage")
-			--AddToAbilityQueue(thisEntity.rocket_barrage, DOTA_UNIT_ORDER_CAST_NO_TARGET, nil, false, "gyrocopter_gyro_attack_01")
-			--AddToAbilityQueue(thisEntity.rocket_barrage, DOTA_UNIT_ORDER_CAST_NO_TARGET, nil, false, nil)
-		else
-			--print("No Enemies nearby, casting FlakCannon")
-			--AddToAbilityQueue(thisEntity.flak_cannon, DOTA_UNIT_ORDER_CAST_NO_TARGET, nil, false, "gyrocopter_gyro_attack_01")
-			--AddToAbilityQueue(thisEntity.flak_cannon, DOTA_UNIT_ORDER_CAST_NO_TARGET, nil, false, nil)
-		end
-	end
+ -- 		if #enemies > 0 then
+ -- 			--print("Enemies nearby, casting RocketBarrage")
+	-- 		--AddToAbilityQueue(thisEntity.rocket_barrage, DOTA_UNIT_ORDER_CAST_NO_TARGET, nil, false, "gyrocopter_gyro_attack_01")
+	-- 		--AddToAbilityQueue(thisEntity.rocket_barrage, DOTA_UNIT_ORDER_CAST_NO_TARGET, nil, false, nil)
+	-- 	else
+	-- 		--print("No Enemies nearby, casting FlakCannon")
+	-- 		--AddToAbilityQueue(thisEntity.flak_cannon, DOTA_UNIT_ORDER_CAST_NO_TARGET, nil, false, "gyrocopter_gyro_attack_01")
+	-- 		--AddToAbilityQueue(thisEntity.flak_cannon, DOTA_UNIT_ORDER_CAST_NO_TARGET, nil, false, nil)
+	-- 	end
+	-- end
 
 	return dt
 end	
@@ -345,10 +443,7 @@ end
 
 
 function Barrage()
-	--print("Barrage() called")
-	--TODO: need to know the duration of these spells somehow...
-	--currently it's just 3.5s for each spell.
-	--mele first and then ranged.
+	--melee first and then ranged.
 	AddToAbilityQueue(thisEntity.rocket_barrage_melee, DOTA_UNIT_ORDER_CAST_NO_TARGET, nil, false, "gyrocopter_gyro_attack_01")
 	--2.5 seconds delayed, run once
 	Timers:CreateTimer({
@@ -360,8 +455,11 @@ function Barrage()
 end	
 
 local wwsuckDuration = 7
+local whirlWindDuration = 10
 _G.whirlwindTargets = {}
 function NewWhirlWind()
+	_G.IsGyroBusy = true
+
 	--print("NewWhirlWind() called")
 	--thisEntity:SetAttackCapability(0)
 	local length = 1200
@@ -380,7 +478,10 @@ function NewWhirlWind()
 
 	Timers:CreateTimer(function()
 		currentTick = currentTick + 1
-		if currentTick >= (totalTicks - (wwsuckDuration / timerDelay) ) then return end
+		if currentTick >= totalTicks then
+			_G.IsGyroBusy = false
+			return
+		end
 
 		-- Calculate a new position based on an angle and length
 		currentRotation =  currentRotation + rotationVelocity
@@ -400,7 +501,7 @@ function NewWhirlWind()
 		end
 
 		--check if unit in line from forward vector to length
-		local enemies = FindUnitsInLine(DOTA_TEAM_BADGUYS, originZeroZ, endPoint, thisEntity, 1, DOTA_UNIT_TARGET_TEAM_ENEMY, DOTA_UNIT_TARGET_HERO + DOTA_UNIT_TARGET_BASIC, DOTA_UNIT_TARGET_FLAG_INVULNERABLE )
+		local enemies = FindUnitsInLine(DOTA_TEAM_BADGUYS, originZeroZ, endPoint, thisEntity, 1, DOTA_UNIT_TARGET_TEAM_ENEMY, DOTA_UNIT_TARGET_HERO, DOTA_UNIT_TARGET_FLAG_INVULNERABLE )
 
 		--each tick, if no enemies detected, speed up rotation rate
 		if #enemies == 0 then
@@ -447,7 +548,15 @@ function NewWhirlWind()
 		for _,enemy in pairs(enemies) do
 			-- add the enemy to the target list
 			_G.whirlwindTargets[#_G.whirlwindTargets +1] = enemy
-			AddToAbilityQueue(thisEntity.gyro_base_attack, DOTA_UNIT_ORDER_CAST_NO_TARGET, nil, false, nil)			
+
+			ExecuteOrderFromTable({
+				UnitIndex = thisEntity:entindex(),
+				OrderType = DOTA_UNIT_ORDER_CAST_NO_TARGET,
+				AbilityIndex = thisEntity.whirlwind_attack:entindex(),
+				Queue = false, -- I want to set this to queue = true, but when the boss is attacking then this wont work
+			})
+
+			--AddToAbilityQueue(thisEntity.gyro_base_attack, DOTA_UNIT_ORDER_CAST_NO_TARGET, nil, false, nil)			
 			--or.. cast it instantly because this will be happening often and fast. faster than abilityQueue
 			-- ExecuteOrderFromTable({
 			-- 	UnitIndex = thisEntity:entindex(),
@@ -468,10 +577,11 @@ local flyingMs = 600
 local normalMs = 300
 
 function WhirlWind(pushEnemyAway)
+	_G.IsGyroBusy = true
+
 	--print("WhirlWind() called")
 	thisEntity:SetBaseMoveSpeed(flyingMs)
 	
-	local maxHeight = 2000
 	local radius = 9999
 
 	local duration = wwsuckDuration -- seconds
@@ -500,6 +610,7 @@ function WhirlWind(pushEnemyAway)
 			if not pushEnemyAway then
 				--calldown on gyros current position
 				CastCallDownAt(thisEntity:GetAbsOrigin())
+				--InstantlyCastCallDownAt(thisEntity:GetAbsOrigin())
 			else 
 				--calldown in ring/aoe around gyro, but not immediately on him
 				--TODO: calldown pattern of some sort..
@@ -513,7 +624,15 @@ function WhirlWind(pushEnemyAway)
 				if thisEntity:GetAbsOrigin().z > 300 then
 					thisEntity:SetAbsOrigin(thisEntity:GetAbsOrigin() + Vector(0,0 -30))
 					return 0.05
-				else 
+				else
+					--wait a second in case still moving then unset IsGyroBusy
+					Timers:CreateTimer({
+						endTime = 0.5, -- when this timer should first execute, you can omit this if you want it to run first on the next frame
+						callback = function()
+							_G.IsGyroBusy = false 
+							return
+						end
+					})
 					return
 				end
 			end)
@@ -531,6 +650,7 @@ function WhirlWind(pushEnemyAway)
 		local radAngle = currentAngle * 0.0174532925 --angle in radians
 		local point = Vector(length * math.cos(radAngle), length * math.sin(radAngle), 0)
 		local endPoint = point + thisEntity:GetAbsOrigin()
+
 
 		-- increment z.. doesn't seem to work. Unit can't move to z axis.
 		--endPoint = endPoint + Vector(0,0,1000)
@@ -553,76 +673,23 @@ function WhirlWind(pushEnemyAway)
 	end)
 end
 
---TODO make the call_down.lua spell do this...
+
+-- TODO: stop using this and start using call_down ability	
 function CastCallDownAt(location)
-	--spell model:
-	local indicator_duration = 2
-	local tick_interval = 0.1
-	local total_ticks = indicator_duration / tick_interval
-	local current_tick = 0
-	local radius = 600
-	local current_alpha = 0
-	local alpha_growth_amount = 2
-	local current_radius = 200
-	local radius_growth_amount = (radius - current_radius) / total_ticks
+	AddToAbilityQueue(thisEntity.call_down, DOTA_UNIT_ORDER_CAST_POSITION, location, false, nil)
+end
 
-	--particles:	
-	local p1 = "particles/units/heroes/hero_gyrocopter/gyro_calldown_marker.vpcf"
-	local p2 = "particles/units/heroes/hero_gyrocopter/gyro_calldown_first.vpcf"
-	local p3 = "particles/units/heroes/hero_gyrocopter/gyro_calldown_second.vpcf"
-	--Initial marker indicator particle
-	local p1Index = ParticleManager:CreateParticle(p1, PATTACH_POINT, thisEntity)
-	ParticleManager:SetParticleControl(p1Index, 0, location)
-	ParticleManager:SetParticleControl(p1Index, 1, Vector(radius,radius,-radius))
-	ParticleManager:ReleaseParticleIndex( p1Index )
-	--first and second explosion particles
-	local calldown_first_particle = ParticleManager:CreateParticle(p2, PATTACH_WORLDORIGIN, thisEntity)
-	ParticleManager:SetParticleControl(calldown_first_particle, 0, location)
-	ParticleManager:SetParticleControl(calldown_first_particle, 1, location)
-	ParticleManager:SetParticleControl(calldown_first_particle, 5, Vector(radius, radius, radius))
-	ParticleManager:ReleaseParticleIndex(calldown_first_particle)
-	local calldown_second_particle = ParticleManager:CreateParticle(p3, PATTACH_WORLDORIGIN, thisEntity)
-	ParticleManager:SetParticleControl(calldown_second_particle, 0, location)
-	ParticleManager:SetParticleControl(calldown_second_particle, 1, location)
-	ParticleManager:SetParticleControl(calldown_second_particle, 5, Vector(radius, radius, radius))
-	ParticleManager:ReleaseParticleIndex(calldown_second_particle)
+--TODO: remove this method and implement a better abilityQueue
+function InstantlyCastCallDownAt(location)
+	--AddToAbilityQueue(thisEntity.call_down, DOTA_UNIT_ORDER_CAST_POSITION, location, false, nil)
 
-	--TODO: sounds: 
-	--EmitSoundOnClient("gyrocopter_gyro_call_down_1"..RandomInt(1, 2), self:GetCaster():GetPlayerOwner())
-
-	--TODO: extract the logic with DebugDraw in there and keep it somewhere...
-	--Call down ability: 
-	--Start a timer, while counting up display indicator animation. After indicator_duration seconds, apply particle effects, dmg enemies in radius
-	Timers:CreateTimer(function()	
-		current_tick = current_tick +1
-		current_alpha = current_alpha + alpha_growth_amount
-		current_radius = current_radius + radius_growth_amount
-		-- TODO: call down particles effects and dmg to enemies in radius
-		if current_tick >= total_ticks then
-			--TODO: particle effect on landing...
-			--DebugDrawCircle(location, Vector(255,0,0), 255, radius, true, tick_interval * 4) --remove this once particles are in
-
-			local enemies = FindUnitsInRadius( DOTA_TEAM_BADGUYS, location, nil, current_radius,  DOTA_UNIT_TARGET_TEAM_ENEMY, DOTA_UNIT_TARGET_ALL, DOTA_UNIT_TARGET_FLAG_NONE, FIND_ANY_ORDER, false )
-			for _,enemy in pairs(enemies) do
-				local damageInfo = 
-				{
-					victim = enemy, attacker = thisEntity,
-					damage = 100, --TODO: calc this / get from somewhere
-					damage_type = 4, -- TODO: get this from ability file ... 4 = DAMAGE_TYPE_PURE 
-					ability = self,
-				}
-				local dmgDealt = ApplyDamage(damageInfo)
-			end
-			return	--stop the timer 
-
-		end
-		-- Display indicator warning players spell is coming
-		--if current_tick <= total_ticks then
-			--DebugDrawCircle(location, Vector(255,0,0), current_alpha, current_radius, true, tick_interval)	
-			--DebugDrawCircle(location, Vector(255,0,0), 0, current_radius, true, tick_interval)	
-		--end
-	return tick_interval
-	end)
+	ExecuteOrderFromTable({
+		UnitIndex = thisEntity:entindex(),
+		OrderType = DOTA_UNIT_ORDER_CAST_POSITION,
+		Position = location,
+		AbilityIndex = thisEntity.call_down:entindex(),
+		Queue = false, -- I want to set this to queue = true, but when the boss is attacking then this wont work
+	})
 
 end
 
@@ -630,7 +697,6 @@ end
 
 local enemiesScannedThisRevolution = {}
 function ContinuousRadarScan()
-	print("ContinuousRadarScan() called")
 	local revolutionDuration = 5
 	local frameDuration = 0.05
 
@@ -641,7 +707,7 @@ function ContinuousRadarScan()
 	local currentAngle = startAngle
 
 
-	local radius = 1200
+	local radius = 1800
 	Timers:CreateTimer(function()
 		local origin = thisEntity:GetAbsOrigin()
 
@@ -681,11 +747,12 @@ function ContinuousRadarScan()
 				if Contains(enemiesScannedThisRevolution, enemy) then -- already hit this enemy
 					--do nothing
 				else -- first time hitting this enemy
-					if displayDebug then
-						DebugDrawCircle(enemy:GetAbsOrigin(), Vector(0,255,0), 128, 100, true, frameDuration)
-					end
+					-- if displayDebug then
+					-- 	DebugDrawCircle(enemy:GetAbsOrigin(), Vector(0,255,0), 128, 100, true, frameDuration)
+					-- end
 					enemiesScannedThisRevolution[enemy] = true --little hack so Contains works 
 					CastCallDownAt(enemy:GetAbsOrigin())
+					--InstantlyCastCallDownAt(thisEntity:GetAbsOrigin())
 				end
 			end
 
@@ -701,6 +768,9 @@ end
 
 enemiesScanned = {}
 function RadarScan()
+	-- print("RadarScan(), setting IsGyroBusy true")
+	-- _G.IsGyroBusy = true
+
 	--print("RadarScan() called")
 	--play stefan's particle:
 	-- content/dota_addons/boss_battles/particles/custom/sirix/scan.vpcf
@@ -758,9 +828,9 @@ function RadarScan()
 				if Contains(enemiesScanned, enemy) then -- already hit this enemy
 					--do nothing
 				else -- first time hitting this enemy
-					if displayDebug then
-						DebugDrawCircle(enemy:GetAbsOrigin(), Vector(0,255,0), 128, 100, true, frameDuration * 8)
-					end
+					-- if displayDebug then
+					-- 	DebugDrawCircle(enemy:GetAbsOrigin(), Vector(0,255,0), 128, 100, true, frameDuration * 8)
+					-- end
 
 					enemiesScanned[enemy] = true --little hack so Contains works 
 					scannedEnemy = {}
@@ -784,6 +854,7 @@ function RadarScan()
 						--print("radarScan hit new enemy. casting calldown at them")
 						--CALL DOWN ABILITY: un/comment if you want to use homing missile via radarScan
 						CastCallDownAt(enemy:GetAbsOrigin())
+						--InstantlyCastCallDownAt(enemy:GetAbsOrigin())
 
 						--HOMING MISSILE ABILITY: un/comment if you want to use homing missile via radarPulse
 						--Create a new entry in ActiveHomingMissiles:
@@ -805,6 +876,9 @@ end
 
 
 function NewRadarPulse()
+	-- print("NewRadarPulse(), setting IsGyroBusy true")
+	-- _G.IsGyroBusy = true	
+
 	local radius = 200
 	local endRadius = 2000
 	local radiusGrowthRate = 25
@@ -821,6 +895,7 @@ function NewRadarPulse()
 			radius = radius + radiusGrowthRate
 		else --else, last frame. Flash the circle one last time with higher alpha
 			DebugDrawCircle(origin, Vector(255,0,0), 128, radius, true, frameDuration*2)
+			_G.IsGyroBusy = false	
 			return
 		end
 		--draw 

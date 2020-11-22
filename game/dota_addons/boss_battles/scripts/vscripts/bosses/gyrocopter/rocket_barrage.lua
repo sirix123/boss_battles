@@ -66,6 +66,7 @@ function rocket_barrage:OnSpellStart()
 		--check if we've reached the end of the spell
 		if tickCount >= tickLimit then
 			--print("tickCount >= tickLimit. Returning.")
+			_G.IsGyroBusy = false
 			return 
 		end
 

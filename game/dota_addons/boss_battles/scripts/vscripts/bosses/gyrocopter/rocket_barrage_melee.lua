@@ -10,17 +10,32 @@ local totalDamage = 300
 local tickDamage = totalDamage / tickLimit
 local radius = 400
 
+local displayDebug = true
+
 --Rocket barrage targets all enemies in the radius and distributes tickDamage amongst them every tickDuration.
 function rocket_barrage_melee:OnSpellStart()
+	_G.IsGyroBusy = true
+
 	local caster = self:GetCaster()
 	local particle = "particles/gyrocopter/gyro_rocket_barrage.vpcf"
+
+	if displayDebug then 
+		DebugDrawCircle(caster:GetAbsOrigin(), Vector(255,0,0), 64, radius, true, tickDuration*2) -- melee is red
+		DebugDrawCircle(caster:GetAbsOrigin(), Vector(0,255,0), 96, radius*5, true, tickDuration*2) -- ranged is green
+	end
+
 	--Run a timer for spellDuration
 	local tickCount = 0
 	Timers:CreateTimer(function()	
 		tickCount = tickCount + 1
 
 		--check if we've reached the end of the spell
-		if tickCount >= tickLimit then return end
+		if tickCount >= tickLimit then 
+			_G.IsGyroBusy = false
+			return
+		 end
+
+
 
 		--Get nearby enemies
 		local enemies = FindUnitsInRadius(DOTA_TEAM_BADGUYS, caster:GetAbsOrigin(), nil, radius,

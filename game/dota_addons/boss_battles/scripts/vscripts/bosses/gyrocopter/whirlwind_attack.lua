@@ -1,11 +1,8 @@
--- on target: 
--- particles/clock/gyro_base_attack_explosion.vpcf
-gyro_base_attack = class({})
+whirlwind_attack = class({})
 
 
-function gyro_base_attack:OnSpellStart()
-	--print("gyro_base_attack:OnSpellStart()")
-
+function whirlwind_attack:OnSpellStart()
+	--print("whirlwind_attack:OnSpellStart()")
 	self.damage = 15
 	self.caster = self:GetCaster()
 
@@ -47,14 +44,15 @@ function gyro_base_attack:OnSpellStart()
 	    ProjectileManager:CreateTrackingProjectile( info )
 
 	else
-		print("gyro_base_attack cast, but no targets found in _G.whirlwindTargets")
+		print("whirlwind_attack cast, but no targets found in _G.whirlwindTargets")
 	end
 
 end
 
 
-function gyro_base_attack:OnProjectileHit( hTarget, vLocation)
-	--print("gyro_base_attack:OnProjectileHit()")
+
+function whirlwind_attack:OnProjectileHit( hTarget, vLocation)
+	--print("whirlwind_attack:OnProjectileHit()")
 
     if IsServer() then
         if hTarget:IsAlive() == true then
@@ -65,7 +63,6 @@ function gyro_base_attack:OnProjectileHit( hTarget, vLocation)
                 damage = self.damage,
                 damage_type = DAMAGE_TYPE_PHYSICAL,
             }
-
             ApplyDamage(dmgTable)
 
         end

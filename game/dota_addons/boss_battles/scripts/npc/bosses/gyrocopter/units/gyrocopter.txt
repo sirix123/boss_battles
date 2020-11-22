@@ -28,6 +28,7 @@
 		"Ability5"					"flak_cannon"			
 		"Ability6"					"call_down"			
 		"Ability7"					"gyro_base_attack"
+		"Ability8"					"whirlwind_attack"
 
 		// Precache
 		//-------------------------------------------------------------------------------------------------------------
