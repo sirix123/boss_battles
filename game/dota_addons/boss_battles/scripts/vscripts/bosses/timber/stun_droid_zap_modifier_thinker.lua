@@ -10,15 +10,42 @@ function stun_droid_zap_modifier_thinker:OnCreated( kv )
 	self.radius = kv.radius
 	self.base_stun = kv.base_stun
 	self.vLocation = Vector( kv.target_x, kv.target_y, kv.target_z )
+	self.count = kv.duration
 
 	if IsServer() then
 		-- Start interval
 		self:StartIntervalThink( self.interval )
 
+		-- start a timer here to show the time when it will explode
+		self:StartTimer()
+
 		-- play effects
 		self:PlayEffects1()
 	end
 end
+----------------------------------------------------------------------------------------------------------------
+function stun_droid_zap_modifier_thinker:StartTimer()
+
+	Timers:CreateTimer(function()
+		if self.count == 0 then
+			return false 
+		end
+
+		if self.particle then
+			ParticleManager:DestroyParticle(self.particle, true)
+		end
+
+		local particleName = "particles/timber/boss_generic_stack_timer.vpcf"
+		self.particle = ParticleManager:CreateParticle(particleName, PATTACH_OVERHEAD_FOLLOW, self:GetParent())
+		ParticleManager:SetParticleControl(self.particle, 0, self:GetParent():GetAbsOrigin())
+		ParticleManager:SetParticleControl(self.particle, 1, Vector(0, self.count, 0))
+
+		self.count = self.count - 1
+
+		return 1.0
+	end)
+end
+
 ----------------------------------------------------------------------------------------------------------------
 
 function stun_droid_zap_modifier_thinker:OnIntervalThink()
@@ -130,13 +157,16 @@ end
 ----------------------------------------------------------------------------------------------------------------
 
 function stun_droid_zap_modifier_thinker:PlayEffects3()
+
+	--print("playing this?")
 	-- Get Resources
-    local particle_cast = "particles/timber/droid_stun_grimstroke_ink_swell_aoe.vpcf"
+    local particle_cast = "particles/units/heroes/hero_disruptor/disruptor_thuderstrike_aoe_area.vpcf"--"particles/timber/droid_stun_grimstroke_ink_swell_aoe.vpcf"
     local sound_target = "Hero_Alchemist.UnstableConcoction.Stun"
 
 	-- Create Particle
-	local effect_cast = ParticleManager:CreateParticle( particle_cast, PATTACH_ABSORIGIN_FOLLOW, self:GetParent() )
-	ParticleManager:SetParticleControl( effect_cast, 2, Vector( self.radius, self.radius, self.radius ) )
+	local effect_cast = ParticleManager:CreateParticle( particle_cast, PATTACH_WORLDORIGIN, nil )
+	ParticleManager:SetParticleControl( effect_cast, 0, self:GetParent():GetAbsOrigin() )
+	ParticleManager:SetParticleControl( effect_cast, 2, self:GetParent():GetAbsOrigin() )
     ParticleManager:ReleaseParticleIndex( effect_cast )
     
     EmitSoundOn( sound_target, self:GetParent() )

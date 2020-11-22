@@ -99,6 +99,9 @@ function Precache( context ) -- this needs to be in a seperate file
   PrecacheResource("soundfile", "soundevents/game_sounds_heroes/game_sounds_visage.vsndevts", context)
   PrecacheResource("soundfile", "soundevents/game_sounds_heroes/game_sounds_templar_assassin.vsndevts", context)
   PrecacheResource("soundfile", "soundevents/game_sounds_heroes/game_sounds_invoker.vsndevts", context)
+  PrecacheResource("soundfile", "soundevents/game_sounds_heroes/game_sounds_batrider.vsndevts", context)
+  PrecacheResource("soundfile", "soundevents/game_sounds_heroes/game_sounds_kunkka.vsndevts", context)
+  PrecacheResource("soundfile", "soundevents/voscripts/game_sounds_vo_batrider.vsndevts", context)
 
   PrecacheUnitByNameSync("npc_crystal", context)
   PrecacheUnitByNameSync("npc_tinker", context)

@@ -12,8 +12,6 @@ function Spawn( entityKeyValues )
 		return
 	end
 
-	GameRules:SetTreeRegrowTime(800.0)
-
 	-- set mana to 0 on spawn
 	thisEntity:SetMana(0)
 
@@ -75,7 +73,7 @@ function TimberThink()
 	--print("thisEntity.state ",thisEntity.state)
 
 	-- state change handler
-	if thisEntity:GetHealthPercent() < 50 and thisEntity.chain_map_edge:IsCooldownReady() == true then
+	if thisEntity:GetHealthPercent() < 70 and thisEntity.chain_map_edge:IsCooldownReady() == true then
 		thisEntity.state = 2
 	elseif thisEntity.state == 2 and FindUnitsClose() == true then
 		thisEntity:RemoveModifierByName("modifier_rooted")

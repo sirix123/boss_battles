@@ -33,7 +33,7 @@ function GameSetup:init()
 	GameRules:SetGoldTickTime( 999999.0 )
     GameRules:SetGoldPerTick( 0 )
 
-    GameRules:SetTreeRegrowTime(30)
+    GameRules:SetTreeRegrowTime(9999)
 
     GameRules:SetHideKillMessageHeaders(true)
     GameRules:SetUseUniversalShopMode(false)
@@ -471,6 +471,10 @@ function GameSetup:HeroKilled( keys )
 		return
     end
 
+    --PrintTable(keys, indent, done)
+    --print("entindex_inflictor ",EntIndexToHScript( keys.entindex_inflictor ):GetUnitName())
+    --print("entindex_attacker ",EntIndexToHScript( keys.entindex_attacker ):GetUnitName())
+
     killedHero.playerLives = killedHero.playerLives - 1
     --print("OnEntityKilled lives ", killedHero.playerLives )
 
@@ -479,7 +483,14 @@ function GameSetup:HeroKilled( keys )
         self.respawn_time = 999
     else
         self.respawn_time = BOSS_BATTLES_RESPAWN_TIME
-        killedHero:SetRespawnPosition( killedHeroOrigin )
+
+        -- if in the beastmaster fight and the player dies to the bird (being dragged into the water) spawn them in the centre of the map
+        if BOSS_BATTLES_ENCOUNTER_COUNTER == 2 then
+            --and EntIndexToHScript( keys.entindex_inflictor ):GetUnitName() == "fish_trigger"
+            killedHero:SetRespawnPosition( Entities:FindByName(nil, RAID_TABLES[2].spawnLocation):GetAbsOrigin() )
+        else
+            killedHero:SetRespawnPosition( killedHeroOrigin )
+        end
 
         if killedHero:GetRespawnsDisabled() == false then
             killedHero.nRespawnFX = ParticleManager:CreateParticle( "particles/items_fx/aegis_timer.vpcf", PATTACH_ABSORIGIN_FOLLOW, killedHero )
@@ -497,7 +508,9 @@ end
 function GameSetup:EncounterCleanUp( origin )
     if origin == nil then return end
 
-    GameRules:SetTreeRegrowTime( 1.0 )
+    --GameRules:SetTreeRegrowTime( 1.0 )
+
+    GridNav:RegrowAllTrees()
 
     --[[local trees = GridNav:GetAllTreesAroundPoint( origin, 9000, false )
     for _,tree in pairs(trees) do
