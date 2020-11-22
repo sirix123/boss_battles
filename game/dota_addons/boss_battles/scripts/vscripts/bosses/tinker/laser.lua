@@ -94,6 +94,25 @@ function laser:OnSpellStart()
 
         --DebugDrawLine_vCol(caster:GetAbsOrigin(), self.vTargetPos , Vector(255,0,0), true, 2)
 
+        --[[
+
+        if units ~= nil and #units ~= 0 then
+            for _, unit in pairs(units) do
+
+                -- rock or crystal
+                if unit:GetUnitName() == "npc_phase2_rock" then
+
+                    break
+                end
+
+                -- player
+
+            end
+
+        end
+
+        ]]
+
         if units ~= nil and #units ~= 0 then
             --print(" unit:GetUnitName()" ,units[index]:GetUnitName())
             --print(" -------------------------------------- ")

@@ -405,56 +405,62 @@ function GameSetup:ReadyupCheck() -- called from trigger lua file for activators
     self.boss_arena_name     = RAID_TABLES[BOSS_BATTLES_ENCOUNTER_COUNTER].spawnLocation
     self.player_arena_name   = RAID_TABLES[BOSS_BATTLES_ENCOUNTER_COUNTER].arena
 
-    --print("game_setup: boss_arena: ", RAID_TABLES[BOSS_BATTLES_ENCOUNTER_COUNTER].spawnLocation," player_arena:", RAID_TABLES[BOSS_BATTLES_ENCOUNTER_COUNTER].arena )
+    self:EncounterCleanUp( self.boss_spawn )
 
-    -- find enity using the above values from the table
-    self.boss_spawn = Entities:FindByName(nil, self.boss_arena_name):GetAbsOrigin()
-    self.player_spawn = Entities:FindByName(nil, self.player_arena_name):GetAbsOrigin()
-
-    for _,hero in pairs(heroes) do
-        if hero:GetUnitName() ~= "npc_dota_hero_phantom_assassin" then
-            hero:SetMana(0)
-        end
-        FindClearSpaceForUnit(hero, self.player_spawn, true)
-    end
-
-    -- count down message
-    -- message duration = timer below in spawn boss
-
-    -- spawn boss
-    boss = nil
     Timers:CreateTimer(1.0, function()
-        -- look at raidtables and spawn the boss depending on the encounter counter
-        boss = CreateUnitByName(RAID_TABLES[BOSS_BATTLES_ENCOUNTER_COUNTER].boss, self.boss_spawn, true, nil, nil, DOTA_TEAM_BADGUYS)
-    end)
 
+        --print("game_setup: boss_arena: ", RAID_TABLES[BOSS_BATTLES_ENCOUNTER_COUNTER].spawnLocation," player_arena:", RAID_TABLES[BOSS_BATTLES_ENCOUNTER_COUNTER].arena )
 
-    --Update the bosses hp and mp UI every tick
-    Timers:CreateTimer(function()
-        if boss ~= nil then
-            if boss:GetHealthPercent() == 0 then
-                CustomNetTables:SetTableValue("boss_frame", "hide", {})
-                return false
+        -- find enity using the above values from the table
+        self.boss_spawn = Entities:FindByName(nil, self.boss_arena_name):GetAbsOrigin()
+        self.player_spawn = Entities:FindByName(nil, self.player_arena_name):GetAbsOrigin()
+
+        for _,hero in pairs(heroes) do
+            if hero:GetUnitName() ~= "npc_dota_hero_phantom_assassin" then
+                hero:SetMana(0)
             end
-            local hp = boss:GetHealth()
-            local maxHp = boss:GetMaxHealth()
-            local hpPercent = boss:GetHealthPercent()
-            local mpPercent = boss:GetManaPercent()
-
-            local bossFrameData = {}
-            bossFrameData.hp = boss:GetHealth()
-            bossFrameData.maxHp = boss:GetMaxHealth()
-            bossFrameData.hpPercent = boss:GetHealthPercent()
-            bossFrameData.mp = boss:GetMana()
-            bossFrameData.maxMp = boss:GetMaxMana()
-            bossFrameData.mpPercent = boss:GetManaPercent()
-
-            CustomNetTables:SetTableValue("boss_frame", "key", bossFrameData)
-        else
-            CustomNetTables:SetTableValue("boss_frame", "hide", {})
-            --wait for the boss to spawn...
+            FindClearSpaceForUnit(hero, self.player_spawn, true)
         end
-        return 1;
+
+        -- count down message
+        -- message duration = timer below in spawn boss
+
+        -- spawn boss
+        boss = nil
+        Timers:CreateTimer(1.0, function()
+            -- look at raidtables and spawn the boss depending on the encounter counter
+            boss = CreateUnitByName(RAID_TABLES[BOSS_BATTLES_ENCOUNTER_COUNTER].boss, self.boss_spawn, true, nil, nil, DOTA_TEAM_BADGUYS)
+        end)
+
+
+        --Update the bosses hp and mp UI every tick
+        Timers:CreateTimer(function()
+            if boss ~= nil then
+                if boss:GetHealthPercent() == 0 then
+                    CustomNetTables:SetTableValue("boss_frame", "hide", {})
+                    return false
+                end
+                local hp = boss:GetHealth()
+                local maxHp = boss:GetMaxHealth()
+                local hpPercent = boss:GetHealthPercent()
+                local mpPercent = boss:GetManaPercent()
+
+                local bossFrameData = {}
+                bossFrameData.hp = boss:GetHealth()
+                bossFrameData.maxHp = boss:GetMaxHealth()
+                bossFrameData.hpPercent = boss:GetHealthPercent()
+                bossFrameData.mp = boss:GetMana()
+                bossFrameData.maxMp = boss:GetMaxMana()
+                bossFrameData.mpPercent = boss:GetManaPercent()
+
+                CustomNetTables:SetTableValue("boss_frame", "key", bossFrameData)
+            else
+                CustomNetTables:SetTableValue("boss_frame", "hide", {})
+                --wait for the boss to spawn...
+            end
+            return 1;
+        end)
+
     end)
 
     -- reset wipe flag
@@ -553,60 +559,13 @@ function GameSetup:InitCommands()
     Convars:RegisterCommand("set_trigger_boss", function(a, boss_index)
         a = tonumber(boss_index)
 
-        print("set_trigger_boss ", RAID_TABLES[a].spawnLocation)
-        print("set_trigger_boss ", RAID_TABLES[a].arena)
-        print("set_trigger_boss ", RAID_TABLES[a].boss)
+        BOSS_BATTLES_ENCOUNTER_COUNTER = a
 
-        local heroes = HERO_LIST--HeroList:GetAllHeroes()
+        print("set_trigger_boss ", RAID_TABLES[BOSS_BATTLES_ENCOUNTER_COUNTER].spawnLocation)
+        print("set_trigger_boss ", RAID_TABLES[BOSS_BATTLES_ENCOUNTER_COUNTER].arena)
+        print("set_trigger_boss ", RAID_TABLES[BOSS_BATTLES_ENCOUNTER_COUNTER].boss)
 
-        self.boss_arena_name     = RAID_TABLES[a].spawnLocation
-        self.player_arena_name   = RAID_TABLES[a].arena
-
-        self.boss_spawn = Entities:FindByName(nil, self.boss_arena_name):GetAbsOrigin()
-        self.player_spawn = Entities:FindByName(nil, self.player_arena_name):GetAbsOrigin()
-
-        for _,hero in pairs(heroes) do
-            if hero:GetUnitName() ~= "npc_dota_hero_phantom_assassin" then
-                hero:SetMana(0)
-            end
-            FindClearSpaceForUnit(hero, self.player_spawn, true)
-        end
-
-        -- spawn boss
-        boss = nil
-        Timers:CreateTimer(1.0, function()
-            -- look at raidtables and spawn the boss depending on the encounter counter
-            boss = CreateUnitByName(RAID_TABLES[a].boss, self.boss_spawn, true, nil, nil, DOTA_TEAM_BADGUYS)
-        end)
-
-        --Update the bosses hp and mp UI every tick
-        Timers:CreateTimer(function()
-            if boss ~= nil then
-                if boss:GetHealthPercent() == 0 then
-                    CustomNetTables:SetTableValue("boss_frame", "hide", {})
-                    return 1
-                end
-                local hp = boss:GetHealth()
-                local maxHp = boss:GetMaxHealth()
-                local hpPercent = boss:GetHealthPercent()
-                local mpPercent = boss:GetManaPercent()
-
-                local bossFrameData = {}
-                bossFrameData.hp = boss:GetHealth()
-                bossFrameData.maxHp = boss:GetMaxHealth()
-                bossFrameData.hpPercent = boss:GetHealthPercent()
-
-                bossFrameData.mp = boss:GetMana()
-                bossFrameData.maxMp = boss:GetMaxMana()
-                bossFrameData.mpPercent = boss:GetManaPercent()
-
-                CustomNetTables:SetTableValue("boss_frame", "key", bossFrameData)
-            else
-                CustomNetTables:SetTableValue("boss_frame", "hide", {})
-                --wait for the boss to spawn...
-            end
-            return 1;
-        end)
+        self:ReadyupCheck()
 
     end, "  ", FCVAR_CHEAT)
 
@@ -668,9 +627,6 @@ function GameSetup:StartBoss( a )
         end
         return 1;
     end)
-
-
-
 end
 
 -----------------------------------------------------------------------------------------------------
@@ -708,27 +664,39 @@ function GameSetup:OnPlayerChat(keys)
             local bossName = parts[3]
             if bossName == "beastmaster" then
                 print("TODO: start boss ", bossName)
-                self:StartBoss(2)
+                BOSS_BATTLES_ENCOUNTER_COUNTER = 2
+                self:ReadyupCheck()
+                --self:StartBoss(2)
             end
             if bossName == "timber" then
                 print("TODO: start boss ", bossName)
-                self:StartBoss(3)
+                BOSS_BATTLES_ENCOUNTER_COUNTER = 3
+                self:ReadyupCheck()
+                --self:StartBoss(3)
             end
             if bossName == "techies" then
                 print("TODO: start boss ", bossName)
-                self:StartBoss(4)
+                BOSS_BATTLES_ENCOUNTER_COUNTER = 4
+                self:ReadyupCheck()
+                --self:StartBoss(4)
             end
             if bossName == "clock" then
                 print("TODO: start boss ", bossName)
-                self:StartBoss(5)
+                BOSS_BATTLES_ENCOUNTER_COUNTER = 5
+                self:ReadyupCheck()
+                --self:StartBoss(5)
             end
             if bossName == "gyro" then
                 print("TODO: start boss ", bossName)
-                self:StartBoss(6)
+                BOSS_BATTLES_ENCOUNTER_COUNTER = 6
+                self:ReadyupCheck()
+                --self:StartBoss(6)
             end
             if bossName == "tinker" then
                 print("TODO: start boss ", bossName)
-                self:StartBoss(7)
+                BOSS_BATTLES_ENCOUNTER_COUNTER = 7
+                self:ReadyupCheck()
+                --self:StartBoss(7)
             end
         end
 
