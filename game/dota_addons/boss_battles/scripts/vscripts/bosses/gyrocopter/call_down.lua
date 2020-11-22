@@ -77,7 +77,7 @@ function call_down:OnSpellStart()
 					victim = enemy, 
 					attacker = self:GetCaster(),
 					damage = 100, --TODO: calc this / get from somewhere
-					damage_type = 4, -- TODO: get this from ability file ... 4 = DAMAGE_TYPE_PURE 
+					damage_type = DAMAGE_TYPE_PHYSICAL,
 					ability = self,
 				}
 				local dmgDealt = ApplyDamage(damageInfo)

@@ -132,7 +132,7 @@ function homing_missile:InitialiseRocket(velocity, acceleration, detonationRadiu
 						victim = rocket.target,
 						attacker = self:GetCaster(),
 						damage = damage - enemyDistance, --TODO: calculate the dmg properly based on duration/distance.
-						damage_type = 1, --DAMAGE_TYPE_PHYSICAL = 1, DAMAGE_TYPE_MAGICAL = 2
+						damage_type = DAMAGE_TYPE_PHYSICAL,
 						ability = self,
 					}
 					ApplyDamage(damageInfo)

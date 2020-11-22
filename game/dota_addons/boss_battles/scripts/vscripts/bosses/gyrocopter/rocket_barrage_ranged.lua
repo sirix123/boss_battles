@@ -70,7 +70,7 @@ function rocket_barrage_ranged:OnSpellStart()
 			{
 				victim = enemy, attacker = caster,
 				damage = tickDamage / #beyondRadiusEnemies, 
-				damage_type = 2, -- TODO: get this from ability file ... 4 = DAMAGE_TYPE_PURE 
+				damage_type = DAMAGE_TYPE_PHYSICAL,
 				ability = self,
 			}
 			local dmgDealt = ApplyDamage(damageInfo)
