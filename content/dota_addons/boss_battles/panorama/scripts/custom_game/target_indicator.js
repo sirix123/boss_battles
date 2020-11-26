@@ -1,4 +1,4 @@
-GameEvents.Subscribe( "picking_done", UpdateTargetIndicator );
+GameEvents.Subscribe( "picking_done", Init );
 
 var targetingIndicators = {};
 
@@ -219,9 +219,15 @@ function SubscribeToNetTableKey(table, key, loadNow, callback){
     return listener;
 }
 
-//UpdateTargetIndicator();
+// init called by hero selection
+function Init(){
+    UpdateTargetIndicator();
 
-SubscribeToNetTableKey("main", "targetingIndicators", true, function(data){
-    targetingIndicators = data;
-    //$.Msg(targetingIndicators)
-});
+    SubscribeToNetTableKey("main", "targetingIndicators", true, function(data){
+        targetingIndicators = data;
+        //$.Msg(targetingIndicators)
+    });
+
+}
+
+

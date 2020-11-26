@@ -1,6 +1,6 @@
 "use strict";
 
-GameEvents.Subscribe( "picking_done", MouseInit );
+GameEvents.Subscribe( "picking_done", Init );
 
 //Globals:
 var nextAbility = null;
@@ -416,8 +416,8 @@ function MouseInit(){
     } );
 }
 
-// handles keyboard hotkeys
-(function()
+// handles keyboard hotkeys / called by hero selection
+function Init()
 {
     $.Msg("EMPTY FUNCTION");
     ProcessAbilityQueue();
@@ -464,9 +464,8 @@ function MouseInit(){
     // get mouse position
     //GameEvents.Subscribe('mouse_position', GetMouseCastPosition);
 
+    MouseInit()
 
-    
-
-})();   
+}   
 
 

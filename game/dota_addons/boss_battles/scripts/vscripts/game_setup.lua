@@ -80,6 +80,9 @@ function GameSetup:OnStateChange()
 
     if GameRules:State_Get() == DOTA_GAMERULES_STATE_GAME_IN_PROGRESS then
 
+        -- register the raid wipe timer
+        self:RegisterRaidWipe()
+
         -- spawn testing stuff
         self:SpawnTestingStuff()
 
@@ -100,7 +103,7 @@ function GameSetup:OnNPCSpawned(keys)
         npc:AddNewModifier(npc,nil,"modifier_hide_hero",{duration = -1})
     end
 
-    if npc:IsRealHero() and npc:GetUnitName() ~= "npc_dota_hero_wisp" and npc.bFirstSpawned == nil then --
+    if npc:IsRealHero() and npc:GetUnitName() ~= "npc_dota_hero_wisp" and npc.bFirstSpawned == nil then
         -- npc.bFirstSpawned is set to true during initlize()
 
         table.insert(HERO_LIST,npc)
@@ -110,7 +113,6 @@ function GameSetup:OnNPCSpawned(keys)
 
         npc:Initialize()
         self:RegisterPlayer(npc)
-        self:RegisterRaidWipe()
 
         --print("on spanwed lives ", npc.playerLives )
 
@@ -219,9 +221,8 @@ end
 --------------------------------------------------------------------------------------------------
 
 function GameSetup:RegisterRaidWipe( )
-
     Timers:CreateTimer(function()
-
+        --print("GetPlayerCount ", PlayerResource:GetPlayerCount())
         if #self.player_deaths == #HERO_LIST then
             Timers:CreateTimer(5.0, function()
 

@@ -5,6 +5,9 @@
  the other functions present in D2E.
 ]]
 
+--Constant parameters
+SELECTION_DURATION_LIMIT = 60
+
 --Class definition
 if HeroSelection == nil then
 	HeroSelection = {}
@@ -17,13 +20,49 @@ end
 	to pre-game to start the hero selection.
 ]]
 function HeroSelection:Start()
-
-	HeroSelection.numPickers = PlayerResource:GetPlayerCount()
-	HeroSelection.playersPicked  = 0
+	--Figure out which players have to pick
 	HeroSelection.playerPicks = {}
+	HeroSelection.numPickers = 0
+	for pID = 0, DOTA_MAX_PLAYERS -1 do
+		if PlayerResource:IsValidPlayer( pID ) then
+			HeroSelection.numPickers = self.numPickers + 1
+		end
+	end
+
+	--Start the pick timer
+	HeroSelection.TimeLeft = SELECTION_DURATION_LIMIT
+	Timers:CreateTimer( 0.04, HeroSelection.Tick )
+
+	--Keep track of the number of players that have picked
+	HeroSelection.playersPicked = 0
 
 	--Listen for the pick event
 	HeroSelection.listener = CustomGameEventManager:RegisterListener( "hero_selected", HeroSelection.HeroSelect )
+end
+
+--[[
+	Tick
+	A tick of the pick timer.
+	Params:
+		- event {table} - A table containing PlayerID and HeroID.
+]]
+function HeroSelection:Tick() 
+	--Send a time update to all clients
+	if HeroSelection.TimeLeft >= 0 then
+		CustomGameEventManager:Send_ServerToAllClients( "picking_time_update", {time = HeroSelection.TimeLeft} )
+	end
+
+	--Tick away a second of time
+	HeroSelection.TimeLeft = HeroSelection.TimeLeft - 1
+	if HeroSelection.TimeLeft == -1 then
+		--End picking phase
+		HeroSelection:EndPicking()
+		return nil
+	elseif HeroSelection.TimeLeft >= 0 then
+		return 1
+	else
+		return nil
+	end
 end
 
 --[[
@@ -35,7 +74,7 @@ end
 ]]
 function HeroSelection:HeroSelect( event )
 
-	-- js calls this when a player picks a hero
+	--If this player has not picked yet give him the hero
 	if HeroSelection.playerPicks[ event.PlayerID ] == nil then
 		HeroSelection.playersPicked = HeroSelection.playersPicked + 1
 		HeroSelection.playerPicks[ event.PlayerID ] = event.HeroName
@@ -46,13 +85,18 @@ function HeroSelection:HeroSelect( event )
 
 		print("event.PlayerID ",event.PlayerID)
 		print("event.HeroName ",event.HeroName)
-	end
 
+		--Assign the hero if picking is over
+		if HeroSelection.TimeLeft <= 0 then
+			HeroSelection:AssignHero( event.PlayerID, event.HeroName )
+		end
+	end
 
 	--Check if all heroes have been picked
 	if HeroSelection.playersPicked >= HeroSelection.numPickers then
 		--End picking
-		HeroSelection:EndPicking()
+		HeroSelection.TimeLeft = 0
+		HeroSelection:Tick()
 	end
 end
 
@@ -73,8 +117,6 @@ function HeroSelection:EndPicking()
 
 	-- takes time for the assigning to be done 5sec is too long but leave for now
 	Timers:CreateTimer(1.0, function()
-		--print("how many times does this run")
-
 		--Signal the picking screen to disappear
 		CustomGameEventManager:Send_ServerToAllClients( "picking_done", { } )
 
