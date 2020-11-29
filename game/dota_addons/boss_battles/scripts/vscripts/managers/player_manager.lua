@@ -155,6 +155,7 @@ function PlayerManager:SetUpMovement()
 
         local unit = EntIndexToHScript(args.entityIndex)
         if unit == nil then return end
+        if unit.direction == nil then return end
 
         -- W key
         if keyPressed == "w" and keyState == "down" then

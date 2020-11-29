@@ -26,7 +26,7 @@ function CDOTA_BaseNPC:Initialize(data)
 end
 
 function CDOTA_BaseNPC:GetDirection()
-
+  print("core functions, diretion ", Vector(self.direction.x, self.direction.y, nil))
   return Vector(self.direction.x, self.direction.y, nil)
 end
 

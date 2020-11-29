@@ -406,7 +406,7 @@ function GameSetup:ReadyupCheck() -- called from trigger lua file for activators
     self.boss_arena_name     = RAID_TABLES[BOSS_BATTLES_ENCOUNTER_COUNTER].spawnLocation
     self.player_arena_name   = RAID_TABLES[BOSS_BATTLES_ENCOUNTER_COUNTER].arena
 
-    self:EncounterCleanUp( self.boss_spawn )
+    self:EncounterCleanUp( Entities:FindByName(nil, self.boss_arena_name):GetAbsOrigin() )
 
     Timers:CreateTimer(1.0, function()
 
