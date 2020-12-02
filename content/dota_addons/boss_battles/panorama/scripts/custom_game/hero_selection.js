@@ -99,7 +99,7 @@ function PlayerPicked( player, hero ) {
 
 /* Enter the game by removing the picking screen, called when the player */
 function EnterGame() {
-	//$('#PickingScreen').DeleteAsync( 0.0 );
+	$('#PickingScreen').DeleteAsync( 0.0 );
 }
 
 /* Initialisation - runs when the element is created
