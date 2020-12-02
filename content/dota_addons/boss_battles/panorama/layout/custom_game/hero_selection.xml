@@ -27,11 +27,12 @@
         </snippet>
 
 		<!-- pedestal frames --> 
-		<snippet name="PedFrame">
-			<Panel class="PedFrame">
-				<DOTAScenePanel class="Ped" style="width:200px;height:200px;" unit="npc_dota_hero_sven" particleonly="false">
-					<Label text="" id="PedText"  />
-				</DOTAScenePanel>
+		<snippet name="PedFrames">
+			<Panel class="PedFrames">
+				<Panel id="HeroPedFrame" class="PedFrame" style="border: 1px solid blue;">
+					<DOTAScenePanel id="HeroPed" style="width:200px;height:200px;" unit="hero_name" particleonly="false"/>
+					<Label id="HeroPedTxt" text="" />
+				</Panel>	
 			</Panel>
 		</snippet>
 
@@ -58,21 +59,17 @@
 
 			<!-- Pedestal row
 			==================================================================-->
-			<Panel class="PedHero" >
+			<!-- Pick list (showing options) | Row 1 | -->
+			<Panel id="PedList" style="border: 1px solid red;" >
+				<!-- JS will insert snippet pedestal scenes here -->
 
-				<!-- Pick list (showing options) | Row 1 | -->
-				<Panel id="PedList" style="border: 1px solid red;" >
-					<!-- JS will insert snippet pedestal scenes here -->
+				<!-- testing scenes
+				<DOTAScenePanel class="Ped" style="width:200px;height:200px;" unit="npc_dota_hero_sven" particleonly="false">
+					<Label id="PedText" text="NAME" />
+				</DOTAScenePanel>
+				==================================================================-->
 
-					<!-- testing scenes
-					<DOTAScenePanel class="Ped" style="width:200px;height:200px;" unit="npc_dota_hero_sven" particleonly="false">
-						<Label id="PedText" text="NAME" />
-					</DOTAScenePanel>
-					==================================================================-->
-
-				</Panel>
 			</Panel>
-
 		</Panel>
 	</Panel>
 </root>

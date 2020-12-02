@@ -45,7 +45,7 @@ function SelectHero( heroName, containerPanel ) {
 			heroPickButton.ClearPanelEvent( 'onactivate' )
 		}
 
-		// show the pick hero button.. beneath the right hero...
+		// enable and show the pick hero button.. beneath the right hero...
 		var heroPickButtonSelected = containerPanel.FindChildInLayoutFile("HeroPickHeroBtn");
 		var heroPickButtonTextSelected = containerPanel.FindChildInLayoutFile("HeroPickHeroBtnTxt");
 		heroPickButtonSelected.RemoveClass( "disabled" );
@@ -95,6 +95,29 @@ function PlayerPicked( player, hero ) {
 			
 		}
 	}
+
+	if ( player == Players.GetLocalPlayer() ) {
+
+		// set a flag that is checked when redrawing enavlign stuff when pressing the portraits?
+	
+		// disable all buttons? and hero selects? surface a panel on stop of the select to block mouse press?
+		let PickListRowOneContainer = $("#PickListRowOne");
+		for (let i=0; i < PickListRowOneContainer.GetChildCount(); i++){
+			var heroFrame = heroFramePanels[i];
+
+			let heroPickButton = heroFrame.FindChildInLayoutFile("HeroPickHeroBtn");
+			let heroPickButtonText = heroFrame.FindChildInLayoutFile("HeroPickHeroBtnTxt");
+			heroPickButton.AddClass( "disabled" );
+			heroPickButtonText.text = "";
+			heroPickButton.ClearPanelEvent( 'onactivate' )
+
+			var heroPortait = heroFrame.FindChildInLayoutFile("HeroPortrait");
+			heroPortait.AddClass( "taken" );
+
+			var heroImage = heroFrame.FindChildInLayoutFile("HeroImage")
+			heroImage.ClearPanelEvent( 'onactivate' )
+		}
+	}
 }
 
 /* Enter the game by removing the picking screen, called when the player */
@@ -124,6 +147,11 @@ let heroes =
 	$('#PickListRowOne').style.visibility = 'visible';
 
 	// IF DEBUG MODE show TA KUNKA and WIP heroes, if not don't show those heroes TBD
+
+	// container for the ped on the scene
+	let PedRowContainer = $("#PedList");
+	let pedContainerPanel = $.CreatePanel("Panel", PedRowContainer, 0);
+	pedContainerPanel.BLoadLayoutSnippet("PedFrames");
 
 	// container for hero portraits
 	let PickListRowOneContainer = $("#PickListRowOne");
