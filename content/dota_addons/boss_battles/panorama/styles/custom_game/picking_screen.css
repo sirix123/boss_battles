@@ -1,4 +1,4 @@
-/* General layout
+/* general layout
 =================================================================*/
 #PickingScreen {
 	width: 100%;
@@ -6,6 +6,8 @@
 	/*background-color: #000000;*/
 }
 
+/* hero select general layout and container
+=================================================================*/
 #PickingScreenScene
 {
 	height: 100%;
@@ -14,33 +16,28 @@
 }
 
 #PickListRowOne {
-	width: 100%;
-    height: 60%;
-    horizontal-align: left;
-	flow-children: right;
-    visibility: visible;
-}
-
-#PlayerRow {
-	width: 100%;
-    height: 100%;
+	width: 50%;
+    height: 23%;
     horizontal-align: center;
 	flow-children: right;
-    visibility: visible;
-    margin: 10px;
-}
-
-.ContainerHero{
-	width: 900px;
-    height: 400px;
-    horizontal-align: center;
+	visibility: visible;
 	background-color: #151515;
-	flow-children: down;
-	color: #ffffff;
+}
+
+/* SNIPPETS hero select
+=================================================================*/
+.HeroOptions{
+	width: 100px;
+	height: 400px;
+	horizontal-align: left;
+	flow-children: right;
+	color: #14e9c5;
     /*padding: 2% 0 5% 0;*/
     /*margin: 10px;*/
 }
 
+/* SNIPPETS ped view
+=================================================================*/
 #PedList {
 	width: 100%;
     height: 100%;
@@ -60,6 +57,27 @@
     /*padding: 2% 0 5% 0;*/
     /*margin: 10px;*/
 }
+
+/* 'pedestal' general layout and container
+=================================================================*/
+.Ped {
+	width: 100px;
+	height: 100px;
+	horizontal-align: left;
+	background-color: #fff;
+	background-size: 50% 50%;
+    background-position: 0px 0px;
+	margin: 10px;
+	flow-children: down;
+}
+
+#PedText{
+	horizontal-align: center;
+	vertical-align: bottom;
+	color: #fff;
+	font-size: 20px;
+}
+
 
 /* Hero options
 ================================================================= */
@@ -87,8 +105,9 @@
 
 /* 'Pick Hero' button
 =================================================================*/
-#PickHeroBtn {
+.PickHeroBtn {
 	horizontal-align: center;
+	vertical-align: bottom;
 	box-shadow: fill #00000066 -4px -4px 8px 8px;
 	background-color: gradient( linear, 0% 0%, 0% 100%, from( #5AA15E ), to( #87d69533 ) );
 	background-image: url("s2r://panorama/images/backgrounds/background_play_button_large_2x_png.vtex");
@@ -97,37 +116,17 @@
 	width: 100px;
 }
 
-#PickHeroBtn.disabled, #PickHeroBtn.disabled:Hover {
+.PickHeroBtn.disabled, .PickHeroBtn.disabled:Hover {
 	background-color: gradient( linear, 0% 0%, 0% 100%, from( #9C9C9C ), to( #D1D1D133 ) );
 }
 
-#PickHeroBtn:Hover {
+.PickHeroBtn:Hover {
 	background-color: gradient( linear, 0% 0%, 0% 100%, from( #6FDE75 ), to( #87d69533 ) );
 }
 
-#PickHeroBtn Label {
+.PickHeroBtn Label {
 	horizontal-align: center;
 	vertical-align: center;
 	color: #fff;
-	font-size: 20px;
-}
-
-/* 'pedestal' stuff
-=================================================================*/
-.Ped {
-	width: 100px;
-	height: 100px;
-	horizontal-align: left;
-	background-color: #fff;
-	background-size: 50% 50%;
-    background-position: 0px 0px;
-	margin: 10px;
-	flow-children: down;
-}
-
-#PedText{
-	horizontal-align: center;
-	vertical-align: bottom;
-	color: #fff;
-	font-size: 20px;
+	font-size: 18px;
 }

@@ -10,78 +10,50 @@
 		<include src="file://{resources}/scripts/custom_game/hero_selection.js" />
 	</scripts>
 
-	<!-- ??? -->
+
+	<!-- snippets --> 
 	<snippets>
-        <snippet name="PedFrame">
+
+		<!-- portraits  onactivate="PickHero('hero_name')"--> 
+        <snippet name="HeroOptions">
+            <Panel class="HeroOptions">
+				<Panel id="HeroPortrait" class="HeroOption" style="border: 1px solid blue;">
+					<DOTAHeroImage id="HeroImage" heroname="hero_name" heroimagestyle="portrait" scaling="none"/>
+					<Button id="HeroPickHeroBtn" >
+						<Label id="HeroPickHeroBtnTxt" text="" />
+					</Button>
+				</Panel>
+            </Panel>
+        </snippet>
+
+		<!-- pedestal frames --> 
+		<snippet name="PedFrame">
 			<Panel class="PedFrame">
 				<DOTAScenePanel class="Ped" style="width:200px;height:200px;" unit="npc_dota_hero_sven" particleonly="false">
 					<Label text="" id="PedText"  />
 				</DOTAScenePanel>
 			</Panel>
 		</snippet>
+
 	</snippets>
 
 	<Panel hittest="false" style="width: 100%; height: 100%;">
-		<Panel hittest="true" id="PickingScreen">
+		<Panel id="PickingScreen" hittest="true" >
 		<DOTAScenePanel id="PickingScreenScene" hittest="true" light="light" camera="camera1" map="backgrounds/background" particleonly="false"/>
+		<!-- Pick list (showing options) | Row 1 | 
+		=========================================-->
+			<Panel id="PickListRowOne" style="border: 1px solid red;" >
+				<!-- JS will insert snippet for portraits here scenes here -->
 
-			<!-- Hero rows
-			==================================================================-->
-			<Panel class="ContainerHero" >
-
-				<!-- Pick list (showing options) | Row 1 | -->
-				<Panel id="PickListRowOne" style="border: 1px solid red;" >
-
-					<Panel id="npc_dota_hero_templar_assassin" class="HeroOption">
-						<DOTAHeroImage heroname="npc_dota_hero_templar_assassin" heroimagestyle="portrait" scaling="none" onactivate="SelectHero('npc_dota_hero_templar_assassin')"/>
-						<Button id="PickHeroBtn" class="disabled" onactivate="PickHero('npc_dota_hero_templar_assassin')" >
-							<Label id="PickHeroBtnTxt" text="" />
-						</Button>
-					</Panel>
-
-					<Panel id="npc_dota_hero_crystal_maiden" class="HeroOption" >
-						<DOTAHeroImage heroname="npc_dota_hero_crystal_maiden" heroimagestyle="portrait" scaling="none" onactivate="SelectHero('npc_dota_hero_crystal_maiden')"/>
-						<Button id="PickHeroBtn" class="disabled" onactivate="PickHero('npc_dota_hero_crystal_maiden')" >
-							<Label id="PickHeroBtnTxt" text="" />
-						</Button>
-					</Panel>
-
-					<Panel id="npc_dota_hero_juggernaut" class="HeroOption" >
-						<DOTAHeroImage heroname="npc_dota_hero_juggernaut" heroimagestyle="portrait" scaling="none" onactivate="SelectHero('npc_dota_hero_juggernaut')"/>
-						<Button id="PickHeroBtn" class="disabled" onactivate="PickHero('npc_dota_hero_juggernaut')" >
-							<Label id="PickHeroBtnTxt" text="" />
-						</Button> 
-					</Panel>
-
-					<Panel id="npc_dota_hero_medusa" class="HeroOption" >
-						<DOTAHeroImage heroname="npc_dota_hero_medusa" heroimagestyle="portrait" scaling="none" onactivate="SelectHero('npc_dota_hero_medusa')"/>
-						<Button id="PickHeroBtn" class="disabled" onactivate="PickHero('npc_dota_hero_medusa')" >
-							<Label id="PickHeroBtnTxt" text="" />
-						</Button>
-					</Panel>
-
-					<Panel id="npc_dota_hero_phantom_assassin" class="HeroOption" >
-						<DOTAHeroImage heroname="npc_dota_hero_phantom_assassin" heroimagestyle="portrait" scaling="none" onactivate="SelectHero('npc_dota_hero_phantom_assassin')"/>
-						<Button id="PickHeroBtn" class="disabled" onactivate="PickHero('npc_dota_hero_phantom_assassin')" >
-							<Label id="PickHeroBtnTxt" text="" />
-						</Button>
-					</Panel>
-
-					<Panel id="npc_dota_hero_kunkka" class="HeroOption" >
-						<DOTAHeroImage heroname="npc_dota_hero_kunkka" heroimagestyle="portrait" scaling="none" onactivate="SelectHero('npc_dota_hero_kunkka')"/>
-						<Button id="PickHeroBtn" class="disabled" onactivate="PickHero('npc_dota_hero_kunkka')" >
-							<Label id="PickHeroBtnTxt" text="" />
-						</Button>
-					</Panel>
-
-					<Panel id="npc_dota_hero_grimstroke" class="HeroOption" >
-						<DOTAHeroImage heroname="npc_dota_hero_grimstroke" heroimagestyle="portrait" scaling="none" onactivate="SelectHero('npc_dota_hero_grimstroke')"/>
-						<Button id="PickHeroBtn" class="disabled" onactivate="PickHero('npc_dota_hero_grimstroke')" >
-							<Label id="PickHeroBtnTxt" text="" />
-						</Button>
-					</Panel>
-
+				<!-- testing scenes
+				<Panel id="npc_dota_hero_templar_assassin" class="HeroOption">
+					<DOTAHeroImage heroname="npc_dota_hero_templar_assassin" heroimagestyle="portrait" scaling="none" onactivate="SelectHero('npc_dota_hero_templar_assassin')"/>
+					<Button id="PickHeroBtn" class="disabled" onactivate="PickHero('npc_dota_hero_templar_assassin')" >
+						<Label id="PickHeroBtnTxt" text="" />
+					</Button>
 				</Panel>
+				==================================================================-->
+
 			</Panel>
 
 			<!-- Pedestal row

@@ -1,6 +1,4 @@
 "use strict";
-var playerPanels = {};
-var canEnter = false;
 
 //Subscribe to events
 GameEvents.Subscribe( "picking_done", OnPickingDone );
@@ -29,33 +27,36 @@ function OnPlayerPicked( data ) {
 =========================================================================*/
 
 /* Select a hero, called when a player clicks a hero panel in the layout */
-function SelectHero( heroName ) {
-	$.Msg("hello i have selected ",heroName)
+function SelectHero( heroName, containerPanel ) {
 
-	// i think we need to keep track of the player that has hovered a hero, allocate them a pos for the ped, and replace that ped if they hover another hero.
-	// what about order, I think that would make sense? maybe not? we will show the name regardles
+	// only do this for heroes that haven't been picked...
+	if ( heroes.includes(heroName) == true ) {
+		
+		//$.Msg("hero is in the list ",heroName)
 
-	// something something if player selection replace ped with new select
+		// loop over the stored hero panels and disable all the buttons
+		let PickListRowOneContainer = $("#PickListRowOne");
+		for (let i=0; i < PickListRowOneContainer.GetChildCount(); i++){
+			var heroFrame = heroFramePanels[i];
+			let heroPickButton = heroFrame.FindChildInLayoutFile("HeroPickHeroBtn");
+			let heroPickButtonText = heroFrame.FindChildInLayoutFile("HeroPickHeroBtnTxt");
+			heroPickButton.AddClass( "disabled" );
+			heroPickButtonText.text = "";
+			heroPickButton.ClearPanelEvent( 'onactivate' )
+		}
 
-	
-	// show ped of hero
-	// how do i apply styles to that panel below? (label) etc)
-	var PedList = $("#PedList")
-	var containerPanel = $.CreatePanel("Panel", PedList, 0);
-	var ped_panel = containerPanel.BLoadLayoutFromString
-		(
-			'<root><Panel><DOTAScenePanel class="Ped" style="width:200px;height:200px;" light="light" unit="'+heroName+'" particleonly="false"/> <Label id="PedText" text="'+heroName+'" /></Panel></root>'
-			, false, false 
-		); 
+		// show the pick hero button.. beneath the right hero...
+		var heroPickButtonSelected = containerPanel.FindChildInLayoutFile("HeroPickHeroBtn");
+		var heroPickButtonTextSelected = containerPanel.FindChildInLayoutFile("HeroPickHeroBtnTxt");
+		heroPickButtonSelected.RemoveClass( "disabled" );
+		heroPickButtonTextSelected.text = "Pick Hero";
+		heroPickButtonSelected.SetPanelEvent( 'onactivate', function () {
+			PickHero( heroName );
+				});
 
-	//ped_panel.AddClass("PedText")
-
-	// apply background image to make the ped grey
-
-	// show the pick hero button.. beneath the right hero...
-	$("#PickHeroBtn").RemoveClass( "disabled" );
-	$("#PickHeroBtnTxt").text = "Pick Hero";
-	
+		// replace greyed out ped in the scene of hero selected
+		// each player has a slot?
+	}
 }
 
 /* Clicks the bbutton picks the hero the player as selected */
@@ -64,24 +65,94 @@ function PickHero( heroName ) {
 	GameEvents.SendCustomGameEventToServer( "hero_selected", { HeroName: heroName } );
 
 	// create scenee snippet in the ped container, show in full colour (remove background image??/)
+	// leave the ped snippet there but remove the backaround overlay
 	
 }
 
 /* A player has picked a hero, tell the player's panel a hero was picked, */
 function PlayerPicked( player, hero ) {
 
-	//Disable the hero button
-	$('#'+hero).AddClass( "taken" );
+	// loop ovr all the hero frame panels and check it against the hero name from lua
+	for (let i=0; i < heroes.length; i++){
+		var heroFrame = heroFramePanels[i];
+
+		// if the names match disable that portrait
+		if ( heroFrame.id == hero ) {
+			
+			// find the portait image and grey out
+			var heroPortait = heroFrame.FindChildInLayoutFile("HeroPortrait");
+			heroPortait.AddClass( "taken" );
+
+			// find the button and disable, remove event and remove text
+			let heroPickButton = heroFrame.FindChildInLayoutFile("HeroPickHeroBtn");
+			let heroPickButtonText = heroFrame.FindChildInLayoutFile("HeroPickHeroBtnTxt");
+			heroPickButton.AddClass( "disabled" );
+			heroPickButtonText.text = "Hero Picked";
+			heroPickButton.ClearPanelEvent( 'onactivate' )
+
+			// remove hero from the heroes array
+			heroes.splice(i, 1);
+			
+		}
+	}
 }
 
 /* Enter the game by removing the picking screen, called when the player */
 function EnterGame() {
-	$('#PickingScreen').DeleteAsync( 0.0 );
+	//$('#PickingScreen').DeleteAsync( 0.0 );
 }
 
 /* Initialisation - runs when the element is created
 =========================================================================*/
+// used later to store the hero panels created
+let heroFramePanels = {};
+
+// hero list
+let heroes = 
+[
+	"npc_dota_hero_templar_assassin",
+	"npc_dota_hero_kunkka",
+	"npc_dota_hero_crystal_maiden",
+	"npc_dota_hero_phantom_assassin",
+	"npc_dota_hero_juggernaut",
+	"npc_dota_hero_medusa",
+];
+
 (function () {
+
 	//Set panel visibility
 	$('#PickListRowOne').style.visibility = 'visible';
+
+	// IF DEBUG MODE show TA KUNKA and WIP heroes, if not don't show those heroes TBD
+
+	// container for hero portraits
+	let PickListRowOneContainer = $("#PickListRowOne");
+
+	// for each hero in the list draw a portrait and a grey button
+	for (let i=0; i < heroes.length; i++){
+
+		// craete container
+		let containerPanel = $.CreatePanel("Panel", PickListRowOneContainer, heroes[i]);
+		containerPanel.BLoadLayoutSnippet("HeroOptions");
+
+		// show the button but grey it out
+		let heroPickButton = containerPanel.FindChildInLayoutFile("HeroPickHeroBtn");
+		heroPickButton.AddClass( "PickHeroBtn" );
+		heroPickButton.AddClass( "disabled" );
+
+		// create hero portrait
+		var heroImage = containerPanel.FindChildInLayoutFile("HeroImage")
+		heroImage.heroname = heroes[i];
+
+		// add an on activate (click) for the hero portrait
+		// need to store this as a variable using let for some js reason 
+		let hero = heroes[i]
+		heroImage.SetPanelEvent( 'onactivate', function () {
+			SelectHero( hero, containerPanel )
+		});
+
+		//store this panel to update it later.
+		heroFramePanels[i] = containerPanel
+	}
+
 })();
