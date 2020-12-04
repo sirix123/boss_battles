@@ -56,6 +56,10 @@ function SelectHero( heroName, containerPanel ) {
 
 		// replace greyed out ped in the scene of hero selected
 		// each player has a slot?
+		// on button push create a scenee in a slot that doesn't have a slot
+		// create entitiys info player starts on the map/scene and load the hero model? play spawn animation then idle?
+		//opacity-mask: url(\'s2r://panorama/images/masks/softedge_box_png.vtex\');
+				
 	}
 }
 
@@ -97,10 +101,8 @@ function PlayerPicked( player, hero ) {
 	}
 
 	if ( player == Players.GetLocalPlayer() ) {
-
-		// set a flag that is checked when redrawing enavlign stuff when pressing the portraits?
 	
-		// disable all buttons? and hero selects? surface a panel on stop of the select to block mouse press?
+		// disable all buttons and hero selects 
 		let PickListRowOneContainer = $("#PickListRowOne");
 		for (let i=0; i < PickListRowOneContainer.GetChildCount(); i++){
 			var heroFrame = heroFramePanels[i];
@@ -118,6 +120,11 @@ function PlayerPicked( player, hero ) {
 			heroImage.ClearPanelEvent( 'onactivate' )
 		}
 	}
+
+	// create ped of hero in the scene
+	var pedHeroImage = heroPedPanels[0].FindChildInLayoutFile("HeroPed");
+	pedHeroImage.BLoadLayoutFromString('<root><Panel><DOTAScenePanel style="width: 100%; height: 100%; " unit="'+hero+'"/></Panel></root>', false, false );
+	pedHeroImage.AddClass( "PedSceneHero" );
 }
 
 /* Enter the game by removing the picking screen, called when the player */
@@ -129,6 +136,9 @@ function EnterGame() {
 =========================================================================*/
 // used later to store the hero panels created
 let heroFramePanels = {};
+
+// used later to display the peds in the map
+let heroPedPanels = {};
 
 // hero list
 let heroes = 
@@ -150,8 +160,14 @@ let heroes =
 
 	// container for the ped on the scene
 	let PedRowContainer = $("#PedList");
-	let pedContainerPanel = $.CreatePanel("Panel", PedRowContainer, 0);
-	pedContainerPanel.BLoadLayoutSnippet("PedFrames");
+
+	// 4 = total number of players, create a ped for each one
+	for (let i=0; i < 4; i++){
+		let pedContainerPanel = $.CreatePanel("Panel", PedRowContainer, 0);
+		pedContainerPanel.BLoadLayoutSnippet("PedFrames");
+
+		heroPedPanels[i] = pedContainerPanel
+	}
 
 	// container for hero portraits
 	let PickListRowOneContainer = $("#PickListRowOne");

@@ -25,13 +25,14 @@
 }
 
 #PedList {
-	width: 50%;
-    height: 23%;
+	width: 80%;
+    height: 35%;
 	horizontal-align: center;
 	vertical-align: bottom;
 	flow-children: right;
 	visibility: visible;
-	background-color: #151515;
+	/*background-color: #151515;*/
+	margin-bottom: 50px;
 }
 
 /* SNIPPETS hero select
@@ -49,10 +50,10 @@
 /* SNIPPETS ped view
 =================================================================*/
 .PedFrames{
-	width: 200px;
+	width: 350px;
     height: 400px;
     horizontal-align: left;
-	background-color: #151515;
+	/*background-color: #151515;*/
 	flow-children: down;
 	color: #ffffff;
 	vertical-align: bottom;
@@ -63,14 +64,20 @@
 /* 'pedestal' general layout and container
 =================================================================*/
 .PedFrame {
-	width: 900px;
+	width: 350px;
 	height: 400px;
 	horizontal-align: left;
-	background-color: #151515;
-	background-size: 50% 50%;
-    background-position: 0px 0px;
-	margin: 10px;
+	margin-left: 50px;
+	vertical-align: bottom;
 	flow-children: down;
+}
+
+/* 'pedestal' scene class
+=================================================================*/
+.PedSceneHero {
+	height: 100%;
+	width: 100%;
+	brightness: 1;
 }
 
 /* Hero options
