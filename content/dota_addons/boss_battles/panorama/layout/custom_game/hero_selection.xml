@@ -30,8 +30,9 @@
 		<snippet name="PedFrames">
 			<Panel class="PedFrames">
 				<Panel id="HeroPedFrame" class="PedFrame" style="border: 1px solid blue;">
-					<DOTAScenePanel id="HeroPed" unit="hero_name" style="width:100%;height:100%;" particleonly="false"/>
-					<Label id="HeroPedTxt" text="" />
+					<Label id="HeroNamePedTxt" class="HeroNamePedTxt" text="HERO NAME" />
+					<DOTAScenePanel id="HeroPed" unit="hero_name" style="width:100%;height:80%;" particleonly="false"/>
+					<Label id="PlayerNamePedTxt" class="PlayerNamePedTxt" text="PLAYER NAME" />
 				</Panel>	
 			</Panel>
 		</snippet>

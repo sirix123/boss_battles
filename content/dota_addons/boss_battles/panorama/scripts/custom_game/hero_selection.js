@@ -4,6 +4,7 @@
 GameEvents.Subscribe( "picking_done", OnPickingDone );
 GameEvents.Subscribe( "picking_time_update", OnTimeUpdate );
 GameEvents.Subscribe( "picking_player_pick", OnPlayerPicked );
+GameEvents.Subscribe( "picking_player_selected", OnPlayerSelected );
 
 /* Event Handlers
 =========================================================================*/
@@ -21,6 +22,11 @@ function OnTimeUpdate( data ) {
 /* A player has picked a hero */
 function OnPlayerPicked( data ) {
 	PlayerPicked( data.PlayerID, data.HeroName );
+}
+
+/* A player has selected a hero */
+function OnPlayerSelected( data ) {
+	PlayerSelected( data.PlayerID, data.HeroName );
 }
 
 /* Functionality
@@ -54,23 +60,35 @@ function SelectHero( heroName, containerPanel ) {
 			PickHero( heroName );
 				});
 
-		// replace greyed out ped in the scene of hero selected
-		// each player has a slot?
-		// on button push create a scenee in a slot that doesn't have a slot
-		// create entitiys info player starts on the map/scene and load the hero model? play spawn animation then idle?
-		//opacity-mask: url(\'s2r://panorama/images/masks/softedge_box_png.vtex\');
-				
+		// tells lua the local player has selected a hero
+		GameEvents.SendCustomGameEventToServer( "hero_selected", { HeroName: heroName } );
 	}
+}
+
+/* Clicks the hero portrait */
+function PlayerSelected( player, hero ) {
+
+	$.Msg("player ",player)
+	$.Msg("hero ",hero)
+
+	// when a player selects the portait, create a greyscale ped at the bottom for all clients (called from lua)
+	var pedHeroImage = heroPedPanels[player].FindChildInLayoutFile("HeroPed");
+	pedHeroImage.BLoadLayoutFromString('<root><Panel><DOTAScenePanel style="width: 100%; height: 100%; " unit="'+hero+'" particleonly="false" /></Panel></root>', true, false );
+	pedHeroImage.AddClass("PedSceneHeroSelected")
+
+	// add the players name to the bottom of the pedestal
+	var pedHeroPlayerText = heroPedPanels[player].FindChildInLayoutFile("PlayerNamePedTxt");
+	pedHeroPlayerText.text = Players.GetPlayerName( player );
+
+	// add the players name to the bottom of the pedestal
+	var pedHeroHeroText = heroPedPanels[player].FindChildInLayoutFile("HeroNamePedTxt");
+	pedHeroHeroText.text = hero;
 }
 
 /* Clicks the bbutton picks the hero the player as selected */
 function PickHero( heroName ) {
 	//Send the pick to the server
-	GameEvents.SendCustomGameEventToServer( "hero_selected", { HeroName: heroName } );
-
-	// create scenee snippet in the ped container, show in full colour (remove background image??/)
-	// leave the ped snippet there but remove the backaround overlay
-	
+	GameEvents.SendCustomGameEventToServer( "hero_picked", { HeroName: heroName } );	
 }
 
 /* A player has picked a hero, tell the player's panel a hero was picked, */
@@ -121,10 +139,10 @@ function PlayerPicked( player, hero ) {
 		}
 	}
 
-	// create ped of hero in the scene
-	var pedHeroImage = heroPedPanels[0].FindChildInLayoutFile("HeroPed");
-	pedHeroImage.BLoadLayoutFromString('<root><Panel><DOTAScenePanel style="width: 100%; height: 100%; " unit="'+hero+'"/></Panel></root>', false, false );
-	pedHeroImage.AddClass( "PedSceneHero" );
+	// fidn the ped scene and remove the selected class and apply the taken class
+	var pedHeroImage = heroPedPanels[player].FindChildInLayoutFile("HeroPed");
+	pedHeroImage.RemoveClass("PedSceneHeroSelected");
+	pedHeroImage.AddClass("PedSceneHeroTaken");
 }
 
 /* Enter the game by removing the picking screen, called when the player */
@@ -151,15 +169,15 @@ let heroes =
 	"npc_dota_hero_medusa",
 ];
 
+// container for the ped on the scene
+let PedRowContainer = $("#PedList");
+
 (function () {
 
 	//Set panel visibility
 	$('#PickListRowOne').style.visibility = 'visible';
 
 	// IF DEBUG MODE show TA KUNKA and WIP heroes, if not don't show those heroes TBD
-
-	// container for the ped on the scene
-	let PedRowContainer = $("#PedList");
 
 	// 4 = total number of players, create a ped for each one
 	for (let i=0; i < 4; i++){

@@ -21,9 +21,13 @@ function HeroSelection:Start()
 	HeroSelection.numPickers = PlayerResource:GetPlayerCount()
 	HeroSelection.playersPicked  = 0
 	HeroSelection.playerPicks = {}
+	HeroSelection.playerSelects = {}
 
 	--Listen for the pick event
-	HeroSelection.listener = CustomGameEventManager:RegisterListener( "hero_selected", HeroSelection.HeroSelect )
+	HeroSelection.listener = CustomGameEventManager:RegisterListener( "hero_picked", HeroSelection.HeroPicked )
+
+	--Listen for the select event
+	HeroSelection.listener = CustomGameEventManager:RegisterListener( "hero_selected", HeroSelection.HeroSelected )
 end
 
 --[[
@@ -33,7 +37,25 @@ end
 	Params:
 		- event {table} - A table containing PlayerID and HeroID.
 ]]
-function HeroSelection:HeroSelect( event )
+function HeroSelection:HeroSelected( event )
+
+	-- i think here.. we need to collect all the heroes into a an array index being the slot then send the array of hero names to js
+	print("event.Index ",event.PlayerID)
+	print("event.HeroName ",event.HeroName)
+
+	-- Send a select event to all clients with the array of heroes
+	CustomGameEventManager:Send_ServerToAllClients( "picking_player_selected", 
+		{ PlayerID = event.PlayerID, HeroName = event.HeroName } )
+end
+
+--[[
+	HeroPick
+	A player has picked a hero. This function is caled by the CustomGameEventManager
+	once a 'hero_picked' event was seen.
+	Params:
+		- event {table} - A table containing PlayerID and HeroID.
+]]
+function HeroSelection:HeroPicked( event )
 
 	-- js calls this when a player picks a hero
 	if HeroSelection.playerPicks[ event.PlayerID ] == nil then
@@ -42,7 +64,7 @@ function HeroSelection:HeroSelect( event )
 
 		--Send a pick event to all clients
 		CustomGameEventManager:Send_ServerToAllClients( "picking_player_pick", 
-			{ PlayerID = event.PlayerID, HeroName = event.HeroName} )
+			{ PlayerID = event.PlayerID, HeroName = event.HeroName } )
 
 		print("event.PlayerID ",event.PlayerID)
 		print("event.HeroName ",event.HeroName)

@@ -56,7 +56,7 @@
 	/*background-color: #151515;*/
 	flow-children: down;
 	color: #ffffff;
-	vertical-align: bottom;
+	vertical-align: center;
     /*padding: 2% 0 5% 0;*/
     /*margin: 10px;*/
 }
@@ -68,16 +68,37 @@
 	height: 400px;
 	horizontal-align: left;
 	margin-left: 50px;
-	vertical-align: bottom;
+	vertical-align: center;
 	flow-children: down;
 }
 
-/* 'pedestal' scene class
+/* 'pedestal' scene class for actual sceene
 =================================================================*/
-.PedSceneHero {
+.PedSceneHeroSelected {
 	height: 100%;
 	width: 100%;
 	brightness: 1;
+	saturation: 0.0;
+}
+
+.PedSceneHeroTaken {
+	height: 100%;
+	width: 100%;
+	brightness: 1;
+}
+
+.HeroNamePedTxt Label {
+	horizontal-align: center;
+	vertical-align: top;
+	color: #fff;
+	font-size: 18px;
+}
+
+.PlayerNamePedTxt Label {
+	horizontal-align: center;
+	vertical-align: bottom;
+	color: #fff;
+	font-size: 18px;
 }
 
 /* Hero options
