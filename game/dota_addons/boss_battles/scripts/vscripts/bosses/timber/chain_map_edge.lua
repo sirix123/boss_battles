@@ -13,7 +13,16 @@ function chain_map_edge:OnAbilityPhaseStart()
 			Vector(10332,-12021,136),
 		}
 
-		self.vTargetPos = tPos[RandomInt(1, #tPos)]
+		local previous_length = 0
+		local furthestPos = Vector(0,0,0)
+		for _, pos in pairs(tPos) do
+			if ( pos - self:GetCaster():GetAbsOrigin() ):Length2D() >= previous_length then
+				previous_length = ( pos - self:GetCaster():GetAbsOrigin() ):Length2D()
+				furthestPos = pos
+			end
+		end
+
+		self.vTargetPos = furthestPos --tPos[RandomInt(1, #tPos)]
 
         return true
     end

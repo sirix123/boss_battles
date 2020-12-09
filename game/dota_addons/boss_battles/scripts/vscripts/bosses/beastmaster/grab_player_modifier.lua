@@ -5,6 +5,10 @@ function grab_player_modifier:IsDebuff()
     return true 
 end
 
+function grab_player_modifier:IsHidden()
+    return true 
+end
+
 function grab_player_modifier:GetEffectName()
 	return "particles/units/heroes/hero_batrider/batrider_flaming_lasso_generic_smoke.vpcf"
 end

@@ -53,6 +53,13 @@ function blast_wave_v2:OnAbilityPhaseStart()
     end
 end
 
+function blast_wave_v2:OnAbilityPhaseInterrupted()
+    if IsServer() then
+        ParticleManager:DestroyParticle(self.nPreviewFXIndex, true)
+
+        self:GetCaster():RemoveGesture(ACT_DOTA_TELEPORT_END)
+    end
+end
 
 function blast_wave_v2:OnSpellStart()
     if IsServer() then

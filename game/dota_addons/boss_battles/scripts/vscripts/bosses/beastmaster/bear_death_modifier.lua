@@ -1,4 +1,6 @@
 bear_death_modifier = class({})
+
+LinkLuaModifier("beastmaster_bloodlust_modifier", "bosses/beastmaster/beastmaster_bloodlust_modifier", LUA_MODIFIER_MOTION_NONE)
 -----------------------------------------------------------------------------
 
 function bear_death_modifier:RemoveOnDeath()
@@ -46,10 +48,7 @@ function bear_death_modifier:OnDestroy()
     for _, unit in pairs(units) do
         if unit:GetUnitName() == "npc_beastmaster" then
             -- adds modifier to bear that increases as and ms
-            unit:AddNewModifier( self:GetCaster(), self, "bear_bloodlust_modifier", { duration = -1, as_bonus = 35, ms_bonus = 20 } )
-            -- add stack
-            local hBuff = unit:FindModifierByName( "bear_bloodlust_modifier" )
-            hBuff:IncrementStackCount()
+            unit:AddNewModifier( self:GetCaster(), self, "beastmaster_bloodlust_modifier", { duration = 15 } )
 
             local nFXIndex = ParticleManager:CreateParticle( "particles/beastmaster/bear_lust_ogre_magi_bloodlust_buff.vpcf", PATTACH_CUSTOMORIGIN, nil )
             ParticleManager:SetParticleControlEnt( nFXIndex, 0, unit, PATTACH_OVERHEAD_FOLLOW, "attach_hitloc", unit:GetAbsOrigin(), true )

@@ -78,7 +78,7 @@ function BeastmasterThink()
 		SummonQuillBoar()
 	end
 
-	if thisEntity.beastmaster_net:IsFullyCastable() and thisEntity.beastmaster_net:IsCooldownReady() then
+	if thisEntity.beastmaster_net:IsFullyCastable() and thisEntity.beastmaster_net:IsCooldownReady() and thisEntity.beastmaster_net:IsInAbilityPhase() == false then
 		BeastmasterNet()
 	end
 
@@ -202,47 +202,40 @@ end
 
 function BeastmasterNet()
 
-	local enemies = FindUnitsInRadius(
-		DOTA_TEAM_BADGUYS,
-		thisEntity:GetOrigin(),
-		nil,
-		5000,
+	local tFarTargets = {}
+		
+	local units = FindUnitsInRadius(
+		thisEntity:GetTeamNumber(),	-- int, your team number
+		thisEntity:GetAbsOrigin(),	-- point, center point
+		nil,	-- handle, cacheUnit. (not known)
+		5000,	-- float, radius. or use FIND_UNITS_EVERYWHERE
 		DOTA_UNIT_TARGET_TEAM_ENEMY,
 		DOTA_UNIT_TARGET_ALL,
-		DOTA_UNIT_TARGET_FLAG_NONE,
-		FIND_ANY_ORDER,
-		false )
+		DOTA_UNIT_TARGET_FLAG_INVULNERABLE,	-- int, flag filter
+		0,	-- int, order filter
+		false	-- bool, can grow cache
+	)
 
-	if #enemies == 0 then
+	if units == nil or #units == 0 then
 		return 0.5
-	end
-
-	local vTargetPos = nil
-	local tTargets = {}
-
-	for _, enemy in pairs(enemies) do
-
-		if enemy:HasModifier("grab_player_modifier") or enemy:HasModifier("modifier_stunned") then return 0.5 end
-
-		local dist = ( thisEntity:GetAbsOrigin() - enemy:GetAbsOrigin() ):Length2D()
-		if dist > 400 then
-			table.insert(tTargets,enemy)
+	else
+		for _, unit in pairs(units) do
+			if (thisEntity:GetAbsOrigin() - unit:GetAbsOrigin() ):Length2D() > 400 and unit:HasModifier("grab_player_modifier") == false and unit:HasModifier("modifier_stunned") == false then
+				table.insert(tFarTargets,unit)
+			end
 		end
-	end
 
-	if tTargets ~= nil and #tTargets ~= 0 then
-		vTargetPos = tTargets[RandomInt(1,#tTargets)]:GetAbsOrigin()
-	else
-		return 0.5
-	end
+		if tFarTargets == nil or #tFarTargets == 0 then
+			return 0.5
+		end 
 
-	if vTargetPos ~= nil then
-		return CastLaunchNet( vTargetPos )
-	else
-		return 0.5
-	end
+		thisEntity.pos = tFarTargets[RandomInt(1, #tFarTargets)]:GetAbsOrigin()
 
-	return 0.5
+		CastLaunchNet(thisEntity.pos)
+
+		return thisEntity.beastmaster_net:GetCastPoint() + 0.5
+
+	end
 end
 
 ---------------------------------------------------------------------------------
@@ -259,15 +252,15 @@ end
 
 --------------------------------------------------------------------------------
 
-function CastLaunchNet(vTargetPos)
+function CastLaunchNet(pos)
 	ExecuteOrderFromTable({
 		UnitIndex = thisEntity:entindex(),
 		OrderType = DOTA_UNIT_ORDER_CAST_POSITION,
 		AbilityIndex = thisEntity.beastmaster_net:entindex(),
-		Position = vTargetPos,
+		Position = pos,
 		Queue = false,
 	})
-	return 0.5
+	--return 0.5
 end
 
 --------------------------------------------------------------------------------

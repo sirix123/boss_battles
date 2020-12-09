@@ -66,7 +66,7 @@ end
 -- Graphics & Animations
 function timber_blast_thinker:PlayEffects1()
 	-- Get Resources
-	local particle_cast = "particles/econ/items/invoker/invoker_apex/invoker_sun_strike_team_immortal1.vpcf"
+	local particle_cast = "particles/timber/timber_invoker_sun_strike_team_immortal1.vpcf"
 	local sound_cast = "Hero_Invoker.SunStrike.Charge"
 
 	-- Create Particle
@@ -82,7 +82,7 @@ end
 
 function timber_blast_thinker:PlayEffects2()
 	-- Get Resources
-	local particle_cast = "particles/units/heroes/hero_invoker/invoker_sun_strike.vpcf"
+	local particle_cast = "particles/timber/timber_invoker_sun_strike.vpcf"
 	local sound_cast = "Hero_Invoker.SunStrike.Ignite"
 
 	-- Create Particle

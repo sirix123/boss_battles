@@ -167,8 +167,9 @@
         "ScriptFile"                    "bosses/beastmaster/quilboar_puddle"
 
         "AbilityCastAnimation"          "ACT_DOTA_ATTACK"
-        "AbilityBehavior"               "DOTA_ABILITY_BEHAVIOR_NO_TARGET"
+        "AbilityBehavior"               "DOTA_ABILITY_BEHAVIOR_UNIT_TARGET"
         "AbilityUnitTargetTeam"         "DOTA_UNIT_TARGET_TEAM_BOTH"
+        "AbilityUnitTargetType"         "DOTA_UNIT_TARGET_HERO | DOTA_UNIT_TARGET_BASIC"
         "AbilityUnitDamageType"         "DAMAGE_TYPE_PHYSICAL"   
         "SpellImmunityType"             "SPELL_IMMUNITY_ENEMIES_NO"
         "SpellDispellableType"          "SPELL_DISPELLABLE_NO"
@@ -177,7 +178,7 @@
         // Casting
         //-------------------------------------------------------------------------------------------------------------
         "AbilityCastRange"              "5000"
-        "AbilityCastPoint"              "0"
+        "AbilityCastPoint"              "1.5"
         
         // Time     
         //-------------------------------------------------------------------------------------------------------------
@@ -198,7 +199,7 @@
             "01"
             {
                 "var_type"      "FIELD_FLOAT"
-                "radius"     	"230"
+                "radius"     	"150"
             }        
             "02"
             {
@@ -213,7 +214,7 @@
             "04"
             {
                 "var_type"              "FIELD_FLOAT"
-                "damage"     	        "25"
+                "damage"     	        "50"
             }
             "05"
             {
@@ -233,7 +234,7 @@
         "AbilityTextureName"            "meepo_earthbind"
 
         "AbilityCastAnimation"          "ACT_DOTA_CAST_ABILITY_1"
-        "AbilityBehavior"               "DOTA_ABILITY_BEHAVIOR_AOE | DOTA_ABILITY_BEHAVIOR_POINT"
+        "AbilityBehavior"               "DOTA_ABILITY_BEHAVIOR_POINT"
         "AbilityUnitTargetTeam"         "DOTA_UNIT_TARGET_TEAM_BOTH"
         "AbilityUnitTargetType"         "DOTA_UNIT_TARGET_HERO | DOTA_UNIT_TARGET_BASIC"
         "AbilityUnitDamageType"         "DAMAGE_TYPE_PHYSICAL"   
@@ -247,7 +248,7 @@
         
         // Time     
         //-------------------------------------------------------------------------------------------------------------
-        "AbilityCooldown"               "12"
+        "AbilityCooldown"               "12"//"12"
 
         // Cost
         //-------------------------------------------------------------------------------------------------------------

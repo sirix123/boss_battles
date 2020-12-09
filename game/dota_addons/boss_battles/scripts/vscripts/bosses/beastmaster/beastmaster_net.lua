@@ -11,14 +11,12 @@ function beastmaster_net:OnAbilityPhaseStart()
 		EmitSoundOn( "beastmaster_beas_ability_axes_03", self:GetCaster() )
 
 		self.vTargetPos = nil
-		if self:GetCursorTarget() then
-			self.vTargetPos = self:GetCursorTarget():GetOrigin()
-		else
+		if self:GetCursorPosition() then
 			self.vTargetPos = self:GetCursorPosition()
 		end
 
-        self:GetCaster():SetForwardVector(self.vTargetPos)
-        self:GetCaster():FaceTowards(self.vTargetPos)
+		self:GetCaster():SetForwardVector(self.vTargetPos)
+		self:GetCaster():FaceTowards(self.vTargetPos)
 
         return true
     end
@@ -40,6 +38,9 @@ function beastmaster_net:OnSpellStart()
 
 		EmitSoundOn( "Hero_Beastmaster.Wild_Axes", self:GetCaster() )
 
+		self:GetCaster():SetForwardVector(self.vTargetPos)
+		self:GetCaster():FaceTowards(self.vTargetPos)
+
 		-- remove casting animation
 		self:GetCaster():FadeGesture(ACT_DOTA_CAST_ABILITY_1)
 
@@ -48,16 +49,14 @@ function beastmaster_net:OnSpellStart()
 		local radius = self:GetSpecialValueFor( "radius" )
 		local projectile_speed = self:GetSpecialValueFor( "projectile_speed" )
 		local caster = self:GetCaster()
-		local origin = caster:GetOrigin()
+		local origin = caster:GetAbsOrigin()
 		local hero = self:GetCaster()
-		local projectile_direction = caster:GetForwardVector()
+		local projectile_direction = ( self.vTargetPos - origin ):Normalized()
 		local offset = 150
 
-		local fRangeToTarget = ( self:GetCaster():GetOrigin() - self.vTargetPos ):Length2D()
-
 		local projectile = {
-			EffectName = "particles/econ/items/mars/mars_ti9_immortal/mars_ti9_immortal_crimson_spear.vpcf",--"particles/units/heroes/hero_meepo/meepo_earthbind_projectile_fx.vpcf",--"particles/units/heroes/hero_meepo/meepo_earthbind_projectile_fx.vpcf", --"particles/econ/items/mars/mars_ti9_immortal/mars_ti9_immortal_crimson_spear.vpcf",--"particles/units/heroes/hero_meepo/meepo_earthbind_projectile_fx.vpcf",
-			vSpawnOrigin = origin + caster:GetForwardVector() * offset,
+			EffectName = "particles/beastmaster/beastmaster_axe.vpcf",--"particles/units/heroes/hero_meepo/meepo_earthbind_projectile_fx.vpcf",--"particles/units/heroes/hero_meepo/meepo_earthbind_projectile_fx.vpcf", --"particles/econ/items/mars/mars_ti9_immortal/mars_ti9_immortal_crimson_spear.vpcf",--"particles/units/heroes/hero_meepo/meepo_earthbind_projectile_fx.vpcf",
+			vSpawnOrigin = origin + projectile_direction * offset,
 			--hero:GetAbsOrigin(), attach="attach_attack1", offset=Vector(0,0,0), 
 			fDistance = 5500, -- self:GetSpecialValueFor("projectile_distance") ~= 0 and self:GetSpecialValueFor("projectile_distance") or self:GetCastRange(Vector(0,0,0), nil),
 			fStartRadius = radius,
@@ -71,7 +70,7 @@ function beastmaster_net:OnSpellStart()
 			WallBehavior = PROJECTILES_DESTROY,
 			GroundBehavior = PROJECTILES_FOLLOW,
 			fGroundOffset = 80,
-			draw = false,
+			draw = true,
 			UnitTest = function(_self, unit) return unit:GetTeamNumber() ~= hero:GetTeamNumber() and unit:GetTeamNumber() ~= DOTA_TEAM_NEUTRALS end,
 			OnUnitHit = function(_self, unit) 
 				if unit ~= nil and (unit:GetUnitName() ~= nil) then

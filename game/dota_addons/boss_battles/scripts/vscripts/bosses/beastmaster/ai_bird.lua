@@ -31,8 +31,8 @@ end
 function CricleTimer()
     thisEntity.circle_timer_running = true
     local currentAngle = 0
-    local angleIncrement = 15
-    local length = 1000
+    local angleIncrement = 8
+    local length = 2000
     local tickInterval = 0.5
 
     Timers:CreateTimer(function()
@@ -120,6 +120,9 @@ function BirdThinker()
         local particle = "particles/timber/bird_overhead_icon.vpcf"
         thisEntity.head_particle = ParticleManager:CreateParticle(particle, PATTACH_OVERHEAD_FOLLOW, thisEntity.target)
         ParticleManager:SetParticleControl(thisEntity.head_particle, 0, thisEntity.vTarget)
+
+        -- play caw caw sound
+        EmitSoundOn("beastmaster_beas_ability_summonsbird_03", thisEntity.target)
 
         thisEntity.PHASE = 3
 

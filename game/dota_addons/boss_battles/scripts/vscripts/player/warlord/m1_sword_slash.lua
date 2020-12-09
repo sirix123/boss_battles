@@ -51,6 +51,10 @@ function m1_sword_slash:OnSpellStart()
 	local base_mana = self:GetSpecialValueFor( "mana_gain_percent" )
 	local bonus_mana = self:GetSpecialValueFor( "mana_gain_percent_bonus" )
 
+	if caster:HasModifier("q_beserkers_rage_modifier") then
+		base_mana = base_mana + (bonus_mana * 2) 
+	end
+
 	-- function in utility_functions
 	local enemies = FindUnitsInCone(
 		caster:GetTeamNumber(),

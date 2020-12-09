@@ -143,7 +143,7 @@
 
 		// Movement
 		//----------------------------------------------------------------
-		"MovementCapabilities"		"DOTA_UNIT_CAP_MOVE_GROUND"
+		"MovementCapabilities"		"DOTA_UNIT_CAP_MOVE_GROUND" //DOTA_UNIT_CAP_MOVE_NONE
 		"MovementSpeed"				"420"		// Speed.			
 
 		// Status
@@ -186,7 +186,7 @@
 	"npc_quilboar"	
 	{
 		// script
-		"vscripts"					"bosses/beastmaster/ai_quilboar.lua"
+		"vscripts"					"bosses/beastmaster/ai_quilboar_v2.lua"
 
 		// General
 		//----------------------------------------------------------------

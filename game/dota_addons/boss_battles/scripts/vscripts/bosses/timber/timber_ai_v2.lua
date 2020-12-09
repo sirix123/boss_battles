@@ -1,4 +1,5 @@
 LinkLuaModifier("modifier_remove_healthbar", "core/modifier_remove_healthbar", LUA_MODIFIER_MOTION_NONE)
+LinkLuaModifier("modifier_generic_everything_phasing", "core/modifier_generic_everything_phasing", LUA_MODIFIER_MOTION_NONE)
 
 timber_ai_v2 = class({})
 
@@ -16,6 +17,7 @@ function Spawn( entityKeyValues )
 	thisEntity:SetMana(0)
 
 	thisEntity:AddNewModifier( nil, nil, "modifier_remove_healthbar", { duration = -1 } )
+	thisEntity:AddNewModifier( nil, nil, "modifier_generic_everything_phasing", { duration = -1 } )
 
 	thisEntity:AddNewModifier( nil, nil, "modifier_phased", { duration = -1 })
 
@@ -76,17 +78,53 @@ function TimberThink()
 	if thisEntity:GetHealthPercent() < 70 and thisEntity.chain_map_edge:IsCooldownReady() == true then
 		thisEntity.state = 2
 	elseif thisEntity.state == 2 and FindUnitsClose() == true then
+
+		-- furion handler
+		EmitGlobalSound("furion_furi_death_04")
+
+		-- tp particle effect
+		local particle = "particles/units/heroes/hero_furion/furion_teleport.vpcf"
+		local nFXIndex = ParticleManager:CreateParticle( particle, PATTACH_WORLDORIGIN, nil )
+
+        ParticleManager:SetParticleControl(nFXIndex, 0, Entities:FindByName(nil, RAID_TABLES[3].spawnLocation):GetAbsOrigin())
+		
+		-- timer
+		Timers:CreateTimer(4, function()
+			ParticleManager:DestroyParticle(nFXIndex, false)
+			local furion = CreateUnitByName( "npc_furion", Entities:FindByName(nil, RAID_TABLES[3].spawnLocation):GetAbsOrigin(), true, thisEntity, thisEntity, DOTA_TEAM_BADGUYS)
+			EmitSoundOn("Hero_Furion.Teleport_Appear", furion)  
+
+			-- animation channel
+			furion:StartGestureWithPlaybackRate(ACT_DOTA_CAST_ABILITY_2, 0.3)
+			
+			return false
+		end)
+
+		Timers:CreateTimer(8, function()
+
+			-- play tp sound and voiceline
+			EmitGlobalSound("furion_furi_ability_wrath_09")
+
+			-- regrow all trees
+			GridNav:RegrowAllTrees()
+
+			return false
+		end)
+
+		Timers:CreateTimer(10, function()
+
+			-- remove him from game
+			UTIL_Remove( furion )
+
+			return false
+		end)
+		
+
 		thisEntity:RemoveModifierByName("modifier_rooted")
 		thisEntity.state = 1
 	end
 
 	if thisEntity.state == 1 then
-
-		-- find cloest player and attack if nothing else can be cast... add everything not ready?
-		-- GetAggroTarget
-		--if thisEntity:GetAttackTarget() == nil then
-			--AttackClosestPlayer()
-		--end
 
 		-- saw blade cast logic
 		if thisEntity.saw_blade:IsInAbilityPhase() == false and thisEntity.saw_blade ~= nil and thisEntity.saw_blade:IsFullyCastable() and thisEntity.nCurrentSawBlades < thisEntity.nMaxSawBlades and thisEntity.saw_blade:IsCooldownReady() then

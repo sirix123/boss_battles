@@ -5,6 +5,10 @@ function quillboar_puddle_modifier:IsHidden()
 	return false
 end
 
+function quillboar_puddle_modifier:GetTexture()
+	return "alchemist_acid_spray"
+end
+
 --------------------------------------------------------------------------------
 function quillboar_puddle_modifier:OnCreated(kv)
 	self.radius = self:GetAbility():GetSpecialValueFor("radius")
@@ -16,7 +20,8 @@ function quillboar_puddle_modifier:OnCreated(kv)
 		self:PlayEffects()
 
 		self:StartIntervalThink(self.tick_rate)
-		--DebugDrawCircle(self:GetParent():GetAbsOrigin(),Vector(255,255,255),128,self.radius,true,60)
+		--DebugDrawCircle(self:GetParent():GetAbsOrigin(),Vector(255,255,255),128,self.radius,true,1)
+
 	end
 end
 
@@ -46,23 +51,10 @@ function quillboar_puddle_modifier:OnIntervalThink()
 			}
 
 			ApplyDamage( self.damageTable )
+
+			enemy:AddNewModifier(self:GetCaster(), self:GetAbility(), "puddle_slow_modifier", {duration = 1})
+
 		end
-
-		--[[local units = FindUnitsInRadius(
-			self:GetParent():GetTeamNumber(),	-- int, your team number
-			self:GetParent():GetOrigin(),	-- point, center point
-			nil,	-- handle, cacheUnit. (not known)
-			3500,	-- float, radius. or use FIND_UNITS_EVERYWHERE
-			DOTA_UNIT_TARGET_TEAM_ENEMY,	-- int, team filter
-			DOTA_UNIT_TARGET_ALL,	-- int, type filter
-			DOTA_UNIT_TARGET_FLAG_NONE,	-- int, flag filter
-			FIND_ANY_ORDER,	-- int, order filter
-			false	-- bool, can grow cache
-		)
-
-		if units == nil or #units == 0 then
-			self:Destroy()
-		end]]
 
 		local areAllHeroesDead = true --start on true, then set to false if you find one hero alive.
 		local heroes = HERO_LIST--HeroList:GetAllHeroes()
@@ -95,7 +87,7 @@ function quillboar_puddle_modifier:PlayEffects()
 	ParticleManager:SetParticleControl( self.nFXIndex_2, 0, self:GetParent():GetAbsOrigin() )
 	ParticleManager:ReleaseParticleIndex( self.nFXIndex_2 )
 
-	local particle_cast = "particles/econ/items/viper/viper_immortal_tail_ti8/viper_immortal_ti8_nethertoxin_bubbles.vpcf"
+	local particle_cast = "particles/beastmaster/boar_viper_immortal_ti8_nethertoxin_bubbles.vpcf"
 	self.nFXIndex_3 = ParticleManager:CreateParticle( particle_cast, PATTACH_ABSORIGIN , self:GetParent()  )
 	ParticleManager:SetParticleControl( self.nFXIndex_3, 0, self:GetParent():GetAbsOrigin() )
 	ParticleManager:ReleaseParticleIndex( self.nFXIndex_3 )

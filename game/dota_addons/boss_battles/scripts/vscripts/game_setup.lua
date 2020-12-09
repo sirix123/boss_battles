@@ -116,16 +116,6 @@ function GameSetup:OnNPCSpawned(keys)
 
         --print("on spanwed lives ", npc.playerLives )
 
-        -- if warlord give the stance modifier
-        if npc:GetUnitName() == "npc_dota_hero_juggernaut" then
-            npc:AddNewModifier(
-                npc, -- player source
-                nil, -- ability source
-                "q_warlord_dps_stance_modifier", -- modifier name
-                {} -- kv
-            )
-        end
-
         -- level up abilities for all heroes to level 1
         if npc:GetUnitName() == "npc_dota_hero_crystal_maiden"
         or npc:GetUnitName() == "npc_dota_hero_medusa"
