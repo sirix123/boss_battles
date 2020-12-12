@@ -59,13 +59,13 @@
 	m_Children = 
 	[
 		{
-			m_ChildRef = resource:"particles/ui_mouseactions/range_finder_cone_body.vpcf"
+			m_ChildRef = resource:"particles/custom/sirix_mouse/range_finder_cone_body.vpcf"
 		},
 		{
-			m_ChildRef = resource:"particles/ui_mouseactions/range_finder_cone_end.vpcf"
+			m_ChildRef = resource:"particles/custom/sirix_mouse/range_finder_cone_end.vpcf"
 		},
 		{
-			m_ChildRef = resource:"particles/ui_mouseactions/range_finder_cone_start.vpcf"
+			m_ChildRef = resource:"particles/custom/sirix_mouse/range_finder_cone_start.vpcf"
 		},
 		{
 			m_ChildRef = resource:"particles/ui_mouseactions/range_finder_cone_arrows.vpcf"

@@ -3,6 +3,7 @@ beastmaster_net = class({})
 LinkLuaModifier( "modifier_beastmaster_net", "bosses/beastmaster/modifier_beastmaster_net", LUA_MODIFIER_MOTION_NONE )
 -------------------------------------------------------------------------------
 
+--[[
 function beastmaster_net:OnAbilityPhaseStart()
     if IsServer() then
 
@@ -18,6 +19,70 @@ function beastmaster_net:OnAbilityPhaseStart()
 		self:GetCaster():SetForwardVector(self.vTargetPos)
 		self:GetCaster():FaceTowards(self.vTargetPos)
 
+		local direction_particle = ( self.vTargetPos - self:GetCaster():GetAbsOrigin() ):Normalized()
+		local particle_distance = direction_particle * 200
+
+		DebugDrawCircle(particle_distance, Vector(255,0,0), 60, 50, true, 60)
+
+		local particle = "particles/custom/ui_mouseactions/range_finder_cone.vpcf"
+		self.particleNfx = ParticleManager:CreateParticle(particle, PATTACH_ABSORIGIN, nil)
+		ParticleManager:SetParticleControl(self.particleNfx , 1, particle_distance)
+		ParticleManager:SetParticleControl(self.particleNfx , 3, Vector(125,125,0))
+		ParticleManager:SetParticleControl(self.particleNfx , 4, Vector(255,0,0))
+		
+        return true
+    end
+end
+---------------------------------------------------------------------------
+]]
+
+function beastmaster_net:OnAbilityPhaseStart()
+    if IsServer() then
+
+		self:GetCaster():StartGestureWithPlaybackRate(ACT_DOTA_CAST_ABILITY_1, 0.5)
+
+		EmitSoundOn( "beastmaster_beas_ability_axes_03", self:GetCaster() )
+
+		--local self.vTargetPos = self:GetCursorTarget():GetAbsOrigin()
+		self.target = self:GetCursorTarget()
+		self.vTargetPos = self.target:GetAbsOrigin()
+ 		if self.vTargetPos == nil then
+ 			return false
+ 		end
+
+		self:GetCaster():SetForwardVector(self.vTargetPos)
+		self:GetCaster():FaceTowards(self.vTargetPos)
+
+		--DebugDrawCircle(self.vTargetPos, Vector(255,0,0), 60, 50, true, 60)
+
+		local particle = "particles/custom/sirix_mouse/range_finder_cone.vpcf"
+		self.stop_timer = false
+
+		Timers:CreateTimer(function()
+
+			if self.stop_timer == true then
+				return false
+			end
+
+			self.target = self:GetCursorTarget()
+			self.vTargetPos = self.target:GetAbsOrigin()
+
+			if self.particleNfx ~= nil then
+				ParticleManager:DestroyParticle(self.particleNfx, true)
+			end
+
+			self.particleNfx = ParticleManager:CreateParticle(particle, PATTACH_ABSORIGIN_FOLLOW, self:GetCaster())
+
+			ParticleManager:SetParticleControl(self.particleNfx , 0, Vector(0,0,0))
+			ParticleManager:SetParticleControl(self.particleNfx , 1, self:GetCaster():GetAbsOrigin())
+			ParticleManager:SetParticleControl(self.particleNfx , 2, self.vTargetPos)
+			ParticleManager:SetParticleControl(self.particleNfx , 3, Vector(125,125,0))
+			ParticleManager:SetParticleControl(self.particleNfx , 4, Vector(255,0,0))
+
+			return FrameTime()
+		end)
+
+		
         return true
     end
 end
@@ -29,6 +94,8 @@ function beastmaster_net:OnAbilityPhaseInterrupted()
         -- remove casting animation
 		self:GetCaster():FadeGesture(ACT_DOTA_CAST_ABILITY_1)
 
+		ParticleManager:DestroyParticle(self.particleNfx, true)
+
     end
 end
 ---------------------------------------------------------------------------
@@ -36,7 +103,14 @@ end
 function beastmaster_net:OnSpellStart()
 	if IsServer() then
 
+		self.stop_timer = true
+
 		EmitSoundOn( "Hero_Beastmaster.Wild_Axes", self:GetCaster() )
+
+		self.target = self:GetCursorTarget()
+		self.vTargetPos = self.target:GetAbsOrigin()
+
+		ParticleManager:DestroyParticle(self.particleNfx, true)
 
 		self:GetCaster():SetForwardVector(self.vTargetPos)
 		self:GetCaster():FaceTowards(self.vTargetPos)
@@ -64,17 +138,17 @@ function beastmaster_net:OnSpellStart()
 			--fUniqueRadius = self:GetSpecialValueFor("hitbox"),
 			Source = caster,
 			vVelocity = projectile_direction * projectile_speed,
-			UnitBehavior = PROJECTILES_NOTHING,
+			UnitBehavior = PROJECTILES_DESTROY,
 			bMultipleHits = true,
 			TreeBehavior = PROJECTILES_NOTHING,
 			WallBehavior = PROJECTILES_DESTROY,
 			GroundBehavior = PROJECTILES_FOLLOW,
 			fGroundOffset = 80,
-			draw = true,
-			UnitTest = function(_self, unit) return unit:GetTeamNumber() ~= hero:GetTeamNumber() and unit:GetTeamNumber() ~= DOTA_TEAM_NEUTRALS end,
+			draw = false,
+			UnitTest = function(_self, unit) return true end, -- unit:GetTeamNumber() ~= hero:GetTeamNumber() and unit:GetTeamNumber() ~= DOTA_TEAM_NEUTRALS end
 			OnUnitHit = function(_self, unit) 
 				if unit ~= nil and (unit:GetUnitName() ~= nil) then
-					--unit:AddNewModifier( self:GetCaster(), self, "modifier_beastmaster_net", { duration = self:GetSpecialValueFor( "duration" ) } )
+					unit:AddNewModifier( self:GetCaster(), self, "modifier_beastmaster_net", { duration = self:GetSpecialValueFor( "duration" ) } )
 					
 					local dmgTable = {
 						victim = unit,

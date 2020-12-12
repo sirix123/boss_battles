@@ -305,13 +305,13 @@
 					m_vDomainMaxs = [ 0.0, 0.0 ]
 				}
 			}
+			m_nOrientationType = "PARTICLE_ORIENTATION_WORLD_Z_ALIGNED"
 		},
 	]
 	m_Children = 
 	[
 		{
 			m_ChildRef = resource:"particles/custom/ui_mouseactions/rectangle_line_indicator_b.vpcf"
-			m_bDisableChild = true
 		},
 	]
 }

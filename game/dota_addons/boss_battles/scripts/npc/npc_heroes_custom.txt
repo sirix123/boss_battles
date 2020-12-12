@@ -13,7 +13,7 @@
 	"npc_dota_hero_templar_assassin_template"
 	{
 		"override_hero"				"npc_dota_hero_templar_assassin"			// Hero to override
-		"Ability1"					"blast_wave_v2"									// Ability 1
+		"Ability1"					"beastmaster_net"									// Ability 1
 		"Ability2"					"abs_coord_debug"										// Ability 2
 		"Ability3"					"march"								// Ability 3
 		"Ability4"					"summon_ice_ele"							// Ability 4

@@ -67,23 +67,23 @@ function BeastmasterThink()
 	end
 
 	if thisEntity.summon_bear:IsFullyCastable() and thisEntity.summon_bear:IsCooldownReady()then
-		SummonBear()
+		--SummonBear()
 	end
 
 	if thisEntity.summon_bird:IsFullyCastable() and thisEntity.summon_bird:IsCooldownReady() and thisEntity:GetHealthPercent() < 85 then
-		SummonBird()
+		--SummonBird()
 	end
 
 	if thisEntity.summon_quillboar:IsFullyCastable() and thisEntity.summon_quillboar:IsCooldownReady() then
-		SummonQuillBoar()
+		--SummonQuillBoar()
 	end
 
 	if thisEntity.beastmaster_net:IsFullyCastable() and thisEntity.beastmaster_net:IsCooldownReady() and thisEntity.beastmaster_net:IsInAbilityPhase() == false then
-		BeastmasterNet()
+		BeastmasterNet_v2()
 	end
 
 	if thisEntity.beastmaster_mark:IsFullyCastable() and thisEntity.beastmaster_mark:IsCooldownReady() then
-		BeastmasterMark()
+		--BeastmasterMark()
 	end
 
 	--[[if thisEntity.beastmaster_break:IsFullyCastable() then
@@ -237,7 +237,45 @@ function BeastmasterNet()
 
 	end
 end
+---------------------------------------------------------------------------------
 
+function BeastmasterNet_v2()
+
+	local tFarTargets = {}
+		
+	local units = FindUnitsInRadius(
+		thisEntity:GetTeamNumber(),	-- int, your team number
+		thisEntity:GetAbsOrigin(),	-- point, center point
+		nil,	-- handle, cacheUnit. (not known)
+		5000,	-- float, radius. or use FIND_UNITS_EVERYWHERE
+		DOTA_UNIT_TARGET_TEAM_ENEMY,
+		DOTA_UNIT_TARGET_ALL,
+		DOTA_UNIT_TARGET_FLAG_INVULNERABLE,	-- int, flag filter
+		0,	-- int, order filter
+		false	-- bool, can grow cache
+	)
+
+	if units == nil or #units == 0 then
+		return 0.5
+	else
+		for _, unit in pairs(units) do
+			if ( thisEntity:GetAbsOrigin() - unit:GetAbsOrigin() ):Length2D() > 400 and unit:HasModifier("grab_player_modifier") == false and unit:HasModifier("modifier_stunned") == false then
+				table.insert(tFarTargets,unit)
+			end
+		end
+
+		if tFarTargets == nil or #tFarTargets == 0 then
+			return 0.5
+		else
+			thisEntity.hTarget = tFarTargets[RandomInt(1, #tFarTargets)]
+		end 
+
+		CastLaunchNet_v2(thisEntity.hTarget)
+
+		return thisEntity.beastmaster_net:GetCastPoint() + 0.5
+
+	end
+end
 ---------------------------------------------------------------------------------
 
 function CastSummonBear()
@@ -252,6 +290,18 @@ end
 
 --------------------------------------------------------------------------------
 
+function CastLaunchNet_v2(hTarget)
+	ExecuteOrderFromTable({
+		UnitIndex = thisEntity:entindex(),
+		OrderType = DOTA_UNIT_ORDER_CAST_TARGET,
+		TargetIndex = hTarget:entindex(),
+		AbilityIndex = thisEntity.beastmaster_net:entindex(),
+		Queue = false,
+	})
+	--return 0.5
+end
+--------------------------------------------------------------------------------
+
 function CastLaunchNet(pos)
 	ExecuteOrderFromTable({
 		UnitIndex = thisEntity:entindex(),
@@ -262,7 +312,6 @@ function CastLaunchNet(pos)
 	})
 	--return 0.5
 end
-
 --------------------------------------------------------------------------------
 
 function CastSummonQuillboar()

@@ -209,7 +209,16 @@ function BirdThinker()
                 Vector(191.335999, -10026.628906, 133.128906),
             }
 
-            thisEntity.vWaterPos = vPos[RandomInt(1,#vPos)]
+            local previous_length = 0
+            local furthestPos = Vector(0,0,0)
+            for _, pos in pairs(vPos) do
+                if ( pos - thisEntity:GetAbsOrigin() ):Length2D() >= previous_length then
+                    previous_length = ( pos - thisEntity:GetAbsOrigin() ):Length2D()
+                    furthestPos = pos
+                end
+            end
+
+            thisEntity.vWaterPos = furthestPos
             thisEntity:MoveToPosition(thisEntity.vWaterPos)
 
         end

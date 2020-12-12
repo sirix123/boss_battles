@@ -30,8 +30,8 @@ end
 
 function modifier_beastmaster_net:OnDestroy()
 	if self.nFXIndex then
-		ParticleManager:DestroyParticle(self.nFXIndex, false)
-		ParticleManager:ReleaseParticleIndex( self.nFXIndex )
+		ParticleManager:DestroyParticle(self.nFXIndex, true)
+		--ParticleManager:ReleaseParticleIndex( self.nFXIndex )
 	end
 end
 

@@ -106,7 +106,7 @@
 		},
 		{
 			_class = "C_OP_RampScalarLinear"
-			m_nField = 12
+			m_nField = "12"
 			m_RateMin = 10.0
 			m_RateMax = 10.0
 		},
@@ -150,7 +150,7 @@
 			{
 				m_nType = "PF_TYPE_LITERAL"
 				m_nMapType = "PF_MAP_TYPE_DIRECT"
-				m_flLiteralValue = 1.7
+				m_flLiteralValue = 2.5
 				m_nControlPoint = 0
 				m_nScalarAttribute = 3
 				m_nVectorAttribute = 6
@@ -197,7 +197,6 @@
 	[
 		{
 			m_ChildRef = resource:"particles/econ/items/mars/mars_ti9_immortal/mars_ti9_immortal_crimson_spear_outline.vpcf"
-			m_bDisableChild = true
 		},
 		{
 			m_ChildRef = resource:"particles/econ/items/mars/mars_ti9_immortal/mars_ti9_immortal_crimson_spear_trail.vpcf"

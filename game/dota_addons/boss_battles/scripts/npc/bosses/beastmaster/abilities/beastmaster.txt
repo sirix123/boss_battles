@@ -234,7 +234,7 @@
         "AbilityTextureName"            "meepo_earthbind"
 
         "AbilityCastAnimation"          "ACT_DOTA_CAST_ABILITY_1"
-        "AbilityBehavior"               "DOTA_ABILITY_BEHAVIOR_POINT"
+        "AbilityBehavior"               "DOTA_ABILITY_BEHAVIOR_UNIT_TARGET" //DOTA_ABILITY_BEHAVIOR_UNIT_TARGET DOTA_ABILITY_BEHAVIOR_POINT
         "AbilityUnitTargetTeam"         "DOTA_UNIT_TARGET_TEAM_BOTH"
         "AbilityUnitTargetType"         "DOTA_UNIT_TARGET_HERO | DOTA_UNIT_TARGET_BASIC"
         "AbilityUnitDamageType"         "DAMAGE_TYPE_PHYSICAL"   
@@ -248,7 +248,7 @@
         
         // Time     
         //-------------------------------------------------------------------------------------------------------------
-        "AbilityCooldown"               "12"//"12"
+        "AbilityCooldown"               "3"//"12" 0
 
         // Cost
         //-------------------------------------------------------------------------------------------------------------
@@ -275,7 +275,7 @@
             "03"
             {
                 "var_type"              "FIELD_FLOAT"
-                "projectile_speed"     	"1500"
+                "projectile_speed"     	"1300"
             }
             "04"
             {
@@ -285,7 +285,7 @@
             "05"
             {
                 "var_type"              "FIELD_FLOAT"
-                "damage_bear"     	        "500"
+                "damage_bear"     	        "250"
             }
             "06"
             {
