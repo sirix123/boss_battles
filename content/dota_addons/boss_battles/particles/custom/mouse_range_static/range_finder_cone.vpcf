@@ -53,7 +53,7 @@
 	m_Children = 
 	[
 		{
-			m_ChildRef = resource:"particles/custom/sirix_mouse/range_finder_cone_body.vpcf"
+			m_ChildRef = resource:"particles/custom/mouse_range_static/range_finder_cone_body_static.vpcf"
 		},
 		{
 			m_ChildRef = resource:"particles/custom/sirix_mouse/range_finder_cone_end.vpcf"

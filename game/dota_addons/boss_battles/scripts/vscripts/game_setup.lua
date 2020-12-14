@@ -250,6 +250,10 @@ function GameSetup:SpawnTestingStuff(keys)
     local flame_turret_3 = CreateUnitByName("npc_flame_turret", Vector(-9744,-11704,256), true, nil, nil, DOTA_TEAM_BADGUYS)
     flame_turret_3:SetForwardVector(Vector(0,1, flame_turret_3.z ))
 
+    -- create test item
+    --local newItem = CreateItem("item_tango", nil, nil)
+    --CreateItemOnPositionForLaunch( Vector(-10000,-10000,256), newItem )
+
     -- target dummy (1 by itself)(immortal)
     CreateUnitByName("npc_dota_creature_dummy_target_boss_immortal", Vector(-11571,-8864,256), true, nil, nil, DOTA_TEAM_BADGUYS)
 

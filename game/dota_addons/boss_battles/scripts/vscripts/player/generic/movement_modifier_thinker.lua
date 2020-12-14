@@ -61,6 +61,11 @@ function movement_modifier_thinker:OnIntervalThink()
 		self.parent:GetForwardVector().z
 	)
 
+	-- check for items on the ground
+	if self.parent:IsAlive() then
+		self:PickUpItems()
+	end
+
 	-- moving
 	if self.parent:IsWalking() == true
 		and self.parent:HasModifier("modifier_generic_arc_lua") == false
@@ -218,4 +223,21 @@ function movement_modifier_thinker:AlternatieDirections(vDirection)
 
 	return directions
 end
+--------------------------------------------------------------------------------
 
+function movement_modifier_thinker:PickUpItems()
+	
+	-- consstantly search for items around the player
+	local objs = Entities:FindAllByClassnameWithin("dota_item_drop", self.parent:GetAbsOrigin(), self.parent:GetHullRadius() * 2)
+
+	-- loop through the items on the floor and add them to heroes inventory
+	for _, obj in pairs(objs) do
+
+		-- get item from container
+		local item = obj:GetContainedItem()
+		self.parent:AddItem(item)
+
+		UTIL_Remove(obj)
+
+	end
+end

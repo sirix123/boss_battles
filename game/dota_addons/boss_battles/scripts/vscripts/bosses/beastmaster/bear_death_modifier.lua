@@ -65,6 +65,7 @@ function bear_death_modifier:OnDestroy()
             local nfx = ParticleManager:CreateParticle("particles/beastmaster/beastmaster_razor_static_link.vpcf", PATTACH_POINT_FOLLOW, self:GetParent())
             ParticleManager:SetParticleControlEnt(nfx, 0, self:GetParent(), PATTACH_POINT_FOLLOW, "attach_static", self:GetParent():GetAbsOrigin(), true)
             ParticleManager:SetParticleControlEnt(nfx, 1, unit, PATTACH_POINT_FOLLOW, "attach_hitloc", unit:GetAbsOrigin(), true)
+            ParticleManager:ReleaseParticleIndex( nfx )
 
         end
 

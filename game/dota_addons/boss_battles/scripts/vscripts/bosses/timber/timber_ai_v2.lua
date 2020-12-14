@@ -33,6 +33,7 @@ function Spawn( entityKeyValues )
 	thisEntity.chain:StartCooldown(5)
 
 	thisEntity.chain_map_edge = thisEntity:FindAbilityByName( "chain_map_edge" )
+	thisEntity.chain_edge_speed = thisEntity.chain_map_edge:GetLevelSpecialValueFor("speed", thisEntity.chain_map_edge:GetLevel())
 
 	thisEntity.vertical_saw_blade = thisEntity:FindAbilityByName( "vertical_saw_blade" )
 
@@ -75,35 +76,43 @@ function TimberThink()
 	--print("thisEntity.state ",thisEntity.state)
 
 	-- state change handler
-	if thisEntity:GetHealthPercent() < 70 and thisEntity.chain_map_edge:IsCooldownReady() == true then
+	if thisEntity:GetHealthPercent() < 85 and thisEntity.chain_map_edge:IsCooldownReady() == true then
 		thisEntity.state = 2
 	elseif thisEntity.state == 2 and FindUnitsClose() == true then
 
+		-- start the CD on fireshell just incase he can cast it when the circle is tiny
+		thisEntity.fire_shell:StartCooldown(30)
+
 		-- furion handler
-		EmitGlobalSound("furion_furi_death_04")
+		--EmitGlobalSound("furion_furi_death_04")
+		thisEntity:EmitSoundParams("furion_furi_death_04", 1, 3.0, 0.0)
 
 		-- tp particle effect
 		local particle = "particles/units/heroes/hero_furion/furion_teleport.vpcf"
 		local nFXIndex = ParticleManager:CreateParticle( particle, PATTACH_WORLDORIGIN, nil )
 
-        ParticleManager:SetParticleControl(nFXIndex, 0, Entities:FindByName(nil, RAID_TABLES[3].spawnLocation):GetAbsOrigin())
+        ParticleManager:SetParticleControl(nFXIndex, 0, Vector(10136,-10597,136) )
 		
 		-- timer
 		Timers:CreateTimer(4, function()
 			ParticleManager:DestroyParticle(nFXIndex, false)
-			local furion = CreateUnitByName( "npc_furion", Entities:FindByName(nil, RAID_TABLES[3].spawnLocation):GetAbsOrigin(), true, thisEntity, thisEntity, DOTA_TEAM_BADGUYS)
-			EmitSoundOn("Hero_Furion.Teleport_Appear", furion)  
+			thisEntity.furion = CreateUnitByName( "npc_furion", Vector(10136,-10597,136), true, thisEntity, thisEntity, DOTA_TEAM_BADGUYS)
+			EmitSoundOn("Hero_Furion.Teleport_Appear", thisEntity.furion)  
 
 			-- animation channel
-			furion:StartGestureWithPlaybackRate(ACT_DOTA_CAST_ABILITY_2, 0.3)
+			thisEntity.furion:StartGestureWithPlaybackRate(ACT_DOTA_CAST_ABILITY_2, 0.3)
+
+			-- need circle particle effect that grows over the trees big circle thing
+
 			
 			return false
 		end)
 
-		Timers:CreateTimer(8, function()
+		Timers:CreateTimer(12, function()
 
 			-- play tp sound and voiceline
-			EmitGlobalSound("furion_furi_ability_wrath_09")
+			--EmitGlobalSound("furion_furi_ability_wrath_09")
+			thisEntity:EmitSoundParams("furion_furi_ability_wrath_09", 1, 3.0, 0.0)
 
 			-- regrow all trees
 			GridNav:RegrowAllTrees()
@@ -111,10 +120,17 @@ function TimberThink()
 			return false
 		end)
 
-		Timers:CreateTimer(10, function()
+		Timers:CreateTimer(14, function()
+
+			-- particle effect on furion to show tp out, just release particel
+			local particle_end = "particles/units/heroes/hero_furion/furion_teleport_flash.vpcf"
+			local nFXIndex_end = ParticleManager:CreateParticle( particle_end, PATTACH_WORLDORIGIN, nil )
+			ParticleManager:SetParticleControl(nFXIndex, 0, thisEntity.furion:GetAbsOrigin() )
 
 			-- remove him from game
-			UTIL_Remove( furion )
+			thisEntity.furion:SetAbsOrigin(Vector(0,0,0))
+			thisEntity.furion:ForceKill(false)
+			UTIL_Remove( thisEntity.furion )
 
 			return false
 		end)
@@ -323,14 +339,33 @@ end
 
 function CastChainMapEdge()
 
+	local tPos ={
+		Vector(8598,-10593,136),
+		Vector(9771,-8865,136),
+		Vector(11628,-10653,136),
+		Vector(10332,-12021,136),
+	}
+
+	local previous_length = 0
+	local furthestPos = Vector(0,0,0)
+	for _, pos in pairs(tPos) do
+		if ( pos - thisEntity:GetAbsOrigin() ):Length2D() >= previous_length then
+			previous_length = ( pos - thisEntity:GetAbsOrigin() ):Length2D()
+			furthestPos = pos
+		end
+	end
+
 	ExecuteOrderFromTable({
 		UnitIndex = thisEntity:entindex(),
-		OrderType = DOTA_UNIT_ORDER_CAST_NO_TARGET,
+		OrderType = DOTA_UNIT_ORDER_CAST_POSITION,
 		AbilityIndex = thisEntity.chain_map_edge:entindex(),
-		Queue = 0,
+		Position = furthestPos,
+		Queue = false,
 	})
 
-	return 1.5
+	return 3
+
+	--return 2.5
 end
 --------------------------------------------------------------------------------
 

@@ -67,15 +67,15 @@ function BeastmasterThink()
 	end
 
 	if thisEntity.summon_bear:IsFullyCastable() and thisEntity.summon_bear:IsCooldownReady()then
-		--SummonBear()
+		SummonBear()
 	end
 
 	if thisEntity.summon_bird:IsFullyCastable() and thisEntity.summon_bird:IsCooldownReady() and thisEntity:GetHealthPercent() < 85 then
-		--SummonBird()
+		SummonBird()
 	end
 
 	if thisEntity.summon_quillboar:IsFullyCastable() and thisEntity.summon_quillboar:IsCooldownReady() then
-		--SummonQuillBoar()
+		SummonQuillBoar()
 	end
 
 	if thisEntity.beastmaster_net:IsFullyCastable() and thisEntity.beastmaster_net:IsCooldownReady() and thisEntity.beastmaster_net:IsInAbilityPhase() == false then
@@ -83,7 +83,7 @@ function BeastmasterThink()
 	end
 
 	if thisEntity.beastmaster_mark:IsFullyCastable() and thisEntity.beastmaster_mark:IsCooldownReady() then
-		--BeastmasterMark()
+		BeastmasterMark()
 	end
 
 	--[[if thisEntity.beastmaster_break:IsFullyCastable() then

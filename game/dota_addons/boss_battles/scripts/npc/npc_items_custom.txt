@@ -1,3 +1,40 @@
 "DOTAAbilities"
 {
+
+    // techies rock
+    "item_rock"	
+	{	
+		"ID"							"2008"
+		"BaseClass"						"item_lua"	
+		"AbilityTextureName" 			"item_blink"	
+        "ScriptFile"                    "bosses/techies/player_item_throw_rock.lua"
+        "Model"							"models/items/rubick/rubick_arcana/rubick_arcana_cube.vmdl"
+
+		//"ItemCost"					"3"
+		"ItemShopTags"				    "consumable"
+		"ItemQuality"					"consumable"
+		"ItemShareability"				"ITEM_FULLY_SHAREABLE"
+		"ItemDroppable" 				"0"
+        "ItemStackable"					"1"
+        "ItemInitialCharges" 			"1" 
+        "ItemDisplayCharges" 			"1" 
+		"ItemPermanent" 				"0"
+		"ItemRequiresCharges" 			"1"
+		
+		"AbilityBehavior"				"DOTA_ABILITY_BEHAVIOR_POINT | DOTA_ABILITY_BEHAVIOR_AOE"
+		"AbilityCastRange"				"1500"
+		"AbilityManaCost"				"0"
+		"AbilityCooldown"				"0.5"	
+        "AbilityCastPoint"              "0.0"
+
+		"TargetingIndicator"
+		{
+			"Type"						"TARGETING_INDICATOR_AOE"
+		}
+
+		"AbilitySpecial"	
+		{
+
+		}
+    }	
 }

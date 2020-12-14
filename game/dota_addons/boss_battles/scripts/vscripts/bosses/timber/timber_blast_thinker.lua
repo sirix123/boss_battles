@@ -69,6 +69,8 @@ function timber_blast_thinker:PlayEffects1()
 	local particle_cast = "particles/timber/timber_invoker_sun_strike_team_immortal1.vpcf"
 	local sound_cast = "Hero_Invoker.SunStrike.Charge"
 
+	self:GetCaster():EmitSoundParams(sound_cast, 1, 0.3, 0.0)
+
 	-- Create Particle
 	local effect_cast = ParticleManager:CreateParticle( particle_cast, PATTACH_WORLDORIGIN, self:GetCaster() )
 	ParticleManager:SetParticleControl( effect_cast, 0, self:GetParent():GetOrigin() )
@@ -76,7 +78,7 @@ function timber_blast_thinker:PlayEffects1()
 	ParticleManager:ReleaseParticleIndex( effect_cast )
 
     -- Create Sound
-    EmitSoundOn(sound_cast,self.parent)
+    --EmitSoundOn(sound_cast,self.parent)
 end
 --------------------------------------------------------------------------------
 
@@ -85,6 +87,8 @@ function timber_blast_thinker:PlayEffects2()
 	local particle_cast = "particles/timber/timber_invoker_sun_strike.vpcf"
 	local sound_cast = "Hero_Invoker.SunStrike.Ignite"
 
+	self:GetCaster():EmitSoundParams(sound_cast, 1, 0.3, 0.0)
+
 	-- Create Particle
 	local effect_cast = ParticleManager:CreateParticle( particle_cast, PATTACH_WORLDORIGIN, self:GetCaster() )
 	ParticleManager:SetParticleControl( effect_cast, 0, self:GetParent():GetOrigin() )
@@ -92,5 +96,5 @@ function timber_blast_thinker:PlayEffects2()
 	ParticleManager:ReleaseParticleIndex( effect_cast )
 
 	-- Create Sound
-    EmitSoundOn(sound_cast,self.parent)
+    --EmitSoundOn(sound_cast,self.parent)
 end

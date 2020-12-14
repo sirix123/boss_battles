@@ -233,6 +233,52 @@ function ExecuteAbilityNamed(abilityName) {
     Abilities.ExecuteAbility( ability, heroIndex, true );
 }
 
+function UseItem(itemSlot)
+{
+    var playerId = Players.GetLocalPlayer();
+    var heroIndex = Players.GetPlayerHeroEntityIndex(playerId);
+
+    var abilityIndex = Entities.GetItemInSlot(heroIndex, itemSlot);
+
+    if(heroIndex == -1){
+        $.Msg("[Custom Bindings] Invalid hero: The hero hasn't been asigned yet");
+        return;
+    }
+    if(!abilityIndex){
+        $.Msg("[Custom Bindings] Invalid ability: The ability doesn't exist");
+        return;
+    }
+    if(!Abilities.IsInAbilityPhase(abilityIndex)){
+        //var mouse_position_screen = GameUI.GetCursorPosition();
+        //var mouse_position = Game.ScreenXYToWorld(mouse_position_screen[0], mouse_position_screen[1])
+
+        Abilities.ExecuteAbility( abilityIndex, heroIndex, false )
+        /*
+        var abilityBehavior = Abilities.GetBehavior(abilityIndex)
+        if(abilityBehavior & DOTA_ABILITY_BEHAVIOR.DOTA_ABILITY_BEHAVIOR_POINT){
+            var order = {
+                OrderType : dotaunitorder_t.DOTA_UNIT_ORDER_CAST_POSITION,
+                TargetIndex : heroIndex,
+                Position : mouse_position,
+                QueueBehavior : OrderQueueBehavior_t.DOTA_ORDER_QUEUE_NEVER,
+                ShowEffects : true,
+                AbilityIndex : abilityIndex,
+            };
+            Game.PrepareUnitOrders(order);
+        }
+        if(abilityBehavior & DOTA_ABILITY_BEHAVIOR.DOTA_ABILITY_BEHAVIOR_NO_TARGET){
+            var order = {
+                OrderType : dotaunitorder_t.DOTA_UNIT_ORDER_CAST_NO_TARGET,
+                TargetIndex : heroIndex,
+                QueueBehavior : OrderQueueBehavior_t.DOTA_ORDER_QUEUE_NEVER,
+                ShowEffects : true,
+                AbilityIndex : abilityIndex,
+            };
+            Game.PrepareUnitOrders(order);
+        }*/
+    }
+}
+
 
 // MOVEMENT: 
 function OnPressW(){
@@ -289,6 +335,11 @@ function OnPressR() {
     //TryAddAbilityToQueue(4);
     ForceAddAbilityToQueue(4);
 }
+
+function OnPress1() {
+    //TryAddAbilityToQueue(2);
+    UseItem(0);
+}   
 
 
 // ABILITIES: 
@@ -452,6 +503,9 @@ function Init()
     Game.AddCommand( "+R", OnPressR, "", 0 );
     Game.AddCommand( "-R", EmptyCallBack, "", 0 );   
 
+    // item hot keys
+    Game.AddCommand( "+1", OnPress1, "", 0 );
+    Game.AddCommand( "-1", EmptyCallBack, "", 0 );   
 
     //TESTING: SCOREBOARD 
     Game.AddCommand( "+L", ShowScoreboard, "", 0 );

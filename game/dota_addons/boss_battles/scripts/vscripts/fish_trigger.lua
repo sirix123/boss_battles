@@ -5,7 +5,7 @@ function fishtrigger(trigger)
 
         if not ent then return end
 
-        PrintTable(trigger, indent, done)
+        --PrintTable(trigger, indent, done)
         --particles/econ/items/kunkka/kunkka_weapon_whaleblade_retro/kunkka_spell_torrent_retro_splash_whaleblade.vpcf
 
         -- some epic awesome spell animation thing being eaten by fish then frag the player

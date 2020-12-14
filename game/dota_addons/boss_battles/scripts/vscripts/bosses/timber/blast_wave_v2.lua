@@ -24,26 +24,21 @@ function blast_wave_v2:OnAbilityPhaseStart()
         else
             self.vTargetPos = units[1]:GetAbsOrigin()
 
+            local direction = ( units[1]:GetAbsOrigin() - self:GetCaster():GetAbsOrigin() ):Normalized()
+            local distance = 1950
+
             self:GetCaster():SetForwardVector(self.vTargetPos)
             self:GetCaster():FaceTowards(self.vTargetPos)
 
             local radius = 150
-            --[[self.nPreviewFXIndex = ParticleManager:CreateParticle( "particles/econ/events/darkmoon_2017/darkmoon_calldown_marker.vpcf", PATTACH_CUSTOMORIGIN, nil )
-            ParticleManager:SetParticleControl( self.nPreviewFXIndex, 0, self.vTargetPos )
-            ParticleManager:SetParticleControl( self.nPreviewFXIndex, 1, Vector( radius, -radius, -radius ) )
-            ParticleManager:SetParticleControl( self.nPreviewFXIndex, 2, Vector( self:GetCastPoint(), 0, 0 ) );
-            --ParticleManager:ReleaseParticleIndex( self.nPreviewFXIndex )]]
-
-            local direction = (self.vTargetPos - self:GetCaster():GetAbsOrigin() ):Normalized()
-
-            local particle = "particles/custom/ui_mouseactions/range_finder_cone_body_only.vpcf"
-            self.nPreviewFXIndex = ParticleManager:CreateParticle( particle, PATTACH_WORLDORIGIN, nil )
-            ParticleManager:SetParticleControl( self.nPreviewFXIndex, 0, self:GetCaster():GetAbsOrigin() )
-            ParticleManager:SetParticleControl( self.nPreviewFXIndex, 1, self:GetCaster():GetAbsOrigin() + (direction * 1600))
-            ParticleManager:SetParticleControl( self.nPreviewFXIndex, 2, self:GetCaster():GetAbsOrigin() );
-            ParticleManager:SetParticleControl( self.nPreviewFXIndex, 3, Vector( radius, radius, 0 ) );
-            ParticleManager:SetParticleControl( self.nPreviewFXIndex, 4, Vector( 255, 0, 0 ) );
-            ParticleManager:SetParticleControl( self.nPreviewFXIndex, 6, Vector( 1, 0, 0 ) );
+            local particle = "particles/custom/mouse_range_static/range_finder_cone.vpcf"
+            self.particleNfx = ParticleManager:CreateParticle(particle, PATTACH_ABSORIGIN_FOLLOW,  units[1])
+    
+            ParticleManager:SetParticleControl(self.particleNfx , 0, Vector(0,0,0))
+            ParticleManager:SetParticleControl(self.particleNfx , 1, self:GetCaster():GetAbsOrigin()) -- origin
+            ParticleManager:SetParticleControl(self.particleNfx , 2, ( self:GetCaster():GetAbsOrigin() + ( direction * distance ) )) -- target
+            ParticleManager:SetParticleControl(self.particleNfx , 3, Vector( radius,radius,0) ) -- line width
+            ParticleManager:SetParticleControl(self.particleNfx , 4, Vector(255,0,0)) -- colour
 
             -- play voice line
             EmitSoundOn("shredder_timb_cast_03", self:GetCaster())
@@ -55,7 +50,7 @@ end
 
 function blast_wave_v2:OnAbilityPhaseInterrupted()
     if IsServer() then
-        ParticleManager:DestroyParticle(self.nPreviewFXIndex, true)
+        ParticleManager:DestroyParticle(self.particleNfx, true)
 
         self:GetCaster():RemoveGesture(ACT_DOTA_TELEPORT_END)
     end
@@ -64,7 +59,7 @@ end
 function blast_wave_v2:OnSpellStart()
     if IsServer() then
 
-        ParticleManager:DestroyParticle(self.nPreviewFXIndex, true)
+        ParticleManager:DestroyParticle(self.particleNfx, true)
 
         self:GetCaster():RemoveGesture(ACT_DOTA_TELEPORT_END)
 

@@ -56,7 +56,12 @@ function beastmaster_net:OnAbilityPhaseStart()
 		--DebugDrawCircle(self.vTargetPos, Vector(255,0,0), 60, 50, true, 60)
 
 		local particle = "particles/custom/sirix_mouse/range_finder_cone.vpcf"
+		self.particleNfx = ParticleManager:CreateParticle(particle, PATTACH_ABSORIGIN_FOLLOW, self:GetCaster())
 		self.stop_timer = false
+
+		ParticleManager:SetParticleControl(self.particleNfx , 0, Vector(0,0,0))
+		ParticleManager:SetParticleControl(self.particleNfx , 3, Vector(125,125,0)) -- line width
+		ParticleManager:SetParticleControl(self.particleNfx , 4, Vector(255,0,0)) -- colour
 
 		Timers:CreateTimer(function()
 
@@ -66,18 +71,9 @@ function beastmaster_net:OnAbilityPhaseStart()
 
 			self.target = self:GetCursorTarget()
 			self.vTargetPos = self.target:GetAbsOrigin()
-
-			if self.particleNfx ~= nil then
-				ParticleManager:DestroyParticle(self.particleNfx, true)
-			end
-
-			self.particleNfx = ParticleManager:CreateParticle(particle, PATTACH_ABSORIGIN_FOLLOW, self:GetCaster())
-
-			ParticleManager:SetParticleControl(self.particleNfx , 0, Vector(0,0,0))
-			ParticleManager:SetParticleControl(self.particleNfx , 1, self:GetCaster():GetAbsOrigin())
-			ParticleManager:SetParticleControl(self.particleNfx , 2, self.vTargetPos)
-			ParticleManager:SetParticleControl(self.particleNfx , 3, Vector(125,125,0))
-			ParticleManager:SetParticleControl(self.particleNfx , 4, Vector(255,0,0))
+			
+			ParticleManager:SetParticleControl(self.particleNfx , 1, self:GetCaster():GetAbsOrigin()) -- origin
+			ParticleManager:SetParticleControl(self.particleNfx , 2, self.vTargetPos) -- target
 
 			return FrameTime()
 		end)

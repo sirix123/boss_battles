@@ -256,12 +256,12 @@
             "05"
 			{
 				"var_type"			"FIELD_INTEGER"
-				"nMinProjPerWave"   "4 4 5 5"
+				"nMinProjPerWave"   "3 3 4 5"
 			}
             "06"
 			{
 				"var_type"			"FIELD_INTEGER"
-				"nMaxProjPerWave"   "6 6 7 8"
+				"nMaxProjPerWave"   "5 5 6 7"
 			}
             "07"
 			{
@@ -472,7 +472,7 @@
 
         // Time     
         //-------------------------------------------------------------------------------------------------------------
-        "AbilityCooldown"               "15 14 13 10"
+        "AbilityCooldown"               "15 14 13 10" //15
 
         // Cost
         //-------------------------------------------------------------------------------------------------------------
@@ -564,7 +564,7 @@
 
         // General
         //-------------------------------------------------------------------------------------------------------------
-        "AbilityBehavior"               "DOTA_ABILITY_BEHAVIOR_NO_TARGET"
+        "AbilityBehavior"               "DOTA_ABILITY_BEHAVIOR_POINT"
         "AbilityUnitDamageType"         "DAMAGE_TYPE_PHYSICAL"  
 
         "precache"

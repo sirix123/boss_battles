@@ -51,6 +51,30 @@
         "AbilityManaCost"               "0"
 
     }
+
+    "create_item_on_floor_testing"
+    { 
+        "BaseClass"                     "ability_lua"
+        "ScriptFile"                    "player\generic\create_item_on_floor_testing.lua"
+
+        // General
+        //-------------------------------------------------------------------------------------------------------------
+        "AbilityBehavior"               "DOTA_ABILITY_BEHAVIOR_POINT"
+        "AbilityUnitDamageType"         "DAMAGE_TYPE_PHYSICAL"  
+
+        // Casting
+        //-------------------------------------------------------------------------------------------------------------
+        "AbilityCastPoint"              "0.0 0.0 0.0 0.0"
+
+        // Time     
+        //-------------------------------------------------------------------------------------------------------------
+        "AbilityCooldown"               "1.0 1.0 1.0 1.0"
+
+        // Cost
+        //-------------------------------------------------------------------------------------------------------------
+        "AbilityManaCost"               "0"
+
+    }
     
 
     "powerShot"

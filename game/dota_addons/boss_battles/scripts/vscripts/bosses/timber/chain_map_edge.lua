@@ -6,23 +6,7 @@ function chain_map_edge:OnAbilityPhaseStart()
     if IsServer() then
 		self:GetCaster():StartGestureWithPlaybackRate(ACT_DOTA_CAST_ABILITY_2, 0.4)
 
-		local tPos ={
-			Vector(8598,-10593,136),
-			Vector(9771,-8865,136),
-			Vector(11628,-10653,136),
-			Vector(10332,-12021,136),
-		}
-
-		local previous_length = 0
-		local furthestPos = Vector(0,0,0)
-		for _, pos in pairs(tPos) do
-			if ( pos - self:GetCaster():GetAbsOrigin() ):Length2D() >= previous_length then
-				previous_length = ( pos - self:GetCaster():GetAbsOrigin() ):Length2D()
-				furthestPos = pos
-			end
-		end
-
-		self.vTargetPos = furthestPos --tPos[RandomInt(1, #tPos)]
+		self.vTargetPos = self:GetCursorPosition()
 
         return true
     end

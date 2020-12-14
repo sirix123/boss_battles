@@ -44,6 +44,10 @@
 			Key = "SPACE"
 			Command = "+Space"
 		},
+		{
+			Key = "1"
+			Command = "+1"
+		},
 	]
 	map_options = 
 	[

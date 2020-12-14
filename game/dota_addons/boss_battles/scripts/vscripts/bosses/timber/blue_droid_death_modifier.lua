@@ -64,6 +64,37 @@ function blue_droid_death_modifier:OnDestroy()
     ParticleManager:ReleaseParticleIndex( effect_cast )
     EmitSoundOn( sound_cast, self:GetParent() )
 
+    -- find timber if he is in range and remove some mana
+    -- how to show the players that this is happening?
+    -- ReduceMana( 20 )
+
+    local units = FindUnitsInRadius(
+        self:GetParent():GetTeamNumber(),	-- int, your team number
+        self:GetParent():GetAbsOrigin(),	-- point, center point
+        nil,	-- handle, cacheUnit. (not known)
+        radius,	-- float, radius. or use FIND_UNITS_EVERYWHERE
+        DOTA_UNIT_TARGET_TEAM_FRIENDLY,	-- int, team filter
+        DOTA_UNIT_TARGET_ALL,	-- int, type filter
+        DOTA_UNIT_TARGET_FLAG_NONE,	-- int, flag filter
+        FIND_ANY_ORDER,	-- int, order filter
+        false	-- bool, can grow cache
+    )
+
+    for _, unit in pairs(units) do
+        if unit:GetUnitName() == "npc_timber" then
+            unit:ReduceMana(35)
+
+            --print("inside the death modifier")
+
+            -- particle effect
+            local nfx = ParticleManager:CreateParticle("particles/timber/timber_razor_static_link_beam.vpcf", PATTACH_POINT_FOLLOW, self:GetParent())
+            ParticleManager:SetParticleControlEnt(nfx, 0, self:GetParent(), PATTACH_POINT_FOLLOW, "attach_hitloc", self:GetParent():GetAbsOrigin(), true)
+            ParticleManager:SetParticleControlEnt(nfx, 1, unit, PATTACH_POINT_FOLLOW, "attach_hitloc", unit:GetAbsOrigin(), true)
+            --ParticleManager:ReleaseParticleIndex( nfx )
+
+        end
+    end
+
     --self:PlayEffects()
 end
 
