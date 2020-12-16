@@ -1,4 +1,5 @@
 modifier_electric_vortex = class({})
+LinkLuaModifier( "modifier_electric_vortex_phase_change", "bosses/techies/modifiers/modifier_electric_vortex_phase_change", LUA_MODIFIER_MOTION_NONE )
 
 --------------------------------------------------------------------------------
 -- Classifications
@@ -23,12 +24,19 @@ end
 function modifier_electric_vortex:OnCreated( kv )
 	if not IsServer() then return end
 
-	self.distance = self:GetAbility():GetSpecialValueFor( "electric_vortex_pull_distance" )
+	--self.distance = self:GetAbility():GetSpecialValueFor( "electric_vortex_pull_distance" )
+
+	self.caster = self:GetCaster()
+	self.parent = self:GetParent()
+
+	--print("parent name ",self.parent:GetUnitName())
+
+	self.distance = (self.caster:GetAbsOrigin() - self.parent:GetAbsOrigin() ):Length2D()
 
 	self.center = Vector( kv.x, kv.y, 0 )
 	self.center = GetGroundPosition( self.center, nil )
 
-	self.speed = self.distance/self:GetDuration()
+	self.speed = 400
 
 	if not self:ApplyHorizontalMotionController() then
 		self:Destroy()
@@ -48,6 +56,23 @@ end
 function modifier_electric_vortex:OnDestroy()
 	if not IsServer() then return end
 	self:GetParent():RemoveHorizontalMotionController( self )
+
+	-- add a modifier to the caster (this modifier is removed in phase 3 electroc vortex ai trap)
+	self:GetCaster():AddNewModifier( nil, nil, "modifier_electric_vortex_phase_change", { duration = -1 } )
+	
+	if self:GetParent():GetUnitName() == "npc_rock_techies" then
+
+		-- particle effect, explode
+		local particle = "particles/econ/items/rubick/rubick_arcana/rbck_arc_venomancer_poison_nova_cubes.vpcf"
+		local nfx = ParticleManager:CreateParticle(particle, PATTACH_WORLDORIGIN, nil)
+		ParticleManager:SetParticleControl(nfx, 0, self:GetParent():GetAbsOrigin())
+		ParticleManager:ReleaseParticleIndex(nfx) 
+	
+		
+		self:GetParent():RemoveSelf()
+		self:GetCaster():ForceKill(false)
+
+	end
 
 	-- stop effects
 	local sound_cast = "Hero_StormSpirit.ElectricVortex"
@@ -81,18 +106,24 @@ end
 --------------------------------------------------------------------------------
 -- Motion Effects
 function modifier_electric_vortex:UpdateHorizontalMotion( me, dt )
+
+	self.caster = self:GetCaster()
+	self.parent = self:GetParent()
+
+	self.distance = (self.caster:GetAbsOrigin() - self.parent:GetAbsOrigin() ):Length2D()
+
 	self.direction = self.center - me:GetOrigin()
 	local dist = self.direction:Length2D()
 	self.direction.z = 0
 	self.direction = self.direction:Normalized()
 
-	if dist<10 then
-		me:SetOrigin( self.center )
-		return
-	end
-
 	local target = me:GetOrigin() + self.direction*self.speed*dt
 	me:SetOrigin( target )
+
+	if self.distance < 50 then
+		self:Destroy()
+		--me:SetOrigin( self.center )
+	end
 end
 
 function modifier_electric_vortex:OnHorizontalMotionInterrupted()

@@ -60,7 +60,7 @@ function blast_off:OnSpellStart()
         local distance = (caster:GetAbsOrigin() - self.vTargetPos):Length2D()
         local speed = 1500 -- special value
         local height = 300
-        self.fog_duration = 12
+        self.fog_duration = 5
         self.radius_fog = 9000
         self.radius_dmg = 500
         self.reduceFog = -4900
@@ -95,11 +95,13 @@ function blast_off:OnSpellStart()
             -- blowup
             --print("call back arc")
             self:BlowUp()
+            self:SpawnCubes()
 
         end)
 
     end
 end
+---------------------------------------------------------------------------------------------------------------------------------------
 
 function blast_off:BlowUp()
     if IsServer() then
@@ -173,6 +175,64 @@ function blast_off:BlowUp()
             end
         end
 
+
+    end
+end
+---------------------------------------------------------------------------------------------------------------------------------------
+
+function blast_off:SpawnCubes()
+    if IsServer() then
+
+        -- cubes and decide how many and where
+        local tCubes = {}
+        local nCubesToSpawn = 5
+
+        for i = 1, nCubesToSpawn, 1 do 
+            local mid_point = Vector(10126,1776,131)
+            local radius = 800
+            local randomX = RandomInt(mid_point.x - radius, mid_point.x + radius)
+            local randomY = RandomInt(mid_point.y - radius, mid_point.y + radius)
+            table.insert(tCubes, Vector(randomX,randomY,131))
+        end
+
+        -- spawn the dust columns and swirls
+        for _, vCube in pairs(tCubes) do
+            -- swirls
+            local particle_rock_spawn = "particles/custom/swirl/dota_swirl.vpcf"
+            local particle_effect_rock_spawn = ParticleManager:CreateParticle( particle_rock_spawn, PATTACH_WORLDORIGIN, self:GetCaster() )
+            ParticleManager:SetParticleControl(particle_effect_rock_spawn, 0, vCube )
+            ParticleManager:SetParticleControl(particle_effect_rock_spawn, 1, Vector(5,0,0) )
+            ParticleManager:ReleaseParticleIndex(particle_effect_rock_spawn)
+        end
+
+        -- timer for x seconds return false first and spawn rocks
+        Timers:CreateTimer(5.0, function()
+
+            -- spawn rocks 
+            for _, vCube in pairs(tCubes) do
+    
+                -- ground thing
+                self.nFXIndex = ParticleManager:CreateParticle( "particles/units/heroes/hero_visage/visage_summon_familiars.vpcf", PATTACH_WORLDORIGIN, nil )
+                ParticleManager:SetParticleControl(self.nFXIndex, 0, vCube)
+                ParticleManager:ReleaseParticleIndex( self.nFXIndex )
+
+                -- spawn cube
+                local newItem = CreateItem("item_rock", nil, nil)
+                local obj = CreateItemOnPositionForLaunch( vCube, newItem )
+                obj:SetModelScale(0.4)
+
+                -- add that item particle glow
+                local particle = "particles/techies/etherial_targetglow_repeat.vpcf"
+                local nfx = ParticleManager:CreateParticle(particle, PATTACH_ABSORIGIN, obj)
+                ParticleManager:SetParticleControl(nfx, 1, obj:GetAbsOrigin())
+        
+                --- add direction to it
+                obj:SetForwardVector( Vector( RandomFloat(-1, 1) , RandomFloat(-1, 1), RandomFloat(-1, 1) ) )
+
+            end
+
+            return false
+        end)
 
     end
 end

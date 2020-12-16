@@ -15,9 +15,16 @@ function create_item_on_floor_testing:OnSpellStart()
         local newItem = CreateItem("item_rock", nil, nil)
         local obj = CreateItemOnPositionForLaunch( vTargetPos, newItem )
 
-        obj:SetModelScale(0.5)
+        obj:SetModelScale(0.4)
 
-        -- add particle effect to dropped item
+        -- add that item particle glow
+        local particle = "particles/techies/etherial_targetglow_repeat.vpcf"
+        local nfx = ParticleManager:CreateParticle(particle, PATTACH_ABSORIGIN, obj)
+        ParticleManager:SetParticleControl(nfx, 1, obj:GetAbsOrigin())
+
+        --- add direction to it
+        obj:SetForwardVector( Vector( RandomFloat(-1, 1) , RandomFloat(-1, 1), RandomFloat(-1, 1) ) )
+
 
         --[[ add spin effect
         Timers:CreateTimer(function()

@@ -32,23 +32,20 @@ function electric_vortex:OnSpellStart()
         -- unit identifier
         local caster = self:GetCaster()
 
-        -- load data
-        local duration = self:GetSpecialValueFor( "duration" )
-
         -- play sound
         EmitSoundOn("techies_tech_trapgoesoff_01", self:GetCaster())
 
-        if self.targets ~= nil and self.targets ~= 0 then
-            --print("num targets ", #self.targets)
+        if self.targets ~= nil and #self.targets ~= 0 then
+            
             local randomTarget = self.targets[RandomInt(1, #self.targets)]
-
+            --print("randomTarget ", randomTarget:GetUnitName())
             if randomTarget ~= nil and randomTarget:IsAlive() then
                 randomTarget:AddNewModifier(
                     caster, -- player source
                     self, -- ability source
                     "modifier_electric_vortex", -- modifier name
                     {
-                        duration = duration,
+                        duration = -1,
                         x = caster:GetAbsOrigin().x,
                         y = caster:GetAbsOrigin().y,
                     } -- kv

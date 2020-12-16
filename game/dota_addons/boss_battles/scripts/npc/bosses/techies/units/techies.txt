@@ -243,7 +243,7 @@
 		//"SoundSet"				"Hero_WarlockGolem"
 		//"GameSoundsFile"			"soundevents/game_sounds_heroes/game_sounds_warlock.vsndevts"
 		"Level"						"1"
-		"ModelScale" 				"0.5"
+		"ModelScale" 				"0.3"
 
 		// Abilities
 		//----------------------------------------------------------------
@@ -281,7 +281,7 @@
 
 		// Status
 		//----------------------------------------------------------------
-		"StatusHealth"				"1"//"100000"		// Base health.
+		"StatusHealth"				"800"//"100000"		// Base health.
 		"StatusHealthRegen"			"0.0"		// Health regeneration rate.
 		"StatusMana"				"0"		// Base mana.
 		"StatusManaRegen"			"0.0"		// Mana regeneration rate.		 
@@ -293,10 +293,10 @@
 
 		// Team
 		//----------------------------------------------------------------
-		"TeamName"					"DOTA_TEAM_BADGUYS"						// Team name.
-		"CombatClassAttack"			"DOTA_COMBAT_CLASS_ATTACK_PIERCE"
-		"CombatClassDefend"			"DOTA_COMBAT_CLASS_DEFEND_BASIC"
-		"UnitRelationshipClass"		"DOTA_NPC_UNIT_RELATIONSHIP_TYPE_DEFAULT"
+		//"TeamName"					"DOTA_TEAM_GOODGUYS"						// Team name.
+		//"CombatClassAttack"			"DOTA_COMBAT_CLASS_ATTACK_PIERCE"
+		//"CombatClassDefend"			"DOTA_COMBAT_CLASS_DEFEND_BASIC"
+		//"UnitRelationshipClass"		"DOTA_NPC_UNIT_RELATIONSHIP_TYPE_DEFAULT"
 
 	}
 }

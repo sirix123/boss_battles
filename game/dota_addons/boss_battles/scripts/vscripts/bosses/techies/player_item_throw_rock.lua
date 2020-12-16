@@ -10,6 +10,7 @@ function item_rock:OnSpellStart()
 
     -- create it at players location, then throw it... in an arc...
     local rock = CreateUnitByName("npc_rock_techies", origin, true, nil, nil, DOTA_TEAM_GOODGUYS)
+    rock:SetForwardVector( Vector( RandomFloat(-1, 1) , RandomFloat(-1, 1), RandomFloat(-1, 1) ) )
 
     local nFXIndex = ParticleManager:CreateParticle( "particles/techies/rock_throwtechies_blast_off_trail.vpcf", PATTACH_ABSORIGIN_FOLLOW, rock )
     ParticleManager:SetParticleControl(nFXIndex, 1, rock:GetAbsOrigin())
@@ -22,7 +23,7 @@ function item_rock:OnSpellStart()
         {
             target_x = vTargetPos.x,
             target_y = vTargetPos.y,
-            speed = 800,
+            speed = 1500,
             distance = ( origin - vTargetPos):Length2D(),
             height = 300,
             fix_end = true,

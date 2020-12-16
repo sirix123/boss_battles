@@ -6,10 +6,10 @@ function stomp_push:OnAbilityPhaseStart()
     if IsServer() then
         self:GetCaster():StartGestureWithPlaybackRate(ACT_DOTA_ATTACK, 1.0)
 
-        local radius = 350
+        self.radius = 550
         self.nPreviewFXIndex = ParticleManager:CreateParticle( "particles/econ/events/darkmoon_2017/darkmoon_calldown_marker.vpcf", PATTACH_CUSTOMORIGIN, nil )
         ParticleManager:SetParticleControl( self.nPreviewFXIndex, 0, self:GetCaster():GetAbsOrigin() )
-        ParticleManager:SetParticleControl( self.nPreviewFXIndex, 1, Vector( radius, -radius, -radius ) )
+        ParticleManager:SetParticleControl( self.nPreviewFXIndex, 1, Vector( self.radius, -self.radius, -self.radius ) )
         ParticleManager:SetParticleControl( self.nPreviewFXIndex, 2, Vector( self:GetCastPoint(), 0, 0 ) );
         ParticleManager:ReleaseParticleIndex( self.nPreviewFXIndex )
 
@@ -31,7 +31,7 @@ function stomp_push:OnSpellStart()
         self:GetCaster():GetTeamNumber(),	-- int, your team number
         self:GetCaster():GetAbsOrigin(),	-- point, center point
         nil,	-- handle, cacheUnit. (not known)
-        350,	-- float, radius. or use FIND_UNITS_EVERYWHERE
+        self.radius,	-- float, radius. or use FIND_UNITS_EVERYWHERE
         DOTA_UNIT_TARGET_TEAM_ENEMY,
         DOTA_UNIT_TARGET_ALL,
         DOTA_UNIT_TARGET_FLAG_NONE,	-- int, flag filter
