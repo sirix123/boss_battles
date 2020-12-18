@@ -13,38 +13,8 @@ function GameSetup:init()
 
     self.player_deaths = {}
 
-    -- testing custom hero select
-    GameRules:GetGameModeEntity():SetCustomGameForceHero( "npc_dota_hero_wisp" )
-
-    GameRules:SetCustomGameTeamMaxPlayers(DOTA_TEAM_GOODGUYS, 4)
-    GameRules:SetCustomGameTeamMaxPlayers(DOTA_TEAM_BADGUYS, 0)
-    GameRules:SetCustomGameTeamMaxPlayers(DOTA_TEAM_CUSTOM_1, 0)
-
-    GameRules:EnableCustomGameSetupAutoLaunch(false)
-    GameRules:SetCustomGameSetupAutoLaunchDelay(0)
-    GameRules:SetHeroSelectionTime(60)
-    GameRules:SetStrategyTime(0)
-    GameRules:SetPreGameTime(0)
-    GameRules:SetShowcaseTime(0)
-    GameRules:SetPostGameTime(5)
-    GameRules:SetSameHeroSelectionEnabled(true)
-    GameRules:SetHeroRespawnEnabled(true)
-    GameRules:SetStartingGold( 0 )
-	GameRules:SetGoldTickTime( 999999.0 )
-    GameRules:SetGoldPerTick( 0 )
-
-    GameRules:SetTreeRegrowTime(9999)
-
-    GameRules:SetHideKillMessageHeaders(true)
-    GameRules:SetUseUniversalShopMode(false)
-
-    GameRules:GetGameModeEntity():SetAnnouncerDisabled(true)
-    GameRules:GetGameModeEntity():SetDeathOverlayDisabled(true)
-
-    GameRules:GetGameModeEntity():SetFixedRespawnTime( 3 )
-    GameRules:GetGameModeEntity():SetCameraDistanceOverride( 1800 )
-    GameRules:GetGameModeEntity():SetBuybackEnabled( false )
-    GameRules:GetGameModeEntity():SetTPScrollSlotItemOverride( "" )
+    -- default game rules our mod needs to run
+    GameRules:Init()
 
     -- reg console commands
     self:InitCommands()
@@ -222,6 +192,14 @@ function GameSetup:RegisterRaidWipe( )
                     self.respawn_time = BOSS_BATTLES_RESPAWN_TIME
                     killedHero:SetTimeUntilRespawn(self.respawn_time)
                     killedHero.playerLives = BOSS_BATTLES_PLAYER_LIVES
+
+                    -- remove items from their inventory (items used in techies fight atm)
+                    for i=0,8 do
+                        local item = killedHero:GetItemInSlot(i)
+                        if item ~= nil then -- add item name here if we just want to remove specific items
+                            item:RemoveSelf()
+                        end
+                    end
                 end
 
                 -- call boss cleanup function
