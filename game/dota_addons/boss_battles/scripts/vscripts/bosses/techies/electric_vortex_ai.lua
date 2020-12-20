@@ -100,11 +100,11 @@ function ElectricTurretThink_v2()
 		)
 
 		if targets ~= nil and #targets ~= 0 then
+
 			thisEntity.randomTarget = targets[RandomInt(1, #targets)]
 
-			if thisEntity.randomTarget:GetUnitName() == "npc_rock_techies" then
-				thisEntity.randomTarget = nil
-				return 0.1
+			while (thisEntity.randomTarget:GetUnitName() == "npc_rock_techies") do
+				thisEntity.randomTarget = targets[RandomInt(1, #targets)]
 			end
 
 			EmitSoundOn("techies_tech_trapgoesoff_01", thisEntity)

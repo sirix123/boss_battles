@@ -40,12 +40,16 @@ function choking_gas:OnSpellStart()
             return
         end
 
-        local i = RandomInt(1,#enemies)
+        local randomEnemy = enemies[RandomInt(1, #enemies)]
+
+        while (randomEnemy:GetUnitName() == "npc_rock_techies") do
+            randomEnemy = enemies[RandomInt(1, #enemies)]
+        end
 
         -- create gas modifier
         -- this stays on target and creates a gas cloud every x seconds (handled in modifier with a timer)
         if enemies ~= nil then
-            enemies[i]:AddNewModifier(caster, self, "choking_gas_timer",
+            randomEnemy:AddNewModifier(caster, self, "choking_gas_timer",
             {
                 duration = self.duration
             })

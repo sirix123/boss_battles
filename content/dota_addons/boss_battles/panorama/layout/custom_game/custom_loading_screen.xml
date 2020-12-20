@@ -4,7 +4,7 @@
 	</styles>
 	<Panel class="AddonLoadingRoot">
 		<Panel id="BackGround" >
-			<Image src="file://{images}/loading_screen/simpleboss_paint.png" scaling="stretch-to-fit-preserve-aspect" />
+			<Image src="file://{images}/loading_screen/Tinker.jpg" scaling="stretch-to-fit-preserve-aspect" />
 		</Panel>
 		<Panel id="TitlePanel" style="border: 1px solid red;">
 			<Label id="AddonTitle" text="#addon_game_name" style="" />

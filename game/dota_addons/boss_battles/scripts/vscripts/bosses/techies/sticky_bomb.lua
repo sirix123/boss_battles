@@ -20,7 +20,12 @@ function sticky_bomb:OnAbilityPhaseStart()
         if units == nil or #units == 0 then
             return false
         else
+
             self.target = units[RandomInt(1, #units)]
+
+            while (self.target:GetUnitName() == "npc_rock_techies") do
+                self.target = units[RandomInt(1, #units)]
+            end
 
             self:GetCaster():SetForwardVector(self.target:GetAbsOrigin())
             self:GetCaster():FaceTowards(self.target:GetAbsOrigin())

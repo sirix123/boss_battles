@@ -24,7 +24,7 @@
 		"Ability2"					"blast_off"					// Ability 2
 		"Ability3"					"explode_proxy_mines"					// Ability 3
 		"Ability4"					"summon_electric_vortex_turret"					// Ability 4
-		"Ability5"					"sticky_bomb_fire"					// Ability 5
+		"Ability5"					"choking_gas"					// Ability 5
 		"Ability6"					"sticky_bomb"					// Ability 6
 		"Ability7"					""					// Ability 7
 		"Ability8"					""					// Ability 7
@@ -136,7 +136,7 @@
 		// Movement
 		//----------------------------------------------------------------
 		"MovementCapabilities"		"DOTA_UNIT_CAP_MOVE_NONE"//"DOTA_UNIT_CAP_MOVE_NONE"
-		"MovementSpeed"				"400"					
+		"MovementSpeed"				"480"					
 
 		// Status
 		//----------------------------------------------------------------

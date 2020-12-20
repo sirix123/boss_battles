@@ -23,7 +23,14 @@ function blast_off:OnAbilityPhaseStart()
         if units == nil or #units == 0 then
             return false
         else
-            self.vTargetPos = units[RandomInt(1, #units)]:GetAbsOrigin()
+
+            local randomEnemy = units[RandomInt(1, #units)]
+
+            while (randomEnemy:GetUnitName() == "npc_rock_techies") do
+                randomEnemy = units[RandomInt(1, #units)]
+            end
+
+            self.vTargetPos = randomEnemy:GetAbsOrigin()
 
             self:GetCaster():SetForwardVector(self.vTargetPos)
             self:GetCaster():FaceTowards(self.vTargetPos)

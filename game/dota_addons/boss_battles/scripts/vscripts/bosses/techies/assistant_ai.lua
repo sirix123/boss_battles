@@ -72,10 +72,16 @@ function AttackClosestPlayer()
 		return 0.5
 	end
 
+	local randomEnemy = enemies[RandomInt(1, #enemies)]
+
+	while (randomEnemy:GetUnitName() == "npc_rock_techies") do
+		randomEnemy = enemies[RandomInt(1, #enemies)]
+	end
+
 	ExecuteOrderFromTable({
 		UnitIndex = thisEntity:entindex(),
 		OrderType = DOTA_UNIT_ORDER_ATTACK_MOVE,
-		TargetIndex = enemies[1]:entindex(),
+		TargetIndex = randomEnemy,
 		Queue = 0,
 	})
 

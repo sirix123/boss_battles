@@ -23,8 +23,11 @@ function Spawn( entityKeyValues )
     thisEntity.summon_electric_vortex_turret = thisEntity:FindAbilityByName( "summon_electric_vortex_turret" )
     thisEntity.summon_electric_vortex_turret:StartCooldown(60)
 
-    thisEntity.sticky_bomb_fire = thisEntity:FindAbilityByName( "sticky_bomb_fire" )
-    thisEntity.sticky_bomb_fire:StartCooldown(30)
+    --thisEntity.sticky_bomb_fire = thisEntity:FindAbilityByName( "sticky_bomb_fire" )
+    --thisEntity.sticky_bomb_fire:StartCooldown(30)
+
+    thisEntity.choking_gas = thisEntity:FindAbilityByName( "choking_gas" )
+    thisEntity.choking_gas:StartCooldown(30)
 
     thisEntity.sticky_bomb = thisEntity:FindAbilityByName( "sticky_bomb" )
     thisEntity.sticky_bomb:StartCooldown(30)
@@ -68,16 +71,16 @@ function TechiesThinker()
         local randomIndex = RandomInt(1, #thisEntity.tCenterGrid)
 
         -- just copy paste this line to remove more grids from being mined
-        table.remove(thisEntity.tCenterGrid, randomIndex)
+        --table.remove(thisEntity.tCenterGrid, randomIndex)
 
         thisEntity.reset_grid = false
     end
 
     -- phase state check
-    if thisEntity.tCenterGrid == nil or #thisEntity.tCenterGrid == 0 then
+    --if thisEntity.tCenterGrid == nil or #thisEntity.tCenterGrid == 0 then
         --print("moving to phase 2")
-        thisEntity.phase = 2
-    end
+        --thisEntity.phase = 2
+    --end
 
     --phase state check (check guard is dead)
     if thisEntity:HasModifier("modifier_invulnerable") == false then
@@ -100,9 +103,9 @@ function TechiesThinker()
 
         -- cast one of the bombs every CD
         local randomBomb = RandomInt(1,2)
-        if thisEntity.sticky_bomb_fire ~= nil and thisEntity.sticky_bomb_fire:IsFullyCastable() and thisEntity.sticky_bomb_fire:IsCooldownReady() and thisEntity.sticky_bomb ~= nil and thisEntity.sticky_bomb:IsFullyCastable() and thisEntity.sticky_bomb:IsCooldownReady() then
+        if thisEntity.choking_gas ~= nil and thisEntity.choking_gas:IsFullyCastable() and thisEntity.choking_gas:IsCooldownReady() and thisEntity.sticky_bomb ~= nil and thisEntity.sticky_bomb:IsFullyCastable() and thisEntity.sticky_bomb:IsCooldownReady() then
             if randomBomb == 1 then
-                return CastFireBomb()
+                return CastFireBomb() -- is now choking gas
             end
             if randomBomb == 2 then
                 return CastBomb()
@@ -132,7 +135,7 @@ function TechiesThinker()
 
             -- remove loc from table
             --print("removing index ", thisEntity.randomIndex)
-            table.remove(thisEntity.tCenterGrid, thisEntity.randomIndex)
+            --table.remove(thisEntity.tCenterGrid, thisEntity.randomIndex)
 
             -- set next mine pos flag
             thisEntity.next_mine_location = true
@@ -209,7 +212,7 @@ function CastFireBomb(  )
     ExecuteOrderFromTable({
         UnitIndex = thisEntity:entindex(),
         OrderType = DOTA_UNIT_ORDER_CAST_NO_TARGET,
-        AbilityIndex = thisEntity.sticky_bomb_fire:entindex(),
+        AbilityIndex = thisEntity.choking_gas:entindex(),
         Queue = false,
     })
 
