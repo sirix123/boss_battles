@@ -328,3 +328,15 @@ function Mag(a)
     return math.sqrt((a[1] * a[1]) + (a[2] * a[2]) + (a[3] * a[3]))
 end
 
+
+--STRING SPLIT FUNCTION FROM: https://stackoverflow.com/questions/42650340/how-to-get-first-character-of-string-in-lua
+function mysplit (inputstr, sep)
+    if sep == nil then
+        sep = "%s"
+    end
+    local t={}
+    for str in string.gmatch(inputstr, "([^"..sep.."]+)") do
+            table.insert(t, str)
+    end
+    return t
+end

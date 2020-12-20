@@ -148,6 +148,7 @@ function Activate()
     require('scoreboard')
     require('heroselection')
     require('gamerules')
+    require('commands')
 
     GameRules.AddonTemplate = BossBattles()
     GameRules.AddonTemplate:InitGameMode()

@@ -7,11 +7,32 @@ function HideOther(top_panel){
     var neutral_item = top_panel.FindChildTraverse("inventory_neutral_slot_container");
     neutral_item.style.visibility = "collapse";
 
-    //var talents = top_panel.FindChildTraverse("StatBranch");
-    //talents.style.visibility = "collapse";
+    var talents = top_panel.FindChildTraverse("StatBranch");
+    talents.style.visibility = "collapse";
 
     var guides = top_panel.FindChildTraverse("GuideFlyout");
     guides.style.visibility = "collapse";
+
+    var aghs = top_panel.FindChildTraverse("AghsStatusContainer");
+    aghs.style.visibility = "collapse";
+
+    var aghs_shards = top_panel.FindChildTraverse("AghsStatusShard");
+    aghs_shards.style.visibility = "collapse";
+
+    var aghs_effects = top_panel.FindChildTraverse("AghsAquireEffects");
+    aghs_effects.style.visibility = "collapse";
+
+    var damage = top_panel.FindChildTraverse("Damage");
+    damage.style.visibility = "collapse";
+
+    var stragiint = top_panel.FindChildTraverse("stragiint");
+    stragiint.style.visibility = "collapse";
+
+    var shop = top_panel.FindChildTraverse("shop_launcher_bg");
+    shop.style.visibility = "collapse";
+
+    var shop_button = top_panel.FindChildTraverse("ShopButton");
+    shop_button.style.visibility = "collapse";
 }
 
 function HideDefaults(){
@@ -61,6 +82,19 @@ function ModifyHotkeyBoxes(top_panel){
     })();
 }
 
+function ModifyPlayers(top_panel){
+
+    // notes
+    // removing the mana/health bar from the bottom HUD ui / changing colour should be straight forward
+    // BUT if want that to match the stuff above the hero we would need to create our own custom stuff (overhead) there are a few exmaples for this so might not be too hard
+
+    //$.Msg("modify mana bars")
+
+    //var manaBar = top_panel.FindChildTraverse("ManaBurner");
+    //manaBar.RemoveClass("ManaBurner");
+
+}
+
 /*(function() {
     var top_panel = $.GetContextPanel();
     while(top_panel.GetParent() != null){
@@ -83,6 +117,7 @@ function Init(){
     ModifyHotkeyBoxes(top_panel);
     HideDefaults();
     HideOther(top_panel);
+    ModifyPlayers(top_panel);
 
 }
 
