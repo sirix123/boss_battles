@@ -403,6 +403,7 @@ function GameSetup:ReadyupCheck() -- called from trigger lua file for activators
         Timers:CreateTimer(1.0, function()
             -- look at raidtables and spawn the boss depending on the encounter counter
             boss = CreateUnitByName(RAID_TABLES[BOSS_BATTLES_ENCOUNTER_COUNTER].boss, self.boss_spawn, true, nil, nil, DOTA_TEAM_BADGUYS)
+            return false
         end)
 
 
@@ -433,7 +434,7 @@ function GameSetup:ReadyupCheck() -- called from trigger lua file for activators
             end
             return 1;
         end)
-
+        return false
     end)
 
     -- reset wipe flag
@@ -475,7 +476,7 @@ function GameSetup:HeroKilled( keys )
             killedHero.nRespawnFX = ParticleManager:CreateParticle( "particles/items_fx/aegis_timer.vpcf", PATTACH_ABSORIGIN_FOLLOW, killedHero )
             ParticleManager:SetParticleControl( killedHero.nRespawnFX, 1, Vector( BOSS_BATTLES_RESPAWN_TIME, 0, 0 ) )
 
-            AddFOWViewer( killedHero:GetTeamNumber(), killedHero:GetAbsOrigin(), 800.0, 5, false )
+            AddFOWViewer( killedHero:GetTeamNumber(), killedHero:GetAbsOrigin(), 5000.0, 5, false )
         end
     end
 
@@ -510,7 +511,7 @@ function GameSetup:EncounterCleanUp( origin )
         origin,
         nil,
         5000,
-        DOTA_UNIT_TARGET_TEAM_BOTH,
+        DOTA_UNIT_TARGET_TEAM_FRIENDLY,
         DOTA_UNIT_TARGET_ALL,
         DOTA_UNIT_TARGET_FLAG_INVULNERABLE,
         FIND_ANY_ORDER,
@@ -522,8 +523,6 @@ function GameSetup:EncounterCleanUp( origin )
             unit:RemoveSelf()
         end
     end
-
-    return 0.5
 end
 -----------------------------------------------------------------------------------------------------
 

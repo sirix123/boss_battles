@@ -96,6 +96,10 @@ function cogs:OnSpellStart()
         local totalTicks = self:GetSpecialValueFor( "totalTicks" ) --30
         local timerInterval = self:GetSpecialValueFor( "timerInterval" ) --1
         Timers:CreateTimer( function()
+            if self:GetCaster():IsAlive() == false then
+                return false
+            end
+
             if loopTick >= totalTicks then
 
                 if changedDirections == false then
@@ -104,7 +108,7 @@ function cogs:OnSpellStart()
                     end
                 elseif changedDirections == true then
                     if tCogs[cogIndex+1]:HasModifier("cog_modifier") then
-                    tCogs[cogIndex+1]:RemoveModifierByName("cog_modifier")
+                        tCogs[cogIndex+1]:RemoveModifierByName("cog_modifier")
                     end
                 end
 
