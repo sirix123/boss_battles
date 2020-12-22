@@ -92,6 +92,11 @@ function Spawn( entityKeyValues )
 	thisEntity.nMaxWaves = thisEntity.missile_salvo:GetLevelSpecialValueFor("nMaxWaves", thisEntity.missile_salvo:GetLevel())
 	thisEntity.flTimeBetweenWaves = thisEntity.missile_salvo:GetLevelSpecialValueFor("flTimeBetweenWaves", thisEntity.missile_salvo:GetLevel())
 
+	-- cogs
+	thisEntity.cogs = thisEntity:FindAbilityByName( "cogs" )
+	thisEntity.loop = thisEntity.cogs:GetLevelSpecialValueFor("totalTicks", thisEntity.cogs:GetLevel())
+	thisEntity.interval = thisEntity.cogs:GetLevelSpecialValueFor("timerInterval", thisEntity.cogs:GetLevel())
+
 	-- start misile salvo cd so he doesn't cast it on spawn
 	thisEntity.missile_salvo:StartCooldown(thisEntity.missile_salvo:GetCooldown(thisEntity.missile_salvo:GetLevel()))
 
@@ -180,6 +185,10 @@ function ClockThink()
 
 	if thisEntity.summon_chain_gun_turret:IsFullyCastable() and thisEntity.summon_chain_gun_turret:IsCooldownReady() then
 		return CastChainGunTurret()
+	end
+
+	if thisEntity.cogs:IsFullyCastable() and thisEntity.cogs:IsCooldownReady() then
+		return CastCogs()
 	end
 
 	if thisEntity.missile_salvo:IsFullyCastable() and thisEntity.missile_salvo:IsCooldownReady() then
@@ -293,6 +302,18 @@ function CastHookshot()
 	})
 
 	return 5
+end
+--------------------------------------------------------------------------------
+
+function CastCogs()
+	ExecuteOrderFromTable({
+		UnitIndex = thisEntity:entindex(),
+		OrderType = DOTA_UNIT_ORDER_CAST_NO_TARGET,
+		AbilityIndex = thisEntity.cogs:entindex(),
+		Queue = 0,
+	})
+
+	return thisEntity.loop * thisEntity.interval
 end
 --------------------------------------------------------------------------------
 

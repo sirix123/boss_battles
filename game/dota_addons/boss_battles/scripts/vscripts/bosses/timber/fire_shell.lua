@@ -210,6 +210,17 @@ function fire_shell:StartThinkLoop()
 			table.remove(tProjectileData, k)
 		end
 
+		-- particles/units/heroes/hero_shredder/shredder_flame_thrower_tree_afterburn.vpcf
+		local trees = GridNav:GetAllTreesAroundPoint(projectileInfo.position, 100, false)
+
+		for _, tree in pairs(trees) do
+			local particle = "particles/units/heroes/hero_shredder/shredder_flame_thrower_tree_afterburn.vpcf"
+			local particle_id = ParticleManager:CreateParticle(particle, PATTACH_ABSORIGIN_FOLLOW, tree)
+            ParticleManager:SetParticleControl(particle_id, 0, tree:GetAbsOrigin())
+            ParticleManager:ReleaseParticleIndex(particle_id)
+		end
+
+
 	end
 
 		return 1.5
