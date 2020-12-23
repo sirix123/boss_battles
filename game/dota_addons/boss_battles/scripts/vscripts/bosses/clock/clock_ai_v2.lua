@@ -96,13 +96,17 @@ function Spawn( entityKeyValues )
 	thisEntity.cogs = thisEntity:FindAbilityByName( "cogs" )
 	thisEntity.loop = thisEntity.cogs:GetLevelSpecialValueFor("totalTicks", thisEntity.cogs:GetLevel())
 	thisEntity.interval = thisEntity.cogs:GetLevelSpecialValueFor("timerInterval", thisEntity.cogs:GetLevel())
+	--thisEntity.cogs:StartCooldown(20)
 
 	-- start misile salvo cd so he doesn't cast it on spawn
 	thisEntity.missile_salvo:StartCooldown(thisEntity.missile_salvo:GetCooldown(thisEntity.missile_salvo:GetLevel()))
 
 	-- chooking gas
-	thisEntity.choking_gas = thisEntity:FindAbilityByName( "choking_gas" )
-	thisEntity.choking_gas:StartCooldown(thisEntity.choking_gas:GetCooldown(thisEntity.choking_gas:GetLevel()))
+	--thisEntity.choking_gas = thisEntity:FindAbilityByName( "choking_gas" )
+	--thisEntity.choking_gas:StartCooldown(thisEntity.choking_gas:GetCooldown(thisEntity.choking_gas:GetLevel()))
+
+	-- vortex grenade
+	thisEntity.vortex_grenade = thisEntity:FindAbilityByName( "vortex_grenade" )
 
 	-- missile single
 	thisEntity.fire_missile = thisEntity:FindAbilityByName( "fire_missile" )
@@ -195,8 +199,8 @@ function ClockThink()
 		return CastMissileSalvo()
 	end
 
-	if thisEntity.choking_gas:IsFullyCastable() and thisEntity.choking_gas:IsCooldownReady() and thisEntity:HasModifier("furnace_modifier_3") then
-		return CastChokingGas()
+	if thisEntity.vortex_grenade:IsFullyCastable() and thisEntity.vortex_grenade:IsCooldownReady() and thisEntity:HasModifier("furnace_modifier_3") then
+		return CastVortexGrenade()
 	end
 
 	return 0.5
@@ -212,7 +216,7 @@ function LevelUpAbilities()
 	thisEntity.summon_furnace_droid:SetLevel(thisEntity.levelTracker)
 	thisEntity.summon_electric_turret:SetLevel(thisEntity.levelTracker)
 	thisEntity.hookshot:SetLevel(thisEntity.levelTracker)
-	thisEntity.choking_gas:SetLevel(thisEntity.levelTracker)
+	thisEntity.vortex_grenade:SetLevel(thisEntity.levelTracker)
 
 end
 --------------------------------------------------------------------------------
@@ -362,11 +366,11 @@ function CastMissileSalvo()
 end
 --------------------------------------------------------------------------------
 
-function CastChokingGas()
+function CastVortexGrenade()
 	ExecuteOrderFromTable({
 		UnitIndex = thisEntity:entindex(),
 		OrderType = DOTA_UNIT_ORDER_CAST_NO_TARGET,
-		AbilityIndex = thisEntity.choking_gas:entindex(),
+		AbilityIndex = thisEntity.vortex_grenade:entindex(),
 		Queue = 0,
 	})
 	return 0.5

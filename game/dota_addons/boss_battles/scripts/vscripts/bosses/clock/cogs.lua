@@ -5,6 +5,20 @@ function cogs:OnAbilityPhaseStart()
     if IsServer() then
         self:GetCaster():StartGestureWithPlaybackRate(ACT_DOTA_RATTLETRAP_POWERCOGS, 1.0)
 
+        local sound_random = math.random(1,17)
+        if sound_random <= 9 then
+            self:GetCaster():EmitSound("rattletrap_ratt_ability_cogs_0"..sound_random)
+        else
+            self:GetCaster():EmitSound("rattletrap_ratt_ability_cogs_"..sound_random)
+        end
+
+        local radius = 500
+        self.nPreviewFXIndex = ParticleManager:CreateParticle( "particles/econ/events/darkmoon_2017/darkmoon_calldown_marker.vpcf", PATTACH_CUSTOMORIGIN, nil )
+        ParticleManager:SetParticleControl( self.nPreviewFXIndex, 0, self:GetCaster():GetAbsOrigin() )
+        ParticleManager:SetParticleControl( self.nPreviewFXIndex, 1, Vector( radius, -radius, -radius ) )
+        ParticleManager:SetParticleControl( self.nPreviewFXIndex, 2, Vector( self:GetCastPoint(), 0, 0 ) );
+        ParticleManager:ReleaseParticleIndex( self.nPreviewFXIndex )
+
         return true
     end
 end
@@ -20,6 +34,8 @@ end
 function cogs:OnSpellStart()
     if IsServer() then
         self:GetCaster():RemoveGesture(ACT_DOTA_RATTLETRAP_POWERCOGS)
+
+        --self:GetCaster():StartGestureWithPlaybackRate(ACT_DOTA_RATTLETRAP_POWERCOGS, 1.0)
 
         local caster = self:GetCaster()
         local vCaster = caster:GetAbsOrigin()

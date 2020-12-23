@@ -539,7 +539,7 @@
 
         // Casting
         //-------------------------------------------------------------------------------------------------------------
-        "AbilityCastPoint"              "0.4 0.4 0.4 0.4"
+        "AbilityCastPoint"              "1.0 1.0 1.0 1.0"
         "AbilityCooldown"               "90 90 90 90"
         "AbilityManaCost"               "0"
         "AbilityCastRange" 				"5000"
@@ -555,6 +555,40 @@
         "precache"
 		{
 
+		}
+    }
+
+    //=================================================================================================================
+    // Clock: vortex grenade
+    //=================================================================================================================
+    "vortex_grenade"
+    { 
+        "BaseClass"                     "ability_lua"
+        "ScriptFile"                    "bosses/clock/vortex_grenade"
+        "MaxLevel"						"4"
+
+        // General
+        //-------------------------------------------------------------------------------------------------------------
+        "AbilityBehavior"               "DOTA_ABILITY_BEHAVIOR_NO_TARGET"
+        "AbilityUnitDamageType"         "DAMAGE_TYPE_PHYSICAL"
+
+        // Casting
+        //-------------------------------------------------------------------------------------------------------------
+        "AbilityCastPoint"              "1.0 1.0 1.0 1.0"
+        "AbilityCooldown"               "1 1 1 1"
+        "AbilityManaCost"               "0"
+        "AbilityCastRange" 				"5000"
+
+        // Special
+        //-------------------------------------------------------------------------------------------------------------
+		"AbilitySpecial"
+		{
+
+		}
+
+        "precache"
+		{
+            "soundfile" "sounds/weapons/hero/faceless_void/chronosphere.vsnd"
 		}
     }
 

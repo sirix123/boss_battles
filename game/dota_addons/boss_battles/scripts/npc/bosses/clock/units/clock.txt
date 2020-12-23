@@ -22,7 +22,7 @@
 		//----------------------------------------------------------------
 		"Ability1"					"missile_salvo"					// Ability 1
 		"Ability2"					"hookshot"						// Ability 2
-		"Ability3"					"choking_gas"					// Ability 3
+		"Ability3"					"vortex_grenade"					// Ability 3
 		"Ability4"					"summon_flame_turret"			// Ability 4
 		"Ability5"					"summon_chain_gun_turret"		// Ability 5
 		"Ability6"					"summon_electric_turret"		// Ability 6
