@@ -548,7 +548,7 @@
         //-------------------------------------------------------------------------------------------------------------
 		"AbilitySpecial"
 		{
-            "01"{ "var_type"			"FIELD_INTEGER"		"totalTicks"		           "30" }
+            "01"{ "var_type"			"FIELD_INTEGER"		"totalTicks"		           "22" }
             "02"{ "var_type"			"FIELD_INTEGER"		"timerInterval"		           "1" }
 		}
 

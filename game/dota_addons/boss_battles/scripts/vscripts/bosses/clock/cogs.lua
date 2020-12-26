@@ -35,7 +35,7 @@ function cogs:OnSpellStart()
     if IsServer() then
         self:GetCaster():RemoveGesture(ACT_DOTA_RATTLETRAP_POWERCOGS)
 
-        --self:GetCaster():StartGestureWithPlaybackRate(ACT_DOTA_RATTLETRAP_POWERCOGS, 1.0)
+        self:GetCaster():StartGestureWithPlaybackRate(ACT_DOTA_GENERIC_CHANNEL_1, 2.0)
 
         local caster = self:GetCaster()
         local vCaster = caster:GetAbsOrigin()
@@ -45,15 +45,11 @@ function cogs:OnSpellStart()
         local vCogSpawn = GetGroundPosition(vCaster + Vector(0, nCogRadius, 0), nil)
         local tCogs = {}
 
+        self.sound_cast = "Hero_StormSpirit.BallLightning.Loop"
+        EmitGlobalSound( self.sound_cast )
+
         -- apply rooted modifier to boss
         caster:AddNewModifier(caster, nil, "modifier_rooted", {duration = -1})
-
-        -- if boss has armor buff, remove it, but remember the stacks first
-        if caster:HasModifier("armor_buff_modifier") then
-            self.hBuff_nStackCount = caster:GetModifierStackCount("armor_buff_modifier", nil)
-            --print("stackcount ",self.hBuff_nStackCount)
-            caster:RemoveModifierByName("armor_buff_modifier")
-        end
 
         for i = 1, nCogs do
 
@@ -113,10 +109,13 @@ function cogs:OnSpellStart()
         local timerInterval = self:GetSpecialValueFor( "timerInterval" ) --1
         Timers:CreateTimer( function()
             if self:GetCaster():IsAlive() == false then
+                StopGlobalSound(self.sound_cast)
                 return false
             end
 
             if loopTick >= totalTicks then
+
+                self:GetCaster():RemoveGesture(ACT_DOTA_GENERIC_CHANNEL_1)
 
                 if changedDirections == false then
                     if tCogs[cogIndex-1]:HasModifier("cog_modifier") then
@@ -136,9 +135,7 @@ function cogs:OnSpellStart()
                 -- remove rooted modifier
                 caster:RemoveModifierByName("modifier_rooted")
 
-                -- add armor buff back with the correct stack count
-                local hBuff = self:GetCaster():AddNewModifier( nil, nil, "armor_buff_modifier", { duration = -1 } )
-                hBuff:SetStackCount(self.hBuff_nStackCount)
+                StopGlobalSound(self.sound_cast)
 
                 return false
             end

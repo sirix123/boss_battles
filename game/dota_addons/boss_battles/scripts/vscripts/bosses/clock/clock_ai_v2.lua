@@ -31,6 +31,7 @@ function Spawn( entityKeyValues )
 	thisEntity:AddNewModifier( nil, nil, "modifier_remove_healthbar", { duration = -1 } )
 	thisEntity.hBuff = thisEntity:AddNewModifier( nil, nil, "armor_buff_modifier", { duration = -1 } )
 	thisEntity.hBuff:SetStackCount(4)
+	thisEntity.nStacks = 0
 
 	-- summon furnace
 	thisEntity.furnace_1 = Entities:FindByName(nil, "furnace_1"):GetAbsOrigin()
@@ -96,7 +97,8 @@ function Spawn( entityKeyValues )
 	thisEntity.cogs = thisEntity:FindAbilityByName( "cogs" )
 	thisEntity.loop = thisEntity.cogs:GetLevelSpecialValueFor("totalTicks", thisEntity.cogs:GetLevel())
 	thisEntity.interval = thisEntity.cogs:GetLevelSpecialValueFor("timerInterval", thisEntity.cogs:GetLevel())
-	--thisEntity.cogs:StartCooldown(20)
+	thisEntity.cogs:StartCooldown(12)
+	thisEntity.cast_cogs = false
 
 	-- start misile salvo cd so he doesn't cast it on spawn
 	thisEntity.missile_salvo:StartCooldown(thisEntity.missile_salvo:GetCooldown(thisEntity.missile_salvo:GetLevel()))
@@ -148,6 +150,16 @@ function ClockThink()
 	end
 
 	local nActiveFurnaces = FindFurnacesWithActivatedBuff()
+	if thisEntity:HasModifier("armor_buff_modifier") == true then
+		thisEntity.nStacks = thisEntity.hBuff:GetStackCount()
+	end
+
+	-- after using the cogs ability reapply the armor modifier with the correct stacks
+	if thisEntity:HasModifier("armor_buff_modifier") == false and thisEntity.cast_cogs == true and nActiveFurnaces < 4 then
+		thisEntity.hBuff = thisEntity:AddNewModifier( nil, nil, "armor_buff_modifier", { duration = -1 } )
+		thisEntity.hBuff:SetStackCount(thisEntity.nStacks)
+		thisEntity.cast_cogs = false
+	end
 
 	--[[if thisEntity:HasModifier("armor_buff_modifier") then
 		if thisEntity.hBuff:GetStackCount() ~= 0 and thisEntity.hBuff:GetStackCount() ~= nil then
@@ -316,6 +328,12 @@ function CastCogs()
 		AbilityIndex = thisEntity.cogs:entindex(),
 		Queue = 0,
 	})
+
+	thisEntity.cast_cogs = true
+
+	if thisEntity:HasModifier("armor_buff_modifier") == true then
+		thisEntity:RemoveModifierByName("armor_buff_modifier")
+	end
 
 	return thisEntity.loop * thisEntity.interval
 end
