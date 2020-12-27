@@ -97,7 +97,7 @@ function Spawn( entityKeyValues )
 	thisEntity.cogs = thisEntity:FindAbilityByName( "cogs" )
 	thisEntity.loop = thisEntity.cogs:GetLevelSpecialValueFor("totalTicks", thisEntity.cogs:GetLevel())
 	thisEntity.interval = thisEntity.cogs:GetLevelSpecialValueFor("timerInterval", thisEntity.cogs:GetLevel())
-	thisEntity.cogs:StartCooldown(12)
+	thisEntity.cogs:StartCooldown(18)
 	thisEntity.cast_cogs = false
 
 	-- start misile salvo cd so he doesn't cast it on spawn
@@ -211,7 +211,7 @@ function ClockThink()
 		return CastMissileSalvo()
 	end
 
-	if thisEntity.vortex_grenade:IsFullyCastable() and thisEntity.vortex_grenade:IsCooldownReady() and thisEntity:HasModifier("furnace_modifier_3") then
+	if thisEntity.vortex_grenade:IsFullyCastable() and thisEntity.vortex_grenade:IsCooldownReady() and thisEntity:HasModifier("furnace_modifier_3") and thisEntity.vortex_grenade:IsInAbilityPhase() == false then
 		return CastVortexGrenade()
 	end
 
@@ -310,14 +310,49 @@ end
 --------------------------------------------------------------------------------
 
 function CastHookshot()
-	ExecuteOrderFromTable({
-		UnitIndex = thisEntity:entindex(),
-		OrderType = DOTA_UNIT_ORDER_CAST_NO_TARGET,
-		AbilityIndex = thisEntity.hookshot:entindex(),
-		Queue = 0,
-	})
 
-	return 5
+	local tFarTargets = {}
+
+	local units = FindUnitsInRadius(
+		thisEntity:GetTeamNumber(),	-- int, your team number
+		thisEntity:GetAbsOrigin(),	-- point, center point
+		nil,	-- handle, cacheUnit. (not known)
+		2500,	-- float, radius. or use FIND_UNITS_EVERYWHERE
+		DOTA_UNIT_TARGET_TEAM_ENEMY,
+		DOTA_UNIT_TARGET_ALL,
+		DOTA_UNIT_TARGET_FLAG_INVULNERABLE,	-- int, flag filter
+		0,	-- int, order filter
+		false	-- bool, can grow cache
+	)
+
+	if units == nil or #units == 0 then
+		return 0.5
+	else
+		for _, unit in pairs(units) do
+			if ( thisEntity:GetAbsOrigin() - unit:GetAbsOrigin() ):Length2D() > 400 then
+				table.insert(tFarTargets,unit)
+			end
+		end
+
+		if tFarTargets == nil or #tFarTargets == 0 then
+			return 0.5
+		else
+			thisEntity.hTarget = tFarTargets[RandomInt(1, #tFarTargets)]
+		end
+
+		ExecuteOrderFromTable({
+			UnitIndex = thisEntity:entindex(),
+			OrderType = DOTA_UNIT_ORDER_CAST_TARGET,
+			TargetIndex = thisEntity.hTarget:entindex(),
+			AbilityIndex = thisEntity.hookshot:entindex(),
+			Queue = false,
+		})
+
+		return 5
+
+	end
+
+	return 0.5
 end
 --------------------------------------------------------------------------------
 
@@ -793,6 +828,6 @@ function ActivateFurnace()
 			end
 		end
 
-		return 0.5
+		return 0.1
 	end)
 end

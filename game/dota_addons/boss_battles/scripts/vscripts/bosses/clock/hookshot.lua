@@ -3,7 +3,7 @@ LinkLuaModifier("clock_hookshot_modifier", "bosses/clock/modifiers/clock_hooksho
 LinkLuaModifier( "modifier_generic_arc_lua", "player/generic/modifier_generic_arc_lua", LUA_MODIFIER_MOTION_BOTH )
 LinkLuaModifier( "stunned_modifier", "player/generic/stunned_modifier", LUA_MODIFIER_MOTION_NONE )
 
-function hookshot:OnAbilityPhaseStart()
+--[[function hookshot:OnAbilityPhaseStart()
     if IsServer() then
         self:GetCaster():StartGestureWithPlaybackRate(ACT_DOTA_RATTLETRAP_HOOKSHOT_START, 1.2)
 
@@ -11,7 +11,7 @@ function hookshot:OnAbilityPhaseStart()
             DOTA_TEAM_BADGUYS,
             self:GetCaster():GetAbsOrigin(),
             nil,
-            5000,
+            2500,
             DOTA_UNIT_TARGET_TEAM_ENEMY,
             DOTA_UNIT_TARGET_ALL,
             DOTA_UNIT_TARGET_FLAG_NONE,
@@ -32,8 +32,29 @@ function hookshot:OnAbilityPhaseStart()
             return true
         end
     end
-end
+end]]
 ---------------------------------------------------------------------------------------------------------------------------------------
+
+function hookshot:OnAbilityPhaseStart()
+    if IsServer() then
+
+		self:GetCaster():StartGestureWithPlaybackRate(ACT_DOTA_RATTLETRAP_HOOKSHOT_START, 1.2)
+
+		EmitSoundOn( "rattletrap_ratt_ability_hook_03", self:GetCaster() )
+
+		self.target = self:GetCursorTarget()
+		self.vTargetPos = self.target:GetAbsOrigin()
+ 		if self.vTargetPos == nil then
+ 			return false
+ 		end
+
+		self:GetCaster():SetForwardVector(self.vTargetPos)
+		self:GetCaster():FaceTowards(self.vTargetPos)
+
+        return true
+    end
+end
+---------------------------------------------------------------------------
 
 function hookshot:OnSpellStart()
     if IsServer() then

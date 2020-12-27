@@ -59,8 +59,10 @@
 
         // General
         //-------------------------------------------------------------------------------------------------------------
-        "AbilityBehavior"               "DOTA_ABILITY_BEHAVIOR_NO_TARGET"
+        "AbilityBehavior"               "DOTA_ABILITY_BEHAVIOR_UNIT_TARGET"
         "AbilityUnitDamageType"         "DAMAGE_TYPE_PHYSICAL"
+        "AbilityUnitTargetTeam"         "DOTA_UNIT_TARGET_TEAM_BOTH"
+        "AbilityUnitTargetType"         "DOTA_UNIT_TARGET_HERO | DOTA_UNIT_TARGET_BASIC"
 
         // Casting
         //-------------------------------------------------------------------------------------------------------------
@@ -575,7 +577,7 @@
         // Casting
         //-------------------------------------------------------------------------------------------------------------
         "AbilityCastPoint"              "1.0 1.0 1.0 1.0"
-        "AbilityCooldown"               "1 1 1 1"
+        "AbilityCooldown"               "30 30 30 30"
         "AbilityManaCost"               "0"
         "AbilityCastRange" 				"5000"
 

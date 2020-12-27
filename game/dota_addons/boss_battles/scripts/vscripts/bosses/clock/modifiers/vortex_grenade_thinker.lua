@@ -18,8 +18,10 @@ function vortex_grenade_thinker:OnCreated( kv )
         self.parent = self:GetParent()
         self.caster = self:GetCaster()
 
+        self.vLocation = Vector(kv.target_x,kv.target_y,kv.target_z)
+
         local particle = ParticleManager:CreateParticle("particles/units/heroes/hero_rubick/rubick_faceless_void_chronosphere.vpcf", PATTACH_WORLDORIGIN, self.parent)
-		ParticleManager:SetParticleControl(particle, 0, self.parent:GetAbsOrigin())
+		ParticleManager:SetParticleControl(particle, 0, self.vLocation)
 		ParticleManager:SetParticleControl(particle, 1, Vector(500, 500, 500))
         self:AddParticle(particle, false, false, -1, false, false)
 
@@ -37,7 +39,7 @@ function vortex_grenade_thinker:OnIntervalThink()
 
         local units = FindUnitsInRadius(
             self.caster:GetTeamNumber(),
-            self.caster:GetAbsOrigin(),
+            self.vLocation,
             nil,
             400,
             DOTA_UNIT_TARGET_TEAM_ENEMY,

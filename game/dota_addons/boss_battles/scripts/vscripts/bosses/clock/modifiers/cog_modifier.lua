@@ -72,6 +72,8 @@ function cog_modifier:OnIntervalThink()
 
             ApplyDamage(self.damageTable)
 
+            
+
         end
 
     end

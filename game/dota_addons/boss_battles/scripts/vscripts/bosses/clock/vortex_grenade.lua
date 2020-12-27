@@ -6,12 +6,14 @@ function vortex_grenade:OnAbilityPhaseStart()
     if IsServer() then
         self:GetCaster():StartGestureWithPlaybackRate(ACT_DOTA_RATTLETRAP_POWERCOGS, 1.0)
 
+        EmitSoundOn("rattletrap_ratt_ability_flare_05", self:GetCaster())
+
         -- find unit and throw a nade at em
         local units = FindUnitsInRadius(
             self:GetCaster():GetTeamNumber(),	-- int, your team number
             self:GetCaster():GetAbsOrigin(),	-- point, center point
             nil,	-- handle, cacheUnit. (not known)
-            5000,	-- float, radius. or use FIND_UNITS_EVERYWHERE
+            2000,	-- float, radius. or use FIND_UNITS_EVERYWHERE
             DOTA_UNIT_TARGET_TEAM_ENEMY,
             DOTA_UNIT_TARGET_ALL,
             DOTA_UNIT_TARGET_FLAG_INVULNERABLE,	-- int, flag filter
@@ -23,6 +25,8 @@ function vortex_grenade:OnAbilityPhaseStart()
             return false
         else
             local randomEnemy = units[RandomInt(1, #units)]
+
+            print("vortex target ",randomEnemy:GetUnitName())
 
             self.vTargetPos = randomEnemy:GetAbsOrigin()
 
@@ -77,7 +81,7 @@ function vortex_grenade:OnSpellStart()
 			EffectName = particle_projectile,
 			Ability = self,
             vSpawnOrigin = self:GetCaster():GetOrigin(),
-            bDeleteOnHit = true,
+            bDeleteOnHit = false,
 			fStartRadius = 100,
 			fEndRadius = 100,
 			vVelocity = vDirection * projectile_speed,
