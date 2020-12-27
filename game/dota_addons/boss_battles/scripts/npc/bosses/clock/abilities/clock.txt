@@ -17,7 +17,7 @@
 
         // Casting
         //-------------------------------------------------------------------------------------------------------------
-        "AbilityCastPoint"              "0.0 0.0 0.0 0.0"
+        "AbilityCastPoint"              "1.0 1.0 1.0 1.0"
 
         // Time     
         //-------------------------------------------------------------------------------------------------------------
@@ -32,7 +32,7 @@
 		"AbilitySpecial"
 		{
             "01"{ "var_type"			"FIELD_INTEGER"		"missile_radius"		"200" }
-            "02"{ "var_type"			"FIELD_INTEGER"		"flTimeBetweenWaves"	"6" }
+            "02"{ "var_type"			"FIELD_INTEGER"		"flTimeBetweenWaves"	"5" }
             "03"{ "var_type"			"FIELD_INTEGER"		"nMaxWaves"				"3" }
             "04"{ "var_type"			"FIELD_INTEGER"		"dmg_hit"				"150" }
             "05"{ "var_type"			"FIELD_INTEGER"		"dmg_dot"				"10" }
@@ -66,7 +66,7 @@
 
         // Casting
         //-------------------------------------------------------------------------------------------------------------
-        "AbilityCastPoint"              "0.8 0.8 0.8 0.8"
+        "AbilityCastPoint"              "1.5 1.5 1.5 1.5"
         "AbilityCooldown"               "30 30 30 30"
         "AbilityManaCost"               "0"
         "AbilityCastRange" 				"9000"
@@ -352,8 +352,8 @@
             "01"{ "var_type"			"FIELD_INTEGER"		"speed"		            "500" }
             "02"{ "var_type"			"FIELD_INTEGER"		"dmg"		            "100" }
             "03"{ "var_type"			"FIELD_INTEGER"		"hit_box"		        "200" }
-            "04"{ "var_type"			"FIELD_INTEGER"		"angleIncrement"		"15"  }
-            "05"{ "var_type"			"FIELD_INTEGER"		"delay_between_shots"	"2" }
+            "04"{ "var_type"			"FIELD_INTEGER"		"angleIncrement"		"12"  }
+            "05"{ "var_type"			"FIELD_FLOAT"		"delay_between_shots"	"1.5" }
 		}
 
 		"precache"
@@ -441,7 +441,7 @@
         "AbilityUnitDamageType"         "DAMAGE_TYPE_PHYSICAL" 
         "MaxLevel"						"4"
         "AbilityCastRange" 				"10000"
-        "AbilityCooldown"				"35"
+        "AbilityCooldown"				"40"
         "AbilityCastPoint"              "0"
         "AbilityManaCost"               "0"
 
@@ -449,7 +449,7 @@
         //-------------------------------------------------------------------------------------------------------------
 		"AbilitySpecial"
 		{
-            "01"{ "var_type"			"FIELD_INTEGER"		"number_of_turrets_to_spawn"		    "1" }
+            "01"{ "var_type"			"FIELD_INTEGER"		"number_of_turrets_to_spawn"		    "2" }
             "02"{ "var_type"			"FIELD_INTEGER"		"delay_between_turrets_spawning"		"1" }
 		}
 

@@ -207,7 +207,7 @@ function ClockThink()
 		return CastCogs()
 	end
 
-	if thisEntity.missile_salvo:IsFullyCastable() and thisEntity.missile_salvo:IsCooldownReady() then
+	if thisEntity.missile_salvo:IsFullyCastable() and thisEntity.missile_salvo:IsCooldownReady() and thisEntity.missile_salvo:IsInAbilityPhase() == false then
 		return CastMissileSalvo()
 	end
 

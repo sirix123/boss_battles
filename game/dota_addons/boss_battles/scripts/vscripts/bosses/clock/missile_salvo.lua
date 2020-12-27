@@ -1,8 +1,22 @@
 missile_salvo = class({})
 LinkLuaModifier( "clock_thinker_missile_salvo", "bosses/clock/modifiers/clock_thinker_missile_salvo", LUA_MODIFIER_MOTION_NONE )
 
+function missile_salvo:OnAbilityPhaseStart()
+    if IsServer() then
+
+        self:GetCaster():StartGestureWithPlaybackRate(ACT_DOTA_CAST_ABILITY_3, 1.0)
+
+        EmitSoundOn("rattletrap_ratt_laugh_01", self:GetCaster())
+
+        return true
+    end
+end
+---------------------------------------------------------------------------------------------------------------------------------------
+
 function missile_salvo:OnSpellStart()
     if IsServer() then
+        self:GetCaster():FadeGesture(ACT_DOTA_CAST_ABILITY_3)
+
         -- sound effect
         self:GetCaster():EmitSound("rattletrap_ratt_laugh_01")
         -- point 1 top left, point 2 top right, point 3 bot left, point 4 bot right

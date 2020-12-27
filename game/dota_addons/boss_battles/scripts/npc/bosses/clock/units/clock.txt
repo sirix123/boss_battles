@@ -335,8 +335,8 @@
 		// Attack
 		//----------------------------------------------------------------
 		"AttackCapabilities"		"DOTA_UNIT_CAP_MELEE_ATTACK"
-		"AttackDamageMin"			"10"		
-		"AttackDamageMax"			"20"		
+		"AttackDamageMin"			"40"		
+		"AttackDamageMax"			"60"		
 		"AttackRate"				"1"		// Speed of attack.
 		"AttackAnimationPoint"		"0.1"		// Normalized time in animation cycle to attack.
 		"AttackAcquisitionRange"	"10000"		// Range within a target can be acquired.
@@ -383,7 +383,7 @@
 
 		// General
 		//----------------------------------------------------------------
-		"Model"						"models/items/rattletrap/cog_tesla/cog_tesla.vmdl"	// Model.
+		"Model"						"models/items/rattletrap/frostivus2018_lighter_fighter_cog/frostivus2018_lighter_fighter_cog.vmdl"	// Model.
 		"BaseClass"					"npc_dota_creature"
 		"SoundSet"					"Hero_Shredder"
 		"GameSoundsFile"			"soundevents/game_sounds_heroes/game_sounds_shredder.vsndevts"
@@ -426,7 +426,7 @@
 
 		// Status
 		//----------------------------------------------------------------
-		"StatusHealth"				"2500"		// Base health.
+		"StatusHealth"				"5000"		// Base health.
 		"StatusHealthRegen"			"0.0"		// Health regeneration rate.
 		"StatusMana"				"100"		// Base mana.
 		"StatusManaRegen"			"0.0"		// Mana regeneration rate.		 
