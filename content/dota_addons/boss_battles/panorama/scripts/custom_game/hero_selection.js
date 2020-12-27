@@ -79,10 +79,19 @@ function PlayerSelected( player, hero ) {
 	// add the players name to the bottom of the pedestal
 	var pedHeroPlayerText = heroPedPanels[player].FindChildInLayoutFile("PlayerNamePedTxt");
 	pedHeroPlayerText.text = Players.GetPlayerName( player );
+	pedHeroPlayerText.AddClass( "PlayerNamePedTxt" );
+
+	// match dota hero name to boss battles hero name
+	if ( hero == "npc_dota_hero_crystal_maiden" 	) 	{ hero = "Ice Mage"; }
+	if ( hero == "npc_dota_hero_phantom_assassin" 	) 	{ hero = "Cenzuo"; }
+	if ( hero == "npc_dota_hero_juggernaut" 		) 	{ hero = "Warlord"; }
+	if ( hero == "npc_dota_hero_medusa" 			) 	{ hero = "Medusa"; }
 
 	// add the players name to the bottom of the pedestal
 	var pedHeroHeroText = heroPedPanels[player].FindChildInLayoutFile("HeroNamePedTxt");
 	pedHeroHeroText.text = hero;
+	pedHeroHeroText.AddClass( "HeroNamePedTxt" );
+	
 }
 
 /* Clicks the bbutton picks the hero the player as selected */
@@ -173,6 +182,22 @@ let heroes =
 let PedRowContainer = $("#PedList");
 
 (function () {
+
+	// if tools mode.. load Ta and kunka
+	if ( Game.IsInToolsMode() == false ) {
+		$.Msg("tools ",Game.IsInToolsMode())
+
+		for (let i=0; i < heroes.length; i++){
+			$.Msg("i ",heroes[i])
+			if ( heroes[i] == "npc_dota_hero_templar_assassin" ) {
+				heroes.splice(i, 1);
+			}
+
+			if ( heroes[i] == "npc_dota_hero_kunkka"  ) {
+				heroes.splice(i, 1);
+			}
+		}
+	}
 
 	//Set panel visibility
 	$('#PickListRowOne').style.visibility = 'visible';

@@ -14,10 +14,10 @@
 	<!-- snippets --> 
 	<snippets>
 
-		<!-- portraits  onactivate="PickHero('hero_name')"--> 
+		<!-- portraits  onactivate="PickHero('hero_name')" style="border: 1px solid blue;"--> 
         <snippet name="HeroOptions">
             <Panel class="HeroOptions">
-				<Panel id="HeroPortrait" class="HeroOption" style="border: 1px solid blue;">
+				<Panel id="HeroPortrait" class="HeroOption" >
 					<DOTAHeroImage id="HeroImage" heroname="hero_name" heroimagestyle="portrait" scaling="none"/>
 					<Button id="HeroPickHeroBtn" >
 						<Label id="HeroPickHeroBtnTxt" text="" />
@@ -26,13 +26,13 @@
             </Panel>
         </snippet>
 
-		<!-- pedestal frames --> 
+		<!-- pedestal frames style="border: 1px solid blue;" --> 
 		<snippet name="PedFrames">
 			<Panel class="PedFrames">
-				<Panel id="HeroPedFrame" class="PedFrame" style="border: 1px solid blue;">
+				<Panel id="HeroPedFrame" class="PedFrame" >
 					<Label id="HeroNamePedTxt" class="HeroNamePedTxt" text="HERO NAME" />
-					<DOTAScenePanel id="HeroPed" unit="hero_name" style="width:100%;height:80%;" particleonly="false"/>
-					<Label id="PlayerNamePedTxt" class="PlayerNamePedTxt" text="PLAYER NAME" />
+					<DOTAScenePanel id="HeroPed" unit="hero_name" style="width:100%;height:80%;" particleonly="false" />
+					<Label id="PlayerNamePedTxt" class="PlayerNamePedTxt" text="PLAYER NAME"  />
 				</Panel>	
 			</Panel>
 		</snippet>
@@ -42,9 +42,9 @@
 	<Panel hittest="false" style="width: 100%; height: 100%;">
 		<Panel id="PickingScreen" hittest="true" >
 		<DOTAScenePanel id="PickingScreenScene" hittest="true" light="light" camera="camera1" map="backgrounds/background" particleonly="false"/>
-		<!-- Pick list (showing options) | Row 1 | 
+		<!-- Pick list (showing options) | Row 1 |  style="border: 1px solid red;" 
 		=========================================-->
-			<Panel id="PickListRowOne" style="border: 1px solid red;" >
+			<Panel id="PickListRowOne" >
 				<!-- JS will insert snippet for portraits here scenes here -->
 
 				<!-- testing scenes
@@ -58,10 +58,10 @@
 
 			</Panel>
 
-			<!-- Pedestal row
-			==================================================================-->
+			<!-- Pedestal row style="border: 1px solid red;"
+			==================================================================--> 
 			<!-- Pick list (showing options) | Row 1 | -->
-			<Panel id="PedList" style="border: 1px solid red;" >
+			<Panel id="PedList"  >
 				<!-- JS will insert snippet pedestal scenes here -->
 
 				<!-- testing scenes
