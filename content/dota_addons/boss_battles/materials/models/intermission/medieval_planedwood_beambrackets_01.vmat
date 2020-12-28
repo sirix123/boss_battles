@@ -1,0 +1,5 @@
+"Layer0"
+{
+	"Shader"		"global_lit_simple.vfx"
+	"TextureColor"		"materials/models\intermission/medieval_planedwood_beambrackets_01_color.tif"
+}
