@@ -426,7 +426,7 @@ function CastVortexGrenade()
 		AbilityIndex = thisEntity.vortex_grenade:entindex(),
 		Queue = 0,
 	})
-	return 0.5
+	return 1.0
 end
 --------------------------------------------------------------------------------
 
@@ -476,7 +476,9 @@ function FindFurnacesWithActivatedBuff()
 		ResetArrows()
 
 		-- reduce stack count
-		thisEntity.hBuff:DecrementStackCount()
+		if thisEntity.hBuff ~= nil then
+			thisEntity.hBuff:DecrementStackCount()
+		end
 
 
 	elseif thisEntity.furnace_2_unit.FURNACE_2 == true and thisEntity.furnace_2_activated == false then
@@ -502,7 +504,9 @@ function FindFurnacesWithActivatedBuff()
 		ResetArrows()
 
 		-- reduce stack count
-		thisEntity.hBuff:DecrementStackCount()
+		if thisEntity.hBuff ~= nil then
+			thisEntity.hBuff:DecrementStackCount()
+		end
 
 	elseif thisEntity.furnace_3_unit.FURNACE_3 == true and thisEntity.furnace_3_activated == false then
 		thisEntity.furnace_3_activated = true
@@ -527,7 +531,9 @@ function FindFurnacesWithActivatedBuff()
 		ResetArrows()
 
 		-- reduce stack count
-		thisEntity.hBuff:DecrementStackCount()
+		if thisEntity.hBuff ~= nil then
+			thisEntity.hBuff:DecrementStackCount()
+		end
 
 	elseif thisEntity.furnace_4_unit.FURNACE_4 == true and thisEntity.furnace_4_activated == false then
 		thisEntity.furnace_4_activated = true
@@ -552,7 +558,9 @@ function FindFurnacesWithActivatedBuff()
 		ResetArrows()
 
 		-- reduce stack count
-		thisEntity.hBuff:DecrementStackCount()
+		if thisEntity.hBuff ~= nil then
+			thisEntity.hBuff:DecrementStackCount()
+		end
 
 	end
 

@@ -26,13 +26,15 @@
             </Panel>
         </snippet>
 
-		<!-- pedestal frames style="border: 1px solid blue;" --> 
+		<!-- pedestal frames style="border: 1px solid blue;" HERO NAME PLAYER NAME --> 
 		<snippet name="PedFrames">
 			<Panel class="PedFrames">
-				<Panel id="HeroPedFrame" class="PedFrame" >
-					<DOTAScenePanel id="HeroPed" unit="hero_name" style="width:100%;height:80%;" particleonly="false" />
-					<Label id="HeroNamePedTxt" class="HeroNamePedTxt" text="HERO NAME" />
-					<Label id="PlayerNamePedTxt" class="PlayerNamePedTxt" text="PLAYER NAME"  />
+				<Panel id="HeroPedFrame" class="PedFrame">
+					<DOTAScenePanel id="HeroPed" unit="hero_name" style="width:100%;height:80%;" particleonly="false"/>
+					<Panel id="HeroPedFrameLabelContainer" class="HeroPedFrameLabelContainer">
+						<Label id="HeroNamePedTxt" class="HeroNamePedTxt" text="" />
+						<Label id="PlayerNamePedTxt" class="PlayerNamePedTxt" text="" />
+					</Panel>
 				</Panel>	
 			</Panel>
 		</snippet>

@@ -42,7 +42,7 @@ function vortex_grenade_thinker:OnIntervalThink()
             self.vLocation,
             nil,
             400,
-            DOTA_UNIT_TARGET_TEAM_ENEMY,
+            DOTA_UNIT_TARGET_TEAM_BOTH,
             DOTA_UNIT_TARGET_ALL,
             DOTA_UNIT_TARGET_FLAG_INVULNERABLE,
             FIND_ANY_ORDER,
@@ -50,10 +50,12 @@ function vortex_grenade_thinker:OnIntervalThink()
 
         if units ~= nil and #units ~= 0 then
             for _,unit in pairs(units) do
-                unit:AddNewModifier(caster, self, "vortex_prison_modifier",
-                {
-                    duration = 0.5
-                })
+                if unit:GetUnitName() ~= "npc_clock" then
+                    unit:AddNewModifier(caster, self, "vortex_prison_modifier",
+                    {
+                        duration = 0.5
+                    })
+                end
             end
         end
 
