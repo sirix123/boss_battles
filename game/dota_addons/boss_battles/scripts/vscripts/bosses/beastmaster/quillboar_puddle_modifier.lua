@@ -28,31 +28,36 @@ end
 --------------------------------------------------------------------------------
 function quillboar_puddle_modifier:OnIntervalThink()
 	if IsServer() then
-		local enemies = FindUnitsInRadius(
+		local units = FindUnitsInRadius(
 			self:GetParent():GetTeamNumber(),	-- int, your team number
 			self:GetParent():GetOrigin(),	-- point, center point
 			nil,	-- handle, cacheUnit. (not known)
 			self.radius,	-- float, radius. or use FIND_UNITS_EVERYWHERE
-			DOTA_UNIT_TARGET_TEAM_ENEMY,	-- int, team filter
+			DOTA_UNIT_TARGET_TEAM_BOTH,	-- int, team filter
 			DOTA_UNIT_TARGET_ALL,	-- int, type filter
 			DOTA_UNIT_TARGET_FLAG_NONE,	-- int, flag filter
 			FIND_ANY_ORDER,	-- int, order filter
 			false	-- bool, can grow cache
 		)
 
-		for _,enemy in pairs(enemies) do
-			-- apply damage
-			self.damageTable = {
-				victim = enemy,
-				attacker = self:GetParent(),
-				damage = self.dmg,
-				damage_type = DAMAGE_TYPE_PHYSICAL,
-				ability = self,
-			}
+		for _,unit in pairs(units) do
 
-			ApplyDamage( self.damageTable )
+			if unit:GetUnitName() ~= "npc_beastmaster" then
 
-			enemy:AddNewModifier(self:GetCaster(), self:GetAbility(), "puddle_slow_modifier", {duration = 1})
+				-- apply damage
+				self.damageTable = {
+					victim = unit,
+					attacker = self:GetParent(),
+					damage = self.dmg,
+					damage_type = DAMAGE_TYPE_PHYSICAL,
+					ability = self,
+				}
+
+				ApplyDamage( self.damageTable )
+
+				unit:AddNewModifier(self:GetCaster(), self:GetAbility(), "puddle_slow_modifier", {duration = 1})
+
+			end
 
 		end
 

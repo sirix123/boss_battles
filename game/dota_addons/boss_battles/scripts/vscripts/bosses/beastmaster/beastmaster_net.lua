@@ -85,7 +85,9 @@ end
 ---------------------------------------------------------------------------
 
 function beastmaster_net:OnAbilityPhaseInterrupted()
-    if IsServer() then
+	if IsServer() then
+		
+		self.stop_timer = true
 
         -- remove casting animation
 		self:GetCaster():FadeGesture(ACT_DOTA_CAST_ABILITY_1)
@@ -135,32 +137,40 @@ function beastmaster_net:OnSpellStart()
 			Source = caster,
 			vVelocity = projectile_direction * projectile_speed,
 			UnitBehavior = PROJECTILES_DESTROY,
-			bMultipleHits = true,
+			bMultipleHits = false,
 			TreeBehavior = PROJECTILES_NOTHING,
 			WallBehavior = PROJECTILES_DESTROY,
 			GroundBehavior = PROJECTILES_FOLLOW,
 			fGroundOffset = 80,
 			draw = false,
-			UnitTest = function(_self, unit) return true end, -- unit:GetTeamNumber() ~= hero:GetTeamNumber() and unit:GetTeamNumber() ~= DOTA_TEAM_NEUTRALS end
-			OnUnitHit = function(_self, unit) 
-				if unit ~= nil and (unit:GetUnitName() ~= nil) then
-					unit:AddNewModifier( self:GetCaster(), self, "modifier_beastmaster_net", { duration = self:GetSpecialValueFor( "duration" ) } )
-					
-					local dmgTable = {
-						victim = unit,
-						attacker = caster,
-						damage = self:GetSpecialValueFor( "damage_bear" ),
-						damage_type = self:GetAbilityDamageType(),
-					}
+			UnitTest = function(_self, unit)
+				--print("unit ",unit)
+				--print("unit ",unit:GetUnitName())
 
-					ApplyDamage(dmgTable)
-
-					local nFXIndex = ParticleManager:CreateParticle( "particles/units/heroes/hero_beastmaster/beastmaster_wildaxes_hit.vpcf", PATTACH_CUSTOMORIGIN, nil )
-					ParticleManager:SetParticleControlEnt( nFXIndex, 0, unit, PATTACH_POINT_FOLLOW, "attach_hitloc", unit:GetAbsOrigin(), true )
-					ParticleManager:ReleaseParticleIndex( nFXIndex )
-
-					EmitSoundOn( "Hero_Beastmaster.Wild_Axes_Damage", unit )
+				if unit:GetUnitName() ~= "npc_dota_thinker" or unit ~= nil then
+					return true
+				else
+					return false
 				end
+
+			end, -- unit:GetTeamNumber() ~= hero:GetTeamNumber() and unit:GetTeamNumber() ~= DOTA_TEAM_NEUTRALS end
+			OnUnitHit = function(_self, unit)
+				unit:AddNewModifier( self:GetCaster(), self, "modifier_beastmaster_net", { duration = self:GetSpecialValueFor( "duration" ) } )
+
+				local dmgTable = {
+					victim = unit,
+					attacker = caster,
+					damage = self:GetSpecialValueFor( "damage_bear" ),
+					damage_type = self:GetAbilityDamageType(),
+				}
+
+				ApplyDamage(dmgTable)
+
+				local nFXIndex = ParticleManager:CreateParticle( "particles/units/heroes/hero_beastmaster/beastmaster_wildaxes_hit.vpcf", PATTACH_CUSTOMORIGIN, nil )
+				ParticleManager:SetParticleControlEnt( nFXIndex, 0, unit, PATTACH_POINT_FOLLOW, "attach_hitloc", unit:GetAbsOrigin(), true )
+				ParticleManager:ReleaseParticleIndex( nFXIndex )
+
+				EmitSoundOn( "Hero_Beastmaster.Wild_Axes_Damage", unit )
 			end,
 			OnWallHit = function(_self, gnvPos)
 
