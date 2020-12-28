@@ -1,6 +1,6 @@
-tinker_teleport = class({})
+tinker_teleport_beam_phase = class({})
 
-function tinker_teleport:OnAbilityPhaseStart()
+function tinker_teleport_beam_phase:OnAbilityPhaseStart()
     if IsServer() then
 
         self:GetCaster():StartGestureWithPlaybackRate(ACT_DOTA_TELEPORT, 1.5)
@@ -18,7 +18,7 @@ function tinker_teleport:OnAbilityPhaseStart()
     end
 end
 
-function tinker_teleport:OnSpellStart()
+function tinker_teleport_beam_phase:OnSpellStart()
     if IsServer() then
 
         self:GetCaster():RemoveGesture(ACT_DOTA_TELEPORT)
@@ -28,16 +28,14 @@ function tinker_teleport:OnSpellStart()
         StopSoundOn("NeutralItem.TeleportToStash", self:GetCaster())
 
         -- move to loc
-        -- pick one of 4 spots and teleport there
+        --[[ pick one of 4 spots and teleport there
         local centre_point = Vector(-10633,11918,130.33)
         local radius = 1800
         local x = RandomInt(centre_point.x - radius - 100, centre_point.x + radius + 100)
         local y = RandomInt(centre_point.y - radius - 100, centre_point.y + radius + 100)
-        local move_pos = Vector(x,y,0)
+        local move_pos = Vector(x,y,0)]]
 
-        print("casting teleport back toi arena 1")
-
-        FindClearSpaceForUnit(self:GetCaster(), move_pos, true)
+        FindClearSpaceForUnit(self:GetCaster(), Vector(0,0,0), true)
 
 
 	end

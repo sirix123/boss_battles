@@ -99,7 +99,7 @@
 		"Ability5"					"laser"					// Ability 5
 		"Ability6"					"march"					// Ability 6
 		"Ability7"					"prisonbeam"					// Ability 7
-		"Ability8"					""					// Ability 7
+		"Ability8"					"tinker_teleport_beam_phase"					// Ability 7
 		
 		// Armor
 		//----------------------------------------------------------------

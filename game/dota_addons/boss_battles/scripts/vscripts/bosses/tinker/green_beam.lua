@@ -89,9 +89,11 @@ function green_beam:OnSpellStart()
         end
 
         --local vTinkerDirectionInverse = -( self.tinker_origin - caster:GetAbsOrigin() ):Normalized()
-        local vTinkerDirection = -( self.tinker_origin - caster:GetAbsOrigin() ):Normalized()
+        --local vTinkerDirection = -( self.tinker_origin - caster:GetAbsOrigin() ):Normalized()
         --local beam_point = caster:GetAbsOrigin() + vTinkerDirectionInverse * beam_length
-        local beam_point = caster:GetAbsOrigin() + vTinkerDirection * beam_length
+
+        local randomDirection = RandomVector(5):Normalized()
+        local beam_point = caster:GetAbsOrigin() + randomDirection * beam_length
         beam_point = ( RotatePosition(caster:GetAbsOrigin(), QAngle(0,-150,0), beam_point ) )
         --DebugDrawCircle(beam_point, Vector(155,0,0),128,50,true,60)
 

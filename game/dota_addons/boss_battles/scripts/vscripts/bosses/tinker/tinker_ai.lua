@@ -35,6 +35,8 @@ function Spawn( entityKeyValues )
 	thisEntity.tinker_teleport = thisEntity:FindAbilityByName( "tinker_teleport" )
 	thisEntity.tinker_teleport:StartCooldown(thisEntity.tinker_teleport:GetCooldown(thisEntity.tinker_teleport:GetLevel()))
 
+	thisEntity.tinker_teleport_beam_phase = thisEntity:FindAbilityByName( "tinker_teleport_beam_phase" )
+
 	thisEntity.missile = thisEntity:FindAbilityByName( "missile" )
 
 	thisEntity.laser = thisEntity:FindAbilityByName( "laser" )
@@ -62,7 +64,7 @@ function TinkerThinker()
 		return 0.5
 	end
 
-	--print("tinker thisEntity.PHASE ", thisEntity.PHASE)
+	print("tinker thisEntity.PHASE ", thisEntity.PHASE)
 
 	-- handles the phase changes etc
 	if thisEntity:HasModifier("beam_counter") then
@@ -74,6 +76,7 @@ function TinkerThinker()
 	if thisEntity:HasModifier("beam_phase") then
 		thisEntity.PHASE = 2
 	elseif thisEntity.PHASE ~= 3 then
+		thisEntity.teleport_out = false
 		thisEntity.PHASE = 1
 	end
 
@@ -109,15 +112,23 @@ function TinkerThinker()
 	end
 
 	-- crystal phase
-	if thisEntity.PHASE == 2 then
+	if thisEntity.PHASE == 2 and thisEntity.teleport_out ~= true then
 
-		Timers:CreateTimer(12,function()
+		thisEntity.teleport_out = true
+
+		if thisEntity.tinker_teleport_beam_phase ~= nil and thisEntity.tinker_teleport_beam_phase:IsFullyCastable() and thisEntity.tinker_teleport_beam_phase:IsCooldownReady() and thisEntity.tinker_teleport_beam_phase:IsInAbilityPhase() == false then
+			CastTeleportBeamPhase()
+		end
+
+		Timers:CreateTimer(15,function()
 			if thisEntity.stop_timers == true then
 				return false
 			end
 
-			if thisEntity.tinker_teleport ~= nil and thisEntity.tinker_teleport:IsFullyCastable() and thisEntity.tinker_teleport:IsCooldownReady() then
-				return CastTeleport()
+			thisEntity.tinker_teleport:EndCooldown()
+
+			if thisEntity.tinker_teleport ~= nil and thisEntity.tinker_teleport:IsFullyCastable() and thisEntity.tinker_teleport:IsCooldownReady() and thisEntity.tinker_teleport:IsInAbilityPhase() == false then
+				CastTeleport()
 			end
 
 			return false
@@ -174,6 +185,19 @@ function CastTeleport(  )
 	end
 
     return 3
+end
+--------------------------------------------------------------------------------
+
+function CastTeleportBeamPhase(  )
+
+    ExecuteOrderFromTable({
+        UnitIndex = thisEntity:entindex(),
+        OrderType = DOTA_UNIT_ORDER_CAST_NO_TARGET,
+        AbilityIndex = thisEntity.tinker_teleport_beam_phase:entindex(),
+        Queue = false,
+	})
+
+    return 1
 end
 --------------------------------------------------------------------------------
 
