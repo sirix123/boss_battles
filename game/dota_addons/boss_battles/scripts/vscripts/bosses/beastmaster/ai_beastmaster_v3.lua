@@ -11,6 +11,9 @@ function Spawn( entityKeyValues )
 		return
 	end
 
+	boss_frame_manager:UpdateManaHealthFrame( thisEntity )
+	boss_frame_manager:HideBossManaFrame()
+
 	thisEntity:AddNewModifier( nil, nil, "modifier_remove_healthbar", { duration = -1 } )
 
 	--CreateUnitByName( "npc_beastmaster_bird", Vector(-1627.711060, -9538.233398, 261.128906), true, nil, nil, DOTA_TEAM_BADGUYS)

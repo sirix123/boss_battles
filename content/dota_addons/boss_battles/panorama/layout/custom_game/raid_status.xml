@@ -12,6 +12,10 @@
             <Panel class="BossFrame ">
                 <Panel id="BossHealthManaContainer">
 
+                    <Panel id="BossNameContainer">
+                        <Label text="BOSS_NAME" id="BossNameLabel"/> 
+                    </Panel>
+
                     <Panel id="BossHealthContainer">
                         <Label text="" id="BossHealthLabel"/> 
                         <Panel id="BossHealthProgressContainer">

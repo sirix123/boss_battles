@@ -413,7 +413,7 @@ function GameSetup:ReadyupCheck() -- called from trigger lua file for activators
             return false
         end)
 
-
+        --[[
         --Update the bosses hp and mp UI every tick
         Timers:CreateTimer(function()
             if boss ~= nil then
@@ -440,7 +440,7 @@ function GameSetup:ReadyupCheck() -- called from trigger lua file for activators
                 --wait for the boss to spawn...
             end
             return 1;
-        end)
+        end)]]
         return false
     end)
 

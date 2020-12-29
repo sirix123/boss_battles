@@ -42,7 +42,7 @@ function quillboar_puddle_modifier:OnIntervalThink()
 
 		for _,unit in pairs(units) do
 
-			if unit:GetUnitName() ~= "npc_beastmaster" then
+			if unit:GetUnitName() ~= "npc_beastmaster" and unit:GetUnitName() ~= "npc_beastmaster_bear" and unit:GetUnitName() ~= "npc_quilboar"then
 
 				-- apply damage
 				self.damageTable = {
@@ -54,6 +54,10 @@ function quillboar_puddle_modifier:OnIntervalThink()
 				}
 
 				ApplyDamage( self.damageTable )
+
+			end
+
+			if unit:GetUnitName() ~= "npc_beastmaster" then
 
 				unit:AddNewModifier(self:GetCaster(), self:GetAbility(), "puddle_slow_modifier", {duration = 1})
 

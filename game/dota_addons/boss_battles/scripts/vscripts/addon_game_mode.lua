@@ -150,6 +150,7 @@ function Activate()
     require('heroselection')
     require('gamerules')
     require('commands')
+    require('boss_frame_manager')
 
     GameRules.AddonTemplate = BossBattles()
     GameRules.AddonTemplate:InitGameMode()

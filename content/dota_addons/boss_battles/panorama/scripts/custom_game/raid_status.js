@@ -1,3 +1,12 @@
+CustomNetTables.SubscribeNetTableListener( "boss_frame", bossFrameUpdate ); // update the boss frame (mana and hp)
+CustomNetTables.SubscribeNetTableListener( "hide_boss_frame", hideBossFrame ); // hide the boss frames (mana and hp)
+GameEvents.Subscribe( "hide_boss_mana_frame", hideBossManaFrame ); // hide boss mana bar
+GameEvents.Subscribe( "hide_boss_health_frame", hideBossHpFrame ); // hide boss health bar
+
+// some global inits
+show_mana_bar = true
+show_health_bar = true
+
 /* Boss Frame UI */
 
 function bossFrameUpdate( table_name, key, data )
@@ -20,22 +29,32 @@ function bossFrameUpdate( table_name, key, data )
             containerPanel.BLoadLayoutSnippet("BossFrame");
 
             //update hp bar 
-            var bossHealthLabel = $("#BossHealthLabel")
-            var bossHealthProgressLeft = $("#BossHealthProgressLeft")
-            var bossHealthProgressRight = $("#BossHealthProgressRight")
-            bossHealthProgressLeft.style.width = data["hpPercent"]+"%"
-            var hpGone = 100 - data["hpPercent"]
-            bossHealthProgressRight.style.width = hpGone+"%"
-            bossHealthLabel.text = data["hpPercent"] + "%"
+            if ( show_health_bar != false ) {
+                var bossHealthLabel = $("#BossHealthLabel")
+                var bossHealthProgressLeft = $("#BossHealthProgressLeft")
+                var bossHealthProgressRight = $("#BossHealthProgressRight")
+                bossHealthProgressLeft.style.width = data["hpPercent"]+"%"
+                var hpGone = 100 - data["hpPercent"]
+                bossHealthProgressRight.style.width = hpGone+"%"
+                bossHealthLabel.text = data["hpPercent"] + "%"
+            } else if ( show_health_bar == false) {
+                var healthBar = containerPanel.FindChildInLayoutFile("BossHealthContainer");
+                healthBar.RemoveAndDeleteChildren()
+            }
 
             //update mana bar
-            var bossManaLabel = $("#BossManaLabel")
-            var bossManaProgressLeft = $("#BossManaProgressLeft")
-            var bossManaProgressRight = $("#BossManaProgressRight")
-            bossManaProgressLeft.style.width = data["mpPercent"]+"%"
-            var mpGone = 100 - data["mpPercent"]
-            bossManaProgressRight.style.width = mpGone+"%"
-            bossManaLabel.text = data["mpPercent"]+"%"
+            if ( show_health_bar != false ) {
+                var bossManaLabel = $("#BossManaLabel")
+                var bossManaProgressLeft = $("#BossManaProgressLeft")
+                var bossManaProgressRight = $("#BossManaProgressRight")
+                bossManaProgressLeft.style.width = data["mpPercent"]+"%"
+                var mpGone = 100 - data["mpPercent"]
+                bossManaProgressRight.style.width = mpGone+"%"
+                bossManaLabel.text = data["mpPercent"]+"%"
+            } else if ( show_health_bar == false) {
+                var manaBar = containerPanel.FindChildInLayoutFile("BossManaContainer");
+                manaBar.RemoveAndDeleteChildren()
+            }
 
             //update status/buff/debuffs bar
             //TODO: actually get this data into a table..
@@ -52,9 +71,15 @@ function hideBossFrame( table_name, key, data )
     bossFrameContainer.RemoveAndDeleteChildren()
 }
 
-CustomNetTables.SubscribeNetTableListener( "boss_frame", bossFrameUpdate );
-CustomNetTables.SubscribeNetTableListener( "hide_boss_frame", hideBossFrame );
+function hideBossManaFrame( table_name, key, data )
+{
+    show_mana_bar = false
+}
 
+function hideBossHpFrame( table_name, key, data )
+{
+    show_health_bar = false
+}
 /* END Boss Frame UI */
 
 
