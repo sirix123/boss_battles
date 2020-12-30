@@ -49,7 +49,7 @@ function bossFrameUpdate( table_name, key, data )
             }
 
             //update mana bar
-            if ( show_health_bar != false ) {
+            if ( show_mana_bar != false ) {
                 var bossManaLabel = $("#BossManaLabel")
                 var bossManaProgressLeft = $("#BossManaProgressLeft")
                 var bossManaProgressRight = $("#BossManaProgressRight")
@@ -57,7 +57,7 @@ function bossFrameUpdate( table_name, key, data )
                 var mpGone = 100 - data["mpPercent"]
                 bossManaProgressRight.style.width = mpGone+"%"
                 bossManaLabel.text = data["mpPercent"]+"%"
-            } else if ( show_health_bar == false) {
+            } else if ( show_mana_bar == false) {
                 var manaBar = containerPanel.FindChildInLayoutFile("BossManaContainer");
                 manaBar.RemoveAndDeleteChildren()
             }
