@@ -138,6 +138,11 @@ function TinkerThinker()
 	-- phase 2
 	if thisEntity.PHASE == 3 then
 
+		boss_frame_manager:SendBossName( )
+		boss_frame_manager:UpdateManaHealthFrame( thisEntity )
+		boss_frame_manager:ShowBossHpFrame( )
+		boss_frame_manager:HideBossManaFrame()
+
 		if thisEntity.march ~= nil and thisEntity.march:IsFullyCastable() and thisEntity.march:IsCooldownReady() and thisEntity.march:IsInAbilityPhase() == false then
 			return CastMarch()
 		end

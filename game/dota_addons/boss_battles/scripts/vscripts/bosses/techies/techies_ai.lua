@@ -84,6 +84,10 @@ function TechiesThinker()
 
     --phase state check (check guard is dead)
     if thisEntity:HasModifier("modifier_invulnerable") == false then
+        boss_frame_manager:SendBossName( )
+        boss_frame_manager:UpdateManaHealthFrame( thisEntity )
+        boss_frame_manager:HideBossManaFrame()
+        boss_frame_manager:ShowBossHpFrame()
         thisEntity.phase = 3
     end
 

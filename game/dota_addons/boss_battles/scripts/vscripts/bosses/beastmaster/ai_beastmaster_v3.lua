@@ -13,6 +13,7 @@ function Spawn( entityKeyValues )
 
 	boss_frame_manager:SendBossName()
 	boss_frame_manager:UpdateManaHealthFrame( thisEntity )
+	boss_frame_manager:ShowBossHpFrame()
 	boss_frame_manager:HideBossManaFrame()
 
 	thisEntity:AddNewModifier( nil, nil, "modifier_remove_healthbar", { duration = -1 } )

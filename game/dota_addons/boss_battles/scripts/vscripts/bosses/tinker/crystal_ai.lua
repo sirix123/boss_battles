@@ -8,6 +8,11 @@ function Spawn( entityKeyValues )
     if not IsServer() then return end
     if thisEntity == nil then return end
 
+    local boss_name = "Prism"
+    boss_frame_manager:SendBossName( boss_name )
+    boss_frame_manager:UpdateManaHealthFrame( thisEntity )
+    boss_frame_manager:HideBossHpFrame()
+
     thisEntity.green_beam = thisEntity:FindAbilityByName( "green_beam" )
     thisEntity.spawn_rocks = thisEntity:FindAbilityByName( "spawn_rocks" )
     thisEntity.electric_field_v2 = thisEntity:FindAbilityByName( "electric_field_v2" )

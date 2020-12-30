@@ -24,6 +24,11 @@ function Spawn( entityKeyValues )
 		return -1
 	end
 
+	boss_frame_manager:SendBossName()
+	boss_frame_manager:UpdateManaHealthFrame( thisEntity )
+	boss_frame_manager:HideBossManaFrame()
+	boss_frame_manager:ShowBossHpFrame()
+
 	-- armor modifier
 	-- start stacks at 3, reduce to 0
 	-- add code to the activate furnace stuf

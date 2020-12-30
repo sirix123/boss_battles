@@ -3,9 +3,8 @@ if boss_frame_manager == nil then
 end
 
 -- this will hide/show the boss hp frame
-function boss_frame_manager:ShowBossHpFrame( sBoss, hBoss )
-
-
+function boss_frame_manager:ShowBossHpFrame( )
+    CustomGameEventManager:Send_ServerToAllClients( "show_boss_hp_frame", { } )
 end
 
 function boss_frame_manager:HideBossHpFrame()
@@ -15,8 +14,7 @@ end
 
 -- this will hide the boss mana frame
 function boss_frame_manager:ShowBossManaFrame()
-
-
+    CustomGameEventManager:Send_ServerToAllClients( "show_boss_mana_frame", { } )
 end
 
 function boss_frame_manager:HideBossManaFrame()
@@ -24,37 +22,16 @@ function boss_frame_manager:HideBossManaFrame()
 end
 --------------------------------------------------
 
--- show/hide all frames (mostly used for debugging, shouldn,t use this in an actual prod fight)
-function boss_frame_manager:HideBossFrames()
-    self.hideFrames = true
-
-    CustomNetTables:SetTableValue("boss_frame", "hide", {})
-end
-
-function boss_frame_manager:ShowBossFrames( boss )
-    self.hideFrames = false
-
-    local hp = boss:GetHealth()
-    local maxHp = boss:GetMaxHealth()
-    local hpPercent = boss:GetHealthPercent()
-    local mpPercent = boss:GetManaPercent()
-
-    local bossFrameData = {}
-    bossFrameData.hp = boss:GetHealth()
-    bossFrameData.maxHp = boss:GetMaxHealth()
-    bossFrameData.hpPercent = boss:GetHealthPercent()
-    bossFrameData.mp = boss:GetMana()
-    bossFrameData.maxMp = boss:GetMaxMana()
-    bossFrameData.mpPercent = boss:GetManaPercent()
-
-    CustomNetTables:SetTableValue("boss_frame", "key", bossFrameData)
-
-end
--------------------------------------------------
-
 -- change boss name
-function boss_frame_manager:SendBossName()
-    local boss_name = RAID_TABLES[BOSS_BATTLES_ENCOUNTER_COUNTER].name
+function boss_frame_manager:SendBossName( sBossName )
+
+    local boss_name = ""
+    if sBossName ~= nil then
+        boss_name = sBossName
+    else
+        boss_name = RAID_TABLES[BOSS_BATTLES_ENCOUNTER_COUNTER].name
+    end
+
     CustomGameEventManager:Send_ServerToAllClients( "change_boss_name", { bossName = boss_name } )
 end
 
@@ -91,7 +68,35 @@ function boss_frame_manager:UpdateManaHealthFrame( boss )
 
         end
 
-        return 1;
+        return 0.1;
 
     end)
 end
+
+-- show/hide all frames (mostly used for debugging, shouldn,t use this in an actual prod fight)
+function boss_frame_manager:HideBossFrames()
+    self.hideFrames = true
+
+    CustomNetTables:SetTableValue("boss_frame", "hide", {})
+end
+
+function boss_frame_manager:ShowBossFrames( boss )
+    self.hideFrames = false
+
+    local hp = boss:GetHealth()
+    local maxHp = boss:GetMaxHealth()
+    local hpPercent = boss:GetHealthPercent()
+    local mpPercent = boss:GetManaPercent()
+
+    local bossFrameData = {}
+    bossFrameData.hp = boss:GetHealth()
+    bossFrameData.maxHp = boss:GetMaxHealth()
+    bossFrameData.hpPercent = boss:GetHealthPercent()
+    bossFrameData.mp = boss:GetMana()
+    bossFrameData.maxMp = boss:GetMaxMana()
+    bossFrameData.mpPercent = boss:GetManaPercent()
+
+    CustomNetTables:SetTableValue("boss_frame", "key", bossFrameData)
+
+end
+-------------------------------------------------

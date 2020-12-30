@@ -1,7 +1,12 @@
 CustomNetTables.SubscribeNetTableListener( "boss_frame", bossFrameUpdate ); // update the boss frame (mana and hp)
 CustomNetTables.SubscribeNetTableListener( "hide_boss_frame", hideBossFrame ); // hide the boss frames (mana and hp)
+
 GameEvents.Subscribe( "hide_boss_mana_frame", hideBossManaFrame ); // hide boss mana bar
+GameEvents.Subscribe( "show_boss_mana_frame", showBossManaFrame ); // show boss mana bar
+
 GameEvents.Subscribe( "hide_boss_health_frame", hideBossHpFrame ); // hide boss health bar
+GameEvents.Subscribe( "show_boss_health_frame", showBossHpFrame ); // show boss health bar
+
 GameEvents.Subscribe( "change_boss_name", changeBossName ); // hide boss health bar
 
 // some global inits
@@ -10,16 +15,20 @@ show_health_bar = true
 boss_name = ""
 
 /* Boss Frame UI */
-
 function bossFrameUpdate( table_name, key, data )
 {
     //$.Msg("bossFrameUpdate called")
     //$.Msg("table_name = ", table_name)
     //$.Msg("key = ", key)
-    // $.Msg("data = ", data)
+    //$.Msg("data = ", data)
+
+    $.Msg("show_mana_bar ",show_mana_bar)
+    $.Msg("show_health_bar ",show_health_bar)
+    $.Msg("boss_name ",boss_name)
+    $.Msg("---------------------")
     
-    var bossFrameContainer = $("#BossFrameContainer")
     //remove any existing children:
+    var bossFrameContainer = $("#BossFrameContainer")
     bossFrameContainer.RemoveAndDeleteChildren()
 
     //Draw the boss frame. 
@@ -34,6 +43,10 @@ function bossFrameUpdate( table_name, key, data )
             var bossLabel = containerPanel.FindChildInLayoutFile("BossNameLabel");
             bossLabel.text = boss_name;
 
+            // grab the health bar and mana
+            let healthBar = containerPanel.FindChildInLayoutFile("BossHealthContainer");
+            let manaBar = containerPanel.FindChildInLayoutFile("BossManaContainer");
+
             //update hp bar 
             if ( show_health_bar != false ) {
                 var bossHealthLabel = $("#BossHealthLabel")
@@ -44,7 +57,6 @@ function bossFrameUpdate( table_name, key, data )
                 bossHealthProgressRight.style.width = hpGone+"%"
                 bossHealthLabel.text = data["hpPercent"] + "%"
             } else if ( show_health_bar == false) {
-                var healthBar = containerPanel.FindChildInLayoutFile("BossHealthContainer");
                 healthBar.RemoveAndDeleteChildren()
             }
 
@@ -58,7 +70,6 @@ function bossFrameUpdate( table_name, key, data )
                 bossManaProgressRight.style.width = mpGone+"%"
                 bossManaLabel.text = data["mpPercent"]+"%"
             } else if ( show_mana_bar == false) {
-                var manaBar = containerPanel.FindChildInLayoutFile("BossManaContainer");
                 manaBar.RemoveAndDeleteChildren()
             }
 
@@ -82,9 +93,19 @@ function hideBossManaFrame( table_name, key, data )
     show_mana_bar = false
 }
 
+function showBossManaFrame( table_name, key, data )
+{
+    show_mana_bar = true
+}
+
 function hideBossHpFrame( table_name, key, data )
 {
     show_health_bar = false
+}
+
+function showBossHpFrame( table_name, key, data )
+{
+    show_health_bar = true
 }
 
 function changeBossName( data )

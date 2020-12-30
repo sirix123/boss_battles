@@ -13,6 +13,11 @@ function Spawn( entityKeyValues )
 		return
 	end
 
+	boss_frame_manager:SendBossName()
+	boss_frame_manager:UpdateManaHealthFrame( thisEntity )
+	boss_frame_manager:ShowBossManaFrame()
+	boss_frame_manager:ShowBossHpFrame()
+
 	-- set mana to 0 on spawn
 	thisEntity:SetMana(0)
 

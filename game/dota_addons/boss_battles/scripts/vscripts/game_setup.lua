@@ -406,12 +406,18 @@ function GameSetup:ReadyupCheck() -- called from trigger lua file for activators
         -- message duration = timer below in spawn boss
 
         -- spawn boss
-        boss = nil
+        local boss = nil
         Timers:CreateTimer(1.0, function()
             -- look at raidtables and spawn the boss depending on the encounter counter
             boss = CreateUnitByName(RAID_TABLES[BOSS_BATTLES_ENCOUNTER_COUNTER].boss, self.boss_spawn, true, nil, nil, DOTA_TEAM_BADGUYS)
             return false
         end)
+
+        -- default boss frame values / init
+        boss_frame_manager:SendBossName()
+        boss_frame_manager:UpdateManaHealthFrame( boss )
+        boss_frame_manager:ShowBossManaFrame()
+        boss_frame_manager:ShowBossHpFrame()
 
         --[[
         --Update the bosses hp and mp UI every tick

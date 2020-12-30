@@ -5,7 +5,13 @@ LinkLuaModifier( "guard_death_modifier", "bosses/techies/modifiers/guard_death_m
 
 function Spawn( entityKeyValues )
     if not IsServer() then return end
-    if thisEntity == nil then return end
+	if thisEntity == nil then return end
+
+	local boss_name = "Guard"
+	boss_frame_manager:SendBossName( boss_name )
+	boss_frame_manager:UpdateManaHealthFrame( thisEntity )
+	boss_frame_manager:HideBossManaFrame()
+	boss_frame_manager:ShowBossHpFrame()
 
 	thisEntity:AddNewModifier( nil, nil, "modifier_phased", { duration = -1 })
 	--thisEntity:AddNewModifier( nil, nil, "oil_leak_modifier", { duration = -1 })
