@@ -419,34 +419,6 @@ function GameSetup:ReadyupCheck() -- called from trigger lua file for activators
         boss_frame_manager:ShowBossManaFrame()
         boss_frame_manager:ShowBossHpFrame()
 
-        --[[
-        --Update the bosses hp and mp UI every tick
-        Timers:CreateTimer(function()
-            if boss ~= nil then
-                if boss:GetHealthPercent() == 0 then
-                    CustomNetTables:SetTableValue("boss_frame", "hide", {})
-                    return false
-                end
-                local hp = boss:GetHealth()
-                local maxHp = boss:GetMaxHealth()
-                local hpPercent = boss:GetHealthPercent()
-                local mpPercent = boss:GetManaPercent()
-
-                local bossFrameData = {}
-                bossFrameData.hp = boss:GetHealth()
-                bossFrameData.maxHp = boss:GetMaxHealth()
-                bossFrameData.hpPercent = boss:GetHealthPercent()
-                bossFrameData.mp = boss:GetMana()
-                bossFrameData.maxMp = boss:GetMaxMana()
-                bossFrameData.mpPercent = boss:GetManaPercent()
-
-                CustomNetTables:SetTableValue("boss_frame", "key", bossFrameData)
-            else
-                CustomNetTables:SetTableValue("boss_frame", "hide", {})
-                --wait for the boss to spawn...
-            end
-            return 1;
-        end)]]
         return false
     end)
 

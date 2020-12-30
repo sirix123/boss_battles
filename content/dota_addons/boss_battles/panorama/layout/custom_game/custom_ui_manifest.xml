@@ -6,7 +6,7 @@
 	</scripts>
 
 	<styles>
-		<!-- <include src="file://{resources}/styles/custom_game/global.css" /> -->
+		<include src="file://{resources}/styles/custom_game/ui_modify.css" />
 	</styles>
 		
 	<Panel>

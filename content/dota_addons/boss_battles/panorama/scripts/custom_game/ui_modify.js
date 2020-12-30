@@ -92,16 +92,11 @@ function ModifyPlayers(top_panel){
 
     /*var manaBar_left = top_panel.FindChildTraverse("ManaProgress_Left");
     manaBar_left.RemoveClass("ProgressBarLeft");
-    manaBar_left.AddClass("ProgressBarLeft")
+    manaBar_left.AddClass("ProgressBarLeft_v2")
 
-    var manaBar_right = top_panel.FindChildTraverse("ManaProgress_Right");
-    $.Msg("manaBar_right ",manaBar_right) 
+    var manaBar_right = top_panel.FindChildTraverse("ManaProgress_Right"); 
     manaBar_right.RemoveClass("ProgressBarRight");
-    manaBar_right.AddClass("ProgressBarRight")
-
-    var mana_tick_label = top_panel.FindChildTraverse("ManaRegenLabel");
-    mana_tick_label.RemoveClass("ManaRegenLabel");
-    mana_tick_label.AddClass("ManaRegenLabel")*/
+    manaBar_right.AddClass("ProgressBarRight_v2")*/
 
 }
 

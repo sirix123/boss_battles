@@ -1,0 +1,22 @@
+
+
+.ProgressBarLeft_v2
+{
+    border-radius: 3px; 
+    background-color: gradient( linear, 0% 0%, 0% 100%, from( #562b87 ), color-stop( 0.2, #9641ce ), color-stop( .5, #ad4aea), to( #5b2b87 ) );
+}
+
+.ProgressBarRight_v2
+{
+    background-color: gradient( linear, 0% 0%, 0% 100%, from( #562b87 ), color-stop( 0.2, #9641ce ), color-stop( .5, #ad4aea), to( #5b2b87 ) );
+}
+
+#ManaRegenLabel_v2
+{
+    color: #9641ce;
+    margin-top: 1px;
+    font-size: 14px;
+    text-shadow: 2px 2px 0px 1.0 #00000066;
+    font-weight: bold;
+    margin-right: 4px;
+}
