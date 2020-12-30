@@ -11,6 +11,7 @@ function Spawn( entityKeyValues )
 		return
 	end
 
+	boss_frame_manager:SendBossName()
 	boss_frame_manager:UpdateManaHealthFrame( thisEntity )
 	boss_frame_manager:HideBossManaFrame()
 

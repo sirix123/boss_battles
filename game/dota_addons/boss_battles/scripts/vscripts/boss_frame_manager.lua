@@ -52,12 +52,15 @@ function boss_frame_manager:ShowBossFrames( boss )
 end
 -------------------------------------------------
 
+-- change boss name
+function boss_frame_manager:SendBossName()
+    local boss_name = RAID_TABLES[BOSS_BATTLES_ENCOUNTER_COUNTER].name
+    CustomGameEventManager:Send_ServerToAllClients( "change_boss_name", { bossName = boss_name } )
+end
+
 -- Update/stop updating boss frame hp and mana
 -- this will also show the frames (hp and mana)
 function boss_frame_manager:UpdateManaHealthFrame( boss )
-
-    -- set the boss name once
-
 
     Timers:CreateTimer(function()
         if boss ~= nil then

@@ -2,10 +2,12 @@ CustomNetTables.SubscribeNetTableListener( "boss_frame", bossFrameUpdate ); // u
 CustomNetTables.SubscribeNetTableListener( "hide_boss_frame", hideBossFrame ); // hide the boss frames (mana and hp)
 GameEvents.Subscribe( "hide_boss_mana_frame", hideBossManaFrame ); // hide boss mana bar
 GameEvents.Subscribe( "hide_boss_health_frame", hideBossHpFrame ); // hide boss health bar
+GameEvents.Subscribe( "change_boss_name", changeBossName ); // hide boss health bar
 
 // some global inits
 show_mana_bar = true
 show_health_bar = true
+boss_name = ""
 
 /* Boss Frame UI */
 
@@ -27,6 +29,10 @@ function bossFrameUpdate( table_name, key, data )
         {
             var containerPanel = $.CreatePanel("Panel", bossFrameContainer, data);
             containerPanel.BLoadLayoutSnippet("BossFrame");
+
+            // set boss name 
+            var bossLabel = containerPanel.FindChildInLayoutFile("BossNameLabel");
+            bossLabel.text = boss_name;
 
             //update hp bar 
             if ( show_health_bar != false ) {
@@ -79,6 +85,11 @@ function hideBossManaFrame( table_name, key, data )
 function hideBossHpFrame( table_name, key, data )
 {
     show_health_bar = false
+}
+
+function changeBossName( data )
+{
+    boss_name = data.bossName
 }
 /* END Boss Frame UI */
 
