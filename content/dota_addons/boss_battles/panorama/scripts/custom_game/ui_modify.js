@@ -61,6 +61,7 @@ function ModifyHotkeyBox(top_panel) {
 function ModifyHotkeyText(top_panel, abilityName, text){
     var abilityPanel = top_panel.FindChildTraverse(abilityName);
     var hotkey = abilityPanel.FindChildTraverse("HotkeyText");
+   
 
     if(hotkey){
         hotkey.text = text;
@@ -89,8 +90,18 @@ function ModifyPlayers(top_panel){
 
     //$.Msg("modify mana bars")
 
-    //var manaBar = top_panel.FindChildTraverse("ManaBurner");
-    //manaBar.RemoveClass("ManaBurner");
+    /*var manaBar_left = top_panel.FindChildTraverse("ManaProgress_Left");
+    manaBar_left.RemoveClass("ProgressBarLeft");
+    manaBar_left.AddClass("ProgressBarLeft")
+
+    var manaBar_right = top_panel.FindChildTraverse("ManaProgress_Right");
+    $.Msg("manaBar_right ",manaBar_right) 
+    manaBar_right.RemoveClass("ProgressBarRight");
+    manaBar_right.AddClass("ProgressBarRight")
+
+    var mana_tick_label = top_panel.FindChildTraverse("ManaRegenLabel");
+    mana_tick_label.RemoveClass("ManaRegenLabel");
+    mana_tick_label.AddClass("ManaRegenLabel")*/
 
 }
 
