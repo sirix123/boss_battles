@@ -66,7 +66,7 @@ function choking_gas_thinker:StartApplyDamageLoop()
 		end
 
         local enemies = FindUnitsInRadius(
-            self:GetCaster():GetTeamNumber(),	-- int, your team number
+            DOTA_TEAM_BADGUYS,	-- int, your team number
             self.currentTarget,	-- point, center point
             nil,	-- handle, cacheUnit. (not known)
             self.radius,	-- float, radius. or use FIND_UNITS_EVERYWHERE
@@ -80,7 +80,7 @@ function choking_gas_thinker:StartApplyDamageLoop()
         for _, enemy in pairs(enemies) do
 			local dmgTable = {
                 victim = enemy,
-                attacker = self:GetCaster(),
+                attacker = self:GetParent(),
                 damage = self.dmg,
                 damage_type = DAMAGE_TYPE_PHYSICAL,
             }

@@ -192,10 +192,6 @@ function ClockThink()
 		--return ChaseTargetFireMissile()
 	end
 
-	if thisEntity.hookshot:IsFullyCastable() and thisEntity.hookshot:IsCooldownReady() and thisEntity:HasModifier("furnace_modifier_4") then
-		return CastHookshot()
-	end
-
 	if thisEntity.summon_electric_turret:IsFullyCastable() and thisEntity.summon_electric_turret:IsCooldownReady() and thisEntity:HasModifier("furnace_modifier_2") then
 		return CastSummonElectricTurret()
 	end
@@ -218,6 +214,10 @@ function ClockThink()
 
 	if thisEntity.vortex_grenade:IsFullyCastable() and thisEntity.vortex_grenade:IsCooldownReady() and thisEntity:HasModifier("furnace_modifier_3") and thisEntity.vortex_grenade:IsInAbilityPhase() == false then
 		return CastVortexGrenade()
+	end
+
+	if thisEntity.hookshot:IsFullyCastable() and thisEntity.hookshot:IsCooldownReady() and thisEntity:HasModifier("furnace_modifier_4") then
+		return CastHookshot()
 	end
 
 	return 0.5
@@ -372,7 +372,7 @@ function CastCogs()
 	thisEntity.cast_cogs = true
 
 	if thisEntity:HasModifier("armor_buff_modifier") == true then
-		thisEntity:RemoveModifierByName("armor_buff_modifier")
+		thisEntity.hBuff:SetStackCount(0)
 	end
 
 	return thisEntity.loop * thisEntity.interval
@@ -629,7 +629,7 @@ function CheckFurnace()
 
 	-- check if furnace count is increasing every 2mins
 	-- 120
-	Timers:CreateTimer(120,function()
+	Timers:CreateTimer(70,function()
 		if ( not thisEntity:IsAlive() ) then
 			thisEntity.i = 0
 			--print("end timer?")

@@ -101,6 +101,7 @@ end
 
 function vortex_grenade:OnProjectileHit( hTarget, vLocation)
     if IsServer() then
+        if hTarget ~= nil then return end
 
         ParticleManager:DestroyParticle(self.nPreviewFXIndex, true)
 

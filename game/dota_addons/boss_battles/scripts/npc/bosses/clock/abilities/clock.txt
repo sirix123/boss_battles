@@ -136,6 +136,7 @@
         "BaseClass"                     "ability_lua"
         "ScriptFile"                    "bosses/clock/choking_gas"
         "MaxLevel"						"4"
+        "AbilityTextureName"            "riki_smoke_bomb"
 
         // General
         //-------------------------------------------------------------------------------------------------------------
@@ -145,7 +146,7 @@
         // Casting
         //-------------------------------------------------------------------------------------------------------------
         "AbilityCastPoint"              "0.0 0.0 0.0 0.0"
-        "AbilityCooldown"               "60 60 50 50"
+        "AbilityCooldown"               "40 40 40 40"
         "AbilityManaCost"               "0"
         "AbilityCastRange" 				"9000"
 
