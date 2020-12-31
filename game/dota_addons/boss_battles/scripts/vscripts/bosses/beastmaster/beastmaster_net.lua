@@ -147,10 +147,10 @@ function beastmaster_net:OnSpellStart()
 				--print("unit ",unit)
 				--print("unit ",unit:GetUnitName())
 
-				if unit:GetUnitName() ~= "npc_dota_thinker" or unit ~= nil then
-					return true
-				else
+				if unit:GetUnitName() == "npc_dota_thinker" then
 					return false
+				else
+					return true
 				end
 
 			end, -- unit:GetTeamNumber() ~= hero:GetTeamNumber() and unit:GetTeamNumber() ~= DOTA_TEAM_NEUTRALS end

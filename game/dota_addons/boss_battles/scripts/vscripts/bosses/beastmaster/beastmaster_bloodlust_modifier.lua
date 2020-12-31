@@ -21,6 +21,8 @@ function beastmaster_bloodlust_modifier:OnCreated( kv )
 		self.dmg_bonus = 130
 		self.bat = 1.0
 
+		-- takes more dmg?
+
 		self.effect = ParticleManager:CreateParticle( "particles/beastmaster/beastmaster_enrage.vpcf", PATTACH_OVERHEAD_FOLLOW, self:GetParent() )
 		ParticleManager:SetParticleControl( self.effect, 0, self:GetParent():GetAbsOrigin() )
 		ParticleManager:SetParticleControl( self.effect, 3, self:GetParent():GetAbsOrigin() )

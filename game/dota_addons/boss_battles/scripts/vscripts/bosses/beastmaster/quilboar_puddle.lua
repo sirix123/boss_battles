@@ -35,8 +35,13 @@ function quilboar_puddle:OnAbilityPhaseStart()
 
 			self.vTargetPos = self.hTarget:GetAbsOrigin()
 
-			ParticleManager:SetParticleControl(self.particleNfx , 1, self:GetCaster():GetAbsOrigin()) -- origin
-			ParticleManager:SetParticleControl(self.particleNfx , 2, self.vTargetPos) -- target
+			if self:GetCaster():IsAlive() then
+
+				ParticleManager:SetParticleControl(self.particleNfx , 1, self:GetCaster():GetAbsOrigin()) -- origin
+				ParticleManager:SetParticleControl(self.particleNfx , 2, self.vTargetPos) -- target
+			else
+				return false
+			end
 
 			return FrameTime()
 		end)
