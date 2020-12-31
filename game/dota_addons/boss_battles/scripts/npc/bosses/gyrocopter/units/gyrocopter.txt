@@ -8,7 +8,7 @@
 	"npc_gyrocopter"	
 	{
 		// script
-		"vscripts"					"bosses/gyrocopter/gyrocopter.lua"
+		"vscripts"					"bosses/gyrocopter/gyrocopter_v2.lua"
 
 		// General
 		//----------------------------------------------------------------
@@ -17,18 +17,31 @@
 		"SoundSet"					"n_creep_Melee"
 		"GameSoundsFile"			"soundevents/game_sounds_heroes/game_sounds_gyrocopter.vsndevts"
 		"Level"						"1"
-		"ModelScale" 				"1.5"
+		"ModelScale" 				"1.25"
 
 		// Abilities
 		//----------------------------------------------------------------
-		"Ability1"					"radar_scan"			
-		"Ability2"					"homing_missile"			
-		"Ability3"					"rocket_barrage_melee"
-		"Ability4"					"rocket_barrage_ranged"
-		"Ability5"					"flak_cannon"			
-		"Ability6"					"call_down"			
-		"Ability7"					"gyro_base_attack"
-		"Ability8"					"whirlwind_attack"
+		"Ability1"					"gyro_base_attack"			
+		"Ability2"					"radar_scan"
+		"Ability3"					"radar_pulse"
+		"Ability4"					"tracking_beacon"
+
+		"Ability5"					"dumb_homing_missile"
+		"Ability6"					"smart_homing_missile"
+
+		"Ability7"					"swoop"			
+		"Ability8"					"zoom"
+
+		"Ability9"					"barrage"
+		"Ability10"					"barrage_radius_melee"
+		"Ability11"					"barrage_radius_ranged"
+		"Ability12"					"barrage_radius_attack"
+
+		"Ability13"					"absorbing_shell"
+		"Ability14"					"call_down"
+		"Ability15"					"rotating_flak_cannon"
+		"Ability16"					"rotating_flak_cannon_attack"
+
 
 		// Precache
 		//-------------------------------------------------------------------------------------------------------------
@@ -58,7 +71,7 @@
 
 		// Movement
 		//----------------------------------------------------------------
-		"MovementCapabilities"		"DOTA_UNIT_CAP_MOVE_FLY"
+		"MovementCapabilities"		"DOTA_UNIT_CAP_MOVE_FLY" // or DOTA_UNIT_CAP_MOVE_FLY
 		"MovementSpeed"				"350"					
 
 		// Status

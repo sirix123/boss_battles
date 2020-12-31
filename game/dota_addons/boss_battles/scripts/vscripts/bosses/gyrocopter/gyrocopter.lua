@@ -3,6 +3,7 @@ gyrocopter = class({})
 --gyrocopter = class({}, nil, Hero)
 
 LinkLuaModifier( "flak_cannon_modifier", "bosses/gyrocopter/flak_cannon_modifier", LUA_MODIFIER_MOTION_NONE )
+LinkLuaModifier( "modifier_generic_stunned", "core/modifier_generic_stunned", LUA_MODIFIER_MOTION_NONE )
 
 --GLOBALS:
 --Tracking variables across multiple gyro abilities:
@@ -10,10 +11,21 @@ _G.ActiveHomingMissiles = {}
 _G.IsGyroBusy = false
 
 local displayDebug = true
+local initialZ = 0
 
 -- On Spawn, init any vars, start MainThinker
 function Spawn( entityKeyValues )
 	--print("Spawn( entityKeyValues ) called")
+	--NEW:
+	thisEntity.barrage_radius_attack = thisEntity:FindAbilityByName( "barrage_radius_attack" )
+	thisEntity.barrage_radius_melee = thisEntity:FindAbilityByName( "barrage_radius_melee" )
+	thisEntity.barrage_radius_ranged = thisEntity:FindAbilityByName( "barrage_radius_ranged" )
+
+	thisEntity.barrage_rotating = thisEntity:FindAbilityByName( "barrage_rotating" )
+	thisEntity.barrage_rotating_attack = thisEntity:FindAbilityByName( "barrage_rotating_attack" )
+
+	thisEntity.absorbing_shell = thisEntity:FindAbilityByName( "absorbing_shell" )
+
 
 	thisEntity.homing_missile = thisEntity:FindAbilityByName( "homing_missile" )
 	thisEntity.flak_cannon = thisEntity:FindAbilityByName( "flak_cannon" )
@@ -25,8 +37,12 @@ function Spawn( entityKeyValues )
 	thisEntity.call_down = thisEntity:FindAbilityByName( "call_down" )
 	
 	thisEntity.whirlwind_attack = thisEntity:FindAbilityByName("whirlwind_attack")
-	
+
+	--abilityQueue thinker
 	thisEntity:SetContextThink( "AbilityQueue", AbilityQueue, 0.1)
+
+	--new AI: 
+	thisEntity:SetContextThink( "NewAI", NewAI, 0.1 )
 
 	--old AI:
 	--thisEntity:SetContextThink( "MainThinker", MainThinker, 1 )
@@ -35,7 +51,7 @@ function Spawn( entityKeyValues )
 	--thisEntity:SetContextThink( "GyroAI1", GyroAI1, 1 )
 	
 	-- new AI v1: whole boss fight.
-	thisEntity:SetContextThink( "GyroAI2", GyroAI2, 1 )
+	--thisEntity:SetContextThink( "GyroAI2", GyroAI2, 1 )
 
 	--disable attacks.
 	thisEntity:SetAttackCapability(0) --set to DOTA_UNIT_CAP_NO_ATTACK.
@@ -111,7 +127,7 @@ function AbilityQueue()
 
 
 		--reorder the array to make it a queue
-		if abilityQueue[2] ~= nill then
+			if abilityQueue[2] ~= nill then
 			for i=1,#abilityQueue do
 				abilityQueue[i] = abilityQueue[i+1]
 			end
@@ -143,18 +159,207 @@ function AddToAbilityQueue(ability, orderType, target, castAsap, sound)
 	end
 end
 
+
+
+--Gyro moves upwards toward altitude, in 10 increments over 1 second 
+--MoveToPosition doesn't work with Z index so to change a units height I have to directly modified its AbsOrigin
+--TODO: this should be a blocking function... otherwise it will get interupted and gyro won't reach height
+function FlyUp(altitude)
+	local duration = 1
+	local tickAmount = 20
+	local delayAmount = duration / tickAmount
+	local zIncrement = (altitude - thisEntity:GetAbsOrigin().z) / 10
+
+	Timers:CreateTimer(function()
+		thisEntity:SetAbsOrigin(thisEntity:GetAbsOrigin() + Vector(0,0,zIncrement))
+		-- stop once reaching altitude
+		if thisEntity:GetAbsOrigin().z >= altitude then return end 
+		return delayAmount
+	end)
+end
+
+--Gyro moves down to altitude, in 10 increments over 1 second 
+--MoveToPosition doesn't work with Z index so to change a units height I have to directly modified its AbsOrigin
+--TODO: this should be a blocking function... otherwise it will get interupted and gyro won't reach height
+function FlyDown(altitude)
+	local duration = 1
+	local tickAmount = 20
+	local delayAmount = duration / tickAmount
+	local zIncrement = (thisEntity:GetAbsOrigin().z - altitude) / tickAmount
+
+	Timers:CreateTimer(function()
+		thisEntity:SetAbsOrigin(thisEntity:GetAbsOrigin() + Vector(0,0,-zIncrement))
+		-- stop once reaching altitude
+		if thisEntity:GetAbsOrigin().z <= altitude then return end 
+		return delayAmount
+	end)
+end
+
+--UNTESTED:
+--Gyro rapidly flies toward target. Crashing into it. 
+	--Make a timer and track gyros position. Upon arrival do:
+		-- explode and dmg enemies
+		-- stun enemies, stun gyro
+		-- reset MS
+-- BUG: if gyro is at z 400, he'll immediately reset to z 132 after MoveToPosition is called
+function Swoop(location)
+	print("Swoop() location = ", location )
+	print("Gyro z = ", thisEntity:GetAbsOrigin().z)
+	local swoopSpeed = 1200
+	local originalMs = thisEntity:GetBaseMoveSpeed()
+	thisEntity:SetBaseMoveSpeed(swoopSpeed)
+
+	local radius = 500
+	local dmg = 200
+	local stunDuration = 2.5
+	local collisionDist = 70 --stop the timer and apply effects once gyro is within this distance of target
+
+	local distance = (location - thisEntity:GetAbsOrigin()):Length2D()
+	local travelTime = distance / thisEntity:GetBaseMoveSpeed()
+
+	--tilt gyro's nose 25 degrees down, so he aiming at the ground
+	thisEntity:SetAngles(25,0,0)
+	thisEntity:MoveToPosition(location)
+
+
+	Timers:CreateTimer(function()
+		print("Gyro z = ", thisEntity:GetAbsOrigin().z)
+
+		local distance = (location - thisEntity:GetAbsOrigin()):Length2D()
+		--don't need to this this... valve automatically does it
+		if (thisEntity:GetAbsOrigin().z > initialZ) then
+			--reduce z by a little 
+			--thisEntity:SetAbsOrigin(Vector(thisEntity:GetAbsOrigin().x, thisEntity:GetAbsOrigin().y, thisEntity:GetAbsOrigin().z - 10))
+		end
+
+		if (distance <= collisionDist) then
+			thisEntity:SetBaseMoveSpeed(originalMs)
+
+			--DEBUG
+			DebugDrawCircle(thisEntity:GetAbsOrigin(), Vector(255,0,0), 128, 100, true, 1)
+
+			local enemies = FindUnitsInRadius(DOTA_TEAM_BADGUYS, thisEntity:GetAbsOrigin(), nil, radius,
+			DOTA_UNIT_TARGET_TEAM_ENEMY, DOTA_UNIT_TARGET_ALL, DOTA_UNIT_TARGET_FLAG_NONE, FIND_CLOSEST, false )
+
+			for _,enemy in pairs(enemies) do 
+	            local dmgTable =
+	            {
+	                victim = enemy,
+	                attacker = thisEntity,
+	                damage = dmg,
+	                damage_type = DAMAGE_TYPE_PHYSICAL,
+	            }
+	            ApplyDamage(dmgTable)
+	        end
+
+        	-- stun
+			for _,enemy in pairs(enemies) do
+				enemy:AddNewModifier(
+					self:GetParent(), -- player source
+					nil, -- ability source
+					"modifier_generic_stunned", -- modifier name
+					{ duration = self.base_stun } -- kv
+				)
+			end
+
+        	--example from stun_druid_zap.lua
+        	-- LinkLuaModifier( "modifier_generic_stunned", "core/modifier_generic_stunned", LUA_MODIFIER_MOTION_NONE )
+
+
+        	return
+		end
+
+		return 0.05
+	end)
+
+end
+
+
+--UNTESTED
+--Gyro flies to location, and leaves a trail of destruction behind him (think batrider firepath)
+--Maybe leave behind a sticky napalm goo, then ignite it afterwards?
+	-- like he's spilling oil as he flies away?
+function Zoom(location)
+
+
+end
+
+
+
 function CurrentTestCode()
-	--TO TEST: confirm _G.IsGyroBusy works
-	ContinuousRadarScan() -- goes clockwise
 	
+	--the circle "tightness" / radius is dictated by the yaw_velocity and the distance..
+	--not sure extactly how to calculate the radius based on those two vars though..
+	--or if I start with a radius. how do I calculate those two vars?
+
 	
+	--pitch incrementing pitch makes the model face downwards. decrementing would tilt upwards
+	--yaw incrementing yaw makes the model rotate counter-clockwise. decrementing would rotate clockwise
+	--roll. does nothing. Thanks valve.
+	-- local pitch = 0.0
+	-- local yaw = 0.0
+	-- local roll = 0.0 -- does nothing, with the gyro model? or in general?
+	-- --thisEntity:SetAngles(pitch, yaw, roll)
 
-	--TESTED, _G.IsGyroBusy working correctly:
-	--Barrage()
-	--NewWhirlWind()
-	--NewRadarPulse()
-	--RadarScan()
+	-- local pitch_velocity = 0.0
+	-- local yaw_velocity = -3.0
 
+
+ --    local distance = 30
+ --    local travelTime = distance / thisEntity:GetBaseMoveSpeed()
+ --    print("distance of "..distance.. "will take gyro "..travelTime.." to travel with a movespeed of "..thisEntity:GetBaseMoveSpeed() )
+
+
+ --    local delayAmount = travelTime - (travelTime / 4 ) --delay by the time it would take gyro to move to the location, minus some amount, so he never arrives and stops.
+	-- Timers:CreateTimer(function()	
+	-- 	--pitch = pitch + pitch_velocity
+	-- 	yaw = yaw + yaw_velocity
+	-- 	thisEntity:SetAngles(pitch, yaw, roll)
+	-- 	local moveTo = (thisEntity:GetForwardVector() * distance) + thisEntity:GetAbsOrigin()
+	-- 	thisEntity:MoveToPosition(moveTo)
+
+
+	-- 	distance = distance + 0.1
+	-- 	travelTime = distance / thisEntity:GetBaseMoveSpeed()
+	-- 	delayAmount = travelTime - (travelTime / 4 )
+
+	-- 	return delayAmount 
+	-- end) --end timer
+
+
+
+	--AddToAbilityQueue(thisEntity.absorbing_shell, DOTA_UNIT_ORDER_CAST_NO_TARGET, nil, false, nil)
+	--AddToAbilityQueue(thisEntity.barrage_rotating, DOTA_UNIT_ORDER_CAST_NO_TARGET, nil, false, nil)
+
+end
+
+local dt = 0.1
+local tickCount = 0
+function NewAI()
+	--Check certain game states and return early if needed
+	if not IsServer() then return end
+	if ( not thisEntity:IsAlive() ) then return -1 end
+	if GameRules:IsGamePaused() == true then return 0.5 end
+
+	tickCount = tickCount+1
+
+	--init:
+	if tickCount == 2 then
+		initialZ = thisEntity:GetAbsOrigin().z
+	end
+
+	if (tickCount % 50 == 0) then
+		CurrentTestCode()
+	end	
+
+	if (tickCount == 40) then
+		FlyUp(400)
+	end
+	if (tickCount == 60) then
+		Swoop(thisEntity:GetAbsOrigin() + Vector(500,900,0))
+	end
+	
+	return dt
 end
 
 
@@ -221,10 +426,13 @@ function GyroAI2()
 	tickCount = tickCount+1
 
 	--TESTING:
-	--if tickCount % 10 == 0 then
+	if tickCount % 5 == 0 then
 	-- if tickCount == 2 then
-	-- 	CurrentTestCode()
-	-- end
+		CurrentTestCode()
+	else
+		return dt
+	end
+
 
 	-- if tickCount % 10 == 0 then
 	-- 	CurrentTestCode()
@@ -232,12 +440,12 @@ function GyroAI2()
 
 
 	-- queue up several ability, IsGyroBusy and abilityQueue should handle when to cast em
-	if tickCount == 2 then
-		WhirlWind()		
-	end
-	if tickCount == 15 then
-		Barrage()
-	end
+	-- if tickCount == 2 then
+	-- 	WhirlWind()		
+	-- end
+	-- if tickCount == 15 then
+	-- 	Barrage()
+	-- end
 
 	-- every 7 seconds, check if we need to cast an ability
 	if tickCount % 7 == 0 then
@@ -439,6 +647,8 @@ function AttackClosestPlayer()
 	end
 end
 
+
+--TODO: check if I still use this and if not remove it
 function MoveToPosition(position, movespeed )
 	--get initial values to restore later
 	local ms = thisEntity:GetBaseMoveSpeed()
@@ -468,8 +678,6 @@ end
 
 --BARRAGE ability:
 --rocket barrage all melee units, then rocket barrage all ranged units. 
-
-
 function Barrage()
 	--melee first and then ranged.
 	AddToAbilityQueue(thisEntity.rocket_barrage_melee, DOTA_UNIT_ORDER_CAST_NO_TARGET, nil, false, nil)
@@ -823,18 +1031,84 @@ function ContinuousRadarScan()
 end
 
 
+
+newEnemiesScanned = {}
+function NewRadarScan()
+    local particleName = "particles/gyrocopter/red_phoenix_sunray.vpcf"
+    local pfx = ParticleManager:CreateParticle( particleName, PATTACH_ABSORIGIN, thisEntity )	
+
+    Clear(enemiesScanned)
+
+	local radius = 2500
+	local spellDuration = 3 --seconds
+	local currentFrame = 1
+	local totalFrames = 120
+	local frameDuration = spellDuration / totalFrames -- 2 / 120 = 0.016?
+	local totalDegreesOfRotation = 360
+	local degreesPerFrame = totalDegreesOfRotation / totalFrames
+	
+	local currentAngle = 0
+
+	Timers:CreateTimer(function()	
+		local origin = thisEntity:GetAbsOrigin()
+		currentFrame = currentFrame +1
+		currentAngle = currentAngle +degreesPerFrame
+		
+		--print("currentAngle = ", currentAngle)		
+
+		--Scan finished: any cleanup or actions on the last frame... 
+		if currentFrame >= totalFrames then
+			ParticleManager:DestroyParticle(pfx, true)			
+			return
+		end	
+
+		local radAngle = currentAngle * 0.0174532925 --angle in radians
+		local endPoint = Vector(radius * math.cos(radAngle), radius * math.sin(radAngle), 0) + origin
+
+		ParticleManager:SetParticleControl(pfx, 0, origin + Vector(0,0,100))
+		ParticleManager:SetParticleControl(pfx, 1, endPoint)
+
+		--If this uses too much processing then use 'if i % 5 == 0' to run this 4/5 times less frequently
+		local enemies = FindUnitsInLine(DOTA_TEAM_BADGUYS, thisEntity:GetAbsOrigin(), endPoint, thisEntity, 1, DOTA_UNIT_TARGET_TEAM_ENEMY, DOTA_UNIT_TARGET_HERO, DOTA_UNIT_TARGET_FLAG_INVULNERABLE )
+		for _,enemy in pairs(enemies) do
+			if Contains(enemiesScanned, enemy) then -- already hit this enemy
+				--do nothing
+			else -- first time hitting this enemy
+				enemiesScanned[enemy] = true --little hack so Contains works 
+				CastCallDownAt(enemy:GetAbsOrigin())
+			end
+		end
+
+		return frameDuration
+	end)
+end
+
+
 enemiesScanned = {}
 function RadarScan()
 	-- print("RadarScan(), setting IsGyroBusy true")
 	-- _G.IsGyroBusy = true
-
 	--print("RadarScan() called")
+
+	--TESTING Particles:
 	--play stefan's particle:
-	-- content/dota_addons/boss_battles/particles/custom/sirix/scan.vpcf
-	-- effectName = "particles/custom/sirix/scan.vpcf"	
- -- 	local p1Index = ParticleManager:CreateParticle(effectName, PATTACH_POINT, thisEntity)
- -- 	ParticleManager:SetParticleControl(p1Index, 0, thisEntity:GetAbsOrigin())
- -- 	ParticleManager:ReleaseParticleIndex(p1Index )
+	
+	--Scan particle rotates counter-clockwise. RadarScan goes clockwise
+	-- local effectName = "particles/custom/sirix/scan.vpcf"	
+ --  	local p1Index = ParticleManager:CreateParticle(effectName, PATTACH_POINT, thisEntity)
+ --  	ParticleManager:SetParticleControl(p1Index, 0, thisEntity:GetAbsOrigin())
+ --  	ParticleManager:ReleaseParticleIndex(p1Index )
+
+	-- alternatively use tinkers green sunray. lots of parts...
+	--UNTESTED: code copied from tinker/green_beam.lua
+    local particleName = "particles/gyrocopter/red_phoenix_sunray.vpcf"
+    local pfx = ParticleManager:CreateParticle( particleName, PATTACH_ABSORIGIN, thisEntity )
+
+
+ --    self.end_pos = ( RotatePosition(caster:GetAbsOrigin(), QAngle(0,currentAngle,0), beam_point ) )
+	-- self.end_pos = GetGroundPosition( self.end_pos, nil )
+	-- self.end_pos.z = caster:GetAbsOrigin().z + 100
+ --    --DebugDrawCircle(self.end_pos, Vector(0,155,0),128,50,true,60)
 
 	--Not sure example when I want to reset these 
 	Clear(enemiesScanned)
@@ -868,14 +1142,29 @@ function RadarScan()
 		--Most of this code is for the animation/drawing portion. but also checks for enemies hit bit the scan
 		startAngle = endAngle - pieSize
 		currentAngle = startAngle
+
+		--TODO: redo this method without the lines perDegree. that's a debug draw concept..
+
+
+
+
+
 		local linesPerDegree = 10
 		local totalLines = linesPerDegree * (endAngle - startAngle)
+		--spell model 
 		for i = 0, totalLines, 1 do
 			currentAngle =  currentAngle + ( 1 / linesPerDegree )
 			local radAngle = currentAngle * 0.0174532925 --angle in radians
 			local point = Vector(radius * math.cos(radAngle), radius * math.sin(radAngle), 0)
 			--print("Calculated point = ", point)
 			local originZeroZ = Vector(origin.x, origin.y,0)
+			local originPlusExtraZ = Vector(origin.x, origin.y, origin.z +100)
+			
+			ParticleManager:SetParticleControl(pfx, 0, originPlusExtraZ)
+			ParticleManager:SetParticleControl( pfx, 1, point + originPlusExtraZ)
+			
+
+			--DEBUG draw:
 			DebugDrawLine(originZeroZ, point + originZeroZ, 255,0,0, true, frameDuration)
 			--DebugDrawLine_vCol(originZeroZ, point + originZeroZ, Vector(255,0,0), true, 128, frameDuration)
 
@@ -933,22 +1222,34 @@ end
 
 
 function NewRadarPulse()
+	local sound1 = "gyrocopter_gyro_attack_09" -- "gyrocopter_gyro_attack_09" "gyrocopter: I have visual!"
+	local sound2 = "gyrocopter_gyro_attack_10" -- "gyrocopter_gyro_attack_10" "gyrocopter: Hostile identified."
+
+	local radius = 0
+	local endRadius = 2000
+	local radiusGrowthRate = 25
+	local frameDuration = 0.02
+
+
+	--Particle: currently using razor plasmafield as an indicator. 
+	--TODO: figure out how this speed relates to radiusgrowth rate. I tweaked the values manually to get them to align
+	-- it's like speed per second?
+	local particleSpeed = 700
+    local nfx = ParticleManager:CreateParticle("particles/gyrocopter/gyro_razor_plasmafield.vpcf", PATTACH_POINT_FOLLOW, thisEntity)
+    ParticleManager:SetParticleControl(nfx, 0, thisEntity:GetAbsOrigin())
+    ParticleManager:SetParticleControl(nfx, 1, Vector(particleSpeed, endRadius, 1))
+
+    -- do this at the end: (this makes it return?, maybe I can just destroy particle once max range)
+	-- ParticleManager:SetParticleControl(nfx, 1, Vector(-speed, maxRadius, 1))
+
+	--If unable to get it perfectly just do some aoe particle to indicate this spell has been cast.
+
 	-- print("NewRadarPulse(), setting IsGyroBusy true")
 	-- _G.IsGyroBusy = true	
 
-	-- "gyrocopter_gyro_attack_09" "gyrocopter: I have visual!"
-	-- "gyrocopter_gyro_attack_10" "gyrocopter: Hostile identified."
-	local sound1 = "gyrocopter_gyro_attack_09"
-	local sound2 = "gyrocopter_gyro_attack_10"
-	-- thisEntity:EmitSound(abilityQueue[1].sound)
-
-	local radius = 200
-	local endRadius = 2000
-	local radiusGrowthRate = 25
-
 	local enemiesDetected = {}
 
-	local frameDuration = 0.02
+	
 	local currentAlpha = 10
 	Timers:CreateTimer(function()	
 		currentAlpha = currentAlpha + 1
@@ -959,12 +1260,15 @@ function NewRadarPulse()
 		else --else, last frame. Flash the circle one last time with higher alpha
 			DebugDrawCircle(origin, Vector(255,0,0), 128, radius, true, frameDuration*2)
 			_G.IsGyroBusy = false	
+			print("End frame. Releasing particle")
+			--UNTESTED:
+			ParticleManager:DestroyParticle(nfx, true)
+			ParticleManager:ReleaseParticleIndex(nfx)
 			return
 		end
 		--draw 
 		DebugDrawCircle(origin, Vector(255,0,0), currentAlpha, radius, true, frameDuration*2)		
 		DebugDrawCircle(origin, Vector(255,0,0), 0, radius-1, true, frameDuration*2) --draw same thing, radius-1, for double thick line/circle edge
-
 
 		--HACK: to implement some delay, play this sound after a second or two of the spell starting
 		if currentAlpha == 50 then
@@ -978,8 +1282,6 @@ function NewRadarPulse()
 		for _,enemy in pairs(enemies) do -- if this enemy has already been hit. only "hit" each enemy once
 			if Contains(enemiesDetected, enemy) then -- do nothing. this gets called every tick after the first tick that detects an enemy
 			else
-
-
 
 				-- enemy detected for the first time this pulse. Gets called once for this Timer
 				enemiesDetected[enemy] = true --little hack so Contains(enemiesDetected,enemy) works 

@@ -38,8 +38,6 @@ function rocket_barrage_ranged:OnSpellStart()
 			return
 		 end
 
-
-
 		--Get nearby enemies
 		local inRadiusenemies = FindUnitsInRadius(DOTA_TEAM_BADGUYS, caster:GetAbsOrigin(), nil, radius,
 		DOTA_UNIT_TARGET_TEAM_ENEMY, DOTA_UNIT_TARGET_ALL, DOTA_UNIT_TARGET_FLAG_NONE, FIND_CLOSEST, false )

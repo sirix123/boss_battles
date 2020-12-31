@@ -1,88 +1,201 @@
 
 "DOTAAbilities"
 {
-    "rocket_barrage_melee"
-    { 
-        "BaseClass"                     "ability_lua"
-        "ScriptFile"                    "bosses/gyrocopter/rocket_barrage_melee"
 
-        "AbilityBehavior"               "DOTA_ABILITY_BEHAVIOR_NO_TARGET"
-        "AbilityUnitDamageType"         "DAMAGE_TYPE_PHYSICAL"  
-
-        "AbilityCastPoint"              "0.0"
-        "AbilityCooldown"               "0.0"
-        "AbilityManaCost"               "0"
-    }
-    "rocket_barrage_ranged"
-    { 
-        "BaseClass"                     "ability_lua"
-        "ScriptFile"                    "bosses/gyrocopter/rocket_barrage_ranged"
-
-        "AbilityBehavior"               "DOTA_ABILITY_BEHAVIOR_NO_TARGET"
-        "AbilityUnitDamageType"         "DAMAGE_TYPE_PHYSICAL"  
-
-        "AbilityCastPoint"              "0.0"
-        "AbilityCooldown"               "0.0"
-        "AbilityManaCost"               "0"
-    }
+    
     "gyro_base_attack"
     { 
         "BaseClass"                     "ability_lua"
         "ScriptFile"                    "bosses/gyrocopter/gyro_base_attack"
-
         "AbilityBehavior"               "DOTA_ABILITY_BEHAVIOR_NO_TARGET"
         "AbilityUnitDamageType"         "DAMAGE_TYPE_PHYSICAL"  
-
         "AbilityCastPoint"              "0.0"
         "AbilityCooldown"               "0.0"
         "AbilityManaCost"               "0"
     }
-    "whirlwind_attack"
-    { 
-        "BaseClass"                     "ability_lua"
-        "ScriptFile"                    "bosses/gyrocopter/whirlwind_attack"
-
-        "AbilityBehavior"               "DOTA_ABILITY_BEHAVIOR_NO_TARGET"
-        "AbilityUnitDamageType"         "DAMAGE_TYPE_PHYSICAL"  
-
-        "AbilityCastPoint"              "0.0"
-        "AbilityCooldown"               "0.0"
-        "AbilityManaCost"               "0"
-    }
-
-    //=================================================================================================================
-    // Gyrocopter: Radar Scan
-    //=================================================================================================================
     "radar_scan"
     { 
         "BaseClass"                     "ability_lua"
         "ScriptFile"                    "bosses/gyrocopter/radar_scan"
-
-
-        // General
-        //-------------------------------------------------------------------------------------------------------------
         "AbilityBehavior"               "DOTA_ABILITY_BEHAVIOR_NO_TARGET"
         "AbilityUnitDamageType"         "DAMAGE_TYPE_PHYSICAL"  
-
-        // Casting
-        //-------------------------------------------------------------------------------------------------------------
-        "AbilityCastPoint"              "0.0 0.0 0.0 0.0"
-
-        // Time     
-        //-------------------------------------------------------------------------------------------------------------
-        "AbilityCooldown"               "0.0 0.0 0.0 0.0"
-
-        // Cost
-        //-------------------------------------------------------------------------------------------------------------
+        "AbilityCastPoint"              "0.0"
+        "AbilityCooldown"               "0.0"
         "AbilityManaCost"               "0"
-
-
     }
+    "radar_pulse"
+    { 
+        "BaseClass"                     "ability_lua"
+        "ScriptFile"                    "bosses/gyrocopter/radar_pulse"
+        "AbilityBehavior"               "DOTA_ABILITY_BEHAVIOR_NO_TARGET"
+        "AbilityUnitDamageType"         "DAMAGE_TYPE_PHYSICAL"  
+        "AbilityCastPoint"              "0.0"
+        "AbilityCooldown"               "0.0"
+        "AbilityManaCost"               "0"
+    }
+    "tracking_beacon"
+    { 
+        "BaseClass"                     "ability_lua"
+        "ScriptFile"                    "bosses/gyrocopter/tracking_beacon"
+        "AbilityBehavior"               "DOTA_ABILITY_BEHAVIOR_NO_TARGET"
+        "AbilityUnitDamageType"         "DAMAGE_TYPE_PHYSICAL"  
+        "AbilityCastPoint"              "0.0"
+        "AbilityCooldown"               "0.0"
+        "AbilityManaCost"               "0"
+    }
+    "dumb_homing_missile"
+    { 
+        "BaseClass"                     "ability_lua"
+        "ScriptFile"                    "bosses/gyrocopter/dumb_homing_missile"
+        "AbilityBehavior"               "DOTA_ABILITY_BEHAVIOR_NO_TARGET"
+        "AbilityUnitDamageType"         "DAMAGE_TYPE_PHYSICAL"  
+        "AbilityCastPoint"              "0.0"
+        "AbilityCooldown"               "0.0"
+        "AbilityManaCost"               "0"
+    }
+    "smart_homing_missile"
+    { 
+        "BaseClass"                     "ability_lua"
+        "ScriptFile"                    "bosses/gyrocopter/smart_homing_missile"
+        "AbilityBehavior"               "DOTA_ABILITY_BEHAVIOR_NO_TARGET"
+        "AbilityUnitDamageType"         "DAMAGE_TYPE_PHYSICAL"  
+        "AbilityCastPoint"              "0.0"
+        "AbilityCooldown"               "0.0"
+        "AbilityManaCost"               "0"
+    }    
+    "swoop"
+    { 
+        "BaseClass"                     "ability_lua"
+        "ScriptFile"                    "bosses/gyrocopter/swoop"
+        "AbilityBehavior"               "DOTA_ABILITY_BEHAVIOR_POINT"
+        "AbilityUnitDamageType"         "DAMAGE_TYPE_PHYSICAL"
+        "AbilityCastRange"              "10000"  
+        "AbilityCastPoint"              "0.0"
+        "AbilityCooldown"               "0.0"
+        "AbilityManaCost"               "0"
+    }    
+    "zoom"
+    { 
+        "BaseClass"                     "ability_lua"
+        "ScriptFile"                    "bosses/gyrocopter/zoom"
+        "AbilityBehavior"               "DOTA_ABILITY_BEHAVIOR_POINT"
+        "AbilityUnitDamageType"         "DAMAGE_TYPE_PHYSICAL"
+        "AbilityCastRange"              "10000"    
+        "AbilityCastPoint"              "0.0"
+        "AbilityCooldown"               "0.0"
+        "AbilityManaCost"               "0"
+    }      
+    "barrage"
+    { 
+        "BaseClass"                     "ability_lua"
+        "ScriptFile"                    "bosses/gyrocopter/barrage"
+        "AbilityBehavior"               "DOTA_ABILITY_BEHAVIOR_NO_TARGET"
+        "AbilityUnitDamageType"         "DAMAGE_TYPE_PHYSICAL"  
+        "AbilityCastPoint"              "0.0"
+        "AbilityCooldown"               "0.0"
+        "AbilityManaCost"               "0"
+        "AbilitySpecial"
+        {
+            "01"
+            {
+                "var_type"       "FIELD_INTEGER"
+                "duration"       "10"
+            }
+            "02"
+            {
+                "var_type"          "FIELD_INTEGER"
+                "total_damage"      "300"
+            }     
+            "03"
+            {
+                "var_type"           "FIELD_FLOAT"
+                "damage_interval"    "0.25"
+            }
+            "04"                        
+            {
+                "var_type"          "FIELD_INTEGER"
+                "melee_radius"      "500"
+            }
+
+        }
+    } 
+    "barrage_radius_melee"
+    { 
+        "BaseClass"                     "ability_lua"
+        "ScriptFile"                    "bosses/gyrocopter/barrage_radius_melee"
+        "AbilityBehavior"               "DOTA_ABILITY_BEHAVIOR_NO_TARGET"
+        "AbilityUnitDamageType"         "DAMAGE_TYPE_PHYSICAL"  
+        "AbilityCastPoint"              "0.0"
+        "AbilityCooldown"               "0.0"
+        "AbilityManaCost"               "0"
+    }
+    "barrage_radius_ranged"
+    { 
+        "BaseClass"                     "ability_lua"
+        "ScriptFile"                    "bosses/gyrocopter/barrage_radius_ranged"
+        "AbilityBehavior"               "DOTA_ABILITY_BEHAVIOR_NO_TARGET"
+        "AbilityUnitDamageType"         "DAMAGE_TYPE_PHYSICAL"  
+        "AbilityCastPoint"              "0.0"
+        "AbilityCooldown"               "0.0"
+        "AbilityManaCost"               "0"
+    }    
+    "barrage_radius_attack"
+    { 
+        "BaseClass"                     "ability_lua"
+        "ScriptFile"                    "bosses/gyrocopter/barrage_radius_attack"
+        "AbilityBehavior"               "DOTA_ABILITY_BEHAVIOR_NO_TARGET"
+        "AbilityUnitDamageType"         "DAMAGE_TYPE_PHYSICAL"  
+        "AbilityCastPoint"              "0.0"
+        "AbilityCooldown"               "0.0"
+        "AbilityManaCost"               "0"
+    }    
+    "absorbing_shell"
+    { 
+        "BaseClass"                     "ability_lua"
+        "ScriptFile"                    "bosses/gyrocopter/absorbing_shell"
+        "AbilityBehavior"               "DOTA_ABILITY_BEHAVIOR_NO_TARGET"
+        "AbilityUnitDamageType"         "DAMAGE_TYPE_PHYSICAL"  
+        "AbilityCastPoint"              "0.0"
+        "AbilityCooldown"               "0.0"
+        "AbilityManaCost"               "0"
+    }
+    "call_down"
+    { 
+        "BaseClass"                     "ability_lua"
+        "ScriptFile"                    "bosses/gyrocopter/call_down"
+        "AbilityBehavior"               "DOTA_ABILITY_BEHAVIOR_AOE | DOTA_ABILITY_BEHAVIOR_POINT"
+        "AbilityUnitDamageType"         "DAMAGE_TYPE_PHYSICAL"  
+        "AbilityCastPoint"              "0.0"
+        "AbilityCastRange"              "10000"
+        "AbilityCooldown"               "0.0"
+        "AbilityManaCost"               "0"
+    }    
+    "rotating_flak_cannon"
+    { 
+        "BaseClass"                     "ability_lua"
+        "ScriptFile"                    "bosses/gyrocopter/rotating_flak_cannon"
+        "AbilityBehavior"               "DOTA_ABILITY_BEHAVIOR_NO_TARGET"
+        "AbilityUnitDamageType"         "DAMAGE_TYPE_PHYSICAL"  
+        "AbilityCastPoint"              "0.0"
+        "AbilityCooldown"               "0.0"
+        "AbilityManaCost"               "0"
+    }
+    "rotating_flak_cannon_attack"
+    { 
+        "BaseClass"                     "ability_lua"
+        "ScriptFile"                    "bosses/gyrocopter/rotating_flak_cannon_attack"
+        "AbilityBehavior"               "DOTA_ABILITY_BEHAVIOR_NO_TARGET"
+        "AbilityUnitDamageType"         "DAMAGE_TYPE_PHYSICAL"  
+        "AbilityCastPoint"              "0.0"
+        "AbilityCooldown"               "0.0"
+        "AbilityManaCost"               "0"
+    }    
+
 
     //=================================================================================================================
     // Gyrocopter: Homing Missile
     //=================================================================================================================
-    "homing_missile"
+    "homing_missile_old"
     { 
         "BaseClass"                     "ability_lua"
         "ScriptFile"                    "bosses/gyrocopter/homing_missile"
@@ -126,59 +239,12 @@
         }
 
     }
-
-    //=================================================================================================================
-    // Gyrocopter: Rocket Barrage
-    //=================================================================================================================
-    "rocket_barrage"
-    { 
-        "BaseClass"                     "ability_lua"
-        "ScriptFile"                    "bosses/gyrocopter/rocket_barrage"
-
-
-        // General
-        //-------------------------------------------------------------------------------------------------------------
-        "AbilityBehavior"               "DOTA_ABILITY_BEHAVIOR_NO_TARGET"
-        "AbilityUnitDamageType"         "DAMAGE_TYPE_PHYSICAL"  
-
-        // Casting
-        //-------------------------------------------------------------------------------------------------------------
-        "AbilityCastPoint"              "0.0 0.0 0.0 0.0"
-
-        // Time     
-        //-------------------------------------------------------------------------------------------------------------
-        "AbilityCooldown"               "0.0 0.0 0.0 0.0"
-
-        // Cost
-        //-------------------------------------------------------------------------------------------------------------
-        "AbilityManaCost"               "0"
-
-
-        "precache"
-        {
-            "particle" "particles/gyrocopter/gyro_rocket_barrage.vpcf"
-        }
-
-        
-        // Precache
-        //-------------------------------------------------------------------------------------------------------------
-        "precache"
-        {
-            "soundfile"  "sounds/vo/gyrocopter/gyro_attack_01.vsnd"
-            "soundfile"  "sounds/vo/gyrocopter/gyro_attack_02.vsnd"
-            "soundfile"  "sounds/vo/gyrocopter/gyro_attack_08.vsnd"
-            "soundfile"  "sounds/vo/gyrocopter/gyro_attack_09.vsnd"
-            "soundfile"  "sounds/vo/gyrocopter/gyro_attack_12.vsnd"
-            "soundfile"  "sounds/vo/gyrocopter/gyro_attack_14.vsnd"
-            "soundfile"  "sounds/vo/gyrocopter/gyro_call_down_05.vsnd"
-            "soundfile"  "soundevents/game_sounds_heroes/game_sounds_gyrocopter.vsndevts"
-        }
-    }    
+  
 
     //=================================================================================================================
     // Gyrocopter: Flak Cannon
     //=================================================================================================================
-    "flak_cannon"
+    "flak_cannon_old"
     { 
         "BaseClass"                     "ability_lua"
         "ScriptFile"                    "bosses/gyrocopter/flak_cannon"
@@ -231,7 +297,7 @@
         //=================================================================================================================
     // Gyro: Call Down
     //=================================================================================================================
-    "call_down"
+    "call_down_old"
     { 
         "BaseClass"                     "ability_lua"
         "ScriptFile"                    "bosses/gyrocopter/call_down"

@@ -1,33 +1,29 @@
--- on target: 
--- particles/clock/gyro_base_attack_explosion.vpcf
-gyro_base_attack = class({})
+barrage_rotating_attack = class({})
 
+function barrage_rotating_attack:OnSpellStart()
+	--print("barrage_rotating_attack:OnSpellStart()")
+	self.damage = 15 --TODO: put this in kvp txt file?
 
-function gyro_base_attack:OnSpellStart()
-	--print("gyro_base_attack:OnSpellStart()")
-
-	self.damage = 15
-	self.caster = self:GetCaster()
-
-	-- grab target from _G.BaseAttackTargets[1], remove it, shoot at it
-	if #_G.BaseAttackTargets > 0 then
-		self.target = shallowcopy(_G.BaseAttackTargets[1])
+	-- grab target from _G.barrageTargets[1], remove it, shoot at it
+	if #_G.barrageTargets > 0 then
+		self.target = shallowcopy(_G.barrageTargets[1])
 
 		--remove [1] and reorder the list
-		for i = 1, #_G.BaseAttackTargets, 1 do 
-			if _G.BaseAttackTargets[i+1] ~= nil then 
-				_G.BaseAttackTargets[i] = _G.BaseAttackTargets[i+1]
+		for i = 1, #_G.barrageTargets, 1 do 
+			if _G.barrageTargets[i+1] ~= nil then 
+				_G.barrageTargets[i] = _G.barrageTargets[i+1]
 			else
-				_G.BaseAttackTargets[i] = nil
+				_G.barrageTargets[i] = nil
 			end
 		end
 
+		--create projectile and shoot at self.target
 	    local info = {
 	    -- EffectName = "particles/ranger/ranger_clockwerk_para_rocket_flare.vpcf",
 	    EffectName = "particles/econ/items/gyrocopter/hero_gyrocopter_gyrotechnics/gyro_base_attack.vpcf",
 	    Ability = self,
 	    iMoveSpeed = 600,
-	    Source = self.caster,
+	    Source = self:GetCaster(),
 	    Target = self.target,
 	    bDodgeable = false,
 	    --iSourceAttachment = DOTA_PROJECTILE_ATTACHMENT_ATTACK_1,
@@ -41,31 +37,30 @@ function gyro_base_attack:OnSpellStart()
 
 
 	    bProvidesVision = true,
-	    iVisionTeamNumber = self.caster:GetTeamNumber(),
+	    iVisionTeamNumber = self:GetCaster():GetTeamNumber(),
 		iVisionRadius = 300,
 		}
 	    ProjectileManager:CreateTrackingProjectile( info )
 
 	else
-		print("gyro_base_attack cast, but no targets found in _G.BaseAttackTargets")
+		print("barrage_rotating_attack cast, but no targets found in _G.barrageTargets")
 	end
-
 end
 
 
-function gyro_base_attack:OnProjectileHit( hTarget, vLocation)
-	--print("gyro_base_attack:OnProjectileHit()")
+
+function barrage_rotating_attack:OnProjectileHit( hTarget, vLocation)
+	--print("barrage_rotating_attack:OnProjectileHit()")
 
     if IsServer() then
         if hTarget:IsAlive() == true then
             local dmgTable =
             {
                 victim = hTarget,
-                attacker = self.caster,
+                attacker = self:GetCaster(),
                 damage = self.damage,
                 damage_type = DAMAGE_TYPE_PHYSICAL,
             }
-
             ApplyDamage(dmgTable)
 
         end

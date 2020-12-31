@@ -1,24 +1,21 @@
--- on target: 
--- particles/clock/gyro_base_attack_explosion.vpcf
-gyro_base_attack = class({})
+rotating_flak_cannon_attack = class({})
 
-
-function gyro_base_attack:OnSpellStart()
-	--print("gyro_base_attack:OnSpellStart()")
+function rotating_flak_cannon_attack:OnSpellStart()
+	print("rotating_flak_cannon_attack:OnSpellStart()")
 
 	self.damage = 15
 	self.caster = self:GetCaster()
 
-	-- grab target from _G.BaseAttackTargets[1], remove it, shoot at it
-	if #_G.BaseAttackTargets > 0 then
-		self.target = shallowcopy(_G.BaseAttackTargets[1])
+	-- grab target from _G.FlakCannonTargets[1], remove it, shoot at it
+	if #_G.FlakCannonTargets > 0 then
+		self.target = shallowcopy(_G.FlakCannonTargets[1])
 
 		--remove [1] and reorder the list
-		for i = 1, #_G.BaseAttackTargets, 1 do 
-			if _G.BaseAttackTargets[i+1] ~= nil then 
-				_G.BaseAttackTargets[i] = _G.BaseAttackTargets[i+1]
+		for i = 1, #_G.FlakCannonTargets, 1 do 
+			if _G.FlakCannonTargets[i+1] ~= nil then 
+				_G.FlakCannonTargets[i] = _G.FlakCannonTargets[i+1]
 			else
-				_G.BaseAttackTargets[i] = nil
+				_G.FlakCannonTargets[i] = nil
 			end
 		end
 
@@ -47,14 +44,15 @@ function gyro_base_attack:OnSpellStart()
 	    ProjectileManager:CreateTrackingProjectile( info )
 
 	else
-		print("gyro_base_attack cast, but no targets found in _G.BaseAttackTargets")
+		print("gyro_base_attack cast, but no targets found in _G.whirlwindTargets")
 	end
+
 
 end
 
 
-function gyro_base_attack:OnProjectileHit( hTarget, vLocation)
-	--print("gyro_base_attack:OnProjectileHit()")
+function rotating_flak_cannon_attack:OnProjectileHit( hTarget, vLocation)
+	--print("rotating_flak_cannon_attack:OnProjectileHit()")
 
     if IsServer() then
         if hTarget:IsAlive() == true then

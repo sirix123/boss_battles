@@ -17,6 +17,7 @@ _G.tUNIT_TABLE =
 {
     "npc_dota_techies_land_mine",
     "npc_shadow",
+    "npc_dota_gyrocopter_homing_missile",
 }
 
 _G.UNQIUE_INT = 0
