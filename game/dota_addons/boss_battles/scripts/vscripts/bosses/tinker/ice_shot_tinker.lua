@@ -68,7 +68,7 @@ function ice_shot_tinker:OnSpellStart()
         local direction = (self.target:GetAbsOrigin() - caster:GetAbsOrigin() ):Normalized()
 
         local projectile = {
-            EffectName = "particles/tinker/iceshot__invoker_chaos_meteor.vpcf", --particles/tinker/iceshot__invoker_chaos_meteor.vpcf
+            EffectName = "particles/tinker/tinker_drow_frost_arrow.vpcf", --particles/tinker/iceshot__invoker_chaos_meteor.vpcf
             vSpawnOrigin = origin,
             fDistance = 5000,
             fUniqueRadius = 200,
@@ -134,62 +134,88 @@ end
 function ice_shot_tinker:HitCrystal( crystal )
     if IsServer() then
 
+        -- Create Particle
+        local particle_cast = "particles/units/heroes/hero_lich/lich_frost_nova.vpcf"
+        local effect_cast_2 = ParticleManager:CreateParticle( particle_cast, PATTACH_ABSORIGIN_FOLLOW, crystal )
+        ParticleManager:SetParticleControl( effect_cast_2, 1, Vector( 1000, 1000, 1000 ) )
+        ParticleManager:ReleaseParticleIndex( effect_cast_2 )
+
         EmitSoundOn( "Hero_Rubick.Attack", crystal )
 
-        -- find all players
-        local units = FindUnitsInRadius(
-            self:GetCaster():GetTeamNumber(),	-- int, your team number
-            crystal:GetAbsOrigin(),	-- point, center point
-            nil,	-- handle, cacheUnit. (not known)
-            3000,	-- float, radius. or use FIND_UNITS_EVERYWHERE
-            DOTA_UNIT_TARGET_TEAM_BOTH,
-            DOTA_UNIT_TARGET_ALL,
-            DOTA_UNIT_TARGET_FLAG_INVULNERABLE,	-- int, flag filter
-            0,	-- int, order filter
-            false	-- bool, can grow cache
-        )
+        Timers:CreateTimer(0.5, function()
 
-        if units ~= nil and #units ~= 0 then
-            for _, unit in pairs(units) do
-                if unit ~= self 
-                    and unit:GetUnitName() ~= ""
-                    and unit:GetUnitName() ~= "npc_rock"
-                    and unit:GetUnitName() ~= "npc_tinker"
-                    and unit:GetUnitName() ~= "npc_bird"
-                    and unit:GetUnitName() ~= "npc_green_bird"
-                    and unit:GetUnitName() ~= "npc_crystal"
-                    and CheckGlobalUnitTableForUnitName(unit) ~= false then
+            -- find all players
+            local units = FindUnitsInRadius(
+                self:GetCaster():GetTeamNumber(),	-- int, your team number
+                crystal:GetAbsOrigin(),	-- point, center point
+                nil,	-- handle, cacheUnit. (not known)
+                3000,	-- float, radius. or use FIND_UNITS_EVERYWHERE
+                DOTA_UNIT_TARGET_TEAM_BOTH,
+                DOTA_UNIT_TARGET_ALL,
+                DOTA_UNIT_TARGET_FLAG_INVULNERABLE,	-- int, flag filter
+                0,	-- int, order filter
+                false	-- bool, can grow cache
+            )
 
-                        -- this will still hit birds that aren't flying.. bit hard to work around.. so we will work it into the game :D
+            if units ~= nil and #units ~= 0 then
+                for _, unit in pairs(units) do
+                    if unit ~= self
+                        and unit:GetUnitName() ~= ""
+                        and unit:GetUnitName() ~= "npc_rock"
+                        and unit:GetUnitName() ~= "npc_tinker"
+                        and unit:GetUnitName() ~= "npc_bird"
+                        and unit:GetUnitName() ~= "npc_green_bird"
+                        and unit:GetUnitName() ~= "npc_crystal"
+                        and CheckGlobalUnitTableForUnitName(unit) ~= false then
 
-                    -- references
-                    self.speed = 500 -- special value
-                    --print("unit:GetUnitName() ", unit:GetUnitName())
-                    -- create projectile
-                    local info = {
-                        EffectName = "particles/tinker/green_iceshot__invoker_chaos_meteor.vpcf",
-                        Ability = self,
-                        iMoveSpeed = self.speed,
-                        Source = crystal,
-                        Target = unit,
-                        bDodgeable = false,
-                        iSourceAttachment = DOTA_PROJECTILE_ATTACHMENT_HITLOCATION,
-                        bProvidesVision = true,
-                        iVisionTeamNumber = crystal:GetTeamNumber(),
-                        iVisionRadius = 300,
-                    }
+                            -- this will still hit birds that aren't flying.. bit hard to work around.. so we will work it into the game :D
 
-                    -- shoot proj
-                    ProjectileManager:CreateTrackingProjectile( info )
+
+                        self:OnHit( unit )
+
+                        local particle_cast = "particles/units/heroes/hero_lich/lich_frost_nova.vpcf"
+                        local sound_target = "Ability.FrostNova"
+
+                        -- Create Particle
+                        local effect_cast = ParticleManager:CreateParticle( particle_cast, PATTACH_ABSORIGIN_FOLLOW, unit )
+                        ParticleManager:SetParticleControl( effect_cast, 1, Vector( 150, 150, 150 ) )
+                        ParticleManager:ReleaseParticleIndex( effect_cast )
+
+                        -- Create Sound
+                        EmitSoundOn( sound_target, unit )
+
+                        -- references
+                        --[[self.speed = 500 -- special value
+                        --print("unit:GetUnitName() ", unit:GetUnitName())
+                        -- create projectile
+                        local info = {
+                            EffectName = "particles/tinker/green_iceshot__invoker_chaos_meteor.vpcf",
+                            Ability = self,
+                            iMoveSpeed = self.speed,
+                            Source = crystal,
+                            Target = unit,
+                            bDodgeable = false,
+                            iSourceAttachment = DOTA_PROJECTILE_ATTACHMENT_HITLOCATION,
+                            bProvidesVision = true,
+                            iVisionTeamNumber = crystal:GetTeamNumber(),
+                            iVisionRadius = 300,
+                        }
+
+                        -- shoot proj
+                        ProjectileManager:CreateTrackingProjectile( info )]]
+                    end
                 end
             end
-        end
+
+            return false
+
+        end)
 
 
     end
 end
 
-function ice_shot_tinker:OnProjectileHit( hTarget, vLocation)
+function ice_shot_tinker:OnHit( hTarget)
     if IsServer() then
         if hTarget == nil then return end
         if not hTarget:IsAlive() then return end

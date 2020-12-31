@@ -64,12 +64,12 @@ function TinkerThinker()
 		return 0.5
 	end
 
-	print("tinker thisEntity.PHASE ", thisEntity.PHASE)
+	--print("tinker thisEntity.PHASE ", thisEntity.PHASE)
 
 	-- handles the phase changes etc
 	if thisEntity:HasModifier("beam_counter") then
 		thisEntity.stack_count = thisEntity:FindModifierByName("beam_counter"):GetStackCount()
-		print("stack_count ", thisEntity.stack_count)
+		--print("stack_count ", thisEntity.stack_count)
 	end
 
 	-- if this unit has the beam phase modiifier then phase == 2
@@ -86,6 +86,8 @@ function TinkerThinker()
 		thisEntity:RemoveModifierByName("modifier_invulnerable")
 		thisEntity.stack_count = 0
 		thisEntity.PHASE = 3
+
+		thisEntity.tinker_teleport:StartCooldown(20)
 
 		-- transition to phase 3, fog reduce etc
 		return Transition()
@@ -159,7 +161,7 @@ function TinkerThinker()
 			return CastMissile()
 		end
 
-		if thisEntity.tinker_teleport ~= nil and thisEntity.tinker_teleport:IsFullyCastable() and thisEntity.tinker_teleport:IsCooldownReady() and thisEntity.tinker_teleport:IsInAbilityPhase() then
+		if thisEntity.tinker_teleport ~= nil and thisEntity.tinker_teleport:IsFullyCastable() and thisEntity.tinker_teleport:IsCooldownReady() and thisEntity.tinker_teleport:IsInAbilityPhase() == false then
 			return CastTeleport()
 		end
 

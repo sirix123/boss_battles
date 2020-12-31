@@ -94,90 +94,82 @@ function laser:OnSpellStart()
 
         --DebugDrawLine_vCol(caster:GetAbsOrigin(), self.vTargetPos , Vector(255,0,0), true, 2)
 
-        --[[
+        local previous_distance = 999999
+        local close_target = nil
+        for k, unit in pairs(units) do
 
-        if units ~= nil and #units ~= 0 then
-            for _, unit in pairs(units) do
-
-                -- rock or crystal
-                if unit:GetUnitName() == "npc_phase2_rock" then
-
-                    break
-                end
-
-                -- player
-
+            if unit:GetUnitName() == caster:GetUnitName() then
+                table.remove(units,k)
             end
-
         end
 
-        ]]
+        for _, unit in pairs(units) do
+            local distance = ( caster:GetAbsOrigin() - unit:GetAbsOrigin() ):Length2D()
+            if distance < previous_distance then
+                close_target = unit
+            end
+            previous_distance = distance
+        end
+
+        --print("close_target ", close_target:GetUnitName())
 
         if units ~= nil and #units ~= 0 then
-            --print(" unit:GetUnitName()" ,units[index]:GetUnitName())
-            --print(" -------------------------------------- ")
-
-            if units[index]:GetUnitName() == caster:GetUnitName() then
-                index = 2
-            end
-
-
-            if units[index]:GetUnitName() ~= caster:GetUnitName() then
+            if close_target:GetUnitName() ~= caster:GetUnitName() then
                 --if unit:GetUnitName() == "npc_phase2_rock" then -- rock
-                if units[index]:GetUnitName() == "npc_phase2_rock" then -- rock
-                    self:PlayEffects( units[index]  ) -- laser effects
+                if close_target:GetUnitName() == "npc_phase2_rock" then -- rock
+                    self:PlayEffects( close_target  ) -- laser effects
 
                     -- explode rock
                     local explode_rock = "particles/econ/events/ti10/hot_potato/hot_potato_explode.vpcf"
                     local explode_rock_index = ParticleManager:CreateParticle( explode_rock, PATTACH_WORLDORIGIN, nil )
-                    ParticleManager:SetParticleControl( explode_rock_index, 0, units[index]:GetAbsOrigin() )
+                    ParticleManager:SetParticleControl( explode_rock_index, 0, close_target:GetAbsOrigin() )
                     ParticleManager:SetParticleControl( explode_rock_index, 1, Vector(0,0,100))
                     --ParticleManager:SetParticleControl( explode_rock_index, 1, Vector(255,0,0))
                     ParticleManager:ReleaseParticleIndex(explode_rock_index)
 
                     local explode_rock_2 = "particles/tinker/tinker_dire_tower_attack_explode.vpcf"
                     local explode_rock_index_2 = ParticleManager:CreateParticle( explode_rock_2, PATTACH_WORLDORIGIN, nil )
-                    ParticleManager:SetParticleControl( explode_rock_index_2, 3, units[index]:GetAbsOrigin())
+                    ParticleManager:SetParticleControl( explode_rock_index_2, 3, close_target:GetAbsOrigin())
                     ParticleManager:ReleaseParticleIndex(explode_rock_index_2)
 
-                    local vLava = Vector(units[index]:GetAbsOrigin().x, units[index]:GetAbsOrigin().y, units[index]:GetAbsOrigin().z )
+                    local vLava = Vector(close_target:GetAbsOrigin().x, close_target:GetAbsOrigin().y, close_target:GetAbsOrigin().z )
                     vLava.z = vLava.z + 200
                     local explode_rock_3 = "particles/tinker/tinker_lion_spell_impale_ti9_lava.vpcf"
                     local explode_rock_index_3 = ParticleManager:CreateParticle( explode_rock_3, PATTACH_WORLDORIGIN, nil )
                     ParticleManager:SetParticleControl( explode_rock_index_3, 3, vLava)
                     ParticleManager:ReleaseParticleIndex(explode_rock_index_3)
 
-                    units[index]:RemoveSelf()
+                    close_target:RemoveSelf()
 
-                elseif units[index]:GetUnitName() == "npc_phase2_crystal" then -- crystal
+                elseif close_target:GetUnitName() == "npc_phase2_crystal" then -- crystal
 
-                    self:PlayEffects( units[index]  ) -- laser effects
+                    self:PlayEffects( close_target  ) -- laser effects
 
                     -- explode rock
                     local explode_rock = "particles/econ/events/ti10/hot_potato/hot_potato_explode.vpcf"
                     local explode_rock_index = ParticleManager:CreateParticle( explode_rock, PATTACH_WORLDORIGIN, nil )
-                    ParticleManager:SetParticleControl( explode_rock_index, 0,units[index]:GetAbsOrigin() )
+                    ParticleManager:SetParticleControl( explode_rock_index, 0,close_target:GetAbsOrigin() )
                     ParticleManager:SetParticleControl( explode_rock_index, 1, Vector(0,0,100))
                     --ParticleManager:SetParticleControl( explode_rock_index, 1, Vector(255,0,0))
                     ParticleManager:ReleaseParticleIndex(explode_rock_index)
 
                     local explode_rock_2 = "particles/tinker/tinker_dire_tower_attack_explode.vpcf"
                     local explode_rock_index_2 = ParticleManager:CreateParticle( explode_rock_2, PATTACH_WORLDORIGIN, nil )
-                    ParticleManager:SetParticleControl( explode_rock_index_2, 3, units[index]:GetAbsOrigin())
+                    ParticleManager:SetParticleControl( explode_rock_index_2, 3, close_target:GetAbsOrigin())
                     ParticleManager:ReleaseParticleIndex(explode_rock_index_2)
 
-                    local vLava = Vector(units[index]:GetAbsOrigin().x, units[index]:GetAbsOrigin().y, units[index]:GetAbsOrigin().z )
+                    local vLava = Vector(close_target:GetAbsOrigin().x, close_target:GetAbsOrigin().y, close_target:GetAbsOrigin().z )
                     vLava.z = vLava.z + 200
                     local explode_rock_3 = "particles/tinker/tinker_lion_spell_impale_ti9_lava.vpcf"
                     local explode_rock_index_3 = ParticleManager:CreateParticle( explode_rock_3, PATTACH_WORLDORIGIN, nil )
                     ParticleManager:SetParticleControl( explode_rock_index_3, 3, vLava)
                     ParticleManager:ReleaseParticleIndex(explode_rock_index_3)
 
-                    units[index]:RemoveSelf()
+                    close_target:RemoveSelf()
 
-                elseif units[index]:GetUnitName() ~= "npc_phase2_rock" and units[index]:GetUnitName() ~= "npc_phase2_crystal" and units[index]:GetUnitName() ~= caster:GetUnitName() then -- player
+                elseif close_target:GetUnitName() ~= "npc_phase2_rock" and close_target:GetUnitName() ~= "npc_phase2_crystal" and close_target:GetUnitName() ~= caster:GetUnitName() then -- player
                     local dmgTable = {
-                        victim = units[index],
+                        victim = close_target,
                         attacker = caster,
                         damage = damage,
                         damage_type = DAMAGE_TYPE_PHYSICAL,
@@ -185,7 +177,7 @@ function laser:OnSpellStart()
                     }
 
                     ApplyDamage( dmgTable )
-                    self:PlayEffects( units[index]  ) -- laser effects
+                    self:PlayEffects( close_target  ) -- laser effects
 
                 end
             end

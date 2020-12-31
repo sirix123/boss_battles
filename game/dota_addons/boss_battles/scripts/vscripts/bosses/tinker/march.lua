@@ -171,6 +171,11 @@ function march:OnProjectileHit(hTarget, vLocation)
     if IsServer() then
         if hTarget ~= nil then
 
+            local particle = "particles/econ/items/wisp/wisp_relocate_marker_ti7_end.vpcf"
+            local nfx = ParticleManager:CreateParticle(particle, PATTACH_WORLDORIGIN, nil)
+            ParticleManager:SetParticleControl(nfx, 1, vLocation)
+            ParticleManager:ReleaseParticleIndex(nfx)
+
             local enemies = FindUnitsInRadius(
                 self:GetCaster():GetTeamNumber(),	-- int, your team number
                 vLocation,	-- point, center point
