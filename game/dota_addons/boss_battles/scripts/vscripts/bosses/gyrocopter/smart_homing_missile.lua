@@ -49,12 +49,12 @@ function smart_homing_missile:OnSpellStart()
 		self:InitialiseRocket(rocketIndex, 10, 0.1, 50, 300, 300)
 	end
 	if self:GetLevel() == 2 then
-		self:InitialiseRocket(rocketIndex, 10, 0.2, 50, 300, 300)
 		updateTargetInterval = 0.5
+		self:InitialiseRocket(rocketIndex, 10, 0.2, 50, 300, 300)
 	end
 	if self:GetLevel() > 2 then
-		self:InitialiseRocket(rocketIndex, 10, 0.3, 50, 300, 300)
 		updateTargetInterval = 0.25
+		self:InitialiseRocket(rocketIndex, 10, 0.3, 50, 300, 300)
 	end
 	
 	--Rocket Pulses and updates location every x seconds
@@ -127,9 +127,10 @@ function smart_homing_missile:InitialiseRocket(rocketIndex, velocity, accelerati
     -- Create a unit to represent the spell/ability
     local missile = CreateUnitByName("npc_dota_gyrocopter_homing_missile", self:GetCaster():GetAbsOrigin(), true, self:GetCaster(), self:GetCaster(), self:GetCaster():GetTeamNumber())
 	missile:SetModelScale(0.8)
+	missile:SetOwner(self:GetCaster())
 
 	-- Add the missile unit created to the entry in _G.ActiveHomingMissiles for this rocket.
-	if #_G.ActiveHomingMissiles ~= nil then
+	if #_G.ActiveHomingMissiles > 0 then
 		for i = 1, #_G.ActiveHomingMissiles, 1 do
 			if _G.ActiveHomingMissiles[i].Rocket == self then
 				_G.ActiveHomingMissiles[i].MissileUnit = missile
@@ -202,6 +203,7 @@ end
 function smart_homing_missile:RocketRadarPulse(rocketIndex)
 	local missileUnit = _G.ActiveHomingMissiles[rocketIndex].MissileUnit
 
+
 	local radius = 100
 	local radiusGrowthRate = 100
 
@@ -214,10 +216,20 @@ function smart_homing_missile:RocketRadarPulse(rocketIndex)
 		--delay for 4 seconds before starting
 		if tickCount == 1 then return 4 end
 
+		--Not sure I need all these checks or just 1...
 		--Rocket may have collided/detonated so stop this timer.
 		if _G.ActiveHomingMissiles[rocketIndex] == nil or _G.ActiveHomingMissiles[rocketIndex].MissileUnit == nil  then 
 			return
-		end		
+		end
+
+		if missileUnit == nil then
+			return
+		end
+
+
+		-- print("missileUnit = ")
+		-- print(missileUnit)
+		--BUG: sometimes errors here, something to do with missileUnit...
 		--update model
 		local origin = missileUnit:GetAbsOrigin()
 		radius = radius + radiusGrowthRate

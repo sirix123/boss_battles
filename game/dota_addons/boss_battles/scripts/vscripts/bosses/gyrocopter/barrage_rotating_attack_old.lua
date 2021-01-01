@@ -43,7 +43,7 @@ function barrage_rotating_attack:OnSpellStart()
 	    ProjectileManager:CreateTrackingProjectile( info )
 
 	else
-		print("barrage_rotating_attack cast, but no targets found in _G.barrageTargets")
+		--print("barrage_rotating_attack cast, but no targets found in _G.barrageTargets")
 	end
 end
 

@@ -3,7 +3,6 @@ barrage_radius_ranged = class({})
 --Rocket barrage targets all enemies in the radius and distributes tickDamage amongst them every tickDuration.
 function barrage_radius_ranged:OnSpellStart()
 	--print("barrage_radius_ranged:OnSpellStart()")
-	_G.IsGyroBusy = true
 
 	local caster = self:GetCaster()
 	local barrage_radius_attack = caster:FindAbilityByName("barrage_radius_attack")
@@ -14,9 +13,17 @@ function barrage_radius_ranged:OnSpellStart()
 	local radius = barrage:GetSpecialValueFor("melee_radius")  -- hit every unit beyond this radius. ignore units within this radius
 	local maxRadius = 4000 -- big enough to cover whole arena, but not big enough to hit units outside of arena
 	
+	--Not 100% accurate because we don't use delta time. It won't get through all of these attacks.
 	local tickDuration = barrage:GetSpecialValueFor("damage_interval") -- Amount of time to delay between ticks
 	local tickLimit = duration / tickDuration
 	local tickDamage = totalDamage / tickLimit
+
+		--new approach to timing this spell... 
+	local stopFlag = false
+	Timers:CreateTimer(duration/2, function()
+		stopFlag = true
+		return
+    end)
 
 	-- sound 
 	EmitSoundOn( "gyrocopter_gyro_rocket_barrage_05", caster )
@@ -25,14 +32,12 @@ function barrage_radius_ranged:OnSpellStart()
 	DebugDrawCircle(caster:GetAbsOrigin(), Vector(255,0,0), 64, radius*5, true, tickDuration*2) -- ranged is red
 
 	--Run a timer for duration
-	local tickCount = 0
 	Timers:CreateTimer(function()	
-		tickCount = tickCount + 1
-		--check if we've reached the end of the spell
-		if tickCount >= tickLimit then
+
+		if stopFlag then
 			_G.IsGyroBusy = false
 			return
-		 end
+		end
 
 		--Get two sets nearby enemies, enemies within radius and enemies within maxRadius. 
 		local inRadiusenemies = FindUnitsInRadius(DOTA_TEAM_BADGUYS, caster:GetAbsOrigin(), nil, radius,
@@ -56,6 +61,7 @@ function barrage_radius_ranged:OnSpellStart()
 		end
 
 		--Each enemy in radius gets hit for tickDamage / #enemies
+		
 		_G.BarrageCurrentDamage = tickDamage / #beyondRadiusEnemies
 		for key, enemy in pairs(beyondRadiusEnemies) do 
 			-- add the target to the target list

@@ -3,6 +3,7 @@ radar_pulse = class({})
 --global var so the enemies detected can be accessed outside of this class
 
 function radar_pulse:OnSpellStart()
+	--print("radar_pulse:OnSpellStart()")
 	local caster = self:GetCaster()
 	
 	local sound1 = "gyrocopter_gyro_attack_09" -- "gyrocopter_gyro_attack_09" "gyrocopter: I have visual!"
@@ -10,11 +11,12 @@ function radar_pulse:OnSpellStart()
 
 	local endRadius = 2000
 
-	--temporary filler particle
-	local particleSpeed = 700
-    local nfx = ParticleManager:CreateParticle("particles/gyrocopter/gyro_razor_plasmafield.vpcf", PATTACH_POINT_FOLLOW, caster)
-    ParticleManager:SetParticleControl(nfx, 0, caster:GetAbsOrigin())
-    ParticleManager:SetParticleControl(nfx, 1, Vector(particleSpeed, endRadius, 1))
+
+	--PARTICLE, currenlty a temporary filler particle
+	-- local particleSpeed = 700
+ --    local nfx = ParticleManager:CreateParticle("particles/gyrocopter/gyro_razor_plasmafield.vpcf", PATTACH_POINT_FOLLOW, caster)
+ --    ParticleManager:SetParticleControl(nfx, 0, caster:GetAbsOrigin())
+ --    ParticleManager:SetParticleControl(nfx, 1, Vector(particleSpeed, endRadius, 1))
 
     --reset global var for new scan 
     Clear(_G.RadarPulseEnemies)
@@ -33,9 +35,8 @@ function radar_pulse:OnSpellStart()
 			radius = radius + radiusGrowthRate
 		else --else, last frame. Flash the circle one last time with higher alpha
 			DebugDrawCircle(origin, Vector(255,0,0), 128, radius, true, frameDuration*2)
-			--UNTESTED:
-			ParticleManager:DestroyParticle(nfx, true)
-			ParticleManager:ReleaseParticleIndex(nfx)
+			-- ParticleManager:DestroyParticle(nfx, true)
+			-- ParticleManager:ReleaseParticleIndex(nfx)
 			return
 		end
 
@@ -71,7 +72,7 @@ function radar_pulse:OnSpellStart()
 						UnitIndex = caster:entindex(),
 						OrderType = DOTA_UNIT_ORDER_CAST_NO_TARGET,
 						AbilityIndex = abilityToCast:entindex(),
-						Queue = false,
+						Queue = true,
 					})	
 				end
 				--if call_down
@@ -81,12 +82,9 @@ function radar_pulse:OnSpellStart()
 						OrderType = DOTA_UNIT_ORDER_CAST_POSITION,
 						Position = enemy:GetAbsOrigin(),
 						AbilityIndex = abilityToCast:entindex(),
-						Queue = false, -- I want to set this to queue = true, but when the boss is attacking then this wont work
+						Queue = true, -- I want to set this to queue = true, but when the boss is attacking then this wont work
 					})
 				end
-
-
-
 			end
 		end
 		return frameDuration --TODO: implement deltaTime for consistent time frames, don't delay by x, delay by x - timeTakenToProcess		

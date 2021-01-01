@@ -14,7 +14,7 @@ local defaultVelocityIncrement = 0.05
 
 
 function barrage_rotating:OnSpellStart()
-	print("barrage_rotating:OnSpellStart()")
+	--print("barrage_rotating:OnSpellStart()")
 
 	local currentTick = 0
 

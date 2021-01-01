@@ -3,19 +3,29 @@ barrage_radius_melee = class({})
 --Rocket barrage targets all enemies in the radius and distributes tickDamage amongst them every tickDuration.
 function barrage_radius_melee:OnSpellStart()
 	--print("barrage_radius_melee:OnSpellStart()")
-	_G.IsGyroBusy = true
+	--_G.IsGyroBusy = true
 
 	local caster = self:GetCaster()
 	local barrage_radius_attack = caster:FindAbilityByName("barrage_radius_attack")
+	local barrage_radius_ranged = caster:FindAbilityByName("barrage_radius_ranged")
 	local barrage = caster:FindAbilityByName("barrage")
 
 	local duration = barrage:GetSpecialValueFor("duration")
 	local totalDamage = barrage:GetSpecialValueFor("total_damage")
 	local radius = barrage:GetSpecialValueFor("melee_radius")
 
+	--Not 100% accurate because we don't use delta time. It won't get through all of these attacks.
 	local tickDuration = barrage:GetSpecialValueFor("damage_interval") -- Amount of time to delay between ticks
 	local tickLimit = duration / tickDuration
 	local tickDamage = totalDamage / tickLimit
+
+	--new approach to timing this spell... 
+	local stopFlag = false
+	Timers:CreateTimer(duration/2, function()
+		stopFlag = true
+		return
+    end)
+
 
 	-- sound 
 	EmitSoundOn( "gyrocopter_gyro_rocket_barrage_01", self:GetCaster() )
@@ -24,14 +34,17 @@ function barrage_radius_melee:OnSpellStart()
 	DebugDrawCircle(caster:GetAbsOrigin(), Vector(0,255,0), 96, radius*5, true, tickDuration*2) -- ranged is green
 
 	--Run a timer for duration
-	local tickCount = 0
 	Timers:CreateTimer(function()	
-		tickCount = tickCount + 1
-		--check if we've reached the end of the spell
-		if tickCount >= tickLimit then 
-			_G.IsGyroBusy = false
+		if stopFlag then
+			--melee barrage finished. Cast ranged barrage 
+		  	ExecuteOrderFromTable({
+				UnitIndex = caster:entindex(),
+				OrderType = DOTA_UNIT_ORDER_CAST_NO_TARGET,
+				AbilityIndex = barrage_radius_ranged:entindex(),
+				Queue = false,
+			})
 			return
-		 end
+		end
 
 		--Get nearby enemies
 		local enemies = FindUnitsInRadius(DOTA_TEAM_BADGUYS, caster:GetAbsOrigin(), nil, radius,

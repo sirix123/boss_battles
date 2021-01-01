@@ -6,6 +6,7 @@ local totalDamage = 200
 local displayDebug = false
 
 function call_down:OnSpellStart()
+	--print("call_down:OnSpellStart()")
 	self.cursorPos = self:GetCursorPosition()
 	--_G.IsGyroBusy = true
 

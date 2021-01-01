@@ -109,14 +109,13 @@
             "03"
             {
                 "var_type"           "FIELD_FLOAT"
-                "damage_interval"    "0.25"
+                "damage_interval"    "0.2"
             }
             "04"                        
             {
                 "var_type"          "FIELD_INTEGER"
                 "melee_radius"      "500"
             }
-
         }
     } 
     "barrage_radius_melee"
@@ -158,6 +157,29 @@
         "AbilityCastPoint"              "0.0"
         "AbilityCooldown"               "0.0"
         "AbilityManaCost"               "0"
+        "AbilitySpecial"
+        {
+            "01"
+            {
+                "var_type"       "FIELD_FLOAT"
+                "duration"       "10"
+            }
+            "02"
+            {
+                "var_type"          "FIELD_FLOAT"
+                "damage_interval"      "0.2"
+            }     
+            "03"
+            {
+                "var_type"           "FIELD_FLOAT"
+                "reflect_percentage"    "0.1"
+            }
+            "04"                        
+            {
+                "var_type"          "FIELD_FLOAT"
+                "min_damage_threshold"      "20"
+            }
+        }
     }
     "call_down"
     { 

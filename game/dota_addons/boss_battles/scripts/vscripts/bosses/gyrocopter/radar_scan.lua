@@ -7,7 +7,8 @@ function radar_scan:OnSpellStart()
 
 	--temporary filler particle
     local particleName = "particles/gyrocopter/red_phoenix_sunray.vpcf"
-    local pfx = ParticleManager:CreateParticle( particleName, PATTACH_ABSORIGIN, caster )	
+    
+    --local pfx = ParticleManager:CreateParticle( particleName, PATTACH_ABSORIGIN, caster )	
 
     --reset global var for new scan
 	Clear(_G.RadarScanEnemies)
@@ -29,15 +30,16 @@ function radar_scan:OnSpellStart()
 
 		--Scan finished: any cleanup or actions on the last frame... 
 		if currentFrame >= totalFrames then
-			ParticleManager:DestroyParticle(pfx, true)			
+			--ParticleManager:DestroyParticle(pfx, true)			
 			return
 		end	
 
 		local radAngle = currentAngle * 0.0174532925 --angle in radians
 		local endPoint = Vector(radius * math.cos(radAngle), radius * math.sin(radAngle), 0) + origin
 
-		ParticleManager:SetParticleControl(pfx, 0, origin + Vector(0,0,100))
-		ParticleManager:SetParticleControl(pfx, 1, endPoint)
+		--PARTICLE: currently a temporary / filler particle
+		-- ParticleManager:SetParticleControl(pfx, 0, origin + Vector(0,0,100))
+		-- ParticleManager:SetParticleControl(pfx, 1, endPoint)
 
 		local enemies = FindUnitsInLine(DOTA_TEAM_BADGUYS, caster:GetAbsOrigin(), endPoint, caster, 1, DOTA_UNIT_TARGET_TEAM_ENEMY, DOTA_UNIT_TARGET_HERO, DOTA_UNIT_TARGET_FLAG_INVULNERABLE )
 		for _,enemy in pairs(enemies) do
@@ -57,12 +59,13 @@ function radar_scan:OnSpellStart()
 				if (_G.ScanAndCast == "dumb_homing_missile" or _G.ScanAndCast == "smart_homing_missile") then
 					_G.HomingMissileTargets[#_G.HomingMissileTargets+1] = {}
 					_G.HomingMissileTargets[#_G.HomingMissileTargets] = enemy	
-
+		
+					--TESTED: if queue false, interupts other actions. if queue true, won't interrupt
 					ExecuteOrderFromTable({
 						UnitIndex = caster:entindex(),
 						OrderType = DOTA_UNIT_ORDER_CAST_NO_TARGET,
 						AbilityIndex = abilityToCast:entindex(),
-						Queue = false,
+						Queue = true,
 					})	
 				end
 				--if call_down
@@ -72,10 +75,9 @@ function radar_scan:OnSpellStart()
 						OrderType = DOTA_UNIT_ORDER_CAST_POSITION,
 						Position = enemy:GetAbsOrigin(),
 						AbilityIndex = abilityToCast:entindex(),
-						Queue = false, -- I want to set this to queue = true, but when the boss is attacking then this wont work
+						Queue = true, -- I want to set this to queue = true, but when the boss is attacking then this wont work
 					})
 				end
-				
 			end
 		end
 		return frameDuration --TODO: implement deltaTime for consistent time frames, don't delay by x, delay by x - timeTakenToProcess		

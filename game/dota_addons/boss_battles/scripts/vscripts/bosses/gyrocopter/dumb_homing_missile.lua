@@ -5,7 +5,7 @@ function dumb_homing_missile:OnSpellStart()
 	--print("dumb_homing_missile:OnSpellStart(). Level "..self:GetLevel())
 	
 	if #_G.HomingMissileTargets == 0 then 
-		print("dumb_homing_missile:OnSpellStart() called but no targets found in _G.HomingMissileTargets. Unable to proceed.")
+		--print("dumb_homing_missile:OnSpellStart() called but no targets found in _G.HomingMissileTargets. Unable to proceed.")
 		return
 	end
 	
@@ -28,17 +28,17 @@ function dumb_homing_missile:OnSpellStart()
 
 	--Create different speed and dmg rockets based on level
 	-- InitialiseRocket(velocity, acceleration, detonationRadius, aoeRadius, damage)
-	self:InitialiseRocket(5, 0.25, 50, 400, 400)
+	--self:InitialiseRocket(5, 0.25, 50, 400, 400)
 
-	-- if self:GetLevel() == 1 then
-	-- 	self:InitialiseRocket(15, 0.01, 90, 300, 300)
-	-- end
-	-- if self:GetLevel() == 2 then
-	-- 	self:InitialiseRocket(15, 0.02, 90, 350, 350)
-	-- end
-	-- if self:GetLevel() > 2 then
-	-- 	self:InitialiseRocket(25, 0.02, 90, 400, 400)
-	-- end
+	if self:GetLevel() == 1 then
+		self:InitialiseRocket(5, 0.01, 90, 300, 300)
+	end
+	if self:GetLevel() == 2 then
+		self:InitialiseRocket(10, 0.02, 90, 350, 350)
+	end
+	if self:GetLevel() > 2 then
+		self:InitialiseRocket(15, 0.02, 90, 400, 400)
+	end
 
 end
 
@@ -100,9 +100,10 @@ function dumb_homing_missile:InitialiseRocket(velocity, acceleration, detonation
     local missile = CreateUnitByName("npc_dota_gyrocopter_homing_missile", self:GetCaster():GetAbsOrigin(), true, self:GetCaster(), self:GetCaster(), self:GetCaster():GetTeamNumber())
     --dumb_homing_missile is big. Bigger than smart_homing_missile
     missile:SetModelScale(1.4)
+    missile:SetOwner(self:GetCaster())
 
 	-- Add the missile unit created to the entry in _G.ActiveHomingMissiles for this rocket.
-	if #_G.ActiveHomingMissiles ~= nil then
+	if #_G.ActiveHomingMissiles > 0 then
 		for i = 1, #_G.ActiveHomingMissiles, 1 do
 			if _G.ActiveHomingMissiles[i].Rocket == self then
 				_G.ActiveHomingMissiles[i].MissileUnit = missile
