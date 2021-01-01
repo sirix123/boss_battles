@@ -38,7 +38,17 @@
             </Panel>
         </snippet>
 
-        <!-- a single player frame --> 
+        <!-- a single player frame 
+        type ScalingFunction =
+        | 'none'
+        | 'stretch' // the default
+        | 'stretchx'
+        | 'stretchy'
+        | 'stretch-to-fit-preserve-aspect'
+        | 'stretch-to-fit-x-preserve-aspect'
+        | 'stretch-to-fit-y-preserve-aspect'
+        | 'stretch-to-cover-preserve-aspect';
+        --> 
         <!-- player frame consists of, player_name, hp, mana, lives --> 
         <snippet name="PlayerFrame">
             <Panel class="PlayerFrameContainer">
@@ -47,7 +57,7 @@
 
                     <!-- Trying to do animation from valve -->
                     <Panel id="PlayerPictureContainer">
-                        <DOTAHeroImage id="HeroImage" heroname="hero_name" heroimagestyle="icon" scaling="none"/>
+                        <DOTAHeroImage id="HeroImage" heroname="hero_name" heroimagestyle="portrait" scaling="stretch-to-fit-preserve-aspect"/>
                     </Panel>
                     <!-- <DOTAParticleScenePanel id="PortraitStreakParticle" class="SceneLoaded PlayerFrameHeroAnimTest" hittest="false" map="scenes/dota_ui_particle_scene_panel_empty" camera="default_camera" /> -->
                 </Panel>

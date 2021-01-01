@@ -185,17 +185,22 @@
 {
   margin-top: 20%;
   margin-left: 0%;
-  width: 15%;
-  height: 50%;
+  width: 13%;
+  height: 40%;
   flow-children: down;  
 }
 
 .PlayerFrameContainer
 {
-  width: 100%;
+  width: 80%;
   flow-children: right;  
   /* padding between next playerFrame */  
   margin-bottom: 4px;
+  box-shadow: fill #00000066 2px 2px 2px 1px; 
+  background-color: #333333ff;
+  border-radius: 0px 12px 12px 0px;
+  border: 1px solid #222222;
+  margin-left: -5px;
 }
 
 .PlayerFrameHeroAnimTest
@@ -204,30 +209,29 @@
 
 .PlayerFrameHeroImageContainer
 {
-  width: 20%;
+  width: 25%;
   height: 100%;
+  horizontal-align: left;
   /*border: 1px solid black;*/
 }
 
 /* Container for player_name, hp and mana bars */
 .PlayerFrame
 {
+  horizontal-align: left;
   flow-children: down;
-  width: 80%;
+  width: 75%;
   /*round the edges, and move the frame offscreen to hide the rounded edges on the left. */
-  margin-left: -12px;
-  border-radius: 12px;
-  border: 1px solid #222222;
+
   /* Drop shadow? */
   /*box-shadow: fill #00000088 1px 1px 1px 1px; */
-  box-shadow: fill #00000066 2px 2px 2px 1px; 
+
 }
 
 #PlayerNameContainer
 {
   width: 100%;
-  height: 32px;
-  background-color: #333333ff;
+  height: 22px;
   flow-children: right;
 }
 
@@ -243,7 +247,7 @@
   font-weight: bold;
   font-family: monospaceNumbersFont;
   z-index: 100;
-  margin-left: 40px;
+  margin-left: 20px;
 }
 
 #PlayerLivesLabel
@@ -258,7 +262,7 @@
   font-weight: bold;
   font-family: monospaceNumbersFont;
   z-index: 100;
-  margin-right: 40px;
+  margin-right: 20px;
 }
 
 #PlayerHealthLabel
@@ -278,7 +282,7 @@
 #PlayerHealthContainer
 {
   width: 100%;
-  height: 32px;
+  height: 22px;
   background-color: #999999ff;
 }
 
@@ -324,7 +328,7 @@
 #PlayerManaContainer
 {
   width: 100%;
-  height: 32px;
+  height: 22px;
   background-color: #77777777;
 }
 
