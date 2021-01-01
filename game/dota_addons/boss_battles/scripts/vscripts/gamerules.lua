@@ -37,4 +37,7 @@ function GameRules:Init()
     GameRules:GetGameModeEntity():SetBuybackEnabled( false )
     GameRules:GetGameModeEntity():SetTPScrollSlotItemOverride( "" )
 
+    GameRules:SetTimeOfDay(0.5)
+    --GameRules:GetGameModeEntity():SetDaynightCycleDisabled(true)
+
 end
