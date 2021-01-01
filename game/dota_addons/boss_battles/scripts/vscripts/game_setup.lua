@@ -53,7 +53,7 @@ function GameSetup:OnStateChange()
         self:RegisterRaidWipe()
 
         -- spawn testing stuff
-        self:SpawnTestingStuff()
+        intermission_manager:SpawnTestingStuff()
 
     end
 
@@ -82,7 +82,7 @@ function GameSetup:OnNPCSpawned(keys)
         npc:AddNewModifier( npc,  nil, "remove_attack_modifier", { } )
 
         npc:Initialize()
-        self:RegisterPlayer(npc)
+        player_frame_manager:RegisterPlayer(npc)
 
         --print("on spanwed lives ", npc.playerLives )
 
@@ -106,80 +106,6 @@ function GameSetup:OnNPCSpawned(keys)
 end
 --------------------------------------------------------------------------------------------------
 
-function GameSetup:RegisterPlayer( hero )
-    local playerID = hero:GetPlayerOwnerID()
-
-    if playerID == -1 then
-        --print("[game_setup] Error invalid player id")
-        return
-    else
-
-        --Player UI Frames:
-        Timers:CreateTimer(function()
-            local heroes = HERO_LIST--HeroList:GetAllHeroes()
-            local playerData = {}
-            local i = 1
-            for _, hero in pairs(heroes) do
-                playerData[i] = {}
-                playerData[i].entityIndex = hero:GetEntityIndex()
-                playerData[i].playerName = PlayerResource:GetPlayerName(hero:GetPlayerOwnerID())
-                playerData[i].className = GetClassName(hero:GetUnitName())
-                playerData[i].hp = hero:GetHealth()
-                playerData[i].maxHp = hero:GetMaxHealth()
-                playerData[i].hpPercent = hero:GetHealthPercent()
-                playerData[i].mp = hero:GetMana()
-                playerData[i].maxMp = hero:GetMaxMana()
-                playerData[i].mpPercent = hero:GetManaPercent()
-                playerData[i].lives = hero.playerLives
-                i = i +1
-            end
-
-            --Make some fake data for testing, keep this code to test playerFrame while solo.
-            -- playerData[2] = {}
-            -- playerData[2].entityIndex = hero:GetEntityIndex()
-            -- playerData[2].playerName = "fake player2"
-            -- playerData[2].className = GetClassName(hero:GetUnitName())
-            -- playerData[2].hp = hero:GetHealth()
-            -- playerData[2].maxHp = hero:GetMaxHealth()
-            -- playerData[2].hpPercent = hero:GetHealthPercent()
-            -- playerData[2].mp = hero:GetMana()
-            -- playerData[2].maxMp = hero:GetMaxMana()
-            -- playerData[2].mpPercent = hero:GetManaPercent()
-            -- playerData[2].lives = hero.playerLives
-
-            -- playerData[3] = {}
-            -- playerData[3].entityIndex = hero:GetEntityIndex()
-            -- playerData[3].playerName = "fake player3"
-            -- playerData[3].className = GetClassName(hero:GetUnitName())
-            -- playerData[3].hp = hero:GetHealth()
-            -- playerData[3].maxHp = hero:GetMaxHealth()
-            -- playerData[3].hpPercent = hero:GetHealthPercent()
-            -- playerData[3].mp = hero:GetMana()
-            -- playerData[3].maxMp = hero:GetMaxMana()
-            -- playerData[3].mpPercent = hero:GetManaPercent()
-            -- playerData[3].lives = hero.playerLives
-
-            -- playerData[4] = {}
-            -- playerData[4].entityIndex = hero:GetEntityIndex()
-            -- playerData[4].playerName = "fake player4"
-            -- playerData[4].className = GetClassName(hero:GetUnitName())
-            -- playerData[4].hp = hero:GetHealth()
-            -- playerData[4].maxHp = hero:GetMaxHealth()
-            -- playerData[4].hpPercent = hero:GetHealthPercent()
-            -- playerData[4].mp = hero:GetMana()
-            -- playerData[4].maxMp = hero:GetMaxMana()
-            -- playerData[4].mpPercent = hero:GetManaPercent()
-            -- playerData[4].lives = hero.playerLives
-
-            CustomNetTables:SetTableValue("player_frame", "key", playerData)
-            return 0.2
-        end)
-        
-
-    end
-end
---------------------------------------------------------------------------------------------------
-
 function GameSetup:RegisterRaidWipe( )
     Timers:CreateTimer(function()
         --print("GetPlayerCount ", PlayerResource:GetPlayerCount())
@@ -193,6 +119,14 @@ function GameSetup:RegisterRaidWipe( )
                     killedHero:SetTimeUntilRespawn(self.respawn_time)
                     killedHero.playerLives = BOSS_BATTLES_PLAYER_LIVES
 
+                    --[[
+
+                    check if 
+
+
+
+                    ]]
+
                     -- remove items from their inventory (items used in techies fight atm)
                     for i=0,8 do
                         local item = killedHero:GetItemInSlot(i)
@@ -205,7 +139,7 @@ function GameSetup:RegisterRaidWipe( )
                 -- call boss cleanup function
                 self:EncounterCleanUp( self.boss_spawn )
 
-                -- reset  death counter
+                -- reset death counter
                 self.player_deaths = {}
 
             end)
@@ -215,51 +149,6 @@ function GameSetup:RegisterRaidWipe( )
     end)
 end
 
---------------------------------------------------------------------------------------------------
-function GameSetup:SpawnTestingStuff(keys)
-
-    --[[ flame turrets for right side of the map, need to change facing vector
-    local flame_turret_1 = CreateUnitByName("npc_flame_turret", Vector(-10154,-8652,256), true, nil, nil, DOTA_TEAM_BADGUYS)
-    flame_turret_1:SetForwardVector(Vector(0,-1, flame_turret_1.z ))
-
-    local flame_turret_2 = CreateUnitByName("npc_flame_turret", Vector(-9511,-8652,256), true, nil, nil, DOTA_TEAM_BADGUYS)
-    flame_turret_2:SetForwardVector(Vector(0,-1, flame_turret_2.z ))
-
-    local flame_turret_3 = CreateUnitByName("npc_flame_turret", Vector(-9744,-11704,256), true, nil, nil, DOTA_TEAM_BADGUYS)
-    flame_turret_3:SetForwardVector(Vector(0,1, flame_turret_3.z ))]]
-
-    -- create test item
-    --local newItem = CreateItem("item_tango", nil, nil)
-    --CreateItemOnPositionForLaunch( Vector(-10000,-10000,256), newItem )
-
-    -- target dummy (1 by itself)(immortal)
-    local dummy_1 = CreateUnitByName("npc_dota_creature_dummy_target_boss_immortal", Vector(-12276,-10346,256), true, nil, nil, DOTA_TEAM_BADGUYS)
-    dummy_1:SetForwardVector(Vector(0,-1, dummy_1.z ))
-
-    -- target dummy (1 by itself)
-    --CreateUnitByName("npc_dota_creature_dummy_target_boss", Vector(-11744,-9369,256), true, nil, nil, DOTA_TEAM_BADGUYS)
-
-    -- target dummy (3)
-    local dummy_2 = CreateUnitByName("npc_dota_creature_dummy_target_boss", Vector(-11776,-10352,256), true, nil, nil, DOTA_TEAM_BADGUYS)
-    dummy_2:SetForwardVector(Vector(0,-1, dummy_2.z ))
-
-    local dummy_3 = CreateUnitByName("npc_dota_creature_dummy_target_boss", Vector(-11776,-10352,256), true, nil, nil, DOTA_TEAM_BADGUYS)
-    dummy_3:SetForwardVector(Vector(0,-1, dummy_3.z ))
-
-    local dummy_4 = CreateUnitByName("npc_dota_creature_dummy_target_boss", Vector(-11776,-10352,256), true, nil, nil, DOTA_TEAM_BADGUYS)
-    dummy_4:SetForwardVector(Vector(0,-1, dummy_4.z ))
-
-    -- target dummy (1 moving)
-    --CreateUnitByName("npc_dota_creature_gnoll_assassin_moving", Vector(-11077,-8747,256), true, nil, nil, DOTA_TEAM_BADGUYS)
-
-    -- target dummy friendly
-    local dummy_5 = CreateUnitByName("npc_dota_creature_dummy_target_boss", Vector(-12663,-10344,256), true, nil, nil, DOTA_TEAM_GOODGUYS)
-    dummy_5:SetForwardVector(Vector(0,-1, dummy_5.z ))
-
-    --test
-    --PrintTable(RAID_TABLES, indent, done)
-
-end
 --------------------------------------------------------------------------------------------------
 
 function GameSetup:OnEntityKilled(keys)
@@ -318,8 +207,6 @@ function GameSetup:OnEntityKilled(keys)
                     end
 
                 end
-
-
 
             end)
 

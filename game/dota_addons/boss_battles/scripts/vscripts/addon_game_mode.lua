@@ -151,6 +151,8 @@ function Activate()
     require('gamerules')
     require('commands')
     require('boss_frame_manager')
+    require('intermission_manager')
+    require('player_frame_manager')
 
     GameRules.AddonTemplate = BossBattles()
     GameRules.AddonTemplate:InitGameMode()
