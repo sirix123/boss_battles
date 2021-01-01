@@ -22,10 +22,10 @@ function bossFrameUpdate( table_name, key, data )
     //$.Msg("key = ", key)
     //$.Msg("data = ", data)
 
-    $.Msg("show_mana_bar ",show_mana_bar)
-    $.Msg("show_health_bar ",show_health_bar)
-    $.Msg("boss_name ",boss_name)
-    $.Msg("---------------------")
+    //$.Msg("show_mana_bar ",show_mana_bar)
+    //$.Msg("show_health_bar ",show_health_bar)
+    //$.Msg("boss_name ",boss_name)
+    //$.Msg("---------------------")
     
     //remove any existing children:
     var bossFrameContainer = $("#BossFrameContainer")
@@ -129,6 +129,12 @@ function createPlayerFrames(data)
 
         var playerFrame = $.CreatePanel("Panel", playersFrameContainer, "");
         playerFrame.BLoadLayoutSnippet("PlayerFrame");
+
+        var heroImage = $("#HeroImage")
+        heroImage.heroname = playerData["className"]
+
+        var pLivesLabel = $("#PlayerLivesLabel")
+        pLivesLabel.text = playerData["lives"]
 
         var pNameLabel = $("#PlayerNameLabel")
         pNameLabel.text = playerData["playerName"]

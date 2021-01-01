@@ -19,7 +19,7 @@ function player_frame_manager:RegisterPlayer( hero )
                 playerData[i] = {}
                 playerData[i].entityIndex = hero:GetEntityIndex()
                 playerData[i].playerName = PlayerResource:GetPlayerName(hero:GetPlayerOwnerID())
-                playerData[i].className = GetClassName(hero:GetUnitName())
+                playerData[i].className = hero:GetUnitName() --GetClassName(hero:GetUnitName())
                 playerData[i].hp = hero:GetHealth()
                 playerData[i].maxHp = hero:GetMaxHealth()
                 playerData[i].hpPercent = hero:GetHealthPercent()

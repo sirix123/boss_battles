@@ -46,12 +46,16 @@
                     <!-- TODO: image -->
 
                     <!-- Trying to do animation from valve -->
+                    <Panel id="PlayerPictureContainer">
+                        <DOTAHeroImage id="HeroImage" heroname="hero_name" heroimagestyle="icon" scaling="none"/>
+                    </Panel>
                     <!-- <DOTAParticleScenePanel id="PortraitStreakParticle" class="SceneLoaded PlayerFrameHeroAnimTest" hittest="false" map="scenes/dota_ui_particle_scene_panel_empty" camera="default_camera" /> -->
                 </Panel>
 
                 <Panel class="PlayerFrame">
                     <Panel id="PlayerNameContainer">
-                        <Label text="" id="PlayerNameLabel"/> 
+                        <Label text="" id="PlayerNameLabel"/>
+                        <Label text="" id="PlayerLivesLabel"/> 
                     </Panel>
 
                     <Panel id="PlayerHealthContainer">
