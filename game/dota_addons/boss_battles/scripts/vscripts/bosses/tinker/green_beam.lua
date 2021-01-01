@@ -26,6 +26,20 @@ function green_beam:OnAbilityPhaseStart()
             end
         end
 
+        local beam_length = self:GetSpecialValueFor( "beam_length" ) -- 2700
+        local randomDirection = RandomVector(5):Normalized()
+        self.direction_l = self:GetCaster():GetAbsOrigin() + randomDirection * beam_length
+        self.beam_point = ( RotatePosition(self:GetCaster():GetAbsOrigin(), QAngle(0,-150,0), self.direction_l ) )
+
+        local particle = "particles/custom/ui_mouseactions/range_finder_cone_body_only_v3.vpcf"
+        self.nPreviewFXIndex = ParticleManager:CreateParticle( particle, PATTACH_WORLDORIGIN, nil )
+        ParticleManager:SetParticleControl( self.nPreviewFXIndex, 0, self:GetCaster():GetAbsOrigin() )
+        ParticleManager:SetParticleControl( self.nPreviewFXIndex, 1, self.beam_point)
+        ParticleManager:SetParticleControl( self.nPreviewFXIndex, 2, self:GetCaster():GetAbsOrigin() );
+        ParticleManager:SetParticleControl( self.nPreviewFXIndex, 3, Vector( 150, 150, 0 ) );
+        ParticleManager:SetParticleControl( self.nPreviewFXIndex, 4, Vector( 255, 0, 0 ) );
+        ParticleManager:SetParticleControl( self.nPreviewFXIndex, 6, Vector( 1, 0, 0 ) );
+
         -- play voice line
         EmitSoundOn("Hero_Phoenix.SunRay.Cast", self:GetCaster())
 
@@ -36,8 +50,10 @@ end
 
 function green_beam:OnSpellStart()
     if IsServer() then
+
+        ParticleManager:DestroyParticle(self.nPreviewFXIndex,true)
+
         local caster = self:GetCaster()
-        local beam_length = self:GetSpecialValueFor( "beam_length" ) -- 2700
         local radius = self:GetSpecialValueFor( "radius" ) --30
         local dmg = self:GetSpecialValueFor( "damage" ) --10
         self.wave_dmg = self:GetSpecialValueFor( "wave_dmg" ) --10
@@ -67,34 +83,7 @@ function green_beam:OnSpellStart()
             return 0.5
         end)
 
-        -- find tinker and get the direction from tinker to the crystral, use this as the starting direction vector for the beam
-        local friendlies = FindUnitsInRadius(
-            self:GetCaster():GetTeamNumber(),	-- int, your team number
-            caster:GetAbsOrigin(),	-- point, center point
-            nil,	-- handle, cacheUnit. (not known)
-            5000,	-- float, radius. or use FIND_UNITS_EVERYWHERE
-            DOTA_UNIT_TARGET_TEAM_FRIENDLY,	-- int, team filter
-            DOTA_UNIT_TARGET_HERO + DOTA_UNIT_TARGET_BASIC,	-- int, type filter
-            DOTA_UNIT_TARGET_FLAG_INVULNERABLE,	-- int, flag filter
-            0,	-- int, order filter
-            false	-- bool, can grow cache
-        )
-
-        for _, friend in pairs(friendlies) do
-            if friend:GetUnitName() == "npc_tinker" then
-                --print("trying to apply beam phase here")
-
-                self.tinker_origin = friend:GetAbsOrigin()
-            end
-        end
-
-        --local vTinkerDirectionInverse = -( self.tinker_origin - caster:GetAbsOrigin() ):Normalized()
-        --local vTinkerDirection = -( self.tinker_origin - caster:GetAbsOrigin() ):Normalized()
-        --local beam_point = caster:GetAbsOrigin() + vTinkerDirectionInverse * beam_length
-
-        local randomDirection = RandomVector(5):Normalized()
-        local beam_point = caster:GetAbsOrigin() + randomDirection * beam_length
-        beam_point = ( RotatePosition(caster:GetAbsOrigin(), QAngle(0,-150,0), beam_point ) )
+        local beam_point = self.beam_point
         --DebugDrawCircle(beam_point, Vector(155,0,0),128,50,true,60)
 
         -- create particle effect
@@ -163,7 +152,7 @@ function green_beam:OnSpellStart()
                         return -1
                     end
 
-                    if unit:GetUnitName() == "npc_rock" then
+                    --[[if unit:GetUnitName() == "npc_rock" then
 
                         --particles/econ/items/tiny/tiny_prestige/tiny_prestige_lvl4_death_rocks.vpcf
                         local particle_destroy = "particles/tinker/tinker_tiny_prestige_lvl4_death_rocks.vpcf"
@@ -177,7 +166,7 @@ function green_beam:OnSpellStart()
                         ParticleManager:ReleaseParticleIndex(particle_effect_2)
 
                         unit:RemoveSelf()
-                    end
+                    end]]
                 end
             end
 
