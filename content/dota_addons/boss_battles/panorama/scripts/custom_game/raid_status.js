@@ -175,6 +175,9 @@ function updatePlayerFrames(data)
         var pNameLabel = playerFrame.FindChildTraverse("PlayerNameLabel")
         pNameLabel.text = playerData["playerName"]
 
+        var pLivesLabel = $("#PlayerLivesLabel")
+        pLivesLabel.text = playerData["lives"]
+
         var pHealthLabel = playerFrame.FindChildTraverse("PlayerHealthLabel")
         pHealthLabel.text = playerData["hpPercent"] + "%"
 
