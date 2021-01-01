@@ -17,7 +17,7 @@
 
         // Casting
         //-------------------------------------------------------------------------------------------------------------
-        "AbilityCastPoint"              "0.0 0.0 0.0 0.0"
+        "AbilityCastPoint"              "1.5 1.0 1.0 1.0"
         "AbilityCastRange" 				"60"
 
         // Time     
@@ -252,7 +252,7 @@
             "02"{ "var_type"			"FIELD_INTEGER"		"dmg"		        "10" }
             "03"{ "var_type"			"FIELD_INTEGER"		"radius"		    "100" }
             "04"{ "var_type"			"FIELD_INTEGER"		"interval"		    "2" }
-            "05"{ "var_type"			"FIELD_INTEGER"		"duration"		    "15" }
+            "05"{ "var_type"			"FIELD_INTEGER"		"duration"		    "30" }
 		}
 
         "precache"
