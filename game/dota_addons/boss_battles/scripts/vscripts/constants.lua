@@ -26,6 +26,6 @@ _G.PICKING_DONE = false
 
 _G.HERO_LIST = {}
 
-_G.STORY_MODE = false
-_G.NORMAL_MODE = true
+_G.STORY_MODE = true
+_G.NORMAL_MODE = false
 _G.DEBUG_MODE = false
