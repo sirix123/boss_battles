@@ -306,8 +306,21 @@ function GameSetup:OnEntityKilled(keys)
             Timers:CreateTimer(1.0, function()
                 local heroes = HERO_LIST --HeroList:GetAllHeroes()
                 for _,hero in pairs(heroes) do
+
                     FindClearSpaceForUnit(hero, BOSS_BATTLES_INTERMISSION_SPAWN_LOCATION, true)
+
+                    -- remove items
+                    for i=0,8 do
+                        local item = hero:GetItemInSlot(i)
+                        if item ~= nil then -- add item name here if we just want to remove specific items
+                            item:RemoveSelf()
+                        end
+                    end
+
                 end
+
+
+
             end)
 
             Timers:CreateTimer(2.0, function()
@@ -346,26 +359,28 @@ function GameSetup:OnEntityHurt(keys)
         --DPS METER:
         UpdateDamageMeter()
 
-        if keys.entindex_attacker ~= nil and keys.entindex_killed ~= nil then
-            local entVictim = EntIndexToHScript(keys.entindex_killed)
-            local entAttacker = EntIndexToHScript(keys.entindex_attacker)
+        if keys.entindex_attacker ~= nil and keys.entindex_killed ~= nil and keys.entindex_inflictor ~= nil then
+            if EntIndexToHScript(keys.entindex_inflictor):GetTeam() == DOTA_TEAM_GOODGUYS then
+                local entVictim = EntIndexToHScript(keys.entindex_killed)
+                local entAttacker = EntIndexToHScript(keys.entindex_attacker)
 
-            -- The ability/item used to damage, or nil if not damaged by an item/ability
-            local damagingAbility = nil
+                -- The ability/item used to damage, or nil if not damaged by an item/ability
+                local damagingAbility = nil
 
-            if keys.entindex_inflictor ~= nil then
-                damagingAbility = EntIndexToHScript(keys.entindex_inflictor)
+                if keys.entindex_inflictor ~= nil then
+                    damagingAbility = EntIndexToHScript(keys.entindex_inflictor)
+                end
+
+                local word_length = string.len(tostring(math.floor(keys.damage)))
+
+                local color =  Vector(255, 255, 255)
+                local effect_cast = ParticleManager:CreateParticle("particles/custom_msg_damage.vpcf", PATTACH_WORLDORIGIN, nil) --particles/custom_msg_damage.vpcf particles/msg_fx/msg_damage.vpcf
+                ParticleManager:SetParticleControl(effect_cast, 0, entVictim:GetAbsOrigin())
+                ParticleManager:SetParticleControl(effect_cast, 1, Vector(0, keys.damage, 0))
+                ParticleManager:SetParticleControl(effect_cast, 2, Vector(0.5, word_length, 0)) --vector(math.max(1, keys.damage / 10), word_length, 0))
+                ParticleManager:SetParticleControl(effect_cast, 3, color)
+                ParticleManager:ReleaseParticleIndex(effect_cast)
             end
-
-            local word_length = string.len(tostring(math.floor(keys.damage)))
-
-            local color =  Vector(250, 70, 70)
-            local effect_cast = ParticleManager:CreateParticle("particles/custom_msg_damage.vpcf", PATTACH_WORLDORIGIN, nil) --particles/custom_msg_damage.vpcf particles/msg_fx/msg_damage.vpcf
-            ParticleManager:SetParticleControl(effect_cast, 0, entVictim:GetAbsOrigin())
-            ParticleManager:SetParticleControl(effect_cast, 1, Vector(0, keys.damage, 0))
-            ParticleManager:SetParticleControl(effect_cast, 2, Vector(0.5, word_length, 0)) --vector(math.max(1, keys.damage / 10), word_length, 0))
-            ParticleManager:SetParticleControl(effect_cast, 3, color)
-            ParticleManager:ReleaseParticleIndex(effect_cast)
         end
     end
 
