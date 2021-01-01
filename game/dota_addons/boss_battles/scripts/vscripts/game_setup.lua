@@ -117,15 +117,18 @@ function GameSetup:RegisterRaidWipe( )
                     killedHero:SetRespawnPosition( BOSS_BATTLES_INTERMISSION_SPAWN_LOCATION )
                     self.respawn_time = BOSS_BATTLES_RESPAWN_TIME
                     killedHero:SetTimeUntilRespawn(self.respawn_time)
-                    killedHero.playerLives = BOSS_BATTLES_PLAYER_LIVES
 
-                    --[[
+                    -- depending on the mode... figure out the lives players should have and what encounter they will do next
+                    if STORY_MODE == true then -- infinte lives and stay on wiped encounter
+                        killedHero.playerLives = BOSS_BATTLES_PLAYER_LIVES
 
-                    check if 
+                    elseif NORMAL_MODE == true then -- 3 lives, one earned for each player after a boss kill, if players all die to a boss reset back to the first boss
+                        killedHero.playerLives = BOSS_BATTLES_PLAYER_LIVES
+                        BOSS_BATTLES_ENCOUNTER_COUNTER = 2
 
+                    elseif DEBUG_MODE == true then -- not sure yet
 
-
-                    ]]
+                    end
 
                     -- remove items from their inventory (items used in techies fight atm)
                     for i=0,8 do
@@ -180,7 +183,19 @@ function GameSetup:OnEntityKilled(keys)
                 self.respawn_time = 1
                 self.player_deaths = {}
                 hero:SetTimeUntilRespawn(self.respawn_time)
-                hero.playerLives = BOSS_BATTLES_PLAYER_LIVES
+
+                -- depending on the mode... figure out the lives players should have and what encounter they will do next
+                if STORY_MODE == true then -- infinte lives and stay on wiped encounter
+                    hero.playerLives = BOSS_BATTLES_PLAYER_LIVES
+
+                elseif NORMAL_MODE == true then -- 3 lives, one earned for each player after a boss kill, if players all die to a boss reset back to the first boss
+                    if hero.playerLives < 3 then
+                        hero.playerLives = hero.playerLives + 1
+                    end
+
+                elseif DEBUG_MODE == true then -- not sure yet
+
+                end
 
                 if hero:IsAlive() == true then
                     isHeroAlive = true

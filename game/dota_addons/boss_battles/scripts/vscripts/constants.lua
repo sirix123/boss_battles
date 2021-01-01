@@ -25,3 +25,7 @@ _G.UNQIUE_INT = 0
 _G.PICKING_DONE = false
 
 _G.HERO_LIST = {}
+
+_G.STORY_MODE = false
+_G.NORMAL_MODE = true
+_G.DEBUG_MODE = false
