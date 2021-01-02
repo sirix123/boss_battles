@@ -68,7 +68,7 @@ function ice_shot_tinker:OnSpellStart()
         local direction = (self.target:GetAbsOrigin() - caster:GetAbsOrigin() ):Normalized()
 
         local projectile = {
-            EffectName = "particles/tinker/tinker_drow_frost_arrow.vpcf", --particles/tinker/iceshot__invoker_chaos_meteor.vpcf
+            EffectName = "particles/tinker/tinker_alchemist_smooth_criminal_unstable_concoction_projectile.vpcf", --particles/tinker/iceshot__invoker_chaos_meteor.vpcf
             vSpawnOrigin = origin,
             fDistance = 5000,
             fUniqueRadius = 200,
@@ -88,7 +88,7 @@ function ice_shot_tinker:OnSpellStart()
 
                 if unit:GetUnitName() == "npc_crystal" then
                     if self.stack_count == 0 then
-                        unit:GiveMana(10)
+                        unit:GiveMana(100)
                     else
                         unit:GiveMana(10)
                     end

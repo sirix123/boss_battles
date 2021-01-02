@@ -75,6 +75,8 @@ function boss_frame_manager:UpdateManaHealthFrame( boss )
             end
 
         end)
+    else
+        CustomNetTables:SetTableValue("boss_frame", "hide", {})
     end
 end
 
