@@ -23,15 +23,15 @@ function beastmaster_bloodlust_modifier:OnCreated( kv )
 
 		-- takes more dmg?
 
-		self.effect = ParticleManager:CreateParticle( "particles/beastmaster/beastmaster_enrage.vpcf", PATTACH_OVERHEAD_FOLLOW, self:GetParent() )
-		ParticleManager:SetParticleControl( self.effect, 0, self:GetParent():GetAbsOrigin() )
-		ParticleManager:SetParticleControl( self.effect, 3, self:GetParent():GetAbsOrigin() )
+		--self.effect = ParticleManager:CreateParticle( "particles/beastmaster/beastmaster_enrage.vpcf", PATTACH_OVERHEAD_FOLLOW, self:GetParent() )
+		--ParticleManager:SetParticleControl( self.effect, 0, self:GetParent():GetAbsOrigin() )
+		--ParticleManager:SetParticleControl( self.effect, 3, self:GetParent():GetAbsOrigin() )
 	end
 end
 
 function beastmaster_bloodlust_modifier:OnDestroy()
     if IsServer() then
-        ParticleManager:DestroyParticle(self.effect, true)
+        --ParticleManager:DestroyParticle(self.effect, true)
     end
 end
 -----------------------------------------------------------------------------

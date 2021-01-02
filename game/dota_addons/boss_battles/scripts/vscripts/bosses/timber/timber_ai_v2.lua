@@ -109,7 +109,6 @@ function TimberThink()
 
 			-- need circle particle effect that grows over the trees big circle thing
 
-			
 			return false
 		end)
 
@@ -127,19 +126,22 @@ function TimberThink()
 
 		Timers:CreateTimer(14, function()
 
-			-- particle effect on furion to show tp out, just release particel
-			local particle_end = "particles/units/heroes/hero_furion/furion_teleport_flash.vpcf"
-			local nFXIndex_end = ParticleManager:CreateParticle( particle_end, PATTACH_WORLDORIGIN, nil )
-			ParticleManager:SetParticleControl(nFXIndex, 0, thisEntity.furion:GetAbsOrigin() )
+			if thisEntity.furion == nil then
+				return false
+			else
+				-- particle effect on furion to show tp out, just release particel
+				local particle_end = "particles/units/heroes/hero_furion/furion_teleport_flash.vpcf"
+				local nFXIndex_end = ParticleManager:CreateParticle( particle_end, PATTACH_WORLDORIGIN, nil )
+				ParticleManager:SetParticleControl(nFXIndex_end, 0, thisEntity.furion:GetAbsOrigin() )
 
-			-- remove him from game
-			thisEntity.furion:SetAbsOrigin(Vector(0,0,0))
-			thisEntity.furion:ForceKill(false)
-			UTIL_Remove( thisEntity.furion )
+				-- remove him from game
+				thisEntity.furion:SetAbsOrigin(Vector(0,0,0))
+				thisEntity.furion:ForceKill(false)
+				UTIL_Remove( thisEntity.furion )
 
-			return false
+				return false
+			end
 		end)
-		
 
 		thisEntity:RemoveModifierByName("modifier_rooted")
 		thisEntity.state = 1

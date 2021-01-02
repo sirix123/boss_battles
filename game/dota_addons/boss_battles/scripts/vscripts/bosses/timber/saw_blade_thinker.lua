@@ -85,7 +85,9 @@ function saw_blade_thinker:OnIntervalThink()
     end
     if areAllHeroesDead or self.caster:IsAlive() == false then
 		self:Destroy()
-    end
+	end
+
+	if self.parent == nil then self:Destroy() end
 
 	-- check mode
 	if areAllHeroesDead == false then

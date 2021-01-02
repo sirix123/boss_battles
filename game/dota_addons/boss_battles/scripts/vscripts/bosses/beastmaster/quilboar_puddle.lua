@@ -27,24 +27,26 @@ function quilboar_puddle:OnAbilityPhaseStart()
 		ParticleManager:SetParticleControl(self.particleNfx , 3, Vector(100,100,0)) -- line width
 		ParticleManager:SetParticleControl(self.particleNfx , 4, Vector(0,255,0)) -- colour
 
-		Timers:CreateTimer(function()
+		if self:GetCaster() ~= nil then
+			Timers:CreateTimer(function()
 
-			if self.stop_timer == true then
-				return false
-			end
+				if self.stop_timer == true then
+					return false
+				end
 
-			self.vTargetPos = self.hTarget:GetAbsOrigin()
+				self.vTargetPos = self.hTarget:GetAbsOrigin()
 
-			if self:GetCaster():IsAlive() then
+				if self:GetCaster() ~= nil then
 
-				ParticleManager:SetParticleControl(self.particleNfx , 1, self:GetCaster():GetAbsOrigin()) -- origin
-				ParticleManager:SetParticleControl(self.particleNfx , 2, self.vTargetPos) -- target
-			else
-				return false
-			end
+					ParticleManager:SetParticleControl(self.particleNfx , 1, self:GetCaster():GetAbsOrigin()) -- origin
+					ParticleManager:SetParticleControl(self.particleNfx , 2, self.vTargetPos) -- target
+				else
+					return false
+				end
 
-			return FrameTime()
-		end)
+				return FrameTime()
+			end)
+		end
 
 		self:GetCaster():SetForwardVector(self.hTarget:GetAbsOrigin())
 		self:GetCaster():FaceTowards(self.hTarget:GetAbsOrigin())
@@ -56,6 +58,7 @@ end
 
 function quilboar_puddle:OnAbilityPhaseInterrupted()
 	if IsServer() then
+		self.stop_timer = true
 		ParticleManager:DestroyParticle(self.particleNfx, true)
 	end
 end

@@ -36,7 +36,7 @@ function CricleTimer()
     local tickInterval = 0.5
 
     Timers:CreateTimer(function()
-        if thisEntity.PHASE ~= 1 then 
+        if thisEntity.PHASE ~= 1 or thisEntity == nil then 
             thisEntity.circle_timer_running = false
             return false
         end
@@ -56,7 +56,10 @@ end
 function BirdThinker()
 	if not IsServer() then return end
 
-	if ( not thisEntity:IsAlive() ) then
+    if ( not thisEntity:IsAlive() ) then
+        if thisEntity.head_particle ~= nil then
+            ParticleManager:DestroyParticle(thisEntity.head_particle, true)
+        end
 		return -1
 	end
 

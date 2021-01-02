@@ -87,7 +87,7 @@ function timber_blast_thinker:PlayEffects2()
 	local particle_cast = "particles/timber/timber_invoker_sun_strike.vpcf"
 	local sound_cast = "Hero_Invoker.SunStrike.Ignite"
 
-	self:GetCaster():EmitSoundParams(sound_cast, 1, 0.3, 0.0)
+	self:GetParent():EmitSoundParams(sound_cast, 1, 0.3, 0.0)
 
 	-- Create Particle
 	local effect_cast = ParticleManager:CreateParticle( particle_cast, PATTACH_WORLDORIGIN, self:GetCaster() )
