@@ -89,6 +89,8 @@ function saw_blade_thinker:OnIntervalThink()
 
 	if self.parent == nil then self:Destroy() end
 
+	AddFOWViewer(DOTA_TEAM_GOODGUYS, self.parent:GetAbsOrigin(), 350, 0.5, false)
+
 	-- check mode
 	if areAllHeroesDead == false then
 		if self.mode == MODE_MOVE then
