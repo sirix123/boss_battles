@@ -19,6 +19,9 @@ function GameSetup:init()
     -- setup commands
     Commands:Init()
 
+    -- setup session manager
+    SessionManager:Init()
+
     PlayerManager:SetUpMouseUpdater()
     PlayerManager:SetUpMovement()
 
@@ -108,46 +111,61 @@ end
 
 function GameSetup:RegisterRaidWipe( )
     Timers:CreateTimer(function()
-        --print("GetPlayerCount ", PlayerResource:GetPlayerCount())
-        if #self.player_deaths == #HERO_LIST then
-            Timers:CreateTimer(5.0, function()
 
-                -- revive and move dead heroes
-                for _, killedHero in pairs(self.player_deaths) do
-                    killedHero:SetRespawnPosition( BOSS_BATTLES_INTERMISSION_SPAWN_LOCATION )
-                    self.respawn_time = BOSS_BATTLES_RESPAWN_TIME
-                    killedHero:SetTimeUntilRespawn(self.respawn_time)
+        --print("#HERO_LIST ",#HERO_LIST)
+        if #HERO_LIST > 0 then
+            if #self.player_deaths == #HERO_LIST then
+                --print("RegisterRaidWipe ", RAID_TABLES[BOSS_BATTLES_ENCOUNTER_COUNTER].name)
 
-                    -- depending on the mode... figure out the lives players should have and what encounter they will do next
-                    if STORY_MODE == true then -- infinte lives and stay on wiped encounter
-                        killedHero.playerLives = BOSS_BATTLES_PLAYER_LIVES
+                if self.bSessionManager_wipe == true then
+                    boss_frame_manager:StopUpdatingBossFrames()
+                    self.bSessionManager_wipe = false
+                    self.bBossKilled = false
+                    SessionManager:StopRecordingAttempt( self.bBossKilled )
 
-                    elseif NORMAL_MODE == true then -- 3 lives, one earned for each player after a boss kill, if players all die to a boss reset back to the first boss
-                        killedHero.playerLives = BOSS_BATTLES_PLAYER_LIVES
-                        BOSS_BATTLES_ENCOUNTER_COUNTER = 2
+                    Timers:CreateTimer(5.0, function()
 
-                    elseif DEBUG_MODE == true then -- not sure yet
+                        -- revive and move dead heroes
+                        for _, killedHero in pairs(self.player_deaths) do
+                            killedHero:SetRespawnPosition( BOSS_BATTLES_INTERMISSION_SPAWN_LOCATION )
+                            self.respawn_time = BOSS_BATTLES_RESPAWN_TIME
+                            killedHero:SetTimeUntilRespawn(self.respawn_time)
 
-                    end
+                            -- depending on the mode... figure out the lives players should have and what encounter they will do next
+                            if STORY_MODE == true then -- infinte lives and stay on wiped encounter
+                                killedHero.playerLives = BOSS_BATTLES_PLAYER_LIVES
 
-                    -- remove items from their inventory (items used in techies fight atm)
-                    for i=0,8 do
-                        local item = killedHero:GetItemInSlot(i)
-                        if item ~= nil then -- add item name here if we just want to remove specific items
-                            item:RemoveSelf()
+                            elseif NORMAL_MODE == true then -- 3 lives, one earned for each player after a boss kill, if players all die to a boss reset back to the first boss
+                                killedHero.playerLives = BOSS_BATTLES_PLAYER_LIVES
+                                BOSS_BATTLES_ENCOUNTER_COUNTER = 2
+
+                            elseif DEBUG_MODE == true then -- not sure yet
+
+                            end
+
+                            -- remove items from their inventory (items used in techies fight atm)
+                            for i=0,8 do
+                                local item = killedHero:GetItemInSlot(i)
+                                if item ~= nil then -- add item name here if we just want to remove specific items
+                                    item:RemoveSelf()
+                                end
+                            end
                         end
-                    end
+
+                        -- call boss cleanup function
+                        self:EncounterCleanUp( Entities:FindByName(nil, RAID_TABLES[BOSS_BATTLES_ENCOUNTER_COUNTER].arena):GetAbsOrigin() )
+
+                        -- reset death counter
+                        self.player_deaths = {}
+
+                        return false
+                    
+                    end)
                 end
+            end
 
-                -- call boss cleanup function
-                self:EncounterCleanUp( self.boss_spawn )
-
-                -- reset death counter
-                self.player_deaths = {}
-
-            end)
+            return 0.5
         end
-
         return 0.5
     end)
 end
@@ -175,6 +193,11 @@ function GameSetup:OnEntityKilled(keys)
 
         -- handles encounter/boss dying
         if npc:GetUnitName() == RAID_TABLES[BOSS_BATTLES_ENCOUNTER_COUNTER].boss then
+            boss_frame_manager:StopUpdatingBossFrames()
+
+            self.bBossKilled = true
+            SessionManager:StopRecordingAttempt( self.bBossKilled )
+
             -- repsawn deadplayers and reset lifes
             local isHeroAlive = false
             local heroes = HERO_LIST--HeroList:GetAllHeroes()
@@ -293,6 +316,8 @@ end
 function GameSetup:ReadyupCheck() -- called from trigger lua file for activators (ready_up)
     local heroes = HERO_LIST--HeroList:GetAllHeroes()
 
+    self.bSessionManager_wipe = true -- reest the wipe tracker flag
+
     -- look at raid tables and move players to boss encounter based on counter
     print("game_setup: Start boss counter: ", BOSS_BATTLES_ENCOUNTER_COUNTER," ", RAID_TABLES[BOSS_BATTLES_ENCOUNTER_COUNTER].boss )
 
@@ -319,9 +344,6 @@ function GameSetup:ReadyupCheck() -- called from trigger lua file for activators
             FindClearSpaceForUnit(hero, self.player_spawn, true)
         end
 
-        -- count down message
-        -- message duration = timer below in spawn boss
-
         -- spawn boss
         local boss = nil
         Timers:CreateTimer(1.0, function()
@@ -329,6 +351,8 @@ function GameSetup:ReadyupCheck() -- called from trigger lua file for activators
             boss = CreateUnitByName(RAID_TABLES[BOSS_BATTLES_ENCOUNTER_COUNTER].boss, self.boss_spawn, true, nil, nil, DOTA_TEAM_BADGUYS)
             return false
         end)
+
+        SessionManager:RecordAttempt()
 
         -- default boss frame values / init
         boss_frame_manager:SendBossName()
@@ -338,9 +362,6 @@ function GameSetup:ReadyupCheck() -- called from trigger lua file for activators
 
         return false
     end)
-
-    -- reset wipe flag
-    --self.wipe_flag = nil
 
 end
 --------------------------------------------------------------------------------------------------
@@ -389,6 +410,8 @@ end
 
 function GameSetup:EncounterCleanUp( origin )
     if origin == nil then return end
+
+    --print("cleaning up encounter ", RAID_TABLES[BOSS_BATTLES_ENCOUNTER_COUNTER].name)
 
     --GameRules:SetTreeRegrowTime( 1.0 )
 

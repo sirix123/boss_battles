@@ -21,6 +21,8 @@ function CDOTA_BaseNPC:Initialize(data)
   self.playerEnergy = 0
   self.playerDmgDone = 0
 
+  self.playerName = ""
+
   self:SetHullRadius(50)
 
 end

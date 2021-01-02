@@ -38,46 +38,49 @@ end
 -- Update/stop updating boss frame hp and mana
 -- this will also show the frames (hp and mana)
 function boss_frame_manager:UpdateManaHealthFrame( boss )
+    self.hideFrames = false
 
-    Timers:CreateTimer(function()
-        if boss ~= nil then
+    if boss ~= nil then
 
-            if boss:GetHealthPercent() == 0 or self.hideFrames == true then
+        Timers:CreateTimer(function()
+
+            if self.hideFrames ~= true then
+
+                if boss:GetHealthPercent() == 0 then
+                    CustomNetTables:SetTableValue("boss_frame", "hide", {})
+                    return false
+                end
+
+                local hp = boss:GetHealth()
+                local maxHp = boss:GetMaxHealth()
+                local hpPercent = boss:GetHealthPercent()
+                local mpPercent = boss:GetManaPercent()
+
+                local bossFrameData = {}
+                bossFrameData.hp = boss:GetHealth()
+                bossFrameData.maxHp = boss:GetMaxHealth()
+                bossFrameData.hpPercent = boss:GetHealthPercent()
+                bossFrameData.mp = boss:GetMana()
+                bossFrameData.maxMp = boss:GetMaxMana()
+                bossFrameData.mpPercent = boss:GetManaPercent()
+
+                CustomNetTables:SetTableValue("boss_frame", "key", bossFrameData)
+
+                return 0.01;
+
+            else
+                --print("hide the frames son")
                 CustomNetTables:SetTableValue("boss_frame", "hide", {})
                 return false
             end
 
-            local hp = boss:GetHealth()
-            local maxHp = boss:GetMaxHealth()
-            local hpPercent = boss:GetHealthPercent()
-            local mpPercent = boss:GetManaPercent()
-
-            local bossFrameData = {}
-            bossFrameData.hp = boss:GetHealth()
-            bossFrameData.maxHp = boss:GetMaxHealth()
-            bossFrameData.hpPercent = boss:GetHealthPercent()
-            bossFrameData.mp = boss:GetMana()
-            bossFrameData.maxMp = boss:GetMaxMana()
-            bossFrameData.mpPercent = boss:GetManaPercent()
-
-            CustomNetTables:SetTableValue("boss_frame", "key", bossFrameData)
-
-        else
-
-            CustomNetTables:SetTableValue("boss_frame", "hide", {})
-
-        end
-
-        return 0.1;
-
-    end)
+        end)
+    end
 end
 
--- show/hide all frames (mostly used for debugging, shouldn,t use this in an actual prod fight)
-function boss_frame_manager:HideBossFrames()
+-- show/hide all frames
+function boss_frame_manager:StopUpdatingBossFrames()
     self.hideFrames = true
-
-    CustomNetTables:SetTableValue("boss_frame", "hide", {})
 end
 
 function boss_frame_manager:ShowBossFrames( boss )
