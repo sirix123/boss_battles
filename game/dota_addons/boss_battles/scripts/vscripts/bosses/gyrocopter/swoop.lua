@@ -28,7 +28,6 @@ function swoop:OnSpellStart()
 	local enemiesAlreadyHit = {}
 
 	--tilt gyro's nose 25 degrees down, so he aiming at the ground
-
 	self:GetCaster():SetAngles(25,0,0)
 	self:GetCaster():MoveToPosition(target)
 

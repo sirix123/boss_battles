@@ -28,6 +28,8 @@ function Spawn( entityKeyValues )
 	_G.HomingMissileTargets = {}
 	_G.ActiveHomingMissiles = {}
 
+	thisEntity.flee = thisEntity:FindAbilityByName( "flee" )
+
 	--TESTED and working in single player, TODO test with multiple players. 
 	thisEntity.barrage = thisEntity:FindAbilityByName( "barrage" ) 
 	thisEntity.barrage_radius_melee = thisEntity:FindAbilityByName( "barrage_radius_melee" )
@@ -44,12 +46,13 @@ function Spawn( entityKeyValues )
 	thisEntity.dumb_homing_missile = thisEntity:FindAbilityByName( "dumb_homing_missile" )
 	thisEntity.smart_homing_missile = thisEntity:FindAbilityByName( "smart_homing_missile" )
 
+
 	--UNTESTED: half implemented
-	thisEntity.zoom = thisEntity:FindAbilityByName( "zoom" ) 
 	--TO IMPLEMENT: 
 	--thisEntity.tracking_beacon = thisEntity:FindAbilityByName( "tracking_beacon" )
 	thisEntity.rotating_flak_cannon = thisEntity:FindAbilityByName( "rotating_flak_cannon" )
 	thisEntity.rotating_flak_cannon_attack = thisEntity:FindAbilityByName( "rotating_flak_cannon_attack" )	
+
 	--still not sure the purpose of whirlwind...
 	--maybe just suck players in, then stun em, and fly away to trigger a phase shift
 	--thisEntity.whirlwind = thisEntity:FindAbilityByName( "whirlwind" )
@@ -60,10 +63,6 @@ function Spawn( entityKeyValues )
 	--disable attacks.
 	thisEntity:SetAttackCapability(0) --set to DOTA_UNIT_CAP_NO_ATTACK.
 end
-
-
-
-
 
 
 function CurrentTestCode()
@@ -79,12 +78,10 @@ function CurrentTestCode()
 		--AddToAbilityQueue(thisEntity.smart_homing_missile, DOTA_UNIT_ORDER_CAST_NO_TARGET, nil, false, nil)
 
 		--AddToAbilityQueue(thisEntity.swoop, DOTA_UNIT_ORDER_CAST_POSITION, enemy:GetAbsOrigin(), false, nil)
-		--AddToAbilityQueue(thisEntity.zoom, DOTA_UNIT_ORDER_CAST_POSITION, enemy:GetAbsOrigin(), false, nil)
 	end
 
 	--Test any abilities that don't need a target
 	
-
 	AddToAbilityQueue(thisEntity.absorbing_shell, DOTA_UNIT_ORDER_CAST_NO_TARGET, nil, false, nil)
 	--AddToAbilityQueue(thisEntity.barrage_rotating, DOTA_UNIT_ORDER_CAST_NO_TARGET, nil, false, nil)
 end
@@ -96,8 +93,6 @@ local tickCount = 0
 local timeOfLastSwoop = 0
 local isHpAbove75Percent = true
 local isHpAbove50Percent = true
-
-
 
 function MainLoop()
 	--Check certain game states and return early if needed
@@ -113,6 +108,12 @@ function MainLoop()
 	-- if (tickCount == 50) then
 	-- 	CurrentTestCode()
 	-- end	
+
+	--TESTING:
+	if tickCount == 90 then
+		--AddToAbilityQueue(thisEntity.flee, DOTA_UNIT_ORDER_CAST_POSITION, thisEntity:GetAbsOrigin() + Vector(0,2000,0), false, nil)
+		--AddToAbilityQueue(thisEntity.zoom, DOTA_UNIT_ORDER_CAST_POSITION, thisEntity:GetAbsOrigin() + Vector(0,-2000,0), false, nil)
+	end
 	
 	--init:
 	if tickCount == 1 then
@@ -133,20 +134,16 @@ function MainLoop()
 		--print("hp below 75%. Time to zoom")
 
 		--UNTESTED: zoom away... need better algo to decide where to zoom to....
-		AddToAbilityQueue(thisEntity.zoom, DOTA_UNIT_ORDER_CAST_POSITION, thisEntity:GetAbsOrigin() + Vector(0,2500,0), false, nil)
+		AddToAbilityQueue(thisEntity.flee, DOTA_UNIT_ORDER_CAST_POSITION, thisEntity:GetAbsOrigin() + Vector(0,2500,0), false, nil)
 
 		thisEntity.dumb_homing_missile:SetLevel(thisEntity.dumb_homing_missile:GetLevel() +1)
 		thisEntity.smart_homing_missile:SetLevel(thisEntity.smart_homing_missile:GetLevel() +1)
-
 	end
 
 	if (isHpAbove50Percent and thisEntity:GetHealthPercent() <= 50) then
 		isHpAbove50Percent = false
 		--print("hp below 50%. Time to zoom")
-
 	end
-
-
 
 	--at 5th second and every 15 seconds afterwards. 
 	if (tickCount >= 50 and (tickCount-50) % 150 == 0  ) then
@@ -157,7 +154,6 @@ function MainLoop()
 		else
 			_G.PulseAndCast = "call_down"
 		end
-
 		AddToAbilityQueue(thisEntity.radar_pulse, DOTA_UNIT_ORDER_CAST_NO_TARGET, nil, false, nil)
 	end
 
@@ -191,7 +187,6 @@ function MainLoop()
 	end
 
 	--TODO: rotating_flak_cannon
-
 	--TODO implement agro table
 	--Auto attack closest enemy is no other action is happening:
 	if not _G.IsGyroBusy and (tickCount % 7) == 0 then
@@ -202,8 +197,6 @@ function MainLoop()
 			AddToAbilityQueue(thisEntity.gyro_base_attack, DOTA_UNIT_ORDER_CAST_NO_TARGET, nil, false, nil)			
 		end
 	end
-
-
 	
 	return dt
 end

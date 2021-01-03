@@ -74,17 +74,17 @@
         "AbilityCooldown"               "0.0"
         "AbilityManaCost"               "0"
     }    
-    "zoom"
+    "flee"
     { 
         "BaseClass"                     "ability_lua"
-        "ScriptFile"                    "bosses/gyrocopter/zoom"
+        "ScriptFile"                    "bosses/gyrocopter/flee"
         "AbilityBehavior"               "DOTA_ABILITY_BEHAVIOR_POINT"
         "AbilityUnitDamageType"         "DAMAGE_TYPE_PHYSICAL"
-        "AbilityCastRange"              "10000"    
+        "AbilityCastRange"              "10000"  
         "AbilityCastPoint"              "0.0"
         "AbilityCooldown"               "0.0"
         "AbilityManaCost"               "0"
-    }      
+    } 
     "barrage"
     { 
         "BaseClass"                     "ability_lua"

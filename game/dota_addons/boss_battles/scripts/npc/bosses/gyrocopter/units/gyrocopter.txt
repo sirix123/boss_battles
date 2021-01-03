@@ -30,7 +30,7 @@
 		"Ability6"					"smart_homing_missile"
 
 		"Ability7"					"swoop"			
-		"Ability8"					"zoom"
+		"Ability8"					"flee"
 
 		"Ability9"					"barrage"
 		"Ability10"					"barrage_radius_melee"

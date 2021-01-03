@@ -279,10 +279,10 @@ end
 --Gyro flies to location, and leaves a trail of destruction behind him (think batrider firepath)
 --Maybe leave behind a sticky napalm goo, then ignite it afterwards?
 	-- like he's spilling oil as he flies away?
-function Zoom(location)
+-- function Zoom(location)
 
 
-end
+-- end
 
 
 
