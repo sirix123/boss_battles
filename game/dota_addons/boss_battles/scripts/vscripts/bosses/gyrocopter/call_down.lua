@@ -1,7 +1,6 @@
 call_down = class({})
 
 -- totalDamage because call_down does damage at two different intervals. Each interval applies totalDamage / 2 damage,
-local totalDamage = 200
 
 local displayDebug = false
 
@@ -11,11 +10,16 @@ function call_down:OnSpellStart()
 	--_G.IsGyroBusy = true
 
 	--spell model:
-	local spell_duration = 4
+	local swoopSpeed = self:GetSpecialValueFor("swoop_speed")
+
+	local spell_duration = self:GetSpecialValueFor("duration")
+	local radius = self:GetSpecialValueFor("radius")
+	local totalDamage = self:GetSpecialValueFor("damage")
+
+
 	local tick_interval = 0.1
 	local total_ticks = spell_duration / tick_interval
 	local current_tick = 0
-	local radius = 600
 
 	if displayDebug then
 		DebugDrawCircle(self.cursorPos, Vector(255,0,0), 128, radius, true, tick_interval*2) 

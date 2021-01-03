@@ -6,22 +6,19 @@ flee = class({})
 
 -- Gyro moves toward target, leaving behind a trail
 function flee:OnSpellStart()
-	print("flee:OnSpellStart()")
+	--print("flee:OnSpellStart()")
 	_G.IsGyroBusy = true
-
 	local target = self:GetCursorPosition()
-	print("target = ", target)
-	DebugDrawCircle(target, Vector(255,0,0), 128, 100, true, 1)
-	
 	local caster = self:GetCaster()
 
-	local zoomSpeed = 1800
-	local originalMs = self:GetCaster():GetBaseMoveSpeed()
-	self:GetCaster():SetBaseMoveSpeed(zoomSpeed)
+	local fleeSpeed = self:GetSpecialValueFor("swoop_speed")
+	local radius = self:GetSpecialValueFor("radius")
+	local dmg = self:GetSpecialValueFor("damage")
+	local collisionDist  = self:GetSpecialValueFor("collision_distance")
 
-	local radius = 250
-	local collisionDist = 70 --stop the timer and apply effects once gyro is within this distance of target'
-	local dmg = 100
+	local originalMs = self:GetCaster():GetBaseMoveSpeed()
+	self:GetCaster():SetBaseMoveSpeed(fleeSpeed)
+
 	
 	local distance = (target - self:GetCaster():GetAbsOrigin()):Length2D()
 	local travelTime = distance / self:GetCaster():GetBaseMoveSpeed()

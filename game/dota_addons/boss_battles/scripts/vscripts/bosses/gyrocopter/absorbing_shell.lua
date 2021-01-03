@@ -100,6 +100,14 @@ end
 
 -- 	local target = self:GetCaster()
 -- 	local caster = self:GetCaster()
+--TEST:
+  --       self.particle = ParticleManager:CreateParticle("particles/units/heroes/hero_abaddon/abaddon_aphotic_shield.vpcf", PATTACH_ABSORIGIN_FOLLOW, self.parent)
+		-- local common_vector = Vector(particle_shield_size,0,particle_shield_size)
+		-- ParticleManager:SetParticleControl(self.particle, 1, common_vector)
+		-- ParticleManager:SetParticleControl(self.particle, 2, common_vector)
+		-- ParticleManager:SetParticleControl(self.particle, 4, common_vector)
+		-- ParticleManager:SetParticleControl(self.particle, 5, Vector(particle_shield_size,0,0))
+
 
 
 -- 		--UNTESTED:

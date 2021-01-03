@@ -5,9 +5,11 @@ gyro_base_attack = class({})
 
 function gyro_base_attack:OnSpellStart()
 	--print("gyro_base_attack:OnSpellStart()")
-
-	self.damage = 15
 	self.caster = self:GetCaster()
+
+	self.damage = self:GetSpecialValueFor("damage")
+	self.projectile_speed = self:GetSpecialValueFor("projectile_speed")
+	
 
 	-- grab target from _G.BaseAttackTargets[1], remove it, shoot at it
 	if #_G.BaseAttackTargets > 0 then
@@ -26,7 +28,7 @@ function gyro_base_attack:OnSpellStart()
 	    -- EffectName = "particles/ranger/ranger_clockwerk_para_rocket_flare.vpcf",
 	    EffectName = "particles/econ/items/gyrocopter/hero_gyrocopter_gyrotechnics/gyro_base_attack.vpcf",
 	    Ability = self,
-	    iMoveSpeed = 600,
+	    iMoveSpeed = self.projectile_speed,
 	    Source = self.caster,
 	    Target = self.target,
 	    bDodgeable = false,

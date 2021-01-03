@@ -5,6 +5,18 @@ radar_scan = class({})
 function radar_scan:OnSpellStart()
 	local caster = self:GetCaster()
 
+	local radius = self:GetSpecialValueFor("radius")
+	local spellDuration = self:GetSpecialValueFor("spell_duration")
+
+	--TODO: not yet used. TODO use!
+	local direction = self:GetSpecialValueFor("direction")
+	if direction == "counterClockwise" then
+
+	end
+	if direction == "clockwise" then
+
+	end
+
 	--temporary filler particle
     local particleName = "particles/gyrocopter/red_phoenix_sunray.vpcf"
     
@@ -14,8 +26,6 @@ function radar_scan:OnSpellStart()
 	Clear(_G.RadarScanEnemies)
     local enemiesDetected = {}
     
-	local radius = 2500
-	local spellDuration = 3 --seconds
 	local currentFrame = 1
 	local totalFrames = 120
 	local frameDuration = spellDuration / totalFrames -- 2 / 120 = 0.016?

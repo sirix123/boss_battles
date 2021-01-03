@@ -1,8 +1,6 @@
 
 "DOTAAbilities"
 {
-
-    
     "gyro_base_attack"
     { 
         "BaseClass"                     "ability_lua"
@@ -12,6 +10,19 @@
         "AbilityCastPoint"              "0.0"
         "AbilityCooldown"               "0.0"
         "AbilityManaCost"               "0"
+        "AbilitySpecial"
+        {
+            "01"
+            {
+                "var_type"       "FIELD_INTEGER"
+                "damage"       "15"
+            }
+            "02"
+            {
+                "var_type"       "FIELD_INTEGER"
+                "projectile_speed"       "800"
+            }            
+        }
     }
     "radar_scan"
     { 
@@ -22,6 +33,24 @@
         "AbilityCastPoint"              "0.0"
         "AbilityCooldown"               "0.0"
         "AbilityManaCost"               "0"
+        "AbilitySpecial"
+        {
+            "01"
+            {
+                "var_type"       "FIELD_INTEGER"
+                "radius"       "2500"
+            }
+            "02"
+            {
+                "var_type"       "FIELD_INTEGER"
+                "spell_duration"       "3"
+            }
+            "03"
+            {
+                "var_type"       "FIELD_STRING"
+                "direction"       "counterClockwise"
+            }                        
+        }
     }
     "radar_pulse"
     { 
@@ -32,6 +61,19 @@
         "AbilityCastPoint"              "0.0"
         "AbilityCooldown"               "0.0"
         "AbilityManaCost"               "0"
+        "AbilitySpecial"
+        {
+            "01"
+            {
+                "var_type"       "FIELD_INTEGER"
+                "end_radius"       "2500"
+            }
+            "02"
+            {
+                "var_type"       "FIELD_INTEGER"
+                "radius_growth_rate"       "25"
+            }
+        }
     }
     "tracking_beacon"
     { 
@@ -73,6 +115,34 @@
         "AbilityCastPoint"              "0.0"
         "AbilityCooldown"               "0.0"
         "AbilityManaCost"               "0"
+        "AbilitySpecial"
+        {
+            "01"
+            {
+                "var_type"       "FIELD_INTEGER"
+                "swoop_speed"       "1800"
+            }
+            "02"
+            {
+                "var_type"       "FIELD_INTEGER"
+                "radius"       "400"
+            }
+            "03"
+            {
+                "var_type"       "FIELD_INTEGER"
+                "damage"       "250"
+            }
+            "04"
+            {
+                "var_type"       "FIELD_FLOAT"
+                "stun_duration"       "2"
+            }                         
+            "05"
+            {
+                "var_type"       "FIELD_INTEGER"
+                "collision_distance"       "70"
+            }            
+        }
     }    
     "flee"
     { 
@@ -84,6 +154,29 @@
         "AbilityCastPoint"              "0.0"
         "AbilityCooldown"               "0.0"
         "AbilityManaCost"               "0"
+        "AbilitySpecial"
+        {
+            "01"
+            {
+                "var_type"       "FIELD_INTEGER"
+                "flee_speed"       "1800"
+            }
+            "01"
+            {
+                "var_type"       "FIELD_INTEGER"
+                "radius"       "250"
+            }
+            "01"
+            {
+                "var_type"       "FIELD_INTEGER"
+                "damage"       "100"
+            }
+            "01"
+            {
+                "var_type"       "FIELD_INTEGER"
+                "collision_distance"       "70"
+            }                                    
+        }
     } 
     "barrage"
     { 
@@ -161,7 +254,7 @@
         {
             "01"
             {
-                "var_type"       "FIELD_FLOAT"
+                "var_type"       "FIELD_INTEGER"
                 "duration"       "10"
             }
             "02"
@@ -191,6 +284,24 @@
         "AbilityCastRange"              "10000"
         "AbilityCooldown"               "0.0"
         "AbilityManaCost"               "0"
+        "AbilitySpecial"
+        {
+            "01"
+            {
+                "var_type"       "FIELD_FLOAT"
+                "duration"       "4"
+            }
+            "02"
+            {
+                "var_type"          "FIELD_INTEGER"
+                "damage"      "200"
+            }     
+            "03"
+            {
+                "var_type"           "FIELD_INTEGER"
+                "radius"    "600"
+            }
+        }
     }    
     "rotating_flak_cannon"
     { 
@@ -213,173 +324,6 @@
         "AbilityManaCost"               "0"
     }    
 
-
-    //=================================================================================================================
-    // Gyrocopter: Homing Missile
-    //=================================================================================================================
-    "homing_missile_old"
-    { 
-        "BaseClass"                     "ability_lua"
-        "ScriptFile"                    "bosses/gyrocopter/homing_missile"
-
-
-        // General
-        //-------------------------------------------------------------------------------------------------------------
-        "AbilityBehavior"               "DOTA_ABILITY_BEHAVIOR_UNIT_TARGET"
-        "AbilityUnitTargetTeam"         "DOTA_UNIT_TARGET_TEAM_ENEMY"
-        "AbilityUnitTargetType"         "DOTA_UNIT_TARGET_HERO | DOTA_UNIT_TARGET_BASIC"
-        "AbilityUnitDamageType"         "DAMAGE_TYPE_MAGICAL"
-
-        // Casting
-        //-------------------------------------------------------------------------------------------------------------
-        "AbilityCastPoint"              "0.0 0.0 0.0 0.0"
-        "AbilityCastRange"              "2000"        
-
-        // Time     
-        //-------------------------------------------------------------------------------------------------------------
-        "AbilityCooldown"               "0.0 0.0 0.0 0.0"
-
-        // Cost
-        //-------------------------------------------------------------------------------------------------------------
-        "AbilityManaCost"               "0"
-
-        //FOUND EXAMPLE OF HOMING MISSILE: 
-        //https://github.com/Pizzalol/SpellLibrary/blob/6ae510089a7515adf0582d06a444f027f95af040/game/scripts/npc/abilities/gyrocopter/homing_missile_datadriven.txt
-
-        "AbilityTextureName"            "gyrocopter_homing_missile"
-
-        "precache"
-        {
-            "particle"      "particles/units/heroes/hero_gyrocopter/gyro_guided_missile_target.vpcf"
-            "particle"      "particles/units/heroes/hero_gyrocopter/gyro_guided_missile_death.vpcf"
-            "particle"      "particles/units/heroes/hero_gyrocopter/gyro_guided_missile_explosion.vpcf"
-            "particle"      "particles/units/heroes/hero_gyrocopter/gyro_homing_missile_fuse.vpcf"
-            "soundfile"     "sounds/weapons/hero/gyrocopter/homing_missile.vsnd"
-            "soundfile"     "sounds/weapons/hero/gyrocopter/homing_missile_enemy.vsnd"
-            "soundfile"     "sounds/weapons/hero/gyrocopter/homing_missile_destroy.vsnd"
-            "soundfile"     "sounds/weapons/hero/gyrocopter/homing_missile_target.vsnd"
-        }
-
-    }
-  
-
-    //=================================================================================================================
-    // Gyrocopter: Flak Cannon
-    //=================================================================================================================
-    "flak_cannon_old"
-    { 
-        "BaseClass"                     "ability_lua"
-        "ScriptFile"                    "bosses/gyrocopter/flak_cannon"
-        "MaxLevel"                      "1"
-
-
-        // General
-        //-------------------------------------------------------------------------------------------------------------
-        "AbilityBehavior"               "DOTA_ABILITY_BEHAVIOR_NO_TARGET | DOTA_ABILITY_BEHAVIOR_IMMEDIATE"
-        "AbilityUnitDamageType"         "DAMAGE_TYPE_PHYSICAL"  
-
-        // Casting
-        //-------------------------------------------------------------------------------------------------------------
-        "AbilityCastPoint"              "0.0 0.0 0.0 0.0"
-
-        // Time     
-        //-------------------------------------------------------------------------------------------------------------
-        "AbilityCooldown"               "0.0 0.0 0.0 0.0"
-
-        // Cost
-        //-------------------------------------------------------------------------------------------------------------
-        "AbilityManaCost"               "0"
-
-        // Special
-        // Will read these values from our lua files
-        "AbilitySpecial"
-        {
-            "01"
-            {
-                "var_type"                   "FIELD_INTEGER"
-                "stacks"                     "5 5 5 5"
-            }
-            "02"
-            {
-                "var_type"                          "FIELD_INTEGER"
-                "duration"                             "12 12 12 12"
-            }
-            "03"
-            { 
-                "var_type"            "FIELD_INTEGER"
-                 "radius"                    "2000"   
-            }
-
-        }
-
-
-    }    
-
-
-        //=================================================================================================================
-    // Gyro: Call Down
-    //=================================================================================================================
-    "call_down_old"
-    { 
-        "BaseClass"                     "ability_lua"
-        "ScriptFile"                    "bosses/gyrocopter/call_down"
-
-        // General
-        //-------------------------------------------------------------------------------------------------------------
-        "AbilityBehavior"               "DOTA_ABILITY_BEHAVIOR_AOE | DOTA_ABILITY_BEHAVIOR_POINT"
-        "AbilityUnitDamageType"         "DAMAGE_TYPE_PHYSICAL"  
-        "AbilityUnitTargetTeam"         "DOTA_UNIT_TARGET_TEAM_BOTH"
-        "AbilityUnitTargetType"         "DOTA_UNIT_TARGET_HERO | DOTA_UNIT_TARGET_BASIC"
- 
-        "precache"
-        {
-        }
-
-        // Casting
-        //-------------------------------------------------------------------------------------------------------------
-        "AbilityCastRange"              "9000"
-        "AbilityCastPoint"               "0 0 0 0"
-
-        // Time     
-        //-------------------------------------------------------------------------------------------------------------
-        "AbilityCooldown"               "0 0 0 0"
-
-        // Cost
-        //-------------------------------------------------------------------------------------------------------------
-        "AbilityManaCost"               "0"
-
-        // Special
-        //-------------------------------------------------------------------------------------------------------------
-        "AbilitySpecial"
-        {
-            "01"
-            {
-                "var_type"                          "FIELD_INTEGER"
-                "radius"                            "800 1200 1200 1200"
-            }
-            "02"
-            {
-                "var_type"                          "FIELD_INTEGER"
-                "range"                             "5000 5000 5000 5000"
-            }
-        }
-    }
-
-        "precache"
-        {
-            "particle"      "particles/units/heroes/hero_gyrocopter/gyro_guided_missile_death.vpcf"
-            "particle"      "particles/units/heroes/hero_gyrocopter/gyro_calldown_explosion_sparks.vpcf"
-            "particle"      "particles/units/heroes/hero_gyrocopter/gyro_calldown_explosion.vpcf"
-            "particle"      "particles/units/heroes/hero_gyrocopter/gyro_calldown_explosion_flash_c.vpcf"
-            "particle"      "particles/econ/items/gyrocopter/hero_gyrocopter_gyrotechnics/gyro_calldown_explosion_second.vpcf"
-            "particle"      "particles/econ/items/gyrocopter/hero_gyrocopter_gyrotechnics/gyro_calldown_explosion_flash_g.vpcf"
-            "particle"      "particles/units/heroes/hero_gyrocopter/gyro_calldown_marker.vpcf"
-
-            "particle"      "particles/units/heroes/hero_gyrocopter/gyro_calldown_first.vpcf"
-            "particle"      "particles/units/heroes/hero_gyrocopter/gyro_calldown_second.vpcf"
-            
-
-        }
 
 }
 

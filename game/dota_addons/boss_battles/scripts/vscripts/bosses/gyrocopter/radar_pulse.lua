@@ -9,8 +9,8 @@ function radar_pulse:OnSpellStart()
 	local sound1 = "gyrocopter_gyro_attack_09" -- "gyrocopter_gyro_attack_09" "gyrocopter: I have visual!"
 	local sound2 = "gyrocopter_gyro_attack_10" -- "gyrocopter_gyro_attack_10" "gyrocopter: Hostile identified."
 
-	local endRadius = 2000
-
+	local endRadius = self:GetSpecialValueFor("end_radius")
+	local radiusGrowthRate = self:GetSpecialValueFor("radius_growth_rate")
 
 	--PARTICLE, currenlty a temporary filler particle
 	-- local particleSpeed = 700
@@ -24,7 +24,6 @@ function radar_pulse:OnSpellStart()
 
 	local radius = 0
 	
-	local radiusGrowthRate = 25
 	local frameDuration = 0.02
 	local currentAlpha = 10
 	Timers:CreateTimer(function()	

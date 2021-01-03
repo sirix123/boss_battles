@@ -31,13 +31,13 @@ function dumb_homing_missile:OnSpellStart()
 	--self:InitialiseRocket(5, 0.25, 50, 400, 400)
 
 	if self:GetLevel() == 1 then
-		self:InitialiseRocket(5, 0.01, 90, 300, 300)
+		self:InitialiseRocket(5, 0.1, 90, 300, 300)
 	end
 	if self:GetLevel() == 2 then
-		self:InitialiseRocket(10, 0.02, 90, 350, 350)
+		self:InitialiseRocket(10, 0.2, 90, 350, 350)
 	end
 	if self:GetLevel() > 2 then
-		self:InitialiseRocket(15, 0.02, 90, 400, 400)
+		self:InitialiseRocket(15, 0.2, 90, 400, 400)
 	end
 
 end

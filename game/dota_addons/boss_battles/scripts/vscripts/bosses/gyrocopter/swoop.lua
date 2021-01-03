@@ -6,6 +6,13 @@ function swoop:OnSpellStart()
 	--print("swoop:OnSpellStart()")
 	_G.IsGyroBusy = true
 
+	local caster = self:GetCaster()
+	local swoopSpeed = self:GetSpecialValueFor("swoop_speed")
+	local radius = self:GetSpecialValueFor("radius")
+	local dmg = self:GetSpecialValueFor("damage")
+	local stunDuration = self:GetSpecialValueFor("stun_duration")
+	local collisionDist  = self:GetSpecialValueFor("collision_distance")
+
 	--Use the below for abilities that are: DOTA_ABILITY_BEHAVIOR_UNIT_TARGET
 	--local target = self:GetCursorTarget():GetAbsOrigin()
 
@@ -13,30 +20,22 @@ function swoop:OnSpellStart()
 	local target = self:GetCursorPosition()
 	DebugDrawCircle(target, Vector(255,0,0), 128, 100, true, 1)
 
-	local swoopSpeed = 1800
 	local originalMs = self:GetCaster():GetBaseMoveSpeed()
-	self:GetCaster():SetBaseMoveSpeed(swoopSpeed)
-
-	local radius = 400
-	local dmg = 250 -- actually damage dealt could be (dmg + dmg/2). dmg/2 from runOver and dmg from impact
-	local stunDuration = 2
-	local collisionDist = 70 --stop the timer and apply effects once gyro is within this distance of target
-	
-	local distance = (target - self:GetCaster():GetAbsOrigin()):Length2D()
-	local travelTime = distance / self:GetCaster():GetBaseMoveSpeed()
-
-	local enemiesAlreadyHit = {}
+	caster:SetBaseMoveSpeed(swoopSpeed)
+	local distance = (target - caster:GetAbsOrigin()):Length2D()
+	local travelTime = distance / caster:GetBaseMoveSpeed()
 
 	--tilt gyro's nose 25 degrees down, so he aiming at the ground
-	self:GetCaster():SetAngles(25,0,0)
-	self:GetCaster():MoveToPosition(target)
+	caster:SetAngles(25,0,0)
+	caster:MoveToPosition(target)
 
+	local enemiesAlreadyHit = {}
 	Timers:CreateTimer(function()
-		local distance = (target  - self:GetCaster():GetAbsOrigin()):Length2D()
+		local distance = (target  - caster:GetAbsOrigin()):Length2D()
 
 		-- check for any units within collision radius, if any, hit them and add to hitlist to prevent second hit..
 		--they take half damage.  
-		local runOverEnemies = FindUnitsInRadius(DOTA_TEAM_BADGUYS, self:GetCaster():GetAbsOrigin(), nil, collisionDist*2, DOTA_UNIT_TARGET_TEAM_ENEMY, DOTA_UNIT_TARGET_ALL, DOTA_UNIT_TARGET_FLAG_NONE, FIND_CLOSEST, false )
+		local runOverEnemies = FindUnitsInRadius(DOTA_TEAM_BADGUYS, caster:GetAbsOrigin(), nil, collisionDist*2, DOTA_UNIT_TARGET_TEAM_ENEMY, DOTA_UNIT_TARGET_ALL, DOTA_UNIT_TARGET_FLAG_NONE, FIND_CLOSEST, false )
 		for _,enemy in pairs(runOverEnemies) do
 			
 			-- check that enemy is in enemiesAlreadyHit.
@@ -53,7 +52,7 @@ function swoop:OnSpellStart()
 				local dmgTable =
 	            {
 	                victim = enemy,
-	                attacker = self:GetCaster(),
+	                attacker = caster,
 	                damage = dmg/2,
 	                damage_type = DAMAGE_TYPE_PHYSICAL,
 	            }
@@ -68,10 +67,10 @@ function swoop:OnSpellStart()
 			self:GetCaster():SetBaseMoveSpeed(originalMs)
 
 			--DEBUG
-			--DebugDrawCircle(self:GetCaster():GetAbsOrigin(), Vector(255,0,0), 128, 100, true, 1)
+			--DebugDrawCircle(caster:GetAbsOrigin(), Vector(255,0,0), 128, 100, true, 1)
 
 			--find enemies in range and dmg them and stun
-			local enemies = FindUnitsInRadius(DOTA_TEAM_BADGUYS, self:GetCaster():GetAbsOrigin(), nil, radius,
+			local enemies = FindUnitsInRadius(DOTA_TEAM_BADGUYS, caster:GetAbsOrigin(), nil, radius,
 			DOTA_UNIT_TARGET_TEAM_ENEMY, DOTA_UNIT_TARGET_ALL, DOTA_UNIT_TARGET_FLAG_NONE, FIND_CLOSEST, false )
 
 			for _,enemy in pairs(enemies) do 
@@ -79,14 +78,14 @@ function swoop:OnSpellStart()
 	            local dmgTable =
 	            {
 	                victim = enemy,
-	                attacker = self:GetCaster(),
+	                attacker = caster,
 	                damage = dmg,
 	                damage_type = DAMAGE_TYPE_PHYSICAL,
 	            }
 	            ApplyDamage(dmgTable)
 				-- stun enemies in radius
 				enemy:AddNewModifier(
-					self:GetCaster(), -- caster source
+					caster, -- caster source
 					self, -- ability source
 					"modifier_generic_stunned", -- modifier name
 					{ duration = stunDuration } 
@@ -95,7 +94,7 @@ function swoop:OnSpellStart()
 	        end
 	        -- stun gyro too? but then _G.IsGyroBusy needs to continue until unstunned
 			self:GetCaster():AddNewModifier(
-					self:GetCaster(), -- caster source
+					caster, -- caster source
 					self, -- ability source
 					"modifier_generic_stunned", -- modifier name
 					{ duration = stunDuration } 
@@ -106,7 +105,7 @@ function swoop:OnSpellStart()
 		        _G.IsGyroBusy = false	
 		        return
 			end)
-			self:GetCaster():SetAngles(0,0,0)
+			caster:SetAngles(0,0,0)
         	return --stop timer, ability ended.
 		end
 		return 0.05 --continue timer, gyro still flying
