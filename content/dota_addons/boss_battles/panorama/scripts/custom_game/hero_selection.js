@@ -114,6 +114,10 @@ function PlayerPicked( player, hero ) {
 			var heroPortait = heroFrame.FindChildInLayoutFile("HeroPortrait");
 			heroPortait.AddClass( "taken" );
 
+			// find the portatit onactivate and disable it
+			var heroImage = heroFrame.FindChildInLayoutFile("HeroImage")
+			heroImage.ClearPanelEvent( 'onactivate' )
+
 			// find the button and disable, remove event and remove text
 			let heroPickButton = heroFrame.FindChildInLayoutFile("HeroPickHeroBtn");
 			let heroPickButtonText = heroFrame.FindChildInLayoutFile("HeroPickHeroBtnTxt");
@@ -123,6 +127,7 @@ function PlayerPicked( player, hero ) {
 
 			// remove hero from the heroes array
 			heroes.splice(i, 1);
+			//$.Msg("heroes ",heroes)
 			
 		}
 	}
@@ -133,6 +138,10 @@ function PlayerPicked( player, hero ) {
 		let PickListRowOneContainer = $("#PickListRowOne");
 		for (let i=0; i < PickListRowOneContainer.GetChildCount(); i++){
 			var heroFrame = heroFramePanels[i];
+
+			// find the portatits onactivate and disable it
+			var heroImage = heroFrame.FindChildInLayoutFile("HeroImage")
+			heroImage.ClearPanelEvent( 'onactivate' )
 
 			let heroPickButton = heroFrame.FindChildInLayoutFile("HeroPickHeroBtn");
 			let heroPickButtonText = heroFrame.FindChildInLayoutFile("HeroPickHeroBtnTxt");
@@ -156,7 +165,7 @@ function PlayerPicked( player, hero ) {
 
 /* Enter the game by removing the picking screen, called when the player */
 function EnterGame() {
-	$('#PickingScreen').DeleteAsync( 0.0 );
+	//$('#PickingScreen').DeleteAsync( 0.0 );
 }
 
 /* Initialisation - runs when the element is created
@@ -202,8 +211,6 @@ let PedRowContainer = $("#PedList");
 	//Set panel visibility
 	$('#PickListRowOne').style.visibility = 'visible';
 
-	// IF DEBUG MODE show TA KUNKA and WIP heroes, if not don't show those heroes TBD
-
 	// 4 = total number of players, create a ped for each one
 	for (let i=0; i < 4; i++){
 		let pedContainerPanel = $.CreatePanel("Panel", PedRowContainer, 0);
@@ -240,6 +247,80 @@ let PedRowContainer = $("#PedList");
 
 		//store this panel to update it later.
 		heroFramePanels[i] = containerPanel
+	}
+
+	/* MODE SELECTOR CODE EVENTUALLY MOVE TO ANOTHER FILE */
+
+	// mode selector handler
+	let modeSelectorContainer = $("#HeroModeSelectorContainer");
+	// nomral mode button
+	let normalModeButton = modeSelectorContainer.FindChildInLayoutFile("NormalModeButton")
+	// story mode button
+	let storyModeButton = modeSelectorContainer.FindChildInLayoutFile("StoryModeButton")
+	// mode label / container
+	let modeLabel = modeSelectorContainer.FindChildInLayoutFile("SelectorLabelContainer")
+	
+	// find the tooltip panel and hide it
+	let toolTipContainer = $("#ToolTip");
+	toolTipContainer.style.visibility = 'collapse';
+
+	//$.Msg("Players.GetLocalPlayer() ",Players.GetLocalPlayer())
+	if ( Players.GetLocalPlayer() == 0 ){
+
+		// mode label / container
+		modeLabel.SetPanelEvent( 'onmouseover', function () {
+			$.Msg("modeLabel-hover-on")
+			toolTipContainer.style.visibility = 'visible';
+		});
+
+		modeLabel.SetPanelEvent( 'onmouseout', function () {
+			$.Msg("modeLabel-hover-off")
+			toolTipContainer.style.visibility = 'collapse';
+		});
+		 
+		// story mode button
+		storyModeButton.SetPanelEvent( 'onmouseover', function () {
+			$.Msg("storyModeButton-hover-on")
+			toolTipContainer.style.visibility = 'visible';
+		});
+
+		storyModeButton.SetPanelEvent( 'onmouseout', function () {
+			$.Msg("storyModeButton-hover-off")
+			toolTipContainer.style.visibility = 'collapse';
+		});
+		
+		storyModeButton.SetPanelEvent( 'onactivate', function () {
+			$.Msg("storyModeButton")
+			//GameEvents.SendCustomGameEventToServer( "mode_selected", { Mode: "StoryMode" } );
+			storyModeButton.AddClass( "disabled" );
+			normalModeButton.AddClass( "disabled" );
+			normalModeButton.ClearPanelEvent( 'onactivate' )
+			storyModeButton.ClearPanelEvent( 'onactivate' )
+		});
+
+		// nomral mode button
+		normalModeButton.SetPanelEvent( 'onmouseover', function () {
+			$.Msg("normalModeButton-hover-on")
+			toolTipContainer.style.visibility = 'visible';
+		});
+
+		normalModeButton.SetPanelEvent( 'onmouseout', function () {
+			$.Msg("normalModeButton-hover-off")
+			toolTipContainer.style.visibility = 'collapse';
+		});
+
+
+		normalModeButton.SetPanelEvent( 'onactivate', function () {
+			$.Msg("normalModeButton")
+			//GameEvents.SendCustomGameEventToServer( "mode_selected", { Mode: "NormalMode" } );
+			storyModeButton.AddClass( "disabled" );
+			normalModeButton.AddClass( "disabled" );
+			normalModeButton.ClearPanelEvent( 'onactivate' )
+			storyModeButton.ClearPanelEvent( 'onactivate' )
+		});
+
+	}else{
+
 	}
 
 })();
