@@ -165,7 +165,7 @@ function PlayerPicked( player, hero ) {
 
 /* Enter the game by removing the picking screen, called when the player */
 function EnterGame() {
-	//$('#PickingScreen').DeleteAsync( 0.0 );
+	$('#PickingScreen').DeleteAsync( 0.0 );
 }
 
 /* Initialisation - runs when the element is created
@@ -250,15 +250,10 @@ let PedRowContainer = $("#PedList");
 	}
 
 	/* MODE SELECTOR CODE EVENTUALLY MOVE TO ANOTHER FILE */
-
-	// mode selector handler
-	let modeSelectorContainer = $("#HeroModeSelectorContainer");
-	// nomral mode button
-	let normalModeButton = modeSelectorContainer.FindChildInLayoutFile("NormalModeButton")
-	// story mode button
-	let storyModeButton = modeSelectorContainer.FindChildInLayoutFile("StoryModeButton")
-	// mode label / container
-	let modeLabel = modeSelectorContainer.FindChildInLayoutFile("SelectorLabelContainer")
+	let modeSelectorContainer = $("#HeroModeSelectorContainer"); // mode selector handler
+	let normalModeButton = modeSelectorContainer.FindChildInLayoutFile("NormalModeButton") // nomral mode button
+	let storyModeButton = modeSelectorContainer.FindChildInLayoutFile("StoryModeButton") // story mode button
+	let modeLabel = modeSelectorContainer.FindChildInLayoutFile("SelectorLabelContainer") // mode label / container
 	
 	// find the tooltip panel and hide it
 	let toolTipContainer = $("#ToolTip");
@@ -282,6 +277,8 @@ let PedRowContainer = $("#PedList");
 		storyModeButton.SetPanelEvent( 'onmouseover', function () {
 			$.Msg("storyModeButton-hover-on")
 			toolTipContainer.style.visibility = 'visible';
+			var tooltipText = toolTipContainer.FindChildInLayoutFile("ToolTipTxt")
+			tooltipText.text = "123"
 		});
 
 		storyModeButton.SetPanelEvent( 'onmouseout', function () {
@@ -308,7 +305,6 @@ let PedRowContainer = $("#PedList");
 			$.Msg("normalModeButton-hover-off")
 			toolTipContainer.style.visibility = 'collapse';
 		});
-
 
 		normalModeButton.SetPanelEvent( 'onactivate', function () {
 			$.Msg("normalModeButton")

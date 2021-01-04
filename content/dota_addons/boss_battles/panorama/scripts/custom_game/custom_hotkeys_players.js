@@ -470,11 +470,11 @@ function MouseInit(){
 // handles keyboard hotkeys / called by hero selection
 function Init()
 {
-    MouseInit()
-}
 
-(function () {
-    $.Msg("EMPTY FUNCTION");
+    $.Msg("init all custom mouse and movement controls")
+
+    MouseInit()
+
     ProcessAbilityQueue();
 
     Game.AddCommand( "+W", OnPressW, "", 0 );
@@ -521,6 +521,10 @@ function Init()
 
     // get mouse position
     //GameEvents.Subscribe('mouse_position', GetMouseCastPosition);
+}
+
+(function () {
+    
 })();
 
 
