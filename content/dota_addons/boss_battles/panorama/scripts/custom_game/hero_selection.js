@@ -38,7 +38,7 @@ function SelectHero( heroName, containerPanel ) {
 	// only do this for heroes that haven't been picked...
 	if ( heroes.includes(heroName) == true ) {
 		
-		//$.Msg("hero is in the list ",heroName)
+		$.Msg("hero is in the list ",heroName)
 
 		// loop over the stored hero panels and disable all the buttons
 		let PickListRowOneContainer = $("#PickListRowOne");
@@ -122,12 +122,12 @@ function PlayerPicked( player, hero ) {
 			let heroPickButton = heroFrame.FindChildInLayoutFile("HeroPickHeroBtn");
 			let heroPickButtonText = heroFrame.FindChildInLayoutFile("HeroPickHeroBtnTxt");
 			heroPickButton.AddClass( "disabled" );
-			heroPickButtonText.text = "Hero Picked";
+			heroPickButtonText.text = "";
 			heroPickButton.ClearPanelEvent( 'onactivate' )
 
 			// remove hero from the heroes array
 			heroes.splice(i, 1);
-			//$.Msg("heroes ",heroes)
+			$.Msg("heroes ",heroes)
 			
 		}
 	}
