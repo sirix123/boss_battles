@@ -160,33 +160,57 @@ function PlayerManager:SetUpMovement()
         -- W key
         if keyPressed == "w" and keyState == "down" then
             unit.direction.y = unit.direction.y + 1
+            if args.time  then
+                print("W: pressed Timestamp ", args.time)
+            end
         end
         if keyPressed == "w" and keyState == "up" then
             unit.direction.y = unit.direction.y - 1
+            if args.time  then
+                print("W: released Timestamp ", args.time)
+            end
         end
 
         -- D key
         if keyPressed == "d" and keyState == "down" then
             unit.direction.x = unit.direction.x + 1
+            if args.time  then
+                print("D: pressed Timestamp ", args.time)
+            end
         end
         if keyPressed == "d" and keyState == "up" then
             unit.direction.x = unit.direction.x - 1
+            if args.time  then
+                print("D: released Timestamp ", args.time)
+            end
         end
 
         -- S key
         if keyPressed == "s" and keyState == "down" then
             unit.direction.y = unit.direction.y - 1
+            if args.time  then
+                print("S: pressed Timestamp ", args.time)
+            end
         end
         if keyPressed == "s" and keyState == "up" then
             unit.direction.y = unit.direction.y + 1
+            if args.time  then
+                print("S: released Timestamp ", args.time)
+            end
         end
 
         -- A key
         if keyPressed == "a" and keyState == "down" then
             unit.direction.x = unit.direction.x - 1
+            if args.time  then
+                print("A: pressed Timestamp ", args.time)
+            end
         end
         if keyPressed == "a" and keyState == "up" then
             unit.direction.x = unit.direction.x + 1
+            if args.time  then
+                print("A: released Timestamp ", args.time)
+            end
         end
 
     end) -- end of MoveUnit listener

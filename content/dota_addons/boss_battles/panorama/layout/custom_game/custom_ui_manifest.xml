@@ -3,6 +3,7 @@
 		<include src="file://{resources}/scripts/custom_game/util.js" />
 		<include src="file://{resources}/scripts/custom_game/camera.js" />
 		<include src="file://{resources}/scripts/custom_game/ui_modify.js" />
+		<include src="file://{resources}/scripts/custom_game/player_movement.js" />
 	</scripts>
 
 	<styles>

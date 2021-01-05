@@ -279,48 +279,6 @@ function UseItem(itemSlot)
     }
 }
 
-
-// MOVEMENT: 
-function OnPressW(){
-    var heroIndex = Players.GetPlayerHeroEntityIndex(Players.GetLocalPlayer());
-    GameEvents.SendCustomGameEventToServer("MoveUnit", { entityIndex: heroIndex, direction: "up", keyPressed: "w", keyState: "down" });
-}
-
-function OnReleaseW(){
-    var heroIndex = Players.GetPlayerHeroEntityIndex(Players.GetLocalPlayer());
-    GameEvents.SendCustomGameEventToServer("MoveUnit", { entityIndex: heroIndex, direction: "up", keyPressed: "w",  keyState: "up" });
-}
-
-function OnPressD() {
-    var heroIndex = Players.GetPlayerHeroEntityIndex(Players.GetLocalPlayer());
-    GameEvents.SendCustomGameEventToServer("MoveUnit", { entityIndex: heroIndex, direction: "right", keyPressed: "d",  keyState: "down" });
-}
-
-function OnReleaseD() {
-    var heroIndex = Players.GetPlayerHeroEntityIndex(Players.GetLocalPlayer());
-    GameEvents.SendCustomGameEventToServer("MoveUnit", { entityIndex: heroIndex, direction: "right", keyPressed: "d",  keyState: "up" });
-}
-
-function OnPressS() {
-    var heroIndex = Players.GetPlayerHeroEntityIndex(Players.GetLocalPlayer());
-    GameEvents.SendCustomGameEventToServer("MoveUnit", { entityIndex: heroIndex, direction: "down", keyPressed: "s",  keyState: "down" });
-}
-
-function OnReleaseS() {
-    var heroIndex = Players.GetPlayerHeroEntityIndex(Players.GetLocalPlayer());
-    GameEvents.SendCustomGameEventToServer("MoveUnit", { entityIndex: heroIndex, direction: "down", keyPressed: "s",  keyState: "up" });
-}
-
-function OnPressA() {
-    var heroIndex = Players.GetPlayerHeroEntityIndex(Players.GetLocalPlayer());
-    GameEvents.SendCustomGameEventToServer("MoveUnit", { entityIndex: heroIndex, direction: "left", keyPressed: "a",  keyState: "down" });
-}
-
-function OnReleaseA() {
-    var heroIndex = Players.GetPlayerHeroEntityIndex(Players.GetLocalPlayer());
-    GameEvents.SendCustomGameEventToServer("MoveUnit", { entityIndex: heroIndex, direction: "left", keyPressed: "a",  keyState: "up" });
-}
-
 function OnPressQ() {
     //TryAddAbilityToQueue(2);
     ForceAddAbilityToQueue(2);
@@ -476,18 +434,6 @@ function Init()
     MouseInit()
 
     ProcessAbilityQueue();
-
-    Game.AddCommand( "+W", OnPressW, "", 0 );
-    Game.AddCommand( "-W", OnReleaseW, "", 0 );   
-
-    Game.AddCommand( "+A", OnPressA, "", 0 );
-    Game.AddCommand( "-A", OnReleaseA, "", 0 );   
-    
-    Game.AddCommand( "+S", OnPressS, "", 0 );
-    Game.AddCommand( "-S", OnReleaseS, "", 0 ); 
-
-    Game.AddCommand( "+D", OnPressD, "", 0 );
-    Game.AddCommand( "-D", OnReleaseD, "", 0 );
 
     // ability index in kv starts at 0... but says 1... dont be confused... :)
     // 1 
