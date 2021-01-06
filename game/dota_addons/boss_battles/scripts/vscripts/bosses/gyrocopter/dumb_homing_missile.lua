@@ -20,8 +20,10 @@ function dumb_homing_missile:OnSpellStart()
 		end
 	end		
 
-	--Add an entry to _G.ActiveHomingMissiles
+self.index = #_G.ActiveHomingMissiles
+
 	_G.ActiveHomingMissiles[#_G.ActiveHomingMissiles+1] = {}
+	--Add an entry to _G.ActiveHomingMissiles
 	_G.ActiveHomingMissiles[#_G.ActiveHomingMissiles].Rocket = self
 	_G.ActiveHomingMissiles[#_G.ActiveHomingMissiles].Enemy = self.target
 	_G.ActiveHomingMissiles[#_G.ActiveHomingMissiles].Location = shallowcopy(self.target:GetAbsOrigin())	

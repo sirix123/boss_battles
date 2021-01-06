@@ -66,7 +66,7 @@ function radar_scan:OnSpellStart()
 				local abilityToCast = caster:FindAbilityByName(_G.ScanAndCast) --e.g _G.ScanAndCast = "dumb_homing_missile"
 
 				--if homing_missiles:
-				if (_G.ScanAndCast == "dumb_homing_missile" or _G.ScanAndCast == "smart_homing_missile") then
+				if (_G.ScanAndCast == "dumb_homing_missile_v2" or _G.ScanAndCast == "smart_homing_missile_v2") then
 					_G.HomingMissileTargets[#_G.HomingMissileTargets+1] = {}
 					_G.HomingMissileTargets[#_G.HomingMissileTargets] = enemy	
 		

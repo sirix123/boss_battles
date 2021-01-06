@@ -63,7 +63,7 @@ function radar_pulse:OnSpellStart()
 				local abilityToCast = caster:FindAbilityByName(_G.PulseAndCast) --e.g _G.PulseAndCast = "dumb_homing_missile"
 
 				--if homing_missiles:
-				if (_G.PulseAndCast == "dumb_homing_missile" or _G.PulseAndCast == "smart_homing_missile") then
+				if (_G.PulseAndCast == "dumb_homing_missile_v2" or _G.PulseAndCast == "smart_homing_missile_v2") then
 					_G.HomingMissileTargets[#_G.HomingMissileTargets+1] = {}
 					_G.HomingMissileTargets[#_G.HomingMissileTargets] = enemy	
 

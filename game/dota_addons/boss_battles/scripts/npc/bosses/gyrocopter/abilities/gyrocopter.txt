@@ -85,25 +85,86 @@
         "AbilityCooldown"               "0.0"
         "AbilityManaCost"               "0"
     }
-    "dumb_homing_missile"
+    "dumb_homing_missile_v2"
     { 
         "BaseClass"                     "ability_lua"
-        "ScriptFile"                    "bosses/gyrocopter/dumb_homing_missile"
+        "ScriptFile"                    "bosses/gyrocopter/dumb_homing_missile_v2"
         "AbilityBehavior"               "DOTA_ABILITY_BEHAVIOR_NO_TARGET"
         "AbilityUnitDamageType"         "DAMAGE_TYPE_PHYSICAL"  
         "AbilityCastPoint"              "0.0"
         "AbilityCooldown"               "0.0"
         "AbilityManaCost"               "0"
+        "AbilitySpecial"
+        {
+            "01"
+            {
+                "var_type"       "FIELD_INTEGER"
+                "velocity"       "5 10 15"
+            }
+            "02"
+            {
+                "var_type"       "FIELD_FLOAT"
+                "acceleration"       "0.1 0.2 0.2"
+            }
+            "03"
+            {
+                "var_type"       "FIELD_INTEGER"
+                "damage"       "300 350 400"
+            }
+            "04"
+            {
+                "var_type"       "FIELD_INTEGER"
+                "aoe_radius"       "300 350 400"
+            }
+            "05"
+            {
+                "var_type"       "FIELD_INTEGER"
+                "detonation_radius"       "70"
+            }
+        }
     }
-    "smart_homing_missile"
+    "smart_homing_missile_v2"
     { 
         "BaseClass"                     "ability_lua"
-        "ScriptFile"                    "bosses/gyrocopter/smart_homing_missile"
+        "ScriptFile"                    "bosses/gyrocopter/smart_homing_missile_v2"
         "AbilityBehavior"               "DOTA_ABILITY_BEHAVIOR_NO_TARGET"
         "AbilityUnitDamageType"         "DAMAGE_TYPE_PHYSICAL"  
         "AbilityCastPoint"              "0.0"
         "AbilityCooldown"               "0.0"
         "AbilityManaCost"               "0"
+        "AbilitySpecial"
+        {
+            "01"
+            {
+                "var_type"       "FIELD_INTEGER"
+                "velocity"       "10"
+            }
+            "02"
+            {
+                "var_type"       "FIELD_FLOAT"
+                "acceleration"       "0.1 0.2 0.3"
+            }
+            "03"
+            {
+                "var_type"       "FIELD_INTEGER"
+                "damage"       "300"
+            }
+            "04"
+            {
+                "var_type"       "FIELD_INTEGER"
+                "aoe_radius"       "300"
+            }
+            "05"
+            {
+                "var_type"       "FIELD_INTEGER"
+                "detonation_radius"       "50"
+            }
+            "06"
+            {
+                "var_type"       "FIELD_FLOAT"
+                "update_interval"       "1 0.6 0.2"
+            } 
+        }
     }    
     "swoop"
     { 

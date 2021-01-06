@@ -26,8 +26,8 @@
 		"Ability3"					"radar_pulse"
 		"Ability4"					"tracking_beacon"
 
-		"Ability5"					"dumb_homing_missile"
-		"Ability6"					"smart_homing_missile"
+		"Ability5"					"dumb_homing_missile_v2"
+		"Ability6"					"smart_homing_missile_v2"
 
 		"Ability7"					"swoop"			
 		"Ability8"					"flee"
