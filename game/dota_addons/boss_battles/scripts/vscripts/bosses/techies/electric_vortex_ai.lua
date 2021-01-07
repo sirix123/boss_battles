@@ -15,7 +15,7 @@ function Spawn( entityKeyValues )
 	thisEntity:SetHullRadius(60)
 	
 	-- random start time 
-	thisEntity.random_start = RandomInt(5,29) -- dont make this higher then 29
+	thisEntity.random_start = RandomInt(10,29) -- dont make this higher then 29
 	thisEntity.count = thisEntity.random_start
 	StartTimer()
 
@@ -75,7 +75,7 @@ function ElectricTurretThink_v2()
 		thisEntity.return_value = 0.5
 	else
 		thisEntity.PHASE = 2
-		thisEntity.return_value = 0.5
+		thisEntity.return_value = 0.1
 	end
 
 	if thisEntity:HasModifier("modifier_electric_vortex_phase_change") then
@@ -123,6 +123,8 @@ function ElectricTurretThink_v2()
 			local sound_cast = "Hero_StormSpirit.ElectricVortexCast"
 			EmitGlobalSound( sound_cast )
 
+			thisEntity.rock = nil
+
 		end
 	end
 
@@ -130,43 +132,71 @@ function ElectricTurretThink_v2()
 	-- find units in line between self and player being dragged (update this a lot)
 	-- if a rock enters the line
 	-- the end of this line needs to be updateed and be the players location
-	if thisEntity.PHASE == 2 then 
+	if thisEntity.PHASE == 2 then
 		local targets_inline = FindUnitsInLine(
 			thisEntity:GetTeamNumber(),
 			thisEntity:GetAbsOrigin(),
 			thisEntity.randomTarget:GetAbsOrigin(),
 			nil,
 			100,
-			DOTA_UNIT_TARGET_TEAM_BOTH,
+			DOTA_UNIT_TARGET_TEAM_ENEMY,
 			DOTA_UNIT_TARGET_HERO + DOTA_UNIT_TARGET_BASIC,
 			DOTA_UNIT_TARGET_FLAG_INVULNERABLE)
 
 		-- check end of  line pos
 		--DebugDrawCircle(thisEntity.randomTarget:GetAbsOrigin(),Vector(255,0,0),128,100,true,2)
 
-		if targets_inline ~= nil and #targets_inline ~= 0 then
-			for _, unit in pairs(targets_inline) do
-				if unit:GetUnitName() == "npc_rock_techies" then
+		if thisEntity.rock == nil then
+			local previous_distance = 999999
+			-- remove non rocks
+			for k, unit in pairs(targets_inline) do
+				if unit:GetUnitName() ~= "npc_rock_techies" then
+					table.remove(targets_inline,k)
+				end
+			end
 
-					if thisEntity.randomTarget:HasModifier("modifier_electric_vortex") then
-						thisEntity.randomTarget:RemoveModifierByName("modifier_electric_vortex")
+			-- find the cloest rock
+			if targets_inline ~= nil and #targets_inline ~= 0 then
+				--print("rock found")
+				--print("#targets_inline, ",#targets_inline)
+				for _, unit in pairs(targets_inline) do
+					--print("unit name", unit:GetUnitName())
+					thisEntity.rock = unit
+					local distance = ( thisEntity:GetAbsOrigin() - unit:GetAbsOrigin() ):Length2D()
+					if distance < previous_distance then
+						thisEntity.rock = unit
 					end
+					previous_distance = distance
+				end
 
-					if unit:HasModifier("modifier_electric_vortex") == nil or unit:HasModifier("modifier_electric_vortex") == false then
-
-						--print("are we trying to apply this to the cube?")
-
-						unit:AddNewModifier(
-								thisEntity, -- player source
-								self, -- ability source
-								"modifier_electric_vortex", -- modifier name
-								{
-									duration = -1,
-									x = thisEntity:GetAbsOrigin().x,
-									y = thisEntity:GetAbsOrigin().y,
-								} -- kv
-							)
+				if thisEntity.randomTarget:HasModifier("modifier_electric_vortex") then
+					thisEntity.randomTarget:RemoveModifierByName("modifier_electric_vortex")
+					thisEntity.PHASE = 3
+					if thisEntity.particle then
+						ParticleManager:DestroyParticle(thisEntity.particle, true)
 					end
+				end
+
+				if thisEntity.rock:HasModifier("modifier_electric_vortex") == nil or thisEntity.rock:HasModifier("modifier_electric_vortex") == false then
+
+					--print("are we trying to apply this to the cube?")
+
+					thisEntity.rock:AddNewModifier(
+							thisEntity, -- player source
+							self, -- ability source
+							"modifier_electric_vortex", -- modifier name
+							{
+								duration = -1,
+								x = thisEntity:GetAbsOrigin().x,
+								y = thisEntity:GetAbsOrigin().y,
+							} -- kv
+						)
+
+				end
+			else
+				--print("no rock found")
+				if thisEntity.randomTarget:HasModifier("modifier_electric_vortex") ~= true then
+					thisEntity.PHASE = 3
 				end
 			end
 		end
@@ -175,7 +205,10 @@ function ElectricTurretThink_v2()
 	-- phase 3
 	-- reset a bunch of stuff
 	if thisEntity.PHASE == 3 then
-		thisEntity:RemoveModifierByName("modifier_electric_vortex_phase_change")
+		if thisEntity:HasModifier("modifier_electric_vortex_phase_change") then
+			thisEntity:RemoveModifierByName("modifier_electric_vortex_phase_change")
+		end
+
 		Timers:RemoveTimer(thisEntity.timer) -- remove the old timer for the count down
 		thisEntity.random_start = RandomInt(5,29) -- generate a new start time
 		thisEntity.count = thisEntity.random_start -- use this start time for timer

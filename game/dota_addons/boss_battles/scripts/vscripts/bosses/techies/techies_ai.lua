@@ -23,21 +23,15 @@ function Spawn( entityKeyValues )
     thisEntity.summon_electric_vortex_turret = thisEntity:FindAbilityByName( "summon_electric_vortex_turret" )
     thisEntity.summon_electric_vortex_turret:StartCooldown(60)
 
-    --thisEntity.sticky_bomb_fire = thisEntity:FindAbilityByName( "sticky_bomb_fire" )
-    --thisEntity.sticky_bomb_fire:StartCooldown(30)
-
     thisEntity.choking_gas = thisEntity:FindAbilityByName( "choking_gas" )
     thisEntity.choking_gas:StartCooldown(30)
 
     thisEntity.sticky_bomb = thisEntity:FindAbilityByName( "sticky_bomb" )
     thisEntity.sticky_bomb:StartCooldown(30)
 
-    -- divide map into 3x3 grid
-    thisEntity.tCenterGrid = GridifyMap()
-
     thisEntity.phase = 1
     thisEntity.next_mine_location = true
-    thisEntity.reset_grid = true
+    thisEntity.tCenterGrid = GridifyMap()
 
     thisEntity.guardIsDead = false
 
@@ -59,28 +53,10 @@ function TechiesThinker()
 		return 0.5
     end
 
-    --print("techies spawn)")
-
-    --thisEntity:AddNewModifier( nil, nil, "modifier_invisible", { duration = -1 } )
-
     -- reset grid / phase / prepare for another mine phase
-    if thisEntity.reset_grid == true then
-
+    if #thisEntity.tCenterGrid == 0 then
         thisEntity.tCenterGrid = GridifyMap()
-
-        local randomIndex = RandomInt(1, #thisEntity.tCenterGrid)
-
-        -- just copy paste this line to remove more grids from being mined
-        --table.remove(thisEntity.tCenterGrid, randomIndex)
-
-        thisEntity.reset_grid = false
     end
-
-    -- phase state check
-    --if thisEntity.tCenterGrid == nil or #thisEntity.tCenterGrid == 0 then
-        --print("moving to phase 2")
-        --thisEntity.phase = 2
-    --end
 
     --phase state check (check guard is dead)
     if thisEntity:HasModifier("modifier_invulnerable") == false then
@@ -96,8 +72,6 @@ function TechiesThinker()
         -- get a random grid location to mine
         if thisEntity.next_mine_location == true then
             thisEntity.randomIndex = RandomInt(1, #thisEntity.tCenterGrid)
-            --print("total grids ", #thisEntity.tCenterGrid)
-            --print("current mine index to lay ", thisEntity.randomIndex)
             thisEntity.locationToMine = thisEntity.tCenterGrid[thisEntity.randomIndex]
             thisEntity.next_mine_location = false
         end
@@ -106,22 +80,13 @@ function TechiesThinker()
         thisEntity:MoveToPosition( thisEntity.locationToMine )
 
         -- cast one of the bombs every CD
-        local randomBomb = RandomInt(1,2)
-        if thisEntity.choking_gas ~= nil and thisEntity.choking_gas:IsFullyCastable() and thisEntity.choking_gas:IsCooldownReady() and thisEntity.sticky_bomb ~= nil and thisEntity.sticky_bomb:IsFullyCastable() and thisEntity.sticky_bomb:IsCooldownReady() then
-            if randomBomb == 1 then
-                return CastFireBomb() -- is now choking gas
-            end
-            if randomBomb == 2 then
-                return CastBomb()
-            end
+        if thisEntity.sticky_bomb ~= nil and thisEntity.sticky_bomb:IsFullyCastable() and thisEntity.sticky_bomb:IsCooldownReady() then
+            return CastBomb()
         end
 
         -- cast other spells while we move
-        if thisEntity.blast_off ~= nil and thisEntity.blast_off:IsFullyCastable() and thisEntity.blast_off:IsCooldownReady() then
-            -- dont cast blast off if we are close to exploiding the mines
-            if #thisEntity.tCenterGrid > 2 then
-                return CastBlastOff()
-            end
+        if thisEntity.blast_off ~= nil and thisEntity.blast_off:IsFullyCastable() and thisEntity.blast_off:IsCooldownReady() and thisEntity.blast_off:IsInAbilityPhase() == false then
+            return CastBlastOff()
         end
 
         if thisEntity.summon_electric_vortex_turret ~= nil and thisEntity.summon_electric_vortex_turret:IsFullyCastable() and thisEntity.summon_electric_vortex_turret:IsCooldownReady() then
@@ -133,26 +98,13 @@ function TechiesThinker()
         if distance < 70 then
 
             -- cast clsuter mines x number of times
-            if thisEntity.cluster_mine_throw ~= nil and thisEntity.cluster_mine_throw:IsFullyCastable() and thisEntity.cluster_mine_throw:IsCooldownReady() then
+            if thisEntity.cluster_mine_throw ~= nil and thisEntity.cluster_mine_throw:IsFullyCastable() and thisEntity.cluster_mine_throw:IsCooldownReady() and thisEntity.cluster_mine_throw:IsInAbilityPhase() == false then
                 return CastClusterMines( thisEntity.locationToMine )
             end
 
-            -- remove loc from table
-            --print("removing index ", thisEntity.randomIndex)
-            --table.remove(thisEntity.tCenterGrid, thisEntity.randomIndex)
-
-            -- set next mine pos flag
+            table.remove(thisEntity.tCenterGrid, randomIndex)
             thisEntity.next_mine_location = true
 
-        end
-
-    end
-
-    if thisEntity.phase == 2 then
-
-        -- cast explode mines
-        if thisEntity.explode_proxy_mines ~= nil and thisEntity.explode_proxy_mines:IsFullyCastable() and thisEntity.explode_proxy_mines:IsCooldownReady() then
-            return CastExplodeMines()
         end
 
     end
@@ -209,21 +161,6 @@ function CastBlastOff(  )
 end
 --------------------------------------------------------------------------------
 
-function CastFireBomb(  )
-
-    --thisEntity:RemoveModifierByName("modifier_invisible")
-
-    ExecuteOrderFromTable({
-        UnitIndex = thisEntity:entindex(),
-        OrderType = DOTA_UNIT_ORDER_CAST_NO_TARGET,
-        AbilityIndex = thisEntity.choking_gas:entindex(),
-        Queue = false,
-    })
-
-    return 0.5
-end
---------------------------------------------------------------------------------
-
 function CastBomb(  )
 
     --thisEntity:RemoveModifierByName("modifier_invisible")
@@ -236,24 +173,6 @@ function CastBomb(  )
     })
 
     return 0.5
-end
---------------------------------------------------------------------------------
-
-function CastExplodeMines(  )
-
-    --thisEntity:RemoveModifierByName("modifier_invisible")
-
-    ExecuteOrderFromTable({
-        UnitIndex = thisEntity:entindex(),
-        OrderType = DOTA_UNIT_ORDER_CAST_NO_TARGET,
-        AbilityIndex = thisEntity.explode_proxy_mines:entindex(),
-        Queue = false,
-    })
-
-    thisEntity.phase = 1
-    thisEntity.reset_grid = true
-
-    return 10
 end
 --------------------------------------------------------------------------------
 

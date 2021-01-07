@@ -24,10 +24,10 @@ function summon_electric_vortex_turret:OnSpellStart()
 
         -- there are 4 lines cause square
         -- they are..
-        local left_side = Vector(8862,RandomInt(497,2929),0)
-        local right_side = Vector(11320,RandomInt(497,2929),0)
-        local top_side = Vector(RandomInt(8862,1132),2929,0)
-        local bottom_side = Vector(RandomInt(8862,1132),497,0)
+        local left_side = Vector(8862,RandomInt(497,2929),130)
+        local right_side = Vector(11320,RandomInt(497,2929),130)
+        local top_side = Vector(RandomInt(1132,8862),2929,130)
+        local bottom_side = Vector(RandomInt(1132,8862),497,130)
 
         local tSides = {left_side, right_side, top_side, bottom_side}
 

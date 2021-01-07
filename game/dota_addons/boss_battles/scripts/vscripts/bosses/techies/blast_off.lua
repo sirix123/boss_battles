@@ -70,7 +70,6 @@ function blast_off:OnSpellStart()
         self.fog_duration = 5
         self.radius_fog = 9000
         self.radius_dmg = 500
-        self.reduceFog = -4900
         self.damage = 400
 
         local nFXIndex = ParticleManager:CreateParticle( "particles/units/heroes/hero_techies/techies_blast_off_trail.vpcf", PATTACH_ABSORIGIN_FOLLOW, caster )
@@ -106,6 +105,38 @@ function blast_off:OnSpellStart()
 
         end)
 
+        Timers:CreateTimer(1.0, function()
+            -- fog of war
+            local unitsFog = FindUnitsInRadius(
+                self:GetCaster():GetTeamNumber(),	-- int, your team number
+                Vector(10126,1776,130),	-- point, center point self:GetCaster():GetAbsOrigin()
+                nil,	-- handle, cacheUnit. (not known)
+                self.radius_fog,	-- float, radius. or use FIND_UNITS_EVERYWHERE
+                DOTA_UNIT_TARGET_TEAM_ENEMY,
+                DOTA_UNIT_TARGET_ALL,
+                DOTA_UNIT_TARGET_FLAG_INVULNERABLE + DOTA_UNIT_TARGET_FLAG_DEAD,	-- int, flag filter
+                0,	-- int, order filter
+                false	-- bool, can grow cache
+            )
+
+            if unitsFog ~= nil and #unitsFog ~= 0 then
+                for _, unitFog in pairs(unitsFog) do
+                    if unitFog:GetUnitName() ~= "npc_rock_techies" then
+                        unitFog:AddNewModifier(
+                            self:GetCaster(), -- player source
+                            self, -- ability source
+                            "blast_off_fog_modifier", -- modifier name
+                            {
+                                duration = self.fog_duration,
+                            } -- kv
+                        )
+                    end
+                end
+            end
+
+            return false
+        end)
+
     end
 end
 ---------------------------------------------------------------------------------------------------------------------------------------
@@ -130,17 +161,17 @@ function blast_off:BlowUp()
 
         if units ~= nil and #units ~= 0 then
             for _, unit in pairs(units) do
+                if unit:GetUnitName() ~= "npc_rock_techies" then
+                    self.damageTable = {
+                        victim = unit,
+                        attacker = self:GetCaster(),
+                        damage = self.damage,
+                        damage_type = DAMAGE_TYPE_PHYSICAL,
+                        ability = self,
+                    }
 
-                self.damageTable = {
-                    victim = unit,
-                    attacker = self:GetCaster(),
-                    damage = self.damage,
-                    damage_type = DAMAGE_TYPE_PHYSICAL,
-                    ability = self,
-                }
-
-                ApplyDamage(self.damageTable)
-
+                    ApplyDamage(self.damageTable)
+                end
             end
         end
 
@@ -155,10 +186,10 @@ function blast_off:BlowUp()
         -- play sound
         EmitSoundOn( "Hero_Techies.Suicide", self:GetCaster() )
 
-        -- fog of war
+        --[[ fog of war
         local unitsFog = FindUnitsInRadius(
             self:GetCaster():GetTeamNumber(),	-- int, your team number
-            self:GetCaster():GetAbsOrigin(),	-- point, center point
+            Vector(10126,1776,130),	-- point, center point self:GetCaster():GetAbsOrigin()
             nil,	-- handle, cacheUnit. (not known)
             self.radius_fog,	-- float, radius. or use FIND_UNITS_EVERYWHERE
             DOTA_UNIT_TARGET_TEAM_ENEMY,
@@ -170,17 +201,19 @@ function blast_off:BlowUp()
 
         if unitsFog ~= nil and #unitsFog ~= 0 then
             for _, unitFog in pairs(unitsFog) do
-                unitFog:AddNewModifier(
-                    self:GetCaster(), -- player source
-                    self, -- ability source
-                    "blast_off_fog_modifier", -- modifier name
-                    {
-                        duration = self.fog_duration,
-                        reduceFog = self.reduceFog
-                    } -- kv
-                )
+                if unitFog:GetUnitName() ~= "npc_rock_techies" then
+                    unitFog:AddNewModifier(
+                        self:GetCaster(), -- player source
+                        self, -- ability source
+                        "blast_off_fog_modifier", -- modifier name
+                        {
+                            duration = self.fog_duration,
+                            reduceFog = self.reduceFog
+                        } -- kv
+                    )
+                end
             end
-        end
+        end]]
 
 
     end
@@ -196,7 +229,7 @@ function blast_off:SpawnCubes()
 
         for i = 1, nCubesToSpawn, 1 do 
             local mid_point = Vector(10126,1776,131)
-            local radius = 800
+            local radius = 1000
             local randomX = RandomInt(mid_point.x - radius, mid_point.x + radius)
             local randomY = RandomInt(mid_point.y - radius, mid_point.y + radius)
             table.insert(tCubes, Vector(randomX,randomY,131))
@@ -217,7 +250,7 @@ function blast_off:SpawnCubes()
 
             -- spawn rocks 
             for _, vCube in pairs(tCubes) do
-    
+
                 -- ground thing
                 self.nFXIndex = ParticleManager:CreateParticle( "particles/units/heroes/hero_visage/visage_summon_familiars.vpcf", PATTACH_WORLDORIGIN, nil )
                 ParticleManager:SetParticleControl(self.nFXIndex, 0, vCube)
@@ -232,7 +265,7 @@ function blast_off:SpawnCubes()
                 local particle = "particles/techies/etherial_targetglow_repeat.vpcf"
                 local nfx = ParticleManager:CreateParticle(particle, PATTACH_ABSORIGIN, obj)
                 ParticleManager:SetParticleControl(nfx, 1, obj:GetAbsOrigin())
-        
+
                 --- add direction to it
                 obj:SetForwardVector( Vector( RandomFloat(-1, 1) , RandomFloat(-1, 1), RandomFloat(-1, 1) ) )
 

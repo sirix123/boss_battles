@@ -67,15 +67,17 @@ function modifier_sticky_bomb:OnDestroy()
 		self.radius,
 		DOTA_UNIT_TARGET_TEAM_ENEMY,
 		DOTA_UNIT_TARGET_ALL,
-		0,	-- int, flag filter
+		DOTA_UNIT_TARGET_FLAG_INVULNERABLE,	-- int, flag filter
 		0,	-- int, order filter
 		false	-- bool, can grow cache
 	)
 
 	for _,enemy in pairs(enemies) do
 		self.damageTable.victim = enemy
-		self.damageTable.damage = self.damage/#enemies
-		ApplyDamage( self.damageTable )
+		self.damageTable.damage = self.damage/ (#enemies + 1)
+		if enemy:IsInvulnerable() == false then
+			ApplyDamage( self.damageTable )
+		end
 	end
 
 end
