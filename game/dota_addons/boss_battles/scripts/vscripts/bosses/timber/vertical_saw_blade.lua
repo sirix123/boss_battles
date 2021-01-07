@@ -60,7 +60,7 @@ function vertical_saw_blade:OnSpellStart()
 		self.caster = self:GetCaster()
         local origin = self.caster:GetAbsOrigin()
         local projectile_speed = 400--self:GetSpecialValueFor("projectile_speed")
-        self.radius = 200--self:GetSpecialValueFor( "radius" )
+        self.radius = 190--self:GetSpecialValueFor( "radius" )
         self.damage = 250--self:GetSpecialValueFor( "damage" )
 
         -- face center of the room

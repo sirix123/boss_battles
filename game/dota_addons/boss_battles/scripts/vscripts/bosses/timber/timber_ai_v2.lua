@@ -85,8 +85,8 @@ function TimberThink()
 		thisEntity.state = 2
 	elseif thisEntity.state == 2 and FindUnitsClose() == true then
 
-		-- start the CD on fireshell just incase he can cast it when the circle is tiny
-		thisEntity.fire_shell:StartCooldown(30)
+		-- start the CD on fireshell just incase he can cast it when the circle is tiny particles/units/heroes/hero_shredder/shredder_armor_lyr.vpcf
+		thisEntity.fire_shell:StartCooldown(35)
 
 		-- furion handler
 		--EmitGlobalSound("furion_furi_death_04")
