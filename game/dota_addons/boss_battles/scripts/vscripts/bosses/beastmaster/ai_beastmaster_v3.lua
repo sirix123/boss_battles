@@ -29,7 +29,7 @@ function Spawn( entityKeyValues )
 	thisEntity.summon_bear = thisEntity:FindAbilityByName( "summon_bear" )
 
 	thisEntity.summon_bird = thisEntity:FindAbilityByName( "summon_bird" )
-	thisEntity.summon_bird:StartCooldown(20)
+	thisEntity.summon_bird:StartCooldown(10)
 
 	thisEntity.summon_quillboar = thisEntity:FindAbilityByName( "summon_quillboar" )
 	thisEntity.summon_quillboar:StartCooldown(thisEntity.summon_quillboar:GetCooldown(thisEntity.summon_quillboar:GetLevel()))
@@ -75,7 +75,7 @@ function BeastmasterThink()
 		SummonBear()
 	end
 
-	if thisEntity.summon_bird:IsFullyCastable() and thisEntity.summon_bird:IsCooldownReady() and thisEntity:GetHealthPercent() < 85 then
+	if thisEntity.summon_bird:IsFullyCastable() and thisEntity.summon_bird:IsCooldownReady() and thisEntity:GetHealthPercent() < 95 then
 		SummonBird()
 	end
 

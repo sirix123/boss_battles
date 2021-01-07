@@ -24,7 +24,7 @@ function quilboar_puddle:OnAbilityPhaseStart()
 		self.stop_timer = false
 
 		ParticleManager:SetParticleControl(self.particleNfx , 0, Vector(0,0,0))
-		ParticleManager:SetParticleControl(self.particleNfx , 3, Vector(100,100,0)) -- line width
+		ParticleManager:SetParticleControl(self.particleNfx , 3, Vector(60,60,0)) -- line width
 		ParticleManager:SetParticleControl(self.particleNfx , 4, Vector(0,255,0)) -- colour
 
 		if self:GetCaster() ~= nil then

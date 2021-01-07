@@ -3,9 +3,16 @@ LinkLuaModifier("grab_player_modifier", "bosses/beastmaster/grab_player_modifier
 ---------------------------------------------------------------------------
 
 function grab_player:OnAbilityPhaseStart()
-	if IsServer() then
+    if IsServer() then
 
-        local units = FindUnitsInRadius(
+		self.vTargetPos = self:GetCursorTarget()
+ 		if self.vTargetPos == nil then
+ 			return false
+        end
+
+        return true
+
+        --[[local units = FindUnitsInRadius(
             self:GetCaster():GetTeamNumber(),	-- int, your team number
             self:GetCaster():GetAbsOrigin(),	-- point, center point
             nil,	-- handle, cacheUnit. (not known)
@@ -26,7 +33,7 @@ function grab_player:OnAbilityPhaseStart()
             self.target = units[random_unit]
 
             return true
-        end
+        end]]
     end
 end
 ---------------------------------------------------------------------------
@@ -38,6 +45,6 @@ function grab_player:OnSpellStart()
 
     -- sound
 	
-    self.target:AddNewModifier(self:GetCaster(), self, "grab_player_modifier", { duration= -1, })
+    self.vTargetPos:AddNewModifier(self:GetCaster(), self, "grab_player_modifier", { duration= -1, })
 end
 ---------------------------------------------------------------------------

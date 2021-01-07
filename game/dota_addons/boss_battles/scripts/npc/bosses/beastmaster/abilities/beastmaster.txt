@@ -179,7 +179,7 @@
         // Casting
         //-------------------------------------------------------------------------------------------------------------
         "AbilityCastRange"              "5000"
-        "AbilityCastPoint"              "1.5"
+        "AbilityCastPoint"              "2.0"
         
         // Time     
         //-------------------------------------------------------------------------------------------------------------
@@ -249,7 +249,7 @@
         
         // Time     
         //-------------------------------------------------------------------------------------------------------------
-        "AbilityCooldown"               "12"//"12" 3
+        "AbilityCooldown"               "10"//"12" 3
 
         // Cost
         //-------------------------------------------------------------------------------------------------------------
@@ -572,13 +572,16 @@
 
         // General
         //-------------------------------------------------------------------------------------------------------------
-        "AbilityBehavior"               "DOTA_ABILITY_BEHAVIOR_NO_TARGET"
+        "AbilityBehavior"               "DOTA_ABILITY_BEHAVIOR_UNIT_TARGET"
+        "AbilityUnitTargetTeam"         "DOTA_UNIT_TARGET_TEAM_ENEMY"
+        "AbilityUnitTargetType"         "DOTA_UNIT_TARGET_HERO | DOTA_UNIT_TARGET_BASIC"
         "AbilityUnitDamageType"         "DAMAGE_TYPE_PHYSICAL"  
+        "AbilityUnitTargetFlags"		"DOTA_UNIT_TARGET_FLAG_INVULNERABLE"
 
         // Casting
         //-------------------------------------------------------------------------------------------------------------
         "AbilityCastPoint"              "0.0 0.0 0.0 0.0"
-        "AbilityCastRange"              "300"
+        "AbilityCastRange"              "400"
 
         // Time     
         //-------------------------------------------------------------------------------------------------------------

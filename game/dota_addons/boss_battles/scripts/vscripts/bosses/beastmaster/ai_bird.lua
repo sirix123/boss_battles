@@ -234,7 +234,7 @@ function BirdThinker()
             end
 
             -- put the spell on CD
-            thisEntity.grab_player:StartCooldown(RandomInt(25,35))
+            thisEntity.grab_player:StartCooldown(25)
 
             -- return to phase 1
             thisEntity.PHASE = 1
@@ -247,11 +247,12 @@ function BirdThinker()
 end
 --------------------------------------------------------------------------------
 
-function CastGrab(  )
+function CastGrab( target )
 
     ExecuteOrderFromTable({
         UnitIndex = thisEntity:entindex(),
-        OrderType = DOTA_UNIT_ORDER_CAST_NO_TARGET,
+        OrderType = DOTA_UNIT_ORDER_CAST_TARGET, -- DOTA_UNIT_ORDER_CAST_TARGET DOTA_UNIT_ORDER_CAST_NO_TARGET
+        TargetIndex = target:entindex(),
         AbilityIndex = thisEntity.grab_player:entindex(),
         Queue = false,
     })
