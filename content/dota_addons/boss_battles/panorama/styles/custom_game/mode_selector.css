@@ -1,0 +1,161 @@
+.parent
+{
+  width:100%;
+  height:100%;
+}
+
+/* 'Mode Select' button
+=================================================================*/
+
+.HeroModeSelectorContainer {
+	width: 200px;
+	height: 150px;
+	horizontal-align: left;
+	margin-left: -1px;
+	margin-top: 50px;
+	flow-children: down;
+	background-color: #151515;
+	background-size: 100% 100%;
+	border-radius: 0px 12px 12px 0px;
+}
+
+.SelectorLabelContainer {
+	height: 25%;
+	width: 100%;
+	background-color: #151515;
+	background-size: 100% 100%;
+	border-radius: 0px 12px 12px 0px;
+}
+
+.ModeSelectorContainer {
+	horizontal-align: center;
+	vertical-align: center;
+	color: #fff;
+	font-size: 18px;
+	font-family: defaultFont;
+}
+
+#StoryModeButton {
+	height: 25%;
+	width: 100%;
+	box-shadow: fill #00000066 -4px -4px 8px 8px;
+	background-color: gradient( linear, 0% 0%, 0% 100%, from( #5AA15E ), to( #87d69533 ) );
+	background-image: url("s2r://panorama/images/backgrounds/background_play_button_large_2x_png.vtex");
+}
+
+#StoryModeButtonBtnTxt {
+	horizontal-align: center;
+	vertical-align: center;
+	color: #fff;
+	font-size: 18px;
+	font-family: defaultFont;
+}
+
+#StoryModeButton.disabled, #StoryModeButton.disabled:Hover {
+	background-color: gradient( linear, 0% 0%, 0% 100%, from( #9C9C9C ), to( #D1D1D133 ) );
+}
+
+#StoryModeButton:Hover {
+	background-color: gradient( linear, 0% 0%, 0% 100%, from( #6FDE75 ), to( #87d69533 ) );
+}
+
+#NormalModeButton {
+	height: 25%;
+	width: 100%;
+	box-shadow: fill #00000066 -4px -4px 8px 8px;
+	background-color: gradient( linear, 0% 0%, 0% 100%, from( #5AA15E ), to( #87d69533 ) );
+	background-image: url("s2r://panorama/images/backgrounds/background_play_button_large_2x_png.vtex");
+}
+
+#NormalModeButtonTxt {
+	horizontal-align: center;
+	vertical-align: center;
+	color: #fff;
+	font-size: 18px;
+	font-family: defaultFont;
+}
+
+#NormalModeButton.disabled, #NormalModeButton.disabled:Hover {
+	background-color: gradient( linear, 0% 0%, 0% 100%, from( #9C9C9C ), to( #D1D1D133 ) );
+}
+
+#NormalModeButton:Hover {
+	background-color: gradient( linear, 0% 0%, 0% 100%, from( #6FDE75 ), to( #87d69533 ) );
+}
+
+#HardModeButton {
+	height: 25%;
+	width: 100%;
+	box-shadow: fill #00000066 -4px -4px 8px 8px;
+	background-color: gradient( linear, 0% 0%, 0% 100%, from( #5AA15E ), to( #87d69533 ) );
+	background-image: url("s2r://panorama/images/backgrounds/background_play_button_large_2x_png.vtex");
+}
+
+#HardModeButtonTxt {
+	horizontal-align: center;
+	vertical-align: center;
+	color: #fff;
+	font-size: 18px;
+	font-family: defaultFont;
+}
+
+#HardModeButton.disabled, #HardModeButton.disabled:Hover {
+	background-color: gradient( linear, 0% 0%, 0% 100%, from( #9C9C9C ), to( #D1D1D133 ) );
+}
+
+#HardModeButton:Hover {
+	background-color: gradient( linear, 0% 0%, 0% 100%, from( #6FDE75 ), to( #87d69533 ) );
+}
+
+/* 'Mode Select' tooltips
+=================================================================*/
+
+#ToolTip{
+	width: 200px;
+	height: 150px;
+	margin-top: 50px;
+	margin-left: 250px;
+	background-color: #151515;
+	background-size: 100% 100%;
+	border-radius: 12px;
+}
+
+#ToolTipTxt {
+	horizontal-align: center;
+	vertical-align: bottom;
+	color: #fff;
+    font-size: 17px;
+    margin-top: 20px;
+    margin: 10px;
+    font-family: defaultFont;
+}
+
+.ToolTipInfo {
+	width: 20px;
+	height: 25px;
+	horizontal-align: right;
+	vertical-align: center;
+	color: #fff;
+	text-align: center;
+	font-size: 24px;
+	margin-right: 10px;
+	background-color: gradient( linear, 0% 0%, 0% 100%, from( #3553fa ), to( #8887d633 ) );
+	background-size: 100% 100%;
+	border-radius: 6px;
+	font-family: defaultFont;
+}
+
+.ToolTipInfoOpenToolTip {
+	width: 20px;
+	height: 25px;
+	horizontal-align: left;
+	vertical-align: top;
+	color: #fff;
+	text-align: center;
+	font-size: 24px;
+	margin: 10px;
+	background-color: gradient( linear, 0% 0%, 0% 100%, from( #3553fa ), to( #8887d633 ) );
+	background-size: 100% 100%;
+	border-radius: 6px;
+	font-family: defaultFont;
+}

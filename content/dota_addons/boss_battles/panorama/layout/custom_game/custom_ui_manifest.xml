@@ -18,6 +18,7 @@
 		<CustomUIElement type="Hud" 		layoutfile="file://{resources}/layout/custom_game/precache.xml" />
 		<CustomUIElement type="Hud" 		layoutfile="file://{resources}/layout/custom_game/raid_status.xml" /> 
 		<CustomUIElement type="Hud" 		layoutfile="file://{resources}/layout/custom_game/hero_selection.xml" />
+		<CustomUIElement type="Hud" 		layoutfile="file://{resources}/layout/custom_game/mode_selector.xml" />
 	</Panel>
 </root>
 

@@ -14,14 +14,15 @@ function CDOTA_BaseNPC:Initialize(data)
   self.animation_modifiers = {}
 
   self.playerId = self:GetPlayerID()
-  print("core functions self.playerId ", self.playerId)
 
   self.playerLives = BOSS_BATTLES_PLAYER_LIVES
   self.playerHP = 0
   self.playerEnergy = 0
   self.playerDmgDone = 0
 
-  self.playerName = ""
+  self.playerName = PlayerResource:GetPlayerName(self.playerId)
+  self.steamId = PlayerResource:GetSteamID(self.playerId)
+  self.class_name = ""
 
   self:SetHullRadius(50)
 

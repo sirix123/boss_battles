@@ -7,6 +7,22 @@ end
 function SessionManager:Init()
     self.attempt_tracker = 0
     self.session_data = {} -- made up of attempt data and...?
+
+    -- insert some stuff into the session ata
+    self.session_data["releaseNumber"] = nRELEASE_NUMBER
+    self.session_data["timeStamp"] = GetSystemDate() .. " " .. GetSystemTime()
+    if IsInToolsMode() == true then
+        self.session_data["testingMode"] = true
+    else
+        self.session_data["testingMode"] = bTESTING_MODE
+    end
+
+    if STORY_MODE == true then
+        self.session_data["mode"] = "storyMode"
+    elseif NORMAL_MODE == true then
+        self.session_data["mode"] = "normalMode"
+    end
+
     self.start_time = 0
     self.end_time = 0
 end
@@ -37,7 +53,13 @@ function SessionManager:StopRecordingAttempt( bBossKilled )
 
     -- individual player data
     for _, hero in pairs(HERO_LIST) do
-        self.player_data[hero.playerId] = hero
+        --self.player_data[hero.playerId] = hero
+        self.player_data[hero.playerId] = {}
+        self.player_data[hero.playerId].playerId = hero.playerId
+        self.player_data[hero.playerId].steamId = tostring(hero.steamId)
+        self.player_data[hero.playerId].className = tostring(hero.class_name)
+        self.player_data[hero.playerId].playerName = hero.playerName
+        self.player_data[hero.playerId].playerLives = hero.playerLives
     end
 
     -- add all the boss data to the boss table
@@ -52,7 +74,8 @@ function SessionManager:StopRecordingAttempt( bBossKilled )
     -- add attempt data to the session data
     self.session_data[self.attempt_tracker] = self.attempt_data
 
-    PrintTable(self.session_data)
+    --PrintTable(self.session_data)
+    print(dump(self.session_data))
 
 end
 ----------------------------------------
@@ -66,7 +89,6 @@ end
 
 -- send session data
 function SessionManager:SendSessionData()
-
-
+    WebApi:SaveSessionData( self.session_data )
 end
 ----------------------------------------

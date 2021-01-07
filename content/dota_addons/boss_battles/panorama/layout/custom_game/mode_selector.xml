@@ -1,0 +1,36 @@
+<root>
+	<styles>
+		<include src="file://{resources}/styles/custom_game/mode_selector.css" />
+	</styles>
+
+	<scripts>
+		<include src="file://{resources}/scripts/custom_game/mode_selector.js" />
+	</scripts>
+
+    <Panel hittest="false" class="parent">
+        <Panel id="HeroModeSelectorContainer" class="HeroModeSelectorContainer">
+            <Panel id="SelectorLabelContainer" class="SelectorLabelContainer">
+                <Label id="ModeSelectorContainer" class="ModeSelectorContainer" text="Pick Mode" />
+                <Label id="ToolTipInfo" class="ToolTipInfo" text="i" />
+            </Panel>
+            <Button id="StoryModeButton" >
+                <Label id="StoryModeButtonBtnTxt" text="Story mode" />
+                <Label id="ToolTipInfo" class="ToolTipInfo" text="i" />
+            </Button>
+            <Button id="NormalModeButton" >
+                <Label id="NormalModeButtonTxt" text="Normal Mode" />
+                <Label id="ToolTipInfo" class="ToolTipInfo" text="i" />
+            </Button>
+            <Button id="HardModeButton" >
+                <Label id="HardModeButtonTxt" text="Hard Mode" />
+                <Label id="ToolTipInfo" class="ToolTipInfo" text="i" />
+            </Button>
+        </Panel>
+
+        <Panel id="ToolTip" class="ToolTip"> 
+            <Label id="ToolTipTxt" text="ToolTipText" />
+            <Label id="ToolTipInfo" class="ToolTipInfoOpenToolTip" text="i" />
+        </Panel>
+    </Panel>
+
+</root>

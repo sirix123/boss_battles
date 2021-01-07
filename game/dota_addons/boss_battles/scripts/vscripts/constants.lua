@@ -28,4 +28,9 @@ _G.HERO_LIST = {}
 
 _G.STORY_MODE = true
 _G.NORMAL_MODE = false
+_G.HARD_MODE = false
 _G.DEBUG_MODE = false
+
+-- set before a release
+_G.bTESTING_MODE = true
+_G.nRELEASE_NUMBER = 0

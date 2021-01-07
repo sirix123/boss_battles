@@ -2,9 +2,9 @@ WebApi = WebApi or {}
 
 --local apiKey = "AIzaSyAgI1IFKJFjkgLzpjCT1OvHOjgEBeEc-Wo"
 --mitchdoran
-local firebaseUrl = "https://boss-battles-84094.firebaseio.com/" 
+--local firebaseUrl = "https://boss-battles-84094.firebaseio.com/" 
 --shared:
---local firebaseUrl = "https://boss-battles-209de.firebaseio.com/" 
+local firebaseUrl = "https://boss-battles-209de.firebaseio.com/" 
 
 
 function WebApi:SavePlayHistory(hero)
@@ -25,6 +25,22 @@ function WebApi:SavePlayHistory(hero)
 	data.ingame.classPlayed = heroname
 
 	self:PostPlayHistory(data)
+end
+
+function WebApi:SaveSessionData(data)
+
+	--local tTable = {}
+	--tTable["test"] = "hello workd"
+
+	local request = CreateHTTPRequestScriptVM("POST", firebaseUrl ..  "sessionData.json")
+	request:SetHTTPRequestRawPostBody("application/json", json.encode(data))
+      request:Send(function(response) 
+        if response.StatusCode == 200 then
+          print("POST request successfully sent")
+        else
+          print("POST request failed to send")
+        end
+      end)
 end
 
 

@@ -47,6 +47,7 @@ function GameSetup:OnStateChange()
     end
 
     if GameRules:State_Get() == DOTA_GAMERULES_STATE_HERO_SELECTION then
+        ModeSelector:Start()
         HeroSelection:Start()
     end
 
@@ -69,6 +70,11 @@ function GameSetup:OnNPCSpawned(keys)
     if npc:IsRealHero() == true then
         -- add grace period when respawning..
         npc:AddNewModifier( npc, nil, "modifier_grace_period", { duration = 3 } )
+
+        -- remove the death vision
+        if self.death_vision ~= nil then
+            RemoveFOWViewer(npc:GetTeamNumber(),self.death_vision)
+        end
     end
 
     if npc:GetUnitName() == "npc_dota_hero_wisp" then
@@ -86,6 +92,8 @@ function GameSetup:OnNPCSpawned(keys)
 
         npc:Initialize()
         player_frame_manager:RegisterPlayer(npc)
+
+	    npc.class_name = GetClassName(npc:GetUnitName())
 
         --print("on spanwed lives ", npc.playerLives )
 
@@ -118,7 +126,6 @@ function GameSetup:RegisterRaidWipe( )
                 --print("RegisterRaidWipe ", RAID_TABLES[BOSS_BATTLES_ENCOUNTER_COUNTER].name)
 
                 if self.bSessionManager_wipe == true then
-                    boss_frame_manager:StopUpdatingBossFrames()
                     self.bSessionManager_wipe = false
                     self.bBossKilled = false
                     SessionManager:StopRecordingAttempt( self.bBossKilled )
@@ -135,7 +142,7 @@ function GameSetup:RegisterRaidWipe( )
                             if STORY_MODE == true then -- infinte lives and stay on wiped encounter
                                 killedHero.playerLives = BOSS_BATTLES_PLAYER_LIVES
 
-                            elseif NORMAL_MODE == true then -- 3 lives, one earned for each player after a boss kill, if players all die to a boss reset back to the first boss
+                            elseif NORMAL_MODE == true or HARD_MODE == true then -- 3 lives, one earned for each player after a boss kill, if players all die to a boss reset back to the first boss
                                 killedHero.playerLives = BOSS_BATTLES_PLAYER_LIVES
                                 BOSS_BATTLES_ENCOUNTER_COUNTER = 2
 
@@ -159,7 +166,7 @@ function GameSetup:RegisterRaidWipe( )
                         self.player_deaths = {}
 
                         return false
-                    
+
                     end)
                 end
             end
@@ -193,10 +200,13 @@ function GameSetup:OnEntityKilled(keys)
 
         -- handles encounter/boss dying
         if npc:GetUnitName() == RAID_TABLES[BOSS_BATTLES_ENCOUNTER_COUNTER].boss then
-            boss_frame_manager:StopUpdatingBossFrames()
 
             self.bBossKilled = true
             SessionManager:StopRecordingAttempt( self.bBossKilled )
+
+            if npc:GetUnitName() == "npc_tinker" then
+                SessionManager:SendSessionData()
+            end
 
             -- repsawn deadplayers and reset lifes
             local isHeroAlive = false
@@ -211,11 +221,10 @@ function GameSetup:OnEntityKilled(keys)
                 if STORY_MODE == true then -- infinte lives and stay on wiped encounter
                     hero.playerLives = BOSS_BATTLES_PLAYER_LIVES
 
-                elseif NORMAL_MODE == true then -- 3 lives, one earned for each player after a boss kill, if players all die to a boss reset back to the first boss
+                elseif NORMAL_MODE == true or HARD_MODE == true then -- 3 lives, one earned for each player after a boss kill, if players all die to a boss reset back to the first boss
                     if hero.playerLives < 3 then
                         hero.playerLives = hero.playerLives + 1
                     end
-
                 elseif DEBUG_MODE == true then -- not sure yet
 
                 end
@@ -337,11 +346,10 @@ function GameSetup:ReadyupCheck() -- called from trigger lua file for activators
         self.boss_spawn = Entities:FindByName(nil, self.boss_arena_name):GetAbsOrigin()
         self.player_spawn = Entities:FindByName(nil, self.player_arena_name):GetAbsOrigin()
 
-        for _,hero in pairs(heroes) do
-            if hero:GetUnitName() ~= "npc_dota_hero_phantom_assassin" then
-                hero:SetMana(0)
-            end
-            FindClearSpaceForUnit(hero, self.player_spawn, true)
+        self:HeroCheck() -- removes mana, removes dagger from rogue etc
+
+        for _,hero in pairs(HERO_LIST) do
+            FindClearSpaceForUnit(hero, self.player_spawn, true) -- spawn players in the arena
         end
 
         -- spawn boss
@@ -399,7 +407,7 @@ function GameSetup:HeroKilled( keys )
             killedHero.nRespawnFX = ParticleManager:CreateParticle( "particles/items_fx/aegis_timer.vpcf", PATTACH_ABSORIGIN_FOLLOW, killedHero )
             ParticleManager:SetParticleControl( killedHero.nRespawnFX, 1, Vector( BOSS_BATTLES_RESPAWN_TIME, 0, 0 ) )
 
-            AddFOWViewer( killedHero:GetTeamNumber(), killedHero:GetAbsOrigin(), 5000.0, 5, false )
+            self.death_vision = AddFOWViewer( killedHero:GetTeamNumber(), killedHero:GetAbsOrigin(), 5000.0, 999, true )
         end
     end
 
@@ -450,4 +458,38 @@ function GameSetup:EncounterCleanUp( origin )
     end
 end
 -----------------------------------------------------------------------------------------------------
+
+function GameSetup:HeroCheck()
+
+    -- fix up each hero depending on what they need
+    for _,hero in pairs(HERO_LIST) do
+
+        -- general clean (find all abilities that a hero has and end their cooldowns and set hero hp to full)
+        if hero:GetUnitName() ~= "npc_dota_hero_phantom_assassin" then
+            hero:SetMana(0)
+        end
+
+        -- rogue clean
+        if hero:GetUnitName() == "npc_dota_hero_phantom_assassin" then
+            -- find the dagger if it exists and remove it.... ability will it get stuck? move the dagger to the player spawn?
+            local units = FindUnitsInRadius( DOTA_TEAM_GOODGUYS, hero:GetAbsOrigin(), nil, FIND_UNITS_EVERYWHERE, DOTA_UNIT_TARGET_TEAM_BOTH, DOTA_UNIT_TARGET_HERO + DOTA_UNIT_TARGET_BASIC, DOTA_UNIT_TARGET_FLAG_INVULNERABLE + DOTA_UNIT_TARGET_FLAG_MAGIC_IMMUNE_ENEMIES, FIND_ANY_ORDER, false)
+            for _,unit in pairs(units) do
+                if unit:GetUnitName() == "npc_shadow" then
+                    unit:SetAbsOrigin(self.player_spawn)
+                end
+            end
+        end
+
+        -- ice mage clean
+        if hero:GetUnitName() == "npc_dota_hero_crystal_maiden" then
+            if hero:HasModifier("bonechill_modifier") then
+                hero:RemoveModifierByName("bonechill_modifier")
+            end
+            if hero:HasModifier("shatter_modifier") then
+                hero:RemoveModifierByName("shatter_modifier")
+            end
+        end
+
+    end
+end
 
