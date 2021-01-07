@@ -204,7 +204,7 @@ function ClockThink()
 		return CastChainGunTurret()
 	end
 
-	if thisEntity.cogs:IsFullyCastable() and thisEntity.cogs:IsCooldownReady() then
+	if thisEntity.cogs:IsFullyCastable() and thisEntity.cogs:IsCooldownReady() and thisEntity.cast_cogs == false then
 		return CastCogs()
 	end
 
@@ -362,20 +362,49 @@ end
 --------------------------------------------------------------------------------
 
 function CastCogs()
-	ExecuteOrderFromTable({
-		UnitIndex = thisEntity:entindex(),
-		OrderType = DOTA_UNIT_ORDER_CAST_NO_TARGET,
-		AbilityIndex = thisEntity.cogs:entindex(),
-		Queue = 0,
-	})
 
-	thisEntity.cast_cogs = true
+	thisEntity.count = 5
+	Timers:CreateTimer(function()
 
-	if thisEntity:HasModifier("armor_buff_modifier") == true then
-		thisEntity.hBuff:SetStackCount(0)
-	end
+		if thisEntity:IsAlive() == nil or thisEntity:IsAlive() == false then
+			ParticleManager:DestroyParticle(thisEntity.particle, true)
+			return false
+		end
 
-	return thisEntity.loop * thisEntity.interval
+		if thisEntity.count == 0 then
+
+			ParticleManager:DestroyParticle(thisEntity.particle, true)
+
+			ExecuteOrderFromTable({
+				UnitIndex = thisEntity:entindex(),
+				OrderType = DOTA_UNIT_ORDER_CAST_NO_TARGET,
+				AbilityIndex = thisEntity.cogs:entindex(),
+				Queue = 0,
+			})
+
+			thisEntity.cast_cogs = true
+
+			if thisEntity:HasModifier("armor_buff_modifier") == true then
+				thisEntity.hBuff:SetStackCount(0)
+			end
+
+			return false
+		end
+
+		if thisEntity.particle then
+			ParticleManager:DestroyParticle(thisEntity.particle, true)
+		end
+
+		thisEntity.particle = ParticleManager:CreateParticle("particles/clock/clock_wisp_relocate_timer_custom.vpcf", PATTACH_OVERHEAD_FOLLOW, thisEntity)
+		ParticleManager:SetParticleControl(thisEntity.particle, 0, thisEntity:GetAbsOrigin())
+		ParticleManager:SetParticleControl(thisEntity.particle, 1, Vector( 0, thisEntity.count, 0 ))
+		thisEntity.count = thisEntity.count - 1
+
+		return 1
+
+	end)
+
+	return ( thisEntity.loop * thisEntity.interval ) + 1
 end
 --------------------------------------------------------------------------------
 

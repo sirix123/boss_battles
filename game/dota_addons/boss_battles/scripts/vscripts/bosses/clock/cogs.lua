@@ -12,7 +12,7 @@ function cogs:OnAbilityPhaseStart()
             self:GetCaster():EmitSound("rattletrap_ratt_ability_cogs_"..sound_random)
         end
 
-        local radius = 500
+        local radius = 900
         self.nPreviewFXIndex = ParticleManager:CreateParticle( "particles/econ/events/darkmoon_2017/darkmoon_calldown_marker.vpcf", PATTACH_CUSTOMORIGIN, nil )
         ParticleManager:SetParticleControl( self.nPreviewFXIndex, 0, self:GetCaster():GetAbsOrigin() )
         ParticleManager:SetParticleControl( self.nPreviewFXIndex, 1, Vector( radius, -radius, -radius ) )
@@ -41,7 +41,7 @@ function cogs:OnSpellStart()
         local vCaster = caster:GetAbsOrigin()
 
         local nCogs = 8
-        local nCogRadius = 500
+        local nCogRadius = 900
         local vCogSpawn = GetGroundPosition(vCaster + Vector(0, nCogRadius, 0), nil)
         local tCogs = {}
 
@@ -53,11 +53,8 @@ function cogs:OnSpellStart()
 
         for i = 1, nCogs do
 
-            -- play particle effect
-
-
             -- create cog
-            local cog = CreateUnitByName("npc_cog", vCogSpawn, false, caster, caster, caster:GetTeamNumber())
+            local cog = CreateUnitByName("npc_cog", vCogSpawn, true, caster, caster, caster:GetTeamNumber())
 
             -- set cog hull radius
             cog:SetHullRadius(150)
@@ -79,7 +76,7 @@ function cogs:OnSpellStart()
 
         end
 
-        -- find everyone within or on the cogs radius and pull them into the centre
+        --[[ find everyone within or on the cogs radius and pull them into the centre
         local units = FindUnitsInRadius(caster:GetTeamNumber(), caster:GetAbsOrigin(), nil, nCogRadius + 100, DOTA_UNIT_TARGET_TEAM_BOTH, DOTA_UNIT_TARGET_HERO + DOTA_UNIT_TARGET_CREEP, DOTA_UNIT_TARGET_FLAG_MAGIC_IMMUNE_ENEMIES + DOTA_UNIT_TARGET_FLAG_INVULNERABLE, FIND_ANY_ORDER, false)
         for _, unit in pairs(units) do
             if (unit:GetAbsOrigin() - caster:GetAbsOrigin()):Length2D() <= nCogRadius then
@@ -91,13 +88,13 @@ function cogs:OnSpellStart()
             else
                 FindClearSpaceForUnit(unit, unit:GetAbsOrigin(), false)
             end
-        end
+        end]]
 
-        -- apply link, create a box, link one cog to another
-        -- not sure if we need this tbh... cause the player want to be inside and fragging boss
-        for _, hCog in pairs(tCogs) do
+        -- play particle effect (around clock centrally cause getting close to him is death)
+        self.particle_shell = ParticleManager:CreateParticle("particles/clock/clock_dark_seer_ion_shell.vpcf", PATTACH_POINT_FOLLOW, self:GetCaster())
+        ParticleManager:SetParticleControlEnt(self.particle_shell, 0, self:GetCaster(), PATTACH_POINT_FOLLOW, "attach_hitloc", self:GetCaster():GetAbsOrigin(), true)
+        ParticleManager:SetParticleControl(self.particle_shell, 1, Vector(200, 200, 200))
 
-        end
 
         -- link boss to a cog, then rotate through the cogs every 1 second
         local loopTick = 1 -- total spell duration
@@ -114,6 +111,8 @@ function cogs:OnSpellStart()
             end
 
             if loopTick >= totalTicks then
+
+                ParticleManager:DestroyParticle(self.particle_shell, true)
 
                 self:GetCaster():RemoveGesture(ACT_DOTA_GENERIC_CHANNEL_1)
 
