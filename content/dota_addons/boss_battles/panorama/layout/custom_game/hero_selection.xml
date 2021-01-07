@@ -46,22 +46,6 @@
 
 		<DOTAScenePanel id="PickingScreenScene" hittest="true" light="light" camera="camera1" map="backgrounds/background" particleonly="false"/>
 
-		<Panel id="HeroModeSelectorContainer" class="HeroModeSelectorContainer">
-			<Panel id="SelectorLabelContainer" class="SelectorLabelContainer">
-				<Label id="ModeSelectorContainer" class="ModeSelectorContainer" text="Select Mode" />
-			</Panel>
-			<Button id="StoryModeButton" >
-				<Label id="StoryModeButtonBtnTxt" text="Story mode" />
-			</Button>
-			<Button id="NormalModeButton" >
-				<Label id="NormalModeButtonTxt" text="Normal Mode" />
-			</Button>
-		</Panel>
-
-		<Panel id="ToolTip" class="ToolTip"> 
-			<Label id="ToolTipTxt" text="ToolTipText" />
-		</Panel>
-
 		<!-- Pick list (showing options) | Row 1 |  style="border: 1px solid red;" 
 		=========================================-->
 			<Panel id="PickListRowOne" >

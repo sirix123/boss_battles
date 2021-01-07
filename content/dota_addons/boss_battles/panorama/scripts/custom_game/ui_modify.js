@@ -59,10 +59,15 @@ function ModifyHotkeyBox(top_panel) {
 }
 
 function ModifyHotkeyText(top_panel, abilityName, text){
-    var abilityPanel = top_panel.FindChildTraverse(abilityName);
-    var hotkey = abilityPanel.FindChildTraverse("HotkeyText");
-   
+    
+    if(top_panel){
+        var abilityPanel = top_panel.FindChildTraverse(abilityName);
+    }
 
+    if (abilityPanel){
+        var hotkey = abilityPanel.FindChildTraverse("HotkeyText");
+    }
+   
     if(hotkey){
         hotkey.text = text;
         hotkey.GetParent().visible = true;
@@ -122,7 +127,7 @@ function Init(){
     ModifyHotkeyBoxes(top_panel);
     HideDefaults();
     HideOther(top_panel);
-    ModifyPlayers(top_panel);
+    //ModifyPlayers(top_panel);
 
 }
 

@@ -62,6 +62,8 @@ function SelectHero( heroName, containerPanel ) {
 
 		// tells lua the local player has selected a hero
 		GameEvents.SendCustomGameEventToServer( "hero_selected", { HeroName: heroName } );
+	}else{
+		$.Msg("[SelectHero - Error] hero is not in the list ",heroName)
 	}
 }
 
@@ -105,9 +107,10 @@ function PlayerPicked( player, hero ) {
 
 	// loop ovr all the hero frame panels and check it against the hero name from lua
 	for (let i=0; i < heroes.length; i++){
-		var heroFrame = heroFramePanels[i];
+		let heroFrame = heroFramePanels[i];
 
 		// if the names match disable that portrait
+		$.Msg("heroFrame.id, ",heroFrame.id)
 		if ( heroFrame.id == hero ) {
 			
 			// find the portait image and grey out
@@ -126,7 +129,8 @@ function PlayerPicked( player, hero ) {
 			heroPickButton.ClearPanelEvent( 'onactivate' )
 
 			// remove hero from the heroes array
-			heroes.splice(i, 1);
+			//heroes.splice(i, 1);
+			delete heroes[i]
 			$.Msg("heroes ",heroes)
 			
 		}
@@ -242,81 +246,12 @@ let PedRowContainer = $("#PedList");
 		// need to store this as a variable using let for some js reason 
 		let hero = heroes[i]
 		heroImage.SetPanelEvent( 'onactivate', function () {
+			$.Msg("heroImage.SetPanelEvent ",hero)
 			SelectHero( hero, containerPanel )
 		});
 
 		//store this panel to update it later.
 		heroFramePanels[i] = containerPanel
-	}
-
-	/* MODE SELECTOR CODE EVENTUALLY MOVE TO ANOTHER FILE */
-	let modeSelectorContainer = $("#HeroModeSelectorContainer"); // mode selector handler
-	let normalModeButton = modeSelectorContainer.FindChildInLayoutFile("NormalModeButton") // nomral mode button
-	let storyModeButton = modeSelectorContainer.FindChildInLayoutFile("StoryModeButton") // story mode button
-	let modeLabel = modeSelectorContainer.FindChildInLayoutFile("SelectorLabelContainer") // mode label / container
-	
-	// find the tooltip panel and hide it
-	let toolTipContainer = $("#ToolTip");
-	toolTipContainer.style.visibility = 'collapse';
-
-	//$.Msg("Players.GetLocalPlayer() ",Players.GetLocalPlayer())
-	if ( Players.GetLocalPlayer() == 0 ){
-
-		// mode label / container
-		modeLabel.SetPanelEvent( 'onmouseover', function () {
-			$.Msg("modeLabel-hover-on")
-			toolTipContainer.style.visibility = 'visible';
-		});
-
-		modeLabel.SetPanelEvent( 'onmouseout', function () {
-			$.Msg("modeLabel-hover-off")
-			toolTipContainer.style.visibility = 'collapse';
-		});
-		 
-		// story mode button
-		storyModeButton.SetPanelEvent( 'onmouseover', function () {
-			$.Msg("storyModeButton-hover-on")
-			toolTipContainer.style.visibility = 'visible';
-			var tooltipText = toolTipContainer.FindChildInLayoutFile("ToolTipTxt")
-			tooltipText.text = "123"
-		});
-
-		storyModeButton.SetPanelEvent( 'onmouseout', function () {
-			$.Msg("storyModeButton-hover-off")
-			toolTipContainer.style.visibility = 'collapse';
-		});
-		
-		storyModeButton.SetPanelEvent( 'onactivate', function () {
-			$.Msg("storyModeButton")
-			//GameEvents.SendCustomGameEventToServer( "mode_selected", { Mode: "StoryMode" } );
-			storyModeButton.AddClass( "disabled" );
-			normalModeButton.AddClass( "disabled" );
-			normalModeButton.ClearPanelEvent( 'onactivate' )
-			storyModeButton.ClearPanelEvent( 'onactivate' )
-		});
-
-		// nomral mode button
-		normalModeButton.SetPanelEvent( 'onmouseover', function () {
-			$.Msg("normalModeButton-hover-on")
-			toolTipContainer.style.visibility = 'visible';
-		});
-
-		normalModeButton.SetPanelEvent( 'onmouseout', function () {
-			$.Msg("normalModeButton-hover-off")
-			toolTipContainer.style.visibility = 'collapse';
-		});
-
-		normalModeButton.SetPanelEvent( 'onactivate', function () {
-			$.Msg("normalModeButton")
-			//GameEvents.SendCustomGameEventToServer( "mode_selected", { Mode: "NormalMode" } );
-			storyModeButton.AddClass( "disabled" );
-			normalModeButton.AddClass( "disabled" );
-			normalModeButton.ClearPanelEvent( 'onactivate' )
-			storyModeButton.ClearPanelEvent( 'onactivate' )
-		});
-
-	}else{
-
 	}
 
 })();

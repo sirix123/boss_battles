@@ -36,6 +36,9 @@ function bossFrameUpdate( table_name, key, data )
     {
         if (bossFrameContainer)
         {
+
+            //$.Msg("data ",data)
+
             var containerPanel = $.CreatePanel("Panel", bossFrameContainer, data);
             containerPanel.BLoadLayoutSnippet("BossFrame");
 
@@ -49,6 +52,7 @@ function bossFrameUpdate( table_name, key, data )
 
             //update hp bar 
             if ( show_health_bar != false ) {
+                healthBar.style.visibility = 'visible';
                 var bossHealthLabel = $("#BossHealthLabel")
                 var bossHealthProgressLeft = $("#BossHealthProgressLeft")
                 var bossHealthProgressRight = $("#BossHealthProgressRight")
@@ -57,11 +61,13 @@ function bossFrameUpdate( table_name, key, data )
                 bossHealthProgressRight.style.width = hpGone+"%"
                 bossHealthLabel.text = data["hpPercent"] + "%"
             } else if ( show_health_bar == false) {
-                healthBar.RemoveAndDeleteChildren()
+                //healthBar.RemoveAndDeleteChildren()
+                healthBar.style.visibility = 'collapse';
             }
 
             //update mana bar
             if ( show_mana_bar != false ) {
+                manaBar.style.visibility = 'visible';
                 var bossManaLabel = $("#BossManaLabel")
                 var bossManaProgressLeft = $("#BossManaProgressLeft")
                 var bossManaProgressRight = $("#BossManaProgressRight")
@@ -70,7 +76,8 @@ function bossFrameUpdate( table_name, key, data )
                 bossManaProgressRight.style.width = mpGone+"%"
                 bossManaLabel.text = data["mpPercent"]+"%"
             } else if ( show_mana_bar == false) {
-                manaBar.RemoveAndDeleteChildren()
+                //manaBar.RemoveAndDeleteChildren()
+                manaBar.style.visibility = 'collapse';
             }
 
             //update status/buff/debuffs bar
@@ -173,7 +180,9 @@ function updatePlayerFrames(data)
         var playerFrame = playerFramePanels[i]
 
         var pNameLabel = playerFrame.FindChildTraverse("PlayerNameLabel")
-        pNameLabel.text = playerData["playerName"]
+        var playerName = playerData["playerName"]
+        var subString = playerName.substring(0,14)
+        pNameLabel.text = subString
 
         var heroImage = playerFrame.FindChildTraverse("HeroImage")
         heroImage.heroname = playerData["className"]
