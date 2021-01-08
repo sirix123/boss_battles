@@ -1,4 +1,11 @@
 techies_ai = class({})
+LinkLuaModifier( "red_cube_modifier", "bosses/techies/red_cube_modifier", LUA_MODIFIER_MOTION_NONE )
+LinkLuaModifier( "blue_cube_modifier", "bosses/techies/blue_cube_modifier", LUA_MODIFIER_MOTION_NONE )
+LinkLuaModifier( "blue_cube_diffuse_thinker", "bosses/techies/blue_cube_diffuse_thinker", LUA_MODIFIER_MOTION_NONE )
+LinkLuaModifier( "red_cube_diffuse_thinker", "bosses/techies/red_cube_diffuse_thinker", LUA_MODIFIER_MOTION_NONE )
+
+LinkLuaModifier( "red_cube_diffuse_modifier", "bosses/techies/red_cube_diffuse_thinker", LUA_MODIFIER_MOTION_NONE )
+LinkLuaModifier( "blue_cube_diffuse_modifier", "bosses/techies/red_cube_diffuse_thinker", LUA_MODIFIER_MOTION_NONE )
 
 --------------------------------------------------------------------------------
 
@@ -34,6 +41,8 @@ function Spawn( entityKeyValues )
 
     thisEntity.guardIsDead = false
 
+    thisEntity.phase_2_count = 0
+
     thisEntity:SetHullRadius(80)
 
     thisEntity:SetContextThink( "TechiesThinker", TechiesThinker, 0.5 )
@@ -52,11 +61,15 @@ function TechiesThinker()
 		return 0.5
     end
 
+    print("thisEntity.phase ",thisEntity.phase)
+
     -- reset grid / phase / prepare for another mine phase
     if #thisEntity.tCenterGrid == 0 then
+        print("#thisEntity.tCenterGrid", #thisEntity.tCenterGrid)
         thisEntity.tCenterGrid = GridifyMap()
 
         -- bomb diffuse intermission phase
+        thisEntity.phase = 2
     end
 
     --phase state check (check guard is dead)
@@ -108,6 +121,65 @@ function TechiesThinker()
 
         end
 
+    end
+
+    if thisEntity.phase == 2  then
+        if thisEntity.phase_2_count == 3 then thisEntity.phase = 1 return 0.5 end
+
+        -- play voiceline
+        if thisEntity.phase_2_count == 0 then
+            EmitGlobalSound("rubick_rub_arc_begin_01")
+        end
+        if thisEntity.phase_2_count == 1 then
+            EmitGlobalSound("rubick_rub_arc_cast_01")
+        end
+        if thisEntity.phase_2_count == 2 then
+            EmitGlobalSound("rubick_rub_arc_cast_03")
+        end
+
+        local bomb_duration = 10
+
+        -- copy the hero list
+        local techies_hero_list = HERO_LIST
+
+        if #techies_hero_list ~= 4 then
+            thisEntity.phase = 1
+            return 0.5
+        end
+
+        local random_diffuse_locations ={
+            Vector(8996,572,130),
+            Vector(10001,1214,130),
+            Vector(10568,699,130),
+            Vector(11102,2191,130),
+            Vector(9949,2763,130),
+            Vector(8973,2094,130),
+        }
+
+        -- apply bomb to first player         -- apply red cube
+        local randomIndex = RandomInt(1, #techies_hero_list)
+        techies_hero_list[randomIndex]:AddNewModifier(thisEntity, nil,  "red_cube_modifier", {duration = bomb_duration}) -- applies bomb and reduces vision
+        table.remove(techies_hero_list,randomIndex)
+
+        -- apply bomb to second player         -- apply yellow cube
+        randomIndex = RandomInt(1, #techies_hero_list)
+        techies_hero_list[randomIndex]:AddNewModifier(thisEntity, nil,  "blue_cube_modifier", {duration = bomb_duration}) -- applies bomb and reduces vision
+        table.remove(techies_hero_list,randomIndex)
+
+        -- apply diffuse mechanic to third player -- create red arrow for player
+        randomIndex = RandomInt(1, #techies_hero_list)
+        local randomLocationindex = RandomInt(1, #random_diffuse_locations)
+        CreateModifierThinker(thisEntity, nil, "red_cube_diffuse_thinker", {duration = bomb_duration, player = techies_hero_list[randomIndex]}, random_diffuse_locations[randomLocationindex], thisEntity:GetTeamNumber(), false)
+        table.remove(techies_hero_list,randomIndex)
+        table.remove(random_diffuse_locations,randomLocationindex)
+
+        -- apply diffuse mechanic to fourth player -- create blue arrow for player
+        randomIndex = RandomInt(1, #techies_hero_list)
+        CreateModifierThinker(thisEntity, nil, "blue_cube_diffuse_thinker", {duration = bomb_duration, player = techies_hero_list[randomIndex]}, random_diffuse_locations[RandomInt(1, #random_diffuse_locations)], thisEntity:GetTeamNumber(), false)
+        table.remove(techies_hero_list,randomIndex)
+
+        thisEntity.phase_2_count = thisEntity.phase_2_count + 1
+        return bomb_duration + 1 -- bomb duration
     end
 
     if thisEntity.phase == 3 then
