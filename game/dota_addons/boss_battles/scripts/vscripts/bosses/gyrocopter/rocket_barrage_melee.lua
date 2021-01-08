@@ -29,10 +29,13 @@ function rocket_barrage_melee:OnSpellStart()
 	--Run a timer for spellDuration
 	local tickCount = 0
 	Timers:CreateTimer(function()	
+
+
 		tickCount = tickCount + 1
 
 		--check if we've reached the end of the spell
 		if tickCount >= tickLimit then 
+
 			_G.IsGyroBusy = false
 			return
 		 end

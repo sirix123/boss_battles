@@ -2,13 +2,14 @@ barrage_radius_ranged = class({})
 
 --Rocket barrage targets all enemies in the radius and distributes tickDamage amongst them every tickDuration.
 function barrage_radius_ranged:OnSpellStart()
-	--print("barrage_radius_ranged:OnSpellStart()")
-
+	_G.IsGyroBusy = true
 	local caster = self:GetCaster()
+
 	local barrage_radius_attack = caster:FindAbilityByName("barrage_radius_attack")
+	local barrage_radius_melee = caster:FindAbilityByName("barrage_radius_melee")
 	local barrage = caster:FindAbilityByName("barrage")
 
-	local duration = barrage:GetSpecialValueFor("duration")
+	local duration = barrage:GetSpecialValueFor("duration")/2 --because this duration comes from barrage, half it for this half (melee/ranged) of the ability
 	local totalDamage = barrage:GetSpecialValueFor("total_damage")
 	local radius = barrage:GetSpecialValueFor("melee_radius")  -- hit every unit beyond this radius. ignore units within this radius
 	local maxRadius = 4000 -- big enough to cover whole arena, but not big enough to hit units outside of arena
@@ -18,12 +19,6 @@ function barrage_radius_ranged:OnSpellStart()
 	local tickLimit = duration / tickDuration
 	local tickDamage = totalDamage / tickLimit
 
-		--new approach to timing this spell... 
-	local stopFlag = false
-	Timers:CreateTimer(duration/2, function()
-		stopFlag = true
-		return
-    end)
 
 	-- sound 
 	EmitSoundOn( "gyrocopter_gyro_rocket_barrage_05", caster )
@@ -32,10 +27,27 @@ function barrage_radius_ranged:OnSpellStart()
 	DebugDrawCircle(caster:GetAbsOrigin(), Vector(255,0,0), 64, radius*5, true, tickDuration*2) -- ranged is red
 
 	--Run a timer for duration
+	local tickCount = 0
+	local startTime = Time()
 	Timers:CreateTimer(function()	
+		if tickCount > tickLimit then
+			local endTime = Time()
+			local actualElapsed = endTime - startTime
+			print("ranged barrage actualElapsed = ".. actualElapsed)
 
-		if stopFlag then
-			_G.IsGyroBusy = false
+			-- cast melee barrage if this flag is set. (allows this ability to be used in isolation or in combination with melee barrage)
+			if _G.castMeleeBarrageOnFinish then
+			  	ExecuteOrderFromTable({
+					UnitIndex = caster:entindex(),
+					OrderType = DOTA_UNIT_ORDER_CAST_NO_TARGET,
+					AbilityIndex = barrage_radius_melee:entindex(),
+					Queue = false,
+				})
+				_G.castMeleeBarrageOnFinish = false -- flip the variable 'off'
+			--gyro no longer busy only if he didn't cast the next spell
+			else
+				_G.IsGyroBusy = false
+			end
 			return
 		end
 
@@ -75,6 +87,7 @@ function barrage_radius_ranged:OnSpellStart()
 				Queue = false, 
 			})
 		end
+		tickCount = tickCount +1
 		return tickDuration
 	end)
 end

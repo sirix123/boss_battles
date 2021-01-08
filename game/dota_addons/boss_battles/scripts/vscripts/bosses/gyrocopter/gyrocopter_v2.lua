@@ -61,6 +61,8 @@ function Spawn( entityKeyValues )
 	thisEntity:SetContextThink( "AbilityQueue", AbilityQueue, 0.1)
 	thisEntity:SetContextThink( "MainLoop", MainLoop, 0.1 )
 
+	thisEntity:SetContextThink("Test", Test, 1)
+
 	--thisEntity:SetContextThink( "SwoopBuild", SwoopBuild, 0.1 )
 	--disable attacks.
 	thisEntity:SetAttackCapability(0) --set to DOTA_UNIT_CAP_NO_ATTACK.
@@ -92,6 +94,21 @@ function CurrentTestCode()
 end
 
 
+function Test()
+
+	-- local ft = FrameTime()
+	-- local gst = GetSystemTime()
+	-- local lt =  LocalTime()
+	-- local time = Time()
+
+	-- print("ft = ", ft)
+	-- print("gst = ", gst)
+	-- print("lt = ", lt)
+	-- print("time = ", time)
+
+	return 1
+end
+
 local dt = 0.1
 local tickCount = 0
 
@@ -109,8 +126,9 @@ function MainLoop()
 	--print("tickCount = "..tickCount.. " IsGyroBusy? ".. tostring(IsGyroBusy))
 
 	--TESTING:
-	if (tickCount % 30 == 0) then
-	--if (tickCount == 50) then
+	--if (tickCount % 30 == 0) then
+	if (tickCount == 50) then
+
 		--CurrentTestCode()
 	end	
 
