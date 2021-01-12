@@ -1,5 +1,6 @@
 item_rock = class({})
 LinkLuaModifier( "modifier_generic_arc_lua", "player/generic/modifier_generic_arc_lua", LUA_MODIFIER_MOTION_BOTH )
+LinkLuaModifier( "green_cube_on_attacked", "bosses/techies/modifiers/green_cube_on_attacked", LUA_MODIFIER_MOTION_NONE )
 
 function item_rock:OnSpellStart()
     local caster = self:GetCaster()
@@ -9,7 +10,7 @@ function item_rock:OnSpellStart()
     vTargetPos = Clamp(caster:GetOrigin(), Vector(caster.mouse.x, caster.mouse.y, caster.mouse.z), self:GetCastRange(Vector(0,0,0), nil), 0)
 
     -- create it at players location, then throw it... in an arc...
-    local rock = CreateUnitByName("npc_rock_techies", origin, true, nil, nil, DOTA_TEAM_GOODGUYS)
+    local rock = CreateUnitByName("npc_rock_techies", origin, true, caster, caster, DOTA_TEAM_GOODGUYS)
     rock:AddNewModifier(caster, self, "modifier_phased", {duration = -1})
     rock:SetForwardVector( Vector( RandomFloat(-1, 1) , RandomFloat(-1, 1), RandomFloat(-1, 1) ) )
 
@@ -35,6 +36,7 @@ function item_rock:OnSpellStart()
 
     arc:SetEndCallback( function()
         ParticleManager:DestroyParticle(nFXIndex,false)
+        --rock:AddNewModifier( caster, self, "green_cube_on_attacked", { duration = -1 } )
     end)
 
     self:SpendCharge()

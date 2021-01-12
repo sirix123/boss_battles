@@ -492,12 +492,13 @@
 					m_Stops = [  ]
 				}
 			}
+			m_bDisableOperator = true
 		},
 		{
 			_class = "C_INIT_RandomRotation"
 			m_flDegreesMin = 60.0
 			m_flDegreesMax = 60.0
-			m_nFieldOutput = 20
+			m_nFieldOutput = "20"
 			m_bRandomlyFlipDirection = false
 		},
 	]
@@ -532,8 +533,7 @@
 		},
 		{
 			_class = "C_OP_SetToCP"
-			m_vecOffset = [ 0.0, 0.0, 16.0 ]
-			m_bDisableOperator = true
+			m_vecOffset = [ 0.0, 0.0, 150.0 ]
 		},
 		{
 			_class = "C_OP_Decay"
@@ -541,7 +541,7 @@
 		{
 			_class = "C_OP_FadeOutSimple"
 			m_flFadeOutTime = 2.0
-			m_nFieldOutput = 23
+			m_nFieldOutput = "23"
 		},
 	]
 	m_Renderers = 
@@ -860,6 +860,8 @@
 					m_Stops = [  ]
 				}
 			}
+			m_hOverrideMaterial = resource:"materials/models/items/rubick/rubick_arcana/rubick_arcana_cube_simple.vmat"
+			m_bIgnoreNormal = true
 		},
 	]
 }

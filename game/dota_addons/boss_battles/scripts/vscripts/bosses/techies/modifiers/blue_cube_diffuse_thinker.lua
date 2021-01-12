@@ -11,13 +11,15 @@ function blue_cube_diffuse_thinker:OnCreated(kv)
 
         self.parent = self:GetParent()
 
-        self.player = kv.player
+        self.player = _G.blue_player
         print("blue cube diffuser player = ", self.player:GetUnitName())
 
         self.radius = 400
 
         self:PlayEffects()
         self:StartIntervalThink(0.01)
+
+        --print("blue diff duration remaining: ",self:GetRemainingTime())
 
 	end
 end
@@ -37,7 +39,7 @@ function blue_cube_diffuse_thinker:OnIntervalThink()
 			0,	-- int, order filter
 			false	-- bool, can grow cache
         )
-        
+
         for _, unit in pairs(units) do
             if unit:HasModifier("blue_cube_modifier") then
 
@@ -83,8 +85,15 @@ end
 function blue_cube_diffuse_thinker:PlayEffects()
     if IsServer() then
         local particleName_1 = "particles/clock/blue_clock_npx_moveto_arrow.vpcf"
-        self.pfx_1 = ParticleManager:CreateParticleForPlayer( particleName_1, PATTACH_WORLDORIGIN, self.parent, self.player )
+        self.pfx_1 = ParticleManager:CreateParticleForPlayer( particleName_1, PATTACH_WORLDORIGIN, self.parent, self.player:GetPlayerOwner() )
+        --self.pfx_1 = ParticleManager:CreateParticle( particleName_1, PATTACH_WORLDORIGIN, self.parent )
         ParticleManager:SetParticleControl( self.pfx_1, 0, self.parent:GetAbsOrigin() )
+
+        self.nPreviewFXIndex = ParticleManager:CreateParticleForPlayer( "particles/techies/blue_darkmoon_calldown_marker.vpcf", PATTACH_CUSTOMORIGIN, self.parent, self.player:GetPlayerOwner() )
+        ParticleManager:SetParticleControl( self.nPreviewFXIndex, 0, self:GetParent():GetAbsOrigin() )
+        ParticleManager:SetParticleControl( self.nPreviewFXIndex, 1, Vector( self.radius, -self.radius, -self.radius ) )
+        ParticleManager:SetParticleControl( self.nPreviewFXIndex, 2, Vector( self:GetRemainingTime(), 0, 0 ) );
+        ParticleManager:ReleaseParticleIndex( self.nPreviewFXIndex )
     end
 end
 

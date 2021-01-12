@@ -26,9 +26,19 @@ function blue_cube_modifier:OnCreated( kv )
     self.original_vision_night = self:GetParent():GetBaseNightTimeVisionRange()
     self.original_vision_day = self:GetParent():GetBaseDayTimeVisionRange()
 
-    self:GetParent():SetNightTimeVisionRange(150)
-    self:GetParent():SetDayTimeVisionRange(150)
+    self:GetParent():SetNightTimeVisionRange(1)
+    self:GetParent():SetDayTimeVisionRange(1)
 
+    self.player = _G.blue_player_bomb
+    print("blue bomb player = ", self.player:GetUnitName())
+
+    local particle = "particles/techies/cube_techies_blue.vpcf"
+	self.nFXIndex_2 = ParticleManager:CreateParticleForPlayer( particle, PATTACH_OVERHEAD_FOLLOW , self:GetParent(), self.player:GetPlayerOwner() )
+    ParticleManager:SetParticleControlEnt( self.nFXIndex_2, 0, self:GetParent(), PATTACH_OVERHEAD_FOLLOW, "attach_head", self:GetParent():GetAbsOrigin(), true)
+    
+    self:StartIntervalThink(1)
+
+    --print("blue bomb duration remaining: ",self:GetRemainingTime())
 end
 
 function blue_cube_modifier:OnRefresh( kv )
@@ -43,6 +53,10 @@ end
 
 function blue_cube_modifier:OnDestroy()
     if not IsServer() then return end
+
+    ParticleManager:DestroyParticle(self.nFXIndex_2,true)
+
+    print("blue cube destroyed ")
 
     self.original_vision_night = self:GetParent():SetNightTimeVisionRange(self.original_vision_night)
     self.original_vision_day = self:GetParent():SetDayTimeVisionRange(self.original_vision_day)
@@ -61,7 +75,7 @@ function blue_cube_modifier:OnDestroy()
         self:GetParent():GetAbsOrigin(),	-- point, center point
         nil,	-- handle, cacheUnit. (not known)
         8000,	-- float, radius. or use FIND_UNITS_EVERYWHERE
-        DOTA_UNIT_TARGET_TEAM_ENEMY,
+        DOTA_UNIT_TARGET_TEAM_FRIENDLY,
         DOTA_UNIT_TARGET_ALL,
         DOTA_UNIT_TARGET_FLAG_INVULNERABLE,	-- int, flag filter
         0,	-- int, order filter
@@ -74,7 +88,7 @@ function blue_cube_modifier:OnDestroy()
             {
                 victim = unit,
                 attacker = self:GetCaster(),
-                damage = 300,
+                damage = 50,
                 damage_type = DAMAGE_TYPE_PHYSICAL,
             }
 
@@ -88,13 +102,9 @@ end
 function blue_cube_modifier:OnIntervalThink()
     if not IsServer() then return end
 
-end
 
---------------------------------------------------------------------------------
-function blue_cube_modifier:GetEffectName()
-	return "particles/techies/cube_techies_blue.vpcf"
-end
 
-function blue_cube_modifier:GetEffectAttachType()
-	return PATTACH_OVERHEAD_FOLLOW
+    self:GetParent():SetNightTimeVisionRange(1)
+    self:GetParent():SetDayTimeVisionRange(1)
+
 end

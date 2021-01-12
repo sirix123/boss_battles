@@ -172,7 +172,7 @@ function cluster_mine_throw_thinker:Explode()
         10,
         DOTA_UNIT_TARGET_TEAM_FRIENDLY,
         DOTA_UNIT_TARGET_ALL,
-        DOTA_UNIT_TARGET_FLAG_NONE,
+        DOTA_UNIT_TARGET_FLAG_INVULNERABLE,
         FIND_CLOSEST,
         false)
 
@@ -184,6 +184,7 @@ function cluster_mine_throw_thinker:Explode()
             if mine_health > 1 then
                 mine:SetHealth(mine_health - 1)
             else
+                --self:Destroy()
                 mine:ForceKill(false)
                 mine:Kill(self.ability, attacker)
             end

@@ -13,11 +13,13 @@ function red_cube_diffuse_thinker:OnCreated(kv)
 
         self.radius = 400
 
-        self.player = kv.player
+        self.player = _G.red_player
         print("red cube diffuser player = ", self.player:GetUnitName())
 
         self:PlayEffects()
         self:StartIntervalThink(0.01)
+
+        --print("red diff duration remaining: ",self:GetRemainingTime())
 
 	end
 end
@@ -83,8 +85,15 @@ end
 function red_cube_diffuse_thinker:PlayEffects()
     if IsServer() then
         local particleName_1 = "particles/clock/red_clock_npx_moveto_arrow.vpcf"
-        self.pfx_1 = ParticleManager:CreateParticleForPlayer( particleName_1, PATTACH_WORLDORIGIN, self.parent, self.player )
+        self.pfx_1 = ParticleManager:CreateParticleForPlayer( particleName_1, PATTACH_WORLDORIGIN, self.parent, self.player:GetPlayerOwner() )
+        --self.pfx_1 = ParticleManager:CreateParticle( particleName_1, PATTACH_WORLDORIGIN, self.parent )
         ParticleManager:SetParticleControl( self.pfx_1, 0, self.parent:GetAbsOrigin() )
+
+        self.nPreviewFXIndex = ParticleManager:CreateParticleForPlayer( "particles/darkmoon_calldown_marker_v2.vpcf", PATTACH_CUSTOMORIGIN, self.parent, self.player:GetPlayerOwner())
+        ParticleManager:SetParticleControl( self.nPreviewFXIndex, 0, self:GetParent():GetAbsOrigin() )
+        ParticleManager:SetParticleControl( self.nPreviewFXIndex, 1, Vector( self.radius, -self.radius, -self.radius ) )
+        ParticleManager:SetParticleControl( self.nPreviewFXIndex, 2, Vector( self:GetRemainingTime(), 0, 0 ) );
+        ParticleManager:ReleaseParticleIndex( self.nPreviewFXIndex )
     end
 end
 

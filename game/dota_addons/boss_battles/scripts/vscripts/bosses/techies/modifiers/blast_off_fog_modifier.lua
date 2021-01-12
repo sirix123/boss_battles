@@ -2,7 +2,7 @@ blast_off_fog_modifier = class({})
 
 --------------------------------------------------------------------------------
 function blast_off_fog_modifier:IsHidden()
-	return false
+	return true
 end
 
 function blast_off_fog_modifier:IsDebuff()
@@ -29,6 +29,8 @@ end
 --------------------------------------------------------------------------------
 
 function blast_off_fog_modifier:OnIntervalThink()
+	self:GetParent():SetNightTimeVisionRange(1)
+	self:GetParent():SetDayTimeVisionRange(1)
 	--print("self:GetParent():GetBaseNightTimeVisionRange() ", self:GetParent():GetBaseNightTimeVisionRange())
 	--print("self:GetParent():GetBaseDayTimeVisionRange() ", self:GetParent():GetBaseDayTimeVisionRange())
 	--print("---------------------")

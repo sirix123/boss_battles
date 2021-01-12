@@ -3,7 +3,7 @@ blue_cube_diffuse_modifier = class({})
 --------------------------------------------------------------------------------
 -- Classifications
 function blue_cube_diffuse_modifier:IsHidden()
-	return false
+	return true
 end
 
 function blue_cube_diffuse_modifier:IsDebuff()
