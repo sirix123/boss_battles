@@ -91,10 +91,10 @@ function GameSetup:OnNPCSpawned(keys)
         npc:AddNewModifier( npc,  nil, "remove_attack_modifier", { } )
 
         npc:Initialize()
-        player_frame_manager:RegisterPlayer(npc)
+        npc.class_name = GetClassName(npc:GetUnitName())
 
-	    npc.class_name = GetClassName(npc:GetUnitName())
-
+        --player_frame_manager:CreatePlayerFrame( npc )
+        --player_frame_manager:RegisterPlayer(npc)
         --print("on spanwed lives ", npc.playerLives )
 
         -- level up abilities for all heroes to level 1
@@ -204,10 +204,6 @@ function GameSetup:OnEntityKilled(keys)
             self.bBossKilled = true
             SessionManager:StopRecordingAttempt( self.bBossKilled )
 
-            if npc:GetUnitName() == "npc_tinker" then
-                SessionManager:SendSessionData()
-            end
-
             -- repsawn deadplayers and reset lifes
             local isHeroAlive = false
             local heroes = HERO_LIST--HeroList:GetAllHeroes()
@@ -236,6 +232,11 @@ function GameSetup:OnEntityKilled(keys)
 
             if isHeroAlive == true then
                 BOSS_BATTLES_ENCOUNTER_COUNTER = BOSS_BATTLES_ENCOUNTER_COUNTER + 1
+            end
+
+            -- raid counter will go to 7 if tinkers is killed
+            if BOSS_BATTLES_ENCOUNTER_COUNTER == 7 then
+                SessionManager:SendSessionData()
             end
 
             -- move alive players to intermission area
