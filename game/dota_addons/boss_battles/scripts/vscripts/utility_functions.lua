@@ -340,3 +340,16 @@ function mysplit (inputstr, sep)
     end
     return t
 end
+
+-- create text on target
+function NumbersOnTarget(hTarget, nAmount, vColour)
+	local word_length = string.len(tostring(math.floor(nAmount)))
+
+	local color =  vColour
+	local effect_cast = ParticleManager:CreateParticle("particles/custom_msg_damage.vpcf", PATTACH_WORLDORIGIN, nil) 
+	ParticleManager:SetParticleControl(effect_cast, 0, hTarget:GetAbsOrigin())
+	ParticleManager:SetParticleControl(effect_cast, 1, Vector(0, nAmount, 0))
+	ParticleManager:SetParticleControl(effect_cast, 2, Vector(0.5, word_length, 0)) 
+	ParticleManager:SetParticleControl(effect_cast, 3, color)
+	ParticleManager:ReleaseParticleIndex(effect_cast)
+end
