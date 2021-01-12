@@ -1,12 +1,14 @@
-summon_bird = class({})
+summon_bird_tinker = class({})
 
-function summon_bird:OnSpellStart()
+function summon_bird_tinker:OnSpellStart()
     if IsServer() then
         -- number of cast locations per cast, level up every phase?
         self.numBirds = self:GetSpecialValueFor( "num_birds" )
         local delay = 0.1--self:GetSpecialValueFor( "delay" )
 
         EmitSoundOn("Hero_Visage.SummonFamiliars.Cast", self:GetCaster())
+
+        print("tinker summong birds")
 
         -- init
         local caster = self:GetCaster()

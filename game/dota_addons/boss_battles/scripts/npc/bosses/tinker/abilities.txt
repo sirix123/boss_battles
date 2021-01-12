@@ -99,7 +99,7 @@
         "AbilityBehavior"               "DOTA_ABILITY_BEHAVIOR_NO_TARGET"
         "AbilityUnitDamageType"         "DAMAGE_TYPE_PHYSICAL"
 		"AbilityCastRange" 				"2000"
-        "AbilityCooldown"				"15"
+        "AbilityCooldown"				"20"
         "AbilityCastPoint"              "2.0"
 
 
@@ -238,7 +238,7 @@
 
         // Time     
         //-------------------------------------------------------------------------------------------------------------
-        "AbilityCooldown"               "15 10 10 10" //15
+        "AbilityCooldown"               "20 10 10 10" //15
 
         // Cost
         //-------------------------------------------------------------------------------------------------------------
@@ -265,10 +265,10 @@
     //=================================================================================================================
     // Tinker: summon_bird
     //=================================================================================================================
-    "summon_bird"
+    "summon_bird_tinker"
     { 
         "BaseClass"                     "ability_lua"
-        "ScriptFile"                    "bosses/tinker/summon_bird"
+        "ScriptFile"                    "bosses/tinker/summon_bird_tinker"
         "MaxLevel"						"4"
         "AbilityTextureName"			""
 
@@ -284,7 +284,7 @@
 
         // Time     
         //-------------------------------------------------------------------------------------------------------------
-        "AbilityCooldown"               "30 25 25 25"
+        "AbilityCooldown"               "25 25 25 25"
 
         // Cost
         //-------------------------------------------------------------------------------------------------------------
@@ -620,7 +620,8 @@
             "05"
             {
                 "var_type"                  "FIELD_INTEGER"
-                "attack_damage"             "600"
+                "attack_damage"             "100"
+                //"attack_damage"             "600"
             }
             "06"
             {

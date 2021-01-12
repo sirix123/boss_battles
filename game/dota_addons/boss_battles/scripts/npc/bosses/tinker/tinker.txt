@@ -54,7 +54,7 @@
 
 		// Status
 		//----------------------------------------------------------------
-		"StatusHealth"				"5000"		// Base health.
+		"StatusHealth"				"100"		// Base health.
 		"StatusHealthRegen"			"0.0"		// Health regeneration rate.
 		"StatusMana"				"100"		// Base mana.
 		"StatusManaRegen"			"1.0"		// Mana regeneration rate.		 
@@ -95,7 +95,7 @@
 		"Ability1"					"tinker_teleport"					// Ability 1
 		"Ability2"					"chain_light_v2"					// Ability 2
 		"Ability3"					"ice_shot_tinker"					// Ability 3
-		"Ability4"					"summon_bird"					// Ability 4
+		"Ability4"					"summon_bird_tinker"					// Ability 4
 		"Ability5"					"laser"					// Ability 5
 		"Ability6"					"march"					// Ability 6
 		"Ability7"					"prisonbeam"					// Ability 7

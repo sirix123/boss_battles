@@ -11,7 +11,8 @@ function Spawn( entityKeyValues )
     local boss_name = "Prism"
     boss_frame_manager:SendBossName( boss_name )
     boss_frame_manager:UpdateManaHealthFrame( thisEntity )
-    boss_frame_manager:HideBossHpFrame()
+    boss_frame_manager:ShowBossHpFrame()
+	boss_frame_manager:ShowBossManaFrame()
 
     thisEntity.green_beam = thisEntity:FindAbilityByName( "green_beam" )
     thisEntity.spawn_rocks = thisEntity:FindAbilityByName( "spawn_rocks" )
@@ -29,7 +30,7 @@ function Spawn( entityKeyValues )
 	thisEntity.ice_phase = false
 	thisEntity.fire_phase = false
     thisEntity.elec_phase = false
-    thisEntity.start_summoning = 10
+    thisEntity.start_summoning = 3
     ElementalPhaseTimer()
 
     thisEntity.stop_timers = false
@@ -39,7 +40,7 @@ function Spawn( entityKeyValues )
     thisEntity.beam_phase = false
 
     thisEntity.beam_stack_count = 0
-    thisEntity.total_beams = 5
+    thisEntity.total_beams = 4
 
     thisEntity:SetMana(0)
 
@@ -56,6 +57,7 @@ function CrystalThinker()
 	if not IsServer() then return end
 
     if ( not thisEntity:IsAlive() ) then
+        Timers:RemoveTimer(thisEntity.elemental_timer)
         thisEntity.stop_timers = true
 		return -1
 	end
@@ -87,6 +89,11 @@ function CrystalThinker()
         if friend:GetUnitName() == "npc_tinker" then
             if friend:HasModifier("beam_counter") then
                 thisEntity.beam_stack_count = friend:FindModifierByName("beam_counter"):GetStackCount()
+
+                -- remove hp from crystal
+                thisEntity:SetHealth( thisEntity:GetMaxHealth() - ( thisEntity:GetMaxHealth() / thisEntity.total_beams ) )
+
+
                 --print(" crystakl beam_stack_count ", thisEntity.beam_stack_count)
             end
         end
@@ -227,7 +234,7 @@ end
 --------------------------------------------------------------------------------
 
 function ElementalPhaseTimer()
-	Timers:CreateTimer(thisEntity.start_summoning,function()
+	thisEntity.elemental_timer = Timers:CreateTimer(thisEntity.start_summoning,function()
 		if thisEntity.stop_timers == true then
 			--print("end timer?")
 			return false
@@ -275,7 +282,7 @@ function ElementalPhaseTimer()
         thisEntity.summon_fire_ele:EndCooldown()
         thisEntity.summon_elec_ele:EndCooldown()
 
-		return 60
+		return 45
 	end)
 end
 --------------------------------------------------------------------------------

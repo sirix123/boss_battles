@@ -111,6 +111,7 @@ function chain_light_v2:OnProjectileHit( hTarget, vLocation)
 				--print("npc_crystal")
 				hTarget:GiveMana(10)
 				hTarget:AddNewModifier( self.caster, self, "cast_electric_field", { duration = -1 } )
+				NumbersOnTarget(hTarget, 10, Vector(75,75,255))
 			elseif hTarget:GetUnitName() == "npc_ice_ele" then
 				--print("npc_ice_ele")
 				hTarget:AddNewModifier( self.caster, self, "stunned_modifier", { duration = 5 } )

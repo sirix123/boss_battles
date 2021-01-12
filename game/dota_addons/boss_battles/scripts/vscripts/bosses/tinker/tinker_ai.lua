@@ -17,7 +17,7 @@ function Spawn( entityKeyValues )
 
 	thisEntity.PHASE = 1
 	thisEntity.stack_count = 0
-	thisEntity.max_beam_stacks = 5
+	thisEntity.max_beam_stacks = 4
 
 	thisEntity.rearm = true
 
@@ -29,8 +29,8 @@ function Spawn( entityKeyValues )
 	thisEntity.ice_shot_tinker = thisEntity:FindAbilityByName( "ice_shot_tinker" )
 	thisEntity.ice_shot_tinker:StartCooldown(thisEntity.ice_shot_tinker:GetCooldown(thisEntity.ice_shot_tinker:GetLevel()))
 
-	thisEntity.summon_bird = thisEntity:FindAbilityByName( "summon_bird" )
-	thisEntity.summon_bird:StartCooldown(thisEntity.summon_bird:GetCooldown(thisEntity.summon_bird:GetLevel()))
+	thisEntity.summon_bird = thisEntity:FindAbilityByName( "summon_bird_tinker" )
+	--thisEntity.summon_bird:StartCooldown(thisEntity.summon_bird:GetCooldown(15))
 
 	thisEntity.tinker_teleport = thisEntity:FindAbilityByName( "tinker_teleport" )
 	thisEntity.tinker_teleport:StartCooldown(thisEntity.tinker_teleport:GetCooldown(thisEntity.tinker_teleport:GetLevel()))
@@ -95,20 +95,20 @@ function TinkerThinker()
 
 	-- phase 1
 	if thisEntity.PHASE == 1 then
-		if thisEntity.tinker_teleport ~= nil and thisEntity.tinker_teleport:IsFullyCastable() and thisEntity.tinker_teleport:IsCooldownReady() then
+		if thisEntity.tinker_teleport ~= nil and thisEntity.tinker_teleport:IsFullyCastable() and thisEntity.tinker_teleport:IsCooldownReady() and thisEntity.tinker_teleport:IsInAbilityPhase() == false then
 			return CastTeleport()
 		end
 
-		if thisEntity.chain_light_v2 ~= nil and thisEntity.chain_light_v2:IsFullyCastable() and thisEntity.chain_light_v2:IsCooldownReady() and thisEntity.stack_count >= 3 then
+		if thisEntity.chain_light_v2 ~= nil and thisEntity.chain_light_v2:IsFullyCastable() and thisEntity.chain_light_v2:IsCooldownReady() and thisEntity.stack_count >= 2 and thisEntity.chain_light_v2:IsInAbilityPhase() == false then
 			return CastChainLight()
 		end
 
-		if thisEntity.ice_shot_tinker ~= nil and thisEntity.ice_shot_tinker:IsFullyCastable() and thisEntity.ice_shot_tinker:IsCooldownReady() then
-			return CastIceShot()
+		if thisEntity.summon_bird ~= nil and thisEntity.summon_bird:IsFullyCastable() and thisEntity.summon_bird:IsCooldownReady() and thisEntity.stack_count >= 1 and thisEntity.summon_bird:IsInAbilityPhase() == false then
+			return CastSummonBird()
 		end
 
-		if thisEntity.summon_bird ~= nil and thisEntity.summon_bird:IsFullyCastable() and thisEntity.summon_bird:IsCooldownReady() and thisEntity.stack_count >= 1 then
-			return CastSummonBird()
+		if thisEntity.ice_shot_tinker ~= nil and thisEntity.ice_shot_tinker:IsFullyCastable() and thisEntity.ice_shot_tinker:IsCooldownReady() and thisEntity.ice_shot_tinker:IsInAbilityPhase() == false then
+			return CastIceShot()
 		end
 
 	end
@@ -216,7 +216,7 @@ function CastChainLight(  )
         AbilityIndex = thisEntity.chain_light_v2:entindex(),
         Queue = false,
     })
-    return 1
+    return 0.5
 end
 --------------------------------------------------------------------------------
 
@@ -228,7 +228,7 @@ function CastIceShot(  )
         AbilityIndex = thisEntity.ice_shot_tinker:entindex(),
         Queue = false,
     })
-    return 1
+    return 0.5
 end
 --------------------------------------------------------------------------------
 
@@ -240,7 +240,7 @@ function CastSummonBird(  )
         AbilityIndex = thisEntity.summon_bird:entindex(),
         Queue = false,
     })
-    return 1
+    return 0.5
 end
 --------------------------------------------------------------------------------
 

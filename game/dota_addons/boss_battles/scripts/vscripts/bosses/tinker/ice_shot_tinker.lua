@@ -88,9 +88,11 @@ function ice_shot_tinker:OnSpellStart()
 
                 if unit:GetUnitName() == "npc_crystal" then
                     if self.stack_count == 0 then
-                        unit:GiveMana(100)
+                        unit:GiveMana(10)
+                        NumbersOnTarget(unit, 10, Vector(75,75,255))
                     else
                         unit:GiveMana(10)
+                        NumbersOnTarget(unit, 10, Vector(75,75,255))
                     end
                     self:HitCrystal( unit )
                 elseif unit:GetTeamNumber() == DOTA_UNIT_TARGET_TEAM_ENEMY then
