@@ -16,7 +16,7 @@
 }
 
 #PickListRowOne {
-	width: 35%;
+	/*width: 35%;*/
     height: 23%;
     horizontal-align: center;
 	flow-children: right;
