@@ -20,9 +20,17 @@ function CDOTA_BaseNPC:Initialize(data)
   self.playerEnergy = 0
   self.playerDmgDone = 0
 
+  self.hp = self:GetHealth()
+  self.maxHp = self:GetMaxHealth()
+  self.hpPercent = self:GetHealth()
+  self.mp = self:GetMana()
+  self.maxMp = self:GetMaxMana()
+  self.mpPercent = self:GetManaPercent()
+
   self.playerName = PlayerResource:GetPlayerName(self.playerId)
   self.steamId = PlayerResource:GetSteamID(self.playerId)
   self.class_name = ""
+  self.hero_name = self:GetUnitName()
 
   self:SetHullRadius(50)
 

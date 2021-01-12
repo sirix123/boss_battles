@@ -124,24 +124,26 @@ function changeBossName( data )
 
 /* Player UI Frames */
 
-var playerFramePanels = {};
+playerFramePanels = {};
 
 function createPlayerFrames(data)
 {
-    var playersFrameContainer = $("#PlayersFrameContainer")
+
+    let playersFrameContainer = $("#PlayersFrameContainer")
     //TODO: change to loop over playerData.
     for (var i in data)
     {
         var playerData = data[i]
+        //$.Msg("playerData i ",playerData)
 
-        var playerFrame = $.CreatePanel("Panel", playersFrameContainer, "");
+        let playerFrame = $.CreatePanel("Panel", playersFrameContainer, playerData["hero_name"]);
         playerFrame.BLoadLayoutSnippet("PlayerFrame");
 
         var heroImage = $("#HeroImage")
-        heroImage.heroname = playerData["className"]
+        heroImage.heroname = playerData["hero_name"]
 
         var pLivesLabel = $("#PlayerLivesLabel")
-        pLivesLabel.text = playerData["lives"]
+        pLivesLabel.text = playerData["playerLives"]
 
         var pNameLabel = $("#PlayerNameLabel")
         pNameLabel.text = playerData["playerName"]
@@ -168,16 +170,18 @@ function createPlayerFrames(data)
 
         //store this panel to update it later.
         playerFramePanels[i] = playerFrame
+        $.Msg("playerFramePanels ",playerFramePanels)
+        $.Msg("playerFramePanels.length ", playerFramePanels.length)
     }
 }
 
 function updatePlayerFrames(data)
 {
-    var playersFrameContainer = $("#PlayersFrameContainer")
-    for (var i in data)
+
+    for (let i=0; i < playerFramePanels.length; i++)
     {
-        var playerData = data[i]
-        var playerFrame = playerFramePanels[i]
+        let playerData = data[i]
+        let playerFrame = playerFramePanels[i]
 
         var pNameLabel = playerFrame.FindChildTraverse("PlayerNameLabel")
         var playerName = playerData["playerName"]
@@ -185,10 +189,10 @@ function updatePlayerFrames(data)
         pNameLabel.text = subString
 
         var heroImage = playerFrame.FindChildTraverse("HeroImage")
-        heroImage.heroname = playerData["className"]
+        heroImage.heroname = playerData["hero_name"]
 
         var pLivesLabel = playerFrame.FindChildTraverse("PlayerLivesLabel")
-        pLivesLabel.text = playerData["lives"]
+        pLivesLabel.text = playerData["playerLives"]
 
         var pHealthLabel = playerFrame.FindChildTraverse("PlayerHealthLabel")
         pHealthLabel.text = playerData["hpPercent"] + "%"
@@ -213,7 +217,6 @@ function updatePlayerFrames(data)
 }
 
 
-
 function playerFrameUpdate( table_name, key, data )
 {
     //$.Msg("playerFrameUpdate called")
@@ -221,12 +224,17 @@ function playerFrameUpdate( table_name, key, data )
     //$.Msg("key = ", key)
     //$.Msg("data = ", data)
 
-    var playersFrameContainer = $("#PlayersFrameContainer")
+    //var playersFrameContainer = $("#PlayersFrameContainer")
     //create frames on the first call, then just update them.
-    if (playersFrameContainer.GetChildCount() == 0)
+    /*if (playersFrameContainer.GetChildCount() == 0)
         createPlayerFrames(data)
-    else if (playersFrameContainer.GetChildCount() > 0)
+    else if (playersFrameContainer.GetChildCount() > 3)
+        updatePlayerFrames(data)*/
+
+    $.Msg("playerFramePanels.length ", playerFramePanels.length)
+    if ( playerFramePanels.length == 1 ){
         updatePlayerFrames(data)
+    }
 }
 
 
@@ -237,7 +245,9 @@ function hidePlayerFrame( table_name, key, data )
     // bossFrameContainer.RemoveAndDeleteChildren()
 }
 
+GameEvents.Subscribe( "create_player_frame", createPlayerFrames );
 CustomNetTables.SubscribeNetTableListener( "player_frame", playerFrameUpdate );
 CustomNetTables.SubscribeNetTableListener( "hide_player_frame", hidePlayerFrame );
 
 /* END Player UI Frames */
+
