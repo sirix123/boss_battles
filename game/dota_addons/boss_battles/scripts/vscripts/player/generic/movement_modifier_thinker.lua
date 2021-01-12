@@ -118,13 +118,14 @@ function movement_modifier_thinker:Move(direction, speed)
 	if GridNav:IsTraversable(test_position_front) and self.parent:HasMovementCapability() then
 		if not self.parent:IsPhased() then
 
-			-- find untis in radius around future postion 
+			-- find untis in radius around future postion
+			-- only look at enemy units?
 			local units = FindUnitsInRadius( 
 				self.parent:GetTeamNumber(), -- int, your team number
 				test_position_front, -- point, center point
 				nil, -- handle, cacheUnit. (not known)
 				offset, -- float, radius. or use FIND_UNITS_EVERYWHERE
-				DOTA_UNIT_TARGET_TEAM_BOTH, -- int, team filter
+				DOTA_UNIT_TARGET_TEAM_ENEMY, -- int, team filter DOTA_UNIT_TARGET_TEAM_BOTH
 				DOTA_UNIT_TARGET_HERO + DOTA_UNIT_TARGET_BASIC,	-- int, type filter
 				DOTA_UNIT_TARGET_FLAG_INVULNERABLE, -- int, flag filter
 				FIND_ANY_ORDER, -- int, order filter
@@ -137,7 +138,7 @@ function movement_modifier_thinker:Move(direction, speed)
 				return false
 			end
 
-			-- find players around fuuture position if finds players and no-one is phased then dont allow movement 
+			-- find players around fuuture position if finds players and no-one is phased then dont allow movement
 			for _,unit in pairs(units) do
 				if unit ~= self.parent then
 					if not unit:IsPhased() then
