@@ -71,7 +71,7 @@ function q_healing_arrow_v2:OnSpellStart()
         local enEffect = "particles/ranger/ranger_windrunner_spell_powershot_ti6.vpcf"
 
         -- ensure to heal self on cast
-        self.caster:Heal(heal, self.caster)
+        self.caster:Heal(heal + 100, self.caster)
 
         local projectile = {
             EffectName = enEffect,

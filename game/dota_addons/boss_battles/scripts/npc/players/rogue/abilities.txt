@@ -11,7 +11,7 @@
 		"AbilityUnitDamageType"			"DAMAGE_TYPE_PHYSICAL"	
 		//"SpellImmunityType"				"SPELL_IMMUNITY_ENEMIES_YES"
         "AbilityBehavior"				"DOTA_ABILITY_BEHAVIOR_POINT"
-		"AbilityCastRange" 				"200"
+		"AbilityCastRange" 				"350"
         "AbilityCooldown"				"0"
         "AbilityCastPoint"              "0.3"
 		"AbilityManaCost"        		"0"
@@ -24,7 +24,7 @@
         
 		"AbilitySpecial"
 		{
-			"01"{ "var_type"			"FIELD_INTEGER"		"radius"				"200" }	 
+			"01"{ "var_type"			"FIELD_INTEGER"		"radius"				"250" }	 
 			"02"{ "var_type"			"FIELD_INTEGER"		"damage"				"60" }
 		}
 	}
@@ -40,7 +40,7 @@
 		"AbilityUnitDamageType"			"DAMAGE_TYPE_PHYSICAL"	
 		//"SpellImmunityType"				"SPELL_IMMUNITY_ENEMIES_YES"
         "AbilityBehavior"				"DOTA_ABILITY_BEHAVIOR_POINT | DOTA_ABILITY_BEHAVIOR_HIDDEN"
-		"AbilityCastRange" 				"200"
+		"AbilityCastRange" 				"350"
         "AbilityCooldown"				"0"
         "AbilityCastPoint"              "0.3"
 		"AbilityManaCost"        		"0"
@@ -53,7 +53,7 @@
         
 		"AbilitySpecial"
 		{
-			"01"{ "var_type"			"FIELD_INTEGER"		"radius"				"200"   }	 
+			"01"{ "var_type"			"FIELD_INTEGER"		"radius"				"250"   }	 
 			"02"{ "var_type"			"FIELD_INTEGER"		"damage"				"80"   }
             "03"{ "var_type"			"FIELD_INTEGER"		"bleed_duration"		"5"    	}	
             "04"{ "var_type"			"FIELD_INTEGER"		"dmg_dot_base"		    "30"    }	
@@ -73,7 +73,7 @@
 		"AbilityUnitDamageType"			"DAMAGE_TYPE_PHYSICAL"	
 		//"SpellImmunityType"				"SPELL_IMMUNITY_ENEMIES_YES"
         "AbilityBehavior"				"DOTA_ABILITY_BEHAVIOR_POINT"
-		"AbilityCastRange" 				"200"
+		"AbilityCastRange" 				"350"
         "AbilityCooldown"				"0"
         "AbilityCastPoint"              "0.3"
 		"AbilityManaCost"        		"50"
@@ -86,7 +86,7 @@
         
 		"AbilitySpecial"
 		{
-			"01"{ "var_type"			"FIELD_INTEGER"		"radius"					"200"   }	 
+			"01"{ "var_type"			"FIELD_INTEGER"		"radius"					"250"   }	 
 			"02"{ "var_type"			"FIELD_INTEGER"		"damage"					"200"   }
 			"03"{ "var_type"			"FIELD_INTEGER"		"m1_bleed_tick"				"30"   }
 			"04"{ "var_type"			"FIELD_INTEGER"		"rupture_bleed_tick"		"50"   }
@@ -131,7 +131,7 @@
 		"AbilityUnitDamageType"			"DAMAGE_TYPE_PHYSICAL"	
 		//"SpellImmunityType"				"SPELL_IMMUNITY_ENEMIES_YES"
         "AbilityBehavior"				"DOTA_ABILITY_BEHAVIOR_POINT"
-		"AbilityCastRange" 				"200"
+		"AbilityCastRange" 				"350"
         "AbilityCooldown"				"5"
         "AbilityCastPoint"              "0.3"
 		"AbilityManaCost"        		"15"
@@ -147,7 +147,7 @@
 			"01"{ "var_type"			"FIELD_INTEGER"		"damage"					"100"   }
 			"02"{ "var_type"			"FIELD_INTEGER"		"duration"					"10"   	}
 			"03"{ "var_type"			"FIELD_INTEGER"		"energy_regen_bonus"		"10"   	}
-			"04"{ "var_type"			"FIELD_INTEGER"		"radius"					"200"   }
+			"04"{ "var_type"			"FIELD_INTEGER"		"radius"					"250"   }
 		}
 	}
 

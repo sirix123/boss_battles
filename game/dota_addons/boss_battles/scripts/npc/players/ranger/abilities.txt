@@ -95,8 +95,8 @@
         
 		"AbilitySpecial"
 		{
-			"01"{ "var_type"			"FIELD_INTEGER"		"hit_box"							"100" }
-			"02"{ "var_type"			"FIELD_INTEGER"		"proj_speed"						"1200" }
+			"01"{ "var_type"			"FIELD_INTEGER"		"hit_box"							"150" }
+			"02"{ "var_type"			"FIELD_INTEGER"		"proj_speed"						"1600" }
 			"03"{ "var_type"			"FIELD_INTEGER"		"heal"								"120" }
 			"04"{ "var_type"			"FIELD_FLOAT"		"heal_dist_multi"					"0.08" }
 		}
@@ -203,7 +203,7 @@
 		"SpellImmunityType"				"SPELL_IMMUNITY_ENEMIES_YES"
         "AbilityBehavior"				"DOTA_ABILITY_BEHAVIOR_NO_TARGET | DOTA_ABILITY_BEHAVIOR_IGNORE_BACKSWING | DOTA_ABILITY_BEHAVIOR_ROOT_DISABLES"
 		"AbilityCastRange" 				"1500"
-        "AbilityCooldown"				"10"
+        "AbilityCooldown"				"20"
 
 
 		"TargetingIndicator"
@@ -214,7 +214,7 @@
         
 		"AbilitySpecial"
 		{
-			"01"{ "var_type"			"FIELD_INTEGER"		"duration"					"3" 	}
+			"01"{ "var_type"			"FIELD_INTEGER"		"duration"					"9" 	}
 			"02"{ "var_type"			"FIELD_INTEGER"		"movespeed_bonus_pct"		"60" 	}
 			
 		}
