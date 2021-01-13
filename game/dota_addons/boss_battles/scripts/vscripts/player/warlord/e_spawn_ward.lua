@@ -46,7 +46,9 @@ function e_spawn_ward:OnSpellStart()
         -- sound effect
         caster:EmitSound("Hero_Juggernaut.HealingWard.Cast")
 
-        CreateModifierThinker(
+        caster:AddNewModifier(caster, self, "e_spawn_ward_thinker", {duration = self:GetSpecialValueFor( "duration" )})
+
+        --[[CreateModifierThinker(
             caster,
             self,
             "e_spawn_ward_thinker",
@@ -59,7 +61,7 @@ function e_spawn_ward:OnSpellStart()
             vTargetPos,
             caster:GetTeamNumber(),
             false
-        )
+        )]]
 
     end
 end

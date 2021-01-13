@@ -81,9 +81,9 @@ function space_chain_hook_modifier:OnDestroy( kv )
         if self.caster:HasModifier("r_whirlwind_modifier") == false then
             self.caster:FindAbilityByName("m1_sword_slash"):SetActivated(true)
             self.caster:FindAbilityByName("m2_sword_slam"):SetActivated(true)
-            --caster:FindAbilityByName("q_warlord_def_stance"):SetActivated(false)
-            --caster:FindAbilityByName("q_warlord_dps_stance"):SetActivated(false)
+            self.caster:FindAbilityByName("q_meditate"):SetActivated(true)
             self.caster:FindAbilityByName("e_spawn_ward"):SetActivated(true)
+            self.caster:FindAbilityByName("r_sword_slam"):SetActivated(true)
         end
 
         self:GetParent():RemoveHorizontalMotionController( self )

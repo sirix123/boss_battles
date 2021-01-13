@@ -1,12 +1,11 @@
-m2_sword_slam = class({})
-LinkLuaModifier( "m2_sword_slam_buff", "player/warlord/modifiers/m2_sword_slam_buff", LUA_MODIFIER_MOTION_NONE )
+r_sword_slam = class({})
 --------------------------------------------------------------------------------
 
-function m2_sword_slam:OnAbilityPhaseStart()
+function r_sword_slam:OnAbilityPhaseStart()
     if IsServer() then
 
         -- start casting animation
-        self:GetCaster():StartGestureWithPlaybackRate(ACT_DOTA_ATTACK_EVENT, 1.0)
+        self:GetCaster():StartGestureWithPlaybackRate(ACT_DOTA_ATTACK_EVENT, 0.4)
 
         self.mana = self:GetCaster():GetMana()
 
@@ -31,7 +30,7 @@ function m2_sword_slam:OnAbilityPhaseStart()
 end
 ---------------------------------------------------------------------------
 
-function m2_sword_slam:OnAbilityPhaseInterrupted()
+function r_sword_slam:OnAbilityPhaseInterrupted()
     if IsServer() then
 
         -- remove casting animation
@@ -43,7 +42,7 @@ function m2_sword_slam:OnAbilityPhaseInterrupted()
     end
 end
 ---------------------------------------------------------------------------
-function m2_sword_slam:OnSpellStart()
+function r_sword_slam:OnSpellStart()
 	self.caster = self:GetCaster()
 	local origin = self.caster:GetOrigin()
 
@@ -67,21 +66,9 @@ function m2_sword_slam:OnSpellStart()
 
     -- dmg formula
     local dmg = self:GetSpecialValueFor( "base_dmg" )
-    --local dmgPerManaPoint = self:GetSpecialValueFor( "dmg_per_mana_point" )
+    local dmgPerManaPoint = self:GetSpecialValueFor( "dmg_per_mana_point" )
     local dmgPerDebuffStack = self:GetSpecialValueFor( "dmg_per_debuff_stack" )
-    local damage = dmg --+ ( self.mana * dmgPerManaPoint )
-
-    -- stack duration
-    local duration = self:GetSpecialValueFor( "dps_stance_m2_stack_duration" )
-
-    if units ~= nil and #units ~= 0 then
-        self:GetCaster():AddNewModifier(
-            self.caster, -- player source
-            self, -- ability source
-            "m2_sword_slam_buff", -- modifier name
-            {duration = duration} -- kv
-        )
-    end
+    local damage = dmg + ( self.mana * dmgPerManaPoint )
 
     if self:GetCaster():HasModifier("m2_sword_slam_buff") then
         local hBuff = self:GetCaster():FindModifierByNameAndCaster("m2_sword_slam_buff", self.caster)

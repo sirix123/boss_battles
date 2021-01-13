@@ -75,9 +75,9 @@ function space_chain_hook:OnSpellStart()
 
         caster:FindAbilityByName("m1_sword_slash"):SetActivated(false)
         caster:FindAbilityByName("m2_sword_slam"):SetActivated(false)
-        --caster:FindAbilityByName("q_warlord_def_stance"):SetActivated(false)
-        --caster:FindAbilityByName("q_warlord_dps_stance"):SetActivated(false)
+        caster:FindAbilityByName("q_meditate"):SetActivated(false)
         caster:FindAbilityByName("e_spawn_ward"):SetActivated(false)
+        caster:FindAbilityByName("r_sword_slam"):SetActivated(false)
 
         self:GetCaster():EmitSound("Hero_Pudge.AttackHookRetract")
 
@@ -148,5 +148,9 @@ function space_chain_hook:OnProjectileHit(hTarget, vLocation)
                 latch_radius = self.latch_radius,
                 speed = self.speed
             })
+
+
+            self:GetCaster():ManaOnHit( 15 )
+
     end
 end

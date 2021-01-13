@@ -15,7 +15,7 @@ function e_spawn_ward_buff:IsPurgable()
 end
 
 function e_spawn_ward_buff:GetTexture()
-	return "juggernaut_healing_ward"
+	return "axe_berserkers_call"
 end
 
 --------------------------------------------------------------------------------
