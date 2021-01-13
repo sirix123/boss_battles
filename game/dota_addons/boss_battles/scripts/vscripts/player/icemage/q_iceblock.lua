@@ -16,7 +16,7 @@ function q_iceblock:OnAbilityPhaseStart()
             find_radius,
             DOTA_UNIT_TARGET_TEAM_FRIENDLY,
             DOTA_UNIT_TARGET_ALL,
-            DOTA_UNIT_TARGET_FLAG_NONE,
+            DOTA_UNIT_TARGET_FLAG_INVULNERABLE,
             FIND_CLOSEST,
             false)
 
