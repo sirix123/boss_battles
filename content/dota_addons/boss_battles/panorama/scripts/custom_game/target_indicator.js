@@ -52,7 +52,7 @@ function UpdateTargetIndicator(){
                 }
                 var max_range = Abilities.GetCastRange(active);
                 var min_range = Abilities.GetSpecialValueFor(active, "min_range");
-                var radius = Abilities.GetSpecialValueFor(active, "radius")
+                var radius = Abilities.GetSpecialValueFor(active, "hit_box")
                 var length = 0;
                 var target = [];
                 
@@ -63,6 +63,8 @@ function UpdateTargetIndicator(){
                 }
 
                 length = length - radius;
+                //$.Msg("length ",length)
+                //$.Msg("hit_box ",radius)
 
                 var target = [
                     heroOrigin[0] + (direction[0] * length),
