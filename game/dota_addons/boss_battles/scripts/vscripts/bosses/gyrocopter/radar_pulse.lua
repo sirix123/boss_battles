@@ -13,10 +13,10 @@ function radar_pulse:OnSpellStart()
 	local radiusGrowthRate = self:GetSpecialValueFor("radius_growth_rate")
 
 	--PARTICLE, currenlty a temporary filler particle
-	-- local particleSpeed = 700
- --    local nfx = ParticleManager:CreateParticle("particles/gyrocopter/gyro_razor_plasmafield.vpcf", PATTACH_POINT_FOLLOW, caster)
- --    ParticleManager:SetParticleControl(nfx, 0, caster:GetAbsOrigin())
- --    ParticleManager:SetParticleControl(nfx, 1, Vector(particleSpeed, endRadius, 1))
+	local particleSpeed = 700
+    local nfx = ParticleManager:CreateParticle("particles/gyrocopter/gyro_razor_plasmafield.vpcf", PATTACH_POINT_FOLLOW, caster)
+    ParticleManager:SetParticleControl(nfx, 0, caster:GetAbsOrigin())
+    ParticleManager:SetParticleControl(nfx, 1, Vector(particleSpeed, endRadius, 1))
 
     --reset global var for new scan 
     Clear(_G.RadarPulseEnemies)
@@ -34,14 +34,14 @@ function radar_pulse:OnSpellStart()
 			radius = radius + radiusGrowthRate
 		else --else, last frame. Flash the circle one last time with higher alpha
 			DebugDrawCircle(origin, Vector(255,0,0), 128, radius, true, frameDuration*2)
-			-- ParticleManager:DestroyParticle(nfx, true)
-			-- ParticleManager:ReleaseParticleIndex(nfx)
+			ParticleManager:DestroyParticle(nfx, true)
+			ParticleManager:ReleaseParticleIndex(nfx)
 			return
 		end
 
 		--draw 
-		DebugDrawCircle(origin, Vector(255,0,0), currentAlpha, radius, true, frameDuration*2)		
-		DebugDrawCircle(origin, Vector(255,0,0), 0, radius-1, true, frameDuration*2) --draw same thing, radius-1, for double thick line/circle edge
+		-- DebugDrawCircle(origin, Vector(255,0,0), currentAlpha, radius, true, frameDuration*2)		
+		-- DebugDrawCircle(origin, Vector(255,0,0), 0, radius-1, true, frameDuration*2) --draw same thing, radius-1, for double thick line/circle edge
 
 		--HACK: to implement some delay, play this sound after a second or two of the spell starting
 		if currentAlpha == 50 then
