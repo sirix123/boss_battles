@@ -9,11 +9,10 @@ function OnPickingDone( ) {
 
 (function () {
 
-    /* MODE SELECTOR CODE EVENTUALLY MOVE TO ANOTHER FILE */
 	let modeSelectorContainer = $("#HeroModeSelectorContainer"); // mode selector handler
 	let normalModeButton = modeSelectorContainer.FindChildInLayoutFile("NormalModeButton") // nomral mode button
-    let storyModeButton = modeSelectorContainer.FindChildInLayoutFile("StoryModeButton") // story mode button
-    let hardmodeModeButton = modeSelectorContainer.FindChildInLayoutFile("HardModeButton") // hard mode button
+	let storyModeButton = modeSelectorContainer.FindChildInLayoutFile("StoryModeButton") // story mode button
+	//let hardmodeModeButton = modeSelectorContainer.FindChildInLayoutFile("HardModeButton") // hard mode button
     let modeLabel = modeSelectorContainer.FindChildInLayoutFile("SelectorLabelContainer") // mode label / container
 	
 	// find the tooltip panel and hide it
@@ -80,7 +79,8 @@ function OnPickingDone( ) {
 			storyModeButton.ClearPanelEvent( 'onactivate' )
         });
         
-        // hard mode button
+		// hard mode button
+		/*
 		hardmodeModeButton.SetPanelEvent( 'onmouseover', function () {
 			$.Msg("hardModeButton-hover-on")
             toolTipContainer.style.visibility = 'visible';
@@ -101,8 +101,15 @@ function OnPickingDone( ) {
 			hardModeButton.ClearPanelEvent( 'onactivate' )
 			hardModeButton.ClearPanelEvent( 'onactivate' )
 		});
+		*/
 
 	}else{
+
+		modeSelectorContainer.style.visibility = 'collapse';
+		normalModeButton.style.visibility = 'collapse';
+		storyModeButton.style.visibility = 'collapse';
+		modeLabel.style.visibility = 'collapse';
+		toolTipContainer.style.visibility = 'collapse';
 
 	}
 

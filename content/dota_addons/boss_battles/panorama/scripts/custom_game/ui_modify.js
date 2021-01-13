@@ -61,20 +61,19 @@ function ModifyHotkeyBox(top_panel) {
 function ModifyHotkeyText(top_panel, abilityName, text){
     
     if(top_panel){
-        var abilityPanel = top_panel.FindChildTraverse(abilityName);
+        let abilityPanel = top_panel.FindChildTraverse(abilityName);
+
+        if (abilityPanel){
+            let hotkey = abilityPanel.FindChildTraverse("HotkeyText");
+
+            if(hotkey){
+                hotkey.text = text;
+                hotkey.GetParent().visible = true;
+        
+                return true;
+            } 
+        }
     }
-
-    if (abilityPanel){
-        var hotkey = abilityPanel.FindChildTraverse("HotkeyText");
-    }
-   
-    if(hotkey){
-        hotkey.text = text;
-        hotkey.GetParent().visible = true;
-
-        return true;
-    } 
-
     return false;
 }
 

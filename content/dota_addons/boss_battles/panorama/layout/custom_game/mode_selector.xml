@@ -21,10 +21,12 @@
                 <Label id="NormalModeButtonTxt" text="Normal Mode" />
                 <Label id="ToolTipInfo" class="ToolTipInfo" text="i" />
             </Button>
+            <!--
             <Button id="HardModeButton" >
                 <Label id="HardModeButtonTxt" text="Hard Mode" />
                 <Label id="ToolTipInfo" class="ToolTipInfo" text="i" />
             </Button>
+            --> 
         </Panel>
 
         <Panel id="ToolTip" class="ToolTip"> 
