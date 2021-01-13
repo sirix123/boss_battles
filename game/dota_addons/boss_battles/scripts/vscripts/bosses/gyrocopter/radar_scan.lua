@@ -20,7 +20,7 @@ function radar_scan:OnSpellStart()
 	--temporary filler particle
     local particleName = "particles/gyrocopter/red_phoenix_sunray.vpcf"
     
-    --local pfx = ParticleManager:CreateParticle( particleName, PATTACH_ABSORIGIN, caster )	
+    local pfx = ParticleManager:CreateParticle( particleName, PATTACH_ABSORIGIN, caster )	
 
     --reset global var for new scan
 	Clear(_G.RadarScanEnemies)
@@ -40,7 +40,7 @@ function radar_scan:OnSpellStart()
 
 		--Scan finished: any cleanup or actions on the last frame... 
 		if currentFrame >= totalFrames then
-			--ParticleManager:DestroyParticle(pfx, true)			
+			ParticleManager:DestroyParticle(pfx, true)			
 			return
 		end	
 
@@ -48,8 +48,8 @@ function radar_scan:OnSpellStart()
 		local endPoint = Vector(radius * math.cos(radAngle), radius * math.sin(radAngle), 0) + origin
 
 		--PARTICLE: currently a temporary / filler particle
-		-- ParticleManager:SetParticleControl(pfx, 0, origin + Vector(0,0,100))
-		-- ParticleManager:SetParticleControl(pfx, 1, endPoint)
+		ParticleManager:SetParticleControl(pfx, 0, origin + Vector(0,0,100))
+		ParticleManager:SetParticleControl(pfx, 1, endPoint)
 
 		local enemies = FindUnitsInLine(DOTA_TEAM_BADGUYS, caster:GetAbsOrigin(), endPoint, caster, 1, DOTA_UNIT_TARGET_TEAM_ENEMY, DOTA_UNIT_TARGET_HERO, DOTA_UNIT_TARGET_FLAG_INVULNERABLE )
 		for _,enemy in pairs(enemies) do

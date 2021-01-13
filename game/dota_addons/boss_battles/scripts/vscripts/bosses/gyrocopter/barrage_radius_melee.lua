@@ -20,8 +20,20 @@ function barrage_radius_melee:OnSpellStart()
 	-- sound 
 	EmitSoundOn( "gyrocopter_gyro_rocket_barrage_01", self:GetCaster() )
 	-- TODO: any particles? 
-	DebugDrawCircle(caster:GetAbsOrigin(), Vector(255,0,0), 64, radius, true, tickDuration*2) -- melee is red
-	DebugDrawCircle(caster:GetAbsOrigin(), Vector(0,255,0), 96, radius*5, true, tickDuration*2) -- ranged is green
+	-- DebugDrawCircle(caster:GetAbsOrigin(), Vector(255,0,0), 64, radius, true, tickDuration*2) -- melee is red
+	-- DebugDrawCircle(caster:GetAbsOrigin(), Vector(0,255,0), 96, radius*5, true, tickDuration*2) -- ranged is green
+
+	--red in melee. green in ranged.
+    local redRadius = radius
+    local redPulseParticle = ParticleManager:CreateParticle( "particles/gyrocopter/red_pulse_custom.vpcf", PATTACH_CUSTOMORIGIN, caster )
+	ParticleManager:SetParticleControl(redPulseParticle, 0, caster:GetAbsOrigin())
+    ParticleManager:SetParticleControl(redPulseParticle, 1, Vector(redRadius,0,0))
+
+    local greenRadius = radius * 2
+    local greenPulseParticle = ParticleManager:CreateParticle( "particles/gyrocopter/green_pulse_custom.vpcf", PATTACH_CUSTOMORIGIN, caster )
+	ParticleManager:SetParticleControl(greenPulseParticle, 0, caster:GetAbsOrigin())
+    ParticleManager:SetParticleControl(greenPulseParticle, 1, Vector(greenRadius,0,0))
+
 
 	--Run a timer for duration
 	local tickCount = 0
@@ -29,10 +41,11 @@ function barrage_radius_melee:OnSpellStart()
 	local dmgSum = 0
 	Timers:CreateTimer(function()	
 		if tickCount > tickLimit then
+			ParticleManager:DestroyParticle(redPulseParticle, true)
+			ParticleManager:DestroyParticle(greenPulseParticle, true)
+
 			local endTime = Time()
 			local actualElapsed = endTime - startTime
-			print("melee barrage actualElapsed = ".. actualElapsed)
-
 			-- cast ranged barrage if this flag is set. (allows this ability to be used in isolation or in combination with ranged barrage)
 			if _G.castRangeBarrageOnFinish then
 			  	ExecuteOrderFromTable({
@@ -48,7 +61,6 @@ function barrage_radius_melee:OnSpellStart()
 			end
 			return
 		end
-
 
 		--Get nearby enemies
 		local enemies = FindUnitsInRadius(DOTA_TEAM_BADGUYS, caster:GetAbsOrigin(), nil, radius,

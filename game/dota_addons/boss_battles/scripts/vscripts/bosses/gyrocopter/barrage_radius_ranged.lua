@@ -12,25 +12,36 @@ function barrage_radius_ranged:OnSpellStart()
 	local duration = barrage:GetSpecialValueFor("duration")/2 --because this duration comes from barrage, half it for this half (melee/ranged) of the ability
 	local totalDamage = barrage:GetSpecialValueFor("total_damage")
 	local radius = barrage:GetSpecialValueFor("melee_radius")  -- hit every unit beyond this radius. ignore units within this radius
-	local maxRadius = 4000 -- big enough to cover whole arena, but not big enough to hit units outside of arena
+	local maxRadius = 1200 -- big enough to cover whole arena, but not big enough to hit units outside of arena
 	
 	--Not 100% accurate because we don't use delta time. It won't get through all of these attacks.
 	local tickDuration = barrage:GetSpecialValueFor("damage_interval") -- Amount of time to delay between ticks
 	local tickLimit = duration / tickDuration
 	local tickDamage = totalDamage / tickLimit
 
-
 	-- sound 
 	EmitSoundOn( "gyrocopter_gyro_rocket_barrage_05", caster )
-	-- TODO: any particles?
-	DebugDrawCircle(caster:GetAbsOrigin(), Vector(0,255,0), 96, radius, true, tickDuration*2) -- melee is green
-	DebugDrawCircle(caster:GetAbsOrigin(), Vector(255,0,0), 64, radius*5, true, tickDuration*2) -- ranged is red
+
+	--particles:
+	--red in ranged. green in melee.
+    local redRadius = maxRadius
+    local redPulseParticle = ParticleManager:CreateParticle( "particles/gyrocopter/red_pulse_custom.vpcf", PATTACH_CUSTOMORIGIN, caster )
+	ParticleManager:SetParticleControl(redPulseParticle, 0, caster:GetAbsOrigin())
+    ParticleManager:SetParticleControl(redPulseParticle, 1, Vector(redRadius,0,0))
+
+    local greenRadius = radius
+    local greenPulseParticle = ParticleManager:CreateParticle( "particles/gyrocopter/green_pulse_custom.vpcf", PATTACH_CUSTOMORIGIN, caster )
+	ParticleManager:SetParticleControl(greenPulseParticle, 0, caster:GetAbsOrigin())
+    ParticleManager:SetParticleControl(greenPulseParticle, 1, Vector(greenRadius,0,0))
 
 	--Run a timer for duration
 	local tickCount = 0
 	local startTime = Time()
 	Timers:CreateTimer(function()	
 		if tickCount > tickLimit then
+			ParticleManager:DestroyParticle(redPulseParticle, true)
+			ParticleManager:DestroyParticle(greenPulseParticle, true)
+			
 			local endTime = Time()
 			local actualElapsed = endTime - startTime
 			print("ranged barrage actualElapsed = ".. actualElapsed)

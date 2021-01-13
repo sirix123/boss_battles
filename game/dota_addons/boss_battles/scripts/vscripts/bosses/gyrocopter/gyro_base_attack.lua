@@ -25,28 +25,28 @@ function gyro_base_attack:OnSpellStart()
 		end
 
 	    local info = {
-	    -- EffectName = "particles/ranger/ranger_clockwerk_para_rocket_flare.vpcf",
-	    EffectName = "particles/econ/items/gyrocopter/hero_gyrocopter_gyrotechnics/gyro_base_attack.vpcf",
-	    Ability = self,
-	    iMoveSpeed = self.projectile_speed,
-	    Source = self.caster,
-	    Target = self.target,
-	    bDodgeable = false,
-	    --iSourceAttachment = DOTA_PROJECTILE_ATTACHMENT_ATTACK_1,
-	    iSourceAttachment = DOTA_PROJECTILE_ATTACHMENT_HITLOCATION,
+		    -- EffectName = "particles/ranger/ranger_clockwerk_para_rocket_flare.vpcf",
+		    EffectName = "particles/econ/items/gyrocopter/hero_gyrocopter_gyrotechnics/gyro_base_attack.vpcf",
+		    Ability = self,
+		    iMoveSpeed = self.projectile_speed,
+		    Source = self.caster,
+		    Target = self.target,
+		    bDodgeable = false,
+		    --iSourceAttachment = DOTA_PROJECTILE_ATTACHMENT_ATTACK_1,
+		    iSourceAttachment = DOTA_PROJECTILE_ATTACHMENT_HITLOCATION,
 
-	    --from stefans code:
-	    bDeleteOnHit = true,
-	    iUnitTargetTeam = DOTA_UNIT_TARGET_TEAM_BOTH,
-	    iUnitTargetFlags = DOTA_UNIT_TARGET_FLAG_INVULNERABLE,
-	    iUnitTargetType = DOTA_UNIT_TARGET_HERO + DOTA_UNIT_TARGET_BASIC,
+		    --from stefans code:
+		    bDeleteOnHit = true,
+		    iUnitTargetTeam = DOTA_UNIT_TARGET_TEAM_BOTH,
+		    iUnitTargetFlags = DOTA_UNIT_TARGET_FLAG_INVULNERABLE,
+		    iUnitTargetType = DOTA_UNIT_TARGET_HERO + DOTA_UNIT_TARGET_BASIC,
 
 
-	    bProvidesVision = true,
-	    iVisionTeamNumber = self.caster:GetTeamNumber(),
-		iVisionRadius = 300,
-		}
-	    ProjectileManager:CreateTrackingProjectile( info )
+		    bProvidesVision = true,
+		    iVisionTeamNumber = self.caster:GetTeamNumber(),
+			iVisionRadius = 300,
+			}
+		    ProjectileManager:CreateTrackingProjectile( info )
 
 	else
 		print("gyro_base_attack cast, but no targets found in _G.BaseAttackTargets")

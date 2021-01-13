@@ -2,19 +2,19 @@ gyrocopter = class({})
 
 LinkLuaModifier( "modifier_generic_stunned", "core/modifier_generic_stunned", LUA_MODIFIER_MOTION_NONE )
 
---TODO: implement agro table...
-
-local displayDebug = true
 local initialZ = 0
 
 -- On Spawn, init any vars, start MainThinker
 function Spawn( entityKeyValues )
+	--disable attacks.
+	thisEntity:SetAttackCapability(0) --set to DOTA_UNIT_CAP_NO_ATTACK.
+
 	--GLOBALS: setting these in spawn so each time gyro spawns they're reset
 	--Others are used too... move em up here
 	_G.IsGyroBusy = false
 
 	_G.RadarPulseEnemies = {}
-	_G.PulseAndCast = "dumb_homing_missile_v2"
+	_G.PulseAndCast = "call_down"
 
 	_G.RadarScanEnemies = {}
 	_G.ScanAndCast = "smart_homing_missile_v2"
@@ -23,11 +23,10 @@ function Spawn( entityKeyValues )
 	_G.FlakCannonTargets = {}
 	_G.BarrageTargets = {}
 
-	
 	-- Not sure if I need two tables now, one for dumb_homing_missile and the other for smart_homing_missile
 	_G.HomingMissileTargets = {}
-	_G.ActiveHomingMissiles = {}
 
+	--TODO: get the arena bounds for flee...
 	thisEntity.flee = thisEntity:FindAbilityByName( "flee" )
 
 	--TESTED and working in single player, TODO test with multiple players. 
@@ -40,14 +39,9 @@ function Spawn( entityKeyValues )
 	thisEntity.swoop = thisEntity:FindAbilityByName( "swoop" )
 	thisEntity.absorbing_shell = thisEntity:FindAbilityByName( "absorbing_shell" )
 	thisEntity.gyro_base_attack = thisEntity:FindAbilityByName( "gyro_base_attack" )	
-
-	--BUG: self is not unique... each time I cast this spell self is identical to the previous cast and subsequent cast...
-	--TODO: need a unique ID / to track each rocket. Probably just rewrite my code and use _G.ActiveHomingMissiles[i] instead of self.
 	thisEntity.dumb_homing_missile = thisEntity:FindAbilityByName( "dumb_homing_missile_v2" )
 	thisEntity.smart_homing_missile = thisEntity:FindAbilityByName( "smart_homing_missile_v2" )
 
-
-	--UNTESTED: half implemented
 	--TO IMPLEMENT: 
 	--thisEntity.tracking_beacon = thisEntity:FindAbilityByName( "tracking_beacon" )
 	thisEntity.rotating_flak_cannon = thisEntity:FindAbilityByName( "rotating_flak_cannon" )
@@ -59,18 +53,31 @@ function Spawn( entityKeyValues )
 	
 	--abilityQueue thinker
 	thisEntity:SetContextThink( "AbilityQueue", AbilityQueue, 0.1)
-	thisEntity:SetContextThink( "MainLoop", MainLoop, 0.1 )
 
-	thisEntity:SetContextThink("Test", Test, 1)
+	--TEST:
+	--thisEntity:SetContextThink("Test", Test, 1)
 
+	--AI Files:
+	_G.GyroAI = "Standard"
+	if _G.GyroAI == "SwoopBuild" then
+		thisEntity:SetContextThink( "SwoopBuild", SwoopBuild, 0.1 )		
+	end
+	if _G.GyroAI == "Standard" then
+		thisEntity:SetContextThink( "MainLoop", MainLoop, 0.1 )
+	end
 	--thisEntity:SetContextThink( "SwoopBuild", SwoopBuild, 0.1 )
-	--disable attacks.
-	thisEntity:SetAttackCapability(0) --set to DOTA_UNIT_CAP_NO_ATTACK.
+	--thisEntity:SetContextThink( "MainLoop", MainLoop, 0.1 )
 end
 
 
 function CurrentTestCode()
 	print("CurrentTestCode()")
+
+
+	--TODO: test new particles:
+	-- red_pulse and green_pulse
+
+
 	-- Test any abilities that need a target:
 	local enemies = FindUnitsInRadius(DOTA_TEAM_BADGUYS, thisEntity:GetAbsOrigin(), nil, 3000,
 	DOTA_UNIT_TARGET_TEAM_ENEMY, DOTA_UNIT_TARGET_ALL, DOTA_UNIT_TARGET_FLAG_NONE, FIND_CLOSEST, false )
@@ -78,14 +85,13 @@ function CurrentTestCode()
 		--TEST HOMING MISSILE
 		_G.HomingMissileTargets[#_G.HomingMissileTargets+1] = {}
 		_G.HomingMissileTargets[#_G.HomingMissileTargets] = enemy
-		AddToAbilityQueue(thisEntity.dumb_homing_missile, DOTA_UNIT_ORDER_CAST_NO_TARGET, nil, false, nil)
+		--AddToAbilityQueue(thisEntity.dumb_homing_missile, DOTA_UNIT_ORDER_CAST_NO_TARGET, nil, false, nil)
 		--AddToAbilityQueue(thisEntity.smart_homing_missile, DOTA_UNIT_ORDER_CAST_NO_TARGET, nil, false, nil)
-
 		--AddToAbilityQueue(thisEntity.swoop, DOTA_UNIT_ORDER_CAST_POSITION, enemy:GetAbsOrigin(), false, nil)
 	end
 
 	--thisEntity.smart_homing_missile:SetLevel(thisEntity.smart_homing_missile:GetLevel() +1)
-	thisEntity.dumb_homing_missile:SetLevel(thisEntity.dumb_homing_missile:GetLevel() +1)
+	--thisEntity.dumb_homing_missile:SetLevel(thisEntity.dumb_homing_missile:GetLevel() +1)
 
 	--Test any abilities that don't need a target
 	
@@ -95,18 +101,8 @@ end
 
 
 function Test()
-
-	-- local ft = FrameTime()
-	-- local gst = GetSystemTime()
-	-- local lt =  LocalTime()
-	-- local time = Time()
-
-	-- print("ft = ", ft)
-	-- print("gst = ", gst)
-	-- print("lt = ", lt)
-	-- print("time = ", time)
-
-	return 1
+	CurrentTestCode()
+	return 10
 end
 
 local dt = 0.1
@@ -126,8 +122,8 @@ function MainLoop()
 	--print("tickCount = "..tickCount.. " IsGyroBusy? ".. tostring(IsGyroBusy))
 
 	--TESTING:
-	--if (tickCount % 30 == 0) then
-	if (tickCount == 50) then
+	if (tickCount % 50 == 0) then
+	--if (tickCount == 50) then
 
 		--CurrentTestCode()
 	end	
@@ -149,9 +145,7 @@ function MainLoop()
 		timeOfLastSwoop = tickCount
 	end
 
-
-
-	--UNTESTED:
+	-- --UNTESTED:
 	if (isHpAbove75Percent and thisEntity:GetHealthPercent() <= 75) then
 		isHpAbove75Percent = false
 		--print("hp below 75%. Time to zoom")
@@ -167,6 +161,7 @@ function MainLoop()
 		isHpAbove50Percent = false
 		--print("hp below 50%. Time to zoom")
 	end
+
 
 	--at 5th second and every 15 seconds afterwards. 
 	if (tickCount >= 50 and (tickCount-50) % 150 == 0  ) then
@@ -235,6 +230,20 @@ local timeOfLastSwoop = 0
 local isHpAbove75Percent = true
 local isHpAbove50Percent = true
 
+local swoopDelay = 100 -- 10 seconds.
+
+
+local spellCount = 1
+local spellSequence = {}
+spellSequence[1] = thisEntity.smart_homing_missile
+spellSequence[2] = thisEntity.barrage
+spellSequence[3] = thisEntity.dumb_homing_missile
+spellSequence[4] = thisEntity.call_down
+
+
+--perhaps alternate swoop with something, coz swoop is really an attack for ranged.
+
+--swoop every 20 seconds, and then cycle through the spells above.
 function SwoopBuild()
 	--Check certain game states and return early if needed
 	if not IsServer() then return end
@@ -244,109 +253,65 @@ function SwoopBuild()
 	tickCount = tickCount+1
 	--print("tickCount = "..tickCount.. " IsGyroBusy? ".. tostring(IsGyroBusy))
 
-
-	--plan...
-	-- every 10ish seconds gyro swoops to a target, then uses one of his spells (barrage)
-
-	-- todo; make missiles and call_down happen for ranged only.
-	--implement whirlwind where gyro spins, after 3 seconds it gets too strong and starts sucking nearby players in... 
-		--it's just a melee aoe?
-
-	--TESTING:
+		--TESTING:
 	if (tickCount % 80 == 0) then
 	--if (tickCount == 50) then
-		CurrentTestCode()
+		--CurrentTestCode()
 	end	
 
-	--TESTING:
-	if tickCount == 90 then
-		--AddToAbilityQueue(thisEntity.flee, DOTA_UNIT_ORDER_CAST_POSITION, thisEntity:GetAbsOrigin() + Vector(0,2000,0), false, nil)
-		--AddToAbilityQueue(thisEntity.zoom, DOTA_UNIT_ORDER_CAST_POSITION, thisEntity:GetAbsOrigin() + Vector(0,-2000,0), false, nil)
+	if (tickCount % 200 == 0 ) then
+		--Swoop players immediately
+		local enemies = FindUnitsInRadius(DOTA_TEAM_BADGUYS, thisEntity:GetAbsOrigin(), nil, 3000, DOTA_UNIT_TARGET_TEAM_ENEMY, DOTA_UNIT_TARGET_ALL, DOTA_UNIT_TARGET_FLAG_NONE, FIND_FARTHEST, false )
+		if #enemies > 0 then
+			AddToAbilityQueue(thisEntity.swoop, DOTA_UNIT_ORDER_CAST_POSITION, enemies[1]:GetAbsOrigin(), false, nil)
+		end
 	end
-	
+
+	--at 30th second and every 20 seconds afterwards, cast barrage
+	if (tickCount >= 300 and (tickCount-300) % 200 == 0  ) then
+		spellCount = spellCount +1
+		if spellCount > #spellSequence then
+			spellCount = 1
+		end
+
+		print("casting a spell from spellSequence")
+		--spellSequence[spellSequence]
+		--need to do different things for each spell...
+
+		if spellSequence[spellSequence] == thisEntity.call_down then
+			print("spellSequence = call_down")
+			_G.PulseAndCast = "call_down"
+			AddToAbilityQueue(thisEntity.radar_pulse, DOTA_UNIT_ORDER_CAST_NO_TARGET, nil, false, nil)
+
+		end
+		if spellSequence[spellSequence] == thisEntity.barrage then
+			print("spellSequence = barrage")
+			AddToAbilityQueue(thisEntity.barrage, DOTA_UNIT_ORDER_CAST_NO_TARGET, nil, false, nil)
+		end
+		if spellSequence[spellSequence] == thisEntity.smart_homing_missile then
+			print("spellSequence = smart missile")
+			_G.ScanAndCast = "smart_homing_missile_v2"
+			AddToAbilityQueue(thisEntity.radar_scan, DOTA_UNIT_ORDER_CAST_NO_TARGET, nil, false, nil)
+		end
+
+		if (spellSequence[spellSequence] == thisEntity.dumb_homing_missile) then 
+			print("spellSequence = dumb missile")
+			_G.PulseAndCast = "dumb_homing_missile_v2"
+			AddToAbilityQueue(thisEntity.radar_pulse, DOTA_UNIT_ORDER_CAST_NO_TARGET, nil, false, nil)
+		end
+	end
+
 	--init:
-	-- if tickCount == 1 then
-	-- 	initialZ = thisEntity:GetAbsOrigin().z
-	-- 	--Swoop players immediately
-	-- 	local enemies = FindUnitsInRadius(DOTA_TEAM_BADGUYS, thisEntity:GetAbsOrigin(), nil, 3000, DOTA_UNIT_TARGET_TEAM_ENEMY, DOTA_UNIT_TARGET_ALL, DOTA_UNIT_TARGET_FLAG_NONE, FIND_FARTHEST, false )
-	-- 	if #enemies > 0 then
-	-- 		AddToAbilityQueue(thisEntity.swoop, DOTA_UNIT_ORDER_CAST_POSITION, enemies[1]:GetAbsOrigin(), false, nil)
-	-- 	end
-	-- 	timeOfLastSwoop = tickCount
-	-- end
+	if tickCount == 1 then
+		initialZ = thisEntity:GetAbsOrigin().z
+		--Swoop players immediately
+		local enemies = FindUnitsInRadius(DOTA_TEAM_BADGUYS, thisEntity:GetAbsOrigin(), nil, 3000, DOTA_UNIT_TARGET_TEAM_ENEMY, DOTA_UNIT_TARGET_ALL, DOTA_UNIT_TARGET_FLAG_NONE, FIND_FARTHEST, false )
+		if #enemies > 0 then
+			AddToAbilityQueue(thisEntity.swoop, DOTA_UNIT_ORDER_CAST_POSITION, enemies[1]:GetAbsOrigin(), false, nil)
+		end
+		timeOfLastSwoop = tickCount
+	end
 
-
-
-	-- --UNTESTED:
-	-- if (isHpAbove75Percent and thisEntity:GetHealthPercent() <= 75) then
-	-- 	isHpAbove75Percent = false
-	-- 	--print("hp below 75%. Time to zoom")
-
-	-- 	--UNTESTED: zoom away... need better algo to decide where to zoom to....
-	-- 	AddToAbilityQueue(thisEntity.flee, DOTA_UNIT_ORDER_CAST_POSITION, thisEntity:GetAbsOrigin() + Vector(0,2500,0), false, nil)
-
-	-- 	thisEntity.dumb_homing_missile:SetLevel(thisEntity.dumb_homing_missile:GetLevel() +1)
-	-- 	thisEntity.smart_homing_missile:SetLevel(thisEntity.smart_homing_missile:GetLevel() +1)
-	-- end
-
-	-- if (isHpAbove50Percent and thisEntity:GetHealthPercent() <= 50) then
-	-- 	isHpAbove50Percent = false
-	-- 	--print("hp below 50%. Time to zoom")
-	-- end
-
-	-- --at 5th second and every 15 seconds afterwards. 
-	-- if (tickCount >= 50 and (tickCount-50) % 150 == 0  ) then
-	-- 	--print("queueing radarPulse. call_down or dumb_homing_missile")
-	-- 	-- alternate between casting call_down and dhm
-	-- 	if (_G.PulseAndCast == "call_down") then
-	-- 		_G.PulseAndCast = "dumb_homing_missile_v2"
-	-- 	else
-	-- 		_G.PulseAndCast = "call_down"
-	-- 	end
-	-- 	AddToAbilityQueue(thisEntity.radar_pulse, DOTA_UNIT_ORDER_CAST_NO_TARGET, nil, false, nil)
-	-- end
-
-	-- --at 10th second and every 30 seconds afterwards, cast barrage
-	-- if (tickCount >= 100 and (tickCount-100) % 300 == 0  ) then
-	-- 	--print("queueing  barrage")
-	-- 	AddToAbilityQueue(thisEntity.barrage, DOTA_UNIT_ORDER_CAST_NO_TARGET, nil, false, nil)
-	-- end
-
-	-- --at 30th second and every 60 seconds afterwards, cast shm
-	-- if (tickCount >= 300 and (tickCount-300) % 600 == 0  ) then
-	-- 	--print("queueing  radarScan and smart_homing_missile")
-	-- 	_G.ScanAndCast = "smart_homing_missile_v2"
-	-- 	AddToAbilityQueue(thisEntity.radar_scan, DOTA_UNIT_ORDER_CAST_NO_TARGET, nil, false, nil)
-	-- end
-
-	-- if (tickCount % 550 == 0 ) then
-	-- 	--print("55 seconds, queueing  Absorbing Shell")
-	-- 	AddToAbilityQueue(thisEntity.absorbing_shell, DOTA_UNIT_ORDER_CAST_NO_TARGET, nil, false, nil)
-	-- end
-
-	-- -- swoop every 30 seconds, or 30 seconds since last swoop.
-	-- --UNTESTED: might overlap some other abilities but hopefully abilityQueue handles this
-	-- if (tickCount > (timeOfLastSwoop+300) ) then
-	-- 	--print("queueing swoop!")
-	-- 	local enemies = FindUnitsInRadius(DOTA_TEAM_BADGUYS, thisEntity:GetAbsOrigin(), nil, 3000, DOTA_UNIT_TARGET_TEAM_ENEMY, DOTA_UNIT_TARGET_ALL, DOTA_UNIT_TARGET_FLAG_NONE, FIND_CLOSEST, false )
-	-- 	if #enemies > 0 then
-	-- 		AddToAbilityQueue(thisEntity.swoop, DOTA_UNIT_ORDER_CAST_POSITION, enemies[1]:GetAbsOrigin(), false, nil)
-	-- 	end
-	-- 	timeOfLastSwoop = tickCount
-	-- end
-
-	-- --TODO: rotating_flak_cannon
-	-- --TODO implement agro table
-	-- --Auto attack closest enemy is no other action is happening:
-	-- if not _G.IsGyroBusy and (tickCount % 7) == 0 then
-	-- 	local enemies = FindUnitsInRadius(DOTA_TEAM_BADGUYS, thisEntity:GetAbsOrigin(), nil, 3000,
-	-- 	DOTA_UNIT_TARGET_TEAM_ENEMY, DOTA_UNIT_TARGET_ALL, DOTA_UNIT_TARGET_FLAG_NONE, FIND_CLOSEST, false )
-	-- 	if #enemies > 0 then
-	-- 		_G.BaseAttackTargets[#_G.BaseAttackTargets +1] = enemies[1]
-	-- 		AddToAbilityQueue(thisEntity.gyro_base_attack, DOTA_UNIT_ORDER_CAST_NO_TARGET, nil, false, nil)			
-	-- 	end
-	-- end
-	
 	return dt
 end
 

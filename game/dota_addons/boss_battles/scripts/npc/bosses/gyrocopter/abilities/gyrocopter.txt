@@ -268,7 +268,7 @@
             "04"                        
             {
                 "var_type"          "FIELD_INTEGER"
-                "melee_radius"      "500"
+                "melee_radius"      "600"
             }
         }
     } 
