@@ -8,6 +8,8 @@ LinkLuaModifier( "movement_modifier_thinker", "player/generic/movement_modifier_
 LinkLuaModifier( "remove_attack_modifier", "player/generic/remove_attack_modifier", LUA_MODIFIER_MOTION_NONE )
 LinkLuaModifier( "modifier_grace_period", "player/generic/modifier_grace_period", LUA_MODIFIER_MOTION_NONE )
 LinkLuaModifier( "modifier_hide_hero", "player/generic/modifier_hide_hero", LUA_MODIFIER_MOTION_NONE )
+LinkLuaModifier( "admin_god_mode", "player/generic/admin_god_mode", LUA_MODIFIER_MOTION_NONE )
+
 
 function GameSetup:init()
 
@@ -79,6 +81,7 @@ function GameSetup:OnNPCSpawned(keys)
 
     if npc:GetUnitName() == "npc_dota_hero_wisp" then
         npc:AddNewModifier(npc,nil,"modifier_hide_hero",{duration = -1})
+
     end
 
     if npc:IsRealHero() and npc:GetUnitName() ~= "npc_dota_hero_wisp" and npc.bFirstSpawned == nil then
@@ -96,6 +99,10 @@ function GameSetup:OnNPCSpawned(keys)
         --player_frame_manager:CreatePlayerFrame( npc )
         --player_frame_manager:RegisterPlayer(npc)
         --print("on spanwed lives ", npc.playerLives )
+
+        if IsInToolsMode() == true then
+            npc:AddNewModifier( npc,  nil, "admin_god_mode", { } )
+        end
 
         -- level up abilities for all heroes to level 1
         if npc:GetUnitName() == "npc_dota_hero_crystal_maiden"

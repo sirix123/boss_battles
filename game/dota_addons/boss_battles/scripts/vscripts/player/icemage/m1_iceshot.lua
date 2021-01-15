@@ -48,6 +48,12 @@ function m1_iceshot:OnSpellStart()
         self.ms_slow = self:GetSpecialValueFor( "ms_slow" )
         self.as_slow = self:GetSpecialValueFor( "as_slow" )
 
+        self.dmg = self:GetSpecialValueFor( "dmg" )
+
+        if self.caster:HasModifier("admin_god_mode") then
+            self.dmg = 40000
+        end
+
         -- set proj direction to mouse location
         local vTargetPos = nil
         --vTargetPos = PlayerManager.mouse_positions[self.caster:GetPlayerID()]
@@ -74,7 +80,7 @@ function m1_iceshot:OnSpellStart()
                 local dmgTable = {
                     victim = unit,
                     attacker = self.caster,
-                    damage = self:GetSpecialValueFor( "dmg" ),
+                    damage = self.dmg,
                     damage_type = self:GetAbilityDamageType(),
                     ability = self,
                 }
