@@ -33,7 +33,7 @@ function fire_turret_flame:OnSpellStart()
             GroundBehavior = PROJECTILES_NOTHING,
             fGroundOffset = 80,
             UnitTest = function(_self, unit)
-                return unit:GetTeamNumber() ~= caster:GetTeamNumber() --and unit:GetTeamNumber() ~= DOTA_TEAM_NEUTRALS
+                return unit:GetTeamNumber() ~= caster:GetTeamNumber() and unit:GetModelName() ~= "models/development/invisiblebox.vmdl" and CheckGlobalUnitTableForUnitName(unit) ~= true
             end,
             OnUnitHit = function(_self, unit)
                 local dmgTable = {

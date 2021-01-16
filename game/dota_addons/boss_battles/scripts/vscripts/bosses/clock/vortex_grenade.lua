@@ -13,7 +13,7 @@ function vortex_grenade:OnAbilityPhaseStart()
             self:GetCaster():GetTeamNumber(),	-- int, your team number
             self:GetCaster():GetAbsOrigin(),	-- point, center point
             nil,	-- handle, cacheUnit. (not known)
-            2000,	-- float, radius. or use FIND_UNITS_EVERYWHERE
+            1300,	-- float, radius. or use FIND_UNITS_EVERYWHERE
             DOTA_UNIT_TARGET_TEAM_ENEMY,
             DOTA_UNIT_TARGET_ALL,
             DOTA_UNIT_TARGET_FLAG_INVULNERABLE,	-- int, flag filter

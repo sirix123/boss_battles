@@ -99,7 +99,7 @@ function quilboar_puddle:OnSpellStart()
 			GroundBehavior = PROJECTILES_NOTHING,
 			fGroundOffset = 256,
 			UnitTest = function(_self, unit)
-				return unit:GetTeamNumber() ~= caster:GetTeamNumber() and unit ~= nil
+				return unit:GetTeamNumber() ~= caster:GetTeamNumber() and unit ~= nil and unit:GetModelName() ~= "models/development/invisiblebox.vmdl" and CheckGlobalUnitTableForUnitName(unit) ~= true
 			end,
 			OnUnitHit = function(_self, unit)
 				CreateModifierThinker( self:GetCaster(), self, "quillboar_puddle_modifier", { self:GetSpecialValueFor( "duration" ) }, unit:GetAbsOrigin(), self:GetCaster():GetTeamNumber(), false )

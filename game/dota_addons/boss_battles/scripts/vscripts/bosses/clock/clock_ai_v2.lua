@@ -487,6 +487,9 @@ end
 --------------------------------------------------------------------------------
 
 function FindFurnacesWithActivatedBuff()
+
+	if thisEntity.cast_cogs == true then return 0.5 end
+
 	if thisEntity.furnace_1_unit.FURNACE_1 == true and thisEntity.furnace_1_activated == false then
 		thisEntity.furnace_1_activated = true
 		thisEntity.nActivatedFurnaces = thisEntity.nActivatedFurnaces + 1

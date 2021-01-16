@@ -37,7 +37,7 @@ function armor_buff_modifier:OnStackCountChanged( param )
             param = self:GetStackCount() + 1
         end
 
-        print("para ",param)
+        --print("para ",param)
 
         self.effect = ParticleManager:CreateParticle( "particles/clock/clock_abaddon_curse_counter_stack.vpcf", PATTACH_OVERHEAD_FOLLOW, self:GetParent() )
         ParticleManager:SetParticleControl( self.effect, 0, self:GetParent():GetAbsOrigin() )

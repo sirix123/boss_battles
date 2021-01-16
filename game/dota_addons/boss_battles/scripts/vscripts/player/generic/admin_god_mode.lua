@@ -17,7 +17,7 @@ function admin_god_mode:DeclareFunctions()
 end
 
 function admin_god_mode:GetModifierPercentageCooldown()
-    return -80
+    return 80
 end
 
 function admin_god_mode:GetModifierIncomingDamage_Percentage()
