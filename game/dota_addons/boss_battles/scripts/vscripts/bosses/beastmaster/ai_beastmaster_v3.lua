@@ -64,6 +64,8 @@ function BeastmasterThink()
 		return 0.5
 	end
 
+	--print("thisEntity.summon_bird ", thisEntity.summon_bird:GetCooldownTimeRemaining())
+
 	if thisEntity.markTarget ~= nil then
 		if thisEntity.markTarget:IsAlive() ~= nil and thisEntity.markTarget:IsAlive() ~= true then
 			-- target is dead find a new one / end cooddown for mark spell

@@ -39,12 +39,16 @@ end
 ---------------------------------------------------------------------------
 
 function grab_player:OnSpellStart()
-	--local target = self:GetCursorTarget()
-	
-	self:GetCaster():EmitSound("Hero_Batrider.FlamingLasso.Cast")
+    --local target = self:GetCursorTarget()
 
-    -- sound
-	
+    -- if player has a stun/something that stops movment remove it (dispell?)
+    if self.vTargetPos:HasModifier("q_iceblock_modifier") then
+        self.vTargetPos:RemoveModifierByName("q_iceblock_modifier")
+    end
+
+	-- sound
+    self:GetCaster():EmitSound("Hero_Batrider.FlamingLasso.Cast")
+
     self.vTargetPos:AddNewModifier(self:GetCaster(), self, "grab_player_modifier", { duration= -1, })
 end
 ---------------------------------------------------------------------------

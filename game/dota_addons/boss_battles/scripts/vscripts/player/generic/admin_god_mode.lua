@@ -2,6 +2,8 @@ admin_god_mode = class({})
 
 function admin_god_mode:IsDebuff() return false end
 
+function admin_god_mode:RemoveOnDeath() return false end
+
 function admin_god_mode:OnCreated()
     if IsServer() then
 

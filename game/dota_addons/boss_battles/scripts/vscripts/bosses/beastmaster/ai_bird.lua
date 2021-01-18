@@ -67,6 +67,8 @@ function BirdThinker()
 		return 0.5
     end
 
+    --print("thisEntity.grab_player:cd ", thisEntity.grab_player:GetCooldownTimeRemaining())
+
     -- fly in a circle, slowly, shoot a random player (bloodlust affects this normal attack)
     -- setup a timer to change target every 15 seconds
     if thisEntity.PHASE == 1 then

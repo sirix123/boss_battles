@@ -58,10 +58,20 @@ function bird_death_modifier:OnDestroy()
         end
 
         if unit:GetUnitName() == "npc_beastmaster" then
-            -- adds modifier to bear that increases as and ms
-            unit:AddNewModifier( self:GetCaster(), self, "beastmaster_bloodlust_modifier", { duration = 15 } )
 
-            local nFXIndex = ParticleManager:CreateParticle( "particles/beastmaster/bear_lust_ogre_magi_bloodlust_buff.vpcf", PATTACH_CUSTOMORIGIN, nil )
+            --print(" aibl;ity sumon bird ", unit:FindAbilityByName("summon_bird"))
+            unit:FindAbilityByName("summon_bird"):EndCooldown()
+            unit:FindAbilityByName("summon_bird"):StartCooldown( 25 )
+
+            unit:FindAbilityByName("beastmaster_mark"):EndCooldown()
+
+            --print("found bm in bird death modifier")
+
+
+            -- adds modifier to bear that increases as and ms
+            --unit:AddNewModifier( self:GetCaster(), self, "beastmaster_bloodlust_modifier", { duration = 15 } )
+
+            --[[local nFXIndex = ParticleManager:CreateParticle( "particles/beastmaster/bear_lust_ogre_magi_bloodlust_buff.vpcf", PATTACH_CUSTOMORIGIN, nil )
             ParticleManager:SetParticleControlEnt( nFXIndex, 0, unit, PATTACH_OVERHEAD_FOLLOW, "attach_hitloc", unit:GetAbsOrigin(), true )
             ParticleManager:ReleaseParticleIndex( nFXIndex )
 
@@ -76,7 +86,7 @@ function bird_death_modifier:OnDestroy()
 
             local nfx = ParticleManager:CreateParticle("particles/beastmaster/beastmaster_razor_static_link.vpcf", PATTACH_POINT_FOLLOW, self:GetParent())
             ParticleManager:SetParticleControlEnt(nfx, 0, self:GetParent(), PATTACH_POINT_FOLLOW, "attach_static", self:GetParent():GetAbsOrigin(), true)
-            ParticleManager:SetParticleControlEnt(nfx, 1, unit, PATTACH_POINT_FOLLOW, "attach_hitloc", unit:GetAbsOrigin(), true)
+            ParticleManager:SetParticleControlEnt(nfx, 1, unit, PATTACH_POINT_FOLLOW, "attach_hitloc", unit:GetAbsOrigin(), true)]]
 
         end
     end

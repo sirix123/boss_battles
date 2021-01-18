@@ -77,6 +77,10 @@ function GameSetup:OnNPCSpawned(keys)
         if self.death_vision ~= nil then
             RemoveFOWViewer(npc:GetTeamNumber(),self.death_vision)
         end
+
+        -- if remove is suppose to spawn with 0 mana, spawn them with 0 mana
+        if npc:GetUnitName() == "npc_dota_hero_crystal_maiden" then npc:SetMana(0) end
+
     end
 
     if npc:GetUnitName() == "npc_dota_hero_wisp" then
