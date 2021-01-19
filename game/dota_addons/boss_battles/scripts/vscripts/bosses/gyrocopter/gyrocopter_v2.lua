@@ -18,6 +18,8 @@ function Spawn( entityKeyValues )
 
 	_G.RadarScanEnemies = {}
 	_G.ScanAndCast = "smart_homing_missile_v2"
+
+	_G.ContinuousRadarScanEnemies = {}
 	
 	_G.BaseAttackTargets = {}
 	_G.FlakCannonTargets = {}
@@ -47,12 +49,16 @@ function Spawn( entityKeyValues )
 	thisEntity.rotating_flak_cannon = thisEntity:FindAbilityByName( "rotating_flak_cannon" )
 	thisEntity.rotating_flak_cannon_attack = thisEntity:FindAbilityByName( "rotating_flak_cannon_attack" )	
 
+	thisEntity.dumb_rocket_waves = thisEntity:FindAbilityByName("dumb_rocket_waves")
+
 	--still not sure the purpose of whirlwind...
 	--maybe just suck players in, then stun em, and fly away to trigger a phase shift
 	--thisEntity.whirlwind = thisEntity:FindAbilityByName( "whirlwind" )
 	
 	--abilityQueue thinker
 	thisEntity:SetContextThink( "AbilityQueue", AbilityQueue, 0.1)
+
+	thisEntity.continuous_radar_scan = thisEntity:FindAbilityByName( "continuous_radar_scan" )
 
 	--TEST:
 	--thisEntity:SetContextThink("Test", Test, 1)
@@ -65,30 +71,26 @@ function Spawn( entityKeyValues )
 	if _G.GyroAI == "Standard" then
 		thisEntity:SetContextThink( "MainLoop", MainLoop, 0.1 )
 	end
-	--thisEntity:SetContextThink( "SwoopBuild", SwoopBuild, 0.1 )
-	--thisEntity:SetContextThink( "MainLoop", MainLoop, 0.1 )
+	
 end
 
 
 function CurrentTestCode()
 	print("CurrentTestCode()")
 
-
-	--TODO: test new particles:
-	-- red_pulse and green_pulse
-
-
+	AddToAbilityQueue(thisEntity.dumb_rocket_waves, DOTA_UNIT_ORDER_CAST_NO_TARGET, nil, false, nil)
+	
 	-- Test any abilities that need a target:
-	local enemies = FindUnitsInRadius(DOTA_TEAM_BADGUYS, thisEntity:GetAbsOrigin(), nil, 3000,
-	DOTA_UNIT_TARGET_TEAM_ENEMY, DOTA_UNIT_TARGET_ALL, DOTA_UNIT_TARGET_FLAG_NONE, FIND_CLOSEST, false )
-	for _,enemy in pairs(enemies) do
-		--TEST HOMING MISSILE
-		_G.HomingMissileTargets[#_G.HomingMissileTargets+1] = {}
-		_G.HomingMissileTargets[#_G.HomingMissileTargets] = enemy
-		--AddToAbilityQueue(thisEntity.dumb_homing_missile, DOTA_UNIT_ORDER_CAST_NO_TARGET, nil, false, nil)
-		--AddToAbilityQueue(thisEntity.smart_homing_missile, DOTA_UNIT_ORDER_CAST_NO_TARGET, nil, false, nil)
-		--AddToAbilityQueue(thisEntity.swoop, DOTA_UNIT_ORDER_CAST_POSITION, enemy:GetAbsOrigin(), false, nil)
-	end
+	-- local enemies = FindUnitsInRadius(DOTA_TEAM_BADGUYS, thisEntity:GetAbsOrigin(), nil, 3000,
+	-- DOTA_UNIT_TARGET_TEAM_ENEMY, DOTA_UNIT_TARGET_ALL, DOTA_UNIT_TARGET_FLAG_NONE, FIND_CLOSEST, false )
+	-- for _,enemy in pairs(enemies) do
+	-- 	--TEST HOMING MISSILE
+	-- 	_G.HomingMissileTargets[#_G.HomingMissileTargets+1] = {}
+	-- 	_G.HomingMissileTargets[#_G.HomingMissileTargets] = enemy
+	-- 	--AddToAbilityQueue(thisEntity.dumb_homing_missile, DOTA_UNIT_ORDER_CAST_NO_TARGET, nil, false, nil)
+	-- 	--AddToAbilityQueue(thisEntity.smart_homing_missile, DOTA_UNIT_ORDER_CAST_NO_TARGET, nil, false, nil)
+	-- 	--AddToAbilityQueue(thisEntity.swoop, DOTA_UNIT_ORDER_CAST_POSITION, enemy:GetAbsOrigin(), false, nil)
+	-- end
 
 	--thisEntity.smart_homing_missile:SetLevel(thisEntity.smart_homing_missile:GetLevel() +1)
 	--thisEntity.dumb_homing_missile:SetLevel(thisEntity.dumb_homing_missile:GetLevel() +1)
@@ -102,7 +104,7 @@ end
 
 function Test()
 	CurrentTestCode()
-	return 10
+	return 1000
 end
 
 local dt = 0.1
