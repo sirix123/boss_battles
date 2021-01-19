@@ -383,6 +383,67 @@
         "AbilityCastPoint"              "0.0"
         "AbilityCooldown"               "0.0"
         "AbilityManaCost"               "0"
+    }
+    "continuous_radar_scan"
+    { 
+        "BaseClass"                     "ability_lua"
+        "ScriptFile"                    "bosses/gyrocopter/continuous_radar_scan"
+        "AbilityBehavior"               "DOTA_ABILITY_BEHAVIOR_NO_TARGET"
+        "AbilityUnitDamageType"         "DAMAGE_TYPE_PHYSICAL"  
+        "AbilityCastPoint"              "0.0"
+        "AbilityCooldown"               "0.0"
+        "AbilityManaCost"               "0"
+        "AbilitySpecial"
+        {
+            "01"
+            {
+                "var_type"       "FIELD_INTEGER"
+                "radius"       "2500"
+            }
+            "02"
+            {
+                "var_type"       "FIELD_INTEGER"
+                "revolutionDuration"       "20"
+            }
+            "03"
+            {
+                "var_type"       "FIELD_INTEGER"
+                "direction"       "1"
+            }                        
+            "04"
+            {
+                "var_type"       "FIELD_INTEGER"
+                "detectionTimeThreshold"       "10"
+            }            
+        }
+    }
+    "dumb_rocket_waves"
+    { 
+        "BaseClass"                     "ability_lua"
+        "ScriptFile"                    "bosses/gyrocopter/dumb_rocket_waves"
+        "AbilityBehavior"               "DOTA_ABILITY_BEHAVIOR_NO_TARGET"
+        "AbilityUnitDamageType"         "DAMAGE_TYPE_PHYSICAL"  
+        "AbilityCastPoint"              "0.0"
+        "AbilityCooldown"               "0.0"
+        "AbilityManaCost"               "0"
+        "AbilitySpecial"
+        {
+            "01"
+            {
+                "var_type"       "FIELD_INTEGER"
+                "totalWaves"       "3"
+            }
+            "02"
+            {
+                "var_type"       "FIELD_INTEGER"
+                "timeBetween"       "5"
+            }
+            "03"
+            {
+                "var_type"       "FIELD_INTEGER"
+                "meleeExclusionRadius"       "400"
+            }            
+        }
     }    
 
 
