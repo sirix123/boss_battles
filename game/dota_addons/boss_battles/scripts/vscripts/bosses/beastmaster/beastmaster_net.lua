@@ -70,15 +70,15 @@ function beastmaster_net:OnAbilityPhaseStart()
 			end
 
 			self.target = self:GetCursorTarget()
-			self.vTargetPos = self.target:GetAbsOrigin()
-			
+			self.distance = ( ( self.target:GetAbsOrigin() - self:GetCaster():GetAbsOrigin() ):Normalized() ) * 700
+			self.vTargetPos = self.distance --self.target:GetAbsOrigin()
+
 			ParticleManager:SetParticleControl(self.particleNfx , 1, self:GetCaster():GetAbsOrigin()) -- origin
-			ParticleManager:SetParticleControl(self.particleNfx , 2, self.vTargetPos) -- target
+			ParticleManager:SetParticleControl(self.particleNfx , 2, self:GetCaster():GetAbsOrigin() + self.distance)  -- target self:GetCaster():GetAbsOrigin() + (direction * 1600) self.vTargetPos
 
 			return FrameTime()
 		end)
 
-		
         return true
     end
 end
