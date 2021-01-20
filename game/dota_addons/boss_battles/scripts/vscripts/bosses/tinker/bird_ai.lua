@@ -44,6 +44,13 @@ function BirdThinker()
 
     --print(" bird thisEntity.PHASE ",thisEntity.PHASE)
 
+    if thisEntity.PHASE == 0 then
+        if ( ( thisEntity:GetAbsOrigin() - FindCrystal():GetAbsOrigin() ):Length2D() ) < 5 then
+            thisEntity.PHASE = 5
+        end
+    end
+
+
     -- move to random pos around the arena until table is 0 then go to phase 2 (pos calc in spawn function)
     if thisEntity.PHASE == 1 then
         --print("thisEntity.PHASE ",thisEntity.PHASE)
@@ -118,9 +125,9 @@ function BirdThinker()
         -- fly towards it
         MoveToPos(FindCrystal():GetAbsOrigin())
 
-        thisEntity.PHASE = 5
+        thisEntity.PHASE = 0
 
-        return time + 2
+        return 0.5
     end
 
     if thisEntity.PHASE == 5 then

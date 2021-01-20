@@ -43,6 +43,11 @@ function BirdGreenThinker()
             return MoveToPos(thisEntity.vPlayerLocation)
         else
             FindAPlayer()
+            thisEntity.nPreviewFXIndex = ParticleManager:CreateParticle( "particles/econ/events/darkmoon_2017/darkmoon_calldown_marker.vpcf", PATTACH_CUSTOMORIGIN, nil )
+            ParticleManager:SetParticleControl( thisEntity.nPreviewFXIndex, 0, thisEntity.vPlayerLocation )
+            ParticleManager:SetParticleControl( thisEntity.nPreviewFXIndex, 1, Vector( 400, -400, -400 ) )
+            ParticleManager:SetParticleControl( thisEntity.nPreviewFXIndex, 2, Vector( 999, 0, 0 ) );
+            
             return 0.5
         end
     end
@@ -63,6 +68,8 @@ function BirdGreenThinker()
         if thisEntity.green_bird_explode ~= nil and thisEntity.green_bird_explode:IsFullyCastable() and thisEntity.green_bird_explode:IsCooldownReady() then
             CastExplode(  )
         end
+
+        ParticleManager:DestroyParticle( thisEntity.nPreviewFXIndex, true )
 
         return 1
     end
