@@ -65,13 +65,17 @@ function BirdGreenThinker()
 
     if thisEntity.PHASE == 3 then
 
-        if thisEntity.green_bird_explode ~= nil and thisEntity.green_bird_explode:IsFullyCastable() and thisEntity.green_bird_explode:IsCooldownReady() then
-            CastExplode(  )
+        if ( ( thisEntity:GetAbsOrigin() - thisEntity.vPlayerLocation ):Length2D() ) < 50 then
+
+            if thisEntity.green_bird_explode ~= nil and thisEntity.green_bird_explode:IsFullyCastable() and thisEntity.green_bird_explode:IsCooldownReady() then
+                CastExplode(  )
+            end
+
+            ParticleManager:DestroyParticle( thisEntity.nPreviewFXIndex, true )
+
         end
 
-        ParticleManager:DestroyParticle( thisEntity.nPreviewFXIndex, true )
-
-        return 1
+        return 0.5
     end
 
 	return 0.5

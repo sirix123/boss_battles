@@ -50,7 +50,6 @@ end
 
 function green_beam:OnSpellStart()
     if IsServer() then
-
         ParticleManager:DestroyParticle(self.nPreviewFXIndex,true)
 
         local caster = self:GetCaster()
@@ -64,7 +63,9 @@ function green_beam:OnSpellStart()
 
         -- start a timer that fires the blast wave projectile every x seconds, look at the endpos var every timer run
         Timers:CreateTimer(0.5, function()
-            if self.stopFireWave == true or caster:IsAlive() == false then
+            if IsValidEntity(self:GetCaster()) == false then return false end
+
+            if self.stopFireWave == true or self:GetCaster():IsAlive() == false then
 
                 EmitSoundOn("Hero_Phoenix.SunRay.Stop", self:GetCaster())
 
@@ -88,27 +89,27 @@ function green_beam:OnSpellStart()
 
         -- create particle effect
         local particleName = "particles/tinker/green_phoenix_sunray.vpcf"
-        self.pfx = ParticleManager:CreateParticle( particleName, PATTACH_ABSORIGIN, caster )
-        caster:SetContextThink( DoUniqueString( "updateSunRay" ), function ( )
+        self.pfx = ParticleManager:CreateParticle( particleName, PATTACH_ABSORIGIN, self:GetCaster() )
+        self:GetCaster():SetContextThink( DoUniqueString( "updateSunRay" ), function ( )
 
-            if caster:IsAlive() == false then
+            if self:GetCaster():IsAlive() == false then
                 return -1
             end
 
             --print("caster:SetContextThink( DoUniqueString")
 
-            ParticleManager:SetParticleControl(self.pfx, 0, Vector( caster:GetAbsOrigin().x,caster:GetAbsOrigin().y, caster:GetAbsOrigin().z + 100 ))
+            ParticleManager:SetParticleControl(self.pfx, 0, Vector( self:GetCaster():GetAbsOrigin().x,self:GetCaster():GetAbsOrigin().y, self:GetCaster():GetAbsOrigin().z + 100 ))
 
             self.end_pos = ( RotatePosition(caster:GetAbsOrigin(), QAngle(0,currentAngle,0), beam_point ) )
 			self.end_pos = GetGroundPosition( self.end_pos, nil )
-			self.end_pos.z = caster:GetAbsOrigin().z + 100
+			self.end_pos.z = self:GetCaster():GetAbsOrigin().z + 100
             --DebugDrawCircle(self.end_pos, Vector(0,155,0),128,50,true,60)
 
             ParticleManager:SetParticleControl( self.pfx, 1, self.end_pos )
 
             local units = FindUnitsInLine(
-                caster:GetTeamNumber(),
-				caster:GetAbsOrigin(),
+                self:GetCaster():GetTeamNumber(),
+				self:GetCaster():GetAbsOrigin(),
 				self.end_pos,
 				nil,
 				radius,
@@ -172,8 +173,8 @@ function green_beam:OnSpellStart()
 
             -- handles dmging players
             local units_2 = FindUnitsInLine(
-                caster:GetTeamNumber(),
-				caster:GetAbsOrigin(),
+                self:GetCaster():GetTeamNumber(),
+				self:GetCaster():GetAbsOrigin(),
 				self.end_pos,
 				nil,
 				radius,
@@ -209,6 +210,9 @@ end
 
 function green_beam:FireBlastWave(direction)
     if IsServer() then
+
+        if self:GetCaster() == nil then return end
+
         local projectile_speed = 700
 
         local projectile = {

@@ -23,6 +23,8 @@ function bird_aoe_spell:OnSpellStart()
     --DebugDrawCircle(self.caster:GetAbsOrigin(), Vector(0,0,255), 128, self.radius, true, 60)
 
     Timers:CreateTimer(self.damage_interval, function()
+        if IsValidEntity(thisEntity) == false then return false end
+
 	    if self.i == self.duration or self.caster:IsAlive() == false then
 		    return false
         end

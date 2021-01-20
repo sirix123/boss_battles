@@ -44,6 +44,8 @@ function Spawn( entityKeyValues )
 
     thisEntity:SetMana(0)
 
+    thisEntity.check_tinker = false
+
     thisEntity:AddNewModifier( nil, nil, "modifier_invulnerable", { duration = -1 } )
 
     thisEntity:SetContextThink( "CrystalThinker", CrystalThinker, 0.1 )
@@ -84,17 +86,29 @@ function CrystalThinker()
 		return 0.5
     end
 
-    for _, friend in pairs(friends) do
-        --print("npc unit name", friend:GetUnitName())
-        if friend:GetUnitName() == "npc_tinker" then
-            if friend:HasModifier("beam_counter") then
-                thisEntity.beam_stack_count = friend:FindModifierByName("beam_counter"):GetStackCount()
+    if thisEntity.check_tinker == true then
+        for _, friend in pairs(friends) do
+            --print("npc unit name", friend:GetUnitName())
+            if friend:GetUnitName() == "npc_tinker" then
+                if friend:HasModifier("beam_counter") then
+                    thisEntity.beam_stack_count = friend:FindModifierByName("beam_counter"):GetStackCount()
 
-                -- remove hp from crystal
-                thisEntity:SetHealth( thisEntity:GetMaxHealth() - ( thisEntity:GetMaxHealth() / thisEntity.total_beams ) )
+                    if thisEntity.beam_stack_count == 0 then
+                        thisEntity.check_tinker = false
+                        return
+                    else
+                        -- remove hp from crystal
+                        thisEntity:SetHealth(( thisEntity:GetMaxHealth() -  ( thisEntity:GetMaxHealth() /  thisEntity.total_beams * thisEntity.beam_stack_count ) ))
+
+                        print("thisEntity:GetMaxHealth() ",thisEntity:GetMaxHealth())
+                        print("thisEntity:currenheath() ",thisEntity:GetHealth())
+                        print("crystakl beam_stack_count ", thisEntity.beam_stack_count)
+
+                        thisEntity.check_tinker = false
+                    end
 
 
-                --print(" crystakl beam_stack_count ", thisEntity.beam_stack_count)
+                end
             end
         end
     end
@@ -113,7 +127,7 @@ function CrystalThinker()
         return CastElectricField()
     end
 
-    if thisEntity.beam_phase == false then
+    --if thisEntity.beam_phase == false then
         if thisEntity.summon_ice_ele ~= nil and thisEntity.summon_ice_ele:IsFullyCastable() and thisEntity.summon_ice_ele:IsCooldownReady() and thisEntity.ice_phase == true then
             return CastSummonIceEle()
         end
@@ -126,7 +140,7 @@ function CrystalThinker()
             return CastSummonElecEle()
         end
 
-    end
+    --end
 
     --print("crystal thisEntity:GetManaPercent() ", thisEntity:GetManaPercent())
 
@@ -151,9 +165,10 @@ function CrystalThinker()
 
         thisEntity:SetMana(0)
         thisEntity.beam_phase = false
+        thisEntity.check_tinker = true
 
         -- rough beam duration to go all the way around
-        return 30
+        return 40
 
     end
 
@@ -282,7 +297,7 @@ function ElementalPhaseTimer()
         thisEntity.summon_fire_ele:EndCooldown()
         thisEntity.summon_elec_ele:EndCooldown()
 
-		return 45
+		return 30
 	end)
 end
 --------------------------------------------------------------------------------
