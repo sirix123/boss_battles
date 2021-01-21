@@ -36,7 +36,9 @@ function CricleTimer()
     local tickInterval = 0.5
 
     Timers:CreateTimer(function()
-        if thisEntity.PHASE ~= 1 or thisEntity == nil then 
+        if IsValidEntity(thisEntity) == false then return false end
+
+        if thisEntity.PHASE ~= 1 or thisEntity == nil then
             thisEntity.circle_timer_running = false
             return false
         end

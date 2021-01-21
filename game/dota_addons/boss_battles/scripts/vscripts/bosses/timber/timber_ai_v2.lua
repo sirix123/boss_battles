@@ -126,7 +126,7 @@ function TimberThink()
 
 		Timers:CreateTimer(14, function()
 
-			if thisEntity.furion == nil then
+			if IsValidEntity(thisEntity.furion) == false then
 				return false
 			else
 				-- particle effect on furion to show tp out, just release particel
