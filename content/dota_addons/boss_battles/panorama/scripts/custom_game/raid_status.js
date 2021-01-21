@@ -1,11 +1,11 @@
 CustomNetTables.SubscribeNetTableListener( "boss_frame", bossFrameUpdate ); // update the boss frame (mana and hp)
-CustomNetTables.SubscribeNetTableListener( "hide_boss_frame", hideBossFrame ); // hide the boss frames (mana and hp)
+GameEvents.Subscribe( "hide_boss_frame", hideBossFrame ); // hide the boss frames (mana and hp)
 
 GameEvents.Subscribe( "hide_boss_mana_frame", hideBossManaFrame ); // hide boss mana bar
 GameEvents.Subscribe( "show_boss_mana_frame", showBossManaFrame ); // show boss mana bar
 
-GameEvents.Subscribe( "hide_boss_health_frame", hideBossHpFrame ); // hide boss health bar
-GameEvents.Subscribe( "show_boss_health_frame", showBossHpFrame ); // show boss health bar
+GameEvents.Subscribe( "hide_boss_hp_frame", hideBossHpFrame ); // hide boss health bar
+GameEvents.Subscribe( "show_boss_hp_frame", showBossHpFrame ); // show boss health bar
 
 GameEvents.Subscribe( "change_boss_name", changeBossName ); // hide boss health bar
 
@@ -25,8 +25,7 @@ function bossFrameUpdate( table_name, key, data )
     //$.Msg("show_mana_bar ",show_mana_bar)
     //$.Msg("show_health_bar ",show_health_bar)
     //$.Msg("boss_name ",boss_name)
-    //$.Msg("---------------------")
-    
+
     //remove any existing children:
     var bossFrameContainer = $("#BossFrameContainer")
     bossFrameContainer.RemoveAndDeleteChildren()
@@ -37,7 +36,7 @@ function bossFrameUpdate( table_name, key, data )
         if (bossFrameContainer)
         {
 
-            //$.Msg("data ",data)
+            bossFrameContainer.style.visibility = 'visible';
 
             var containerPanel = $.CreatePanel("Panel", bossFrameContainer, data);
             containerPanel.BLoadLayoutSnippet("BossFrame");
@@ -85,6 +84,8 @@ function bossFrameUpdate( table_name, key, data )
         }
     }
     else {
+        $.Msg("hide the frames")
+        bossFrameContainer.style.visibility = 'collapse';
     } //Don't draw. effectively hiding/removing the ui
 }
 
@@ -92,7 +93,7 @@ function bossFrameUpdate( table_name, key, data )
 function hideBossFrame( table_name, key, data )
 {
     var bossFrameContainer = $("#BossFrameContainer")
-    bossFrameContainer.RemoveAndDeleteChildren()
+    bossFrameContainer.style.visibility = 'collapse';
 }
 
 function hideBossManaFrame( table_name, key, data )

@@ -365,20 +365,14 @@ function GameSetup:ReadyupCheck() -- called from trigger lua file for activators
         end
 
         -- spawn boss
-        local boss = nil
+        self.boss = nil
         Timers:CreateTimer(1.0, function()
             -- look at raidtables and spawn the boss depending on the encounter counter
-            boss = CreateUnitByName(RAID_TABLES[BOSS_BATTLES_ENCOUNTER_COUNTER].boss, self.boss_spawn, true, nil, nil, DOTA_TEAM_BADGUYS)
+            self.boss = CreateUnitByName(RAID_TABLES[BOSS_BATTLES_ENCOUNTER_COUNTER].boss, self.boss_spawn, true, nil, nil, DOTA_TEAM_BADGUYS)
             return false
         end)
 
         SessionManager:RecordAttempt()
-
-        -- default boss frame values / init
-        boss_frame_manager:SendBossName()
-        boss_frame_manager:UpdateManaHealthFrame( boss )
-        boss_frame_manager:ShowBossManaFrame()
-        boss_frame_manager:ShowBossHpFrame()
 
         return false
     end)
@@ -443,12 +437,6 @@ function GameSetup:EncounterCleanUp( origin )
             tree:GrowBack()
         end
     end]]
-
-    --set boss nil and disable the bossFrame
-    if boss ~= nil then
-        boss = nil
-        CustomNetTables:SetTableValue("hide_boss_frame", "hide", {})
-    end
 
     -- find all units, kill them
     local units = FindUnitsInRadius(

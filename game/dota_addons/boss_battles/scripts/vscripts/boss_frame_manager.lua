@@ -38,18 +38,29 @@ end
 -- Update/stop updating boss frame hp and mana
 -- this will also show the frames (hp and mana)
 function boss_frame_manager:UpdateManaHealthFrame( boss )
-    if boss ~= nil then
+    --if IsValidEntity(boss) ~= false then
 
         Timers:CreateTimer(function()
-            if boss:GetHealthPercent() == 0 then
+            if IsValidEntity(boss) == false then
+                print("trying to hide the frames wipe")
+                self:HideBossHpFrame()
+                self:HideBossManaFrame()
+                CustomGameEventManager:Send_ServerToAllClients( "hide_boss_frame", { } )
                 CustomNetTables:SetTableValue("boss_frame", "hide", {})
                 return false
             end
 
-            local hp = boss:GetHealth()
-            local maxHp = boss:GetMaxHealth()
-            local hpPercent = boss:GetHealthPercent()
-            local mpPercent = boss:GetManaPercent()
+            if boss:IsAlive() == false then
+                print("trying to hide the frames boss dead")
+                self:HideBossHpFrame()
+                self:HideBossManaFrame()
+                CustomGameEventManager:Send_ServerToAllClients( "hide_boss_frame", { } )
+                CustomNetTables:SetTableValue("boss_frame", "hide", {})
+                return false
+            end
+
+            --self:ShowBossHpFrame()
+            --self:ShowBossManaFrame()
 
             local bossFrameData = {}
             bossFrameData.hp = boss:GetHealth()
@@ -63,7 +74,6 @@ function boss_frame_manager:UpdateManaHealthFrame( boss )
 
             return 0.01;
         end)
-    else
-        CustomNetTables:SetTableValue("boss_frame", "hide", {})
-    end
+    --else
+    --end
 end
