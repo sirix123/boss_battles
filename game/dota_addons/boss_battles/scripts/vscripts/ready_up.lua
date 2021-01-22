@@ -8,7 +8,21 @@ function OnStartTouch(trigger)
 
     --PrintTable(trigger, indent, done)
 
-    local triggerName = thisEntity:GetName()
+    ent.ready_up = true
+
+    local allHeroesAreReady = true --start on true, then set to false if you find one not ready
+    local heroes = HERO_LIST
+    for _, hero in pairs(heroes) do
+        if hero.ready_up == false then
+            allHeroesAreReady = false
+            break
+        end
+    end
+    if allHeroesAreReady then
+        GameSetup:ReadyupCheck()
+    end
+
+    --[[local triggerName = thisEntity:GetName()
 
     -- if triggername is not in the table then add it... (so 4 people can't stand on the same trigger)
     table.insert(tTriggers,triggerName)
@@ -17,7 +31,7 @@ function OnStartTouch(trigger)
         -- need to clear the table here, so can be re-used
         tTriggers = {}
         GameSetup:ReadyupCheck()
-    end
+    end]]
 
 end
 
@@ -26,13 +40,15 @@ function OnEndTouch( trigger )
     local ent = trigger.activator
     if not ent then return end
 
-    local triggerName = thisEntity:GetName()
+    ent.ready_up = false
+
+    --[[local triggerName = thisEntity:GetName()
 
     for k, triggers in pairs(tTriggers) do
         if triggerName == triggers then
             table.remove(tTriggers,k)
         end
-    end
+    end]]
 end
 
 --[[function OnStartTouchAnimation( trigger )

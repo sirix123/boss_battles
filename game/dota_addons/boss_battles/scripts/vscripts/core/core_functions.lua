@@ -32,6 +32,8 @@ function CDOTA_BaseNPC:Initialize(data)
   self.class_name = ""
   self.hero_name = self:GetUnitName()
 
+  self.ready_up = false
+
   self:SetHullRadius(50)
 
 end
