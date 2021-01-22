@@ -249,7 +249,10 @@ end
 --------------------------------------------------------------------------------
 
 function ElementalPhaseTimer()
-	thisEntity.elemental_timer = Timers:CreateTimer(thisEntity.start_summoning,function()
+    thisEntity.elemental_timer = Timers:CreateTimer(thisEntity.start_summoning,function()
+        if IsValidEntity(thisEntity) == false then return false end
+
+
 		if thisEntity.stop_timers == true then
 			--print("end timer?")
 			return false
