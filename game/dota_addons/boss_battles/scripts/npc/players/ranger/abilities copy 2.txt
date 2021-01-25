@@ -107,10 +107,10 @@
 		}
 	}
 
-	"e_whirling_winds"
+	"e_rainofarrows"
 	{
 		"BaseClass"						"ability_lua"
-		"ScriptFile"					"player/ranger/e_whirling_winds"
+		"ScriptFile"					"player/ranger/e_rainofarrows"
 		"MaxLevel"						"1"
 
 		"AbilityTextureName"			"legion_commander_overwhelming_odds"
@@ -139,26 +139,48 @@
 		}
 	}
 
-	"r_explosive_arrow"
+	"r_explosive_tip"
 	{
 		"BaseClass"						"ability_lua"
-		"ScriptFile"					"player/ranger/r_explosive_arrow"
+		"ScriptFile"					"player/ranger/r_explosive_tip"
 		"MaxLevel"						"1"
 
 		"AbilityTextureName"			"huskar_burning_spear"
 		"SpellImmunityType"				"SPELL_IMMUNITY_ENEMIES_YES"
 		"AbilityUnitDamageType"			"DAMAGE_TYPE_PHYSICAL"
-        "AbilityBehavior"				"DOTA_ABILITY_BEHAVIOR_POINT"
+        "AbilityBehavior"				"DOTA_ABILITY_BEHAVIOR_NO_TARGET"
 		"AbilityCastRange" 				"1500"
-        "AbilityCooldown"				"1"
-        "AbilityCastPoint"              "1.0"
+        "AbilityCooldown"				"40"
+        "AbilityCastPoint"              "0.1"
 		"AbilityManaCost"        		"0"
-
-		"TargetingIndicator"
+        
+		"AbilitySpecial"
 		{
-			"Type"						"TARGETING_INDICATOR_LINE"
-			"Fixed"						"1"
+			"01"{ "var_type"			"FIELD_INTEGER"		"base_duration"				"20" 	}
+			"02"{ "var_type"			"FIELD_INTEGER"		"max_stacks"				"5" 	}
+			"03"{ "var_type"			"FIELD_INTEGER"		"dmg_per_stack"				"70" 	}
+			"04"{ "var_type"			"FIELD_INTEGER"		"aoe_radius"				"150" 	}
 		}
+
+		"precache"
+		{
+
+		}
+	}
+
+	"r_explosive_tip_explode"
+	{
+		"BaseClass"						"ability_lua"
+		"ScriptFile"					"player/ranger/r_explosive_tip_explode"
+		"MaxLevel"						"1"
+
+		"AbilityTextureName"			"lina_light_strike_array"
+		"SpellImmunityType"				"SPELL_IMMUNITY_ENEMIES_YES"
+        "AbilityBehavior"				"DOTA_ABILITY_BEHAVIOR_NO_TARGET | DOTA_ABILITY_BEHAVIOR_HIDDEN"
+		"AbilityCastRange" 				"1500"
+        "AbilityCooldown"				"0.0"
+        "AbilityCastPoint"              "0.1"
+		"AbilityManaCost"        		"0"
         
 		"AbilitySpecial"
 		{

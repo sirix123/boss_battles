@@ -8,6 +8,7 @@ function CDOTA_BaseNPC:Initialize(data)
   self.mouse.x = 0
   self.mouse.y = 0
   self.mouse.z = 0
+  self.left_mouse_up_down = nil
 
   self.bFirstSpawned = true
 
@@ -18,11 +19,10 @@ function CDOTA_BaseNPC:Initialize(data)
   self.playerLives = BOSS_BATTLES_PLAYER_LIVES
   self.playerHP = 0
   self.playerEnergy = 0
-  self.playerDmgDone = 0
 
   self.hp = self:GetHealth()
   self.maxHp = self:GetMaxHealth()
-  self.hpPercent = self:GetHealth()
+  self.hpPercent = self:GetHealthPercent()
   self.mp = self:GetMana()
   self.maxMp = self:GetMaxMana()
   self.mpPercent = self:GetManaPercent()
@@ -31,6 +31,8 @@ function CDOTA_BaseNPC:Initialize(data)
   self.steamId = PlayerResource:GetSteamID(self.playerId)
   self.class_name = ""
   self.hero_name = self:GetUnitName()
+
+  self.dmgDoneAttempt = 0
 
   self.ready_up = false
 
