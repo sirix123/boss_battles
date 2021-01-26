@@ -100,6 +100,7 @@ function TimberThink()
 		
 		-- timer
 		Timers:CreateTimer(4, function()
+			if IsValidEntity(thisEntity) == false then return false end
 			ParticleManager:DestroyParticle(nFXIndex, false)
 			thisEntity.furion = CreateUnitByName( "npc_furion", Vector(10136,-10597,136), true, thisEntity, thisEntity, DOTA_TEAM_BADGUYS)
 			EmitSoundOn("Hero_Furion.Teleport_Appear", thisEntity.furion)  
@@ -113,6 +114,7 @@ function TimberThink()
 		end)
 
 		Timers:CreateTimer(12, function()
+			if IsValidEntity(thisEntity) == false then return false end
 
 			-- play tp sound and voiceline
 			--EmitGlobalSound("furion_furi_ability_wrath_09")
