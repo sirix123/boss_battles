@@ -1,42 +1,3 @@
-/* CSS EXAMPLES: */
-
-/* possible web dev double border approach: https://stackoverflow.com/questions/19463904/double-border-with-different-color */
-
-
-/*background-blur: gaussian( 2.5 );*/
-
-/*background-color: gradient( linear, 0% 0%, 0% 100%, from( #fbfbfbff ), to( #c0c0c0c0 ) );*/
-/*background-color: gradient( linear, 0% 0%, 0% 100%, from( #fbfbfbff ), color-stop( 0.3, #ebebebff ), to( #c0c0c0c0 ) );*/
-/*background-color: gradient( radial, 50% 50%, 0% 0%, 80% 80%, from( #00ff00ff ), to( #0000ffff ) );*/
-
-
-
-/*background-color: #0d1c22ff, gradient( radial, 100% -0%, 100px -40px, 320% 270%, from( #3a464bff ), color-stop( 0.23, #0d1c22ff ), to( #0d1c22ff ) );*/
-
-/*background-size: auto; // same as "auto auto" (default) 
-background-size: 100% 100%; // image fills the panel*/
-
-/*border-radius: 2px;*/
-/*// Perfect circular or elliptical panel (circular if box was square)*/
-/*border-radius: 50% / 50%;*/
-
-
-/*opacity-mask: url( "file://{images}/upper_row_mask.tga" );*/
-/*opacity-mask: url( "file://{images}/upper_row_mask.tga" ) 0.5;*/
-
-/* END CSS EXAMPLES: */
-
-
-/* */
-
-/* GAME SCOREBOARD (GSB) */
-
-
-/* END GAME SCOREBOARD (GSB) */
-
-
-/* BOSS SCOREBOARD (BSB) */
-
 /* Parent panel for Boss Scoreboard */
 .bsb
 {
@@ -55,7 +16,6 @@ background-size: 100% 100%; // image fills the panel*/
 
 
 /* BOSS SCOREBOARD - BOSS FIGHT INFO SNIPPET */
-
 /* bsb_boss_header panel, will contain bsb_header_bossFight_info panel */
 .bsb_boss_header
 {
@@ -66,45 +26,44 @@ background-size: 100% 100%; // image fills the panel*/
 /* snippet's bsb_header_bossFight_info panel */
 .bsb_header_bossFight_info
 {
-  flow-children: down; /* flex col... */
+  horizontal-align: left;
+  flow-children: right; /* flex col... */
   text-align: center;
   width: 100%;
   height: 100%;
-  background-color: #000000cc; /* rgba */
-  border: 1px solid black;
+}
+
+.bsb_header_container
+{
+	height: 100%;
+	width: 33.3%;
+  flow-children: down;
+  vertical-align: middle;
+	background-color: #292626cc; /* rgba */
+  background-size: 100% 100%;
 }
 
 .boss_header_bossFight_infoText
 {
   width: 100%;
   text-align: center; 
-}
-
-#bsb_header_boss_name 
-{
-  font-size: 48px;
-  color: #FFFFFFFF;
-  text-decoration: underline;
-}
-
-#bsb_header_boss_duration
-{
+  vertical-align: middle;
   font-size: 28px;
-  color: #AAAAAAFF;
+  color: #ffffff;
 }
 
-#bsb_header_boss_winLose
+.boss_header_bossFight_infoText_heading
 {
-  font-size: 48px;
-  /* TODO: change color based on VICTORY / DEFEAT; */
-  color: #FF0000FF;
+  width: 100%;
+  text-align: center; 
+  vertical-align: top;
+  font-size: 28px;
+  color: #ffffff;
 }
-
 /* END BOSS SCOREBOARD - BOSS FIGHT INFO SNIPPET */
 
 
 /* BOSS SCOREBOARD - TABLE ELEMENTS.  */
-
 /* BOSS SCOREBOARD - GENERIC TABLE ELEMENTS */
 
 /* Boss scoreboard table header panel */
@@ -112,18 +71,19 @@ background-size: 100% 100%; // image fills the panel*/
 {
   flow-children: right; /* flex row... */
   width: 100%;
-  height: 5%;
+  height: 10%;
 }
 
 /* Boss scoreboard th cell */
 .bsb_table_header_cell
 {
-  background-color: #000000cc; /* rgba */
+  background-color: #000000e7; /* rgba */
   border: 1px solid black;
-  padding-left: 3%;
-  padding-top: 3%;
-  width: 25%;
+  width: 46%;
   height: 100%;
+
+  text-align: center; 
+  vertical-align: middle;
 
   font-size: 28px;
   color: #ffffff;
@@ -131,12 +91,27 @@ background-size: 100% 100%; // image fills the panel*/
 
 .bsb_table_header_cell_small 
 {
-  background-color: #000000cc; /* rgba */
+  background-color: #000000e7; /* rgba */
   border: 1px solid black;
-  width: 15%;
+  width: 25%;
   height: 100%;
-  padding-left: 3%;
-  padding-top: 3%;
+
+  text-align: center; 
+  vertical-align: middle;
+
+  font-size: 28px;
+  color: #ffffff;
+}
+
+.bsb_table_header_cell_small_hero_image
+{
+  background-color: #000000e7; /* rgba */
+  border: 1px solid black;
+  width: 4%;
+  height: 100%;
+
+  text-align: center; 
+  vertical-align: middle;
 
   font-size: 28px;
   color: #ffffff;
@@ -162,7 +137,7 @@ background-size: 100% 100%; // image fills the panel*/
 {
   flow-children: right; /* flex row... */
   width: 100%;
-  height: 15%;
+  height: 13%;
 }
 
 /* Boss scoreboard tr cell */
@@ -170,7 +145,7 @@ background-size: 100% 100%; // image fills the panel*/
 {
   background-color: #000000aa; /* rgba */
   border: 1px solid black;
-  width: 25%;
+  width: 46%;
   height: 100%;
 
   padding-left: 3%;
@@ -184,11 +159,22 @@ background-size: 100% 100%; // image fills the panel*/
 {
   background-color: #000000aa; /* rgba */
   border: 1px solid black;
-  width: 15%;
+  width: 25%;
   height: 100%;
 
   padding-left: 3%;
   padding-top: 30%; /* HACK: solution for centering text vertically. increase/decrease with font-size and container size */
+  /*text-align: center;*/
+  font-size: 22px;
+  color: #ffffff;
+}
+
+.bsb_table_row_cell_small_hero_portrait
+{
+  background-color: #000000aa; /* rgba */
+  border: 1px solid black;
+  width: 4%;
+  height: 100%;
   /*text-align: center;*/
   font-size: 22px;
   color: #ffffff;
@@ -204,7 +190,6 @@ background-size: 100% 100%; // image fills the panel*/
 /* class(e.g 'ice_mage') colum header label */
 #bsb_table_header_class
 {
-  width: 10%;
 }
 
 /* playername column header label */
@@ -227,7 +212,7 @@ background-size: 100% 100%; // image fills the panel*/
 
 #bsb_table_row_class 
 {
-  width: 10%;
+
 }
 
 #bsb_table_row_player

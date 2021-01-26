@@ -1,3 +1,5 @@
+"use strict";
+
 CustomNetTables.SubscribeNetTableListener( "boss_frame", bossFrameUpdate ); // update the boss frame (mana and hp)
 GameEvents.Subscribe( "hide_boss_frame", hideBossFrame ); // hide the boss frames (mana and hp)
 
@@ -10,9 +12,9 @@ GameEvents.Subscribe( "show_boss_hp_frame", showBossHpFrame ); // show boss heal
 GameEvents.Subscribe( "change_boss_name", changeBossName ); // hide boss health bar
 
 // some global inits
-show_mana_bar = true
-show_health_bar = true
-boss_name = ""
+let show_mana_bar = true
+let show_health_bar = true
+let boss_name = ""
 
 /* Boss Frame UI */
 function bossFrameUpdate( table_name, key, data )
@@ -125,129 +127,98 @@ function changeBossName( data )
 
 /* Player UI Frames */
 
-playerFramePanels = {};
+let playerFramePanels = {};
 
 function createPlayerFrames(data)
 {
 
+    //$.Msg( "data ", data )
+    //$.Msg( "data playerid ", data["PlayerID"] )
+    //$.Msg( "data HeroName ", data["HeroName"] )
+
     let playersFrameContainer = $("#PlayersFrameContainer")
-    //TODO: change to loop over playerData.
-    for (var i in data)
-    {
-        var playerData = data[i]
-        //$.Msg("playerData i ",playerData)
 
-        let playerFrame = $.CreatePanel("Panel", playersFrameContainer, playerData["hero_name"]);
-        playerFrame.BLoadLayoutSnippet("PlayerFrame");
+    let playerData = data["HeroName"]
 
-        var heroImage = $("#HeroImage")
-        heroImage.heroname = playerData["hero_name"]
+    let playerFrame = $.CreatePanel("Panel", playersFrameContainer, playerData["PlayerID"]);
+    playerFrame.BLoadLayoutSnippet("PlayerFrame");
 
-        var pLivesLabel = $("#PlayerLivesLabel")
-        pLivesLabel.text = playerData["playerLives"]
+    var heroImage = $("#HeroImage")
+    heroImage.heroname = playerData["hero_name"]
 
-        var pNameLabel = $("#PlayerNameLabel")
-        pNameLabel.text = playerData["playerName"]
+    var pLivesLabel = $("#PlayerLivesLabel")
+    pLivesLabel.text = playerData["playerLives"]
 
-        var pHealthLabel = $("#PlayerHealthLabel")
-        pHealthLabel.text = playerData["hpPercent"] + "%"
+    var pNameLabel = $("#PlayerNameLabel")
+    pNameLabel.text = playerData["playerName"]
 
-        var pHealthLeft = $("#PlayerHealthProgressLeft")
-        pHealthLeft.style.width = playerData["hpPercent"]+"%"
+    var pHealthLabel = $("#PlayerHealthLabel")
+    pHealthLabel.text = playerData["hpPercent"] + "%"
 
-        var pHealthRight = $("#PlayerHealthProgressRight")
-        var hpGone = 100 - playerData["hpPercent"]
-        pHealthRight.style.width = hpGone+"%"
-        
-        var pManaLabel = $("#PlayerManaLabel")
-        pManaLabel.text = playerData["mpPercent"]+"%"
+    var pHealthLeft = $("#PlayerHealthProgressLeft")
+    pHealthLeft.style.width = playerData["hpPercent"]+"%"
 
-        var pManaLeft = $("#PlayerManaProgressLeft")
-        pManaLeft.style.width = playerData["mpPercent"]+"%"
+    var pHealthRight = $("#PlayerHealthProgressRight")
+    var hpGone = 100 - playerData["hpPercent"]
+    pHealthRight.style.width = hpGone+"%"
+    
+    var pManaLabel = $("#PlayerManaLabel")
+    pManaLabel.text = playerData["mpPercent"]+"%"
 
-        var pManaRight = $("#PlayerManaProgressRight")
-        var mpGone = 100 - playerData["mpPercent"]
-        pManaRight.style.width = mpGone+"%"
+    var pManaLeft = $("#PlayerManaProgressLeft")
+    pManaLeft.style.width = playerData["mpPercent"]+"%"
 
-        //store this panel to update it later.
-        playerFramePanels[i] = playerFrame
-        $.Msg("playerFramePanels ",playerFramePanels)
-        $.Msg("playerFramePanels.length ", playerFramePanels.length)
-    }
+    var pManaRight = $("#PlayerManaProgressRight")
+    var mpGone = 100 - playerData["mpPercent"]
+    pManaRight.style.width = mpGone+"%"
+
+    //store this panel to update it later.
+    playerFramePanels[data["PlayerID"]] = playerFrame
 }
 
 function updatePlayerFrames(data)
 {
+    //$.Msg("runing updaet?")
+    //$.Msg("data ",data)
+    //$.Msg("playerFramePanels ",playerFramePanels)
+    //$.Msg("data id ",data.data["id"])
+    //$.Msg("-----------------------") 
 
-    for (let i=0; i < playerFramePanels.length; i++)
-    {
-        let playerData = data[i]
-        let playerFrame = playerFramePanels[i]
+    var pLivesLabel = playerFramePanels[data.data["id"]].FindChildTraverse("PlayerLivesLabel")
+    pLivesLabel.text = data.data["lives"]
 
-        var pNameLabel = playerFrame.FindChildTraverse("PlayerNameLabel")
-        var playerName = playerData["playerName"]
-        var subString = playerName.substring(0,14)
-        pNameLabel.text = subString
+    var pHealthLabel = playerFramePanels[data.data["id"]].FindChildTraverse("PlayerHealthLabel")
+    pHealthLabel.text = data.data["hpPercent"] + "%"
 
-        var heroImage = playerFrame.FindChildTraverse("HeroImage")
-        heroImage.heroname = playerData["hero_name"]
+    var pHealthLeft = playerFramePanels[data.data["id"]].FindChildTraverse("PlayerHealthProgressLeft")
+    pHealthLeft.style.width = data.data["hpPercent"]+"%"
+    var hpGone = 100 - data.data["hpPercent"]
 
-        var pLivesLabel = playerFrame.FindChildTraverse("PlayerLivesLabel")
-        pLivesLabel.text = playerData["playerLives"]
+    var pHealthRight = playerFramePanels[data.data["id"]].FindChildTraverse("PlayerHealthProgressRight")
+    pHealthRight.style.width = hpGone+"%"
 
-        var pHealthLabel = playerFrame.FindChildTraverse("PlayerHealthLabel")
-        pHealthLabel.text = playerData["hpPercent"] + "%"
+    var pManaLabel = playerFramePanels[data.data["id"]].FindChildTraverse("PlayerManaLabel")
+    pManaLabel.text = data.data["mpPercent"]+"%"
 
-        var pHealthLeft = playerFrame.FindChildTraverse("PlayerHealthProgressLeft")
-        pHealthLeft.style.width = playerData["hpPercent"]+"%"
-        var hpGone = 100 - playerData["hpPercent"]
+    var pManaLeft = playerFramePanels[data.data["id"]].FindChildTraverse("PlayerManaProgressLeft")
+    pManaLeft.style.width = data.data["mpPercent"]+"%"
+    var mpGone = 100 - data.data["mpPercent"]
 
-        var pHealthRight = playerFrame.FindChildTraverse("PlayerHealthProgressRight")
-        pHealthRight.style.width = hpGone+"%"
-
-        var pManaLabel = playerFrame.FindChildTraverse("PlayerManaLabel")
-        pManaLabel.text = playerData["mpPercent"]+"%"
-
-        var pManaLeft = playerFrame.FindChildTraverse("PlayerManaProgressLeft")
-        pManaLeft.style.width = playerData["mpPercent"]+"%"
-        var mpGone = 100 - playerData["mpPercent"]
-
-        var pManaRight = playerFrame.FindChildTraverse("PlayerManaProgressRight")
-        pManaRight.style.width = mpGone+"%"
-    }
-}
-
-
-function playerFrameUpdate( table_name, key, data )
-{
-    //$.Msg("playerFrameUpdate called")
-    //$.Msg("table_name = ", table_name)
-    //$.Msg("key = ", key)
-    //$.Msg("data = ", data)
-
-    //var playersFrameContainer = $("#PlayersFrameContainer")
-    //create frames on the first call, then just update them.
-    /*if (playersFrameContainer.GetChildCount() == 0)
-        createPlayerFrames(data)
-    else if (playersFrameContainer.GetChildCount() > 3)
-        updatePlayerFrames(data)*/
-
-    $.Msg("playerFramePanels.length ", playerFramePanels.length)
-    if ( playerFramePanels.length == 1 ){
-        updatePlayerFrames(data)
-    }
+    var pManaRight = playerFramePanels[data.data["id"]].FindChildTraverse("PlayerManaProgressRight")
+    pManaRight.style.width = mpGone+"%"
 }
 
 
 function hidePlayerFrame( table_name, key, data )
 {
-    $.Msg("hidePlayerFrame called")
+    //$.Msg("hidePlayerFrame called")
     //var bossFrameContainer = $("#BossFrameContainer")
     // bossFrameContainer.RemoveAndDeleteChildren()
 }
 
 GameEvents.Subscribe( "create_player_frame", createPlayerFrames );
-CustomNetTables.SubscribeNetTableListener( "player_frame", playerFrameUpdate );
+//GameEvents.Subscribe( "update_player_frame", updatePlayerFrames );
+//CustomNetTables.SubscribeNetTableListener( "player_frame", updatePlayerFrames );
 CustomNetTables.SubscribeNetTableListener( "hide_player_frame", hidePlayerFrame );
 
 /* END Player UI Frames */

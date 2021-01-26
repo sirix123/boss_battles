@@ -31,8 +31,8 @@ end
 -- start recording an attempt
 function SessionManager:RecordAttempt()
 
-    self.attempt_tracker = self.attempt_tracker + 1
-    print("self.attempt_tracker ",self.attempt_tracker)
+    self.attempt_tracker = nATTEMPT_TRACKER
+    --print("self.attempt_tracker ",self.attempt_tracker)
     self.start_time = GameRules:GetGameTime() -- start timer (attempt duration)
 
 end
@@ -55,17 +55,20 @@ function SessionManager:StopRecordingAttempt( bBossKilled )
     for _, hero in pairs(HERO_LIST) do
         --self.player_data[hero.playerId] = hero
         self.player_data[hero.playerId] = {}
-        self.player_data[hero.playerId].playerId = hero.playerId
+        self.player_data[hero.playerId].playerId = tonumber(hero.playerId)
         self.player_data[hero.playerId].steamId = tostring(hero.steamId)
         self.player_data[hero.playerId].className = tostring(hero.class_name)
         self.player_data[hero.playerId].playerName = hero.playerName
         self.player_data[hero.playerId].playerLives = hero.playerLives
+        self.player_data[hero.playerId].heroName = hero.hero_name
+        self.player_data[hero.playerId].dmgDoneAttempt = hero.dmgDoneAttempt
     end
 
     -- add all the boss data to the boss table
     self.boss_data["duration"] = self.duration
     self.boss_data["bossKilled"] = bBossKilled
     self.boss_data["bossName"] = RAID_TABLES[BOSS_BATTLES_ENCOUNTER_COUNTER].name
+    self.boss_data["attemptNumber"] = self.attempt_tracker
 
     -- add all the data to the attempt table
     self.attempt_data["playerTable"] = self.player_data
@@ -75,20 +78,20 @@ function SessionManager:StopRecordingAttempt( bBossKilled )
     self.session_data[self.attempt_tracker] = self.attempt_data
 
     --PrintTable(self.session_data)
-    print(dump(self.session_data))
+    --print(dump(self.session_data))
 
 end
 ----------------------------------------
 
--- send attempt data
-function SessionManager:SendAttemptData()
-
-
+-- send attempt data (scoreboard)
+function SessionManager:GetAttemptData()
+    return self.attempt_data
 end
 ----------------------------------------
 
--- send session data
+-- send session data (leaderboard/databse)
 function SessionManager:SendSessionData()
+    print(dump(self.session_data))
     WebApi:SaveSessionData( self.session_data )
 end
 ----------------------------------------

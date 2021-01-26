@@ -2,30 +2,35 @@ if player_frame_manager == nil then
     player_frame_manager = class({})
 end
 
-function player_frame_manager:CreatePlayerFrame( player )
+function player_frame_manager:CreatePlayerFrame( hero )
 
-    CustomGameEventManager:Send_ServerToAllClients( "create_player_frame", { Player = player } )
+    --print("player in player manager ", player)
 
+    CustomGameEventManager:Send_ServerToAllClients( "create_player_frame", { PlayerID = hero.playerId , HeroName = hero } )
 end
 
 
-function player_frame_manager:RegisterPlayer( hero )
-    local playerID = hero:GetPlayerOwnerID()
+function player_frame_manager:UpdatePlayer()
+    --Player UI Frames:
+    Timers:CreateTimer(function()
+        if #HERO_LIST == 1 then
+            local heroes = HERO_LIST
+            for _, hero in pairs(heroes) do
+                local playerFrameData = {}
+                playerFrameData.id = hero.playerId
+                playerFrameData.hp = hero.hp
+                playerFrameData.maxHp = hero.maxHp
+                playerFrameData.hpPercent = hero.hpPercent
+                playerFrameData.mp = hero.mp
+                playerFrameData.maxMp = hero.maxMp
+                playerFrameData.mpPercent = hero.mpPercent
+                playerFrameData.lives = hero.playerLives
 
-    if playerID == -1 then
-        --print("[game_setup] Error invalid player id")
-        return
-    else
-        --Player UI Frames:
-        Timers:CreateTimer(function()
-            if #HERO_LIST == 1 then
-                local heroes = HERO_LIST--HeroList:GetAllHeroes()
-                for _, hero in pairs(heroes) do
-                    CustomNetTables:SetTableValue("player_frame", "key", hero)
-                end
+                --CustomNetTables:SetTableValue("player_frame", "key", playerFrameData )
+                CustomGameEventManager:Send_ServerToAllClients( "update_player_frame", { data = playerFrameData} )
             end
-            return 0.2
-        end)
-    end
+        end
+        return 1--0.2
+    end)
 end
 --------------------------------------------------------------------------------------------------

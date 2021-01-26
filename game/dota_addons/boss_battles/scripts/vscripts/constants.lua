@@ -35,3 +35,5 @@ _G.DEBUG_MODE = false
 -- set before a release
 _G.bTESTING_MODE = true
 _G.nRELEASE_NUMBER = 0
+
+_G.nATTEMPT_TRACKER = 0

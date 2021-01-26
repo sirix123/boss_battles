@@ -24,8 +24,15 @@ function GameSetup:init()
     -- setup session manager
     SessionManager:Init()
 
+    -- setup scoreboard
+    Scoreboard:Init()
+
+    -- setup movement
     PlayerManager:SetUpMouseUpdater()
     PlayerManager:SetUpMovement()
+
+    -- timer for updating player frames
+    player_frame_manager:UpdatePlayer()
 
     --listen to game state event
     -- events here: https://developer.valvesoftware.com/wiki/Dota_2_Workshop_Tools/Scripting/Built-In_Engine_Events
@@ -100,8 +107,7 @@ function GameSetup:OnNPCSpawned(keys)
         npc:Initialize()
         npc.class_name = GetClassName(npc:GetUnitName())
 
-        --player_frame_manager:CreatePlayerFrame( npc )
-        --player_frame_manager:RegisterPlayer(npc)
+        player_frame_manager:CreatePlayerFrame( npc )
         --print("on spanwed lives ", npc.playerLives )
 
         if IsInToolsMode() == true then
@@ -141,6 +147,8 @@ function GameSetup:RegisterRaidWipe( )
                     self.bBossKilled = false
                     SessionManager:StopRecordingAttempt( self.bBossKilled )
 
+                    nATTEMPT_TRACKER = nATTEMPT_TRACKER + 1
+
                     Timers:CreateTimer(5.0, function()
 
                         -- revive and move dead heroes
@@ -175,6 +183,9 @@ function GameSetup:RegisterRaidWipe( )
 
                         -- reset death counter
                         self.player_deaths = {}
+
+                        -- dispaly scoreboard
+                        Scoreboard:DisplayScoreBoard(true)
 
                         return false
 
@@ -214,6 +225,9 @@ function GameSetup:OnEntityKilled(keys)
 
             self.bBossKilled = true
             SessionManager:StopRecordingAttempt( self.bBossKilled )
+
+            -- reset the attempt tracker
+            nATTEMPT_TRACKER = 0
 
             -- repsawn deadplayers and reset lifes
             local isHeroAlive = false
@@ -274,6 +288,10 @@ function GameSetup:OnEntityKilled(keys)
                 self:EncounterCleanUp( self.boss_spawn )
             end)
 
+            -- dispaly scoreboard and send attempt data to UI
+            local forceOpen = true
+            Scoreboard:DisplayScoreBoard(forceOpen)
+
         end
     end
 end
@@ -297,13 +315,13 @@ function GameSetup:OnEntityHurt(keys)
         for _, hero in pairs(heroes) do
             -- Store damage done or received to hero
             if (hero:GetEntityIndex() == keys.entindex_killed) or (hero:GetEntityIndex() == keys.entindex_attacker) then
-                StoreDamageDone(keys)
+                Scoreboard:StoreDamageDone(keys)
                 break
             end
         end
 
         --DPS METER:
-        UpdateDamageMeter()
+        Scoreboard:UpdateDamageMeter()
 
         if keys.entindex_attacker ~= nil and keys.entindex_killed ~= nil and keys.entindex_inflictor ~= nil then
             if EntIndexToHScript(keys.entindex_inflictor):GetTeam() == DOTA_TEAM_GOODGUYS then
@@ -342,8 +360,9 @@ function GameSetup:ReadyupCheck() -- called from trigger lua file for activators
     -- look at raid tables and move players to boss encounter based on counter
     print("game_setup: Start boss counter: ", BOSS_BATTLES_ENCOUNTER_COUNTER," ", RAID_TABLES[BOSS_BATTLES_ENCOUNTER_COUNTER].boss )
 
-    -- reset damage done
-    DamageTable = {}
+    for _,hero in pairs(HERO_LIST) do
+        hero.dmgDoneAttempt = 0  -- reset damage done
+    end
 
     self.boss_arena_name     = RAID_TABLES[BOSS_BATTLES_ENCOUNTER_COUNTER].spawnLocation
     self.player_arena_name   = RAID_TABLES[BOSS_BATTLES_ENCOUNTER_COUNTER].arena
@@ -492,4 +511,5 @@ function GameSetup:HeroCheck()
 
     end
 end
+-----------------------------------------------------------------------------------------------------
 

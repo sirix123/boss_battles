@@ -71,14 +71,13 @@ function hideScoreboardUI()
 		bsb.style.visibility = "collapse";
 }
 
-function showScoreboardUI(table_data)
+function showScoreboardUI( table_data )
 {
-	$.Msg("showScoreboardUI tableData = ", table_data)
+	//$.Msg("showScoreboardUI tableData = ", table_data)
+
 	var bsb = $("#bsb");
 	if (bsb)
 		bsb.style.visibility = "visible";
-	//Net tables version: not currently used. 
-	//var table_data = CustomNetTables.GetAllTableValues("dmg_done");
 
 	//Boss info section:
 	var bsb_bossHeader = $("#bsb_boss_header");
@@ -93,11 +92,19 @@ function showScoreboardUI(table_data)
 
 	var bossName = bsb_bossInfoContainer.FindChildInLayoutFile("bsb_header_boss_name")
 	var bossDuration = bsb_bossInfoContainer.FindChildInLayoutFile("bsb_header_boss_duration")
-	var bossWinLose = bsb_bossInfoContainer.FindChildInLayoutFile("bsb_header_boss_winLose")
+	var bossAttemptNumber = bsb_bossInfoContainer.FindChildInLayoutFile("bsb_header_boss_attempt")
 
-	bossName.text = table_data.bossName
-	bossDuration.text = table_data.bossDuration
-	bossWinLose.text = table_data.bossWinLose
+	bossName.text = table_data.bossTable.bossName
+
+	// format the duration into a nice 99min:99sec format
+	var data_duration = Math.round(table_data.bossTable.duration)
+	var minutes = Math.floor(data_duration / 60);
+	var seconds = data_duration - minutes * 60;
+
+	var duration = (minutes,":",seconds)
+	bossDuration.text = duration
+
+	bossAttemptNumber.text = table_data.bossTable.attemptNumber
 
 	var bsbTableContainer = $("#bsb_table_rows");
 
@@ -109,13 +116,19 @@ function showScoreboardUI(table_data)
 	}
 
 	//Player scoreboard rows section:
+	for(let i in table_data.playerTable)
+	{
+		CreateBossScoreBoardRow(table_data.playerTable[i], i)
+	}
+
+	/*Player scoreboard rows section:
 	for(var row in table_data)
 	{
 		//rows where row is an int, are the player rows
 		if (row > 0 ) 
 		{
-			var val = table_data[row]
-			CreateBossScoreBoardRow(val, row)
+			var val = table_data.playerTable[row]
+			CreateBossScoreBoardRow(table_data.playerTable[row], row)
 		}
 		else 
 		{
@@ -125,38 +138,34 @@ function showScoreboardUI(table_data)
 		//DEBUG 
 		// $.Msg("row = ", row)
 		// $.Msg("table_data[row] = ", table_data[row])
-	}
+	}*/
 }
 
 
 function CreateBossScoreBoardRow(rowData, rowId)
 {
 	//$.Msg("CreateBossScoreBoardRow(rowData, rowId). rowId = ", rowId)
+	//$.Msg("CreateBossScoreBoardRow(rowData, rowId). rowData = ", rowData)
 	var bsbTableContainer = $("#bsb_table_rows");
 	if (bsbTableContainer) 
 	{
 		var containerPanel = $.CreatePanel("Panel", bsbTableContainer, rowData);
 		containerPanel.BLoadLayoutSnippet("bsb_table_row");
 
-		//class_image
-		var classImage = containerPanel.FindChildInLayoutFile("bsb_table_row_class")
-			classImage.SetImage(rowData.class_icon);
+		var heroImage = containerPanel.FindChildInLayoutFile("HeroImage")
+		heroImage.heroname = rowData.heroName;
 
 		var playerName = containerPanel.FindChildInLayoutFile("bsb_table_row_player")
 		if (!!playerName) //if not null, set text
-			playerName.text = rowData.player_name
+			playerName.text = rowData.playerName
 
 		var dmgDone = containerPanel.FindChildInLayoutFile("bsb_table_row_dmgDone")
 		if (!!dmgDone) //if not null, set text
-			dmgDone.text = rowData.dmg_done
+			dmgDone.text = rowData.dmgDoneAttempt
 
-		var dpsDone = containerPanel.FindChildInLayoutFile("bsb_table_row_dpsDone")
-		if (!!dpsDone) //if not null, set text
-			dpsDone.text = rowData.dps
-
-		var dmgTaken = containerPanel.FindChildInLayoutFile("bsb_table_row_dmgTaken")
+		var dmgTaken = containerPanel.FindChildInLayoutFile("bsb_table_row_livesRemaining")
 		if (!!dmgTaken)
-			dmgTaken.text = rowData.dmg_taken
+			dmgTaken.text = rowData.playerLives
 	} //end if (bsbTableContainer) 
 	else {
 		$.Msg("bsbTableContainer/ #bsb_table_rows null. ")	
@@ -167,6 +176,6 @@ function CreateBossScoreBoardRow(rowData, rowId)
 
 //Subscribe these events to these functions. 
 //These functions are called/triggered from lua via: CustomGameEventManager:Send_ServerToAllClients("showScoreboardUIEvent", {})
-GameEvents.Subscribe( "showScoreboardUIEvent", showScoreboardUI);
+GameEvents.Subscribe( "display_scoreboard", showScoreboardUI);
 GameEvents.Subscribe( "hideScoreboardUIEvent", hideScoreboardUI);
 GameEvents.Subscribe( "showDpsMeterUIEvent", showDpsMeterUI);
