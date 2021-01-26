@@ -77,10 +77,9 @@ function bird_puddle_thinker:StartApplyDamageLoop()
                 if friend:GetUnitName() == "npc_ice_ele" then
                     self.dmgTable = {
                         victim = friend,
-                        attacker = self.parent,
+                        attacker = self.caster,
                         damage = self.dmg_dot + 500,
                         damage_type = DAMAGE_TYPE_PHYSICAL,
-                        ability = self,
                     }
 
                     ApplyDamage(self.dmgTable)
@@ -99,10 +98,9 @@ function bird_puddle_thinker:StartApplyDamageLoop()
 
                 self.dmgTable = {
                     victim = enemy,
-                    attacker = self.parent,
+                    attacker = self.caster,
                     damage = self.dmg_dot,
                     damage_type = DAMAGE_TYPE_PHYSICAL,
-                    ability = self,
                 }
 
                 if enemy:HasModifier("biting_frost_modifier_debuff") then
