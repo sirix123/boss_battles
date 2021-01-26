@@ -1,4 +1,7 @@
 r_explosive_arrow = class({})
+LinkLuaModifier( "r_explosive_arrow_modifier", "player/ranger/modifiers/r_explosive_arrow_modifier", LUA_MODIFIER_MOTION_NONE )
+LinkLuaModifier( "r_explosive_arrow_thinker_indicator", "player/ranger/modifiers/r_explosive_arrow_thinker_indicator", LUA_MODIFIER_MOTION_NONE )
+
 
 function r_explosive_arrow:OnAbilityPhaseStart()
     if IsServer() then
@@ -8,20 +11,28 @@ function r_explosive_arrow:OnAbilityPhaseStart()
         -- add casting modifier
         self:GetCaster():AddNewModifier(self:GetCaster(), self, "casting_modifier_thinker",
         {
-            duration = self:GetCastPoint(),
-            pMovespeedReduction = -50,
-            bTurnRateLimit = true,
+            duration = self:GetDuration(),
+            bMovementLock = true,
         })
 
         return true
     end
 end
 ---------------------------------------------------------------------------
+function r_explosive_arrow:GetAOERadius()
+	return self:GetSpecialValueFor( "radius" )
+end
+
+---------------------------------------------------------------------------
 
 function r_explosive_arrow:OnAbilityPhaseInterrupted()
     if IsServer() then
 
+        -- remove casting animation
+        self:GetCaster():FadeGesture(ACT_DOTA_ATTACK)
 
+        -- remove casting modifier
+        self:GetCaster():RemoveModifierByName("casting_modifier_thinker")
 
     end
 end
@@ -32,39 +43,80 @@ function r_explosive_arrow:OnSpellStart()
 
         -- when spell starts fade gesture
         self:GetCaster():FadeGesture(ACT_DOTA_ATTACK)
-        local origin = self:GetCaster():GetAbsOrigin()
 
-        local projectile_speed = 1000
-        local vTargetPos = nil
-        vTargetPos = Vector(self:GetCaster().mouse.x, self:GetCaster().mouse.y, self:GetCaster().mouse.z)
-        local projectile_direction = (Vector( vTargetPos.x - origin.x, vTargetPos.y - origin.y, 0 )):Normalized()
+        local caster = self:GetCaster()
+        local point = Vector(caster.mouse.x, caster.mouse.y, caster.mouse.z)
 
-        local projectile = {
-            EffectName = "particles/ranger/m1_ranger_windrunner_base_attack.vpcf",
-            vSpawnOrigin = self:GetCaster():GetAbsOrigin() + Vector(0, 0, 100),
-            fDistance = self:GetCastRange(Vector(0,0,0), nil),
-            fUniqueRadius = 100,
-            Source = self:GetCaster(),
-            vVelocity = projectile_direction * projectile_speed,
-            UnitBehavior = PROJECTILES_DESTROY,
-            TreeBehavior = PROJECTILES_DESTROY,
-            WallBehavior = PROJECTILES_DESTROY,
-            GroundBehavior = PROJECTILES_NOTHING,
-            fGroundOffset = 80,
-            UnitTest = function(_self, unit)
-                return unit:GetTeamNumber() ~= self:GetCaster():GetTeamNumber() and unit:GetModelName() ~= "models/development/invisiblebox.vmdl" and CheckGlobalUnitTableForUnitName(unit) ~= true
-            end,
-            OnUnitHit = function(_self, unit)
+        -- load data
+	    local duration = self:GetDuration()
 
-            end,
-            OnFinish = function(_self, pos)
-
-            end,
-        }
-
-        Projectiles:CreateProjectile(projectile)
-
+        -- add modifier
+        caster:AddNewModifier(
+            caster, -- player source
+            self, -- ability source
+            "r_explosive_arrow_modifier", -- modifier name
+            {
+                duration = duration,
+                pos_x = point.x,
+                pos_y = point.y,
+            } -- kv
+        )
 
 	end
 end
 ----------------------------------------------------------------------------------------------------------------
+
+function r_explosive_arrow:OnProjectileHit( target, location )
+	if not target then return end
+
+	local damage = self:GetSpecialValueFor( "damage" )
+	local radius = self:GetSpecialValueFor( "radius" )
+
+	local damageTable = {
+		attacker = self:GetCaster(),
+		damage = damage,
+		damage_type = self:GetAbilityDamageType(),
+		ability = self,
+	}
+
+	local enemies = FindUnitsInRadius(
+		self:GetCaster():GetTeamNumber(),	-- int, your team number
+		location,	-- point, center point
+		nil,	-- handle, cacheUnit. (not known)
+		radius,	-- float, radius. or use FIND_UNITS_EVERYWHERE
+		DOTA_UNIT_TARGET_TEAM_ENEMY,	-- int, team filter
+		DOTA_UNIT_TARGET_HERO + DOTA_UNIT_TARGET_BASIC,	-- int, type filter
+		0,	-- int, flag filter
+		0,	-- int, order filter
+		false	-- bool, can grow cache
+	)
+
+	for _,enemy in pairs(enemies) do
+		damageTable.victim = enemy
+		ApplyDamage(damageTable)
+	end
+
+	-- play effects
+	self:PlayEffects( target:GetOrigin() )
+end
+
+--------------------------------------------------------------------------------
+function r_explosive_arrow:PlayEffects( loc )
+	-- Get Resources
+	--local particle_cast = "particles/units/heroes/hero_snapfire/hero_snapfire_ultimate_impact.vpcf"
+	local particle_cast2 = "particles/units/heroes/hero_snapfire/snapfire_lizard_blobs_arced_explosion.vpcf"
+
+	-- Create Particle
+	--local effect_cast = ParticleManager:CreateParticle( particle_cast, PATTACH_WORLDORIGIN, self:GetCaster() )
+	--ParticleManager:SetParticleControl( effect_cast, 3, loc )
+	--ParticleManager:ReleaseParticleIndex( effect_cast )
+
+	local effect_cast = ParticleManager:CreateParticle( particle_cast2, PATTACH_WORLDORIGIN, self:GetCaster() )
+	ParticleManager:SetParticleControl( effect_cast, 0, loc )
+	ParticleManager:SetParticleControl( effect_cast, 3, loc )
+	ParticleManager:ReleaseParticleIndex( effect_cast )
+
+	-- Create Sound
+	local sound_location = "Hero_Snapfire.MortimerBlob.Impact"
+	EmitSoundOnLocationWithCaster( loc, sound_location, self:GetCaster() )
+end

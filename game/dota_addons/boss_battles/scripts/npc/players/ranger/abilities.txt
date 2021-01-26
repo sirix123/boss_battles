@@ -113,7 +113,7 @@
 		"ScriptFile"					"player/ranger/e_whirling_winds"
 		"MaxLevel"						"1"
 
-		"AbilityTextureName"			"legion_commander_overwhelming_odds"
+		"AbilityTextureName"			"hoodwink_sharpshooter"
 		"AbilityUnitDamageType"			"DAMAGE_TYPE_PHYSICAL"	
 		"SpellImmunityType"				"SPELL_IMMUNITY_ENEMIES_YES"
         "AbilityBehavior"				"DOTA_ABILITY_BEHAVIOR_POINT | DOTA_ABILITY_BEHAVIOR_AOE"
@@ -123,19 +123,21 @@
 
 		"TargetingIndicator"
 		{
-			//"Type"						"TARGETING_INDICATOR_AOE"
+			"Type"						"TARGETING_INDICATOR_AOE"
 			//"Fixed"						"1"
 		}
         
 		"AbilitySpecial"
 		{
 			"01"{ "var_type"			"FIELD_INTEGER"		"radius"				"300" 	}
-			"02"{ "var_type"			"FIELD_INTEGER"		"dmg"					"2000" 	}
+			"02"{ "var_type"			"FIELD_INTEGER"		"duration"				"12" 	}
 		}
 
 		"precache"
 		{
-			"soundfile"	"soundevents/game_sounds_heroes/game_sounds_legion_commander.vsndevts"
+			"particle"		"particles/ranger/ranger_tornado_ambient.vpcf"
+			"soundfile" 	"sounds/weapons/creep/neutral/wildkin_tornado_loop.vsnd"
+			"soundfile" 	"soundevents/game_sounds_creeps.vsndevts"
 		}
 	}
 
@@ -148,26 +150,37 @@
 		"AbilityTextureName"			"huskar_burning_spear"
 		"SpellImmunityType"				"SPELL_IMMUNITY_ENEMIES_YES"
 		"AbilityUnitDamageType"			"DAMAGE_TYPE_PHYSICAL"
-        "AbilityBehavior"				"DOTA_ABILITY_BEHAVIOR_POINT"
-		"AbilityCastRange" 				"1500"
-        "AbilityCooldown"				"1"
-        "AbilityCastPoint"              "1.0"
+        "AbilityBehavior"				"DOTA_ABILITY_BEHAVIOR_POINT | DOTA_ABILITY_BEHAVIOR_AOE"
+		"AbilityCastRange" 				"3000"
+        "AbilityCooldown"				"45"
+        "AbilityCastPoint"              "0.2"
 		"AbilityManaCost"        		"0"
+		"AbilityDuration"				"6.0"
 
 		"TargetingIndicator"
 		{
-			"Type"						"TARGETING_INDICATOR_LINE"
+			"Type"						"TARGETING_INDICATOR_AOE"
 			"Fixed"						"1"
 		}
         
 		"AbilitySpecial"
 		{
-
+			"01"{ "var_type"			"FIELD_INTEGER"		"radius"				"275" 	}
+			"02"{ "var_type"			"FIELD_INTEGER"		"damage"				"500" 	}
+			"03"{ "var_type"			"FIELD_INTEGER"		"max_travel"			"2" 	}
+			"04"{ "var_type"			"FIELD_INTEGER"		"min_range"				"600" 	}
+			"05"{ "var_type"			"FIELD_FLOAT"		"min_travel"			"0.8" 	}
+			"06"{ "var_type"			"FIELD_FLOAT"		"max_travel"			"2.0" 	}
+			"07"{ "var_type"			"FIELD_INTEGER"		"projectile_speed"		"1300" 	}
+			"08"{ "var_type"			"FIELD_INTEGER"		"proj_count"			"8" 	}
 		}
 
 		"precache"
 		{
-
+			"particle"	"particles/units/heroes/hero_snapfire/snapfire_lizard_blobs_arced_explosion.vpcf"
+			"particle"	"particles/ranger/ranger_snapfire_lizard_blobs_arced.vpcf"
+			"particle"	"particles/units/heroes/hero_snapfire/hero_snapfire_ultimate_calldown.vpcf"
+			"soundfile" "sounds/weapons/hero/snapfire/lizard_blob_launch.vsnd"
 		}
 	}
 

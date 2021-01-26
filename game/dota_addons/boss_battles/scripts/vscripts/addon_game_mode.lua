@@ -77,6 +77,8 @@ function Precache( context ) -- this needs to be in a seperate file
 
   -- ranger precache
   PrecacheResource("soundfile", "soundevents/voscripts/game_sounds_vo_medusa.vsndevts", context)
+  PrecacheResource("soundfile", "soundevents/game_sounds_creeps.vsndevts", context)
+  PrecacheResource("soundfile", "soundevents/game_sounds_heroes/game_sounds_snapfire.vsndevts", context)
 
   -- clock preache
   PrecacheResource("particle",	"particles/econ/items/jakiro/jakiro_ti10_immortal/jakiro_ti10_macropyre.vpcf", context)
