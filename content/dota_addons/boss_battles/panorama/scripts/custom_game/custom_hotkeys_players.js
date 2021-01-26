@@ -314,13 +314,16 @@ function OnLeftButtonPressed()
 
     // //cast this ability again if mouse is still down in 0.2 seconds
     // //start a timer
-    $.Schedule(0.3, function tic(){
-        //only continue timer if mouse still down
-        if (GameUI.IsMouseDown(0)){
-            TryAddAbilityToQueue(0);
-            $.Schedule(0.3, tic);
-        }
-    })
+    //$.Msg("Players.GetPlayerSelectedHero( playerEntity ) ",Players.GetPlayerSelectedHero( playerEntity ))
+    if ( Players.GetPlayerSelectedHero( playerEntity ) != "npc_dota_hero_templar_assassin" ){
+        $.Schedule(0.3, function tic(){
+            //only continue timer if mouse still down
+            if (GameUI.IsMouseDown(0)){
+                TryAddAbilityToQueue(0);
+                $.Schedule(0.3, tic);
+            }
+        })
+    }
 }
 
 function OnRightButtonPressed()
@@ -367,10 +370,10 @@ GameUI.SetMouseCallback( function( eventName, arg ){
 		if ( nMouseButton === 0 )
 		{
             OnLeftButtonPressed();
-            //Ctrl key is down:
-            // if(GameUI.IsControlDown()){
-            //     return true;
-            // }
+            var heroIndex = Players.GetPlayerHeroEntityIndex(Players.GetLocalPlayer());
+            var playerId = Players.GetLocalPlayer()
+            GameEvents.SendCustomGameEventToServer("left_mouse_release", {heroIndex: heroIndex, playerId: playerId, pos: false});
+
             return true;
 		}
 
@@ -381,6 +384,14 @@ GameUI.SetMouseCallback( function( eventName, arg ){
         }
     }
     if (eventName === "released"){
+        if ( nMouseButton === 0 )
+		{
+            var heroIndex = Players.GetPlayerHeroEntityIndex(Players.GetLocalPlayer());
+            var playerId = Players.GetLocalPlayer()
+			GameEvents.SendCustomGameEventToServer("left_mouse_release", {heroIndex: heroIndex, playerId: playerId, pos: true});
+			return true;
+        }
+
         if ( nMouseButton === 1 )
 		{
 			EmptyCallBack();
