@@ -179,7 +179,7 @@
 		// Abilities
 		//----------------------------------------------------------------
 		"Ability1"					"stomp_push"					// Ability 1
-		"Ability2"					""					// Ability 2
+		"Ability2"					"assistant_sweep"					// Ability 2
 		"Ability3"					""					// Ability 3
 		"Ability4"					""					// Ability 4
 		"Ability5"					""					// Ability 5
@@ -192,12 +192,12 @@
 
 		// Attack
 		//----------------------------------------------------------------
-		"AttackCapabilities"		"DOTA_UNIT_CAP_MELEE_ATTACK"
+		"AttackCapabilities"		"DOTA_UNIT_CAP_MELEE_ATTACK" //DOTA_UNIT_CAP_NO_ATTACK DOTA_UNIT_CAP_MELEE_ATTACK
 		"AttackDamageMin"			"35"		
 		"AttackDamageMax"			"55"		
 		"AttackRate"				"1.2"		// Speed of attack.
 		"AttackAnimationPoint"		"0.2"		// Normalized time in animation cycle to attack.
-		"AttackAcquisitionRange"	"10000"		// Range within a target can be acquired.
+		"AttackAcquisitionRange"	"15000"		// Range within a target can be acquired.
 		"AttackRange"				"100"		
 
 		// Bounds
@@ -208,7 +208,7 @@
 		// Movement
 		//----------------------------------------------------------------
 		"MovementCapabilities"		"DOTA_UNIT_CAP_MOVE_GROUND"//"DOTA_UNIT_CAP_MOVE_NONE"
-		"MovementSpeed"				"380"					
+		"MovementSpeed"				"310"					
 
 		// Status
 		//----------------------------------------------------------------

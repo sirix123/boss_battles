@@ -330,5 +330,46 @@
 
 		}
     }
+
+    //=================================================================================================================
+    // Techies: assistant_sweep
+    //=================================================================================================================
+    "assistant_sweep"
+    { 
+        "BaseClass"                     "ability_lua"
+        "ScriptFile"                    "bosses/techies/assistant_sweep"
+        "MaxLevel"						"4"
+
+        // General
+        //-------------------------------------------------------------------------------------------------------------
+        "AbilityBehavior"               "DOTA_ABILITY_BEHAVIOR_POINT"
+        "AbilityUnitDamageType"         "DAMAGE_TYPE_PHYSICAL"  
+
+        // Casting
+        //-------------------------------------------------------------------------------------------------------------
+        "AbilityCastPoint"              "2.5 2.5 2.5 2.5"
+        "AbilityCastRange"              "1500"
+
+        // Time     
+        //-------------------------------------------------------------------------------------------------------------
+        "AbilityCooldown"               "3 3 3 3"
+
+        // Cost
+        //-------------------------------------------------------------------------------------------------------------
+        "AbilityManaCost"               "0"
+
+        // Special
+        //-------------------------------------------------------------------------------------------------------------
+		"AbilitySpecial"
+		{
+            //"01"{ "var_type"			"FIELD_INTEGER"		"duration"		                            "15" }
+		}
+
+        "precache"
+		{
+            "soundfile" "soundevents/game_sounds_heroes/game_sounds_keeper_of_the_light.vsndevts"
+            "soundfile" "sounds/vo/warlock_golem/game_sounds_vo_warlock_golem.vsndevts"
+		}
+    }
 }
 

@@ -21,7 +21,7 @@ function Spawn( entityKeyValues )
     thisEntity:AddNewModifier( nil, nil, "modifier_phased", { duration = -1 })
     --thisEntity:AddNewModifier( nil, nil, "techies_eat_cubes", { duration = -1 })
 
-    --CreateUnitByName( "npc_guard", Vector(10126,1776,0), true, thisEntity, thisEntity, DOTA_TEAM_BADGUYS)
+    CreateUnitByName( "npc_guard", Vector(10126,1776,0), true, thisEntity, thisEntity, DOTA_TEAM_BADGUYS)
 
     -- spells
     thisEntity.cluster_mine_throw = thisEntity:FindAbilityByName( "cluster_mine_throw" )
@@ -50,7 +50,7 @@ function Spawn( entityKeyValues )
 
     thisEntity:SetHullRadius(80)
 
-    thisEntity:SetContextThink( "TechiesThinker", TechiesThinker, 0.5 )
+    --thisEntity:SetContextThink( "TechiesThinker", TechiesThinker, 0.5 )
 
 end
 --------------------------------------------------------------------------------

@@ -1,6 +1,7 @@
 stomp_push = class({})
 
 LinkLuaModifier( "modifier_stomp_push", "bosses/techies/modifiers/modifier_stomp_push", LUA_MODIFIER_MOTION_NONE )
+LinkLuaModifier( "modifier_stomp_pull", "bosses/techies/modifiers/modifier_stomp_pull", LUA_MODIFIER_MOTION_NONE )
 
 function stomp_push:OnAbilityPhaseStart()
     if IsServer() then
@@ -57,6 +58,7 @@ function stomp_push:OnSpellStart()
         for _, unit in pairs(self.units) do
             EmitSoundOn("DOTA_Item.ForceStaff.Activate", unit)
             unit:AddNewModifier(self:GetCaster(), ability, "modifier_stomp_push", {duration = 1})
+            --unit:AddNewModifier(self:GetCaster(), ability, "modifier_stomp_pull", {duration = 1})
         end
     end
 end

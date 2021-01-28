@@ -1,6 +1,7 @@
 assistant_ai = class({})
 LinkLuaModifier( "oil_leak_modifier", "bosses/techies/modifiers/oil_leak_modifier", LUA_MODIFIER_MOTION_NONE )
 LinkLuaModifier( "guard_death_modifier", "bosses/techies/modifiers/guard_death_modifier", LUA_MODIFIER_MOTION_NONE )
+LinkLuaModifier( "turn_rate_modifier", "bosses/techies/modifiers/turn_rate_modifier", LUA_MODIFIER_MOTION_NONE )
 --------------------------------------------------------------------------------
 
 function Spawn( entityKeyValues )
@@ -13,13 +14,18 @@ function Spawn( entityKeyValues )
 	boss_frame_manager:HideBossManaFrame()
 	boss_frame_manager:ShowBossHpFrame()
 
-	thisEntity:AddNewModifier( nil, nil, "modifier_phased", { duration = -1 })
+	--thisEntity:AddNewModifier( nil, nil, "modifier_phased", { duration = -1 })
 	--thisEntity:AddNewModifier( nil, nil, "oil_leak_modifier", { duration = -1 })
 	thisEntity:AddNewModifier( nil, nil, "guard_death_modifier", { duration = -1 })
+	thisEntity:AddNewModifier( nil, nil, "turn_rate_modifier", { duration = -1 })
+
+	thisEntity.assistant_sweep = thisEntity:FindAbilityByName( "assistant_sweep" )
+	thisEntity.assistant_sweep:SetLevel(1)
+	thisEntity.assistant_sweep:StartCooldown(1)
 
 	thisEntity.stomp_push = thisEntity:FindAbilityByName( "stomp_push" )
 	thisEntity.stomp_push:SetLevel(1)
-	thisEntity.stomp_push:StartCooldown(5)
+	thisEntity.stomp_push:StartCooldown(15)
 
 	--CreateUnitByName( "npc_techies", Vector(10126,1776,0), true, thisEntity, thisEntity, DOTA_TEAM_BADGUYS)
 
@@ -41,58 +47,49 @@ function AssistantThink()
 		return 0.5
 	end
 
-	--[[if thisEntity:GetAttackTarget() == nil then
-		print("attakcing player")
-		return AttackClosestPlayer()
-	end]]
+	-- find all units to find the cloest target
+	local targets = FindUnitsInRadius(
+		thisEntity:GetTeamNumber(),
+		thisEntity:GetOrigin(),
+		nil,
+		3000,
+		DOTA_UNIT_TARGET_TEAM_ENEMY,
+		DOTA_UNIT_TARGET_HERO + DOTA_UNIT_TARGET_BASIC,
+		DOTA_UNIT_TARGET_FLAG_INVULNERABLE,
+		FIND_CLOSEST,
+		false )
 
-	--print("thisEntity.stomp_push ", thisEntity.stomp_push)
-	--print("thisEntity.stomp_push:IsFullyCastable() ", thisEntity.stomp_push:IsFullyCastable())
-	--print("thisEntity.stomp_push:IsCooldownReady() ", thisEntity.stomp_push:IsCooldownReady())
+	if #targets > 0 then
+		thisEntity:SetAggroTarget(targets[1])
+		thisEntity:MoveToTargetToAttack(targets[1])
+	end
+
+	-- find units in a line for sweep
+	local length = 600
+	thisEntity.vTargetPos = thisEntity:GetAbsOrigin() + thisEntity:GetForwardVector() * length
+
+	local units = FindUnitsInLine(
+		thisEntity:GetTeamNumber(),
+		thisEntity:GetAbsOrigin() + thisEntity:GetForwardVector() * 100,
+		thisEntity.vTargetPos,
+		nil,
+		50,
+		DOTA_UNIT_TARGET_TEAM_ENEMY,
+		DOTA_UNIT_TARGET_HERO + DOTA_UNIT_TARGET_BASIC,
+		DOTA_UNIT_TARGET_FLAG_INVULNERABLE)
+
+	if #units > 0 and thisEntity.assistant_sweep ~= nil and thisEntity.assistant_sweep:IsFullyCastable() and thisEntity.assistant_sweep:IsCooldownReady() and thisEntity.assistant_sweep:IsInAbilityPhase() == false then
+		return CastSweep( thisEntity.vTargetPos )
+	end
 
 	if thisEntity.stomp_push ~= nil and thisEntity.stomp_push:IsFullyCastable() and thisEntity.stomp_push:IsCooldownReady() then
 		--print("stomp push")
 		return CastStompPush()
 	end
 
-	return 0.5
+	return 0.03
 end
 
---------------------------------------------------------------------------------
-
-function AttackClosestPlayer()
-	-- find closet player
-    local enemies = FindUnitsInRadius(
-        thisEntity:GetTeamNumber(),
-        thisEntity:GetAbsOrigin(),
-        nil,
-        2500,
-        DOTA_UNIT_TARGET_TEAM_ENEMY,
-        DOTA_UNIT_TARGET_HERO,
-        DOTA_UNIT_TARGET_FLAG_NONE,
-        FIND_CLOSEST,
-        false
-    )
-
-	if #enemies == 0 then
-		return 0.5
-	end
-
-	local randomEnemy = enemies[RandomInt(1, #enemies)]
-
-	while (randomEnemy:GetUnitName() == "npc_rock_techies") do
-		randomEnemy = enemies[RandomInt(1, #enemies)]
-	end
-
-	ExecuteOrderFromTable({
-		UnitIndex = thisEntity:entindex(),
-		OrderType = DOTA_UNIT_ORDER_ATTACK_MOVE,
-		TargetIndex = randomEnemy,
-		Queue = 0,
-	})
-
-	return 0.5
-end
 --------------------------------------------------------------------------------
 
 function CastStompPush(  )
@@ -105,4 +102,16 @@ function CastStompPush(  )
     })
 
     return thisEntity.stomp_push:GetCastPoint() + 1
+end
+
+function CastSweep( vTargetPos )
+    ExecuteOrderFromTable({
+        UnitIndex = thisEntity:entindex(),
+		OrderType = DOTA_UNIT_ORDER_CAST_POSITION,
+		Position = vTargetPos,
+		AbilityIndex = thisEntity.assistant_sweep:entindex(),
+        Queue = false,
+	})
+
+	return thisEntity.assistant_sweep:GetCastPoint() + 0.3
 end
