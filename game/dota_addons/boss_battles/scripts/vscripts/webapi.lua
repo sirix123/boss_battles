@@ -32,6 +32,8 @@ function WebApi:SaveSessionData(data)
 	--local tTable = {}
 	--tTable["test"] = "hello workd"
 
+	print(dump(json.encode(data)))
+
 	local request = CreateHTTPRequestScriptVM("POST", firebaseUrl ..  "sessionData.json")
 	request:SetHTTPRequestRawPostBody("application/json", json.encode(data))
       request:Send(function(response) 

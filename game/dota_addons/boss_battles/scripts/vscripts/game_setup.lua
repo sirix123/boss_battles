@@ -255,13 +255,14 @@ function GameSetup:OnEntityKilled(keys)
                 end
             end
 
-            if isHeroAlive == true then
-                BOSS_BATTLES_ENCOUNTER_COUNTER = BOSS_BATTLES_ENCOUNTER_COUNTER + 1
+            -- raid counter will go to 7 if tinkers is killed
+            if BOSS_BATTLES_ENCOUNTER_COUNTER == 7 then --2
+                print("sending session data")
+                SessionManager:SendSessionData()
             end
 
-            -- raid counter will go to 7 if tinkers is killed
-            if BOSS_BATTLES_ENCOUNTER_COUNTER == 7 then
-                SessionManager:SendSessionData()
+            if isHeroAlive == true then
+                BOSS_BATTLES_ENCOUNTER_COUNTER = BOSS_BATTLES_ENCOUNTER_COUNTER + 1
             end
 
             -- move alive players to intermission area
