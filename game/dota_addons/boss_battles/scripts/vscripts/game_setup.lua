@@ -87,6 +87,7 @@ function GameSetup:OnNPCSpawned(keys)
 
         -- if remove is suppose to spawn with 0 mana, spawn them with 0 mana
         if npc:GetUnitName() == "npc_dota_hero_crystal_maiden" then npc:SetMana(0) end
+        if npc:GetUnitName() == "npc_dota_hero_medusa" then npc:SetMana(0) end
 
     end
 
@@ -257,7 +258,6 @@ function GameSetup:OnEntityKilled(keys)
 
             -- raid counter will go to 7 if tinkers is killed
             if BOSS_BATTLES_ENCOUNTER_COUNTER == 7 then --2
-                print("sending session data")
                 SessionManager:SendSessionData()
             end
 

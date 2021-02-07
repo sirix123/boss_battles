@@ -21,6 +21,8 @@
         "Ability13"             ""
         "Ability14"             ""
         "Ability15"             ""
+        "Ability16"             ""
+        "Ability17"             ""
 
         "ArmorPhysical"             "0"
         "MagicalResistance"         "0"
