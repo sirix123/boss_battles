@@ -66,23 +66,32 @@ entryPanel.BLoadLayoutSnippet("ScoreboardRow"); -->
       <!-- Header. Boss info section. boss_name, fight_duration, VICTORY/DEFEAT -->
       <!-- Then a table ranking players dmg done for the boss fight. -->
       <!-- Table cols: class, player, dmg done, dmg taken -->
-      <Panel class="bsb" id="bsb" hittest="false"> 
-          <Panel class="bsb_boss_header" id="bsb_boss_header" hittest="false">       
-            <!-- snippet: bsb_header_bossFight_info goes here -->
-          </Panel>
-
-          <Panel class="bsb_table_header" id="bsb_table_header" hittest="false">
-            <Label text=""  class="bsb_table_header_cell_small_hero_image" id="bsb_table_header_class"/>
-            <Label text="Player"  class="bsb_table_header_cell" id="bsb_table_header_player"/>
-            <Label text="Damage Done"  class="bsb_table_header_cell_small" id="bsb_table_header_dmgDone"/>
-            <Label text="Lives Remaining"  class="bsb_table_header_cell_small" id="bsb_table_header_lives"/>
-          </Panel>    
-
-          <Panel class="bsb_body" id="bsb_body" hittest="false"> 
-            <Panel class="bsb_table_rows" id="bsb_table_rows" hittest="false">
-              <!-- snippet: bsb_table_row goes here -->
+      <Panel class="bsb_parent" id="bsb_parent" hittest="false">
+        <Panel class="bsb" id="bsb" hittest="false"> 
+            <Panel class="bsb_boss_header" id="bsb_boss_header" hittest="false">       
+              <!-- snippet: bsb_header_bossFight_info goes here -->
             </Panel>
-          </Panel>
+
+            <Panel class="bsb_table_header" id="bsb_table_header" hittest="false">
+              <Label text=""  class="bsb_table_header_cell_small_hero_image" id="bsb_table_header_class"/>
+              <Label text="Player"  class="bsb_table_header_cell" id="bsb_table_header_player"/>
+              <Label text="Damage Done"  class="bsb_table_header_cell_small" id="bsb_table_header_dmgDone"/>
+              <Label text="Lives Remaining"  class="bsb_table_header_cell_small" id="bsb_table_header_lives"/>
+            </Panel>    
+
+            <Panel class="bsb_body" id="bsb_body" hittest="false"> 
+              <Panel class="bsb_table_rows" id="bsb_table_rows" hittest="false">
+                <!-- snippet: bsb_table_row goes here -->
+              </Panel>
+            </Panel>
+
+        </Panel>
+
+        <Panel class="bsb_header_close_button_panel" id="bsb_header_close_button_panel" hittest="true">
+            <Button id="bsb_header_close_button" >
+                <Label id="bsb_header_close_button_text" text="X" />
+            </Button>
+        </Panel>  
 
       </Panel>
 

@@ -50,7 +50,8 @@ function SessionManager:StopRecordingAttempt( bBossKilled )
     self.duration = self.end_time - self.start_time
 
     self.boss_attempt = {} -- made up of the boss, contains boss name, duration of attempt, if it was killed
-    self.attempt_data = {} -- init an attempt table
+    self.attempt_data = {} -- single attempe data snapshat for ingame scoreboard, collection of boss attemp and player data
+    self.player_attempt_data = {} -- just the attempts player data
 
     -- individual player data
     for _, hero in pairs(HERO_LIST) do
@@ -63,6 +64,7 @@ function SessionManager:StopRecordingAttempt( bBossKilled )
         player["heroName"] = hero.hero_name
         player["dmgDoneAttempt"] = hero.dmgDoneAttempt
         table.insert(self.player_data,player)
+        table.insert(self.player_attempt_data,player)
     end
 
     -- add all the boss data to the boss table
@@ -71,10 +73,16 @@ function SessionManager:StopRecordingAttempt( bBossKilled )
     self.boss_attempt["bossName"] = RAID_TABLES[BOSS_BATTLES_ENCOUNTER_COUNTER].name
     self.boss_attempt["attemptNumber"] = self.attempt_tracker
 
+    -- adds the boss attempt to the boss data collection
     table.insert(self.boss_data,self.boss_attempt)
 
+    -- adds boss data and player data to the session data collection
     self.session_data["boss_data"] = self.boss_data
     self.session_data["player_data"] = self.player_data
+
+    -- attempt data,used for the ingame scoreboard, snapshot of last attempt
+    self.attempt_data["boss_data"] = self.boss_attempt
+    self.attempt_data["player_data"] = self.player_attempt_data
 
 end
 ----------------------------------------

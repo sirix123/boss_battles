@@ -9,6 +9,20 @@ function getRandomColor() {
   return color;
 }
 
+function formatIntMMSS(num) {
+    var minutes = Math.floor((num) / 60);
+    var seconds = num - (minutes * 60);
+
+    if (minutes < 10) {minutes = "0"+minutes;}
+    if (seconds < 10) {seconds = "0"+seconds;}
+    return minutes + ':' + seconds;
+}
+
+function numberWithCommas(x) {
+    return x.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
+}
+   
+
 function DpsMeterUpdate( table_name, key, data )
 {
 	//DEBUG:
@@ -66,16 +80,16 @@ function showDpsMeterUI()
 
 function hideScoreboardUI()
 {
-	var bsb = $("#bsb");
+	var bsb = $("#bsb_parent");
 	if (bsb)
 		bsb.style.visibility = "collapse";
 }
 
 function showScoreboardUI( table_data )
 {
-	//$.Msg("showScoreboardUI tableData = ", table_data)
+	$.Msg("showScoreboardUI tableData = ", table_data)
 
-	var bsb = $("#bsb");
+	var bsb = $("#bsb_parent");
 	if (bsb)
 		bsb.style.visibility = "visible";
 
@@ -94,17 +108,36 @@ function showScoreboardUI( table_data )
 	var bossDuration = bsb_bossInfoContainer.FindChildInLayoutFile("bsb_header_boss_duration")
 	var bossAttemptNumber = bsb_bossInfoContainer.FindChildInLayoutFile("bsb_header_boss_attempt")
 
-	bossName.text = table_data.bossTable.bossName
+	// handler for if boss was killed or not, adds colour to the frame to show if it was killed or not
+	var bossNameContainer = bsb_bossInfoContainer.FindChildInLayoutFile("bsb_header_boss_name_container")
+	var bossDurationContainer = bsb_bossInfoContainer.FindChildInLayoutFile("bsb_header_boss_duration_container")
+	var bossAttemptContainer = bsb_bossInfoContainer.FindChildInLayoutFile("bsb_header_boss_attempt_container")
+
+	if ( table_data.boss_data.bossKilled == 1 ){
+		bossNameContainer.AddClass("victory")
+		bossDurationContainer.AddClass("victory")
+		bossAttemptContainer.AddClass("victory")
+	}
+	else{
+		bossNameContainer.AddClass("defeat")
+		bossDurationContainer.AddClass("defeat")
+		bossAttemptContainer.AddClass("defeat")
+	}
+
+	// close button handler
+	let closeButton = bsb.FindChildInLayoutFile("bsb_header_close_button") // close button
+	closeButton.SetPanelEvent( 'onactivate', function () {
+		$.Msg("closeButton-activate")
+		hideScoreboardUI()
+	});
+
+	bossName.text = table_data.boss_data.bossName
 
 	// format the duration into a nice 99min:99sec format
-	var data_duration = Math.round(table_data.bossTable.duration)
-	var minutes = Math.floor(data_duration / 60);
-	var seconds = data_duration - minutes * 60;
+	var data_duration = Math.round(table_data.boss_data.duration)
+	bossDuration.text = formatIntMMSS(data_duration)
 
-	var duration = (minutes,":",seconds)
-	bossDuration.text = duration
-
-	bossAttemptNumber.text = table_data.bossTable.attemptNumber
+	bossAttemptNumber.text = table_data.boss_data.attemptNumber
 
 	var bsbTableContainer = $("#bsb_table_rows");
 
@@ -116,9 +149,9 @@ function showScoreboardUI( table_data )
 	}
 
 	//Player scoreboard rows section:
-	for(let i in table_data.playerTable)
+	for(let i in table_data.player_data)
 	{
-		CreateBossScoreBoardRow(table_data.playerTable[i], i)
+		CreateBossScoreBoardRow(table_data.player_data[i], i)
 	}
 
 	/*Player scoreboard rows section:
@@ -161,7 +194,7 @@ function CreateBossScoreBoardRow(rowData, rowId)
 
 		var dmgDone = containerPanel.FindChildInLayoutFile("bsb_table_row_dmgDone")
 		if (!!dmgDone) //if not null, set text
-			dmgDone.text = rowData.dmgDoneAttempt
+			dmgDone.text = numberWithCommas(rowData.dmgDoneAttempt)
 
 		var dmgTaken = containerPanel.FindChildInLayoutFile("bsb_table_row_livesRemaining")
 		if (!!dmgTaken)
