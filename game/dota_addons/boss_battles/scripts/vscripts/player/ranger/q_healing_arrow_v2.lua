@@ -96,6 +96,9 @@ function q_healing_arrow_v2:OnSpellStart()
 
                 unit:Heal(heal, self.caster)
 
+                -- give mana
+                self.caster:ManaOnHit(self:GetSpecialValueFor( "mana_gain_per_hit"))
+
                 -- play hit sound
                 StartSoundEvent( "Hero_Windrunner.PowershotDamage", unit )
 

@@ -64,6 +64,11 @@ function e_whirling_winds_modifier_thinker:PlayEffects()
         self.nfx = ParticleManager:CreateParticle(particle, PATTACH_WORLDORIGIN, nil)
         ParticleManager:SetParticleControl(self.nfx, 0, self.currentTarget)
 
+        local outline_particle = "particles/ranger/ranger_winds_hero_snapfire_ultimate_calldown_ring.vpcf"
+        self.nfx_outline = ParticleManager:CreateParticle(outline_particle, PATTACH_ABSORIGIN, self.parent)
+        ParticleManager:SetParticleControl(self.nfx_outline, 0, self.currentTarget)
+        ParticleManager:SetParticleControl(self.nfx_outline, 1, Vector(self.radius,1,1))
+
 	end
 end
 ---------------------------------------------------------------------------
@@ -72,6 +77,7 @@ function e_whirling_winds_modifier_thinker:OnDestroy( kv )
     if IsServer() then
         self.parent:StopSound("n_creep_Wildkin.Tornado")
         ParticleManager:DestroyParticle(self.nfx,false)
+        ParticleManager:DestroyParticle(self.nfx_outline,false)
         self:StartIntervalThink( -1 )
         UTIL_Remove( self.parent )
 	end

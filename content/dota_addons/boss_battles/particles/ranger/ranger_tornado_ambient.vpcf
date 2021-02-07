@@ -131,7 +131,7 @@
 					m_hTexture = resource:"materials/particle/leaf/leaf.vtex"
 				},
 			]
-			m_OutlineColor = [ 255, 255, 255 ]
+			m_OutlineColor = [ 248, 3, 3 ]
 			m_flRadiusScale = 
 			{
 				m_nType = "PF_TYPE_LITERAL"
@@ -222,6 +222,11 @@
 					m_vDomainMaxs = [ 0.0, 0.0 ]
 				}
 			}
+			m_nOutlineAlpha = 112
+			m_flOutlineStart0 = 100.0
+			m_flOutlineStart1 = 100.0
+			m_flOutlineEnd0 = 200.0
+			m_flOutlineEnd1 = 200.0
 		},
 	]
 	m_Children = 

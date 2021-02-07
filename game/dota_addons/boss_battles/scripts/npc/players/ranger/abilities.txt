@@ -29,7 +29,7 @@
 			"03"{ "var_type"			"FIELD_INTEGER"		"base_dmg"							"20" }
 			"04"{ "var_type"			"FIELD_FLOAT"		"dmg_dist_multi"					"0.08" }
 			"05"{ "var_type"			"FIELD_FLOAT"		"rain_of_arrows_bonus_proj_speed"	"800" }
-			"06"{ "var_type"			"FIELD_INTEGER"		"mana_gain_percent"             	"5" }
+			"06"{ "var_type"			"FIELD_INTEGER"		"mana_gain_percent"             	"12" }
 		}
 
 		"precache"
@@ -52,6 +52,7 @@
 		"AbilityCastRange" 				"1400"
         "AbilityCooldown"				"15"
         "AbilityCastPoint"              "0.8"
+		"AbilityManaCost"        		"25"
 
 
 		"TargetingIndicator"
@@ -99,6 +100,7 @@
 			"02"{ "var_type"			"FIELD_INTEGER"		"proj_speed"						"1600" }
 			"03"{ "var_type"			"FIELD_INTEGER"		"heal"								"120" }
 			"04"{ "var_type"			"FIELD_FLOAT"		"heal_dist_multi"					"0.08" }
+			"05"{ "var_type"			"FIELD_INTEGER"		"mana_gain_per_hit"             	"3" }
 		}
 
 		"precache"
@@ -120,6 +122,7 @@
 		"AbilityCastRange" 				"1500"
         "AbilityCooldown"				"45"//"50"
         "AbilityCastPoint"              "0.2"
+		"AbilityManaCost"        		"12"
 
 		"TargetingIndicator"
 		{
@@ -131,6 +134,8 @@
 		{
 			"01"{ "var_type"			"FIELD_INTEGER"		"radius"				"300" 	}
 			"02"{ "var_type"			"FIELD_INTEGER"		"duration"				"12" 	}
+			"03"{ "var_type"			"FIELD_FLOAT"		"cast_point_reduction"	"0.25" 	}
+			"04"{ "var_type"			"FIELD_FLOAT"		"proj_speed_increase"	"0.25" 	}
 		}
 
 		"precache"
@@ -154,7 +159,7 @@
 		"AbilityCastRange" 				"3000"
         "AbilityCooldown"				"45"
         "AbilityCastPoint"              "0.2"
-		"AbilityManaCost"        		"0"
+		"AbilityManaCost"        		"50"
 		"AbilityDuration"				"6.0"
 
 		"TargetingIndicator"

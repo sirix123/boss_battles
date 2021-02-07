@@ -6,8 +6,8 @@ function m1_trackingshot:OnAbilityPhaseStart()
 
         self:GetCaster():StartGestureWithPlaybackRate(ACT_DOTA_ATTACK, 0.8)
 
-        if self:GetCaster():HasModifier("e_whirling_winds_modifier") then
-            self:SetOverrideCastPoint( self:GetCastPoint() - ( self:GetCastPoint() * self:GetSpecialValueFor( "cast_point_reduction" ) ))
+        if self:GetCaster():HasModifier("e_rain_of_arrows_modifier") then
+            self:SetOverrideCastPoint( 0.3 )
 
             -- add casting modifier
             self:GetCaster():AddNewModifier(self:GetCaster(), self, "casting_modifier_thinker",
@@ -69,9 +69,14 @@ function m1_trackingshot:OnSpellStart()
         -- init effect
         local enEffect = "particles/ranger/m1_ranger_windrunner_base_attack.vpcf"
 
+        -- check for explosive tip modifier and if we have it change arrow effect and apply explosive stack
+        if self.caster:HasModifier("r_explosive_tip_modifier") then
+            enEffect = "particles/ranger/ranger_huskar_burning_spear.vpcf"
+        end
+
         -- check if caster has rain of arrows moidifier
-        if self.caster:HasModifier("e_whirling_winds_modifier") then
-            projectile_speed = projectile_speed + ( projectile_speed * self:GetSpecialValueFor( "proj_speed_increase" ) )
+        if self.caster:HasModifier("e_rain_of_arrows_modifier") then
+            projectile_speed = projectile_speed + self:GetSpecialValueFor( "rain_of_arrows_bonus_proj_speed" )
         end
 
         local projectile = {
