@@ -169,12 +169,12 @@
 
 		// General
 		//----------------------------------------------------------------
-		"Model"						"models/items/warlock/golem/mystery_of_the_lost_ores_golem/mystery_of_the_lost_ores_golem.vmdl"	// Model.
-		"BaseClass"					"npc_dota_warlock_golem"
-		"SoundSet"					"Hero_WarlockGolem"
-		"GameSoundsFile"			"soundevents/game_sounds_heroes/game_sounds_warlock.vsndevts"
+		"Model"						"models/heroes/earthshaker/earthshaker.vmdl"	// Model.
+		"BaseClass"					"npc_dota_creature"
+		"SoundSet"					"Hero_Earthshaker"
+		"GameSoundsFile"			"soundevents/game_sounds_heroes/game_sounds_earthshaker.vsndevts"
 		"Level"						"1"
-		"ModelScale" 				"1.1"
+		"ModelScale" 				"1.6"
 
 		// Abilities
 		//----------------------------------------------------------------
@@ -203,7 +203,7 @@
 		// Bounds
 		//----------------------------------------------------------------
 		"RingRadius"				"100"
-		"HealthBarOffset"			"170"
+		"HealthBarOffset"			"500"
 
 		// Movement
 		//----------------------------------------------------------------
@@ -228,6 +228,17 @@
 		"CombatClassAttack"			"DOTA_COMBAT_CLASS_ATTACK_PIERCE"
 		"CombatClassDefend"			"DOTA_COMBAT_CLASS_DEFEND_BASIC"
 		"UnitRelationshipClass"		"DOTA_NPC_UNIT_RELATIONSHIP_TYPE_DEFAULT"
+
+		"Creature"
+		{
+			"AttachWearables"
+			{
+				"1" { "ItemDef" "5629" } // Belt of the Forest Hermit
+				"2" { "ItemDef" "5626" } // Totem of the Forest Hermit
+				"3" { "ItemDef" "5628" } // Shoulders of the Forest Hermit
+				"4" { "ItemDef" "5630" } // Head of the Forest Hermit
+			}
+		}
 
 	}
 

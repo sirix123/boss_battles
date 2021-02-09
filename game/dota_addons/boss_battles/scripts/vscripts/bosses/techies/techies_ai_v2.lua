@@ -185,6 +185,7 @@ function TechiesThinker()
             end
         end
 
+        -- change this to be a cross shape?
         local random_diffuse_locations ={
             Vector(8996,572,130),
             Vector(10001,1214,130),

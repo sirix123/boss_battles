@@ -3,7 +3,7 @@ LinkLuaModifier( "modifier_generic_stunned", "core/modifier_generic_stunned", LU
 
 function assistant_sweep:OnAbilityPhaseStart()
     if IsServer() then
-        self:GetCaster():StartGestureWithPlaybackRate(ACT_DOTA_ATTACK, 0.3)
+        self:GetCaster():StartGestureWithPlaybackRate(ACT_DOTA_CAST_ABILITY_1, 0.4)
 
         self.vTargetPos = nil
 		if self:GetCursorTarget() then
@@ -12,8 +12,10 @@ function assistant_sweep:OnAbilityPhaseStart()
 			self.vTargetPos = self:GetCursorPosition()
         end
 
+        self.vTargetPos = self:GetAbsOrigin() + self:GetCaster():GetForwardVector() * 600
+
         self.spell_width = 200
-        self.start_pos = self:GetAbsOrigin() + self:GetForwardVector() * 100
+        self.start_pos = self:GetAbsOrigin() + self:GetCaster():GetForwardVector() * 250
 
         local particle = "particles/custom/sirix_mouse/range_finder_cone_nohead.vpcf"
         self.particleNfx = ParticleManager:CreateParticle(particle, PATTACH_ABSORIGIN_FOLLOW, self:GetCaster())
@@ -29,58 +31,87 @@ function assistant_sweep:OnAbilityPhaseStart()
 end
 ---------------------------------------------------------------------------------------------------------------------------------------
 
+function assistant_sweep:OnAbilityPhaseInterrupted()
+    if IsServer() then
+
+        -- remove casting animation
+        self:GetCaster():RemoveGesture(ACT_DOTA_CAST_ABILITY_1)
+
+    end
+end
+---------------------------------------------------------------------------
+
 function assistant_sweep:OnSpellStart()
     if not IsServer() then return end
 
-    self:GetCaster():FadeGesture(ACT_DOTA_ATTACK)
+    self:GetCaster():FadeGesture(ACT_DOTA_CAST_ABILITY_1)
     self.caster = self:GetCaster()
+
+    EmitSoundOnLocationWithCaster(self.start_pos, "Hero_EarthShaker.Fissure", self.caster)
 
     -- indicator
     ParticleManager:DestroyParticle(self.particleNfx,true)
 
     -- spell
-    local particle = "particles/units/heroes/hero_earthshaker/earthshaker_fissure.vpcf"
+    local effect = "particles/techies/techies_lion_spell_impale.vpcf"
 
-    --[[ left particle
-    local nfx_1 = ParticleManager:CreateParticle(particle, PATTACH_ABSORIGIN, self:GetCaster())
-    local left_start = self:GetAbsOrigin() - self.caster:GetRightVector() * 100
-    local left_end = self:GetAbsOrigin() - self.caster:GetRightVector() * 600
-    ParticleManager:SetParticleControl(nfx_1, 0, left_start)
-	ParticleManager:SetParticleControl(nfx_1, 1, left_end)
-    ParticleManager:SetParticleControl(nfx_1, 2, Vector(0.5, 0, 0 ))]]
+    local distance = (self.start_pos - self.vTargetPos):Length2D() - 50
 
-    -- middle particel
-    local nfx_2 = ParticleManager:CreateParticle(particle, PATTACH_ABSORIGIN, self:GetCaster())
-	ParticleManager:SetParticleControl(nfx_2, 0, self.start_pos)
-	ParticleManager:SetParticleControl(nfx_2, 1, self.vTargetPos)
-    ParticleManager:SetParticleControl(nfx_2, 2, Vector(0.5, 0, 0 ))
+    local tSpawn =
+    {
+        self.start_pos + ( self.caster:GetRightVector()       *100),
+        self.start_pos + self.caster:GetForwardVector()         ,
+        self.start_pos - (self.caster:GetRightVector()       *100),
+    }
 
-    --[[ right particle
-    local nfx_3 = ParticleManager:CreateParticle(particle, PATTACH_ABSORIGIN, self:GetCaster())
-    local right_start = self:GetAbsOrigin() + self.caster:GetRightVector() * 100
-    local right_end = self:GetAbsOrigin() + self.caster:GetRightVector() * 600
-    ParticleManager:SetParticleControl(nfx_3, 0, right_start)
-	ParticleManager:SetParticleControl(nfx_3, 1, right_end)
-    ParticleManager:SetParticleControl(nfx_3, 2, Vector(0.5, 0, 0 ))]]
+    local num_proj = 3
 
-    local units = FindUnitsInLine(self:GetCaster():GetTeam(), self.start_pos, self.vTargetPos, nil, self.spell_width, DOTA_UNIT_TARGET_TEAM_ENEMY, DOTA_UNIT_TARGET_HERO + DOTA_UNIT_TARGET_BASIC, DOTA_UNIT_TARGET_FLAG_MAGIC_IMMUNE_ENEMIES)
+    -- projectile
+    for i = 1, num_proj, 1 do
+        local projectile = {
+            EffectName = effect,
+            vSpawnOrigin = tSpawn[i],
+            fDistance = distance,
+            fUniqueRadius = self.spell_width/3,
+            Source = self.caster,
+            vVelocity = self:GetCaster():GetForwardVector() * 800,
+            UnitBehavior = PROJECTILES_NOTHING,
+            TreeBehavior = PROJECTILES_DESTROY,
+            WallBehavior = PROJECTILES_DESTROY,
+            GroundBehavior = PROJECTILES_NOTHING,
+            fGroundOffset = 80,
+            UnitTest = function(_self, unit)
+                return unit:GetTeamNumber() ~= self.caster:GetTeamNumber() and unit:GetModelName() ~= "models/development/invisiblebox.vmdl"
+            end,
+            OnUnitHit = function(_self, unit)
 
-    for _,unit in ipairs(units) do
+                unit:AddNewModifier(
+                    self:GetCaster(), -- player source
+                    self, -- ability source
+                    "modifier_generic_stunned", -- modifier name
+                    { duration = 3 } -- kv
+                )
 
-        unit:AddNewModifier(
-            self:GetCaster(), -- player source
-            self, -- ability source
-            "modifier_generic_stunned", -- modifier name
-            { duration = 2 } -- kv
-        )
+                ApplyDamage({
+                    victim = unit,
+                    attacker = self:GetCaster(),
+                    damage = 400,
+                    damage_type = DAMAGE_TYPE_PHYSICAL
+                })
 
-		ApplyDamage({
-			victim = unit,
-			attacker = self:GetCaster(),
-			damage = 250,
-			damage_type = DAMAGE_TYPE_PHYSICAL
-		})
-	end
+                -- play sound
+                EmitSoundOnLocationWithCaster(unit:GetAbsOrigin(), "Hero_Lion.ImpaleHitTarget", self.caster)
 
+            end,
+            OnFinish = function(_self, pos)
+                -- add projectile explode particle effect here on the pos it finishes at
+                local particle_cast = "particles/units/heroes/hero_earth_spirit/earth_dust_hit.vpcf"
+                local effect_cast = ParticleManager:CreateParticle(particle_cast, PATTACH_WORLDORIGIN, nil)
+                ParticleManager:SetParticleControl(effect_cast, 0, pos)
+                ParticleManager:ReleaseParticleIndex(effect_cast)
+            end,
+        }
 
+        Projectiles:CreateProjectile(projectile)
+    end
 end

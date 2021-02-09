@@ -8,7 +8,7 @@ function Spawn( entityKeyValues )
     if not IsServer() then return end
 	if thisEntity == nil then return end
 
-	local boss_name = "Guard"
+	local boss_name = "Rister Fange"
 	boss_frame_manager:SendBossName( boss_name )
 	boss_frame_manager:UpdateManaHealthFrame( thisEntity )
 	boss_frame_manager:HideBossManaFrame()
@@ -70,7 +70,7 @@ function AssistantThink()
 
 	local units = FindUnitsInLine(
 		thisEntity:GetTeamNumber(),
-		thisEntity:GetAbsOrigin() + thisEntity:GetForwardVector() * 100,
+		thisEntity:GetAbsOrigin() + thisEntity:GetForwardVector() * 200,
 		thisEntity.vTargetPos,
 		nil,
 		50,

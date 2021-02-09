@@ -347,7 +347,7 @@
 
         // Casting
         //-------------------------------------------------------------------------------------------------------------
-        "AbilityCastPoint"              "2.5 2.5 2.5 2.5"
+        "AbilityCastPoint"              "2.2 2.2 2.2 2.2"
         "AbilityCastRange"              "1500"
 
         // Time     
@@ -368,6 +368,8 @@
         "precache"
 		{
             "soundfile" "soundevents/game_sounds_heroes/game_sounds_keeper_of_the_light.vsndevts"
+            "soundfile" "soundevents/game_sounds_heroes/game_sounds_earthshaker.vsndevts"
+            "soundfile" "soundevents/game_sounds_heroes/game_sounds_lion.vsndevts"
             "soundfile" "sounds/vo/warlock_golem/game_sounds_vo_warlock_golem.vsndevts"
 		}
     }
