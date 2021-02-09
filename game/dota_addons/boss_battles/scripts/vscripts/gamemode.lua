@@ -43,7 +43,7 @@ require('managers/game_manager')
 require('filters')
 
 -- core functions
-require('core/core_functions')
+require('core/npc_override')
 
 require('player/generic/targeting_indicator')
 

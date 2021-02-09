@@ -11,6 +11,7 @@ require('libraries/selection')
 --require('libraries/ProgressBars')
 require('libraries/projectiles')
 require('libraries/animations')
+require('utility_functions')
 
 function Precache( context ) -- this needs to be in a seperate file
   --PrecacheUnitByName('npc_flame_turret')
@@ -114,11 +115,12 @@ function Precache( context ) -- this needs to be in a seperate file
   PrecacheUnitByNameSync("npc_fire_ele", context)
   PrecacheUnitByNameSync("npc_elec_ele", context)
 
-  --[[local npcs = LoadKeyValues("scripts/npc/npc_heroes_custom.txt")
+  --local npcs = LoadKeyValues("scripts/npc/npc_units_custom.txt")
+  --local heroes = LoadKeyValues("scripts/npc/npc_heroes_custom.txt")
 
-  for _, data in pairs(npcs) do
-      PrecacheUnitByNameSync(data.override_hero, context)
-  end]]
+  --for _, data in pairs(npcs) do
+      --PrecacheUnitByNameSync(data.override_hero, context)
+  --end
 
 end
 
@@ -142,11 +144,11 @@ function Activate()
     require('filters')
     require('player/generic/targeting_indicator')
     require('managers/player_manager')
-    require('utility_functions')
     require('webapi')
     require('internal/util')
     require('game_setup')
-    require('core/core_functions')
+    require('core/npc_override')
+    require('core/ability_override')
     require('constants')
     require('scoreboard')
     require('heroselection')
