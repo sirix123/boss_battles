@@ -86,8 +86,12 @@ function GameSetup:OnNPCSpawned(keys)
         end
 
         -- if remove is suppose to spawn with 0 mana, spawn them with 0 mana
-        if npc:GetUnitName() == "npc_dota_hero_crystal_maiden" then npc:SetMana(0) end
-        if npc:GetUnitName() == "npc_dota_hero_medusa" then npc:SetMana(0) end
+        -- need 
+        Timers:CreateTimer(0.02, function()
+            if npc:GetUnitName() == "npc_dota_hero_crystal_maiden" then print("setting cm mana to 0") npc:SetMana(0) end
+            if npc:GetUnitName() == "npc_dota_hero_medusa" then npc:SetMana(0) end
+            return false
+        end)
 
         -- enable camera control
         PlayerManager:CameraControl( npc:GetPlayerID(), 1 ) -- 0 = disable camera, 1 = enable camera
@@ -96,7 +100,6 @@ function GameSetup:OnNPCSpawned(keys)
 
     if npc:GetUnitName() == "npc_dota_hero_wisp" then
         npc:AddNewModifier(npc,nil,"modifier_hide_hero",{duration = -1})
-
     end
 
     if npc:IsRealHero() and npc:GetUnitName() ~= "npc_dota_hero_wisp" and npc.bFirstSpawned == nil then
