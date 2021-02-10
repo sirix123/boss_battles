@@ -13,7 +13,7 @@ var camera_distance_lerp = 30;
 
 var camera_offset_Y = -120;
 
-let bCamera = 1;
+let nCamera = 1;
 
 /* Event Handlers
 =========================================================================*/
@@ -21,7 +21,7 @@ let bCamera = 1;
 // camera server command only sends to the player that has died (handled serverside)
 function CameraControl( data ) {
     $.Msg("camera control data ",data)
-	bCamera = data.bCamera;
+	nCamera = data.nCamera;
 }
 
 //Call it without data.playerId to affect all players
@@ -44,9 +44,9 @@ function UpdatePosition()
     (function tic()
     {
         // on/off camera control
-        // bCamera == 1 (enable camera) , bCamera == 0 (disable camera)
-        if ( bCamera == 1){
-            //$.Msg("bCamera == 1 ")
+        // nCamera == 1 (enable camera) , nCamera == 0 (disable camera)
+        if ( nCamera == 1){
+            //$.Msg("nCamera == 1 ")
             var player_id = Players.GetLocalPlayer();
             var hero = Players.GetPlayerHeroEntityIndex(player_id);
             var hero_origin = Entities.GetAbsOrigin(hero);
@@ -129,9 +129,6 @@ function UpdatePosition()
             
             GameUI.SetCameraTargetPosition(camera_position, camera_position_lerp);
             GameUI.SetCameraLookAtPositionHeightOffset(camera_distance_actual);
-        }else if (bCamera == 0){
-            $.Schedule(0.01, tic);
-            return
         }
 
         $.Schedule(0.01, tic);
