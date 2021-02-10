@@ -33,6 +33,9 @@ function HideOther(top_panel){
 
     var shop_button = top_panel.FindChildTraverse("ShopButton");
     shop_button.style.visibility = "collapse";
+
+    var kill_cam = top_panel.FindChildTraverse("KillCam");
+    kill_cam.style.visibility = "collapse";
 }
 
 function HideDefaults(){
