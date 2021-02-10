@@ -6,25 +6,14 @@ function m1_trackingshot:OnAbilityPhaseStart()
 
         self:GetCaster():StartGestureWithPlaybackRate(ACT_DOTA_ATTACK, 0.8)
 
-        if self:GetCaster():HasModifier("e_whirling_winds_modifier") then
-            self:SetOverrideCastPoint( self:GetCastPoint() - ( self:GetCastPoint() * self:GetSpecialValueFor( "cast_point_reduction" ) ))
+        --print("cast point = ",CustomGetCastPoint(self:GetCaster(),self))
 
-            -- add casting modifier
-            self:GetCaster():AddNewModifier(self:GetCaster(), self, "casting_modifier_thinker",
-            {
-                duration = 0.3,
-                pMovespeedReduction = -50,
-            })
-        else
-            self:SetOverrideCastPoint( self:GetCastPoint() )
-
-            -- add casting modifier
-            self:GetCaster():AddNewModifier(self:GetCaster(), self, "casting_modifier_thinker",
-            {
-                duration = self:GetCastPoint(),
-                pMovespeedReduction = -50,
-            })
-        end
+        -- add casting modifier
+        self:GetCaster():AddNewModifier(self:GetCaster(), self, "casting_modifier_thinker",
+        {
+            duration = CustomGetCastPoint(self:GetCaster(),self),
+            pMovespeedReduction = -50,
+        })
 
         -- sound effect
         EmitSoundOn( "Hero_Windrunner.Attack", self:GetCaster() )

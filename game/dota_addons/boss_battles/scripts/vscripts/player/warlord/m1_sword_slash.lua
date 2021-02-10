@@ -12,7 +12,7 @@ function m1_sword_slash:OnAbilityPhaseStart()
         -- add casting modifier
         self:GetCaster():AddNewModifier(self:GetCaster(), self, "casting_modifier_thinker",
         {
-            duration = self:GetCastPoint(),
+            duration = CustomGetCastPoint(self:GetCaster(),self),
         })
 
         return true

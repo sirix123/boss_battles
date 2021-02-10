@@ -367,3 +367,13 @@ function isPointInsidePolygon(point, polygon)
     end
     return oddNodes
 end
+
+function CustomGetCastPoint(caster,ability)
+	--print("caster ",caster,"ability ",ability)
+
+	if caster:HasModifier("e_whirling_winds_modifier") == true and ability:GetAbilityIndex() == 0 then
+        return ability:GetCastPoint() - ( ability:GetCastPoint() * flWHIRLING_WINDS_CAST_POINT_REDUCTION )
+	else
+		return ability:GetCastPoint()
+	end
+end
