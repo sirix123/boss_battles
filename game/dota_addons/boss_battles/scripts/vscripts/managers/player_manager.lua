@@ -112,6 +112,14 @@ function PlayerManager:SetUpMouseUpdater()
 end
 ---------------------------------------------------------------------------------------------------
 
+function PlayerManager:CameraControl( playerID, bCamera )
+    print("PlayerManager:CameraControl, playerid ",playerID)
+
+    local player = PlayerResource:GetPlayer(playerID)
+    CustomGameEventManager:Send_ServerToPlayer( player, "camera_control", { bCamera = bCamera, } )
+end
+---------------------------------------------------------------------------------------------------
+
 --local pressDuration = 0 -- number of ticks key was held for
 --local isTimerRunning 
 --local timerInterval = 0.1

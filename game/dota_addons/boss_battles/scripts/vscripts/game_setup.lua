@@ -89,6 +89,9 @@ function GameSetup:OnNPCSpawned(keys)
         if npc:GetUnitName() == "npc_dota_hero_crystal_maiden" then npc:SetMana(0) end
         if npc:GetUnitName() == "npc_dota_hero_medusa" then npc:SetMana(0) end
 
+        -- enable camera control
+        PlayerManager:CameraControl( npc:GetPlayerID(), 1 ) -- 0 = disable camera, 1 = enable camera
+
     end
 
     if npc:GetUnitName() == "npc_dota_hero_wisp" then
@@ -177,6 +180,9 @@ function GameSetup:RegisterRaidWipe( )
                                     item:RemoveSelf()
                                 end
                             end
+
+                            -- re-enable the camera
+
                         end
 
                         -- call boss cleanup function
@@ -418,6 +424,9 @@ function GameSetup:HeroKilled( keys )
     if killedHero.playerLives <= 0 then
         table.insert(self.player_deaths, killedHero)
         self.respawn_time = 999
+
+        -- disable the camera so they can move around freely
+        PlayerManager:CameraControl( killedPlayerID, 0 ) -- 0 = disable camera, 1 = enable camera
     else
         self.respawn_time = BOSS_BATTLES_RESPAWN_TIME
 
