@@ -60,7 +60,7 @@ function m1_trackingshot:OnSpellStart()
 
         -- check if caster has rain of arrows moidifier
         if self.caster:HasModifier("e_whirling_winds_modifier") then
-            projectile_speed = projectile_speed + ( projectile_speed * self:GetSpecialValueFor( "proj_speed_increase" ) )
+            projectile_speed = projectile_speed + ( projectile_speed * flWHIRLING_WINDS_PROJ_SPEED_BONUS )
         end
 
         local projectile = {

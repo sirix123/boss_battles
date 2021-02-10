@@ -54,6 +54,10 @@ function m1_iceshot:OnSpellStart()
             self.dmg = 40000
         end
 
+        if self.caster:HasModifier("e_whirling_winds_modifier") then
+            projectile_speed = projectile_speed + ( projectile_speed * flWHIRLING_WINDS_PROJ_SPEED_BONUS )
+        end
+
         -- set proj direction to mouse location
         local vTargetPos = nil
         --vTargetPos = PlayerManager.mouse_positions[self.caster:GetPlayerID()]
