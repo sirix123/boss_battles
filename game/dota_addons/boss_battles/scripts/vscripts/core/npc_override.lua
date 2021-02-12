@@ -63,3 +63,11 @@ end
 function CDOTA_BaseNPC:ManaOnHit(percentAmount)
 	self:GiveMana(self:GetMaxMana() * percentAmount/100)
 end
+
+function CDOTA_BaseNPC:GetManaPercentCustom()
+	return self:GetManaPercent()
+end
+
+function CDOTA_BaseNPC:GetHealthPercentCustom()
+	return self:GetHealthPercent()
+end

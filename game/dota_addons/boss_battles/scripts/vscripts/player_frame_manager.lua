@@ -20,17 +20,17 @@ function player_frame_manager:UpdatePlayer()
                 playerFrameData.id = hero.playerId
                 playerFrameData.hp = hero.hp
                 playerFrameData.maxHp = hero.maxHp
-                playerFrameData.hpPercent = hero.hpPercent
-                playerFrameData.mp = hero.mp
+                playerFrameData.hpPercent = hero:GetHealthPercentCustom()
+                playerFrameData.mp = hero.mana
                 playerFrameData.maxMp = hero.maxMp
-                playerFrameData.mpPercent = hero.mpPercent
+                playerFrameData.mpPercent = hero:GetManaPercentCustom()
                 playerFrameData.lives = hero.playerLives
 
                 --CustomNetTables:SetTableValue("player_frame", "key", playerFrameData )
-                CustomGameEventManager:Send_ServerToAllClients( "update_player_frame", { data = playerFrameData} )
+                CustomGameEventManager:Send_ServerToAllClients( "update_player_frame", { playerFrameData} )
             end
         end
-        return 1--0.2
+        return 0.2
     end)
 end
 --------------------------------------------------------------------------------------------------

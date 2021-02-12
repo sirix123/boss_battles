@@ -134,78 +134,92 @@ function createPlayerFrames(data)
 
     //$.Msg( "data ", data )
     //$.Msg( "data playerid ", data["PlayerID"] )
-    //$.Msg( "data HeroName ", data["HeroName"] )
+    //$.Msg( "data HeroName ", data["HeroName"].hpPercent )
 
     let playersFrameContainer = $("#PlayersFrameContainer")
 
-    let playerData = data["HeroName"]
-
-    let playerFrame = $.CreatePanel("Panel", playersFrameContainer, playerData["PlayerID"]);
+    let playerFrame = $.CreatePanel("Panel", playersFrameContainer, data["PlayerID"]);
     playerFrame.BLoadLayoutSnippet("PlayerFrame");
 
     var heroImage = $("#HeroImage")
-    heroImage.heroname = playerData["hero_name"]
+    heroImage.heroname = data["HeroName"].hero_name
 
     var pLivesLabel = $("#PlayerLivesLabel")
-    pLivesLabel.text = playerData["playerLives"]
+    pLivesLabel.text = data["HeroName"].playerLives
 
     var pNameLabel = $("#PlayerNameLabel")
-    pNameLabel.text = playerData["playerName"]
+    pNameLabel.text = data["HeroName"].playerName
 
     var pHealthLabel = $("#PlayerHealthLabel")
-    pHealthLabel.text = playerData["hpPercent"] + "%"
+    pHealthLabel.text = data["HeroName"].hpPercent + "%"
 
     var pHealthLeft = $("#PlayerHealthProgressLeft")
-    pHealthLeft.style.width = playerData["hpPercent"]+"%"
+    pHealthLeft.style.width = data["HeroName"].hpPercent+"%"
 
     var pHealthRight = $("#PlayerHealthProgressRight")
-    var hpGone = 100 - playerData["hpPercent"]
+    var hpGone = 100 - data["HeroName"].hpPercent
     pHealthRight.style.width = hpGone+"%"
     
     var pManaLabel = $("#PlayerManaLabel")
-    pManaLabel.text = playerData["mpPercent"]+"%"
+    pManaLabel.text = data["HeroName"].mpPercent+"%"
 
     var pManaLeft = $("#PlayerManaProgressLeft")
-    pManaLeft.style.width = playerData["mpPercent"]+"%"
+    pManaLeft.style.width = data["HeroName"].mpPercent+"%"
 
     var pManaRight = $("#PlayerManaProgressRight")
-    var mpGone = 100 - playerData["mpPercent"]
+    var mpGone = 100 - data["HeroName"].mpPercent
     pManaRight.style.width = mpGone+"%"
 
     //store this panel to update it later.
-    playerFramePanels[data["PlayerID"]] = playerFrame
+
+    // just insert a playerframe inhere no need to store agaisnt the ID
+    // then set the ID of the panel to the player
+    playerFramePanels[data["PlayerID"]] = playerFrame;
+    //playerFramePanels[data["PlayerID"]] = playerFrame
+    // set the panels id to the playerID
+    //$.Msg("playerFramePanels ",playerFramePanels);
 }
 
 function updatePlayerFrames(data)
 {
     //$.Msg("runing updaet?")
     //$.Msg("data ",data)
-    //$.Msg("playerFramePanels ",playerFramePanels)
+    //$.Msg("playerFramePanels ",playerFramePanels);
     //$.Msg("data id ",data.data["id"])
     //$.Msg("-----------------------") 
 
-    var pLivesLabel = playerFramePanels[data.data["id"]].FindChildTraverse("PlayerLivesLabel")
-    pLivesLabel.text = data.data["lives"]
+    // for each panel in playerFramePanels
+    // find the panel wiht the matching id from data 
+    // as below... update everthting
 
-    var pHealthLabel = playerFramePanels[data.data["id"]].FindChildTraverse("PlayerHealthLabel")
-    pHealthLabel.text = data.data["hpPercent"] + "%"
+    for ( var i in data )
+    {
+        var playerData = data[i]
+        var playerFrame = playerFramePanels[i-1]
 
-    var pHealthLeft = playerFramePanels[data.data["id"]].FindChildTraverse("PlayerHealthProgressLeft")
-    pHealthLeft.style.width = data.data["hpPercent"]+"%"
-    var hpGone = 100 - data.data["hpPercent"]
+        var pLivesLabel = playerFrame.FindChildTraverse("PlayerLivesLabel")
+        pLivesLabel.text = playerData["lives"]
 
-    var pHealthRight = playerFramePanels[data.data["id"]].FindChildTraverse("PlayerHealthProgressRight")
-    pHealthRight.style.width = hpGone+"%"
+        var pHealthLabel = playerFrame.FindChildTraverse("PlayerHealthLabel")
+        pHealthLabel.text = playerData["hpPercent"] + "%"
 
-    var pManaLabel = playerFramePanels[data.data["id"]].FindChildTraverse("PlayerManaLabel")
-    pManaLabel.text = data.data["mpPercent"]+"%"
+        var pHealthLeft = playerFrame.FindChildTraverse("PlayerHealthProgressLeft")
+        pHealthLeft.style.width = playerData["hpPercent"]+"%"
+        var hpGone = 100 - playerData["hpPercent"]
 
-    var pManaLeft = playerFramePanels[data.data["id"]].FindChildTraverse("PlayerManaProgressLeft")
-    pManaLeft.style.width = data.data["mpPercent"]+"%"
-    var mpGone = 100 - data.data["mpPercent"]
+        var pHealthRight = playerFrame.FindChildTraverse("PlayerHealthProgressRight")
+        pHealthRight.style.width = hpGone+"%"
 
-    var pManaRight = playerFramePanels[data.data["id"]].FindChildTraverse("PlayerManaProgressRight")
-    pManaRight.style.width = mpGone+"%"
+        var pManaLabel = playerFrame.FindChildTraverse("PlayerManaLabel")
+        pManaLabel.text = playerData["mpPercent"]+"%"
+
+        var pManaLeft = playerFrame.FindChildTraverse("PlayerManaProgressLeft")
+        pManaLeft.style.width = playerData["mpPercent"]+"%"
+        var mpGone = 100 - playerData["mpPercent"]
+
+        var pManaRight = playerFrame.FindChildTraverse("PlayerManaProgressRight")
+        pManaRight.style.width = mpGone+"%"
+    }
 }
 
 
@@ -217,7 +231,7 @@ function hidePlayerFrame( table_name, key, data )
 }
 
 GameEvents.Subscribe( "create_player_frame", createPlayerFrames );
-//GameEvents.Subscribe( "update_player_frame", updatePlayerFrames );
+GameEvents.Subscribe( "update_player_frame", updatePlayerFrames );
 //CustomNetTables.SubscribeNetTableListener( "player_frame", updatePlayerFrames );
 CustomNetTables.SubscribeNetTableListener( "hide_player_frame", hidePlayerFrame );
 
