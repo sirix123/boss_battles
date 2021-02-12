@@ -39,6 +39,16 @@ function GameRules:Init()
 
     GameRules:GetGameModeEntity():SetUnseenFogOfWarEnabled( true )
 
+    GameRules:GetGameModeEntity():SetGoldSoundDisabled( true )
+
+    GameRules:GetGameModeEntity():SetCustomHeroMaxLevel(1)
+    GameRules:GetGameModeEntity():SetUseCustomHeroLevels(true)
+    GameRules:GetGameModeEntity():SetCustomXPRequiredToReachNextLevel(
+		{
+			[1] = 0,
+		}
+	)
+
     GameRules:SetTimeOfDay(0.5)
     --GameRules:GetGameModeEntity():SetDaynightCycleDisabled(true)
 
