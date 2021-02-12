@@ -210,7 +210,7 @@
             "03"
             {
                 "var_type"              "FIELD_FLOAT"
-                "projectile_speed"     	"800"
+                "projectile_speed"     	"500"
             }
             "04"
             {
