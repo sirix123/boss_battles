@@ -70,7 +70,7 @@ function space_frostblink:OnSpellStart()
             )
 
         for _, enemy in pairs(enemies) do
-            if CheckRaidTableForBossName(enemy) ~= true then
+            if CheckRaidTableForBossName(enemy) ~= true and enemy:GetUnitName() ~= "npc_guard" then
                 enemy:AddNewModifier(caster, self, "chill_modifier", { duration = self:GetSpecialValueFor( "chill_duration"), ms_slow = self.ms_slow, as_slow = self.as_slow})
             end
         end
