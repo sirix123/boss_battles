@@ -233,7 +233,6 @@
 	[
 		{
 			m_ChildRef = resource:"particles/neutral_fx/tornado_ambient_f.vpcf"
-			m_bDisableChild = true
 		},
 		{
 			m_ChildRef = resource:"particles/neutral_fx/tornado_ambient_e.vpcf"
@@ -245,6 +244,9 @@
 		},
 		{
 			m_ChildRef = resource:"particles/ranger/ranger_tornado_ambient_a.vpcf"
+		},
+		{
+			m_ChildRef = resource:"particles/ranger/whirling_winds_outline.vpcf"
 		},
 	]
 }
