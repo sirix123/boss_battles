@@ -7,7 +7,7 @@
 	"npc_techies"	
 	{
 		// script
-		"vscripts"					"bosses/techies/techies_ai_v2.lua"
+		"vscripts"					"bosses/techies/techies_ai_v3.lua"
 
 		// General
 		//----------------------------------------------------------------

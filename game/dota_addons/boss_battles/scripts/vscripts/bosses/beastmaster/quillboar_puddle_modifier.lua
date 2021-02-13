@@ -18,9 +18,11 @@ function quillboar_puddle_modifier:OnCreated(kv)
 	if IsServer() then
 
 		self:PlayEffects()
-
-		self:StartIntervalThink(self.tick_rate)
+		Timers:CreateTimer(1.0, function()
+			self:StartIntervalThink(self.tick_rate)
 		--DebugDrawCircle(self:GetParent():GetAbsOrigin(),Vector(255,255,255),128,self.radius,true,1)
+			return false
+		end)
 
 	end
 end

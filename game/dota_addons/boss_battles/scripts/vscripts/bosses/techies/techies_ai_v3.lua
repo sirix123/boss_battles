@@ -1,11 +1,6 @@
 techies_ai = class({})
-LinkLuaModifier( "red_cube_modifier", "bosses/techies/modifiers/red_cube_modifier", LUA_MODIFIER_MOTION_NONE )
-LinkLuaModifier( "blue_cube_modifier", "bosses/techies/modifiers/blue_cube_modifier", LUA_MODIFIER_MOTION_NONE )
-LinkLuaModifier( "blue_cube_diffuse_thinker", "bosses/techies/modifiers/blue_cube_diffuse_thinker", LUA_MODIFIER_MOTION_NONE )
-LinkLuaModifier( "red_cube_diffuse_thinker", "bosses/techies/modifiers/red_cube_diffuse_thinker", LUA_MODIFIER_MOTION_NONE )
 
-LinkLuaModifier( "red_cube_diffuse_modifier", "bosses/techies/modifiers/red_cube_diffuse_modifier", LUA_MODIFIER_MOTION_NONE )
-LinkLuaModifier( "blue_cube_diffuse_modifier", "bosses/techies/modifiers/blue_cube_diffuse_modifier", LUA_MODIFIER_MOTION_NONE )
+LinkLuaModifier( "generic_cube_bomb_modifier", "bosses/techies/modifiers/generic_cube_bomb_modifier", LUA_MODIFIER_MOTION_NONE )
 
 --LinkLuaModifier( "techies_eat_cubes", "bosses/techies/modifiers/techies_eat_cubes", LUA_MODIFIER_MOTION_NONE )
 
@@ -129,8 +124,6 @@ function TechiesThinker()
 
     if thisEntity.phase == 2  then
         if thisEntity.phase_2_count == 3 then thisEntity.phase = 1
-            -- remove telelift
-            --thisEntity:RemoveModifierByName("techies_rubick_lift") 
             return 0.5
         end
 
@@ -155,12 +148,15 @@ function TechiesThinker()
         -- copy the hero list
         local techies_hero_list = HERO_LIST
 
-        local debug = false
+        local debug = true
 
-        if #techies_hero_list ~= 4 then
-            thisEntity.phase = 1
-            return 0.5
-        elseif debug == true then
+        if #techies_hero_list == 4 then
+            for _, player in pairs(techies_hero_list) do
+                player:AddNewModifier(thisEntity, nil,  "generic_cube_bomb_modifier", {duration = bomb_duration})
+            end
+        end
+
+        if debug == true then
             thisEntity.units = FindUnitsInRadius(
             thisEntity:GetTeamNumber(),	-- int, your team number
             thisEntity:GetAbsOrigin(),	-- point, center point
@@ -180,71 +176,10 @@ function TechiesThinker()
                     table.remove(thisEntity.units,i)
                 end
             end
-        end
 
-        -- change this to be a cross shape?
-        local random_diffuse_locations ={
-            Vector(8996,572,130),
-            Vector(10001,1214,130),
-            Vector(10568,699,130),
-            Vector(11102,2191,130),
-            Vector(9949,2763,130),
-            Vector(8973,2094,130),
-        }
-
-        if debug == true then
-            -- RED BOMB
-            local randomIndex = RandomInt(1, #thisEntity.units)
-            _G.red_player_bomb = thisEntity.units[randomIndex]
-            _G.red_player_bomb:AddNewModifier(thisEntity, nil,  "red_cube_modifier", {duration = bomb_duration}) -- applies bomb and reduces vision
-            table.remove(thisEntity.units,randomIndex)
-
-            -- BLUE BOMB
-            randomIndex = RandomInt(1, #thisEntity.units)
-            _G.blue_player_bomb = thisEntity.units[randomIndex]
-            _G.blue_player_bomb:AddNewModifier(thisEntity, nil,  "blue_cube_modifier", {duration = bomb_duration}) -- applies bomb and reduces vision
-            table.remove(thisEntity.units,randomIndex)
-
-            -- RED DIFUSE
-            randomIndex = RandomInt(1, #thisEntity.units)
-            local randomLocationindex = RandomInt(1, #random_diffuse_locations)
-            _G.red_player = thisEntity.units[randomIndex]
-            CreateModifierThinker(thisEntity, nil, "red_cube_diffuse_thinker", {duration = bomb_duration}, random_diffuse_locations[randomLocationindex], thisEntity:GetTeamNumber(), false)
-            table.remove(thisEntity.units,randomIndex)
-            table.remove(random_diffuse_locations,randomLocationindex)
-
-            -- BLUE DIFUSE
-            randomIndex = RandomInt(1, #thisEntity.units)
-            _G.blue_player = thisEntity.units[randomIndex]
-            CreateModifierThinker(thisEntity, nil, "blue_cube_diffuse_thinker", {duration = bomb_duration}, random_diffuse_locations[RandomInt(1, #random_diffuse_locations)], thisEntity:GetTeamNumber(), false)
-            table.remove(thisEntity.units,randomIndex)
-
-        else
-            -- RED BOM
-            local randomIndex = RandomInt(1, #techies_hero_list)
-            _G.red_player_bomb = techies_hero_list[randomIndex]
-            _G.red_player_bomb:AddNewModifier(thisEntity, nil,  "red_cube_modifier", {duration = bomb_duration}) -- applies bomb and reduces vision
-            table.remove(techies_hero_list,randomIndex)
-
-            -- BLUE BOMB
-            randomIndex = RandomInt(1, #techies_hero_list)
-            _G.blue_player_bomb = techies_hero_list[randomIndex]
-            _G.blue_player_bomb:AddNewModifier(thisEntity, nil,  "blue_cube_modifier", {duration = bomb_duration}) -- applies bomb and reduces vision
-            table.remove(techies_hero_list,randomIndex)
-
-            -- RED DIFUSE
-            randomIndex = RandomInt(1, #techies_hero_list)
-            local randomLocationindex = RandomInt(1, #random_diffuse_locations)
-            _G.red_player = techies_hero_list[randomIndex]
-            CreateModifierThinker(thisEntity, nil, "red_cube_diffuse_thinker", {duration = bomb_duration}, random_diffuse_locations[randomLocationindex], thisEntity:GetTeamNumber(), false)
-            table.remove(techies_hero_list,randomIndex)
-            table.remove(random_diffuse_locations,randomLocationindex)
-
-            -- BLUE DIFUSE
-            randomIndex = RandomInt(1, #techies_hero_list)
-            _G.blue_player = techies_hero_list[randomIndex]
-            CreateModifierThinker(thisEntity, nil, "blue_cube_diffuse_thinker", {duration = bomb_duration}, random_diffuse_locations[RandomInt(1, #random_diffuse_locations)], thisEntity:GetTeamNumber(), false)
-            table.remove(techies_hero_list,randomIndex)
+            for _, player in pairs(thisEntity.units) do
+                player:AddNewModifier(thisEntity, nil,  "generic_cube_bomb_modifier", {duration = bomb_duration})
+            end
 
         end
 
