@@ -50,9 +50,9 @@
 		"SpellImmunityType"				"SPELL_IMMUNITY_ENEMIES_YES"
         "AbilityBehavior"				"DOTA_ABILITY_BEHAVIOR_POINT"
 		"AbilityCastRange" 				"1400"
-        "AbilityCooldown"				"15"
+        "AbilityCooldown"				"0"
         "AbilityCastPoint"              "0.8"
-		"AbilityManaCost"        		"25"
+		"AbilityManaCost"        		"24"
 
 
 		"TargetingIndicator"
@@ -96,8 +96,8 @@
         
 		"AbilitySpecial"
 		{
-			"01"{ "var_type"			"FIELD_INTEGER"		"hit_box"							"150" }
-			"02"{ "var_type"			"FIELD_INTEGER"		"proj_speed"						"1600" }
+			"01"{ "var_type"			"FIELD_INTEGER"		"hit_box"							"160" }
+			"02"{ "var_type"			"FIELD_INTEGER"		"proj_speed"						"1800" }
 			"03"{ "var_type"			"FIELD_INTEGER"		"heal"								"120" }
 			"04"{ "var_type"			"FIELD_FLOAT"		"heal_dist_multi"					"0.08" }
 			"05"{ "var_type"			"FIELD_INTEGER"		"mana_gain_per_hit"             	"3" }
@@ -122,7 +122,7 @@
 		"AbilityCastRange" 				"1500"
         "AbilityCooldown"				"45"//"50"
         "AbilityCastPoint"              "0.2"
-		"AbilityManaCost"        		"12"
+		"AbilityManaCost"        		"30"
 
 		"TargetingIndicator"
 		{
@@ -157,7 +157,7 @@
 		"AbilityUnitDamageType"			"DAMAGE_TYPE_PHYSICAL"
         "AbilityBehavior"				"DOTA_ABILITY_BEHAVIOR_POINT | DOTA_ABILITY_BEHAVIOR_AOE"
 		"AbilityCastRange" 				"3000"
-        "AbilityCooldown"				"45"
+        "AbilityCooldown"				"12"
         "AbilityCastPoint"              "0.2"
 		"AbilityManaCost"        		"50"
 		"AbilityDuration"				"6.0"
@@ -177,7 +177,7 @@
 			"05"{ "var_type"			"FIELD_FLOAT"		"min_travel"			"0.8" 	}
 			"06"{ "var_type"			"FIELD_FLOAT"		"max_travel"			"2.0" 	}
 			"07"{ "var_type"			"FIELD_INTEGER"		"projectile_speed"		"1300" 	}
-			"08"{ "var_type"			"FIELD_INTEGER"		"proj_count"			"8" 	}
+			"08"{ "var_type"			"FIELD_INTEGER"		"proj_count"			"1" 	}
 		}
 
 		"precache"
@@ -210,7 +210,7 @@
         
 		"AbilitySpecial"
 		{
-			"01"{ "var_type"			"FIELD_INTEGER"		"duration"					"9" 	}
+			"01"{ "var_type"			"FIELD_INTEGER"		"duration"					"7" 	}
 			"02"{ "var_type"			"FIELD_INTEGER"		"movespeed_bonus_pct"		"60" 	}
 			
 		}

@@ -265,11 +265,6 @@ function GameSetup:OnEntityKilled(keys)
                 end
             end
 
-            -- raid counter will go to 7 if tinkers is killed
-            if BOSS_BATTLES_ENCOUNTER_COUNTER == 7 then --2
-                SessionManager:SendSessionData()
-            end
-
             if isHeroAlive == true then
                 BOSS_BATTLES_ENCOUNTER_COUNTER = BOSS_BATTLES_ENCOUNTER_COUNTER + 1
             end
@@ -301,6 +296,11 @@ function GameSetup:OnEntityKilled(keys)
             -- dispaly scoreboard and send attempt data to UI
             local forceOpen = true
             Scoreboard:DisplayScoreBoard(forceOpen)
+
+            -- raid counter will go to 8 if tinkers is killed
+            if BOSS_BATTLES_ENCOUNTER_COUNTER == 8 then --2
+                SessionManager:SendSessionData()
+            end
 
         end
     end

@@ -19,7 +19,9 @@ function OnStartTouch(trigger)
         end
     end
     if allHeroesAreReady then
-        GameSetup:ReadyupCheck()
+        if BOSS_BATTLES_ENCOUNTER_COUNTER < 8 then
+            GameSetup:ReadyupCheck()
+        end
     end
 
     --[[local triggerName = thisEntity:GetName()
