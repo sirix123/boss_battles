@@ -16,7 +16,7 @@ function Spawn( entityKeyValues )
     thisEntity:AddNewModifier( nil, nil, "modifier_phased", { duration = -1 })
     --thisEntity:AddNewModifier( nil, nil, "techies_eat_cubes", { duration = -1 })
 
-    --CreateUnitByName( "npc_guard", Vector(10126,1776,0), true, thisEntity, thisEntity, DOTA_TEAM_BADGUYS)
+    CreateUnitByName( "npc_guard", Vector(10126,1776,0), true, thisEntity, thisEntity, DOTA_TEAM_BADGUYS)
 
     -- spells
     thisEntity.cluster_mine_throw = thisEntity:FindAbilityByName( "cluster_mine_throw" )
@@ -94,7 +94,7 @@ function TechiesThinker()
 
         -- cast one of the bombs every CD
         if thisEntity.sticky_bomb ~= nil and thisEntity.sticky_bomb:IsFullyCastable() and thisEntity.sticky_bomb:IsCooldownReady() and #thisEntity.tCenterGrid > 2 then
-            --return CastBomb()
+            return CastBomb()
         end
 
         -- cast other spells while we move
@@ -103,7 +103,7 @@ function TechiesThinker()
         end
 
         if thisEntity.summon_electric_vortex_turret ~= nil and thisEntity.summon_electric_vortex_turret:IsFullyCastable() and thisEntity.summon_electric_vortex_turret:IsCooldownReady() then
-            --return CastSummonElectricTurret()
+            return CastSummonElectricTurret()
         end
 
         -- if within 70 units of location, start laying mines
@@ -112,7 +112,7 @@ function TechiesThinker()
 
             -- cast clsuter mines x number of times
             if thisEntity.cluster_mine_throw ~= nil and thisEntity.cluster_mine_throw:IsFullyCastable() and thisEntity.cluster_mine_throw:IsCooldownReady() and thisEntity.cluster_mine_throw:IsInAbilityPhase() == false then
-                --return CastClusterMines( thisEntity.locationToMine )
+                return CastClusterMines( thisEntity.locationToMine )
             end
 
             table.remove(thisEntity.tCenterGrid, thisEntity.randomIndex_mine_location)
