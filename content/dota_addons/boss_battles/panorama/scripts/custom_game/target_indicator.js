@@ -15,9 +15,9 @@ var particle_cone = null;
 function UpdateTargetIndicator(){
     var active = null;
     
-    if(!heroIndex){
+    if(!heroIndex || heroIndex == -1){
         heroIndex = Players.GetPlayerHeroEntityIndex(playerId);
-        heroIndex = Players.GetSelectedEntities(playerId)[0];
+        //heroIndex = Players.GetSelectedEntities(playerId)[0];
         //$.Msg("heroIndex ", heroIndex)
         $.Schedule(1/144, UpdateTargetIndicator);
         return
