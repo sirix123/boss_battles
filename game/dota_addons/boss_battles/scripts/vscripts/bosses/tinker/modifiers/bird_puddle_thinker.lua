@@ -72,7 +72,7 @@ function bird_puddle_thinker:StartApplyDamageLoop()
             false	-- bool, can grow cache
         )
 
-        if friendlies ~= nil and #friendlies ~= 0 then
+       --[[if friendlies ~= nil and #friendlies ~= 0 then
             for _, friend in pairs(friendlies) do
                 if friend:GetUnitName() == "npc_ice_ele" then
                     self.dmgTable = {
@@ -91,7 +91,7 @@ function bird_puddle_thinker:StartApplyDamageLoop()
                     self:Destroy()
                 end
             end
-        end
+        end]]
 
         if enemies ~= nil and #enemies ~= 0 then
             for _, enemy in pairs(enemies) do
