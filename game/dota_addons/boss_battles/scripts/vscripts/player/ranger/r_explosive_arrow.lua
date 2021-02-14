@@ -45,7 +45,13 @@ function r_explosive_arrow:OnSpellStart()
         self:GetCaster():FadeGesture(ACT_DOTA_ATTACK)
 
         local caster = self:GetCaster()
-        local point = Vector(caster.mouse.x, caster.mouse.y, caster.mouse.z)
+		local point = Vector(caster.mouse.x, caster.mouse.y, caster.mouse.z)
+
+		caster:FindAbilityByName("m1_trackingshot"):SetActivated(false)
+        caster:FindAbilityByName("m2_serratedarrow"):SetActivated(false)
+        caster:FindAbilityByName("q_healing_arrow_v2"):SetActivated(false)
+        caster:FindAbilityByName("e_whirling_winds"):SetActivated(false)
+        caster:FindAbilityByName("space_sprint"):SetActivated(false)
 
         -- load data
 	    local duration = self:GetDuration()

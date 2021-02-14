@@ -128,6 +128,7 @@ function GameSetup:OnNPCSpawned(keys)
         or npc:GetUnitName() == "npc_dota_hero_phantom_assassin"
         or npc:GetUnitName() == "npc_dota_hero_templar_assassin"
         or npc:GetUnitName() == "npc_dota_hero_grimstroke"
+        or npc:GetUnitName() == "npc_dota_hero_lina"
         then
 
             local index = 0

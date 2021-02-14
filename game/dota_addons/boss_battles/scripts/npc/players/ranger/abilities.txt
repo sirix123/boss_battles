@@ -160,7 +160,7 @@
         "AbilityCooldown"				"12"
         "AbilityCastPoint"              "0.2"
 		"AbilityManaCost"        		"50"
-		"AbilityDuration"				"6.0"
+		"AbilityDuration"				"1"
 
 		"TargetingIndicator"
 		{
