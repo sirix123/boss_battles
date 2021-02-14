@@ -88,6 +88,7 @@ function PlayerSelected( player, hero ) {
 	if ( hero == "npc_dota_hero_phantom_assassin" 	) 	{ hero = "Cenzuo, the Nightblade"; }
 	if ( hero == "npc_dota_hero_juggernaut" 		) 	{ hero = "Warlord"; }
 	if ( hero == "npc_dota_hero_medusa" 			) 	{ hero = "Medusa"; }
+	if ( hero == "npc_dota_hero_lina" 				) 	{ hero = "Lina"; }
 
 	// add the players name to the bottom of the pedestal
 	var pedHeroHeroText = heroPedPanels[player].FindChildInLayoutFile("HeroNamePedTxt");
@@ -189,6 +190,7 @@ let heroes =
 	"npc_dota_hero_phantom_assassin",
 	"npc_dota_hero_juggernaut",
 	"npc_dota_hero_medusa",
+	"npc_dota_hero_lina",
 ];
 
 // container for the ped on the scene
@@ -207,6 +209,10 @@ let PedRowContainer = $("#PedList");
 			}
 
 			if ( heroes[i] == "npc_dota_hero_kunkka"  ) {
+				heroes.splice(i, 1);
+			}
+
+			if ( heroes[i] == "npc_dota_hero_lina"  ) {
 				heroes.splice(i, 1);
 			}
 		}

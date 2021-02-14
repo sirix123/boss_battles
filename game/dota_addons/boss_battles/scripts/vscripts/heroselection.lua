@@ -70,7 +70,6 @@ function HeroSelection:HeroPicked( event )
 		print("event.HeroName ",event.HeroName)
 	end
 
-
 	--Check if all heroes have been picked
 	if HeroSelection.playersPicked >= HeroSelection.numPickers then
 		--End picking
