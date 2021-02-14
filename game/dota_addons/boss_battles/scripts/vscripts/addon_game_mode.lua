@@ -12,16 +12,9 @@ require('libraries/selection')
 require('libraries/projectiles')
 require('libraries/animations')
 require('utility_functions')
+require('precache')
 
 function Precache( context ) -- this needs to be in a seperate file
-  --PrecacheUnitByName('npc_flame_turret')
-
-
-  --OUR CUSTOM SOUND EVENTS:
-  --print("OUR CUSTOM SOUND EVENTS")
-  --PrecacheResource("soundfile", "soundevents/custom_sounds.vsndevts", context)
-
-
   -- gyro precache:
   PrecacheResource("soundfile", "soundevents/game_sounds_heroes/game_sounds_gyrocopter.vsndevts", context)
   PrecacheResource("soundfile", "soundevents/voscripts/game_sounds_vo_gyrocopter.vsndevts", context)
@@ -115,12 +108,11 @@ function Precache( context ) -- this needs to be in a seperate file
   PrecacheUnitByNameSync("npc_fire_ele", context)
   PrecacheUnitByNameSync("npc_elec_ele", context)
 
-  --local npcs = LoadKeyValues("scripts/npc/npc_units_custom.txt")
-  --local heroes = LoadKeyValues("scripts/npc/npc_heroes_custom.txt")
+  local npcs = LoadKeyValues("scripts/npc/npc_units_custom.txt")
 
-  --for _, data in pairs(npcs) do
-      --PrecacheUnitByNameSync(data.override_hero, context)
-  --end
+  for k, _ in pairs(npcs) do
+    PrecacheUnitByNameSync(k, context)
+  end
 
 end
 
