@@ -86,7 +86,7 @@ function dumb_homing_missile_v2:OnSpellStart()
 
 			local particleNumber = RandomInt(1, #explosionParticles)
 			local particleName = explosionParticles[particleNumber]
-			print("particle "..particleNumber.. "  " .. particleName);
+			--print("particle "..particleNumber.. "  " .. particleName);
 			
 			--Because I don't know exactly which CPs these particles have (some use 3,  others use 0, some use mutliple) so just set em all!
 			local explosionParticle = ParticleManager:CreateParticle( particleName, PATTACH_CUSTOMORIGIN, nil )

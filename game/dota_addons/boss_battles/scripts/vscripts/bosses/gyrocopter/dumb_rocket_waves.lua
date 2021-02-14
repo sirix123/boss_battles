@@ -2,6 +2,9 @@ dumb_rocket_waves = class({})
 
 --global var so the enemies detected can be accessed outside of this class
 function dumb_rocket_waves:OnSpellStart()
+	--print("dumb_rocket_waves:OnSpellStart()")
+	_G.IsGyroBusy = true
+	
 	local caster = self:GetCaster()
 
 	local totalWaves = self:GetSpecialValueFor("totalWaves")
@@ -11,7 +14,10 @@ function dumb_rocket_waves:OnSpellStart()
 
 	local currentWave = 1
 	Timers:CreateTimer(function()	
-		if currentWave > totalWaves then return end
+		if currentWave > totalWaves then
+			_G.IsGyroBusy = false
+			return
+		end
 
 		local origin = caster:GetAbsOrigin()
 

@@ -147,7 +147,7 @@
             "03"
             {
                 "var_type"       "FIELD_INTEGER"
-                "damage"       "300"
+                "damage"       "250"
             }
             "04"
             {
@@ -222,17 +222,17 @@
                 "var_type"       "FIELD_INTEGER"
                 "flee_speed"       "1800"
             }
-            "01"
+            "02"
             {
                 "var_type"       "FIELD_INTEGER"
                 "radius"       "250"
             }
-            "01"
+            "03"
             {
                 "var_type"       "FIELD_INTEGER"
                 "damage"       "100"
             }
-            "01"
+            "04"
             {
                 "var_type"       "FIELD_INTEGER"
                 "collision_distance"       "70"
@@ -374,16 +374,7 @@
         "AbilityCooldown"               "0.0"
         "AbilityManaCost"               "0"
     }
-    "rotating_flak_cannon_attack"
-    { 
-        "BaseClass"                     "ability_lua"
-        "ScriptFile"                    "bosses/gyrocopter/rotating_flak_cannon_attack"
-        "AbilityBehavior"               "DOTA_ABILITY_BEHAVIOR_NO_TARGET"
-        "AbilityUnitDamageType"         "DAMAGE_TYPE_PHYSICAL"  
-        "AbilityCastPoint"              "0.0"
-        "AbilityCooldown"               "0.0"
-        "AbilityManaCost"               "0"
-    }
+
     "continuous_radar_scan"
     { 
         "BaseClass"                     "ability_lua"
@@ -445,6 +436,100 @@
             }            
         }
     }    
+    "whirlwind"
+    { 
+        "BaseClass"                     "ability_lua"
+        "ScriptFile"                    "bosses/gyrocopter/whirlwind"
+        "AbilityBehavior"               "DOTA_ABILITY_BEHAVIOR_NO_TARGET"
+        "AbilityUnitDamageType"         "DAMAGE_TYPE_PHYSICAL"  
+        "AbilityCastPoint"              "0.0"
+        "AbilityCooldown"               "0.0"
+        "AbilityManaCost"               "0"
+        "AbilitySpecial"
+        {
+            "01"
+            {
+                "var_type"       "FIELD_INTEGER"
+                "max_radius"       "1500"
+            }
+            "02"
+            {
+                "var_type"       "FIELD_INTEGER"
+                "inner_radius"       "500"
+            }
+            "03"
+            {
+                "var_type"       "FIELD_INTEGER"
+                "fire_movespeed"       "150"
+            }            
+            "04"
+            {
+                "var_type"       "FIELD_INTEGER"
+                "gust_duration"       "10"
+            }            
+            "05"
+            {
+                "var_type"       "FIELD_INTEGER"
+                "burn_duration"       "5"
+            }
+            "06"
+            {
+                "var_type"       "FIELD_FLOAT"
+                "burn_damage_interval"       "0.2"
+            }
+            "07"
+            {
+                "var_type"       "FIELD_INTEGER"
+                "burn_dps"       "5"
+            }
+            "08"
+            {
+                "var_type"       "FIELD_INTEGER"
+                "macropyre_maxLength"       "300"
+            }
+            "09"
+            {
+                "var_type"       "FIELD_INTEGER"
+                "macropyre_radius"       "100"
+            }
+
+
+
+        }
+    }    
+    "whirlwind_attack"
+    { 
+        "BaseClass"                     "ability_lua"
+        "ScriptFile"                    "bosses/gyrocopter/whirlwind_attack"
+        "AbilityBehavior"               "DOTA_ABILITY_BEHAVIOR_NO_TARGET"
+        "AbilityUnitDamageType"         "DAMAGE_TYPE_PHYSICAL"  
+        "AbilityCastPoint"              "0.0"
+        "AbilityCooldown"               "0.0"
+        "AbilityManaCost"               "0"
+        "AbilitySpecial"
+        {
+            "01"
+            {
+                "var_type"       "FIELD_INTEGER"
+                "radius"       "100"
+            }
+            "02"
+            {
+                "var_type"       "FIELD_INTEGER"
+                "burn_duration"       "5"
+            }
+            "03"
+            {
+                "var_type"       "FIELD_FLOAT"
+                "burn_damage_interval"       "0.2"
+            }
+            "04"
+            {
+                "var_type"       "FIELD_INTEGER"
+                "burn_dps"       "10"
+            }        
+        }
+    }
 
 
 }

@@ -18,7 +18,7 @@ function swoop:OnSpellStart()
 
 	--Use the below for abilities that are: DOTA_ABILITY_BEHAVIOR_POINT
 	local target = self:GetCursorPosition()
-	DebugDrawCircle(target, Vector(255,0,0), 128, 100, true, 1)
+	--DebugDrawCircle(target, Vector(255,0,0), 128, 100, true, 1)
 
 	local originalMs = self:GetCaster():GetBaseMoveSpeed()
 	caster:SetBaseMoveSpeed(swoopSpeed)
@@ -58,6 +58,9 @@ function swoop:OnSpellStart()
 	            }
 	            ApplyDamage(dmgTable)
 				enemiesAlreadyHit[#enemiesAlreadyHit+1] = enemy
+
+				--TODO: apply daze?
+
 			end
 		end
 

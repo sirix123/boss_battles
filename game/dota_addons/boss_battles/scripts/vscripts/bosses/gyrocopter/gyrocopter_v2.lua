@@ -4,28 +4,46 @@ LinkLuaModifier( "modifier_generic_stunned", "core/modifier_generic_stunned", LU
 
 local initialZ = 0
 
+--TODO: just get 4 coords, the rest is made of that. TOP, BOT, LEFT, RIGHT
+local ArenaTop = 3025
+local ArenaBot = 425
+local ArenaLeft = -13600
+local ArenaRight = -11000
+local AreanMiddle = Vector((ArenaLeft/2)+(ArenaRight/2), (ArenaTop/2) + (ArenaBot/2), 132)
+--MID POINT FORMULA:
+-- (ArenaTop / 2 ) + (ArenaBot / 2)
+
+local GyroArenaLocations = {}
+GyroArenaLocations["N"] = Vector(AreanMiddle.x,ArenaTop,132)
+GyroArenaLocations["NE"] = Vector(ArenaRight,ArenaTop,132)
+GyroArenaLocations["E"] = Vector(ArenaRight,AreanMiddle.y,132)
+GyroArenaLocations["SE"] = Vector(ArenaRight,ArenaBot,132)
+GyroArenaLocations["S"] = Vector(AreanMiddle.x,ArenaBot,132)
+GyroArenaLocations["SW"] = Vector(ArenaLeft,ArenaBot,132)
+GyroArenaLocations["W"] = Vector(ArenaLeft,AreanMiddle.y,132)
+GyroArenaLocations["NW"] = Vector(ArenaLeft,ArenaTop,132)
+GyroArenaLocations["C"] = AreanMiddle
+
 -- On Spawn, init any vars, start MainThinker
 function Spawn( entityKeyValues )
+	--TESTING:
+	--SessionManager:SendSessionData()
+
 	--disable attacks.
 	thisEntity:SetAttackCapability(0) --set to DOTA_UNIT_CAP_NO_ATTACK.
 
 	--GLOBALS: setting these in spawn so each time gyro spawns they're reset
-	--Others are used too... move em up here
 	_G.IsGyroBusy = false
-
 	_G.RadarPulseEnemies = {}
 	_G.PulseAndCast = "call_down"
-
 	_G.RadarScanEnemies = {}
 	_G.ScanAndCast = "smart_homing_missile_v2"
-
 	_G.ContinuousRadarScanEnemies = {}
-	
 	_G.BaseAttackTargets = {}
 	_G.FlakCannonTargets = {}
 	_G.BarrageTargets = {}
+	_G.WhirlwindTargets = {}
 
-	-- Not sure if I need two tables now, one for dumb_homing_missile and the other for smart_homing_missile
 	_G.HomingMissileTargets = {}
 
 	--TODO: get the arena bounds for flee...
@@ -43,33 +61,32 @@ function Spawn( entityKeyValues )
 	thisEntity.gyro_base_attack = thisEntity:FindAbilityByName( "gyro_base_attack" )	
 	thisEntity.dumb_homing_missile = thisEntity:FindAbilityByName( "dumb_homing_missile_v2" )
 	thisEntity.smart_homing_missile = thisEntity:FindAbilityByName( "smart_homing_missile_v2" )
+	thisEntity.rotating_flak_cannon = thisEntity:FindAbilityByName( "rotating_flak_cannon" )
+	thisEntity.rotating_flak_cannon_attack = thisEntity:FindAbilityByName( "rotating_flak_cannon_attack" )	
+	thisEntity.dumb_rocket_waves = thisEntity:FindAbilityByName("dumb_rocket_waves")
+	thisEntity.continuous_radar_scan = thisEntity:FindAbilityByName( "continuous_radar_scan" )
+
+	thisEntity.whirlwind = thisEntity:FindAbilityByName( "whirlwind" )
+	thisEntity.whirlwind_attack = thisEntity:FindAbilityByName( "whirlwind_attack" )
 
 	--TO IMPLEMENT: 
 	--thisEntity.tracking_beacon = thisEntity:FindAbilityByName( "tracking_beacon" )
-	thisEntity.rotating_flak_cannon = thisEntity:FindAbilityByName( "rotating_flak_cannon" )
-	thisEntity.rotating_flak_cannon_attack = thisEntity:FindAbilityByName( "rotating_flak_cannon_attack" )	
-
-	thisEntity.dumb_rocket_waves = thisEntity:FindAbilityByName("dumb_rocket_waves")
-
-	--still not sure the purpose of whirlwind...
-	--maybe just suck players in, then stun em, and fly away to trigger a phase shift
-	--thisEntity.whirlwind = thisEntity:FindAbilityByName( "whirlwind" )
 	
 	--abilityQueue thinker
 	thisEntity:SetContextThink( "AbilityQueue", AbilityQueue, 0.1)
 
-	thisEntity.continuous_radar_scan = thisEntity:FindAbilityByName( "continuous_radar_scan" )
-
-	--TEST:
-	--thisEntity:SetContextThink("Test", Test, 1)
-
 	--AI Files:
-	_G.GyroAI = "Standard"
-	if _G.GyroAI == "SwoopBuild" then
-		thisEntity:SetContextThink( "SwoopBuild", SwoopBuild, 0.1 )		
+	if _G.GyroAI == nil then
+		_G.GyroAI = "Main"
 	end
-	if _G.GyroAI == "Standard" then
+	if _G.GyroAI == "Main" then
 		thisEntity:SetContextThink( "MainLoop", MainLoop, 0.1 )
+	end
+	if _G.GyroAI == "Test" then
+		thisEntity:SetContextThink("Test", Test, 1)
+	end
+	if _G.GyroAI == "Swoop" then
+		thisEntity:SetContextThink( "Swoop", SwoopBuild, 0.1 )		
 	end
 	
 end
@@ -78,7 +95,33 @@ end
 function CurrentTestCode()
 	print("CurrentTestCode()")
 
-	AddToAbilityQueue(thisEntity.dumb_rocket_waves, DOTA_UNIT_ORDER_CAST_NO_TARGET, nil, false, nil)
+	--local furthestLoc = FindLocationFurtherFromPlayers()
+	--print("furthestLoc = ", furthestLoc)
+	--AddToAbilityQueue(thisEntity.flee, DOTA_UNIT_ORDER_CAST_POSITION, furthestLoc, false, nil)
+
+	AddToAbilityQueue(thisEntity.whirlwind, DOTA_UNIT_ORDER_CAST_NO_TARGET, nil, false, nil)
+
+
+	-- local endPoint = thisEntity:GetAbsOrigin() + (thisEntity:GetForwardVector() * 2000)
+	-- local duration = 5
+
+	-- Working Jakiro macropyre
+	-- local particleName = "particles/units/heroes/hero_jakiro/jakiro_macropyre.vpcf"
+	-- local pfx = ParticleManager:CreateParticle( particleName, PATTACH_ABSORIGIN, thisEntity )
+	-- ParticleManager:SetParticleControl( pfx, 0, thisEntity:GetAbsOrigin() )
+	-- ParticleManager:SetParticleControl( pfx, 1, endPoint )
+	-- ParticleManager:SetParticleControl( pfx, 2, Vector( duration, 0, 0 ) )
+
+	--TESTING my macropyre
+	-- local particleName = "particles/gyrocopter/macropyre.vpcf"
+	-- local pfx = ParticleManager:CreateParticle( particleName, PATTACH_ABSORIGIN, thisEntity )
+	-- ParticleManager:SetParticleControl( pfx, 0, thisEntity:GetAbsOrigin() )
+	-- ParticleManager:SetParticleControl( pfx, 1, endPoint )
+	-- ParticleManager:SetParticleControl( pfx, 2, Vector( duration, 0, 0 ) )	
+
+
+
+
 	
 	-- Test any abilities that need a target:
 	-- local enemies = FindUnitsInRadius(DOTA_TEAM_BADGUYS, thisEntity:GetAbsOrigin(), nil, 3000,
@@ -93,12 +136,12 @@ function CurrentTestCode()
 	-- end
 
 	--thisEntity.smart_homing_missile:SetLevel(thisEntity.smart_homing_missile:GetLevel() +1)
-	--thisEntity.dumb_homing_missile:SetLevel(thisEntity.dumb_homing_missile:GetLevel() +1)
 
 	--Test any abilities that don't need a target
-	
 	--AddToAbilityQueue(thisEntity.absorbing_shell, DOTA_UNIT_ORDER_CAST_NO_TARGET, nil, false, nil)
-	--AddToAbilityQueue(thisEntity.barrage_rotating, DOTA_UNIT_ORDER_CAST_NO_TARGET, nil, false, nil)
+	--AddToAbilityQueue(thisEntity.dumb_rocket_waves, DOTA_UNIT_ORDER_CAST_NO_TARGET, nil, false, nil)
+	--AddToAbilityQueue(thisEntity.rotating_flak_cannon, DOTA_UNIT_ORDER_CAST_NO_TARGET, nil, false, nil)
+	--AddToAbilityQueue(thisEntity.whirlwind, DOTA_UNIT_ORDER_CAST_NO_TARGET, nil, false, nil)
 end
 
 
@@ -109,10 +152,27 @@ end
 
 local dt = 0.1
 local tickCount = 0
-
 local timeOfLastSwoop = 0
 local isHpAbove75Percent = true
 local isHpAbove50Percent = true
+
+
+local spellCdMin = 10
+local spellCdMax = 15
+local nextSpellAtTick = 0
+
+--COMBAT SEQUENCE: 
+-- Swoop to a ranged player.
+-- Shoot rockets (alternate smart/dumb) at ranged targets
+-- Do barrage? / calldown?
+local nextSpellIndex = 1
+local spellSequence = {}
+
+
+local nextHp10PercentThreshold = 90  --TODO: skip 50%, 
+	--or maybe 15% is better than 10% for this. 85, 70, 55, 40, 25! skip, 10 
+
+local nextHp25PercentThreshold = 75
 
 function MainLoop()
 	--Check certain game states and return early if needed
@@ -121,90 +181,194 @@ function MainLoop()
 	if GameRules:IsGamePaused() == true then return 0.5 end
 
 	tickCount = tickCount+1
-	--print("tickCount = "..tickCount.. " IsGyroBusy? ".. tostring(IsGyroBusy))
+
+
 
 	--TESTING:
 	if (tickCount % 50 == 0) then
 	--if (tickCount == 50) then
-
 		--CurrentTestCode()
 	end	
 
-	--TESTING:
-	if tickCount == 90 then
-		--AddToAbilityQueue(thisEntity.flee, DOTA_UNIT_ORDER_CAST_POSITION, thisEntity:GetAbsOrigin() + Vector(0,2000,0), false, nil)
-		--AddToAbilityQueue(thisEntity.zoom, DOTA_UNIT_ORDER_CAST_POSITION, thisEntity:GetAbsOrigin() + Vector(0,-2000,0), false, nil)
-	end
-	
-	--init:
+
+	--init: combat sequence and then perform opening sequence
+	--Opening sequence: swoop(to South), barrage, zoom(to Center), missile dumb waves
 	if tickCount == 1 then
+		--COMBAT SEQUENCE: for after this initial sequence
+		-- Swoop to a ranged player.
+		-- Shoot rockets (alternate smart/dumb) at ranged targets
+		-- Do barrage? / calldown?
+		spellSequence[1] = thisEntity.swoop
+		spellSequence[2] = thisEntity.dumb_rocket_waves
+		spellSequence[3] = thisEntity.barrage
+
+		--openning sequence:
 		initialZ = thisEntity:GetAbsOrigin().z
 		--Swoop players immediately
 		local enemies = FindUnitsInRadius(DOTA_TEAM_BADGUYS, thisEntity:GetAbsOrigin(), nil, 3000, DOTA_UNIT_TARGET_TEAM_ENEMY, DOTA_UNIT_TARGET_ALL, DOTA_UNIT_TARGET_FLAG_NONE, FIND_FARTHEST, false )
 		if #enemies > 0 then
-			AddToAbilityQueue(thisEntity.swoop, DOTA_UNIT_ORDER_CAST_POSITION, enemies[1]:GetAbsOrigin(), false, nil)
+			AddToAbilityQueue(thisEntity.swoop, DOTA_UNIT_ORDER_CAST_POSITION, GyroArenaLocations["S"], false, nil)
 		end
-		timeOfLastSwoop = tickCount
-	end
-
-	-- --UNTESTED:
-	if (isHpAbove75Percent and thisEntity:GetHealthPercent() <= 75) then
-		isHpAbove75Percent = false
-		--print("hp below 75%. Time to zoom")
-
-		--UNTESTED: zoom away... need better algo to decide where to zoom to....
-		AddToAbilityQueue(thisEntity.flee, DOTA_UNIT_ORDER_CAST_POSITION, thisEntity:GetAbsOrigin() + Vector(0,2500,0), false, nil)
-
-		thisEntity.dumb_homing_missile:SetLevel(thisEntity.dumb_homing_missile:GetLevel() +1)
-		thisEntity.smart_homing_missile:SetLevel(thisEntity.smart_homing_missile:GetLevel() +1)
-	end
-
-	if (isHpAbove50Percent and thisEntity:GetHealthPercent() <= 50) then
-		isHpAbove50Percent = false
-		--print("hp below 50%. Time to zoom")
-	end
-
-
-	--at 5th second and every 15 seconds afterwards. 
-	if (tickCount >= 50 and (tickCount-50) % 150 == 0  ) then
-		--print("queueing radarPulse. call_down or dumb_homing_missile")
-		-- alternate between casting call_down and dhm
-		if (_G.PulseAndCast == "call_down") then
-			_G.PulseAndCast = "dumb_homing_missile_v2"
-		else
-			_G.PulseAndCast = "call_down"
-		end
-		AddToAbilityQueue(thisEntity.radar_pulse, DOTA_UNIT_ORDER_CAST_NO_TARGET, nil, false, nil)
-	end
-
-	--at 10th second and every 30 seconds afterwards, cast barrage
-	if (tickCount >= 100 and (tickCount-100) % 300 == 0  ) then
-		--print("queueing  barrage")
 		AddToAbilityQueue(thisEntity.barrage, DOTA_UNIT_ORDER_CAST_NO_TARGET, nil, false, nil)
+		AddToAbilityQueue(thisEntity.flee, DOTA_UNIT_ORDER_CAST_POSITION, GyroArenaLocations["C"], false, nil)
+		AddToAbilityQueue(thisEntity.dumb_rocket_waves, DOTA_UNIT_ORDER_CAST_NO_TARGET, nil, false, nil)
+
+
+	-- The openning sequences finishes after: 175 ticks
+	-- the macropyre dissapears after 250 ticks
+		nextSpellAtTick = 250 --TODO: actually calc this based on the above spell durations
 	end
 
-	--at 30th second and every 60 seconds afterwards, cast shm
-	if (tickCount >= 300 and (tickCount-300) % 600 == 0  ) then
-		--print("queueing  radarScan and smart_homing_missile")
-		_G.ScanAndCast = "smart_homing_missile_v2"
-		AddToAbilityQueue(thisEntity.radar_scan, DOTA_UNIT_ORDER_CAST_NO_TARGET, nil, false, nil)
+	--print(tickCount ..". _G.IsGyroBusy? " .. tostring(_G.IsGyroBusy))
+	
+
+	--UNTESTED:
+
+	--COMBAT SEQUENCE: 
+	-- Swoop to a ranged player.
+	-- Shoot rockets (alternate smart/dumb) at ranged targets
+	-- Do barrage? / calldown?
+
+	-- Every 10% hp loss, flee, to a distant location. (TODO: algo to calc/get location to flee)
+	if (thisEntity:GetHealthPercent() <= nextHp10PercentThreshold) then
+		print("gyro hp crossed ".. nextHp10PercentThreshold .. " threshold. ")
+		nextHp10PercentThreshold = nextHp10PercentThreshold - 10
+		
+		AddToAbilityQueue(thisEntity.flee, DOTA_UNIT_ORDER_CAST_POSITION, FindLocationFurtherFromPlayers(), false, nil)
+		--TODO new calldown targetting?
+			-- new calldown should: get each players pos, wait 0.2 seconds, get each players pos, calculate the direction they're heading. 
+			--cast calldown x units ahead of them in the direction they're heading. 
+			--so it's not centered of exactly, but infront of them, they have to change direction to avoid
+
+		nextSpellAtTick = nextSpellAtTick + RandomInt(spellCdMin, spellCdMax) 		
 	end
 
-	if (tickCount % 550 == 0 ) then
-		--print("55 seconds, queueing  Absorbing Shell")
+	-- Every 25% hp loss, fly/flee to center. And do whirlwind
+		-- Afterwards, do absorbing shell. 
+	if (thisEntity:GetHealthPercent() <= nextHp25PercentThreshold) then
+		print("gyro hp crossed ".. nextHp25PercentThreshold .. " threshold. ")
+		nextHp25PercentThreshold = nextHp25PercentThreshold - 10
+
+		--I don't really want to flee, just flyTo?
+		AddToAbilityQueue(thisEntity.flee, DOTA_UNIT_ORDER_CAST_POSITION, GyroArenaLocations["C"], false, nil)
+		AddToAbilityQueue(thisEntity.whirlwind, DOTA_UNIT_ORDER_CAST_NO_TARGET, nil, false, nil)
 		AddToAbilityQueue(thisEntity.absorbing_shell, DOTA_UNIT_ORDER_CAST_NO_TARGET, nil, false, nil)
 	end
 
-	-- swoop every 30 seconds, or 30 seconds since last swoop.
-	--UNTESTED: might overlap some other abilities but hopefully abilityQueue handles this
-	if (tickCount > (timeOfLastSwoop+300) ) then
-		--print("queueing swoop!")
-		local enemies = FindUnitsInRadius(DOTA_TEAM_BADGUYS, thisEntity:GetAbsOrigin(), nil, 3000, DOTA_UNIT_TARGET_TEAM_ENEMY, DOTA_UNIT_TARGET_ALL, DOTA_UNIT_TARGET_FLAG_NONE, FIND_CLOSEST, false )
-		if #enemies > 0 then
-			AddToAbilityQueue(thisEntity.swoop, DOTA_UNIT_ORDER_CAST_POSITION, enemies[1]:GetAbsOrigin(), false, nil)
+
+	if tickCount == nextSpellAtTick then
+		local spellCastThisCycle = false
+		--print("tickCount == nextSpellAtTick. casting")
+		nextSpellAtTick = nextSpellAtTick + (RandomInt(spellCdMin, spellCdMax)  / dt)
+		--print("next spell up : ".. spellSequence[nextSpellIndex]:GetAbilityName())
+
+		-- cast this spell: spellSequence[nextSpellIndex]
+		if spellSequence[nextSpellIndex] == thisEntity.swoop then
+			AddToAbilityQueue(thisEntity.swoop, DOTA_UNIT_ORDER_CAST_POSITION, FindFurthestPlayer():GetAbsOrigin(), false, nil)			
+
 		end
-		timeOfLastSwoop = tickCount
+
+		--dumb rocket or smart rocket, alternate between the two.
+		--cast dumb, then set so the next time it casts smart
+		if spellSequence[nextSpellIndex] == thisEntity.dumb_rocket_waves then
+			AddToAbilityQueue(thisEntity.dumb_rocket_waves, DOTA_UNIT_ORDER_CAST_NO_TARGET, nil, false, nil)
+			spellSequence[nextSpellIndex] = thisEntity.smart_homing_missile
+			spellCastThisCycle = true --to stop the next if instantly getting triggered
+		end
+		--cast smart, then set so the next time it casts dumb
+		if spellSequence[nextSpellIndex] == thisEntity.smart_homing_missile and not spellCastThisCycle then
+			--TODO: one missile or one for each ranged target?
+			_G.HomingMissileTargets[#_G.HomingMissileTargets+1] = {}
+			_G.HomingMissileTargets[#_G.HomingMissileTargets] = FindFurthestPlayer()
+			AddToAbilityQueue(thisEntity.smart_homing_missile, DOTA_UNIT_ORDER_CAST_NO_TARGET, nil, false, nil)
+			spellSequence[nextSpellIndex] = thisEntity.dumb_rocket_waves
+		end
+
+		if spellSequence[nextSpellIndex] == thisEntity.barrage then
+			AddToAbilityQueue(thisEntity.barrage, DOTA_UNIT_ORDER_CAST_NO_TARGET, nil, false, nil)
+		end
+
+		--print("nextSpellAtTick = ", nextSpellAtTick)
+		nextSpellIndex = nextSpellIndex +1
+		if nextSpellIndex > #spellSequence then
+			nextSpellIndex = 1
+		end
 	end
+
+
+
+	--Start main combat sequence:
+	-- if tickCount == nextSpellAtTick then
+	-- 	--start a timer to wait some random time, --check if hp at 10% incr or 25% incr, otherwise do the next spell in sequence?
+
+	-- 	--calculate some random wait/cooldown, sometimes the abilities will happen one after another, but sometimes theres a delay
+
+	-- 	-- Every 10-20 seconds, queue a new ability
+
+
+	-- end
+	
+	
+
+	
+
+
+
+
+
+	--OLD AI:
+	-- -- TODO: at 75% hp - zoom away... 
+	-- if (isHpAbove75Percent and thisEntity:GetHealthPercent() <= 75) then
+	-- 	isHpAbove75Percent = false
+	-- 	AddToAbilityQueue(thisEntity.flee, DOTA_UNIT_ORDER_CAST_POSITION, thisEntity:GetAbsOrigin() + Vector(0,2500,0), false, nil)
+
+	-- 	thisEntity.dumb_homing_missile:SetLevel(thisEntity.dumb_homing_missile:GetLevel() +1)
+	-- 	thisEntity.smart_homing_missile:SetLevel(thisEntity.smart_homing_missile:GetLevel() +1)
+	-- end
+
+	-- -- TODO: at 50% hp - zoom away...
+	-- if (isHpAbove50Percent and thisEntity:GetHealthPercent() <= 50) then
+	-- 	isHpAbove50Percent = false
+	-- 	--print("hp below 50%. Time to zoom")
+	-- end
+
+	-- --at 5th second and every 15 seconds afterwards. 
+	-- if (tickCount >= 50 and (tickCount-50) % 150 == 0  ) then
+	-- 	-- alternate between casting call_down and dhm
+	-- 	if (_G.PulseAndCast == "call_down") then
+	-- 		_G.PulseAndCast = "dumb_homing_missile_v2"
+	-- 	else
+	-- 		_G.PulseAndCast = "call_down"
+	-- 	end
+	-- 	AddToAbilityQueue(thisEntity.radar_pulse, DOTA_UNIT_ORDER_CAST_NO_TARGET, nil, false, nil)
+	-- end
+
+	-- --at 10th second and every 30 seconds afterwards, cast barrage
+	-- if (tickCount >= 100 and (tickCount-100) % 300 == 0  ) then
+	-- 	--print("queueing  barrage")
+	-- 	AddToAbilityQueue(thisEntity.barrage, DOTA_UNIT_ORDER_CAST_NO_TARGET, nil, false, nil)
+	-- end
+
+	-- --at 30th second and every 60 seconds afterwards, cast shm
+	-- if (tickCount >= 300 and (tickCount-300) % 600 == 0  ) then
+	-- 	--print("queueing  radarScan and smart_homing_missile")
+	-- 	_G.ScanAndCast = "smart_homing_missile_v2"
+	-- 	AddToAbilityQueue(thisEntity.radar_scan, DOTA_UNIT_ORDER_CAST_NO_TARGET, nil, false, nil)
+	-- end
+
+	-- if (tickCount % 550 == 0 ) then
+	-- 	--print("55 seconds, queueing  Absorbing Shell")
+	-- 	AddToAbilityQueue(thisEntity.absorbing_shell, DOTA_UNIT_ORDER_CAST_NO_TARGET, nil, false, nil)
+	-- end
+
+	-- -- swoop every 30 seconds, or 30 seconds since last swoop.
+	-- if (tickCount > (timeOfLastSwoop+300) ) then
+	-- 	local enemies = FindUnitsInRadius(DOTA_TEAM_BADGUYS, thisEntity:GetAbsOrigin(), nil, 3000, DOTA_UNIT_TARGET_TEAM_ENEMY, DOTA_UNIT_TARGET_ALL, DOTA_UNIT_TARGET_FLAG_NONE, FIND_CLOSEST, false )
+	-- 	if #enemies > 0 then
+	-- 		AddToAbilityQueue(thisEntity.swoop, DOTA_UNIT_ORDER_CAST_POSITION, enemies[1]:GetAbsOrigin(), false, nil)
+	-- 	end
+	-- 	timeOfLastSwoop = tickCount
+	-- end
 
 	--TODO: rotating_flak_cannon
 	--TODO implement agro table
@@ -222,19 +386,14 @@ function MainLoop()
 end
 
 
-
--- AI / sequence. SwoopBuild is a swoop first and swoop often build. Gyro uses swoop as a priority. Casting abilities in between. 
+-- SWOOP BUILD: SwoopBuild is a swoop first and swoop often build. Gyro uses swoop as a priority. Casting abilities in between. 
 -- Every ability 
 local dt = 0.1
 local tickCount = 0
-
 local timeOfLastSwoop = 0
 local isHpAbove75Percent = true
 local isHpAbove50Percent = true
-
 local swoopDelay = 100 -- 10 seconds.
-
-
 local spellCount = 1
 local spellSequence = {}
 spellSequence[1] = thisEntity.smart_homing_missile
@@ -276,7 +435,6 @@ function SwoopBuild()
 			spellCount = 1
 		end
 
-		print("casting a spell from spellSequence")
 		--spellSequence[spellSequence]
 		--need to do different things for each spell...
 
@@ -337,7 +495,11 @@ end
 --------------------------------------------------------------------
 
 local abilityQueue = {}
-local tickDelay = 0.01 -- TESTING: whirlwild needs to cast 10s of abilities every second
+--BUG? when tickDelay is too low you can't queue multiple abilities, some will get skipped
+--local tickDelay = 0.01 
+local tickDelay = 0.1
+
+
 --abilityQueue structure:
 --abilityQueue[1].ability = ability
 --abilityQueue[1].orderType = DOTA_UNIT_ORDER_CAST_TARGET
@@ -355,7 +517,10 @@ function AbilityQueue()
 
 	--check if anything in the queue
 	if #abilityQueue > 0 then
+		--print(#abilityQueue.. " abilities in queue")
 		local abilityToCast = abilityQueue[1].ability
+		--print("casting ".. abilityQueue[1].ability:GetAbilityName())
+
 		local orderType = abilityQueue[1].orderType
 		--with queue true. boss auto attacks will interupt and prevent spells. 
 		--so make sure you've already set: thisEntity:SetAttackCapability(0) --set to DOTA_UNIT_CAP_NO_ATTACK.
@@ -436,7 +601,7 @@ end
 
 -- Gyro Movement Functions
 --------------------------------------------------------------------
-
+--TODO: delete these if unused
 
 --Gyro moves upwards toward altitude, in 10 increments over 1 second 
 --MoveToPosition doesn't work with Z index so to change a units height I have to directly modified its AbsOrigin
@@ -468,4 +633,52 @@ function FlyDown(altitude, duration)
 		if thisEntity:GetAbsOrigin().z <= altitude then return end 
 		return delayAmount
 	end)
+end
+
+
+-- Util AI algos
+------------------------------------
+
+-- check where all players are, and then compare against GyroArenaLocations, find the most distant one.
+-- algo: sum the distance of each player to that loc.
+function FindLocationFurtherFromPlayers()
+	local furthestLoc = GyroArenaLocations["N"] --set a temp value
+	local furthestDist = 0
+	local arenaLocationDistanceMap = {}
+
+	-- loop over the arena locations and determine which one is furthests from all players
+	for i, GyroArenaLocation in pairs(GyroArenaLocations) do
+		local distanceSum =0
+		-- Get all players, then calc dist for each one and add to distanceSum
+		for j, hero in pairs(HERO_LIST) do
+			local distance = (hero:GetAbsOrigin() - GyroArenaLocation):Length2D()
+			distanceSum = distanceSum + distance
+		end
+		arenaLocationDistanceMap[GyroArenaLocation] = distanceSum
+		--print("players distance to " .. i .. " = " .. distanceSum)
+	end
+
+	--now iterate arenaLocationDistanceMap to find the max
+	for arenaLoc, playersDistance in pairs(arenaLocationDistanceMap) do
+		if playersDistance > furthestDist then
+			furthestDist = playersDistance
+			furthestLoc = arenaLoc
+		end
+	end
+	return furthestLoc
+end
+
+function FindFurthestPlayer()
+	local furthestDist = 0 
+	local furthestPlayer = HERO_LIST[1] 
+
+	for j, hero in pairs(HERO_LIST) do
+		local distance = (hero:GetAbsOrigin() - thisEntity:GetAbsOrigin()):Length2D()
+
+		if distance > furthestDist then
+			furthestDist = distance
+			furthestPlayer = hero
+		end
+	end
+	return furthestPlayer
 end

@@ -44,7 +44,7 @@ function barrage_radius_ranged:OnSpellStart()
 			
 			local endTime = Time()
 			local actualElapsed = endTime - startTime
-			print("ranged barrage actualElapsed = ".. actualElapsed)
+			--print("ranged barrage actualElapsed = ".. actualElapsed)
 
 			-- cast melee barrage if this flag is set. (allows this ability to be used in isolation or in combination with melee barrage)
 			if _G.castMeleeBarrageOnFinish then

@@ -59,7 +59,7 @@ end
 
 
 local abilityQueue = {}
-local tickDelay = 0.01 -- TESTING: whirlwild needs to cast 10s of abilities every second
+local tickDelay = 0.15 -- TESTING: whirlwild needs to cast 10s of abilities every second
 --abilityQueue structure:
 --abilityQueue[1].ability = ability
 --abilityQueue[1].orderType = DOTA_UNIT_ORDER_CAST_TARGET

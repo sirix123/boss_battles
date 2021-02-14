@@ -13,10 +13,17 @@ function absorbing_shell:OnSpellStart()
 	local minDamageThreshold = self:GetSpecialValueFor("min_damage_threshold")
 
 
+	--PARTICLE: 
+	-- TESTED:  works but doesn't really fit properly around gyro, would need to modify.
+	self.effect = ParticleManager:CreateParticle( "particles/econ/items/ember_spirit/ember_ti9/ember_ti9_flameguard_shield.vpcf", PATTACH_OVERHEAD_FOLLOW, caster )
+	ParticleManager:SetParticleControl( self.effect, 0, caster:GetAbsOrigin() + Vector(0,0,128) )
+	ParticleManager:SetParticleControl( self.effect, 1, caster:GetAbsOrigin() + Vector(0,0,128))
+
+		
 	--PARTICLE: temporary particle. working but not the particle I want:
-	self.effect = ParticleManager:CreateParticle( "particles/beastmaster/beastmaster_enrage.vpcf", PATTACH_OVERHEAD_FOLLOW, caster )
-	ParticleManager:SetParticleControl( self.effect, 0, caster:GetAbsOrigin() )
-	ParticleManager:SetParticleControl( self.effect, 3, caster:GetAbsOrigin() )
+	--self.effect = ParticleManager:CreateParticle( "particles/beastmaster/beastmaster_enrage.vpcf", PATTACH_OVERHEAD_FOLLOW, caster )
+	-- ParticleManager:SetParticleControl( self.effect, 0, caster:GetAbsOrigin() )
+	-- ParticleManager:SetParticleControl( self.effect, 3, caster:GetAbsOrigin() )
 
 	--new approach to timing this spell... 
 	local stopFlag = false

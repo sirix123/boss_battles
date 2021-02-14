@@ -43,6 +43,10 @@
 		"Ability16"					"rotating_flak_cannon_attack"
 		"Ability17"					"continuous_radar_scan"
 		"Ability18"					"dumb_rocket_waves"
+
+		"Ability19"					"whirlwind"
+		"Ability20"					"whirlwind_attack"
+		
 		
 
 

@@ -3,6 +3,7 @@ if Commands == nil then
 end
 
 function Commands:Init()
+    print("Commands:Init()")
 
     ListenToGameEvent('player_chat', Dynamic_Wrap(self, 'OnPlayerChat'), self)
 
@@ -65,41 +66,56 @@ function Commands:OnPlayerChat(keys)
             if bossName == "beastmaster" then
                 print("TODO: start boss ", bossName)
                 BOSS_BATTLES_ENCOUNTER_COUNTER = 2
-                --GameSetup:ReadyupCheck()
+                GameSetup:ReadyupCheck()
                 --self:StartBoss(2)
             end
             if bossName == "timber" then
                 print("TODO: start boss ", bossName)
                 BOSS_BATTLES_ENCOUNTER_COUNTER = 3
-                --GameSetup:ReadyupCheck()
+                GameSetup:ReadyupCheck()
                 --self:StartBoss(3)
             end
             if bossName == "techies" then
                 print("TODO: start boss ", bossName)
                 BOSS_BATTLES_ENCOUNTER_COUNTER = 4
-                --GameSetup:ReadyupCheck()
+                GameSetup:ReadyupCheck()
                 --self:StartBoss(4)
             end
             if bossName == "clock" then
                 print("TODO: start boss ", bossName)
                 BOSS_BATTLES_ENCOUNTER_COUNTER = 5
-                --GameSetup:ReadyupCheck()
+                GameSetup:ReadyupCheck()
                 --self:StartBoss(5)
             end
             if bossName == "gyro" then
                 print("TODO: start boss ", bossName)
                 BOSS_BATTLES_ENCOUNTER_COUNTER = 6
-                --GameSetup:ReadyupCheck()
+                GameSetup:ReadyupCheck()
                 --self:StartBoss(6)
             end
             if bossName == "tinker" then
                 print("TODO: start boss ", bossName)
                 BOSS_BATTLES_ENCOUNTER_COUNTER = 7
-                --GameSetup:ReadyupCheck()
+                GameSetup:ReadyupCheck()
                 --self:StartBoss(7)
             end
+        end
+
+        --quick start gyro, control which AI function is used. 
+        if string.find(text, "sbg") then
+            BOSS_BATTLES_ENCOUNTER_COUNTER = 6
+            _G.GyroAI = "Main"
+            if string.find(text, "sbg%-swoop") then -- %- will escape the hyphen key. command is sbg-test
+                _G.GyroAI = "Swoop"
+            end
+            if string.find(text, "sbg%-test") then -- %- will escape the hyphen key. command is sbg-test
+                _G.GyroAI = "Test"
+            end
+            GameSetup:ReadyupCheck()
         end
 
     end --end if, commandChar == firstChar
 end
 -----------------------------------------------------------------------------------------------------
+
+
