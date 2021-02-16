@@ -724,7 +724,7 @@
 
         // Casting
         //-------------------------------------------------------------------------------------------------------------
-        "AbilityCastPoint"              "1 1 1 1"
+        "AbilityCastPoint"              "0.4 0.4 0.4 0.4"
         "AbilityCooldown"               "40 40 40 40"
         "AbilityManaCost"               "0"
         "AbilityCastRange" 				"600"

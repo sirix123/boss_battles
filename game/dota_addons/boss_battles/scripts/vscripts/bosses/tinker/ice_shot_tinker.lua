@@ -302,6 +302,8 @@ function ice_shot_tinker:HitEle(unit)
             unit:AddNewModifier(self:GetCaster(), self, "biting_frost_modifier_buff_fire", {duration = -1})
         elseif unit:GetUnitName() == "npc_elec_ele" then
             unit:AddNewModifier(self:GetCaster(), self, "biting_frost_modifier_buff_elec", {duration = -1})
+        elseif unit:GetUnitName() == "npc_bird" or unit:GetUnitName() == "npc_green_bird" then
+            return
         else
             unit:AddNewModifier(self:GetCaster(), self, "biting_frost_modifier_buff_elec", {duration = -1})
         end
