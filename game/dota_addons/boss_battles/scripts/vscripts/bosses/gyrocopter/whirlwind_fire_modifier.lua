@@ -82,7 +82,7 @@ function whirlwind_fire_modifier:PlayEffects()
 	ParticleManager:ReleaseParticleIndex( self.nFXIndex_1 )
 
 
-	- local particleName = "particles/gyrocopter/macropyre.vpcf"
+	-- local particleName = "particles/gyrocopter/macropyre.vpcf"
 	-- local pfx = ParticleManager:CreateParticle( particleName, PATTACH_ABSORIGIN, thisEntity )
 	-- ParticleManager:SetParticleControl( pfx, 0, thisEntity:GetAbsOrigin() )
 	-- ParticleManager:SetParticleControl( pfx, 1, endPoint )
