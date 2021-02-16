@@ -38,7 +38,7 @@ function vortex_grenade_thinker:OnIntervalThink()
 
 
         local units = FindUnitsInRadius(
-            self.caster:GetTeamNumber(),
+            self.parent:GetTeamNumber(),
             self.vLocation,
             nil,
             400,

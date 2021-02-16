@@ -20,9 +20,11 @@ function chain_gun_shoot:OnSpellStart()
         local currentAngle = 1
         local effect = "particles/clock/chain_gun_vengeful_magic_missle.vpcf"
         self.bBuff = false
+        local casterTeamNumber = caster:GetTeamNumber()
 
         -- just keep on spinning and shooting until you die
         Timers:CreateTimer(delay_between_shots, function()
+            if IsValidEntity(caster) == false then return false end
 
             if caster:HasModifier("electric_turret_minion_buff") == true and self.bBuff == false then
                 self.bBuff = true
@@ -51,7 +53,7 @@ function chain_gun_shoot:OnSpellStart()
                 GroundBehavior = PROJECTILES_NOTHING,
                 fGroundOffset = 80,
                 UnitTest = function(_self, unit)
-                    return unit:GetTeamNumber() ~= caster:GetTeamNumber() and unit:GetModelName() ~= "models/development/invisiblebox.vmdl" and CheckGlobalUnitTableForUnitName(unit) ~= true
+                    return unit:GetTeamNumber() ~= casterTeamNumber and unit:GetModelName() ~= "models/development/invisiblebox.vmdl" and CheckGlobalUnitTableForUnitName(unit) ~= true
                 end,
                 OnUnitHit = function(_self, unit)
                     local dmgTable = {

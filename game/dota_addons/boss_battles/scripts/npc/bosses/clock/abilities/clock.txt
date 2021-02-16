@@ -34,8 +34,8 @@
             "01"{ "var_type"			"FIELD_INTEGER"		"missile_radius"		"200" }
             "02"{ "var_type"			"FIELD_INTEGER"		"flTimeBetweenWaves"	"5" }
             "03"{ "var_type"			"FIELD_INTEGER"		"nMaxWaves"				"3" }
-            "04"{ "var_type"			"FIELD_INTEGER"		"dmg_hit"				"150" }
-            "05"{ "var_type"			"FIELD_INTEGER"		"dmg_dot"				"10" }
+            "04"{ "var_type"			"FIELD_INTEGER"		"dmg_hit"				"75" }
+            "05"{ "var_type"			"FIELD_INTEGER"		"dmg_dot"				"60" }
             "06"{ "var_type"			"FIELD_INTEGER"		"dmg_interval"			"1" }
             "07"{ "var_type"			"FIELD_INTEGER"		"duration"			    "2" }
 		}

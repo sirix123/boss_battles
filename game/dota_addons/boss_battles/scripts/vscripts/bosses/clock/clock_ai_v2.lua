@@ -241,6 +241,7 @@ end
 function FindNewTarget()
 
 	Timers:CreateTimer(function()
+		if IsValidEntity(thisEntity) == false then return false end
 		if ( not thisEntity:IsAlive() ) then
 			print("end timer?")
 			return false
@@ -642,6 +643,7 @@ end
 --------------------------------------------------------------------------------
 function CheckEnrage()
 	Timers:CreateTimer(function()
+		if IsValidEntity(thisEntity) == false then return false end
 		if ( not thisEntity:IsAlive() ) then
 			print("end timer?")
 			return false
@@ -662,6 +664,7 @@ function CheckFurnace()
 	-- check if furnace count is increasing every 2mins
 	-- 120
 	Timers:CreateTimer(70,function()
+		if IsValidEntity(thisEntity) == false then return false end
 		if ( not thisEntity:IsAlive() ) then
 			thisEntity.i = 0
 			--print("end timer?")

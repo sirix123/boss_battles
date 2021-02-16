@@ -68,7 +68,7 @@ function missile_salvo:OnSpellStart()
 
         -- init
         self.caster = self:GetCaster()
-        self.speed = 1000
+        self.speed = 800
         local flTimeBetweenWaves = self:GetSpecialValueFor( "flTimeBetweenWaves" )
         local nMaxWaves = self:GetSpecialValueFor( "nMaxWaves" )
         self.dmg_hit = self:GetSpecialValueFor( "dmg_hit" )
