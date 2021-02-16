@@ -20,9 +20,9 @@
 
 /* BOSS SCOREBOARD - CLOSE BUTTON */
 #bsb_header_close_button_panel{
-  height: 50px;
-  width: 50px;
-  background-color: #ff0909ce;
+  height: 40px;
+  width: 40px;
+  background-color: gradient( linear, 0% 0%, 0% 100%, from( #fa3535 ), to( #d6878733 ) );
   border: 3px solid black;
   border-radius: 5px 0px 0px 5px;
   align: right top;
@@ -35,7 +35,9 @@
 
 #bsb_header_close_button_text{
 	horizontal-align: center;
-	vertical-align: center;
+  vertical-align: center;
+  margin: 3px;
+  margin-left: 7px;
 	color: #fff;
 	font-size: 20px;
 	font-family: defaultFont;
