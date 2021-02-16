@@ -462,6 +462,8 @@ function GameSetup:EncounterCleanUp( origin )
 
     --GameRules:SetTreeRegrowTime( 1.0 )
 
+    DestroyItems( origin )
+
     GridNav:RegrowAllTrees()
 
     --[[local trees = GridNav:GetAllTreesAroundPoint( origin, 9000, false )

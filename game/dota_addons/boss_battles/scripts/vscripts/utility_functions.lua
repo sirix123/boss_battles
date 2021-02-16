@@ -377,3 +377,10 @@ function CustomGetCastPoint(caster,ability)
 		return ability:GetCastPoint()
 	end
 end
+
+function DestroyItems( location )
+	local objs = Entities:FindAllByClassnameWithin("dota_item_drop", location, 10000)
+	for _, obj in pairs(objs) do
+		UTIL_Remove(obj)
+	end
+end
