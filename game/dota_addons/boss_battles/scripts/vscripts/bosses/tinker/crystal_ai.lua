@@ -98,11 +98,11 @@ function CrystalThinker()
                         return
                     else
                         -- remove hp from crystal
-                        thisEntity:SetHealth(( thisEntity:GetMaxHealth() -  ( thisEntity:GetMaxHealth() /  thisEntity.total_beams * thisEntity.beam_stack_count ) ))
+                        thisEntity:SetHealth( thisEntity:GetHealth() -  ( thisEntity:GetMaxHealth() /  thisEntity.total_beams ))
 
                         print("thisEntity:GetMaxHealth() ",thisEntity:GetMaxHealth())
                         print("thisEntity:currenheath() ",thisEntity:GetHealth())
-                        print("crystakl beam_stack_count ", thisEntity.beam_stack_count)
+                        print("--------------------")
 
                         thisEntity.check_tinker = false
                     end
