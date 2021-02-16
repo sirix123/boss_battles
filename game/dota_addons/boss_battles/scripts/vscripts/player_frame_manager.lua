@@ -13,24 +13,31 @@ end
 function player_frame_manager:UpdatePlayer()
     --Player UI Frames:
     Timers:CreateTimer(function()
-        if #HERO_LIST == 1 then
+        if #HERO_LIST == 4 or IsInToolsMode() then
+
+            local playerFrameData = {}
+
             local heroes = HERO_LIST
             for _, hero in pairs(heroes) do
-                local playerFrameData = {}
-                playerFrameData.id = hero.playerId
-                playerFrameData.hp = hero.hp
-                playerFrameData.maxHp = hero.maxHp
-                playerFrameData.hpPercent = hero:GetHealthPercentCustom()
-                playerFrameData.mp = hero.mana
-                playerFrameData.maxMp = hero.maxMp
-                playerFrameData.mpPercent = hero:GetManaPercentCustom()
-                playerFrameData.lives = hero.playerLives
+                local player = {}
 
-                --CustomNetTables:SetTableValue("player_frame", "key", playerFrameData )
-                CustomGameEventManager:Send_ServerToAllClients( "update_player_frame", { playerFrameData} )
+                player["playerId"] = hero.playerId
+                player["hp"] = hero.hp
+                player["maxHp"] = hero.maxHp
+                player["hpPercent"] = hero:GetHealthPercentCustom()
+                player["mp"] = hero.mana
+                player["maxMp"] = hero.maxMp
+                player["mpPercent"] = hero:GetManaPercentCustom()
+                player["lives"] = hero.playerLives
+
+                table.insert(playerFrameData,player)
+
             end
+
+            CustomGameEventManager:Send_ServerToAllClients( "update_player_frame", { playerFrameData } )
+
         end
-        return 0.2
+        return 2--0.2
     end)
 end
 --------------------------------------------------------------------------------------------------

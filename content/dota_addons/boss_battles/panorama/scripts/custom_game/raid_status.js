@@ -174,6 +174,7 @@ function createPlayerFrames(data)
 
     // just insert a playerframe inhere no need to store agaisnt the ID
     // then set the ID of the panel to the player
+    //$.Msg("data PlayerID" ,data["PlayerID"])
     playerFramePanels[data["PlayerID"]] = playerFrame;
     //playerFramePanels[data["PlayerID"]] = playerFrame
     // set the panels id to the playerID
@@ -185,17 +186,25 @@ function updatePlayerFrames(data)
     //$.Msg("runing updaet?")
     //$.Msg("data ",data)
     //$.Msg("playerFramePanels ",playerFramePanels);
-    //$.Msg("data id ",data.data["id"])
+    //$.Msg("data ",data)
     //$.Msg("-----------------------") 
 
     // for each panel in playerFramePanels
     // find the panel wiht the matching id from data 
     // as below... update everthting
 
-    for ( var i in data )
+    let playersFrameContainer = $("#PlayersFrameContainer")
+    $.Msg("playersFrameContainer.GetChildCount() ",playersFrameContainer.GetChildCount())
+
+    for (let i=0; i < playersFrameContainer.GetChildCount(); i++)
     {
-        var playerData = data[i]
-        var playerFrame = playerFramePanels[i-1]
+        //$.Msg("i = ",i)
+        $.Msg("data[i] = ",data[i+1])
+        $.Msg("playerFramePanels[i] = ",playerFramePanels[i])
+        $.Msg("----------------")
+
+        var playerData = data[i+1]
+        var playerFrame = playerFramePanels[i]
 
         var pLivesLabel = playerFrame.FindChildTraverse("PlayerLivesLabel")
         pLivesLabel.text = playerData["lives"]
