@@ -5,7 +5,12 @@
 		},
 		{
 			"path": "..\\..\\..\\..\\content\\dota_addons\\boss_battles\\panorama"
+		},
+		{
+			"path": "..\\resource"
 		}
 	],
-	"settings": {}
+	"settings": {
+		"editor.tabCompletion": "on"
+	}
 }

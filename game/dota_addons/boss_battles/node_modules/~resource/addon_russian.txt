@@ -1,0 +1,20 @@
+"lang"
+{
+    "Language"    "russian"
+    "Tokens"
+    {
+        "DOTA_Tooltip_Ability_aghanims_shard_explosion"    "Shard Explosion"
+        "DOTA_Tooltip_Ability_aghanims_shard_explosion_description"    "Fires a shard at the target point which deals %damage% damage to all enemies on impact."
+        "DOTA_Tooltip_Ability_aghanims_shard_explosion_Lore"    "Aghanims' signature move, firing shards of arcane energy."
+        "DOTA_Tooltip_Ability_aghanims_shard_explosion_Note0"    "The projectile moves at %projectile_speed% speed."
+        "DOTA_Tooltip_Ability_aghanims_shard_explosion_Note1"    "Despite the visual effect, all enemies in range immediately take damage upon impact."
+        "DOTA_Tooltip_Ability_aghanims_shard_explosion_Note2"    "Can be disjointed."
+        "DOTA_Tooltip_Ability_aghanims_shard_explosion_scepter_description"    "Increases damage by %scepter_damage% and explosion range by %scepter_aoe_bonus%."
+        "DOTA_Tooltip_Ability_aghanims_shard_explosion_shard_description"    "Decreases cooldown of the ability by %shard_cd_pct%%%."
+        "DOTA_Tooltip_Ability_aghanims_shard_explosion_damage"    "DAMAGE"
+        "DOTA_Tooltip_Ability_aghanims_shard_explosion_radius"    "EXPLOSION RADIUS"
+        "DOTA_Tooltip_Ability_aghanims_shard_explosion_scepter_cd_reduction"    "%COOLDOWN REDUCTION"
+        "DOTA_Tooltip_modifier_greater_power"    "Greater Power"
+        "DOTA_Tooltip_modifier_greater_power_description"    "Increases your base damage by %dMODIFIER_PROPERTY_PREATTACK_BONUS_DAMAGE% and your move speed by %dMODIFIER_PROPERTY_MOVESPEED_BONUS_PERCENTAGE%%%."
+    }
+}
