@@ -34,7 +34,7 @@ function r_explosive_arrow_thinker_indicator:PlayEffects( time )
 	local particle_cast = "particles/units/heroes/hero_snapfire/hero_snapfire_ultimate_calldown.vpcf"
 
 	-- Create Particle
-	self.effect_cast = ParticleManager:CreateParticleForTeam( particle_cast, PATTACH_CUSTOMORIGIN, self:GetCaster(), self:GetCaster():GetTeamNumber() )
+	self.effect_cast = ParticleManager:CreateParticleForPlayer( particle_cast, PATTACH_CUSTOMORIGIN, self:GetCaster(), self:GetCaster():GetPlayerOwner() )
 	ParticleManager:SetParticleControl( self.effect_cast, 0, self:GetParent():GetOrigin() )
 	ParticleManager:SetParticleControl( self.effect_cast, 1, Vector( self.radius, 0, -self.radius*(self.max_travel/time) ) )
 	ParticleManager:SetParticleControl( self.effect_cast, 2, Vector( time, 0, 0 ) )
