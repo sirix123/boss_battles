@@ -5,7 +5,7 @@ LinkLuaModifier( "modifier_stomp_pull", "bosses/techies/modifiers/modifier_stomp
 
 function stomp_push:OnAbilityPhaseStart()
     if IsServer() then
-        self:GetCaster():StartGestureWithPlaybackRate(ACT_DOTA_CAST4_STATUE, 0.25)
+        self:GetCaster():StartGestureWithPlaybackRate(ACT_DOTA_CAST_ABILITY_4, 0.20)
 
         self.radius = 550
         self.nPreviewFXIndex = ParticleManager:CreateParticle( "particles/econ/events/darkmoon_2017/darkmoon_calldown_marker.vpcf", PATTACH_CUSTOMORIGIN, nil )
@@ -27,7 +27,7 @@ function stomp_push:OnAbilityPhaseInterrupted()
     if IsServer() then
 
         -- remove casting animation
-        self:GetCaster():RemoveGesture(ACT_DOTA_CAST4_STATUE)
+        self:GetCaster():RemoveGesture(ACT_DOTA_CAST_ABILITY_4)
 
     end
 end
@@ -38,7 +38,7 @@ function stomp_push:OnSpellStart()
 
     local ability = self
 
-    self:GetCaster():FadeGesture(ACT_DOTA_CAST4_STATUE)
+    self:GetCaster():FadeGesture(ACT_DOTA_CAST_ABILITY_4)
 
     self.units = FindUnitsInRadius(
         self:GetCaster():GetTeamNumber(),	-- int, your team number

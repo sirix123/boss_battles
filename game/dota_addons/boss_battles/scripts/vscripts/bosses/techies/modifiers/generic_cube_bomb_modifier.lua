@@ -120,7 +120,7 @@ function generic_cube_bomb_modifier:OnDestroy()
                 {
                     victim = unit,
                     attacker = self:GetCaster(),
-                    damage = 50,
+                    damage = 200,
                     damage_type = DAMAGE_TYPE_PHYSICAL,
                 }
 
@@ -147,7 +147,7 @@ function generic_cube_bomb_modifier:OnIntervalThink()
     ParticleManager:SetParticleControl(self.particleNfx , 2, self:GetParent():GetAbsOrigin() + self.distance)  -- target
 
     -- check if close to diffuse location
-    if ( self.target - self:GetParent():GetAbsOrigin() ):Length2D() <= 50 then
+    if ( self.target - self:GetParent():GetAbsOrigin() ):Length2D() <= 150 then
         self.removed_flag = true
         self:Destroy()
     end

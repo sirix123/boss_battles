@@ -12,7 +12,7 @@ function assistant_sweep:OnAbilityPhaseStart()
 			self.vTargetPos = self:GetCursorPosition()
         end
 
-        self.vTargetPos = self:GetAbsOrigin() + self:GetCaster():GetForwardVector() * 600
+        self.vTargetPos = self:GetAbsOrigin() + self:GetCaster():GetForwardVector() * 900
 
         self.spell_width = 200
         self.start_pos = self:GetAbsOrigin() + self:GetCaster():GetForwardVector() * 250
@@ -74,7 +74,7 @@ function assistant_sweep:OnSpellStart()
             fDistance = distance,
             fUniqueRadius = self.spell_width/3,
             Source = self.caster,
-            vVelocity = self:GetCaster():GetForwardVector() * 800,
+            vVelocity = self:GetCaster():GetForwardVector() * 1000,
             UnitBehavior = PROJECTILES_NOTHING,
             TreeBehavior = PROJECTILES_DESTROY,
             WallBehavior = PROJECTILES_DESTROY,

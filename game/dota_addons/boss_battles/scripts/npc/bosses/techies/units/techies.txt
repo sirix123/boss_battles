@@ -55,7 +55,7 @@
 
 		// Status
 		//----------------------------------------------------------------
-		"StatusHealth"				"5000"		// Base health.
+		"StatusHealth"				"10000"		// Base health.
 		"StatusHealthRegen"			"0.0"		// Health regeneration rate.
 		"StatusMana"				"100"		// Base mana.
 		"StatusManaRegen"			"0.0"		// Mana regeneration rate.		 
@@ -197,7 +197,7 @@
 		"AttackDamageMax"			"55"		
 		"AttackRate"				"1.2"		// Speed of attack.
 		"AttackAnimationPoint"		"0.2"		// Normalized time in animation cycle to attack.
-		"AttackAcquisitionRange"	"15000"		// Range within a target can be acquired.
+		"AttackAcquisitionRange"	"13000"		// Range within a target can be acquired.
 		"AttackRange"				"100"		
 
 		// Bounds

@@ -54,7 +54,7 @@ function cluster_mine_throw:OnSpellStart()
 
         local i = 0
         Timers:CreateTimer(delay, function()
-
+            if IsValidEntity(self:GetCaster()) == false then return false end
             if i == max_mines then
                 return false
             end

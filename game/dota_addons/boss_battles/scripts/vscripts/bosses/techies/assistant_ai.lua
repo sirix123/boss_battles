@@ -2,6 +2,8 @@ assistant_ai = class({})
 LinkLuaModifier( "oil_leak_modifier", "bosses/techies/modifiers/oil_leak_modifier", LUA_MODIFIER_MOTION_NONE )
 LinkLuaModifier( "guard_death_modifier", "bosses/techies/modifiers/guard_death_modifier", LUA_MODIFIER_MOTION_NONE )
 LinkLuaModifier( "turn_rate_modifier", "bosses/techies/modifiers/turn_rate_modifier", LUA_MODIFIER_MOTION_NONE )
+LinkLuaModifier( "green_cube_eater_modifier", "bosses/techies/modifiers/green_cube_eater_modifier", LUA_MODIFIER_MOTION_NONE )
+
 --------------------------------------------------------------------------------
 
 function Spawn( entityKeyValues )
@@ -18,6 +20,7 @@ function Spawn( entityKeyValues )
 	--thisEntity:AddNewModifier( nil, nil, "oil_leak_modifier", { duration = -1 })
 	thisEntity:AddNewModifier( nil, nil, "guard_death_modifier", { duration = -1 })
 	thisEntity:AddNewModifier( nil, nil, "turn_rate_modifier", { duration = -1 })
+	thisEntity:AddNewModifier( nil, nil, "green_cube_eater_modifier", { duration = -1 })
 
 	thisEntity.assistant_sweep = thisEntity:FindAbilityByName( "assistant_sweep" )
 	thisEntity.assistant_sweep:SetLevel(1)
@@ -47,23 +50,6 @@ function AssistantThink()
 		return 0.5
 	end
 
-	-- find all units to find the cloest target
-	local targets = FindUnitsInRadius(
-		thisEntity:GetTeamNumber(),
-		thisEntity:GetOrigin(),
-		nil,
-		3000,
-		DOTA_UNIT_TARGET_TEAM_ENEMY,
-		DOTA_UNIT_TARGET_HERO + DOTA_UNIT_TARGET_BASIC,
-		DOTA_UNIT_TARGET_FLAG_INVULNERABLE,
-		FIND_CLOSEST,
-		false )
-
-	if #targets > 0 then
-		thisEntity:SetAggroTarget(targets[1])
-		thisEntity:MoveToTargetToAttack(targets[1])
-	end
-
 	-- find units in a line for sweep
 	local length = 600
 	thisEntity.vTargetPos = thisEntity:GetAbsOrigin() + thisEntity:GetForwardVector() * length
@@ -87,7 +73,7 @@ function AssistantThink()
 		return CastStompPush()
 	end
 
-	return 0.03
+	return 0.5
 end
 
 --------------------------------------------------------------------------------

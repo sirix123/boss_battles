@@ -227,9 +227,11 @@ function StartTimer()
 	--print("thisEntity.count ",thisEntity.count)
 
 	thisEntity.timer = Timers:CreateTimer(function()
+		if IsValidEntity(thisEntity) == false then return false end
+
 		if thisEntity.count == 0 or thisEntity:IsAlive() == nil or thisEntity:IsAlive() == false then
 			ParticleManager:DestroyParticle(thisEntity.particle, true)
-			return false 
+			return false
 		end
 
 		if thisEntity.particle then
