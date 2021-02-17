@@ -69,7 +69,7 @@ function r_frostbomb:OnSpellStart()
     -- grab shatter stacks and remove shatter
     if self.caster:FindModifierByNameAndCaster("shatter_modifier", self.caster) ~= nil then
         self.nStackCount = self.caster:FindModifierByNameAndCaster("shatter_modifier", self.caster):GetStackCount()
-        self.caster:RemoveModifierByNameAndCaster("shatter_modifier", self.caster)
+        --self.caster:RemoveModifierByNameAndCaster("shatter_modifier", self.caster)
     end
 
     CreateModifierThinker(
