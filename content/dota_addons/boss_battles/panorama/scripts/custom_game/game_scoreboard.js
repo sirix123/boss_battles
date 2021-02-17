@@ -87,7 +87,7 @@ function hideScoreboardUI()
 
 function showScoreboardUI( table_data )
 {
-	$.Msg("showScoreboardUI tableData = ", table_data)
+	//$.Msg("mode = ", mode)
 
 	var bsb = $("#bsb_parent");
 	if (bsb)
@@ -101,6 +101,13 @@ function showScoreboardUI( table_data )
 		child.DeleteAsync(0);
 	}
 
+	var bsb_mode_panel = bsb.FindChildInLayoutFile("bsb_boss_mode_text")
+	if (mode == "storyMode"){
+		bsb_mode_panel.text = "Story Mode"
+	}else if (mode == "normalMode") {
+		bsb_mode_panel.text = "Normal Mode"
+	}
+	
 	var bsb_bossInfoContainer = $.CreatePanel("Panel", bsb_bossHeader, table_data);
 	bsb_bossInfoContainer.BLoadLayoutSnippet("bsb_header_bossFight_info");	
 
@@ -207,8 +214,17 @@ function CreateBossScoreBoardRow(rowData, rowId)
 
 // END SHOW BOSS SCOREBOARD
 
+// grab the mode from the server
+let mode = "storyMode"
+function ModeChosen(event)
+{
+	mode = event.mode
+	//$.Msg("mode = ",mode)
+}
+
 //Subscribe these events to these functions. 
 //These functions are called/triggered from lua via: CustomGameEventManager:Send_ServerToAllClients("showScoreboardUIEvent", {})
 GameEvents.Subscribe( "display_scoreboard", showScoreboardUI);
 GameEvents.Subscribe( "hideScoreboardUIEvent", hideScoreboardUI);
 GameEvents.Subscribe( "showDpsMeterUIEvent", showDpsMeterUI);
+GameEvents.Subscribe( "mode_chosen", ModeChosen);

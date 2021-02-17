@@ -18,10 +18,34 @@
   border: 1px solid black;
 }
 
+/* title bar */
+.bsb_boss_title{
+  flow-children: right;
+  height: 5%;
+  width: 100%;
+  background-color: #292626cc; /* rgba */
+  background-size: 100% 100%;
+}
+
+.bsb_boss_mode{
+  height: 100%;
+  width: 10%;
+}
+
+#bsb_boss_mode_text{
+	horizontal-align: left;
+  vertical-align: center;
+  margin: 3px;
+  margin-left: 7px;
+	color: #fff;
+	font-size: 20px;
+	font-family: defaultFont;
+}
+
 /* BOSS SCOREBOARD - CLOSE BUTTON */
 #bsb_header_close_button_panel{
-  height: 40px;
-  width: 40px;
+  height: 100%;
+  width: 10%;
   background-color: gradient( linear, 0% 0%, 0% 100%, from( #fa3535 ), to( #d6878733 ) );
   border: 3px solid black;
   border-radius: 5px 0px 0px 5px;

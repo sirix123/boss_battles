@@ -1,6 +1,5 @@
 if ModeSelector == nil then
-	ModeSelector = {}
-	ModeSelector.__index = HeroSelection
+    ModeSelector = class({})
 end
 
 function ModeSelector:Start()
@@ -10,7 +9,7 @@ end
 
 function ModeSelector:ModeSelected( event )
 
-    print("mode selected ",event.mode)
+    --print("mode selected ",event.mode)
 
     if event.mode == "storyMode" then
         STORY_MODE = true
@@ -19,4 +18,12 @@ function ModeSelector:ModeSelected( event )
         STORY_MODE = false
         NORMAL_MODE = true
     end
+
+    ModeSelector:SendModeToClient( event.mode )
+
+end
+
+function ModeSelector:SendModeToClient( event )
+	CustomGameEventManager:Send_ServerToAllClients( "mode_chosen",
+		{ mode = event } )
 end
