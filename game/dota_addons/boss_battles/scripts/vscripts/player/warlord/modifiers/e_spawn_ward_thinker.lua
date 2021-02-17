@@ -1,7 +1,7 @@
 e_spawn_ward_thinker = class({})
 
 function e_spawn_ward_thinker:IsHidden()
-	return false
+	return true
 end
 
 function e_spawn_ward_thinker:IsDebuff()
@@ -22,7 +22,7 @@ function e_spawn_ward_thinker:OnCreated( kv )
         -- kv ref
         self.radius = self:GetAbility():GetSpecialValueFor("radius")
         self.dmg = self:GetAbility():GetSpecialValueFor( "dmg" )
-        self.interval = self:GetAbility():GetSpecialValueFor( "interval" )
+        self.interval = 0.01
 
         -- ref from spell
         --self.currentTarget = Vector( kv.target_x, kv.target_y, kv.target_z )
