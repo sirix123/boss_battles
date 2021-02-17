@@ -38,7 +38,7 @@ function SelectHero( heroName, containerPanel ) {
 	// only do this for heroes that haven't been picked...
 	if ( heroes.includes(heroName) == true ) {
 		
-		$.Msg("hero is in the list ",heroName)
+		//$.Msg("hero is in the list ",heroName)
 
 		// loop over the stored hero panels and disable all the buttons
 		let PickListRowOneContainer = $("#PickListRowOne");
@@ -70,8 +70,8 @@ function SelectHero( heroName, containerPanel ) {
 /* Clicks the hero portrait */
 function PlayerSelected( player, hero ) {
 
-	$.Msg("player ",player)
-	$.Msg("hero ",hero)
+	//$.Msg("player ",player)
+	//$.Msg("hero ",hero)
 
 	// when a player selects the portait, create a greyscale ped at the bottom for all clients (called from lua)
 	var pedHeroImage = heroPedPanels[player].FindChildInLayoutFile("HeroPed");
@@ -111,7 +111,7 @@ function PlayerPicked( player, hero ) {
 		let heroFrame = heroFramePanels[i];
 
 		// if the names match disable that portrait
-		$.Msg("heroFrame.id, ",heroFrame.id)
+		//$.Msg("heroFrame.id, ",heroFrame.id)
 		if ( heroFrame.id == hero ) {
 			
 			// find the portait image and grey out
@@ -132,7 +132,7 @@ function PlayerPicked( player, hero ) {
 			// remove hero from the heroes array
 			//heroes.splice(i, 1);
 			delete heroes[i]
-			$.Msg("heroes ",heroes)
+			//$.Msg("heroes ",heroes)
 			
 		}
 	}
@@ -252,7 +252,7 @@ let PedRowContainer = $("#PedList");
 		// need to store this as a variable using let for some js reason 
 		let hero = heroes[i]
 		heroImage.SetPanelEvent( 'onactivate', function () {
-			$.Msg("heroImage.SetPanelEvent ",hero)
+			//$.Msg("heroImage.SetPanelEvent ",hero)
 			SelectHero( hero, containerPanel )
 		});
 

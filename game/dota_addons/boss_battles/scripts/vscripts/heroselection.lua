@@ -40,8 +40,8 @@ end
 function HeroSelection:HeroSelected( event )
 
 	-- i think here.. we need to collect all the heroes into a an array index being the slot then send the array of hero names to js
-	print("event.Index ",event.PlayerID)
-	print("event.HeroName ",event.HeroName)
+	--print("event.Index ",event.PlayerID)
+	--print("event.HeroName ",event.HeroName)
 
 	-- Send a select event to all clients with the array of heroes
 	CustomGameEventManager:Send_ServerToAllClients( "picking_player_selected", 
@@ -66,8 +66,8 @@ function HeroSelection:HeroPicked( event )
 		CustomGameEventManager:Send_ServerToAllClients( "picking_player_pick", 
 			{ PlayerID = event.PlayerID, HeroName = event.HeroName } )
 
-		print("event.PlayerID ",event.PlayerID)
-		print("event.HeroName ",event.HeroName)
+		--print("event.PlayerID ",event.PlayerID)
+		--print("event.HeroName ",event.HeroName)
 	end
 
 	--Check if all heroes have been picked

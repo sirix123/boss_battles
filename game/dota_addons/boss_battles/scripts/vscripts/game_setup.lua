@@ -88,7 +88,7 @@ function GameSetup:OnNPCSpawned(keys)
         -- if remove is suppose to spawn with 0 mana, spawn them with 0 mana
         -- need 
         Timers:CreateTimer(0.02, function()
-            if npc:GetUnitName() == "npc_dota_hero_crystal_maiden" then print("setting cm mana to 0") npc:SetMana(0) end
+            if npc:GetUnitName() == "npc_dota_hero_crystal_maiden" then npc:SetMana(0) end
             if npc:GetUnitName() == "npc_dota_hero_medusa" then npc:SetMana(0) end
             return false
         end)

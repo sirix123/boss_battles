@@ -114,7 +114,7 @@ function OnReleaseA() {
 function Init()
 {
 
-    $.Msg("init movement controls")
+    //$.Msg("init movement controls")
 
     Game.AddCommand( "+W", OnPressW, "", 0 );
     Game.AddCommand( "-W", OnReleaseW, "", 0 );   

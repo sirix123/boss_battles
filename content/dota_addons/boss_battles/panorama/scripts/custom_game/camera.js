@@ -20,7 +20,7 @@ let nCamera = 1;
 // turns camera on/off for a player depending on what is sent from the server
 // camera server command only sends to the player that has died (handled serverside)
 function CameraControl( data ) {
-    $.Msg("camera control data ",data)
+    //$.Msg("camera control data ",data)
 	nCamera = data.nCamera;
 }
 

@@ -440,7 +440,7 @@ function MouseInit(){
 function Init()
 {
 
-    $.Msg("init all custom mouse and movement controls")
+    //$.Msg("init all custom mouse and movement controls")
 
     MouseInit()
 

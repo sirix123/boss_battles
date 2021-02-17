@@ -113,7 +113,7 @@ end
 ---------------------------------------------------------------------------------------------------
 
 function PlayerManager:CameraControl( playerID, nCamera )
-    print("PlayerManager:CameraControl, playerid ",playerID)
+    --print("PlayerManager:CameraControl, playerid ",playerID)
 
     local player = PlayerResource:GetPlayer(playerID)
     CustomGameEventManager:Send_ServerToPlayer( player, "camera_control", { nCamera = nCamera, } )

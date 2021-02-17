@@ -194,14 +194,14 @@ function updatePlayerFrames(data)
     // as below... update everthting
 
     let playersFrameContainer = $("#PlayersFrameContainer")
-    $.Msg("playersFrameContainer.GetChildCount() ",playersFrameContainer.GetChildCount())
+    //$.Msg("playersFrameContainer.GetChildCount() ",playersFrameContainer.GetChildCount())
 
     for (let i=0; i < playersFrameContainer.GetChildCount(); i++)
     {
         //$.Msg("i = ",i)
-        $.Msg("data[i] = ",data[i+1])
-        $.Msg("playerFramePanels[i] = ",playerFramePanels[i])
-        $.Msg("----------------")
+        //$.Msg("data[i] = ",data[i+1])
+        //$.Msg("playerFramePanels[i] = ",playerFramePanels[i])
+        //$.Msg("----------------")
 
         var playerData = data[i+1]
         var playerFrame = playerFramePanels[i]
@@ -240,7 +240,7 @@ function hidePlayerFrame( table_name, key, data )
 }
 
 GameEvents.Subscribe( "create_player_frame", createPlayerFrames );
-GameEvents.Subscribe( "update_player_frame", updatePlayerFrames );
+//GameEvents.Subscribe( "update_player_frame", updatePlayerFrames );
 //CustomNetTables.SubscribeNetTableListener( "player_frame", updatePlayerFrames );
 CustomNetTables.SubscribeNetTableListener( "hide_player_frame", hidePlayerFrame );
 

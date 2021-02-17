@@ -24,32 +24,32 @@ function OnPickingDone( ) {
 
 		// mode label / container
 		modeLabel.SetPanelEvent( 'onmouseover', function () {
-			$.Msg("modeLabel-hover-on")
+			//$.Msg("modeLabel-hover-on")
             toolTipContainer.style.visibility = 'visible';
             var tooltipText = toolTipContainer.FindChildInLayoutFile("ToolTipTxt")
 			tooltipText.text = "Please select a mode, if you do not select a mode it will default to Story mode."
 		});
 
 		modeLabel.SetPanelEvent( 'onmouseout', function () {
-			$.Msg("modeLabel-hover-off")
+			//$.Msg("modeLabel-hover-off")
 			toolTipContainer.style.visibility = 'collapse';
 		});
 		 
 		// story mode button
 		storyModeButton.SetPanelEvent( 'onmouseover', function () {
-			$.Msg("storyModeButton-hover-on")
+			//$.Msg("storyModeButton-hover-on")
 			toolTipContainer.style.visibility = 'visible';
 			var tooltipText = toolTipContainer.FindChildInLayoutFile("ToolTipTxt")
-			tooltipText.text = "In Story mode lives reset to 3 after every boss. If you wipe on a boss you stay on the same boss."
+			tooltipText.text = "In Story mode lives reset to 3 after every boss. If you wipe on a boss you stay on the same boss. In Story mode the chat command !start boss *boss name* will change the next boss to whatever boss you type."
 		});
 
 		storyModeButton.SetPanelEvent( 'onmouseout', function () {
-			$.Msg("storyModeButton-hover-off")
+			//$.Msg("storyModeButton-hover-off")
 			toolTipContainer.style.visibility = 'collapse';
 		});
 		
 		storyModeButton.SetPanelEvent( 'onactivate', function () {
-			$.Msg("storyModeButton")
+			//$.Msg("storyModeButton")
             GameEvents.SendCustomGameEventToServer( "mode_selected", { mode: "storyMode" } );
 			storyModeButton.AddClass( "disabled" );
 			normalModeButton.AddClass( "disabled" );
@@ -59,19 +59,19 @@ function OnPickingDone( ) {
 
 		// nomral mode button
 		normalModeButton.SetPanelEvent( 'onmouseover', function () {
-			$.Msg("normalModeButton-hover-on")
+			//$.Msg("normalModeButton-hover-on")
             toolTipContainer.style.visibility = 'visible';
             var tooltipText = toolTipContainer.FindChildInLayoutFile("ToolTipTxt")
-			tooltipText.text = "In Normal mode every boss kill grants all players 1 life. If you wipe on a boss you reset back to the first boss."
+			tooltipText.text = "In Normal mode every boss kill grants all players 1 life. If you wipe on a boss you reset back to the first boss. If you complete the game (kill Tinker) your game session will be posted on the Leaderboard. Note the !start boss command does not work in normal mode."
 		});
 
 		normalModeButton.SetPanelEvent( 'onmouseout', function () {
-			$.Msg("normalModeButton-hover-off")
+			//$.Msg("normalModeButton-hover-off")
 			toolTipContainer.style.visibility = 'collapse';
 		});
 
 		normalModeButton.SetPanelEvent( 'onactivate', function () {
-			$.Msg("normalModeButton")
+			//$.Msg("normalModeButton")
 			GameEvents.SendCustomGameEventToServer( "mode_selected", { mode: "normalMode" } );
 			storyModeButton.AddClass( "disabled" );
 			normalModeButton.AddClass( "disabled" );
