@@ -46,59 +46,65 @@ function Commands:OnPlayerChat(keys)
         if not hPlayer then return end
         --local hHero = hPlayer:GetAssignedHero()
 
-        if string.find(text, "reset damage") then
-            _G.DamageTable = {}
-        end
+        if NORMAL_MODE ~= true  then --or IsInToolsMode()
 
-        if string.find(text, "dps meter") then
-            --send event to hPlayer to show dps meter
-            CustomGameEventManager:Send_ServerToPlayer( hPlayer, "showDpsMeterUIEvent", {} )
-        end
+            if string.find(text, "reset damage") then
+                _G.DamageTable = {}
+            end
 
-        if string.find(text, "admin-panel") then
-            print("TODO: call function to show admin-panel")
-        end
+            if string.find(text, "dps meter") then
+                --send event to hPlayer to show dps meter
+                CustomGameEventManager:Send_ServerToPlayer( hPlayer, "showDpsMeterUIEvent", {} )
+            end
 
-        if string.find(text, "start boss") then
-            print("found start boss command")
-            local parts = mysplit(text)
-            local bossName = parts[3]
-            if bossName == "beastmaster" then
-                print("TODO: start boss ", bossName)
-                BOSS_BATTLES_ENCOUNTER_COUNTER = 2
-                --GameSetup:ReadyupCheck()
-                --self:StartBoss(2)
+            if string.find(text, "admin-panel") then
+                print("TODO: call function to show admin-panel")
             end
-            if bossName == "timber" then
-                print("TODO: start boss ", bossName)
-                BOSS_BATTLES_ENCOUNTER_COUNTER = 3
-                --GameSetup:ReadyupCheck()
-                --self:StartBoss(3)
+
+            if string.find(text, "start boss") then
+                print("found start boss command")
+                local parts = mysplit(text)
+                local bossName = parts[3]
+                if bossName == "beastmaster" then
+                    print("TODO: start boss ", bossName)
+                    BOSS_BATTLES_ENCOUNTER_COUNTER = 2
+                    --GameSetup:ReadyupCheck()
+                    --self:StartBoss(2)
+                end
+                if bossName == "timber" then
+                    print("TODO: start boss ", bossName)
+                    BOSS_BATTLES_ENCOUNTER_COUNTER = 3
+                    --GameSetup:ReadyupCheck()
+                    --self:StartBoss(3)
+                end
+                if bossName == "techies" then
+                    print("TODO: start boss ", bossName)
+                    BOSS_BATTLES_ENCOUNTER_COUNTER = 4
+                    --GameSetup:ReadyupCheck()
+                    --self:StartBoss(4)
+                end
+                if bossName == "clock" then
+                    print("TODO: start boss ", bossName)
+                    BOSS_BATTLES_ENCOUNTER_COUNTER = 5
+                    --GameSetup:ReadyupCheck()
+                    --self:StartBoss(5)
+                end
+                if bossName == "gyro" then
+                    print("TODO: start boss ", bossName)
+                    BOSS_BATTLES_ENCOUNTER_COUNTER = 6
+                    --GameSetup:ReadyupCheck()
+                    --self:StartBoss(6)
+                end
+                if bossName == "tinker" then
+                    print("TODO: start boss ", bossName)
+                    BOSS_BATTLES_ENCOUNTER_COUNTER = 7
+                    --GameSetup:ReadyupCheck()
+                    --self:StartBoss(7)
+                end
             end
-            if bossName == "techies" then
-                print("TODO: start boss ", bossName)
-                BOSS_BATTLES_ENCOUNTER_COUNTER = 4
-                --GameSetup:ReadyupCheck()
-                --self:StartBoss(4)
-            end
-            if bossName == "clock" then
-                print("TODO: start boss ", bossName)
-                BOSS_BATTLES_ENCOUNTER_COUNTER = 5
-                --GameSetup:ReadyupCheck()
-                --self:StartBoss(5)
-            end
-            if bossName == "gyro" then
-                print("TODO: start boss ", bossName)
-                BOSS_BATTLES_ENCOUNTER_COUNTER = 6
-                --GameSetup:ReadyupCheck()
-                --self:StartBoss(6)
-            end
-            if bossName == "tinker" then
-                print("TODO: start boss ", bossName)
-                BOSS_BATTLES_ENCOUNTER_COUNTER = 7
-                --GameSetup:ReadyupCheck()
-                --self:StartBoss(7)
-            end
+
+        else
+            GameRules:SendCustomMessage("You're in Normal mode you cannot use this command.", 0, 0)
         end
 
         --quick start gyro, control which AI function is used. 
