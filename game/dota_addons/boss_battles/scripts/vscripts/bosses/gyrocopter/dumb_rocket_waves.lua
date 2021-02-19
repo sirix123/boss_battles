@@ -15,9 +15,11 @@ function dumb_rocket_waves:OnSpellStart()
 	local currentWave = 1
 	Timers:CreateTimer(function()	
 		if currentWave > totalWaves then
+			--print("rocket wave > totalWaves. Stopping")
 			_G.IsGyroBusy = false
 			return
 		end
+		--print("shooting rocket wave ".. currentWave)
 
 		local origin = caster:GetAbsOrigin()
 

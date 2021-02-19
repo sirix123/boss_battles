@@ -48,9 +48,6 @@ function flee:OnSpellStart()
 
 		local runOverEnemies = FindUnitsInRadius(DOTA_TEAM_BADGUYS, self:GetCaster():GetAbsOrigin(), nil, collisionDist*2, DOTA_UNIT_TARGET_TEAM_ENEMY, DOTA_UNIT_TARGET_ALL, DOTA_UNIT_TARGET_FLAG_NONE, FIND_CLOSEST, false )
 		for _,enemy in pairs(runOverEnemies) do
-			
-
-
 			-- check that enemy is in enemiesAlreadyHit.
 			local enemyAlreadyHit = false
 			if #enemiesAlreadyHit > 0 then
@@ -60,7 +57,6 @@ function flee:OnSpellStart()
 					end
 				end
 			end
-
 			--only damage enemies not already hit
 			if not enemyAlreadyHit then
 				local dmgTable =
@@ -75,8 +71,6 @@ function flee:OnSpellStart()
 			end
 		end
 
-		--TODO extra/adv: make the macropyre grow, from endpoint toward startPoint, instead of happening instantly.
-
 		--gyro arrived at location, ignite puddles on fire		
 		if (distance <= collisionDist) then
 			caster:SetBaseMoveSpeed(originalMs)
@@ -86,6 +80,7 @@ function flee:OnSpellStart()
 			local macropyreParticle = ParticleManager:CreateParticle(macropyreParticleName, PATTACH_WORLDORIGIN, nil)
 			local macropyreRadius = 150
 
+			--TODO: put some of this in KVP
 			local macropyreIgniteTime = 2 -- seconds it takes for macropyre to ignite from start to finish
 			local macropyreDuration = 7 --seconds macropyre will be around for, in full length for (macropyreDuration - macropyreIgniteTime)
 			local macropyreStopOnTick = macropyreDuration / tickDelay --number of ticks macropyre will 
@@ -97,13 +92,11 @@ function flee:OnSpellStart()
 			macropyreCurrentEndPoint = macropyreCurrentEndPoint + macropyreDistPerTick
 			ParticleManager:SetParticleControl(macropyreParticle, 1, macropyreCurrentEndPoint)
 
-
 			--start timer to remove macropyre after duration, and until duration check if enemies in line
 			Timers:CreateTimer(function()
 				macropyreTick = macropyreTick+1
 				if macropyreTick == macropyreStopOnTick then
 					--cleanup macropyre particle
-
 					--TODO: don't destroy particle instantly, shrink it from start toward end, then finally delete.
 					ParticleManager:DestroyParticle(macropyreParticle, true)
 					_G.IsGyroBusy = false
@@ -113,19 +106,14 @@ function flee:OnSpellStart()
 				if ( #puddles > 0 ) then
 					ParticleManager:DestroyParticle(puddles[#puddles], true)
 					puddles[#puddles] = nil
-
-				  	--stop this when puddles == 1? or 0?
-				  	--calculate new macropyreEndPoint and update macropyre particle
-					macropyreCurrentEndPoint = macropyreCurrentEndPoint + macropyreDistPerTick
-					ParticleManager:SetParticleControl(macropyreParticle, 1, macropyreCurrentEndPoint)
-					
-					--DEBUG:
-					--DebugDrawLine(startPoint, macropyreCurrentEndPoint, 255,0,0, true, 1)
+					--Macro was going 1 too far. so stop 1 early
+					if #puddles > 1 then
+						macropyreCurrentEndPoint = macropyreCurrentEndPoint + macropyreDistPerTick
+						ParticleManager:SetParticleControl(macropyreParticle, 1, macropyreCurrentEndPoint)
+					end
 				end
 
-
 				--Check for enemies in line, apply or increment burn mod
-				--check in any enemy is hit
 				local enemies = FindUnitsInLine(DOTA_TEAM_BADGUYS, endPoint, macropyreCurrentEndPoint, caster, macropyreRadius, DOTA_UNIT_TARGET_TEAM_ENEMY, DOTA_UNIT_TARGET_HERO, DOTA_UNIT_TARGET_FLAG_INVULNERABLE )
 				for _,enemy in pairs(enemies) do
 					if enemy:HasModifier("whirlwind_burn_modifier") then -- has modifier, increment it.
@@ -147,12 +135,9 @@ function flee:OnSpellStart()
 						return 
 					end)
 				end
-
-
-
 				return tickDelay
 			end)
-
+			--print("Flee ended. _G.IsGyroBusy = false")
 	        _G.IsGyroBusy = false
         	return --stop timer, ability ended.
 		end

@@ -258,7 +258,7 @@
             "02"
             {
                 "var_type"          "FIELD_INTEGER"
-                "total_damage"      "300"
+                "total_damage"      "400"
             }     
             "03"
             {
@@ -269,6 +269,11 @@
             {
                 "var_type"          "FIELD_INTEGER"
                 "melee_radius"      "600"
+            }
+            "04"                        
+            {
+                "var_type"          "FIELD_INTEGER"
+                "ranged_radius"      "1400"
             }
         }
     } 
@@ -422,17 +427,17 @@
             "01"
             {
                 "var_type"       "FIELD_INTEGER"
-                "totalWaves"       "3"
+                "totalWaves"       "4"
             }
             "02"
             {
-                "var_type"       "FIELD_INTEGER"
+                "var_type"       "FIELD_FLOAT"
                 "timeBetween"       "5"
             }
             "03"
             {
                 "var_type"       "FIELD_INTEGER"
-                "meleeExclusionRadius"       "400"
+                "meleeExclusionRadius"       "600"
             }            
         }
     }    

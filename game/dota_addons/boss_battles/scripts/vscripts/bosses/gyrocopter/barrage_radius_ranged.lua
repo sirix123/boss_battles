@@ -9,12 +9,11 @@ function barrage_radius_ranged:OnSpellStart()
 	local barrage_radius_melee = caster:FindAbilityByName("barrage_radius_melee")
 	local barrage = caster:FindAbilityByName("barrage")
 
-	local duration = barrage:GetSpecialValueFor("duration")/2 --because this duration comes from barrage, half it for this half (melee/ranged) of the ability
-	local totalDamage = barrage:GetSpecialValueFor("total_damage")
 	local radius = barrage:GetSpecialValueFor("melee_radius")  -- hit every unit beyond this radius. ignore units within this radius
-	local maxRadius = 1200 -- big enough to cover whole arena, but not big enough to hit units outside of arena
+	local maxRadius = barrage:GetSpecialValueFor("ranged_radius")  
+	local duration = barrage:GetSpecialValueFor("duration")/2 --because this duration comes from barrage, half it for this half (melee/ranged) of the ability
 	
-	--Not 100% accurate because we don't use delta time. It won't get through all of these attacks.
+	local totalDamage = barrage:GetSpecialValueFor("total_damage")
 	local tickDuration = barrage:GetSpecialValueFor("damage_interval") -- Amount of time to delay between ticks
 	local tickLimit = duration / tickDuration
 	local tickDamage = totalDamage / tickLimit

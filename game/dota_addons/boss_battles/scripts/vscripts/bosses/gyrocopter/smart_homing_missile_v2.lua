@@ -14,7 +14,7 @@ function smart_homing_missile_v2:OnSpellStart()
 	if #_G.HomingMissileTargets == 0 then 
 		return
 	end
-	self.caster = self:GetCaster()
+	local caster = self:GetCaster()
 
 	--grab target from: _G.HomingMissileTargets. remove [1] and reorder the list
 	local target = _G.HomingMissileTargets[1]
@@ -26,6 +26,9 @@ function smart_homing_missile_v2:OnSpellStart()
 		end
 	end
 
+	local targetParticleName = "particles/econ/items/gyrocopter/hero_gyrocopter_gyrotechnics/gyro_guided_missile_target.vpcf"
+	local targetParticle = ParticleManager:CreateParticle( targetParticleName, PATTACH_OVERHEAD_FOLLOW, target )
+
 	local velocity = self:GetSpecialValueFor("velocity")
 	local acceleration = self:GetSpecialValueFor("acceleration")
 	local damage = self:GetSpecialValueFor("damage")
@@ -34,25 +37,29 @@ function smart_homing_missile_v2:OnSpellStart()
 	local updateInterval = self:GetSpecialValueFor("update_interval")
 
     -- Create a unit to represent the spell/ability
-    local missileUnit = CreateUnitByName("npc_dota_gyrocopter_homing_missile", self:GetCaster():GetAbsOrigin(), true, self:GetCaster(), self:GetCaster(), self:GetCaster():GetTeamNumber())
+    local missileUnit = CreateUnitByName("npc_dota_gyrocopter_homing_missile", caster:GetAbsOrigin(), true, caster, caster, caster:GetTeamNumber())
 	missileUnit:SetModelScale(0.8)
-	missileUnit:SetOwner(self:GetCaster())
+	missileUnit:SetOwner(caster)
 
 	local hasMissileDetonated = false
 	--Rocket pulses and updates location every updateInterval seconds. Rocket changes target to nearest enemy
 	local detectionRadius = 400
-	Timers:CreateTimer(4, function() -- wait 4 seconds before starting, allowing rocket to 'arm'
+	Timers:CreateTimer(6, function() -- wait 4 seconds before starting, allowing rocket to 'arm'
 		if hasMissileDetonated then return end
 		if missileUnit:IsNull() then return end
 		local enemies = FindUnitsInRadius(DOTA_TEAM_BADGUYS, missileUnit:GetAbsOrigin(), nil, detectionRadius, DOTA_UNIT_TARGET_TEAM_ENEMY, DOTA_UNIT_TARGET_ALL, DOTA_UNIT_TARGET_FLAG_NONE, FIND_CLOSEST, false )
 		if #enemies > 0 then
 			target = enemies[1]
+
+			--remove old particle and create new
+			ParticleManager:DestroyParticle(targetParticle, true)
+			targetParticle = ParticleManager:CreateParticle( targetParticleName, PATTACH_OVERHEAD_FOLLOW, target )
+
 		end
 		return updateInterval
     end)
 
-	local targetParticleName = "particles/econ/items/gyrocopter/hero_gyrocopter_gyrotechnics/gyro_guided_missile_target.vpcf"
-	local targetParticle = ParticleManager:CreateParticle( targetParticleName, PATTACH_OVERHEAD_FOLLOW, target )
+
 	
 
 	-- Calculate direction of the rocket, using target position and caster position. 
@@ -72,53 +79,52 @@ function smart_homing_missile_v2:OnSpellStart()
 		missileUnit:SetAbsOrigin(location)			
 		missileUnit:SetForwardVector(direction)
 
-		--particle:
-		ParticleManager:DestroyParticle(targetParticle, true)
+		-- only arm the rocket after it has gone a certain distance from gyro
+		local distFromGyro = (missileUnit:GetAbsOrigin() - caster:GetAbsOrigin()):Length2D()
+		if distFromGyro > aoeRadius then
+			--if a unit collides with the rocket then detonate. otherwise continue on path.
+			local enemies = FindUnitsInRadius(DOTA_TEAM_BADGUYS, missileUnit:GetAbsOrigin(), nil, detonationRadius,DOTA_UNIT_TARGET_TEAM_ENEMY, DOTA_UNIT_TARGET_ALL, DOTA_UNIT_TARGET_FLAG_NONE, FIND_CLOSEST, false )
+			if ( (#enemies > 0) or (distance < detonationRadius) ) then
+				for _,enemy in pairs(enemies) do 
+					local enemyDistance = (enemy:GetAbsOrigin() - missileUnit:GetAbsOrigin()):Length2D()
+					local damageInfo = 
+					{
+						victim = enemy,
+						attacker = caster,
+						damage = damage - enemyDistance, --TODO: calculate the dmg properly based on duration/distance.
+						damage_type = DAMAGE_TYPE_PHYSICAL,
+						ability = self,
+					}
+					ApplyDamage(damageInfo)
+					--Particle effect on enemy hit by rocket.
+					--temp placeholder particle
+					local p = ParticleManager:CreateParticle( "particles/econ/items/bloodseeker/bloodseeker_eztzhok_weapon/bloodseeker_bloodbath_eztzhok_burst.vpcf", PATTACH_POINT, self.target )
+				end
 
-		--if a unit collides with the rocket then detonate. otherwise continue on path.
-		-- or 
-		----ROCKET "HIT"(near enough to be considered collision) TARGET:
-		local enemies = FindUnitsInRadius(DOTA_TEAM_BADGUYS, missileUnit:GetAbsOrigin(), nil, detonationRadius,DOTA_UNIT_TARGET_TEAM_ENEMY, DOTA_UNIT_TARGET_ALL, DOTA_UNIT_TARGET_FLAG_NONE, FIND_CLOSEST, false )
-		if ( (#enemies > 0) or (distance < detonationRadius) ) then
-			for _,enemy in pairs(enemies) do 
-				local enemyDistance = (enemy:GetAbsOrigin() - missileUnit:GetAbsOrigin()):Length2D()
-				local damageInfo = 
-				{
-					victim = enemy,
-					attacker = self.caster,
-					damage = damage - enemyDistance, --TODO: calculate the dmg properly based on duration/distance.
-					damage_type = DAMAGE_TYPE_PHYSICAL,
-					ability = self,
-				}
-				ApplyDamage(damageInfo)
-				--Particle effect on enemy hit by rocket.
-				--temp placeholder particle
-				local p = ParticleManager:CreateParticle( "particles/econ/items/bloodseeker/bloodseeker_eztzhok_weapon/bloodseeker_bloodbath_eztzhok_burst.vpcf", PATTACH_POINT, self.target )
+				--play two particles. Always do explosionBackGroundParticle and then pick another one at random.
+				local explosionBackGroundParticle = ParticleManager:CreateParticle( explosionBackgroundParticleName, PATTACH_CUSTOMORIGIN, nil )
+				ParticleManager:SetParticleControl( explosionBackGroundParticle, 0, missileUnit:GetAbsOrigin() )
+				ParticleManager:ReleaseParticleIndex( explosionBackGroundParticle )
+
+				local particleNumber = RandomInt(1, #explosionParticles)
+				local particleName = explosionParticles[particleNumber]
+
+				--Because I don't know exactly which CPs these particles have (some use 3,  others use 0, some use mutliple) so just set em all!
+				local explosionParticle = ParticleManager:CreateParticle( particleName, PATTACH_CUSTOMORIGIN, nil )
+	            ParticleManager:SetParticleControl( explosionParticle, 0, missileUnit:GetAbsOrigin() )
+	            ParticleManager:SetParticleControl( explosionParticle, 3, missileUnit:GetAbsOrigin() )
+	            ParticleManager:ReleaseParticleIndex( explosionParticle )
+
+				--destroy the missile
+				UTIL_Remove(missileUnit)			
+				local hasMissileDetonated = true
+				
+				ParticleManager:DestroyParticle(targetParticle, true)
+				return
 			end
-
-			--TODO: delete target particle?
-			--ParticleManager:DestroyParticle(targetParticle, true)
-
-
-			--play two particles. Always do explosionBackGroundParticle and then pick another one at random.
-			local explosionBackGroundParticle = ParticleManager:CreateParticle( explosionBackgroundParticleName, PATTACH_CUSTOMORIGIN, nil )
-			ParticleManager:SetParticleControl( explosionBackGroundParticle, 0, missileUnit:GetAbsOrigin() )
-			ParticleManager:ReleaseParticleIndex( explosionBackGroundParticle )
-
-			local particleNumber = RandomInt(1, #explosionParticles)
-			local particleName = explosionParticles[particleNumber]
-
-			--Because I don't know exactly which CPs these particles have (some use 3,  others use 0, some use mutliple) so just set em all!
-			local explosionParticle = ParticleManager:CreateParticle( particleName, PATTACH_CUSTOMORIGIN, nil )
-            ParticleManager:SetParticleControl( explosionParticle, 0, missileUnit:GetAbsOrigin() )
-            ParticleManager:SetParticleControl( explosionParticle, 3, missileUnit:GetAbsOrigin() )
-            ParticleManager:ReleaseParticleIndex( explosionParticle )
-
-			--destroy the missile
-			UTIL_Remove(missileUnit)			
-			local hasMissileDetonated = true
-			return
 		end
+
+
     	return dt
 	end)
 end
