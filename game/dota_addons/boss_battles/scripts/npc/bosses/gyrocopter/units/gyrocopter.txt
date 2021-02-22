@@ -78,7 +78,7 @@
 
 		// Movement
 		//----------------------------------------------------------------
-		"MovementCapabilities"		"DOTA_UNIT_CAP_MOVE_FLY" // or DOTA_UNIT_CAP_MOVE_FLY
+		"MovementCapabilities"		"DOTA_UNIT_CAP_MOVE_GROUND" // or DOTA_UNIT_CAP_MOVE_FLY
 		"MovementSpeed"				"350"					
 
 		// Status

@@ -24,12 +24,12 @@ function barrage_radius_ranged:OnSpellStart()
 	--particles:
 	--red in ranged. green in melee.
     local redRadius = maxRadius
-    local redPulseParticle = ParticleManager:CreateParticle( "particles/gyrocopter/red_pulse_custom.vpcf", PATTACH_CUSTOMORIGIN, caster )
+    local redPulseParticle = ParticleManager:CreateParticle( "particles/gyrocopter/red_pulse_custom.vpcf", PATTACH_ABSORIGIN, caster )
 	ParticleManager:SetParticleControl(redPulseParticle, 0, caster:GetAbsOrigin())
     ParticleManager:SetParticleControl(redPulseParticle, 1, Vector(redRadius,0,0))
 
     local greenRadius = radius
-    local greenPulseParticle = ParticleManager:CreateParticle( "particles/gyrocopter/green_pulse_custom.vpcf", PATTACH_CUSTOMORIGIN, caster )
+    local greenPulseParticle = ParticleManager:CreateParticle( "particles/gyrocopter/green_pulse_custom.vpcf", PATTACH_ABSORIGIN, caster )
 	ParticleManager:SetParticleControl(greenPulseParticle, 0, caster:GetAbsOrigin())
     ParticleManager:SetParticleControl(greenPulseParticle, 1, Vector(greenRadius,0,0))
 
