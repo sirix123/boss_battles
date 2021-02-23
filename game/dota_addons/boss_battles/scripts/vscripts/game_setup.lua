@@ -86,10 +86,12 @@ function GameSetup:OnNPCSpawned(keys)
         end
 
         -- if remove is suppose to spawn with 0 mana, spawn them with 0 mana
-        -- need 
         Timers:CreateTimer(0.02, function()
             if npc:GetUnitName() == "npc_dota_hero_crystal_maiden" then npc:SetMana(0) end
             if npc:GetUnitName() == "npc_dota_hero_medusa" then npc:SetMana(0) end
+            if npc:GetUnitName() == "npc_dota_hero_lina" then npc:SetMana(0) end
+            if npc:GetUnitName() == "npc_dota_hero_juggernaut" then npc:SetMana(0) end
+            if npc:GetUnitName() == "npc_dota_hero_grimstroke" then npc:SetMana(0) end
             return false
         end)
 
@@ -122,20 +124,14 @@ function GameSetup:OnNPCSpawned(keys)
         end
 
         -- level up abilities for all heroes to level 1
-        if npc:GetUnitName() == "npc_dota_hero_crystal_maiden"
-        or npc:GetUnitName() == "npc_dota_hero_medusa"
-        or npc:GetUnitName() == "npc_dota_hero_juggernaut"
-        or npc:GetUnitName() == "npc_dota_hero_phantom_assassin"
-        or npc:GetUnitName() == "npc_dota_hero_templar_assassin"
-        or npc:GetUnitName() == "npc_dota_hero_grimstroke"
-        or npc:GetUnitName() == "npc_dota_hero_lina"
-        then
+        for _, hero in pairs(HERO_NAME_LIST) do
+            if hero == npc:GetUnitName() then
+                local index = 0
 
-            local index = 0
-
-            while (npc:GetAbilityByIndex(index) ~= nil) do
-                npc:GetAbilityByIndex(index):SetLevel(1)
-                index = index +1
+                while (npc:GetAbilityByIndex(index) ~= nil) do
+                    npc:GetAbilityByIndex(index):SetLevel(1)
+                    index = index +1
+                end
             end
         end
     end
@@ -184,8 +180,6 @@ function GameSetup:RegisterRaidWipe( )
                                     item:RemoveSelf()
                                 end
                             end
-
-                            -- re-enable the camera
 
                         end
 
@@ -272,7 +266,7 @@ function GameSetup:OnEntityKilled(keys)
 
             -- move alive players to intermission area
             Timers:CreateTimer(1.0, function()
-                local heroes = HERO_LIST --HeroList:GetAllHeroes()
+                heroes = HERO_LIST --HeroList:GetAllHeroes()
                 for _,hero in pairs(heroes) do
 
                     FindClearSpaceForUnit(hero, BOSS_BATTLES_INTERMISSION_SPAWN_LOCATION, true)
@@ -367,6 +361,7 @@ function GameSetup:ReadyupCheck() -- called from trigger lua file for activators
     local heroes = HERO_LIST--HeroList:GetAllHeroes()
 
     self.bSessionManager_wipe = true -- reest the wipe tracker flag
+    self.playerDeaths = 0
 
     -- look at raid tables and move players to boss encounter based on counter
     print("game_setup: Start boss counter: ", BOSS_BATTLES_ENCOUNTER_COUNTER," ", RAID_TABLES[BOSS_BATTLES_ENCOUNTER_COUNTER].boss )
@@ -388,7 +383,7 @@ function GameSetup:ReadyupCheck() -- called from trigger lua file for activators
         self.boss_spawn = Entities:FindByName(nil, self.boss_arena_name):GetAbsOrigin()
         self.player_spawn = Entities:FindByName(nil, self.player_arena_name):GetAbsOrigin()
 
-        self:HeroCheck() -- removes mana, removes dagger from rogue etc
+        self:HeroCheck() -- removes mana, removes dagger from rogue etc, resets abiliti cds
 
         for _,hero in pairs(HERO_LIST) do
             FindClearSpaceForUnit(hero, self.player_spawn, true) -- spawn players in the arena
@@ -424,6 +419,8 @@ function GameSetup:HeroKilled( keys )
 
     killedHero.playerLives = killedHero.playerLives - 1
     --print("OnEntityKilled lives ", killedHero.playerLives )
+
+    self.playerDeaths = self.playerDeaths + 1
 
     if killedHero.playerLives <= 0 then
         table.insert(self.player_deaths, killedHero)
@@ -473,6 +470,21 @@ function GameSetup:EncounterCleanUp( origin )
         end
     end]]
 
+    -- on cleanup remove all modifiers except the core ones
+    for _, hero in pairs(HERO_LIST) do
+        local count = hero:GetModifierCount()
+	    for i=0, count - 1 do
+            local mn = hero:GetModifierNameByIndex(i)
+
+            if CheckGlobalModifierTable(mn) ~= true then
+                if hero:HasModifier(mn) then
+                    hero:RemoveModifierByName(mn)
+                end
+            end
+
+        end
+    end
+
     -- find all units, kill them
     local units = FindUnitsInRadius(
         DOTA_TEAM_BADGUYS,
@@ -504,6 +516,9 @@ function GameSetup:HeroCheck()
             hero:SetMana(0)
         end
 
+        -- heal to full
+        hero:SetHealth(hero:GetMaxHealth())
+
         -- rogue clean
         if hero:GetUnitName() == "npc_dota_hero_phantom_assassin" then
             -- find the dagger if it exists and remove it.... ability will it get stuck? move the dagger to the player spawn?
@@ -523,6 +538,13 @@ function GameSetup:HeroCheck()
             if hero:HasModifier("shatter_modifier") then
                 hero:RemoveModifierByName("shatter_modifier")
             end
+        end
+
+        -- reset spell cooldowns
+        local index = 0
+        while (hero:GetAbilityByIndex(index) ~= nil) do
+            hero:GetAbilityByIndex(index):EndCooldown()
+            index = index +1
         end
 
     end

@@ -34,9 +34,28 @@ _G.DEBUG_MODE = false
 
 -- set before a release
 _G.bTESTING_MODE = true
-_G.nRELEASE_NUMBER = 0
+_G.sRELEASE_NUMBER = "0.0.0a"
 
 _G.nATTEMPT_TRACKER = 0
 
 _G.flWHIRLING_WINDS_CAST_POINT_REDUCTION = 0.25
 _G.flWHIRLING_WINDS_PROJ_SPEED_BONUS = 0.25
+
+_G.HERO_NAME_LIST =
+{
+    "npc_dota_hero_crystal_maiden",
+    "npc_dota_hero_medusa",
+    "npc_dota_hero_juggernaut",
+    "npc_dota_hero_phantom_assassin",
+    "npc_dota_hero_templar_assassin",
+    "npc_dota_hero_grimstroke",
+    "npc_dota_hero_lina",
+}
+
+_G.tCORE_MODIFIERS =
+{
+    "movement_modifier_thinker",
+    "remove_attack_modifier",
+    "admin_god_mode",
+    "modifier_grace_period",
+}

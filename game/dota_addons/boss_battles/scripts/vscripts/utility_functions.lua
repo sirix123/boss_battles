@@ -354,6 +354,19 @@ function NumbersOnTarget(hTarget, nAmount, vColour)
 	ParticleManager:ReleaseParticleIndex(effect_cast)
 end
 
+-- create boss numbers 
+function BossNumbersOnTarget(hTarget, nAmount, vColour)
+	local word_length = string.len(tostring(math.floor(nAmount)))
+
+	local color =  vColour
+	local effect_cast = ParticleManager:CreateParticle("particles/boss_numbers_custom_msg_damage.vpcf", PATTACH_WORLDORIGIN, nil) 
+	ParticleManager:SetParticleControl(effect_cast, 0, hTarget:GetAbsOrigin())
+	ParticleManager:SetParticleControl(effect_cast, 1, Vector(0, nAmount, 0))
+	ParticleManager:SetParticleControl(effect_cast, 2, Vector(0.5, word_length, 0))
+	ParticleManager:SetParticleControl(effect_cast, 3, color)
+	ParticleManager:ReleaseParticleIndex(effect_cast)
+end
+
 function isPointInsidePolygon(point, polygon)
     local oddNodes = false
     local j = #polygon
@@ -383,4 +396,13 @@ function DestroyItems( location )
 	for _, obj in pairs(objs) do
 		UTIL_Remove(obj)
 	end
+end
+
+-- check global modifier table, return ttrue if passed in modifier is a core modifier
+function CheckGlobalModifierTable(modifierName)
+    for _, modifier in pairs(tCORE_MODIFIERS) do
+        if modifier == modifierName then
+            return true
+        end
+    end
 end

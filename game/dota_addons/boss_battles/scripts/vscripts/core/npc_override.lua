@@ -17,6 +17,7 @@ function CDOTA_BaseNPC:Initialize(data)
   self.playerId = self:GetPlayerID()
 
   self.playerLives = BOSS_BATTLES_PLAYER_LIVES
+  self.playerDeaths = 0
   self.playerHP = 0
   self.playerEnergy = 0
 
@@ -26,6 +27,7 @@ function CDOTA_BaseNPC:Initialize(data)
   self.mp = self:GetMana()
   self.maxMp = self:GetMaxMana()
   self.mpPercent = self:GetManaPercent()
+
 
   self.playerName = PlayerResource:GetPlayerName(self.playerId)
   self.steamId = PlayerResource:GetSteamID(self.playerId)

@@ -11,7 +11,7 @@ function SessionManager:Init()
     self.player_data = {} -- made up of players,
 
     -- insert some stuff into the session ata
-    self.session_data["releaseNumber"] = nRELEASE_NUMBER
+    self.session_data["releaseNumber"] = sRELEASE_NUMBER
     self.session_data["timeStamp"] = GetSystemDate() .. " " .. GetSystemTime()
     if IsInToolsMode() == true then
         self.session_data["testingMode"] = true
@@ -61,6 +61,7 @@ function SessionManager:StopRecordingAttempt( bBossKilled )
         player["className"] = tostring(hero.class_name)
         player["playerName"] = hero.playerName
         player["playerLives"] = hero.playerLives
+        player["playerDeaths"] = hero.playerDeaths
         player["heroName"] = hero.hero_name
         player["dmgDoneAttempt"] = hero.dmgDoneAttempt
         table.insert(self.player_data,player)
