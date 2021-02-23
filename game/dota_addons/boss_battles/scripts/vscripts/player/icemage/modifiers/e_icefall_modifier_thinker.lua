@@ -28,11 +28,16 @@ function e_icefall_modifier_thinker:OnCreated( kv )
         self.ms_slow = self:GetAbility():GetSpecialValueFor( "ms_slow" )
         self.as_slow = self:GetAbility():GetSpecialValueFor( "as_slow" )
 
+        self.stun_activate = self:GetAbility():GetSpecialValueFor( "stun_activate" )
+        self.stun_duration = self:GetAbility():GetSpecialValueFor( "stun_duration" )
+        self.stun_targets_table = {}
+
         -- ref from spell 
         self.currentTarget = Vector( kv.target_x, kv.target_y, kv.target_z )
 
         self.interval = 0.03
         self:StartApplyDamageLoop()
+        self:StartStunLoop()
         self:StartIntervalThink( self.interval )
 	end
 end
@@ -67,7 +72,7 @@ function e_icefall_modifier_thinker:StartApplyDamageLoop()
 
         for _, enemy in pairs(enemies) do
 
-            if CheckRaidTableForBossName(enemy) == true or enemy:GetUnitName() == "npc_guard"then
+            if CheckRaidTableForBossName(enemy) == true or enemy:GetUnitName() == "npc_guard" then
 
                 self.dmgTable = {
                     victim = enemy,
@@ -89,11 +94,73 @@ function e_icefall_modifier_thinker:StartApplyDamageLoop()
 
                 ApplyDamage(self.dmgTable)
                 enemy:AddNewModifier(self.caster, self, "chill_modifier_blizzard", { duration = self:GetAbility():GetSpecialValueFor( "chill_duration"), ms_slow = self.ms_slow, as_slow = self.as_slow })
+
             end
         end
         --DebugDrawCircle(self.currentTarget, Vector(0,0,255), 60, self.radius, true, 60)
 
 		return self.damage_interval
+	end)
+end
+--------------------------------------------------------------------------------
+
+function e_icefall_modifier_thinker:StartStunLoop()
+
+    Timers:CreateTimer(function()
+	    if self.stopDamageLoop == true then
+		    return false
+        end
+
+        local enemies = FindUnitsInRadius(
+            self:GetCaster():GetTeamNumber(),	-- int, your team number
+            self.currentTarget,	-- point, center point
+            nil,	-- handle, cacheUnit. (not known)
+            self.radius,	-- float, radius. or use FIND_UNITS_EVERYWHERE
+            DOTA_UNIT_TARGET_TEAM_ENEMY,	-- int, team filter
+            DOTA_UNIT_TARGET_HERO + DOTA_UNIT_TARGET_BASIC,	-- int, type filter
+            0,	-- int, flag filter
+            0,	-- int, order filter
+            false	-- bool, can grow cache
+        )
+
+        --[[for _, enemy in pairs(enemies) do
+            enemy:AddNewModifier(self.caster, self, "icefall_freeze_modifier", { duration = self.stun_duration })
+		end]]
+
+        --first, loop through stun_targets_table and remove any enemy not in enemies
+        for _, enemy in pairs(self.stun_targets_table) do
+            local enemyInBothTables = false
+            for _, enemyHit in pairs(enemies) do
+                if enemyHit == enemy then
+                    enemyInBothTables = true
+                end
+            end
+            --if still false, if an enemy in stun_targets_table wasn't hit this tick, then remove from stun_targets_table
+            if not enemyInBothTables then
+                self.stun_targets_table[enemy] = nil
+            end
+        end
+        --then loop through enemies hit, and either add them to tracking list or if already present increment them
+        for _, enemy in pairs(enemies) do
+            -- if enemy already in stun_targets_table then increment
+            if self.stun_targets_table[enemy] ~= nil then
+                self.stun_targets_table[enemy] = self.stun_targets_table[enemy] +1
+                --check if the enemy has been in there for x number of ticks
+                --print("enemy count ",self.stun_targets_table[enemy])
+                if self.stun_targets_table[enemy] > 20 then
+                    if CheckRaidTableForBossName(enemy) ~= true and enemy:GetUnitName() ~= "npc_guard" then
+                        enemy:AddNewModifier(self.caster, self, "icefall_freeze_modifier", { duration = self.stun_duration })
+                        self.stun_targets_table[enemy] = 1
+                    end
+                end
+            end
+            -- if enemy not in stun_targets_table, then add it
+            if self.stun_targets_table[enemy] == nil then
+                self.stun_targets_table[enemy] = 1
+            end
+        end
+
+		return 0.1
 	end)
 end
 --------------------------------------------------------------------------------

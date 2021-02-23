@@ -1,5 +1,6 @@
 e_icefall = class({})
 LinkLuaModifier( "e_icefall_modifier_thinker", "player/icemage/modifiers/e_icefall_modifier_thinker", LUA_MODIFIER_MOTION_NONE )
+LinkLuaModifier( "icefall_freeze_modifier", "player/icemage/modifiers/icefall_freeze_modifier", LUA_MODIFIER_MOTION_NONE )
 
 function e_icefall:OnAbilityPhaseStart()
     if IsServer() then

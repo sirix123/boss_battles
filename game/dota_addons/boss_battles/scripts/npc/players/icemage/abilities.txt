@@ -83,7 +83,7 @@
 		"AbilityTextureName"			"winter_wyvern_cold_embrace"
 		"AbilityUnitTargetTeam"			"DOTA_UNIT_TARGET_TEAM_FRIENDLY"
         "AbilityBehavior"				"DOTA_ABILITY_BEHAVIOR_POINT"
-		//"AbilityUnitTargetType"		"DOTA_UNIT_TARGET_HERO | DOTA_UNIT_TARGET_CREEP"
+		"AbilityUnitTargetType"			"DOTA_UNIT_TARGET_HERO"
 		"AbilityCastRange" 				"750"
         "AbilityCooldown"				"20"
         "AbilityCastPoint"              "0.2"
@@ -153,11 +153,13 @@
 		{
 			"01"{ "var_type"			"FIELD_INTEGER"		"radius"			"400" }
 			"02"{ "var_type"			"FIELD_INTEGER"		"dmg"				"100" }
-			"03"{ "var_type"			"FIELD_INTEGER"		"duration"			"5" }
+			"03"{ "var_type"			"FIELD_INTEGER"		"duration"			"6" }
 			"04"{ "var_type"			"FIELD_FLOAT"		"dmg_interval"		"0.5" }
 			"05"{ "var_type"			"FIELD_INTEGER"		"chill_duration"	"5" }
 			"06"{ "var_type"			"FIELD_INTEGER"		"as_slow"           "-10" } // not used in the modifier, ... hardcoded...
 			"07"{ "var_type"			"FIELD_INTEGER"		"ms_slow"           "-30" }
+			"08"{ "var_type"			"FIELD_INTEGER"		"stun_activate"     "2" }
+			"09"{ "var_type"			"FIELD_INTEGER"		"stun_duration"     "5" }
 		}
 	}
 
