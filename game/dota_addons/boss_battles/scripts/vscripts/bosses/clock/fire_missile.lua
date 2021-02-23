@@ -31,7 +31,7 @@ end
 function fire_missile:OnAbilityPhaseInterrupted()
     if IsServer() then
         if self.dummy ~= nil then
-            self.dummy:ForceKill(false)
+            self.dummy:RemoveSelf()
         end
         if self.nPreviewFXIndex ~= nil then
             ParticleManager:DestroyParticle(self.nPreviewFXIndex, true)
@@ -73,7 +73,7 @@ function fire_missile:OnSpellStart()
         ProjectileManager:CreateTrackingProjectile( info )
 
         -- kill dummy unit asap
-        self.dummy:ForceKill(false)
+        self.dummy:RemoveSelf()
 
     end
 end
