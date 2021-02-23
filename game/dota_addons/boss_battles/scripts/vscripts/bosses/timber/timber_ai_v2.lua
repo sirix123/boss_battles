@@ -86,7 +86,7 @@ function TimberThink()
 	elseif thisEntity.state == 2 and FindUnitsClose() == true then
 
 		-- start the CD on fireshell just incase he can cast it when the circle is tiny particles/units/heroes/hero_shredder/shredder_armor_lyr.vpcf
-		thisEntity.fire_shell:StartCooldown(35)
+		thisEntity.fire_shell:StartCooldown(60)
 
 		-- furion handler
 		--EmitGlobalSound("furion_furi_death_04")
@@ -109,6 +109,15 @@ function TimberThink()
 			thisEntity.furion:StartGestureWithPlaybackRate(ACT_DOTA_CAST_ABILITY_2, 0.3)
 
 			-- need circle particle effect that grows over the trees big circle thing
+			local particle_cast = "particles/timber/timber_tree_grow_hero_snapfire_ultimate_calldown.vpcf"
+
+			-- Create Particle
+			--[[ not working needs work
+			thisEntity.tree_grow_effect = ParticleManager:CreateParticle( particle_cast, PATTACH_CUSTOMORIGIN, thisEntity )
+			ParticleManager:SetParticleControl( thisEntity.tree_grow_effect, 0, thisEntity.furion:GetOrigin() )
+			ParticleManager:SetParticleControl( thisEntity.tree_grow_effect, 1, Vector( 2500, 0, -10 ) )
+			ParticleManager:SetParticleControl( thisEntity.tree_grow_effect, 2, Vector( 10, 0, 0 ) )
+			ParticleManager:ReleaseParticleIndex( thisEntity.tree_grow_effect )]]
 
 			return false
 		end)
