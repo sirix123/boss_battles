@@ -203,9 +203,9 @@ function CreateBossScoreBoardRow(rowData, rowId)
 		if (!!dmgDone) //if not null, set text
 			dmgDone.text = numberWithCommas(rowData.dmgDoneAttempt)
 
-		var dmgTaken = containerPanel.FindChildInLayoutFile("bsb_table_row_livesRemaining")
-		if (!!dmgTaken)
-			dmgTaken.text = rowData.playerLives
+		var lives = containerPanel.FindChildInLayoutFile("bsb_table_row_livesRemaining")
+		if (!!lives)
+			lives.text = rowData.playerLives
 	} //end if (bsbTableContainer) 
 	else {
 		$.Msg("bsbTableContainer/ #bsb_table_rows null. ")	
