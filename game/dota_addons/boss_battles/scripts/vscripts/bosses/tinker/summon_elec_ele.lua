@@ -26,7 +26,7 @@ function summon_elec_ele:OnSpellStart()
     if IsServer() then
 
         -- number of cast locations per cast, level up every phase?
-        self.run_times = 2
+        self.run_times = 3
         local delay = 0.1--self:GetSpecialValueFor( "delay" )
 
         -- init

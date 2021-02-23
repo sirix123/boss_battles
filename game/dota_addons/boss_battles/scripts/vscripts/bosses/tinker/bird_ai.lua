@@ -148,7 +148,7 @@ function BirdThinker()
 
         -- give tinker mana
         FindCrystal():GiveMana(10)
-        NumbersOnTarget(thisEntity, 10, Vector(75,75,255))
+        BossNumbersOnTarget(thisEntity, 10, Vector(75,75,255))
 
         -- green destroy effect or something
 

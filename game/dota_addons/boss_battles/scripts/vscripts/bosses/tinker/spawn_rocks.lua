@@ -25,7 +25,8 @@ function spawn_rocks:OnSpellStart()
         local rock_size = 200
         local fit_rocks = ( beam_length / rock_size )
         local tRocks = {}
-        local max_rocks_remove = 7
+        local cRocks = {}
+        local max_rocks_remove = 8
         local min_rocks_remove = 5
 
         local maxAngle = 360 --increase beyond 360 for ... more laps around, more density. You probably don't want that.
@@ -46,12 +47,23 @@ function spawn_rocks:OnSpellStart()
                 table.insert(tRocks, vRock)
             end
 
-            --DebugDrawLine_vCol(caster:GetAbsOrigin(), caster:GetAbsOrigin() + ( end_pos_direction * beam_length ) , Vector(255,0,0), true, 8)
+            table.insert(cRocks,tRocks)
 
-            -- remove random amount of rocks
+            --DebugDrawLine_vCol(caster:GetAbsOrigin(), caster:GetAbsOrigin() + ( end_pos_direction * beam_length ) , Vector(255,0,0), true, 8)
+        end
+
+        -- remove random amount of rocks
+        for _, v in ipairs(cRocks) do
+
+            --print("k ",k,"v ",v)
+
             local remove_rocks = RandomInt(min_rocks_remove,max_rocks_remove)
-            for i = 1, remove_rocks, 1 do
-                table.remove(tRocks, RandomInt(1,#tRocks))
+            --print("remove_rocks amount",remove_rocks)
+
+            while remove_rocks > 0 do
+                local i = RandomInt(1,#v)
+                v[i] = nil
+                remove_rocks = remove_rocks - 1
             end
         end
 
@@ -61,31 +73,34 @@ function spawn_rocks:OnSpellStart()
         -- how to show them rising from the ground?
         -- going to have to create a particle effect with that rock model...when the effect ends spawns the model in the same spot...
         for _, rock in pairs(tRocks) do
-            --print("ROCKS")
-            --DebugDrawCircle(rock, Vector(0,155,0),128,50,true,60)
-            -- play particle effect at each location (swirl)
-            --particles/tinker/tinker_rock_spawns_enigma_blackhole_ti5_dark_swirl.vpcf "particles/custom/swirl/dota_swirl.vpcf"
-            local particle_rock_spawn = "particles/custom/swirl/dota_swirl.vpcf"
-            local particle_effect_rock_spawn = ParticleManager:CreateParticle( particle_rock_spawn, PATTACH_WORLDORIGIN, self:GetCaster() )
-            ParticleManager:SetParticleControl(particle_effect_rock_spawn, 0, rock )
-            ParticleManager:SetParticleControl(particle_effect_rock_spawn, 1, Vector(5,0,0) )
-            ParticleManager:ReleaseParticleIndex(particle_effect_rock_spawn)
-
+            if rock ~= nil then
+                --print("ROCKS")
+                --DebugDrawCircle(rock, Vector(0,155,0),128,50,true,60)
+                -- play particle effect at each location (swirl)
+                --particles/tinker/tinker_rock_spawns_enigma_blackhole_ti5_dark_swirl.vpcf "particles/custom/swirl/dota_swirl.vpcf"
+                local particle_rock_spawn = "particles/custom/swirl/dota_swirl.vpcf"
+                local particle_effect_rock_spawn = ParticleManager:CreateParticle( particle_rock_spawn, PATTACH_WORLDORIGIN, self:GetCaster() )
+                ParticleManager:SetParticleControl(particle_effect_rock_spawn, 0, rock )
+                ParticleManager:SetParticleControl(particle_effect_rock_spawn, 1, Vector(5,0,0) )
+                ParticleManager:ReleaseParticleIndex(particle_effect_rock_spawn)
+            end
         end
 
         Timers:CreateTimer(5, function()
 
             -- for rocks that remain, spawn them, at each location check for units and kill him,
             for _, rock in pairs(tRocks) do
-                local rock_unit = CreateUnitByName("npc_rock", rock, true, nil, nil, DOTA_TEAM_BADGUYS)
-                rock_unit:SetHullRadius(rock_size - 60 )
-                rock_unit:AddNewModifier( nil, nil, "modifier_invulnerable", { duration = -1 } )
+                if rock ~= nil then
+                    local rock_unit = CreateUnitByName("npc_rock", rock, true, nil, nil, DOTA_TEAM_BADGUYS)
+                    rock_unit:SetHullRadius(rock_size - 145 )
+                    rock_unit:AddNewModifier( nil, nil, "modifier_invulnerable", { duration = -1 } )
 
-                -- find units around each rock and push them back (apply the modifier)
-                --self:PushBack( rock )
+                    -- find units around each rock and push them back (apply the modifier)
+                    --self:PushBack( rock )
 
-                -- kill anyone on top of a rock that spawns
-                self:KillUnits( rock )
+                    -- kill anyone on top of a rock that spawns
+                    self:KillUnits( rock )
+                end
             end
 
             return false

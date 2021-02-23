@@ -99,7 +99,7 @@
         "AbilityBehavior"               "DOTA_ABILITY_BEHAVIOR_NO_TARGET"
         "AbilityUnitDamageType"         "DAMAGE_TYPE_PHYSICAL"
 		"AbilityCastRange" 				"2000"
-        "AbilityCooldown"				"20"
+        "AbilityCooldown"				"24"
         "AbilityCastPoint"              "2.0"
 
 
@@ -112,10 +112,10 @@
 		"AbilitySpecial"
 		{
 			"01"{ "var_type"			"FIELD_INTEGER"		"duration"				"20" 	}
-			"02"{ "var_type"			"FIELD_INTEGER"		"bounce_range"			"900" 	}	
-			"03"{ "var_type"			"FIELD_INTEGER"		"speed"					"2000" 	}	
+			"02"{ "var_type"			"FIELD_INTEGER"		"bounce_range"			"800" 	}	
+			"03"{ "var_type"			"FIELD_INTEGER"		"speed"					"900" 	}	
 			"04"{ "var_type"			"FIELD_INTEGER"		"max_bounces"			"5" 	}	
-            "05"{ "var_type"			"FIELD_INTEGER"		"dmg"			        "5" 	}		
+            "05"{ "var_type"			"FIELD_INTEGER"		"dmg"			        "25" 	}		
 		}
 
 		"precache"
@@ -248,7 +248,7 @@
         //-------------------------------------------------------------------------------------------------------------
 		"AbilitySpecial"
 		{
-            "01"{ "var_type"			"FIELD_INTEGER"		"speed"		        "500" }
+            "01"{ "var_type"			"FIELD_INTEGER"		"speed"		        "700" }
             "02"{ "var_type"			"FIELD_INTEGER"		"dmg"		        "10" }
             "03"{ "var_type"			"FIELD_INTEGER"		"radius"		    "100" }
             "04"{ "var_type"			"FIELD_INTEGER"		"interval"		    "2" }
@@ -952,6 +952,160 @@
         "precache"
 		{
 
+		}
+    }
+
+    //=================================================================================================================
+    // charge bot shoot
+    //=================================================================================================================
+    "quick_strike"
+    { 
+        "BaseClass"                     "ability_lua"
+        "ScriptFile"                    "bosses/tinker/quick_strike"
+        "MaxLevel"						"4"
+
+        // General
+        //-------------------------------------------------------------------------------------------------------------
+        "AbilityBehavior"               "DOTA_ABILITY_BEHAVIOR_DONT_CANCEL_MOVEMENT | DOTA_ABILITY_BEHAVIOR_POINT"
+        "AbilityTextureName"			"forged_spirit_melting_strike"
+
+        // Casting
+        //-------------------------------------------------------------------------------------------------------------
+        "AbilityCastPoint"              "0.1 0.1 0.1 0.1 "
+        "AbilityCooldown"               "0.3 0.0 0.0 0.0"
+        "AbilityManaCost"               "2"
+        "AbilityCastRange" 				"8000"
+
+        // Special
+        //-------------------------------------------------------------------------------------------------------------
+		"AbilitySpecial"
+		{
+
+		}
+
+        "precache"
+		{
+            "soundfile"	"soundevents/game_sounds_heroes/game_sounds_witchdoctor.vsndevts"
+		}
+    }
+
+    //=================================================================================================================
+    // charge bot mana drain
+    //=================================================================================================================
+    "mana_drain"
+    { 
+        "BaseClass"                     "ability_lua"
+        "ScriptFile"                    "bosses/tinker/mana_drain"
+        "MaxLevel"						"4"
+
+        // General
+        //-------------------------------------------------------------------------------------------------------------
+        "AbilityBehavior"               "DOTA_ABILITY_BEHAVIOR_UNIT_TARGET | DOTA_ABILITY_BEHAVIOR_CHANNELLED"
+        "AbilityTextureName"			"forged_spirit_melting_strike"
+        "AbilityUnitTargetFlags"		"DOTA_UNIT_TARGET_FLAG_INVULNERABLE"
+        "AbilityUnitTargetTeam"			"DOTA_UNIT_TARGET_TEAM_FRIENDLY"
+        "AbilityUnitTargetType"		    "DOTA_UNIT_TARGET_HERO | DOTA_UNIT_TARGET_CREEP"
+
+        // Casting
+        //-------------------------------------------------------------------------------------------------------------
+        "AbilityCastPoint"              "0.1 0.1 0.1 0.1 "
+        "AbilityCooldown"               "1 1 1 1"
+        "AbilityManaCost"               "0"
+        "AbilityCastRange" 				"500"
+        "AbilityChannelTime"            "999 999 999 999"
+        "AbilityDuration"               "999 999 999 999"
+        "AbilityCastAnimation"          "ACT_DOTA_GENERIC_CHANNEL_1"
+
+        // Special
+        //-------------------------------------------------------------------------------------------------------------
+		"AbilitySpecial"
+		{
+
+		}
+
+        "precache"
+		{
+
+		}
+    }
+
+    //=================================================================================================================
+    // charge summon
+    //=================================================================================================================
+    "summon_charge_bot"
+    { 
+        "BaseClass"                     "ability_lua"
+        "ScriptFile"                    "bosses/tinker/summon_charge_bot"
+        "MaxLevel"						"4"
+
+        // General
+        //-------------------------------------------------------------------------------------------------------------
+        "AbilityBehavior"               "DOTA_ABILITY_BEHAVIOR_NO_TARGET | DOTA_ABILITY_BEHAVIOR_IMMEDIATE"
+        "AbilityTextureName"			"forged_spirit_melting_strike"
+
+        // Casting
+        //-------------------------------------------------------------------------------------------------------------
+        "AbilityCastPoint"              "0.1 0.1 0.1 0.1 "
+        "AbilityCooldown"               "1 1 1 1"
+        "AbilityManaCost"               "0"
+        "AbilityCastRange" 				"8000"
+
+        // Special
+        //-------------------------------------------------------------------------------------------------------------
+		"AbilitySpecial"
+		{
+
+		}
+
+        "precache"
+		{
+
+		}
+    }
+
+    //=================================================================================================================
+    // Tinker: red missile
+    //=================================================================================================================
+    "red_missile"
+    { 
+        "BaseClass"                     "ability_lua"
+        "ScriptFile"                    "bosses/tinker/red_missile"
+        "MaxLevel"						"4"
+        "AbilityTextureName"			"crystal_maiden_crystal_nova"
+
+        // General
+        //-------------------------------------------------------------------------------------------------------------
+        "AbilityBehavior"               "DOTA_ABILITY_BEHAVIOR_NO_TARGET"
+        "AbilityUnitDamageType"         "DAMAGE_TYPE_PHYSICAL"  
+
+        // Casting
+        //-------------------------------------------------------------------------------------------------------------
+        "AbilityCastPoint"              "1 0.0 0.0 0.0"
+        "AbilityCastRange" 				"2000"
+
+        // Time     
+        //-------------------------------------------------------------------------------------------------------------
+        "AbilityCooldown"               "25 25 25 25" //15
+
+        // Cost
+        //-------------------------------------------------------------------------------------------------------------
+        "AbilityManaCost"               "0"
+
+        // Special
+        //-------------------------------------------------------------------------------------------------------------
+		"AbilitySpecial"
+		{
+            "01"{ "var_type"			"FIELD_INTEGER"		"speed"		        "700" }
+            "02"{ "var_type"			"FIELD_INTEGER"		"dmg"		        "10" }
+            "03"{ "var_type"			"FIELD_INTEGER"		"radius"		    "100" }
+            "04"{ "var_type"			"FIELD_INTEGER"		"interval"		    "2" }
+            "05"{ "var_type"			"FIELD_INTEGER"		"duration"		    "30" }
+		}
+
+        "precache"
+		{
+			//"particle"  "particles/units/heroes/hero_razor/razor_plasmafield.vpcf"
+			"soundfile" "sounds/vo/rubick/rub_arc_attack_03.vsnd"
 		}
     }
 }

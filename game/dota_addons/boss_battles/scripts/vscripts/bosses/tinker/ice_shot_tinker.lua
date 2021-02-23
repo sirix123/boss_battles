@@ -8,6 +8,8 @@ LinkLuaModifier( "biting_frost_modifier_buff", "bosses/tinker/modifiers/biting_f
 function ice_shot_tinker:OnAbilityPhaseStart()
     if IsServer() then
 
+        self:GetCaster():StartGestureWithPlaybackRate(ACT_DOTA_CAST_ABILITY_2, 1.0)
+
         local units = FindUnitsInRadius(
             self:GetCaster():GetTeamNumber(),	-- int, your team numbers
             self:GetCaster():GetAbsOrigin(),	-- point, center point
@@ -41,7 +43,7 @@ function ice_shot_tinker:OnSpellStart()
     if IsServer() then
 
         -- animtion 
-        self:GetCaster():StartGestureWithPlaybackRate(ACT_DOTA_ATTACK, 1.5)
+        self:GetCaster():FadeGesture(ACT_DOTA_CAST_ABILITY_2)
 
         -- init
 		local caster = self:GetCaster()
@@ -53,7 +55,7 @@ function ice_shot_tinker:OnSpellStart()
             self.stack_count = caster:FindModifierByName("beam_counter"):GetStackCount()
         end
 
-        EmitSoundOn( "Hero_Tinker.Attack", self:GetCaster() )
+        EmitSoundOn( "Hero_Tinker.Heat-Seeking_Missile", self:GetCaster() )
 
         self:GetCaster():SetForwardVector(self.target:GetAbsOrigin())
         self:GetCaster():FaceTowards(self.target:GetAbsOrigin())
@@ -68,7 +70,7 @@ function ice_shot_tinker:OnSpellStart()
         local direction = (self.target:GetAbsOrigin() - caster:GetAbsOrigin() ):Normalized()
 
         local projectile = {
-            EffectName = "particles/tinker/tinker_alchemist_smooth_criminal_unstable_concoction_projectile.vpcf", --particles/tinker/iceshot__invoker_chaos_meteor.vpcf
+            EffectName = "particles/tinker/blue_tinker_missile.vpcf", --particles/tinker/iceshot__invoker_chaos_meteor.vpcf particles/tinker/blue_tinker_missile.vpcf
             vSpawnOrigin = origin,
             fDistance = 5000,
             fUniqueRadius = 200,
@@ -89,10 +91,10 @@ function ice_shot_tinker:OnSpellStart()
                 if unit:GetUnitName() == "npc_crystal" then
                     if self.stack_count == 0 then
                         unit:GiveMana(10)
-                        NumbersOnTarget(unit, 10, Vector(75,75,255))
+                        BossNumbersOnTarget(unit, 10, Vector(75,75,255))
                     else
                         unit:GiveMana(10)
-                        NumbersOnTarget(unit, 10, Vector(75,75,255))
+                        BossNumbersOnTarget(unit, 10, Vector(75,75,255))
                     end
                     self:HitCrystal( unit )
                 elseif unit:GetTeamNumber() == DOTA_UNIT_TARGET_TEAM_ENEMY then
@@ -106,6 +108,8 @@ function ice_shot_tinker:OnSpellStart()
                 end
 
                 self:DestroyEffect(unit:GetAbsOrigin())
+
+                EmitSoundOn( "Hero_Tinker.Heat-Seeking_Missile.Impact", unit )
 
             end,
             OnFinish = function(_self, pos)

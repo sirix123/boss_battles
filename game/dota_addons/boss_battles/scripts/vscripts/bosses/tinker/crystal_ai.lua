@@ -1,9 +1,6 @@
 crystal_ai = class({})
 
-
-
 --------------------------------------------------------------------------------
-
 function Spawn( entityKeyValues )
     if not IsServer() then return end
     if thisEntity == nil then return end
@@ -47,6 +44,20 @@ function Spawn( entityKeyValues )
     thisEntity.check_tinker = false
 
     thisEntity:AddNewModifier( nil, nil, "modifier_invulnerable", { duration = -1 } )
+
+    local spawn_1 = Entities:FindByName(nil, "tinker_add_spawn_1"):GetAbsOrigin()
+    local spawn_2 = Entities:FindByName(nil, "tinker_add_spawn_2"):GetAbsOrigin()
+    local spawn_3 = Entities:FindByName(nil, "tinker_add_spawn_3"):GetAbsOrigin()
+    local spawn_4 = Entities:FindByName(nil, "tinker_add_spawn_4"):GetAbsOrigin()
+    local tSpawns = {spawn_1, spawn_2, spawn_3, spawn_4}
+    local random_index_1 = RandomInt(1,#tSpawns)
+    Timers:CreateTimer(5,function()
+        if IsValidEntity(thisEntity) == false then return false end
+
+        CreateUnitByName( "npc_charge_bot", tSpawns[random_index_1], true, nil, nil, DOTA_TEAM_BADGUYS)
+
+        return 80
+    end)
 
     thisEntity:SetContextThink( "CrystalThinker", CrystalThinker, 0.1 )
 
@@ -300,7 +311,7 @@ function ElementalPhaseTimer()
         thisEntity.summon_fire_ele:EndCooldown()
         thisEntity.summon_elec_ele:EndCooldown()
 
-		return 30
+		return 45
 	end)
 end
 --------------------------------------------------------------------------------

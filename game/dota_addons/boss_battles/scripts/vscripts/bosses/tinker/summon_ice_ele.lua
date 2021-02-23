@@ -24,7 +24,7 @@ end
 function summon_ice_ele:OnSpellStart()
     if IsServer() then
         -- number of cast locations per cast, level up every phase?
-        self.numEle = 4
+        self.numEle = 2
         local delay = 0.1--self:GetSpecialValueFor( "delay" )
 
         -- init

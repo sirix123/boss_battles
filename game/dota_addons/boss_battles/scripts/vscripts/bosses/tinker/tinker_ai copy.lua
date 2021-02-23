@@ -29,8 +29,8 @@ function Spawn( entityKeyValues )
 	thisEntity.ice_shot_tinker = thisEntity:FindAbilityByName( "ice_shot_tinker" )
 	thisEntity.ice_shot_tinker:StartCooldown(thisEntity.ice_shot_tinker:GetCooldown(thisEntity.ice_shot_tinker:GetLevel()))
 
-	thisEntity.red_missile = thisEntity:FindAbilityByName( "red_missile" )
-	thisEntity.red_missile:StartCooldown(thisEntity.red_missile:GetCooldown(thisEntity.red_missile:GetLevel()))
+	thisEntity.summon_bird = thisEntity:FindAbilityByName( "summon_bird_tinker" )
+	--thisEntity.summon_bird:StartCooldown(thisEntity.summon_bird:GetCooldown(15))
 
 	thisEntity.tinker_teleport = thisEntity:FindAbilityByName( "tinker_teleport" )
 	thisEntity.tinker_teleport:StartCooldown(thisEntity.tinker_teleport:GetCooldown(thisEntity.tinker_teleport:GetLevel()))
@@ -47,7 +47,7 @@ function Spawn( entityKeyValues )
 
 	thisEntity.prisonbeam = thisEntity:FindAbilityByName( "prisonbeam" )
 
-    thisEntity:SetContextThink( "TinkerThinker", TinkerThinker, 0.1 )
+    --thisEntity:SetContextThink( "TinkerThinker", TinkerThinker, 0.1 )
 
 end
 --------------------------------------------------------------------------------
@@ -103,8 +103,8 @@ function TinkerThinker()
 			return CastChainLight()
 		end
 
-		if thisEntity.red_missile ~= nil and thisEntity.red_missile:IsFullyCastable() and thisEntity.red_missile:IsCooldownReady() and thisEntity.stack_count >= 1 and thisEntity.red_missile:IsInAbilityPhase() == false then
-			return CastRedMissile()
+		if thisEntity.summon_bird ~= nil and thisEntity.summon_bird:IsFullyCastable() and thisEntity.summon_bird:IsCooldownReady() and thisEntity.stack_count >= 1 and thisEntity.summon_bird:IsInAbilityPhase() == false then
+			return CastSummonBird()
 		end
 
 		if thisEntity.ice_shot_tinker ~= nil and thisEntity.ice_shot_tinker:IsFullyCastable() and thisEntity.ice_shot_tinker:IsCooldownReady() and thisEntity.ice_shot_tinker:IsInAbilityPhase() == false then
@@ -232,12 +232,12 @@ function CastIceShot(  )
 end
 --------------------------------------------------------------------------------
 
-function CastRedMissile(  )
+function CastSummonBird(  )
 
     ExecuteOrderFromTable({
         UnitIndex = thisEntity:entindex(),
         OrderType = DOTA_UNIT_ORDER_CAST_NO_TARGET,
-        AbilityIndex = thisEntity.red_missile:entindex(),
+        AbilityIndex = thisEntity.summon_bird:entindex(),
         Queue = false,
     })
     return 0.5
