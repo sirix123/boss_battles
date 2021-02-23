@@ -171,7 +171,7 @@
 		"AbilitySpecial"
 		{
 			"01"{ "var_type"			"FIELD_INTEGER"		"radius"				"275" 	}
-			"02"{ "var_type"			"FIELD_INTEGER"		"damage"				"500" 	}
+			"02"{ "var_type"			"FIELD_INTEGER"		"damage"				"1000" 	}
 			"03"{ "var_type"			"FIELD_INTEGER"		"max_travel"			"2" 	}
 			"04"{ "var_type"			"FIELD_INTEGER"		"min_range"				"600" 	}
 			"05"{ "var_type"			"FIELD_FLOAT"		"min_travel"			"0.8" 	}

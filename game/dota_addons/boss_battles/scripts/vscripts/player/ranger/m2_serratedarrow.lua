@@ -71,10 +71,7 @@ function m2_serratedarrow:OnSpellStart()
         -- init effect
         local enEffect = "particles/units/heroes/hero_windrunner/windrunner_spell_powershot.vpcf"
 
-        -- check for explosive tip modifier and if we have it change arrow effect and apply explosive stack
-        if self.caster:HasModifier("r_explosive_tip_modifier") then
-            enEffect = "particles/units/heroes/hero_windrunner/windrunner_spell_powershot.vpcf"
-        end
+        local units_hit = 0
 
         local projectile = {
             EffectName = enEffect,
@@ -95,9 +92,11 @@ function m2_serratedarrow:OnSpellStart()
 
                 local distanceFromHero = (unit:GetAbsOrigin() - origin ):Length2D()
 
-                dmg = dmg + ( distanceFromHero * dmg_dist_multi )
+                -- reduce dmg based on number of units hit
+                units_hit = units_hit  + 1
 
-                -- init icelance dmg table
+                dmg = ( dmg + ( distanceFromHero * dmg_dist_multi ) ) / units_hit
+
                 local dmgTable = {
                     victim = unit,
                     attacker = self.caster,
@@ -105,15 +104,6 @@ function m2_serratedarrow:OnSpellStart()
                     damage_type = self:GetAbilityDamageType(),
                     ability = self,
                 }
-
-                -- give mana
-                self.caster:ManaOnHit(self:GetSpecialValueFor( "mana_gain_percent"))
-
-                if self.caster:HasModifier("r_explosive_tip_modifier") then
-                    local hbuff = self.caster:FindModifierByNameAndCaster("r_explosive_tip_modifier", self.caster)
-                    local flBuffTimeRemaining = hbuff:GetRemainingTime()
-                    unit:AddNewModifier(self.caster, self, "r_explosive_tip_modifier_target", {duration = flBuffTimeRemaining})
-                end
 
                 -- play hit sound
                 StartSoundEvent( "Hero_Windrunner.PowershotDamage", unit )
