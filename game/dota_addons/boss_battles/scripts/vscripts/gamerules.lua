@@ -24,6 +24,11 @@ function GameRules:Init()
 	GameRules:SetGoldTickTime( 999999.0 )
     GameRules:SetGoldPerTick( 0 )
 
+    GameRules:SetCustomGameAllowBattleMusic( false )
+    GameRules:SetCustomGameAllowHeroPickMusic( false )
+    GameRules:SetCustomGameAllowMusicAtGameStart( false )
+
+
     GameRules:SetTreeRegrowTime(9999)
 
     GameRules:SetHideKillMessageHeaders(true)

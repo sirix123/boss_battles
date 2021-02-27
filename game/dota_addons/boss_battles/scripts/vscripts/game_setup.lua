@@ -98,6 +98,8 @@ function GameSetup:OnNPCSpawned(keys)
         -- enable camera control
         PlayerManager:CameraControl( npc:GetPlayerID(), 1 ) -- 0 = disable camera, 1 = enable camera
 
+        npc:GetPlayerOwner():SetMusicStatus(2,1) -- battle music
+
     end
 
     if npc:GetUnitName() == "npc_dota_hero_wisp" then
@@ -115,6 +117,8 @@ function GameSetup:OnNPCSpawned(keys)
 
         npc:Initialize()
         npc.class_name = GetClassName(npc:GetUnitName())
+
+        npc:GetPlayerOwner():SetMusicStatus(1,1)
 
         player_frame_manager:CreatePlayerFrame( npc )
         --print("on spanwed lives ", npc.playerLives )
@@ -413,6 +417,8 @@ function GameSetup:HeroKilled( keys )
 		return
     end
 
+    killedHero:GetPlayerOwner():SetMusicStatus(4,1) -- death music
+
     --PrintTable(keys, indent, done)
     --print("entindex_inflictor ",EntIndexToHScript( keys.entindex_inflictor ):GetUnitName())
     --print("entindex_attacker ",EntIndexToHScript( keys.entindex_attacker ):GetUnitName())
@@ -472,6 +478,9 @@ function GameSetup:EncounterCleanUp( origin )
 
     -- on cleanup remove all modifiers except the core ones
     for _, hero in pairs(HERO_LIST) do
+
+        hero:GetPlayerOwner():SetMusicStatus(1,1) -- chill music
+
         local count = hero:GetModifierCount()
 	    for i=0, count - 1 do
             local mn = hero:GetModifierNameByIndex(i)
@@ -518,6 +527,8 @@ function GameSetup:HeroCheck()
 
         -- heal to full
         hero:SetHealth(hero:GetMaxHealth())
+
+        hero:GetPlayerOwner():SetMusicStatus(2,1) -- battle music
 
         -- rogue clean
         if hero:GetUnitName() == "npc_dota_hero_phantom_assassin" then
