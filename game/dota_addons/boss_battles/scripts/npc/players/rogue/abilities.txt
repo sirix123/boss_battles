@@ -56,7 +56,7 @@
 			"01"{ "var_type"			"FIELD_INTEGER"		"radius"				"250"   }	 
 			"02"{ "var_type"			"FIELD_INTEGER"		"damage"				"80"   }
             "03"{ "var_type"			"FIELD_INTEGER"		"bleed_duration"		"5"    	}	
-            "04"{ "var_type"			"FIELD_INTEGER"		"dmg_dot_base"		    "30"    }	
+            "04"{ "var_type"			"FIELD_INTEGER"		"dmg_dot_base"		    "50"    }	
             "05"{ "var_type"			"FIELD_FLOAT"		"damage_interval"		"1"   	}	
 			"06"{ "var_type"			"FIELD_FLOAT"		"bonus_bleed_percent"	"50"   }	
 		}
@@ -88,10 +88,11 @@
 		{
 			"01"{ "var_type"			"FIELD_INTEGER"		"radius"					"250"   }	 
 			"02"{ "var_type"			"FIELD_INTEGER"		"damage"					"200"   }
-			"03"{ "var_type"			"FIELD_INTEGER"		"m1_bleed_tick"				"30"   }
-			"04"{ "var_type"			"FIELD_INTEGER"		"rupture_bleed_tick"		"50"   }
+			"03"{ "var_type"			"FIELD_INTEGER"		"m1_bleed_tick"				"50"   }
+			"04"{ "var_type"			"FIELD_INTEGER"		"rupture_bleed_tick"		"130"   }
 			"05"{ "var_type"			"FIELD_INTEGER"		"duration"					"10"   }
 			"06"{ "var_type"			"FIELD_INTEGER"		"energy_regen_bonus"		"10"   }
+			"07"{ "var_type"			"FIELD_INTEGER"		"bleed_pop_dmg_reduction"		"2"   }
 		}
 	}
 
@@ -145,7 +146,7 @@
 		"AbilitySpecial"
 		{ 
 			"01"{ "var_type"			"FIELD_INTEGER"		"damage"					"100"   }
-			"02"{ "var_type"			"FIELD_INTEGER"		"duration"					"10"   	}
+			"02"{ "var_type"			"FIELD_INTEGER"		"duration"					"15"   	}
 			"03"{ "var_type"			"FIELD_INTEGER"		"energy_regen_bonus"		"10"   	}
 			"04"{ "var_type"			"FIELD_INTEGER"		"radius"					"250"   }
 		}
@@ -181,7 +182,7 @@
 			"02"{ "var_type"			"FIELD_INTEGER"		"hit_box"						"150" 	}
 			"03"{ "var_type"			"FIELD_INTEGER"		"proj_speed"					"1200" 	}
 			"04"{ "var_type"			"FIELD_INTEGER"		"duration"						"15" 	}
-			"05"{ "var_type"			"FIELD_INTEGER"		"dmg_dot_base"		    		"80"    }	
+			"05"{ "var_type"			"FIELD_INTEGER"		"dmg_dot_base"		    		"130"    }	
 			"06"{ "var_type"			"FIELD_FLOAT"		"bonus_bleed_percent"			"50"    }
             "07"{ "var_type"			"FIELD_FLOAT"		"damage_interval"				"1"    }		
 		}
