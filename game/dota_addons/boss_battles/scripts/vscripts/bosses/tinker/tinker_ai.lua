@@ -17,7 +17,7 @@ function Spawn( entityKeyValues )
 
 	thisEntity.PHASE = 1
 	thisEntity.stack_count = 0
-	thisEntity.max_beam_stacks = 4
+	thisEntity.max_beam_stacks = 1--4
 
 	thisEntity.rearm = true
 
@@ -268,7 +268,7 @@ function Transition(  )
 				thisEntity:GetAbsOrigin(),	-- point, center point
 				nil,	-- handle, cacheUnit. (not known)
 				5000,	-- float, radius. or use FIND_UNITS_EVERYWHERE
-				DOTA_UNIT_TARGET_TEAM_ENEMY,	-- int, team filter
+				DOTA_UNIT_TARGET_TEAM_BOTH,	-- int, team filter
 				DOTA_UNIT_TARGET_HERO + DOTA_UNIT_TARGET_BASIC,	-- int, type filter
 				DOTA_UNIT_TARGET_FLAG_INVULNERABLE,	-- int, flag filter
 				0,	-- int, order filter
@@ -278,12 +278,19 @@ function Transition(  )
 			if units ~= nil and #units ~= 0 then
 				for _, unit in pairs(units) do
 					unit:AddNewModifier(thisEntity, nil, "phase_1_fog", {duration = 7})
+
+					if unit:GetUnitName() == "npc_charge_bot" then
+						unit:ForceKill(false)
+					end
+
 				end
 			end
 
+
+
 			-- calculate postions inside arena and put into a table npc_phase2_rock and npc_phase2_crystal
 			local numRocks = 10
-			local numCrystals = 5
+			local numCrystals = 15
 			local tRockCrystals = {}
 			local tRocks = {}
 
@@ -333,7 +340,7 @@ function Transition(  )
 				for _, rock in pairs(tRocks) do
 					local rock_unit = CreateUnitByName("npc_phase2_rock", rock, true, nil, nil, DOTA_TEAM_BADGUYS)
 					rock_unit:AddNewModifier( nil, nil, "modifier_invulnerable", { duration = -1 } )
-					rock_unit:SetHullRadius(120)
+					rock_unit:SetHullRadius(80)
 					--DebugDrawCircle(rock,Vector(0,0,255),128,120,true,360)
 					--RandomInt(-1,1)
 					--local randomVector = Vector( RandomInt(-1,1), RandomInt(-1,1), 0)
@@ -344,7 +351,7 @@ function Transition(  )
 				for _, crystal in pairs(tRockCrystals) do
 					local crystal_unit = CreateUnitByName("npc_phase2_crystal", crystal, true, nil, nil, DOTA_TEAM_BADGUYS)
 					crystal_unit:AddNewModifier( nil, nil, "modifier_invulnerable", { duration = -1 } )
-					crystal_unit:SetHullRadius(100)
+					crystal_unit:SetHullRadius(80)
 					--DebugDrawCircle(crystal,Vector(255,0,0),128,100,true,360)
 					-- RandomInt(-1,1)
 					--local randomVector = Vector( RandomInt(-1,1), RandomInt(-1,1), 0 )

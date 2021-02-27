@@ -191,6 +191,8 @@ function green_beam:CreateBeam( )
 
                                 ParticleManager:SetParticleControl( self.tBeamData[i].nParticleIndex, 1, Vector( unit:GetAbsOrigin().x,unit:GetAbsOrigin().y, unit:GetAbsOrigin().z + 100 ))
 
+                                unit:AddNewModifier( self:GetCaster(), self, "modifier_stunned", { duration = -1 } )
+
                                 if self.end_beams == false then
 
                                     EmitSoundOn("tinker_tink_death_03", self:GetCaster())
@@ -200,6 +202,10 @@ function green_beam:CreateBeam( )
                                         -- remove beam phase modifier
                                         if unit:HasModifier("beam_phase") then
                                             unit:RemoveModifierByName("beam_phase")
+                                        end
+
+                                        if unit:HasModifier("modifier_stunned") then
+                                            unit:RemoveModifierByName("modifier_stunned")
                                         end
 
                                         self.end_beams = true

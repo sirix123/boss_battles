@@ -67,7 +67,7 @@ function red_missile:OnSpellStart()
 
         local projectile = {
             EffectName = "particles/tinker/red_tinker_missile.vpcf", --particles/tinker/iceshot__invoker_chaos_meteor.vpcf particles/tinker/blue_tinker_missile.vpcf
-            vSpawnOrigin = origin,
+            vSpawnOrigin = origin + direction * 150,
             fDistance = 5000,
             fUniqueRadius = 200,
             Source = caster,

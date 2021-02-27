@@ -37,7 +37,7 @@ function Spawn( entityKeyValues )
     thisEntity.beam_phase = false
 
     thisEntity.beam_stack_count = 0
-    thisEntity.total_beams = 4
+    thisEntity.total_beams = 1--4
 
     thisEntity:SetMana(0)
 
@@ -50,11 +50,24 @@ function Spawn( entityKeyValues )
     local spawn_3 = Entities:FindByName(nil, "tinker_add_spawn_3"):GetAbsOrigin()
     local spawn_4 = Entities:FindByName(nil, "tinker_add_spawn_4"):GetAbsOrigin()
     local tSpawns = {spawn_1, spawn_2, spawn_3, spawn_4}
-    local random_index_1 = RandomInt(1,#tSpawns)
+    local random_index_1 = Vector(0,0,0)
     Timers:CreateTimer(5,function()
         if IsValidEntity(thisEntity) == false then return false end
 
-        CreateUnitByName( "npc_charge_bot", tSpawns[random_index_1], true, nil, nil, DOTA_TEAM_BADGUYS)
+        random_index_1 = RandomInt(1,#tSpawns)
+
+        local particle = "particles/tinker/summon_elementals_portal_open_good.vpcf"
+        thisEntity.effect_cast_1 = ParticleManager:CreateParticle(particle, PATTACH_WORLDORIGIN, nil)
+        ParticleManager:SetParticleControl(thisEntity.effect_cast_1, 0, tSpawns[random_index_1])
+        ParticleManager:ReleaseParticleIndex(thisEntity.effect_cast_1)
+
+        Timers:CreateTimer(1.0,function()
+            if IsValidEntity(thisEntity) == false then return false end
+
+            CreateUnitByName( "npc_charge_bot", tSpawns[random_index_1], true, nil, nil, DOTA_TEAM_BADGUYS)
+
+            return false
+        end)
 
         return 80
     end)

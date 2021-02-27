@@ -1,5 +1,5 @@
 laser = class({})
-
+LinkLuaModifier("laser_timer_particle", "bosses/tinker/modifiers/laser_timer_particle", LUA_MODIFIER_MOTION_NONE)
 --------------------------------------------------------------------------------
 -- Ability Phase Start
 function laser:OnAbilityPhaseStart()
@@ -28,6 +28,8 @@ function laser:OnAbilityPhaseStart()
 
             local random_unit = RandomInt(1, #units)
             self.target = units[random_unit]
+
+            self.target:AddNewModifier( self:GetCaster(), self, "laser_timer_particle", { duration = self:GetCastPoint() } )
 
             Timers:CreateTimer(FrameTime(), function()
                 if self.stopTimer == true then
@@ -66,6 +68,15 @@ function laser:OnAbilityPhaseStart()
 end
 
 --------------------------------------------------------------------------------
+function laser:OnAbilityPhaseInterrupted()
+    if IsServer() then
+        self:GetCaster():FadeGesture(ACT_DOTA_ATTACK)
+        self.stopTimer = true
+        ParticleManager:DestroyParticle(self.nPreviewFXIndex,true)
+    end
+end
+
+
 -- Ability Start
 function laser:OnSpellStart()
     if IsServer() then

@@ -107,23 +107,25 @@
 
 		// Attack
 		//----------------------------------------------------------------
-		"AttackCapabilities"		"DOTA_UNIT_CAP_NO_ATTACK"
-		"AttackDamageMin"			"1"		
-		"AttackDamageMax"			"2"		
-		"AttackRate"				"1.6"		// Speed of attack.
-		"AttackAnimationPoint"		"0.9"		// Normalized time in animation cycle to attack.
+		"AttackCapabilities"		"DOTA_UNIT_CAP_RANGED_ATTACK"
+		"AttackDamageMin"			"10"		
+		"AttackDamageMax"			"15"		
+		"AttackRate"				"1.5"		// Speed of attack.
+		"AttackAnimationPoint"		"0.3"		// Normalized time in animation cycle to attack.
 		"AttackAcquisitionRange"	"10000"		// Range within a target can be acquired.
-		"AttackRange"				"50"		
+		"AttackRange"				"500"
+		"ProjectileModel" 			"particles/units/heroes/hero_tinker/tinker_base_attack.vpcf"
+		"ProjectileSpeed" 			"900"	
 
 		// Bounds
 		//----------------------------------------------------------------
 		"RingRadius"				"40"
-		"HealthBarOffset"			"170"
+		"HealthBarOffset"			"220"
 
 		// Movement
 		//----------------------------------------------------------------
-		"MovementCapabilities"		"DOTA_UNIT_CAP_MOVE_NONE"//"DOTA_UNIT_CAP_MOVE_NONE"
-		"MovementSpeed"				"220"					
+		"MovementCapabilities"		"DOTA_UNIT_CAP_MOVE_GROUND"//"DOTA_UNIT_CAP_MOVE_NONE" DOTA_UNIT_CAP_MOVE_GROUND 
+		"MovementSpeed"				"300"					
 
 		// Status
 		//----------------------------------------------------------------
@@ -134,8 +136,8 @@
 		
 		// Vision
 		//----------------------------------------------------------------
-		"VisionDaytimeRange"		"5000"		// Range of vision during day light.
-		"VisionNighttimeRange"		"5000"		// Range of vision at night time.
+		"VisionDaytimeRange"		"8000"		// Range of vision during day light.
+		"VisionNighttimeRange"		"8000"		// Range of vision at night time.
 
 		// Team
 		//----------------------------------------------------------------
