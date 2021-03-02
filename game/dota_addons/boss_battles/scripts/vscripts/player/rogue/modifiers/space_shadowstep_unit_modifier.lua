@@ -3,7 +3,7 @@ space_shadowstep_unit_modifier = class({})
 --------------------------------------------------------------------------------
 -- Classifications
 function space_shadowstep_unit_modifier:IsHidden()
-	return false
+	return true
 end
 
 function space_shadowstep_unit_modifier:IsDebuff()

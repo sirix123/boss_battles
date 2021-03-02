@@ -3,7 +3,7 @@ space_shadowstep_caster_modifier = class({})
 --------------------------------------------------------------------------------
 -- Classifications
 function space_shadowstep_caster_modifier:IsHidden()
-	return false
+	return true
 end
 
 function space_shadowstep_caster_modifier:IsDebuff()
