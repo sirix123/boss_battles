@@ -132,25 +132,29 @@ function Activate()
     end
 
     -- our stuff
-    require('managers/game_manager')
-    require('filters')
-    require('player/generic/targeting_indicator')
-    require('managers/player_manager')
-    require('webapi')
-    require('internal/util')
-    require('game_setup')
+    require('constants')
     require('core/npc_override')
     require('core/ability_override')
-    require('constants')
-    require('scoreboard')
-    require('heroselection')
+    require('internal/util')
     require('gamerules')
     require('commands')
-    require('boss_frame_manager')
+
+    require('game_setup')
     require('intermission_manager')
+
+    require('managers/game_manager')
+    require('filters')
+    require('managers/player_manager')
+
+    require('heroselection')
+    require('scoreboard')
+    require('boss_frame_manager')
     require('player_frame_manager')
-    require('session_manager')
     require('mode_selector')
+    require('player/generic/targeting_indicator')
+
+    require('session_manager')
+    require('webapi')
 
     GameRules.AddonTemplate = BossBattles()
     GameRules.AddonTemplate:InitGameMode()
