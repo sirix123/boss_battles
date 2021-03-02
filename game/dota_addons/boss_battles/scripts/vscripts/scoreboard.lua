@@ -161,6 +161,8 @@ function Scoreboard:DisplayScoreBoard( bDisplayForAllPlayers, player )
     -- get the attempt data from session manager
     local data = SessionManager:GetAttemptData()
 
+    --local data = SessionManager:GetDummyAttemptData()
+
     if bDisplayForAllPlayers == true then
         CustomGameEventManager:Send_ServerToAllClients( "display_scoreboard", data )
     elseif bDisplayForAllPlayers == false then

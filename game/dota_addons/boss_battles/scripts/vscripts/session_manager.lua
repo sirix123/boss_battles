@@ -100,3 +100,85 @@ function SessionManager:SendSessionData()
     WebApi:SaveSessionData( self.session_data )
 end
 ----------------------------------------
+
+function SessionManager:GetDummyAttemptData() -- used for scoreboard bug testing
+
+    self.session_data = {}
+    self.boss_data = {}
+    self.player_data = {}
+
+    self.attempt_data = {}
+
+    self.boss_attempt = {}
+    self.attempt_data = {}
+
+    self.player_attempt_data = {}
+
+    local player = {}
+    player["playerId"] = "dummyhero1"
+    player["steamId"] = "23423412"
+    player["className"] = "iceice"
+    player["playerName"] = "stefan"
+    player["playerLives"] = 3
+    player["playerDeaths"] = 1
+    player["heroName"] = "stefan iceice"
+    player["dmgDoneAttempt"] = 10000
+    table.insert(self.player_data,player)
+    table.insert(self.player_attempt_data,player)
+
+    player = {}
+    player["playerId"] = "dummyhero2"
+    player["steamId"] = "23423412"
+    player["className"] = "iceice"
+    player["playerName"] = "stefan"
+    player["playerLives"] = 3
+    player["playerDeaths"] = 1
+    player["heroName"] = "stefan iceice"
+    player["dmgDoneAttempt"] = 154000
+    table.insert(self.player_data,player)
+    table.insert(self.player_attempt_data,player)
+
+    player = {}
+    player["playerId"] = "dummyhero3"
+    player["steamId"] = "23423412"
+    player["className"] = "iceice"
+    player["playerName"] = "stefan"
+    player["playerLives"] = 3
+    player["playerDeaths"] = 1
+    player["heroName"] = "stefan iceice"
+    player["dmgDoneAttempt"] = 15400000
+    table.insert(self.player_data,player)
+    table.insert(self.player_attempt_data,player)
+
+    player = {}
+    player["playerId"] = "dummyhero4"
+    player["steamId"] = "23423412"
+    player["className"] = "iceice"
+    player["playerName"] = "stefan"
+    player["playerLives"] = 3
+    player["playerDeaths"] = 1
+    player["heroName"] = "stefan iceice"
+    player["dmgDoneAttempt"] = 1000
+    table.insert(self.player_data,player)
+    table.insert(self.player_attempt_data,player)
+
+    -- add all the boss data to the boss table
+    self.boss_attempt["duration"] = 10.3
+    self.boss_attempt["bossKilled"] = true
+    self.boss_attempt["bossName"] = "BEEEEEEAST"
+    self.boss_attempt["attemptNumber"] = 3
+
+    -- adds the boss attempt to the boss data collection
+    table.insert(self.boss_data,self.boss_attempt)
+
+    -- adds boss data and player data to the session data collection
+    self.session_data["boss_data"] = self.boss_data
+    self.session_data["player_data"] = self.player_data
+
+    -- attempt data,used for the ingame scoreboard, snapshot of last attempt
+    self.attempt_data["boss_data"] = self.boss_attempt
+    self.attempt_data["player_data"] = self.player_attempt_data
+
+
+    return self.attempt_data
+end
