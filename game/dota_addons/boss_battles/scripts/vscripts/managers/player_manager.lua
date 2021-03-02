@@ -1,5 +1,3 @@
-require('webapi')
-
 if PlayerManager == nil then
     PlayerManager = class({})
 end
@@ -9,71 +7,78 @@ LinkLuaModifier("turnrate_modifier_thinker", "player/generic/turnrate_modifier_t
 
 function PlayerManager:SetUpMovement()
 
+    self.previous_type = "0"
+    self.previous_command = "0"
+
     CustomGameEventManager:RegisterListener('MoveUnit', function(eventSourceIndex, args)
         --print("GameMode:SetUpMovement(): MoveUnit event caught")
-        local direction = args.direction
-        local keyPressed = args.keyPressed
-        local keyState = args.keyState
 
-        local unit = EntIndexToHScript(args.entityIndex)
+        if args == nil then return end
+        if args.command == nil then return end
+        if args.heroEnt == nil then return end
+        if args.type == nil then return end
+
+        local unit = EntIndexToHScript(args.heroEnt)
         if unit == nil then return end
-        if unit.direction == nil then return end
 
-        -- W key
-        if keyPressed == "w" and keyState == "down" then
-            unit.direction.y = unit.direction.y + 1
-            if args.time  then
-                print("W: pressed Timestamp ", args.time)
-            end
-        end
-        if keyPressed == "w" and keyState == "up" then
-            unit.direction.y = unit.direction.y - 1
-            if args.time  then
-                print("W: released Timestamp ", args.time)
-            end
-        end
+        local playerId = unit:GetPlayerID()
+        local player = PlayerResource:GetPlayer(playerId)
 
-        -- D key
-        if keyPressed == "d" and keyState == "down" then
-            unit.direction.x = unit.direction.x + 1
-            if args.time  then
-                print("D: pressed Timestamp ", args.time)
-            end
-        end
-        if keyPressed == "d" and keyState == "up" then
-            unit.direction.x = unit.direction.x - 1
-            if args.time  then
-                print("D: released Timestamp ", args.time)
+        --print("args", args)
+        --print("args.command", args.command)
+        --print("args.heroEnt", args.heroEnt)
+        --print("args.type", args.type)
+        --print("unit ",unit)
+        --print("---------")
+
+        if self.previous_type ~= "0" and self.previous_command ~= "0" then
+            if args.type == self.previous_type and args.command == self.previous_command then
+
+                print("network lag detected - movement controller")
+
+                -- set a flag in the session data so we can search through how many attempts / games have lag?
+
+                -- send a message to the client of the lagger (used to display a network lag message)
+                CustomGameEventManager:Send_ServerToPlayer( player, "display_lag_message", nil )
+
+                unit.direction.x = 0
+                unit.direction.y = 0
+                return
             end
         end
 
-        -- S key
-        if keyPressed == "s" and keyState == "down" then
-            unit.direction.y = unit.direction.y - 1
-            if args.time  then
-                print("S: pressed Timestamp ", args.time)
+        if args.type ~= self.previous_type and args.command ~= self.previous_command then
+
+            if args.command == "W" then
+                if args.type == "+" then
+                    unit.direction.y = unit.direction.y + 1
+                elseif args.type == "-" then
+                    unit.direction.y = unit.direction.y - 1
+                end
+            elseif args.command == "A" then
+                if args.type == "+" then
+                    unit.direction.x = unit.direction.x - 1
+                elseif args.type == "-" then
+                    unit.direction.x = unit.direction.x + 1
+                end
+            elseif args.command == "S"  then
+                if args.type == "+" then
+                    unit.direction.y = unit.direction.y - 1
+                elseif args.type == "-" then
+                    unit.direction.y = unit.direction.y + 1
+                end
+            elseif args.command == "D"  then
+                if args.type == "+" then
+                    unit.direction.x = unit.direction.x + 1
+                elseif args.type == "-" then
+                    unit.direction.x = unit.direction.x - 1
+                end
             end
-        end
-        if keyPressed == "s" and keyState == "up" then
-            unit.direction.y = unit.direction.y + 1
-            if args.time  then
-                print("S: released Timestamp ", args.time)
-            end
+
         end
 
-        -- A key
-        if keyPressed == "a" and keyState == "down" then
-            unit.direction.x = unit.direction.x - 1
-            if args.time  then
-                print("A: pressed Timestamp ", args.time)
-            end
-        end
-        if keyPressed == "a" and keyState == "up" then
-            unit.direction.x = unit.direction.x + 1
-            if args.time  then
-                print("A: released Timestamp ", args.time)
-            end
-        end
+        self.previous_type = args.type
+        self.previous_command = args.command
 
     end) -- end of MoveUnit listener
 end
