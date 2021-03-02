@@ -1,0 +1,18 @@
+<root>
+	<styles>
+		<include src="file://{resources}/styles/custom_game/lag_message.css" />
+	</styles>
+
+	<scripts>
+		<include src="file://{resources}/scripts/custom_game/lag_message.js" />
+	</scripts>
+
+    <Panel hittest="false" class="parent">
+        <Panel id="LagMessageContainer" class="LagMessageContainer">
+            <Panel id="LagMessageLabelContainer" class="LagMessageLabelContainer">
+                <Label id="LagMessageLabel" class="LagMessageLabel" text="Network lag detected | Movement controller" />
+            </Panel>
+        </Panel>
+    </Panel>
+
+</root>

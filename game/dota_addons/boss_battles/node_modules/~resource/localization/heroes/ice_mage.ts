@@ -272,6 +272,19 @@ export function GenerateLocalizationData(): LocalizationData
         ]
     });
 
+    Abilities.push({
+        ability_classname: "space_frostblink",
+        name: "Blink",
+        description: `Teleport forward. Applies chill to units from where you casted`,
+        ability_specials:
+        [
+            {
+                ability_special: "mana_gain_percent",
+                text: "ENERGY GAIN:"
+            },
+        ]
+    });
+
 
     // Return data to compiler
     return localization_info;
