@@ -23,10 +23,10 @@ function CDOTA_BaseNPC:Initialize(data)
 
   self.hp = self:GetHealth()
   self.maxHp = self:GetMaxHealth()
-  self.hpPercent = self:GetHealthPercent()
+  self.hpPercent = self:GetHealthPercentCustom()
   self.mp = self:GetMana()
   self.maxMp = self:GetMaxMana()
-  self.mpPercent = self:GetManaPercent()
+  self.mpPercent = self:GetManaPercentCustom()
 
 
   self.playerName = PlayerResource:GetPlayerName(self.playerId)

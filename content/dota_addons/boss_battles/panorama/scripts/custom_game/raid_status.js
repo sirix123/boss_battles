@@ -132,7 +132,7 @@ let playerFramePanels = {};
 function createPlayerFrames(data)
 {
 
-    $.Msg( "createPlayerFrames data ", data )
+    //$.Msg( "createPlayerFrames data ", data )
     //$.Msg( "data playerid ", data["PlayerID"] )
     //$.Msg( "data HeroData ", data["HeroData"].hpPercent )
 
@@ -185,6 +185,7 @@ function updatePlayerFrames(data)
 {
     //$.Msg("runing updaet?")
     //$.Msg("data ",data)
+    //$.Msg("data 1",data[1])
     //$.Msg("playerFramePanels ",playerFramePanels);
     //$.Msg("data ",data)
     //$.Msg("-----------------------") 
@@ -203,42 +204,50 @@ function updatePlayerFrames(data)
         //$.Msg("playerFramePanels[i] = ",playerFramePanels[i])
         //$.Msg("----------------")
 
-        var playerData = data[i+1]
+        //var playerData = data[1]
         var playerFrame = playerFramePanels[i]
 
-        $.Msg("playerData = ",playerData)
-        $.Msg("data[i+1] = ",data[i+1])
-        $.Msg("playerData[i+1 = ",playerData[i+1])
-        $.Msg("playerData[i+1][playerid] = ",playerData[i+1]["playerId"])
+        //$.Msg("playerData = ",playerData)
+        //$.Msg("data[1] = ",data[1])
+        //$.Msg("i = ",i)
+        //$.Msg("playerData[i+1 = ",playerData[i+1])
+        //$.Msg("playerData[i+1][playerid] = ",playerData[i+1]["playerId"])
+        //$.Msg("playerFrame.id = ",playerFrame.id)
+        //$.Msg("----------------")
+
         $.Msg("playerFrame.id = ",playerFrame.id)
+        $.Msg("data[PlayerID] = ",data["PlayerID"])
+        $.Msg("data[PlayerID] = ",data)
         $.Msg("----------------")
 
-        if ( playerData[i+1]["playerId"] == playerFrame.id ) 
+        if ( data["PlayerID"] == playerFrame.id ) 
         {
+
+        //$.Msg(data["HeroData"].mpPercent+"%")
 
         //$.Msg("playerData = ",playerData)
         //$.Msg("playerFrame = ",playerFrame)
         //$.Msg("----------------")
 
         var pLivesLabel = playerFrame.FindChildTraverse("PlayerLivesLabel")
-        pLivesLabel.text = playerData[i+1]["lives"]
+        pLivesLabel.text = data["HeroData"].playerLives
 
         var pHealthLabel = playerFrame.FindChildTraverse("PlayerHealthLabel")
-        pHealthLabel.text = playerData[i+1]["hpPercent"] + "%"
+        pHealthLabel.text = data["HeroData"].hpPercent + "%"
 
         var pHealthLeft = playerFrame.FindChildTraverse("PlayerHealthProgressLeft")
-        pHealthLeft.style.width = playerData[i+1]["hpPercent"]+"%"
-        var hpGone = 100 - playerData[i+1]["hpPercent"]
+        pHealthLeft.style.width = data["HeroData"].hpPercent+"%"
+        var hpGone = 100 - data["HeroData"].hpPercent
 
         var pHealthRight = playerFrame.FindChildTraverse("PlayerHealthProgressRight")
         pHealthRight.style.width = hpGone+"%"
 
         var pManaLabel = playerFrame.FindChildTraverse("PlayerManaLabel")
-        pManaLabel.text = playerData[i+1]["mpPercent"]+"%"
+        pManaLabel.text = data["HeroData"].mpPercent+"%"
 
         var pManaLeft = playerFrame.FindChildTraverse("PlayerManaProgressLeft")
-        pManaLeft.style.width = playerData[i+1]["mpPercent"]+"%"
-        var mpGone = 100 - playerData[i+1]["mpPercent"]
+        pManaLeft.style.width = data["HeroData"].mpPercent+"%"
+        var mpGone = 100 - data["HeroData"].mpPercent
 
         var pManaRight = playerFrame.FindChildTraverse("PlayerManaProgressRight")
         pManaRight.style.width = mpGone+"%"
