@@ -6,7 +6,7 @@ function player_frame_manager:CreatePlayerFrame( hero )
 
     --print("player in player manager ", player)
 
-    CustomGameEventManager:Send_ServerToAllClients( "create_player_frame", { PlayerID = hero.playerId , HeroName = hero } )
+    CustomGameEventManager:Send_ServerToAllClients( "create_player_frame", { PlayerID = hero.playerId , HeroData = hero } )
 end
 
 

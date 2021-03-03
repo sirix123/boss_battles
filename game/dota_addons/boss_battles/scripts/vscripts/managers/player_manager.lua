@@ -47,35 +47,32 @@ function PlayerManager:SetUpMovement()
             end
         end
 
-        if args.type ~= self.previous_type and args.command ~= self.previous_command then
-
-            if args.command == "W" then
-                if args.type == "+" then
-                    unit.direction.y = unit.direction.y + 1
-                elseif args.type == "-" then
-                    unit.direction.y = unit.direction.y - 1
-                end
-            elseif args.command == "A" then
-                if args.type == "+" then
-                    unit.direction.x = unit.direction.x - 1
-                elseif args.type == "-" then
-                    unit.direction.x = unit.direction.x + 1
-                end
-            elseif args.command == "S"  then
-                if args.type == "+" then
-                    unit.direction.y = unit.direction.y - 1
-                elseif args.type == "-" then
-                    unit.direction.y = unit.direction.y + 1
-                end
-            elseif args.command == "D"  then
-                if args.type == "+" then
-                    unit.direction.x = unit.direction.x + 1
-                elseif args.type == "-" then
-                    unit.direction.x = unit.direction.x - 1
-                end
+        if args.command == "W" then
+            if args.type == "+" then
+                unit.direction.y = unit.direction.y + 1
+            elseif args.type == "-" then
+                unit.direction.y = unit.direction.y - 1
             end
-
+        elseif args.command == "A" then
+            if args.type == "+" then
+                unit.direction.x = unit.direction.x - 1
+            elseif args.type == "-" then
+                unit.direction.x = unit.direction.x + 1
+            end
+        elseif args.command == "S"  then
+            if args.type == "+" then
+                unit.direction.y = unit.direction.y - 1
+            elseif args.type == "-" then
+                unit.direction.y = unit.direction.y + 1
+            end
+        elseif args.command == "D"  then
+            if args.type == "+" then
+                unit.direction.x = unit.direction.x + 1
+            elseif args.type == "-" then
+                unit.direction.x = unit.direction.x - 1
+            end
         end
+
 
         self.previous_type = args.type
         self.previous_command = args.command

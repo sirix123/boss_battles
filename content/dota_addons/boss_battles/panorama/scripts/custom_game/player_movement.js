@@ -50,8 +50,8 @@ function OnHotkeyDownEvent( key ) {
         'command': key,
         'type': '+',
     }
-    //GameEvents.SendCustomGameEventToServer( "MoveUnit", query_data );
-    SendCustomGameEventWithLag( "MoveUnit", query_data )
+    GameEvents.SendCustomGameEventToServer( "MoveUnit", query_data );
+    //SendCustomGameEventWithLag( "MoveUnit", query_data )
 }
 
 function OnHotkeyUpEvent( key ) {
@@ -60,6 +60,6 @@ function OnHotkeyUpEvent( key ) {
         'command': key,
         'type': '-',
     }
-    //GameEvents.SendCustomGameEventToServer( "MoveUnit", query_data );
-    SendCustomGameEventWithLag( "MoveUnit", query_data )
+    GameEvents.SendCustomGameEventToServer( "MoveUnit", query_data );
+    //SendCustomGameEventWithLag( "MoveUnit", query_data )
 }

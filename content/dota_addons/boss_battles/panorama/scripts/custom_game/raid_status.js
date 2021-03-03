@@ -132,9 +132,9 @@ let playerFramePanels = {};
 function createPlayerFrames(data)
 {
 
-    //$.Msg( "data ", data )
+    $.Msg( "createPlayerFrames data ", data )
     //$.Msg( "data playerid ", data["PlayerID"] )
-    //$.Msg( "data HeroName ", data["HeroName"].hpPercent )
+    //$.Msg( "data HeroData ", data["HeroData"].hpPercent )
 
     let playersFrameContainer = $("#PlayersFrameContainer")
 
@@ -142,32 +142,32 @@ function createPlayerFrames(data)
     playerFrame.BLoadLayoutSnippet("PlayerFrame");
 
     var heroImage = $("#HeroImage")
-    heroImage.heroname = data["HeroName"].hero_name
+    heroImage.heroname = data["HeroData"].hero_name
 
     var pLivesLabel = $("#PlayerLivesLabel")
-    pLivesLabel.text = data["HeroName"].playerLives
+    pLivesLabel.text = data["HeroData"].playerLives
 
     var pNameLabel = $("#PlayerNameLabel")
-    pNameLabel.text = data["HeroName"].playerName
+    pNameLabel.text = data["HeroData"].playerName
 
     var pHealthLabel = $("#PlayerHealthLabel")
-    pHealthLabel.text = data["HeroName"].hpPercent + "%"
+    pHealthLabel.text = data["HeroData"].hpPercent + "%"
 
     var pHealthLeft = $("#PlayerHealthProgressLeft")
-    pHealthLeft.style.width = data["HeroName"].hpPercent+"%"
+    pHealthLeft.style.width = data["HeroData"].hpPercent+"%"
 
     var pHealthRight = $("#PlayerHealthProgressRight")
-    var hpGone = 100 - data["HeroName"].hpPercent
+    var hpGone = 100 - data["HeroData"].hpPercent
     pHealthRight.style.width = hpGone+"%"
     
     var pManaLabel = $("#PlayerManaLabel")
-    pManaLabel.text = data["HeroName"].mpPercent+"%"
+    pManaLabel.text = data["HeroData"].mpPercent+"%"
 
     var pManaLeft = $("#PlayerManaProgressLeft")
-    pManaLeft.style.width = data["HeroName"].mpPercent+"%"
+    pManaLeft.style.width = data["HeroData"].mpPercent+"%"
 
     var pManaRight = $("#PlayerManaProgressRight")
-    var mpGone = 100 - data["HeroName"].mpPercent
+    var mpGone = 100 - data["HeroData"].mpPercent
     pManaRight.style.width = mpGone+"%"
 
     //store this panel to update it later.
@@ -206,28 +206,44 @@ function updatePlayerFrames(data)
         var playerData = data[i+1]
         var playerFrame = playerFramePanels[i]
 
+        $.Msg("playerData = ",playerData)
+        $.Msg("data[i+1] = ",data[i+1])
+        $.Msg("playerData[i+1 = ",playerData[i+1])
+        $.Msg("playerData[i+1][playerid] = ",playerData[i+1]["playerId"])
+        $.Msg("playerFrame.id = ",playerFrame.id)
+        $.Msg("----------------")
+
+        if ( playerData[i+1]["playerId"] == playerFrame.id ) 
+        {
+
+        //$.Msg("playerData = ",playerData)
+        //$.Msg("playerFrame = ",playerFrame)
+        //$.Msg("----------------")
+
         var pLivesLabel = playerFrame.FindChildTraverse("PlayerLivesLabel")
-        pLivesLabel.text = playerData["lives"]
+        pLivesLabel.text = playerData[i+1]["lives"]
 
         var pHealthLabel = playerFrame.FindChildTraverse("PlayerHealthLabel")
-        pHealthLabel.text = playerData["hpPercent"] + "%"
+        pHealthLabel.text = playerData[i+1]["hpPercent"] + "%"
 
         var pHealthLeft = playerFrame.FindChildTraverse("PlayerHealthProgressLeft")
-        pHealthLeft.style.width = playerData["hpPercent"]+"%"
-        var hpGone = 100 - playerData["hpPercent"]
+        pHealthLeft.style.width = playerData[i+1]["hpPercent"]+"%"
+        var hpGone = 100 - playerData[i+1]["hpPercent"]
 
         var pHealthRight = playerFrame.FindChildTraverse("PlayerHealthProgressRight")
         pHealthRight.style.width = hpGone+"%"
 
         var pManaLabel = playerFrame.FindChildTraverse("PlayerManaLabel")
-        pManaLabel.text = playerData["mpPercent"]+"%"
+        pManaLabel.text = playerData[i+1]["mpPercent"]+"%"
 
         var pManaLeft = playerFrame.FindChildTraverse("PlayerManaProgressLeft")
-        pManaLeft.style.width = playerData["mpPercent"]+"%"
-        var mpGone = 100 - playerData["mpPercent"]
+        pManaLeft.style.width = playerData[i+1]["mpPercent"]+"%"
+        var mpGone = 100 - playerData[i+1]["mpPercent"]
 
         var pManaRight = playerFrame.FindChildTraverse("PlayerManaProgressRight")
         pManaRight.style.width = mpGone+"%"
+
+        }
     }
 }
 
@@ -240,7 +256,7 @@ function hidePlayerFrame( table_name, key, data )
 }
 
 GameEvents.Subscribe( "create_player_frame", createPlayerFrames );
-//GameEvents.Subscribe( "update_player_frame", updatePlayerFrames );
+GameEvents.Subscribe( "update_player_frame", updatePlayerFrames );
 //CustomNetTables.SubscribeNetTableListener( "player_frame", updatePlayerFrames );
 CustomNetTables.SubscribeNetTableListener( "hide_player_frame", hidePlayerFrame );
 
