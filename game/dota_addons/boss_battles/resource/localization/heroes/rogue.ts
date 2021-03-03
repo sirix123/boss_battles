@@ -20,13 +20,6 @@ export function GenerateLocalizationData(): LocalizationData
 
     // Enter localization data below!
     // variables
-    const shatterColour = `<b><font color=\"#9af9e0\">Shatter</font></b>`
-    const chillscolour = `<b><font color=\"#6f92fc\">Chills</font></b>`
-    const chillcolour = `<b><font color=\"#6f92fc\">Chill</font></b>`
-    const icelanceColour = `<b><font color=\"#ffffff\">Ice Lance</font></b>`
-    const froststrikeColour = `<b><font color=\"#ffffff\">Frost Strike</font></b>`
-    const boneChill = "<b><font color=\"#6f92fc\">Bonechill</font></b>"
-    const blizzard = "<b><font color=\"#ffffff\">Blizzard</font></b>"
 
     // modifiers
     Modifiers.push({

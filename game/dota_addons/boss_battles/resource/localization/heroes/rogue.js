@@ -17,13 +17,6 @@ function GenerateLocalizationData() {
     //#endregion
     // Enter localization data below!
     // variables
-    var shatterColour = "<b><font color=\"#9af9e0\">Shatter</font></b>";
-    var chillscolour = "<b><font color=\"#6f92fc\">Chills</font></b>";
-    var chillcolour = "<b><font color=\"#6f92fc\">Chill</font></b>";
-    var icelanceColour = "<b><font color=\"#ffffff\">Ice Lance</font></b>";
-    var froststrikeColour = "<b><font color=\"#ffffff\">Frost Strike</font></b>";
-    var boneChill = "<b><font color=\"#6f92fc\">Bonechill</font></b>";
-    var blizzard = "<b><font color=\"#ffffff\">Blizzard</font></b>";
     // modifiers
     Modifiers.push({
         modifier_classname: "q_smoke_bomb_modifier",
