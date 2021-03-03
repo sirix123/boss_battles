@@ -29,7 +29,8 @@ let hotkeys = [
     "D",
 ];
 
-function Init() {
+//function Init() {
+(function() {
     for(var i in hotkeys) {
         Game.CreateCustomKeyBind(hotkeys[i], "+" + hotkeys[i]);
         
@@ -42,7 +43,8 @@ function Init() {
             }, "", 0 );
         })(i);
     }
-}
+//}
+})();
 
 function OnHotkeyDownEvent( key ) {
     var query_data = {

@@ -265,7 +265,7 @@ function hidePlayerFrame( table_name, key, data )
 }
 
 GameEvents.Subscribe( "create_player_frame", createPlayerFrames );
-GameEvents.Subscribe( "update_player_frame", updatePlayerFrames );
+//GameEvents.Subscribe( "update_player_frame", updatePlayerFrames );
 //CustomNetTables.SubscribeNetTableListener( "player_frame", updatePlayerFrames );
 CustomNetTables.SubscribeNetTableListener( "hide_player_frame", hidePlayerFrame );
 

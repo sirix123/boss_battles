@@ -47,6 +47,9 @@ function PlayerManager:SetUpMovement()
             end
         end
 
+        -- make sure direction has some value (NPC has initialised)
+        if unit.direction == nil then return end
+
         if args.command == "W" then
             if args.type == "+" then
                 unit.direction.y = unit.direction.y + 1
