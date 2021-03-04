@@ -80,31 +80,36 @@ function m1_trackingshot:OnSpellStart()
             end,
             OnUnitHit = function(_self, unit)
 
-                local distanceFromHero = (unit:GetAbsOrigin() - origin ):Length2D()
+                if unit:IsInvulnerable() ~= true then
 
-                dmg = dmg + ( distanceFromHero * dmg_dist_multi )
+                    local distanceFromHero = (unit:GetAbsOrigin() - origin ):Length2D()
 
-                local dmgTable = {
-                    victim = unit,
-                    attacker = self.caster,
-                    damage = dmg,
-                    damage_type = self:GetAbilityDamageType(),
-                    ability = self,
-                }
+                    dmg = dmg + ( distanceFromHero * dmg_dist_multi )
 
-                -- give mana
-                self.caster:ManaOnHit(self:GetSpecialValueFor( "mana_gain_percent"))
+                    local dmgTable = {
+                        victim = unit,
+                        attacker = self.caster,
+                        damage = dmg,
+                        damage_type = self:GetAbilityDamageType(),
+                        ability = self,
+                    }
 
-                ApplyDamage(dmgTable)
+                    -- give mana
+                    self.caster:ManaOnHit(self:GetSpecialValueFor( "mana_gain_percent"))
 
-                if self.caster:HasModifier("r_explosive_tip_modifier") then
-                    local hbuff = self.caster:FindModifierByNameAndCaster("r_explosive_tip_modifier", self.caster)
-                    local flBuffTimeRemaining = hbuff:GetRemainingTime()
-                    unit:AddNewModifier(self.caster, self, "r_explosive_tip_modifier_target", {duration = flBuffTimeRemaining})
+                    ApplyDamage(dmgTable)
+
+                    if self.caster:HasModifier("r_explosive_tip_modifier") then
+                        local hbuff = self.caster:FindModifierByNameAndCaster("r_explosive_tip_modifier", self.caster)
+                        local flBuffTimeRemaining = hbuff:GetRemainingTime()
+                        unit:AddNewModifier(self.caster, self, "r_explosive_tip_modifier_target", {duration = flBuffTimeRemaining})
+                    end
+
                 end
 
                 -- play sound
                 EmitSoundOnLocationWithCaster(unit:GetAbsOrigin(), "hero_WindRunner.projectileImpact", self.caster)
+
 
             end,
             OnFinish = function(_self, pos)

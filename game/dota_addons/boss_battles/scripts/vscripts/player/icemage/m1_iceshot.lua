@@ -81,26 +81,32 @@ function m1_iceshot:OnSpellStart()
                 return unit:GetTeamNumber() ~= self.caster:GetTeamNumber() and unit:GetModelName() ~= "models/development/invisiblebox.vmdl" and CheckGlobalUnitTableForUnitName(unit) ~= true
             end,
             OnUnitHit = function(_self, unit)
-                local dmgTable = {
-                    victim = unit,
-                    attacker = self.caster,
-                    damage = self.dmg,
-                    damage_type = self:GetAbilityDamageType(),
-                    ability = self,
-                }
 
-                -- give mana
-                self.caster:ManaOnHit(self:GetSpecialValueFor( "mana_gain_percent"))
+                if unit:IsInvulnerable() ~= true then
 
-                -- adds chill modifier
-                if CheckRaidTableForBossName(unit) ~= true and unit:GetUnitName() ~= "npc_guard" then
-                    unit:AddNewModifier(self.caster, self, "chill_modifier", { duration = self:GetSpecialValueFor( "chill_duration") })
+                    local dmgTable = {
+                        victim = unit,
+                        attacker = self.caster,
+                        damage = self.dmg,
+                        damage_type = self:GetAbilityDamageType(),
+                        ability = self,
+                    }
+
+                    -- give mana
+                    self.caster:ManaOnHit(self:GetSpecialValueFor( "mana_gain_percent"))
+
+                    -- adds chill modifier
+                    if CheckRaidTableForBossName(unit) ~= true and unit:GetUnitName() ~= "npc_guard" then
+                        unit:AddNewModifier(self.caster, self, "chill_modifier", { duration = self:GetSpecialValueFor( "chill_duration") })
+                    end
+
+                    -- adds shatter and stack logic
+                    self.caster:AddNewModifier(self.caster, self, "shatter_modifier", { duration = self:GetSpecialValueFor( "shatter_duration"), max_shatter_stacks = self:GetSpecialValueFor( "max_shatter_stacks"), ms_slow = self.ms_slow, as_slow = self.as_slow })
+
+                    ApplyDamage(dmgTable)
+
                 end
-
-                -- adds shatter and stack logic
-                self.caster:AddNewModifier(self.caster, self, "shatter_modifier", { duration = self:GetSpecialValueFor( "shatter_duration"), max_shatter_stacks = self:GetSpecialValueFor( "max_shatter_stacks"), ms_slow = self.ms_slow, as_slow = self.as_slow })
-
-                ApplyDamage(dmgTable)
+                
                 EmitSoundOnLocationWithCaster(unit:GetAbsOrigin(), "hero_Crystal.projectileImpact", self.caster)
 
             end,
