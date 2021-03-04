@@ -13,6 +13,7 @@ function item_rock:OnSpellStart()
     local rock = CreateUnitByName("npc_rock_techies", origin, true, caster, caster, DOTA_TEAM_GOODGUYS)
     rock:AddNewModifier(caster, self, "modifier_phased", {duration = -1})
     rock:SetForwardVector( Vector( RandomFloat(-1, 1) , RandomFloat(-1, 1), RandomFloat(-1, 1) ) )
+    rock:SetRenderColor(255,0,255)
 
     local nFXIndex = ParticleManager:CreateParticle( "particles/techies/rock_throwtechies_blast_off_trail.vpcf", PATTACH_ABSORIGIN_FOLLOW, rock )
     ParticleManager:SetParticleControl(nFXIndex, 1, rock:GetAbsOrigin())

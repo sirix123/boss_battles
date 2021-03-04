@@ -84,7 +84,7 @@ function red_missile:OnSpellStart()
 
                 EmitSoundOn( "Hero_Tinker.ProjectileImpact", unit )
 
-                if unit:GetUnitName() == "npc_crystal" then
+                if unit:GetUnitName() == "npc_crystal" or unit:GetUnitName() == "npc_rubick" then
                     self:HitCrystal( unit )
                     if self.stack_count == 0 then
                         unit:GiveMana(10)

@@ -88,7 +88,7 @@ function chain_light_v2:OnProjectileHit( hTarget, vLocation)
 
 		self.hit_target = hTarget
 
-		if hTarget:GetUnitName() == "npc_crystal" and self.crystal_been_hit == false then
+		if hTarget:GetUnitName() == "npc_crystal" or unit:GetUnitName() == "npc_rubick" and self.crystal_been_hit == false then
 
 			self.crystal_been_hit = true
 
@@ -166,7 +166,7 @@ function chain_light_v2:OnProjectileHit( hTarget, vLocation)
 
 			if #bounce_targets > 1 then
 				for _, v in ipairs(bounce_targets) do
-					if v:GetUnitName() ~= "" and v:GetUnitName() ~= "npc_tinker" and self.hit_target:GetUnitName() ~= v:GetUnitName() and v ~= "npc_rock" then
+					if v:GetUnitName() ~= "" and v:GetUnitName() ~= "npc_tinker" and self.hit_target:GetUnitName() ~= v:GetUnitName() and v ~= "npc_rock" and unit:GetUnitName() ~= "npc_rubick" then
 						--local hit_check = false -- has the target been hit before?
 
 						--[[ check if target has been hit before

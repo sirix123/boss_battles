@@ -1,5 +1,5 @@
 crystal_ai = class({})
-
+LinkLuaModifier("modifier_rubick", "bosses/tinker/modifiers/modifier_rubick", LUA_MODIFIER_MOTION_NONE)
 --------------------------------------------------------------------------------
 function Spawn( entityKeyValues )
     if not IsServer() then return end
@@ -23,6 +23,14 @@ function Spawn( entityKeyValues )
     thisEntity.summon_fire_ele:StartCooldown(thisEntity.summon_fire_ele:GetCooldown(thisEntity.summon_fire_ele:GetLevel()))
     thisEntity.summon_elec_ele:StartCooldown(thisEntity.summon_elec_ele:GetCooldown(thisEntity.summon_elec_ele:GetLevel()))
 
+    -- spawn rubick inside this unit
+    thisEntity.rubick = CreateUnitByName( "npc_rubick", Vector(-10673,11950,0), false, thisEntity, thisEntity, DOTA_TEAM_BADGUYS)
+    thisEntity.rubick:AddNewModifier( nil, nil, "modifier_invulnerable", { duration = -1 } )
+    thisEntity.rubick:AddNewModifier( nil, nil, "modifier_rubick", { duration = -1 } )
+    local vec = Vector(0, -1, 0)
+    thisEntity.rubick:SetForwardVector( vec )
+    thisEntity.rubick:SetHullRadius(1)
+
     -- elemental buff phase timer -- summon timer
 	thisEntity.ice_phase = false
 	thisEntity.fire_phase = false
@@ -37,7 +45,7 @@ function Spawn( entityKeyValues )
     thisEntity.beam_phase = false
 
     thisEntity.beam_stack_count = 0
-    thisEntity.total_beams = 1--4
+    thisEntity.total_beams = 4--4
 
     thisEntity:SetMana(0)
 

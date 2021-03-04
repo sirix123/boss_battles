@@ -17,7 +17,7 @@ function Spawn( entityKeyValues )
 
 	thisEntity.PHASE = 1
 	thisEntity.stack_count = 0
-	thisEntity.max_beam_stacks = 1--4
+	thisEntity.max_beam_stacks = 4--4
 
 	thisEntity.rearm = true
 
@@ -281,6 +281,10 @@ function Transition(  )
 
 					if unit:GetUnitName() == "npc_charge_bot" then
 						unit:ForceKill(false)
+					end
+
+					if unit:GetUnitName() == "npc_rubick" then
+						unit:RemoveSelf()
 					end
 
 				end
