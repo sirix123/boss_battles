@@ -75,6 +75,13 @@
 				==================================================================-->
 
 			</Panel>
+
+			<Panel id="wasdcontainer" class="wasdcontainer" >
+				<Panel id="wasdcontainerLabelContainer" class="wasdcontainerLabelContainer">
+					<Label id="wasdLabel" class="wasdLabel" text="This game uses WASD controls." />
+				</Panel>
+			</Panel>
+
 		</Panel>
 	</Panel>
 </root>
