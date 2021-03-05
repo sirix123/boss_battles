@@ -21,6 +21,9 @@ function PlayerManager:SetUpMovement()
         local unit = EntIndexToHScript(args.heroEnt)
         if unit == nil then return end
 
+        -- make sure direction has some value (NPC has initialised)
+        if unit.direction == nil then return end
+
         local playerId = unit:GetPlayerID()
         local player = PlayerResource:GetPlayer(playerId)
 
@@ -41,14 +44,11 @@ function PlayerManager:SetUpMovement()
                 -- send a message to the client of the lagger (used to display a network lag message)
                 CustomGameEventManager:Send_ServerToPlayer( player, "display_lag_message", nil )
 
-                unit.direction.x = 0
-                unit.direction.y = 0
+                --unit.direction.x = 0
+                --unit.direction.y = 0
                 return
             end
         end
-
-        -- make sure direction has some value (NPC has initialised)
-        if unit.direction == nil then return end
 
         if args.command == "W" then
             if args.type == "+" then
