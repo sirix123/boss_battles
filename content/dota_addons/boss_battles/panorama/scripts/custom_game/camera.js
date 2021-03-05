@@ -130,6 +130,23 @@ function UpdatePosition()
             GameUI.SetCameraTargetPosition(camera_position, camera_position_lerp);
             GameUI.SetCameraLookAtPositionHeightOffset(camera_distance_actual);
         }
+        else
+        {
+            GameUI.SetMouseCallback( function( eventName, arg ) {
+                if ( eventName === "wheeled" )
+                // true consumes the event and doesnt process it (stops scrolling)
+	            {
+                    if ( arg < 0 )
+                    {
+                        return true	
+                    }
+                    else if ( arg > 0 )
+                    {
+                        return true		
+                    }
+                }
+            });
+        }
 
         $.Schedule(0.01, tic);
     })();
@@ -138,4 +155,8 @@ function UpdatePosition()
 function Init(){
     UpdatePosition();
     GameEvents.Subscribe("change_distance_offset", ChangeDistanceOffset);
+}
+
+function EmptyCallBack(){
+
 }
