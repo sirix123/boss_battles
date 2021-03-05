@@ -18,24 +18,11 @@ export function GenerateLocalizationData(): LocalizationData
     };
     //#endregion
 
-    // Enter localization data below! 
-    StandardTooltips.push({
-        classname: "addon_game_name",
-        name: "Boss Battles"
+    Abilities.push({
+        ability_classname: "item_rock",
+        name: "Green Cube",
+        description: "A green cube... pick it up and throw it.",
     });
-
-    Modifiers.push({
-        modifier_classname: "modifier_grace_period",
-        name: "Grace Period",
-        description: `You've just respawned, you're invulnerable.`
-    });
-
-    Modifiers.push({
-        modifier_classname: "modifier_generic_stunned",
-        name: "Stunned",
-    });
-
-    
 
 
     // Return data to compiler

@@ -15,19 +15,10 @@ function GenerateLocalizationData() {
         StandardArray: StandardTooltips,
     };
     //#endregion
-    // Enter localization data below! 
-    StandardTooltips.push({
-        classname: "addon_game_name",
-        name: "Boss Battles"
-    });
-    Modifiers.push({
-        modifier_classname: "modifier_grace_period",
-        name: "Grace Period",
-        description: "You've just respawned, you're invulnerable."
-    });
-    Modifiers.push({
-        modifier_classname: "modifier_generic_stunned",
-        name: "Stunned",
+    Abilities.push({
+        ability_classname: "item_rock",
+        name: "Green Cube",
+        description: "A green cube... pick it up and throw it.",
     });
     // Return data to compiler
     return localization_info;

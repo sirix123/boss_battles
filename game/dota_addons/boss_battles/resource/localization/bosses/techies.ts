@@ -18,24 +18,30 @@ export function GenerateLocalizationData(): LocalizationData
     };
     //#endregion
 
-    // Enter localization data below! 
-    StandardTooltips.push({
-        classname: "addon_game_name",
-        name: "Boss Battles"
+    // modifiers
+    Modifiers.push({
+        modifier_classname: "modifier_sticky_bomb",
+        name: "Sticky Bomb",
+        description: `This bomb splits damage with all surrounding players.`
     });
 
     Modifiers.push({
-        modifier_classname: "modifier_grace_period",
-        name: "Grace Period",
-        description: `You've just respawned, you're invulnerable.`
+        modifier_classname: "modifier_electric_vortex",
+        name: "Stasis pull",
+        description: `Pulls target towards the stasis trap.`
     });
 
     Modifiers.push({
-        modifier_classname: "modifier_generic_stunned",
-        name: "Stunned",
+        modifier_classname: "blast_off_fog_modifier",
+        name: "Blast off smoke",
+        description: `Vision reduced from blast off smoke.`
     });
 
-    
+    Modifiers.push({
+        modifier_classname: "generic_cube_bomb_modifier",
+        name: "Deadly looking cube",
+        description: `Quick find the diffuse location.`
+    });
 
 
     // Return data to compiler
