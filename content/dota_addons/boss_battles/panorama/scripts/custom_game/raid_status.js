@@ -216,6 +216,7 @@ function updatePlayerFrames(data)
         //$.Msg("----------------")
 
         $.Msg("playerFrame.id = ",playerFrame.id)
+        $.Msg("playerFrame = ",playerFrame)
         $.Msg("data[PlayerID] = ",data["PlayerID"])
         $.Msg("data[PlayerID] = ",data)
         $.Msg("----------------")

@@ -11,7 +11,7 @@
 		"AbilityUnitDamageType"			"DAMAGE_TYPE_PHYSICAL"	
         "AbilityBehavior"				"DOTA_ABILITY_BEHAVIOR_POINT"
 		"AbilityCastRange" 				"900"
-        "AbilityCooldown"				"0.0"
+        "AbilityCooldown"				"1"
         "AbilityCastPoint"              "0.0"
 
 

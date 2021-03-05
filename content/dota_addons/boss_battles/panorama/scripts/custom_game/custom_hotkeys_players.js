@@ -315,7 +315,7 @@ function OnLeftButtonPressed()
     // //cast this ability again if mouse is still down in 0.2 seconds
     // //start a timer
     //$.Msg("Players.GetPlayerSelectedHero( playerEntity ) ",Players.GetPlayerSelectedHero( playerEntity ))
-    if ( Players.GetPlayerSelectedHero( playerEntity ) != "npc_dota_hero_templar_assassin" ){
+    if ( Players.GetPlayerSelectedHero( playerEntity ) != "npc_dota_hero_lina" ){
         $.Schedule(0.3, function tic(){
             //only continue timer if mouse still down
             if (GameUI.IsMouseDown(0)){
