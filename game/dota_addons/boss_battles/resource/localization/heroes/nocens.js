@@ -20,18 +20,19 @@ function GenerateLocalizationData() {
     var judgementColour = "<b><font color=\"#ffffff\">Judgement</font></b>";
     // modifiers
     Modifiers.push({
-        modifier_classname: "shatter_modifier",
-        name: "Shatter",
+        modifier_classname: "e_regen_aura_buff",
+        name: "Divine Light",
+        description: "Provides {" + "MODIFIER_PROPERTY_HEALTH_REGEN_CONSTANT" /* HEALTH_REGEN_CONSTANT */ + "} health regen."
     });
     Modifiers.push({
-        modifier_classname: "bonechill_modifier",
-        name: "Bonechill",
-        description: "Provides {" + "MODIFIER_PROPERTY_MANA_REGEN_CONSTANT" /* MANA_REGEN_CONSTANT */ + "} energy regen."
+        modifier_classname: "q_armor_aura_buff",
+        name: "Bolster",
+        description: "Provides {" + "MODIFIER_PROPERTY_PHYSICAL_ARMOR_BONUS" /* PHYSICAL_ARMOR_BONUS */ + "} increased armor."
     });
     Modifiers.push({
-        modifier_classname: "q_iceblock_modifier",
-        name: "Ice Block",
-        description: "Heals you for {" + "MODIFIER_PROPERTY_HEALTH_REGEN_PERCENTAGE" /* HEALTH_REGEN_PERCENTAGE */ + "}% of max health per second"
+        modifier_classname: "r_outgoing_dmg_buff",
+        name: "Divine Purge",
+        description: "Provides {" + "MODIFIER_PROPERTY_TOTALDAMAGEOUTGOING_PERCENTAGE" /* TOTALDAMAGEOUTGOING_PERCENTAGE */ + "}% increased outgoing damage for all spells and abilities."
     });
     // abilities
     Abilities.push({

@@ -24,20 +24,21 @@ export function GenerateLocalizationData(): LocalizationData
 
     // modifiers
     Modifiers.push({
-        modifier_classname: "shatter_modifier",
-        name: "Shatter",
+        modifier_classname: "e_regen_aura_buff",
+        name: "Divine Light",
+        description: `Provides {${LocalizationModifierProperty.HEALTH_REGEN_CONSTANT}} health regen.`
     });
 
     Modifiers.push({
-        modifier_classname: "bonechill_modifier",
-        name: "Bonechill",
-        description: `Provides {${LocalizationModifierProperty.MANA_REGEN_CONSTANT}} energy regen.`
+        modifier_classname: "q_armor_aura_buff",
+        name: "Bolster",
+        description: `Provides {${LocalizationModifierProperty.PHYSICAL_ARMOR_BONUS}} increased armor.`
     });
 
     Modifiers.push({
-        modifier_classname: "q_iceblock_modifier",
-        name: "Ice Block",
-        description: `Heals you for {${LocalizationModifierProperty.HEALTH_REGEN_PERCENTAGE}}% of max health per second`
+        modifier_classname: "r_outgoing_dmg_buff",
+        name: "Divine Purge",
+        description: `Provides {${LocalizationModifierProperty.TOTALDAMAGEOUTGOING_PERCENTAGE}}% increased outgoing damage for all spells and abilities.`
     });
 
     // abilities

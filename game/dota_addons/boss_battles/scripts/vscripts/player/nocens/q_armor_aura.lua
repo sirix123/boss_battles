@@ -56,7 +56,9 @@ function q_armor_aura:OnSpellStart()
 
         if units ~= nil and #units ~= 0 then
             for _, unit in pairs(units) do
-                unit:AddNewModifier(caster, self, "q_armor_aura_buff", {duration = self:GetSpecialValueFor( "duration" )})
+                if unit:GetUnitName() ~= "npc_rock_techies" then
+                    unit:AddNewModifier(caster, self, "q_armor_aura_buff", {duration = self:GetSpecialValueFor( "duration" )})
+                end
             end
         end
 
