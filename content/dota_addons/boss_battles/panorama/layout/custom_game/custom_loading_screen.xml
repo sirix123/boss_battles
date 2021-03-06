@@ -1,20 +1,95 @@
 <root>
+	<!-- Include stylesheets -->
 	<styles>
 		<include src="file://{resources}/styles/custom_game/custom_loading_screen.css" />
 	</styles>
-	<Panel class="AddonLoadingRoot">
-		<Panel id="BackGround" >
-			<Image src="file://{images}/loading_screen/Tinker.jpg" scaling="stretch-to-fit-preserve-aspect" />
-		</Panel>
-		<Panel id="TitlePanel" style="border: 1px solid red;">
-			<Label id="AddonTitle" text="#addon_game_name" style="" />
-			<Label id="Raid" text="Tinkers Madness" style="" />
-		</Panel>
-		<Panel id="Socials" style="border: 1px solid red;">
-			<Label id="Socials" text="Socials" style="" />
-		</Panel>
-		<Panel id="LeaderBoard" style="border: 1px solid red;">
-			<Label id="LeaderBoard" text="LeaderBoard" style="" />
+
+	<!-- Include script files -->
+	<scripts>
+		<!-- Panel script -->
+		<include src="file://{resources}/scripts/custom_game/custom_loading_screen.js" />
+	</scripts>
+
+	<!-- snippets --> 
+	<snippets>
+	    <snippet name="leaderboard_header_info">
+            <Panel class="header_bossFight_info" hittest="false"  >
+
+				<!-- RANK -->
+				<Panel id="header_bossFight_rank_container" class="header_container">
+                  	<Label text="Rank" class="header_bossFight_heading_text" id="header_bossFight_heading_text"/>
+				</Panel>
+
+				<!-- PLAYERS -->
+				<Panel id="header_bossFight_players_container" class="header_container">
+                  	<Label text="Players" class="header_bossFight_heading_text" id="header_bossFight_heading_text"/>
+				</Panel>
+
+				<!-- CLASSES -->
+				<Panel id="header_bossFight_classes_container" class="header_container">
+                  	<Label text="Classes" class="header_bossFight_heading_text" id="header_bossFight_heading_text"/>
+				</Panel>
+
+				<!-- LIVES -->
+				<Panel id="header_bossFight_lives_container" class="header_container">
+                  	<Label text="Lives" class="header_bossFight_heading_text" id="header_bossFight_heading_text"/>
+				</Panel>
+
+				<!-- BOSS1 -->
+				<Panel id="header_bossFight_boss1_container" class="header_container">
+                  	<Label text="Beastmaster" class="header_bossFight_heading_text" id="header_bossFight_heading_text"/>
+				</Panel>
+
+				<!-- BOSS2 -->
+				<Panel id="header_bossFight_boss2_container" class="header_container">
+                  	<Label text="Timber" class="header_bossFight_heading_text" id="header_bossFight_heading_text"/>
+				</Panel>
+
+				<!-- BOSS3 -->
+				<Panel id="header_bossFight_boss3_container" class="header_container">
+                  	<Label text="Techies" class="header_bossFight_heading_text" id="header_bossFight_heading_text"/>
+				</Panel>
+
+				<!-- BOSS4 -->
+				<Panel id="header_bossFight_boss4_container" class="header_container">
+                  	<Label text="Rattletrap" class="header_bossFight_heading_text" id="header_bossFight_heading_text"/>
+				</Panel>
+
+				<!-- BOSS5 -->
+				<Panel id="header_bossFight_boss5_container" class="header_container">
+                  	<Label text="Gyrocopter" class="header_bossFight_heading_text" id="header_bossFight_heading_text"/>
+				</Panel>
+
+				<!-- BOSS6 -->
+				<Panel id="header_bossFight_boss6_container" class="header_container">
+                  	<Label text="Tinker" class="header_bossFight_heading_text" id="header_bossFight_heading_text"/>
+				</Panel>
+
+            </Panel>  
+        </snippet>  
+	</snippets>
+
+	<Panel hittest="false" style="width: 100%; height: 100%;">
+		<Panel class="AddonLoadingRoot">
+
+			<!-- Pick list (showing options) | Row 1 |  style="border: 1px solid red;"
+			==================================================================--> 
+			<Panel id="BackGround" >
+				<Image src="file://{images}/loading_screen/Tinker.jpg" scaling="stretch-to-fit-preserve-aspect" />
+			</Panel>
+
+			<!-- Leaderboard Container |  style="border: 1px solid red;" 
+			=========================================-->
+			<Panel id="LeaderboardContainer" >
+				<!-- Leaderboard snippets 
+				==================================================================-->
+			</Panel>
+
+			<!-- Socials |  style="border: 1px solid red;" 
+			=========================================-->
+			<Panel id="SocialsContainer">
+
+			</Panel>
 		</Panel>
 	</Panel>
 </root>
