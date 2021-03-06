@@ -34,8 +34,12 @@ function PlayerManager:SetUpMovement()
         --print("unit ",unit)
         --print("---------")
 
-        if self.previous_type ~= "0" and self.previous_command ~= "0" then
-            if args.type == self.previous_type and args.command == self.previous_command then
+        --[[ store the args against the hero so we can check individual heroes
+        unit.command = args.command
+        unit.type = args.type
+
+        if unit.previousType ~= "0" and unit.previousCommand ~= "0" then
+            if args.type == unit.type and args.command == unit.command then
 
                 print("network lag detected - movement controller")
 
@@ -44,11 +48,11 @@ function PlayerManager:SetUpMovement()
                 -- send a message to the client of the lagger (used to display a network lag message)
                 CustomGameEventManager:Send_ServerToPlayer( player, "display_lag_message", nil )
 
-                --unit.direction.x = 0
-                --unit.direction.y = 0
+                unit.direction.x = 0
+                unit.direction.y = 0
                 return
             end
-        end
+        end]]
 
         if args.command == "W" then
             if args.type == "+" then
@@ -76,9 +80,8 @@ function PlayerManager:SetUpMovement()
             end
         end
 
-
-        self.previous_type = args.type
-        self.previous_command = args.command
+        --unit.previousType = args.type
+        --unit.previousCommand = args.command
 
     end) -- end of MoveUnit listener
 end
