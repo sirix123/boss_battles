@@ -27,6 +27,9 @@
 //painter
 #base "players/firemage/abilities.txt"
 
+//pally
+#base "players/pally/abilities.txt"
+
 
 "DOTAAbilities"
 {

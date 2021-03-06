@@ -1,0 +1,208 @@
+"DOTAAbilities"
+{
+	"m1_omni_basic_attack"
+	{
+		"BaseClass"						"ability_lua"
+		"ScriptFile"					"player/nocens/m1_omni_basic_attack"
+		"MaxLevel"						"1"
+
+		"AbilityTextureName"			"slardar_bash"
+		"AbilityUnitTargetTeam"			"DOTA_UNIT_TARGET_TEAM_ENEMY"
+		"AbilityUnitDamageType"			"DAMAGE_TYPE_PHYSICAL"	
+		"SpellImmunityType"				"SPELL_IMMUNITY_ENEMIES_YES"
+        "AbilityBehavior"				"DOTA_ABILITY_BEHAVIOR_POINT"
+		"AbilityCastRange" 				"350"
+        "AbilityCooldown"				"0"
+        "AbilityCastPoint"              "0.6"
+
+
+		"TargetingIndicator"
+		{
+			"Type"						"TARGETING_INDICATOR_CONE"
+			"Fixed"						"1"
+		}
+        
+		"AbilitySpecial"
+		{
+			"01"{ "var_type"			"FIELD_INTEGER"		"radius"							"250" }
+			"02"{ "var_type"			"FIELD_INTEGER"		"damage"							"90" }
+		}
+
+		"precache"
+		{
+
+		}
+	}
+
+	"m2_direct_heal"
+	{
+		"BaseClass"						"ability_lua"
+		"ScriptFile"					"player/nocens/m2_direct_heal"
+		"MaxLevel"						"1"
+
+		"AbilityTextureName"			"omniknight_purification"
+		"AbilityUnitDamageType"			"DAMAGE_TYPE_PHYSICAL"	
+		"SpellImmunityType"				"SPELL_IMMUNITY_ENEMIES_YES"
+        "AbilityBehavior"				"DOTA_ABILITY_BEHAVIOR_POINT | DOTA_ABILITY_BEHAVIOR_AOE"
+		"AbilityCastRange" 				"1400"
+        "AbilityCooldown"				"0"
+        "AbilityCastPoint"              "0.5"
+		"AbilityManaCost"        		"0"
+		"AbilityCharges"				"2"
+		"AbilityChargeRestoreTime"		"25"
+
+
+		"TargetingIndicator"
+		{
+			//"Type"						"TARGETING_INDICATOR_AOE"
+			//"Fixed"						"1"
+		}
+        
+		"AbilitySpecial"
+		{
+			"01"{ "var_type"			"FIELD_INTEGER"		"heal"							"250" 	}
+			"02"{ "var_type"			"FIELD_INTEGER"		"delay"							"0.1" 	}
+			"03"{ "var_type"			"FIELD_INTEGER"		"radius"						"250" 	}
+		}
+	}
+
+	"q_armor_aura"
+	{
+		"BaseClass"						"ability_lua"
+		"ScriptFile"					"player/nocens/q_armor_aura"
+		"MaxLevel"						"1"
+
+		"AbilityTextureName"			"dazzle_weave"
+		"AbilityUnitTargetTeam"			"DOTA_UNIT_TARGET_TEAM_FRIENDLY"
+		"SpellImmunityType"				"SPELL_IMMUNITY_ENEMIES_YES"
+        "AbilityBehavior"				"DOTA_ABILITY_BEHAVIOR_NO_TARGET"
+		"AbilityCastRange" 				"1400"
+        "AbilityCooldown"				"10"
+        "AbilityCastPoint"              "0.5"
+
+
+		"TargetingIndicator"
+		{
+			//"Type"						"TARGETING_INDICATOR_LINE"
+			//"Fixed"						"1"
+		}
+        
+		"AbilitySpecial"
+		{
+			"01"{ "var_type"			"FIELD_INTEGER"		"duration"							"10" }
+			"02"{ "var_type"			"FIELD_INTEGER"		"armor_plus"						"9" }
+			"03"{ "var_type"			"FIELD_INTEGER"		"armor_minus"						"5" }
+		}
+
+		"precache"
+		{
+
+		}
+	}
+
+	"e_regen_aura"
+	{
+		"BaseClass"						"ability_lua"
+		"ScriptFile"					"player/nocens/e_regen_aura"
+		"MaxLevel"						"1"
+
+		"AbilityTextureName"			"necrolyte_heartstopper_aura"
+		"AbilityUnitTargetTeam"			"DOTA_UNIT_TARGET_TEAM_FRIENDLY"
+		"SpellImmunityType"				"SPELL_IMMUNITY_ENEMIES_YES"
+        "AbilityBehavior"				"DOTA_ABILITY_BEHAVIOR_NO_TARGET"
+		"AbilityCastRange" 				"1400"
+        "AbilityCooldown"				"10"
+        "AbilityCastPoint"              "0.5"
+
+
+		"TargetingIndicator"
+		{
+			//"Type"						"TARGETING_INDICATOR_LINE"
+			//"Fixed"						"1"
+		}
+        
+		"AbilitySpecial"
+		{
+			"01"{ "var_type"			"FIELD_INTEGER"		"duration"							"10" }
+			"02"{ "var_type"			"FIELD_INTEGER"		"regen_plus"						"25" }
+			"03"{ "var_type"			"FIELD_INTEGER"		"regen_minus"						"50" }
+		}
+
+		"precache"
+		{
+
+		}
+	}
+
+	"r_outgoing_dmg"
+	{
+		"BaseClass"						"ability_lua"
+		"ScriptFile"					"player/nocens/r_outgoing_dmg"
+		"MaxLevel"						"1"
+
+		"AbilityTextureName"			"spectre_dispersion"
+		"AbilityUnitTargetTeam"			"DOTA_UNIT_TARGET_TEAM_FRIENDLY"
+		"SpellImmunityType"				"SPELL_IMMUNITY_ENEMIES_YES"
+        "AbilityBehavior"				"DOTA_ABILITY_BEHAVIOR_NO_TARGET"
+		"AbilityCastRange" 				"1400"
+        "AbilityCooldown"				"10"
+        "AbilityCastPoint"              "0.5"
+
+
+		"TargetingIndicator"
+		{
+			//"Type"						"TARGETING_INDICATOR_LINE"
+			//"Fixed"						"1"
+		}
+        
+		"AbilitySpecial"
+		{
+			"01"{ "var_type"			"FIELD_INTEGER"		"duration"							"10" }
+			"02"{ "var_type"			"FIELD_INTEGER"		"outgoing_plus"						"20" }
+			"03"{ "var_type"			"FIELD_INTEGER"		"outgoing_minus"					"5" }
+		}
+
+		"precache"
+		{
+
+		}
+	}
+
+	"space_judgement"
+	{
+		"BaseClass"						"ability_lua"
+		"ScriptFile"					"player/nocens/space_judgement"
+		"MaxLevel"						"1"
+
+		"AbilityTextureName"			"sven_storm_bolt"
+		"AbilityUnitDamageType"			"DAMAGE_TYPE_PHYSICAL"	
+		"SpellImmunityType"				"SPELL_IMMUNITY_ENEMIES_YES"
+        "AbilityBehavior"				"DOTA_ABILITY_BEHAVIOR_POINT"
+		"AbilityCastRange" 				"1400"
+        "AbilityCooldown"				"6"
+        "AbilityCastPoint"              "0.2"
+		"AbilityManaCost"        		"0"
+
+		"TargetingIndicator"
+		{
+			"Type"						"TARGETING_INDICATOR_AOE"
+			"Fixed"						"1"
+		}
+        
+		"AbilitySpecial"
+		{
+			"01"{ "var_type"			"FIELD_INTEGER"		"dmg"							"250" 	}
+			"02"{ "var_type"			"FIELD_INTEGER"		"radius"						"250" 	}
+			"03"{ "var_type"			"FIELD_INTEGER"		"bonus_dmg"						"250" 	}
+			"04"{ "var_type"			"FIELD_INTEGER"		"r_dmg"							"500" 	}
+			"05"{ "var_type"			"FIELD_INTEGER"		"debuff_duration"				"20" 	}
+			
+		}
+
+		"precache"
+		{
+			"soundfile"	"soundevents/game_sounds_heroes/game_sounds_sven.vsndevts"
+			"soundfile"	"soundevents/game_sounds_heroes/game_sounds_dragon_knight.vsndevts"
+		}
+	}
+}

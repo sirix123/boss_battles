@@ -89,6 +89,7 @@ function PlayerSelected( player, hero ) {
 	if ( hero == "npc_dota_hero_juggernaut" 		) 	{ hero = "Warlord"; }
 	if ( hero == "npc_dota_hero_medusa" 			) 	{ hero = "Medusa"; }
 	if ( hero == "npc_dota_hero_lina" 				) 	{ hero = "Lina"; }
+	if ( hero == "npc_dota_hero_omniknight" 		) 	{ hero = "Nocens"; }
 
 	// add the players name to the bottom of the pedestal
 	var pedHeroHeroText = heroPedPanels[player].FindChildInLayoutFile("HeroNamePedTxt");
@@ -191,6 +192,7 @@ let heroes =
 	"npc_dota_hero_juggernaut",
 	"npc_dota_hero_medusa",
 	"npc_dota_hero_lina",
+	"npc_dota_hero_omniknight",
 ];
 
 // container for the ped on the scene

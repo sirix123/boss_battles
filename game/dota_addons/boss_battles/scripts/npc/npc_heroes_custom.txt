@@ -5,6 +5,7 @@
 #base "players\warlord\warlord.txt"
 #base "players\painter\painter.txt"
 #base "players\firemage\firemage.txt"
+#base "players\pally\pally.txt"
 
 "DOTAHeroes"
 {
