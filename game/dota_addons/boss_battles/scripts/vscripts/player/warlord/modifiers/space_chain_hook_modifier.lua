@@ -84,6 +84,7 @@ function space_chain_hook_modifier:OnDestroy( kv )
             self.caster:FindAbilityByName("q_meditate"):SetActivated(true)
             self.caster:FindAbilityByName("e_spawn_ward"):SetActivated(true)
             self.caster:FindAbilityByName("r_sword_slam"):SetActivated(true)
+            self.caster:FindAbilityByName("space_chain_hook"):SetActivated(true)
         end
 
         self:GetParent():RemoveHorizontalMotionController( self )

@@ -46,5 +46,7 @@ function r_whirlwind:OnSpellStart()
             { duration = duration } -- kv
         )
 
+        caster:FindAbilityByName("space_chain_hook"):SetActivated(false)
+
     end
 end

@@ -1,3 +1,6 @@
+/*--------------------------------------------------------------
+Root
+----------------------------------------------------------------*/
 .AddonLoadingRoot
 {
     width: 100%;
@@ -5,6 +8,9 @@
     background-color: black;
 }
 
+/*--------------------------------------------------------------
+background
+----------------------------------------------------------------*/
 #BackGround
 {
     horizontal-align: left;
@@ -12,52 +18,63 @@
     margin-left: 150px;
 }
 
-#TitlePanel
-{
-	horizontal-align: left;
-	vertical-align: bottom;
-	margin-bottom: 150px;
-	margin-left: 50px;
-	flow-children: down;
-}
-
-#Raid
-{
-	horizontal-align: left;
-	vertical-align: bottom;
-	margin-bottom: 10px;
-	margin-left: 10px;
-}
-
-#AddonTitle
-{
-	margin-bottom: 10px;
-	margin-left: 10px;
-	horizontal-align: left;
-	vertical-align: bottom;
-	font-size: 75px;
-	color: rgb(226, 28, 21);
-	text-shadow: 10px 5px 3px #100005;
-}
-
-#LeaderBoard
-{
-	horizontal-align: left;
-	vertical-align: top;
-	margin-top: 150px;
-	margin-left: 50px;
-	width: 15%;
-    height: 50%;
-    background-color:  rgb(21, 226, 72);
-}
-
-#Socials
-{
-	horizontal-align: left;
-	vertical-align: top;
-	width: 15%;
+/*--------------------------------------------------------------
+socials
+----------------------------------------------------------------*/
+#SocialsContainer{
+	width: 20%;
     height: 10%;
+	horizontal-align: left;
+    vertical-align: top;
 	margin-top: 50px;
 	margin-left: 50px;
-	background-color:  rgb(21, 62, 100);
+	background-color: rgb(70, 58, 58);
 }
+
+
+/*--------------------------------------------------------------
+leaderboard 
+----------------------------------------------------------------*/
+#LeaderboardContainer{
+	width: 25%;
+    height: 70%;
+	horizontal-align: left;
+    vertical-align: bottom;
+	margin-bottom: 50px;
+	margin-left: 50px;
+	background-color: rgb(70, 58, 58);
+}
+
+/*--------------------------------------------------------------
+leaderboard - headers
+----------------------------------------------------------------*/
+.header_bossFight_info{
+	flow-children: right;
+	height: 5%;
+	width: 100%;
+	background-color: #292626cc; /* rgba */
+	background-size: 100% 100%;
+}
+
+.header_container{
+	height: 100%;
+	width: 2%;
+	flow-children: down;
+	vertical-align: middle;
+	background-color: #292626cc; /* rgba */
+	background-size: 100% 100%;
+}
+
+.header_bossFight_heading_text{
+	horizontal-align: left;
+	vertical-align: center;
+	margin: 3px;
+	margin-left: 7px;
+	color: #fff;
+	font-size: 20px;
+	font-family: defaultFont;
+}
+
+/*--------------------------------------------------------------
+leaderboard - cells
+----------------------------------------------------------------*/
