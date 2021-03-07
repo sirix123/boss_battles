@@ -88,7 +88,7 @@ function chain_light_v2:OnProjectileHit( hTarget, vLocation)
 
 		self.hit_target = hTarget
 
-		if hTarget:GetUnitName() == "npc_crystal" or unit:GetUnitName() == "npc_rubick" and self.crystal_been_hit == false then
+		if hTarget:GetUnitName() == "npc_crystal" or hTarget:GetUnitName() == "npc_rubick" and self.crystal_been_hit == false then
 
 			self.crystal_been_hit = true
 
@@ -157,7 +157,7 @@ function chain_light_v2:OnProjectileHit( hTarget, vLocation)
 				hTarget:GetAbsOrigin(),
 				nil,
 				self.bounce_range,
-				DOTA_UNIT_TARGET_TEAM_BOTH,
+				DOTA_UNIT_TARGET_TEAM_ENEMY,
 				DOTA_UNIT_TARGET_HERO + DOTA_UNIT_TARGET_CREEP,
 				DOTA_UNIT_TARGET_FLAG_INVULNERABLE,	-- int, flag filter
 				FIND_CLOSEST,	-- int, order filter
@@ -166,7 +166,7 @@ function chain_light_v2:OnProjectileHit( hTarget, vLocation)
 
 			if #bounce_targets > 1 then
 				for _, v in ipairs(bounce_targets) do
-					if v:GetUnitName() ~= "" and v:GetUnitName() ~= "npc_tinker" and self.hit_target:GetUnitName() ~= v:GetUnitName() and v ~= "npc_rock" and unit:GetUnitName() ~= "npc_rubick" then
+					if v:GetUnitName() ~= "" and v:GetUnitName() ~= "npc_tinker" and self.hit_target:GetUnitName() ~= v:GetUnitName() and v ~= "npc_rock" and v:GetUnitName() ~= "npc_rubick" then
 						--local hit_check = false -- has the target been hit before?
 
 						--[[ check if target has been hit before
