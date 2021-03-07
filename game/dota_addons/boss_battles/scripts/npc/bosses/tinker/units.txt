@@ -385,7 +385,7 @@
 		"SoundSet"					"Hero_Techies"
 		"GameSoundsFile"			"soundevents/game_sounds_heroes/game_sounds_techies.vsndevts"
 		"Level"						"1"
-		"ModelScale" 				"0.4"
+		"ModelScale" 				"0.7"
 
 		// Abilities
 		//----------------------------------------------------------------

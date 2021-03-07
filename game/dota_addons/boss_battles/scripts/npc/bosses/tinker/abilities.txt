@@ -870,7 +870,7 @@
         // Casting
         //-------------------------------------------------------------------------------------------------------------
         "AbilityCastPoint"              "4 4 4 4"
-        "AbilityCooldown"               "19 19 19 19"
+        "AbilityCooldown"               "12 19 19 19"
         "AbilityManaCost"               "0"
         "AbilityCastRange" 				"5000"
 
@@ -904,7 +904,7 @@
         // Casting
         //-------------------------------------------------------------------------------------------------------------
         "AbilityCastPoint"              "1 1 1 1"
-        "AbilityCooldown"               "25 30 30 30"
+        "AbilityCooldown"               "20 30 30 30"
         "AbilityManaCost"               "0"
         "AbilityCastRange" 				"600"
 
@@ -938,7 +938,7 @@
         // Casting
         //-------------------------------------------------------------------------------------------------------------
         "AbilityCastPoint"              "1 1 1 1"
-        "AbilityCooldown"               "20 20 20 20"
+        "AbilityCooldown"               "15 20 20 20"
         "AbilityManaCost"               "0"
         "AbilityCastRange" 				"600"
 

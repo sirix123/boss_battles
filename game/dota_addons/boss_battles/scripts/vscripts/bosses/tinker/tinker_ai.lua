@@ -293,8 +293,8 @@ function Transition(  )
 
 
 			-- calculate postions inside arena and put into a table npc_phase2_rock and npc_phase2_crystal
-			local numRocks = 10
-			local numCrystals = 15
+			local numRocks = 6
+			local numCrystals = 8
 			local tRockCrystals = {}
 			local tRocks = {}
 
