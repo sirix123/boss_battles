@@ -31,6 +31,8 @@ function UpdateTargetIndicator(){
             //$.Msg("abiltiy?")
             active = abilityIndex;
         }
+        //$.Schedule(1/144, UpdateTargetIndicator);
+        //return
     }
 
     if(active){

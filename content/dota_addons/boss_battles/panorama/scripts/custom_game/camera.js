@@ -132,20 +132,6 @@ function UpdatePosition()
         }
         else
         {
-            GameUI.SetMouseCallback( function( eventName, arg ) {
-                if ( eventName === "wheeled" )
-                // true consumes the event and doesnt process it (stops scrolling)
-	            {
-                    if ( arg < 0 )
-                    {
-                        return true	
-                    }
-                    else if ( arg > 0 )
-                    {
-                        return true		
-                    }
-                }
-            });
         }
 
         $.Schedule(0.01, tic);

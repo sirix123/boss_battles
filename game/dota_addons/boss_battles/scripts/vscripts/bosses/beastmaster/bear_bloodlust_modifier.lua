@@ -90,13 +90,17 @@ end
 -----------------------------------------------------------------------------
 
 function bear_bloodlust_modifier:GetModifierMoveSpeedBonus_Percentage( params )
-	return self.bloodlust_speed * self:GetStackCount()
+	if ( self.bloodlust_speed * self:GetStackCount() ) ~= nil then
+		return self.bloodlust_speed * self:GetStackCount()
+	end
 end
 
 --------------------------------------------------------------------------------
 
 function bear_bloodlust_modifier:GetModifierAttackSpeedBonus_Constant( params )
+	if ( self.bloodlust_as_speed * self:GetStackCount() ) ~= nil then
 		return self.bloodlust_as_speed * self:GetStackCount()
+	end
 end
 
 

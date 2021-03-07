@@ -86,6 +86,9 @@ end
 --------------------------------------------------------------------------------
 
 function CastClaw(beastmasterMarkTarget)
+
+	if IsValidEntity(beastmasterMarkTarget) then
+
 		ExecuteOrderFromTable({
 			UnitIndex = thisEntity:entindex(),
 			OrderType = DOTA_UNIT_ORDER_CAST_TARGET,
@@ -93,6 +96,8 @@ function CastClaw(beastmasterMarkTarget)
 			AbilityIndex = thisEntity.hClaw:entindex(),
 			Queue = false,
 	})
+
+	end
 
 	return 0.5
 end

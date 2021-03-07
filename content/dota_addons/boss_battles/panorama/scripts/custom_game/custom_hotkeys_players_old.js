@@ -1,5 +1,7 @@
 "use strict";
 
+GameEvents.Subscribe( "picking_done", Init );
+
 //Globals:
 var nextAbility = null;
 var currentAbility = null;
@@ -20,9 +22,6 @@ function TryAddAbilityToQueue(abilityIndex)
 
 function ForceAddAbilityToQueue(abilityIndex) {
     //Either add this ability as the currentAbility, or force it to be the next ability
-
-    //$.Msg("we trtying to cast spells?")
-
     if (currentAbility === null) {
         currentAbility = abilityIndex;
         return;
@@ -219,6 +218,7 @@ function EmptyCallBack(){
 
 function ExecuteAbilityNamed(abilityName) {
     var heroIndex = Players.GetPlayerHeroEntityIndex(Players.GetLocalPlayer());
+    //var abilityIndex = Entities.GetAbility( playerHero, abilityNumber )
     var ability = Entities.GetAbilityByName( heroIndex, abilityName);
 
     if (!ability) {
@@ -227,10 +227,12 @@ function ExecuteAbilityNamed(abilityName) {
     else {
         $.Msg("custom_hotkeys_players.js found abilityName = " + abilityName) ;  
     }
+
+    //ability.state = "stateFromJS";
+
     Abilities.ExecuteAbility( ability, heroIndex, true );
 }
 
-// ITEM CONTROLLER
 function UseItem(itemSlot)
 {
     var playerId = Players.GetLocalPlayer();
@@ -247,18 +249,72 @@ function UseItem(itemSlot)
         return;
     }
     if(!Abilities.IsInAbilityPhase(abilityIndex)){
+        //var mouse_position_screen = GameUI.GetCursorPosition();
+        //var mouse_position = Game.ScreenXYToWorld(mouse_position_screen[0], mouse_position_screen[1])
+
         Abilities.ExecuteAbility( abilityIndex, heroIndex, false )
+        /*
+        var abilityBehavior = Abilities.GetBehavior(abilityIndex)
+        if(abilityBehavior & DOTA_ABILITY_BEHAVIOR.DOTA_ABILITY_BEHAVIOR_POINT){
+            var order = {
+                OrderType : dotaunitorder_t.DOTA_UNIT_ORDER_CAST_POSITION,
+                TargetIndex : heroIndex,
+                Position : mouse_position,
+                QueueBehavior : OrderQueueBehavior_t.DOTA_ORDER_QUEUE_NEVER,
+                ShowEffects : true,
+                AbilityIndex : abilityIndex,
+            };
+            Game.PrepareUnitOrders(order);
+        }
+        if(abilityBehavior & DOTA_ABILITY_BEHAVIOR.DOTA_ABILITY_BEHAVIOR_NO_TARGET){
+            var order = {
+                OrderType : dotaunitorder_t.DOTA_UNIT_ORDER_CAST_NO_TARGET,
+                TargetIndex : heroIndex,
+                QueueBehavior : OrderQueueBehavior_t.DOTA_ORDER_QUEUE_NEVER,
+                ShowEffects : true,
+                AbilityIndex : abilityIndex,
+            };
+            Game.PrepareUnitOrders(order);
+        }*/
     }
 }
 
+function OnPressQ() {
+    //TryAddAbilityToQueue(2);
+    ForceAddAbilityToQueue(2);
+}   
 
-// MOUSE CONTROLLER
+function OnPressE() {
+    //TryAddAbilityToQueue(3);
+    ForceAddAbilityToQueue(3);
+}
+
+function OnPressR() {
+    //TryAddAbilityToQueue(4);
+    ForceAddAbilityToQueue(4);
+}
+
+function OnPress1() {
+    //TryAddAbilityToQueue(2);
+    UseItem(0);
+}   
+
+
+// ABILITIES: 
 function OnLeftButtonPressed()
 {
     TryAddAbilityToQueue(0);
 
+    //TODO: put this on other abilities?
+    var heroEntity = Players.GetPlayerHeroEntityIndex(Players.GetLocalPlayer());
     var playerEntity = Players.GetLocalPlayer();
+    GameEvents.SendCustomGameEventToServer("customEvent_abilityCast", {heroEntity: heroEntity, playerEntity: playerEntity});
 
+    // AbilityToCast(0, true);
+
+    // //cast this ability again if mouse is still down in 0.2 seconds
+    // //start a timer
+    //$.Msg("Players.GetPlayerSelectedHero( playerEntity ) ",Players.GetPlayerSelectedHero( playerEntity ))
     if ( Players.GetPlayerSelectedHero( playerEntity ) != "npc_dota_hero_lina" ){
         $.Schedule(0.3, function tic(){
             //only continue timer if mouse still down
@@ -273,14 +329,41 @@ function OnLeftButtonPressed()
 function OnRightButtonPressed()
 {
     ForceAddAbilityToQueue(1);
+    //AbilityToCast(1, true);
 }
 
 
+function ShowScoreboard()
+{
+    var heroIndex = Players.GetPlayerHeroEntityIndex(Players.GetLocalPlayer());
+    var playerId = Players.GetLocalPlayer()
+
+    //Call test_scoreboard.js function: showScoreboardUI() by going to lua then back to js.
+    //Send even back to lua. Which should have registered a listener for showScoreboardUIEvent
+    GameEvents.SendCustomGameEventToServer("showScoreboardUIEvent", {heroIndex: heroIndex, playerId: playerId});
+    //GameEvents.SendCustomGameEventToServer("getScoreboardDataEvent", {});
+}
+
+function HideScoreboard()
+{
+    var heroIndex = Players.GetPlayerHeroEntityIndex(Players.GetLocalPlayer());
+    var playerId = Players.GetLocalPlayer()
+    //Send even back to lua. Which should have registered a listener for hideScoreboardUIEvent
+    GameEvents.SendCustomGameEventToServer("hideScoreboardUIEvent", {heroIndex: heroIndex, playerId: playerId});
+}
+
+
+//Gets called every mouse event?
+//not 100% sure what the return value does
 GameUI.SetMouseCallback( function( eventName, arg ){
 	var nMouseButton = arg;
 	if ( GameUI.GetClickBehaviors() !== CLICK_BEHAVIORS.DOTA_CLICK_BEHAVIOR_NONE ){
         return false;
     }
+
+    //if (GameUI.GetClickBehaviors() !== CLICK_BEHAVIORS.DOTA_CLICK_BEHAVIOR_DRAG) {
+        //$.Msg("Javascript: SetMouseCallback() DRAG event ")
+    //}
 
     if ( eventName === "pressed" )
 	{
@@ -318,21 +401,9 @@ GameUI.SetMouseCallback( function( eventName, arg ){
 	if ( eventName === "doublepressed" ){ 
         return true
     }
-
-    if ( eventName === "wheeled" )
-    {
-        if ( arg < 0 )
-        {
-            return false	
-        }
-        else if ( arg > 0 )
-        {
-            return false		
-        }
-    }
-
 	return false;
 });
+
 
 function GetCursorPosition()
 {
@@ -347,6 +418,7 @@ function GetMouseCastPosition(  )
     var mouse_position = Game.ScreenXYToWorld(mouse_position_screen[0], mouse_position_screen[1]);
     var heroIndex = Players.GetPlayerHeroEntityIndex(Players.GetLocalPlayer());
 
+    //$.Msg(GameUI.FindScreenEntities(mouse_position_screen))
 	GameEvents.SendCustomGameEventToServer("MousePosition", {
         playerID: Players.GetLocalPlayer(), 
         x: mouse_position[0], 
@@ -356,6 +428,7 @@ function GetMouseCastPosition(  )
     });
 }
 
+//Start a loop to constantly update mouse cast positions
 function MouseInit(){
     $.Schedule( 0.03, function tic(){
         GetMouseCastPosition()
@@ -363,69 +436,52 @@ function MouseInit(){
     } );
 }
 
-// INIT
-let hotkeys = [
-    "Q",
-    "E",
-    "R",
-    "1",
-    "L",
-    "Space",
-];
-
-(function () 
+// handles keyboard hotkeys / called by hero selection
+function Init()
 {
+
     //$.Msg("init all custom mouse and movement controls")
 
     MouseInit()
 
     ProcessAbilityQueue();
 
-    for(var i in hotkeys) {
-        $.Msg("hotkey = ", hotkeys[i])
-        Game.CreateCustomKeyBind(hotkeys[i], "+" + hotkeys[i]);
-    }
-
-    Game.AddCommand( "+Q", function(){ ForceAddAbilityToQueue(2) }, "", 0 );
+    // ability index in kv starts at 0... but says 1... dont be confused... :)
+    // 1 
+    //Game.AddCommand( "+Q", function(){ AbilityToCast(2, true) }, "", 0 );
+    Game.AddCommand( "+Q", OnPressQ, "", 0 );
     Game.AddCommand( "-Q", EmptyCallBack, "", 0 );   
 
-    Game.AddCommand( "+E", function(){ ForceAddAbilityToQueue(3) }, "", 0 );
+    // 2
+    Game.AddCommand( "+E", OnPressE, "", 0 );
     Game.AddCommand( "-E", EmptyCallBack, "", 0 );   
 
-    Game.AddCommand( "+R", function(){ ForceAddAbilityToQueue(4) }, "", 0 );
+    // 3
+    Game.AddCommand( "+R", OnPressR, "", 0 );
     Game.AddCommand( "-R", EmptyCallBack, "", 0 );   
 
-    Game.AddCommand( "+1", function(){ UseItem(0) }, "", 0 );
+    // item hot keys
+    Game.AddCommand( "+1", OnPress1, "", 0 );
     Game.AddCommand( "-1", EmptyCallBack, "", 0 );   
 
+    //TESTING: SCOREBOARD 
     Game.AddCommand( "+L", ShowScoreboard, "", 0 );
     Game.AddCommand( "-L", HideScoreboard, "", 0 );
 
+    //TESTING: Ability Powershot ability on Kunkka, press and hold SPACE to charge up, release to fire
+    //Game.AddCommand( "+Space", OnPressPowerShot, "", 0 );
+    //Game.AddCommand( "-Space", OnReleasePowerShot, "", 0 );
+
+    // Spacebar Movement Ability
     Game.AddCommand( "+Space", function(){ AbilityToCast(5, true) }, "", 0 );
     Game.AddCommand( "-Space", EmptyCallBack, "", 0 );
 
-})();
-
-function EmptyCallBack(){
-
+    // get mouse position
+    //GameEvents.Subscribe('mouse_position', GetMouseCastPosition);
 }
 
-// SCOREBOARD
-function ShowScoreboard()
-{
-    var heroIndex = Players.GetPlayerHeroEntityIndex(Players.GetLocalPlayer());
-    var playerId = Players.GetLocalPlayer()
+//(function () {
+    
+//})();
 
-    //Call test_scoreboard.js function: showScoreboardUI() by going to lua then back to js.
-    //Send even back to lua. Which should have registered a listener for showScoreboardUIEvent
-    GameEvents.SendCustomGameEventToServer("showScoreboardUIEvent", {heroIndex: heroIndex, playerId: playerId});
-    //GameEvents.SendCustomGameEventToServer("getScoreboardDataEvent", {});
-}
 
-function HideScoreboard()
-{
-    var heroIndex = Players.GetPlayerHeroEntityIndex(Players.GetLocalPlayer());
-    var playerId = Players.GetLocalPlayer()
-    //Send even back to lua. Which should have registered a listener for hideScoreboardUIEvent
-    GameEvents.SendCustomGameEventToServer("hideScoreboardUIEvent", {heroIndex: heroIndex, playerId: playerId});
-}

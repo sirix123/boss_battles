@@ -59,4 +59,5 @@ _G.tCORE_MODIFIERS =
     "remove_attack_modifier",
     "admin_god_mode",
     "modifier_grace_period",
+    "modifier_hero_movement",
 }

@@ -100,6 +100,8 @@ function PlayerManager:SetUpMouseUpdater()
         self.mouse_positions[args.playerID] = mouse_position
         --print("MousePosition for playerID: ", mouse_position)
 
+        if unit.mouse == nil then return end
+
         -- testing new code
         unit.mouse.x = args.x
         unit.mouse.y = args.y
