@@ -47,7 +47,6 @@ _G.HERO_NAME_LIST =
     "npc_dota_hero_medusa",
     "npc_dota_hero_juggernaut",
     "npc_dota_hero_phantom_assassin",
-    "npc_dota_hero_templar_assassin",
     "npc_dota_hero_grimstroke",
     "npc_dota_hero_lina",
     "npc_dota_hero_omniknight",
