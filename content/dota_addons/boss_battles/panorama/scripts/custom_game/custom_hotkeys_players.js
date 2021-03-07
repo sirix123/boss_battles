@@ -319,7 +319,7 @@ GameUI.SetMouseCallback( function( eventName, arg ){
         return true
     }
 
-    if ( eventName === "wheeled" )
+    if ( eventName === "wheeled" ) // GameUI.AcceptWheeling
     {
         if ( arg < 0 )
         {
