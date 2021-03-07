@@ -146,7 +146,7 @@ function SessionManager:GetDummyAttemptData() -- used for scoreboard bug testing
     player["playerLives"] = 3
     player["playerDeaths"] = 1
     player["heroName"] = "stefan iceice"
-    player["dmgDoneAttempt"] = 15400000
+    player["dmgDoneAttempt"] = 15400000.4534534
     table.insert(self.player_data,player)
     table.insert(self.player_attempt_data,player)
 
@@ -158,7 +158,7 @@ function SessionManager:GetDummyAttemptData() -- used for scoreboard bug testing
     player["playerLives"] = 3
     player["playerDeaths"] = 1
     player["heroName"] = "stefan iceice"
-    player["dmgDoneAttempt"] = 1000
+    player["dmgDoneAttempt"] = 1000.4534534
     table.insert(self.player_data,player)
     table.insert(self.player_attempt_data,player)
 

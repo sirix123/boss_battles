@@ -146,6 +146,7 @@ function showScoreboardUI( table_data )
 	var data_duration = Math.round(table_data.boss_data.duration)
 	bossDuration.text = formatIntMMSS(data_duration)
 
+	//$.Msg("table_data.boss_data.attemptNumber ",table_data.boss_data.attemptNumber)
 	bossAttemptNumber.text = table_data.boss_data.attemptNumber
 
 	var bsbTableContainer = $("#bsb_table_rows");
@@ -203,7 +204,7 @@ function CreateBossScoreBoardRow(rowData, rowId)
 
 		var dmgDone = containerPanel.FindChildInLayoutFile("bsb_table_row_dmgDone")
 		if (!!dmgDone) //if not null, set text
-			dmgDone.text = numberWithCommas(rowData.dmgDoneAttempt)
+			dmgDone.text = numberWithCommas( Math.round(rowData.dmgDoneAttempt) )
 
 		var lives = containerPanel.FindChildInLayoutFile("bsb_table_row_livesRemaining")
 		if (!!lives)
