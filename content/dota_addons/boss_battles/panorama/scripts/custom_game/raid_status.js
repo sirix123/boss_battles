@@ -126,149 +126,75 @@ function changeBossName( data )
 
 
 /* Player UI Frames */
-
 let playerFramePanels = {};
 
 function createPlayerFrames(data)
 {
-
-    //$.Msg( "createPlayerFrames data ", data )
-    //$.Msg( "data playerid ", data["PlayerID"] )
-    //$.Msg( "data HeroData ", data["HeroData"].hpPercent )
-
     let playersFrameContainer = $("#PlayersFrameContainer")
 
     let playerFrame = $.CreatePanel("Panel", playersFrameContainer, data["PlayerID"]);
     playerFrame.BLoadLayoutSnippet("PlayerFrame");
 
-    var heroImage = $("#HeroImage")
-    heroImage.heroname = data["HeroData"].hero_name
+    var heroImage = playerFrame.FindChildTraverse("HeroImage")
+    heroImage.heroname = data["HeroData"].hero_name 
 
-    var pLivesLabel = $("#PlayerLivesLabel")
-    pLivesLabel.text = data["HeroData"].playerLives
-
-    var pNameLabel = $("#PlayerNameLabel")
+    var pNameLabel = playerFrame.FindChildTraverse("PlayerNameLabel")
     pNameLabel.text = data["HeroData"].playerName
 
-    var pHealthLabel = $("#PlayerHealthLabel")
-    pHealthLabel.text = data["HeroData"].hpPercent + "%"
-
-    var pHealthLeft = $("#PlayerHealthProgressLeft")
-    pHealthLeft.style.width = data["HeroData"].hpPercent+"%"
-
-    var pHealthRight = $("#PlayerHealthProgressRight")
-    var hpGone = 100 - data["HeroData"].hpPercent
-    pHealthRight.style.width = hpGone+"%"
-    
-    var pManaLabel = $("#PlayerManaLabel")
-    pManaLabel.text = data["HeroData"].mpPercent+"%"
-
-    var pManaLeft = $("#PlayerManaProgressLeft")
-    pManaLeft.style.width = data["HeroData"].mpPercent+"%"
-
-    var pManaRight = $("#PlayerManaProgressRight")
-    var mpGone = 100 - data["HeroData"].mpPercent
-    pManaRight.style.width = mpGone+"%"
-
-    //store this panel to update it later.
-
-    // just insert a playerframe inhere no need to store agaisnt the ID
-    // then set the ID of the panel to the player
-    //$.Msg("data PlayerID" ,data["PlayerID"])
     playerFramePanels[data["PlayerID"]] = playerFrame;
-    //playerFramePanels[data["PlayerID"]] = playerFrame
-    // set the panels id to the playerID
-    //$.Msg("playerFramePanels ",playerFramePanels);
 }
 
 function updatePlayerFrames(data)
 {
-    //$.Msg("runing updaet?")
-    //$.Msg("data ",data)
-    //$.Msg("data 1",data[1])
-    //$.Msg("playerFramePanels ",playerFramePanels);
-    //$.Msg("data ",data)
-    //$.Msg("-----------------------") 
-
-    // for each panel in playerFramePanels
-    // find the panel wiht the matching id from data 
-    // as below... update everthting
 
     let playersFrameContainer = $("#PlayersFrameContainer")
-    //$.Msg("playersFrameContainer.GetChildCount() ",playersFrameContainer.GetChildCount())
 
     for (let i=0; i < playersFrameContainer.GetChildCount(); i++)
     {
-        //$.Msg("i = ",i)
-        //$.Msg("data[i] = ",data[i+1])
-        //$.Msg("playerFramePanels[i] = ",playerFramePanels[i])
-        //$.Msg("----------------")
-
-        //var playerData = data[1]
         var playerFrame = playerFramePanels[i]
-
-        //$.Msg("playerData = ",playerData)
-        //$.Msg("data[1] = ",data[1])
-        //$.Msg("i = ",i)
-        //$.Msg("playerData[i+1 = ",playerData[i+1])
-        //$.Msg("playerData[i+1][playerid] = ",playerData[i+1]["playerId"])
-        //$.Msg("playerFrame.id = ",playerFrame.id)
-        //$.Msg("----------------")
-
-        $.Msg("playerFrame.id = ",playerFrame.id)
-        $.Msg("playerFrame = ",playerFrame)
-        $.Msg("data[PlayerID] = ",data["PlayerID"])
-        $.Msg("data[PlayerID] = ",data)
-        $.Msg("----------------")
 
         if ( data["PlayerID"] == playerFrame.id ) 
         {
+            // sent from server
+            var pLivesLabel = playerFrame.FindChildTraverse("PlayerLivesLabel")
+            pLivesLabel.text = data["HeroData"].playerLives
 
-        //$.Msg(data["HeroData"].mpPercent+"%")
+            // client side api
+            var hero = Players.GetPlayerHeroEntityIndex( data["PlayerID"] )
+            var health = Entities.GetHealth( hero )
+            var healthMax = Entities.GetMaxHealth( hero )
+            var mana = Entities.GetMana( hero )
+            var manaMax = Entities.GetMaxMana( hero )
 
-        //$.Msg("playerData = ",playerData)
-        //$.Msg("playerFrame = ",playerFrame)
-        //$.Msg("----------------")
+            let percent_health = ( health / healthMax ) * 100
+            let percent_mana = ( mana / manaMax ) * 100
 
-        var pLivesLabel = playerFrame.FindChildTraverse("PlayerLivesLabel")
-        pLivesLabel.text = data["HeroData"].playerLives
+            var pHealthLabel = playerFrame.FindChildTraverse("PlayerHealthLabel")
+            pHealthLabel.text = percent_health + "%"
 
-        var pHealthLabel = playerFrame.FindChildTraverse("PlayerHealthLabel")
-        pHealthLabel.text = data["HeroData"].hpPercent + "%"
+            var pHealthLeft = playerFrame.FindChildTraverse("PlayerHealthProgressLeft")
+            pHealthLeft.style.width = percent_health + "%"
+            var hpGone = 100 - percent_health
 
-        var pHealthLeft = playerFrame.FindChildTraverse("PlayerHealthProgressLeft")
-        pHealthLeft.style.width = data["HeroData"].hpPercent+"%"
-        var hpGone = 100 - data["HeroData"].hpPercent
+            var pHealthRight = playerFrame.FindChildTraverse("PlayerHealthProgressRight")
+            pHealthRight.style.width = hpGone+"%"
 
-        var pHealthRight = playerFrame.FindChildTraverse("PlayerHealthProgressRight")
-        pHealthRight.style.width = hpGone+"%"
+            var pManaLabel = playerFrame.FindChildTraverse("PlayerManaLabel")
+            pManaLabel.text = percent_mana+"%"
 
-        var pManaLabel = playerFrame.FindChildTraverse("PlayerManaLabel")
-        pManaLabel.text = data["HeroData"].mpPercent+"%"
+            var pManaLeft = playerFrame.FindChildTraverse("PlayerManaProgressLeft")
+            pManaLeft.style.width = percent_mana+"%"
+            var mpGone = 100 - percent_mana
 
-        var pManaLeft = playerFrame.FindChildTraverse("PlayerManaProgressLeft")
-        pManaLeft.style.width = data["HeroData"].mpPercent+"%"
-        var mpGone = 100 - data["HeroData"].mpPercent
-
-        var pManaRight = playerFrame.FindChildTraverse("PlayerManaProgressRight")
-        pManaRight.style.width = mpGone+"%"
+            var pManaRight = playerFrame.FindChildTraverse("PlayerManaProgressRight")
+            pManaRight.style.width = mpGone+"%"
 
         }
     }
 }
 
-
-function hidePlayerFrame( table_name, key, data )
-{
-    //$.Msg("hidePlayerFrame called")
-    //var bossFrameContainer = $("#BossFrameContainer")
-    // bossFrameContainer.RemoveAndDeleteChildren()
-}
-
 GameEvents.Subscribe( "create_player_frame", createPlayerFrames );
-//GameEvents.Subscribe( "update_player_frame", updatePlayerFrames );
-//CustomNetTables.SubscribeNetTableListener( "player_frame", updatePlayerFrames );
+GameEvents.Subscribe( "update_player_frame", updatePlayerFrames );
 CustomNetTables.SubscribeNetTableListener( "hide_player_frame", hidePlayerFrame );
 
-/* END Player UI Frames */
 

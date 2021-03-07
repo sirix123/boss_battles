@@ -13,13 +13,11 @@ end
 function player_frame_manager:UpdatePlayer()
     --Player UI Frames:
     Timers:CreateTimer(function()
-        if #HERO_LIST == 4 or IsInToolsMode() then
-            local heroes = HERO_LIST
-            for _, hero in pairs(heroes) do
-                CustomGameEventManager:Send_ServerToAllClients( "update_player_frame", { PlayerID = hero.playerId , HeroData = hero } )
-            end
+        local heroes = HERO_LIST
+        for _, hero in pairs(heroes) do
+            CustomGameEventManager:Send_ServerToAllClients( "update_player_frame", { PlayerID = hero.playerId , HeroData = hero } )
         end
-        return 2--0.2
+        return 0.2
     end)
 end
 --------------------------------------------------------------------------------------------------
