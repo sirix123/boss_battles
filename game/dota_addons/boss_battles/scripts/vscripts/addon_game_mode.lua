@@ -133,6 +133,7 @@ function Activate()
 
     -- our stuff
     require('constants')
+    require('client_handshake')
     require('core/npc_override')
     require('core/ability_override')
     require('internal/util')

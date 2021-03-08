@@ -179,16 +179,22 @@ function updatePlayerFrames(data)
             var pHealthRight = playerFrame.FindChildTraverse("PlayerHealthProgressRight")
             pHealthRight.style.width = hpGone+"%"
 
-            var pManaLabel = playerFrame.FindChildTraverse("PlayerManaLabel")
-            pManaLabel.text = percent_mana+"%"
+            if ( mana == 0 )
+            {
+                percent_mana = 0
+            }
+            else
+            {
+                var pManaLabel = playerFrame.FindChildTraverse("PlayerManaLabel")
+                pManaLabel.text = percent_mana+"%"
 
-            var pManaLeft = playerFrame.FindChildTraverse("PlayerManaProgressLeft")
-            pManaLeft.style.width = percent_mana+"%"
-            var mpGone = 100 - percent_mana
+                var pManaLeft = playerFrame.FindChildTraverse("PlayerManaProgressLeft")
+                pManaLeft.style.width = percent_mana+"%"
+                var mpGone = 100 - percent_mana
 
-            var pManaRight = playerFrame.FindChildTraverse("PlayerManaProgressRight")
-            pManaRight.style.width = mpGone+"%"
-
+                var pManaRight = playerFrame.FindChildTraverse("PlayerManaProgressRight")
+                pManaRight.style.width = mpGone+"%"
+            }
         }
     }
 }

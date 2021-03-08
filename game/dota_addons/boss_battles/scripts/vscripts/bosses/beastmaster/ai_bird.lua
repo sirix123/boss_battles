@@ -4,6 +4,7 @@ LinkLuaModifier("bird_floor_nofly", "bosses/tinker/modifiers/bird_floor_nofly", 
 LinkLuaModifier("modifier_flying", "bosses/tinker/modifiers/modifier_flying", LUA_MODIFIER_MOTION_NONE)
 LinkLuaModifier("modifier_ground", "bosses/beastmaster/modifier_ground", LUA_MODIFIER_MOTION_NONE)
 LinkLuaModifier("bird_death_modifier", "bosses/beastmaster/bird_death_modifier", LUA_MODIFIER_MOTION_NONE)
+LinkLuaModifier("bird_mark_modifier", "bosses/beastmaster/bird_mark_modifier", LUA_MODIFIER_MOTION_NONE)
 
 --------------------------------------------------------------------------------
 
@@ -124,9 +125,7 @@ function BirdThinker()
         thisEntity.vTarget = thisEntity.target:GetAbsOrigin()
 
         -- mark target (particle)
-        local particle = "particles/timber/bird_overhead_icon.vpcf"
-        thisEntity.head_particle = ParticleManager:CreateParticle(particle, PATTACH_OVERHEAD_FOLLOW, thisEntity.target)
-        ParticleManager:SetParticleControl(thisEntity.head_particle, 0, thisEntity.vTarget)
+        thisEntity.target:AddNewModifier(thisEntity,nil,"bird_mark_modifier",{duration = 60})
 
         -- play caw caw sound
         EmitSoundOn("beastmaster_beas_ability_summonsbird_03", thisEntity.target)
@@ -163,8 +162,8 @@ function BirdThinker()
         if thisEntity.target == nil or thisEntity.target:IsAlive() == false then
 
             -- remove mark
-            if thisEntity.head_particle ~= nil then
-                ParticleManager:DestroyParticle(thisEntity.head_particle, true)
+            if thisEntity.target:HasModifier("bird_mark_modifier") ~= nil then
+                thisEntity.target:RemoveModifierByName("bird_mark_modifier")
             end
 
             thisEntity.PHASE = 2

@@ -14,11 +14,11 @@
                 <Label id="ToolTipInfo" class="ToolTipInfo" text="i" />
             </Panel>
             <Button id="StoryModeButton" >
-                <Label id="StoryModeButtonBtnTxt" text="Story mode" />
+                <Label id="StoryModeButtonBtnTxt" text="Normal mode" />
                 <Label id="ToolTipInfo" class="ToolTipInfo" text="i" />
             </Button>
             <Button id="NormalModeButton" >
-                <Label id="NormalModeButtonTxt" text="Normal Mode" />
+                <Label id="NormalModeButtonTxt" text="Hard Mode" />
                 <Label id="ToolTipInfo" class="ToolTipInfo" text="i" />
             </Button>
             <!--

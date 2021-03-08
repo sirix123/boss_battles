@@ -88,12 +88,10 @@
 		{
 			"01"{ "var_type"			"FIELD_INTEGER"		"radius"					"250"   }	 
 			"02"{ "var_type"			"FIELD_INTEGER"		"damage"					"200"   }
-			"03"{ "var_type"			"FIELD_INTEGER"		"m1_bleed_tick"				"50"   }
-			"04"{ "var_type"			"FIELD_INTEGER"		"rupture_bleed_tick"		"130"   }
-			"05"{ "var_type"			"FIELD_INTEGER"		"duration"					"10"   }
-			"06"{ "var_type"			"FIELD_INTEGER"		"energy_regen_bonus"		"10"   }
-			"07"{ "var_type"			"FIELD_INTEGER"		"bleed_pop_dmg_reduction"		"2"   }
-		}
+			"03"{ "var_type"			"FIELD_INTEGER"		"duration"					"10"   }
+			"04"{ "var_type"			"FIELD_INTEGER"		"energy_regen_bonus"		"10"   }
+			"05"{ "var_type"			"FIELD_INTEGER"		"bleed_pop_dmg_reduction"	"2"   }
+		} 
 	}
 
     "q_smoke_bomb"

@@ -33,7 +33,7 @@ function m2_direct_heal_modifier_thinker:OnDestroy( kv )
 
 		local friendlies = FindUnitsInRadius(
 			self:GetParent():GetTeamNumber(),	-- int, your team number
-			self:GetParent():GetAbsOrigin(),	-- point, center point
+			self.location,	-- point, center point
 			nil,	-- handle, cacheUnit. (not known)
 			self.radius,	-- float, radius. or use FIND_UNITS_EVERYWHERE
 			DOTA_UNIT_TARGET_TEAM_FRIENDLY,	-- int, team filter
@@ -45,6 +45,7 @@ function m2_direct_heal_modifier_thinker:OnDestroy( kv )
 
 		for _, friend in pairs(friendlies) do
             friend:Heal(self:GetAbility():GetSpecialValueFor( "heal" ),self.caster)
+			--print("friend ",friend:GetUnitName())
 		end
 
 		-- remove thinker

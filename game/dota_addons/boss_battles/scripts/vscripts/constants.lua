@@ -60,3 +60,5 @@ _G.tCORE_MODIFIERS =
     "modifier_grace_period",
     "modifier_hero_movement",
 }
+
+_G.tPLAYERS_HANDSHAKE = {}

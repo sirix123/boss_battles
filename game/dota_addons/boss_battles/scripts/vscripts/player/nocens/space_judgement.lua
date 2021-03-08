@@ -45,72 +45,103 @@ function space_judgement:GetAOERadius()
 end
 
 function space_judgement:OnSpellStart()
+    if IsServer() then
+        self:GetCaster():FadeGesture(ACT_DOTA_CAST_ABILITY_1)
 
-    self:GetCaster():FadeGesture(ACT_DOTA_CAST_ABILITY_1)
+        self.caster = self:GetCaster()
 
-    self.caster = self:GetCaster()
+        local damage = self:GetSpecialValueFor( "dmg" )
 
-    local damage = self:GetSpecialValueFor( "dmg" )
+        local enemies = FindUnitsInRadius(
+            self:GetCaster():GetTeamNumber(),	-- int, your team number
+            self.point,	-- point, center point
+            nil,	-- handle, cacheUnit. (not known)
+            self:GetSpecialValueFor( "radius" ),	-- float, radius. or use FIND_UNITS_EVERYWHERE
+            DOTA_UNIT_TARGET_TEAM_ENEMY,	-- int, team filter
+            DOTA_UNIT_TARGET_HERO + DOTA_UNIT_TARGET_BASIC,	-- int, type filter
+            0,	-- int, flag filter
+            0,	-- int, order filter
+            false	-- bool, can grow cache
+        )
 
-    local enemies = FindUnitsInRadius(
-        self:GetCaster():GetTeamNumber(),	-- int, your team number
-        self.point,	-- point, center point
-        nil,	-- handle, cacheUnit. (not known)
-        self:GetSpecialValueFor( "radius" ),	-- float, radius. or use FIND_UNITS_EVERYWHERE
-        DOTA_UNIT_TARGET_TEAM_ENEMY,	-- int, team filter
-        DOTA_UNIT_TARGET_HERO + DOTA_UNIT_TARGET_BASIC,	-- int, type filter
-        0,	-- int, flag filter
-        0,	-- int, order filter
-        false	-- bool, can grow cache
-    )
+        if enemies ~= nil and #enemies ~= 0 then
 
-    if enemies ~= nil and #enemies ~= 0 then
+            for _, enemy in pairs(enemies) do
 
-        for _, enemy in pairs(enemies) do
+                if self.caster:HasModifier("q_armor_aura_buff") then
 
-            if self.caster:HasModifier("q_armor_aura_buff") then
+                    EmitSoundOn("Hero_DragonKnight.DragonTail.Target", enemies[1])
 
-                EmitSoundOn("Hero_DragonKnight.DragonTail.Target", enemies[1])
+                    damage = self:GetSpecialValueFor( "dmg" ) + self:GetSpecialValueFor( "bonus_dmg" )
+                    enemy:AddNewModifier(self.caster, self, "q_armor_aura_debuff", {duration = self:GetSpecialValueFor( "debuff_duration" )})
 
-                damage = self:GetSpecialValueFor( "dmg" ) + self:GetSpecialValueFor( "bonus_dmg" )
-                enemy:AddNewModifier(self.caster, self, "q_armor_aura_debuff", {duration = self:GetSpecialValueFor( "debuff_duration" )})
+                    self:RemoveBuffsAllUnits( "q_armor_aura_buff" )
 
-            elseif self.caster:HasModifier("e_regen_aura_buff") then
+                elseif self.caster:HasModifier("e_regen_aura_buff") then
 
-                EmitSoundOn("Hero_DragonKnight.DragonTail.Target", enemies[1])
+                    EmitSoundOn("Hero_DragonKnight.DragonTail.Target", enemies[1])
 
-                damage = self:GetSpecialValueFor( "dmg" ) + self:GetSpecialValueFor( "bonus_dmg" )
-                enemy:AddNewModifier(self.caster, self, "e_regen_aura_debuff", {duration = self:GetSpecialValueFor( "debuff_duration" )})
+                    damage = self:GetSpecialValueFor( "dmg" ) + self:GetSpecialValueFor( "bonus_dmg" )
+                    enemy:AddNewModifier(self.caster, self, "e_regen_aura_debuff", {duration = self:GetSpecialValueFor( "debuff_duration" )})
 
-            elseif self.caster:HasModifier("r_outgoing_dmg_buff") then
+                    self:RemoveBuffsAllUnits( "e_regen_aura_buff" )
 
-                EmitSoundOn("Hero_Sven.StormBoltImpact", enemies[1])
+                elseif self.caster:HasModifier("r_outgoing_dmg_buff") then
 
-                damage = self:GetSpecialValueFor( "dmg" ) + self:GetSpecialValueFor( "bonus_dmg" ) + self:GetSpecialValueFor( "r_dmg" )
-                --enemy:AddNewModifier(self.caster, self, "r_outgoing_dmg_debuff", {duration = self:GetSpecialValueFor( "debuff_duration" )})
+                    EmitSoundOn("Hero_Sven.StormBoltImpact", enemies[1])
 
-                local nfxID = ParticleManager:CreateParticle("particles/units/heroes/hero_sven/sven_storm_bolt_projectile_explosion.vpcf", PATTACH_POINT, enemies[1])
-                ParticleManager:SetParticleControlEnt(nfxID, 3, enemies[1], PATTACH_ABSORIGIN_FOLLOW, "attach_hitloc", enemies[1]:GetAbsOrigin(), false)
+                    damage = self:GetSpecialValueFor( "dmg" ) + self:GetSpecialValueFor( "bonus_dmg" ) + self:GetSpecialValueFor( "r_dmg" )
+                    --enemy:AddNewModifier(self.caster, self, "r_outgoing_dmg_debuff", {duration = self:GetSpecialValueFor( "debuff_duration" )})
 
+                    local nfxID = ParticleManager:CreateParticle("particles/units/heroes/hero_sven/sven_storm_bolt_projectile_explosion.vpcf", PATTACH_POINT, enemies[1])
+                    ParticleManager:SetParticleControlEnt(nfxID, 3, enemies[1], PATTACH_ABSORIGIN_FOLLOW, "attach_hitloc", enemies[1]:GetAbsOrigin(), false)
+
+                    self:RemoveBuffsAllUnits( "r_outgoing_dmg_buff" )
+
+                end
+
+                self.dmgTable = {
+                    victim = enemy,
+                    attacker = self.caster,
+                    damage = damage,
+                    damage_type = self:GetAbilityDamageType(),
+                    ability = self,
+                }
+
+                ApplyDamage(self.dmgTable)
             end
-
-            self.dmgTable = {
-                victim = enemy,
-                attacker = self.caster,
-                damage = damage,
-                damage_type = self:GetAbilityDamageType(),
-                ability = self,
-            }
-
-            ApplyDamage(self.dmgTable)
         end
+
+        local particle = "particles/units/heroes/hero_omniknight/omniknight_shard_hammer_of_purity_target.vpcf"
+        local particle_aoe_fx = ParticleManager:CreateParticle(particle, PATTACH_WORLDORIGIN, nil)
+        ParticleManager:SetParticleControl(particle_aoe_fx, 0, self.point)
+        ParticleManager:SetParticleControl(particle_aoe_fx, 3, self.point)
+        ParticleManager:ReleaseParticleIndex(particle_aoe_fx)
     end
-
-    local particle = "particles/units/heroes/hero_omniknight/omniknight_shard_hammer_of_purity_target.vpcf"
-    local particle_aoe_fx = ParticleManager:CreateParticle(particle, PATTACH_WORLDORIGIN, nil)
-    ParticleManager:SetParticleControl(particle_aoe_fx, 0, self.point)
-    ParticleManager:SetParticleControl(particle_aoe_fx, 3, self.point)
-    ParticleManager:ReleaseParticleIndex(particle_aoe_fx)
-
 end
 ---------------------------------------------------------------------------
+
+function space_judgement:RemoveBuffsAllUnits( buff )
+    if IsServer() then
+
+        local friendlies = FindUnitsInRadius(
+            self:GetCaster():GetTeamNumber(),	-- int, your team number
+            self.point,	-- point, center point
+            nil,	-- handle, cacheUnit. (not known)
+            FIND_UNITS_EVERYWHERE,	-- float, radius. or use FIND_UNITS_EVERYWHERE
+            DOTA_UNIT_TARGET_TEAM_FRIENDLY,	-- int, team filter
+            DOTA_UNIT_TARGET_HERO + DOTA_UNIT_TARGET_BASIC,	-- int, type filter
+            DOTA_UNIT_TARGET_FLAG_INVULNERABLE,	-- int, flag filter
+            0,	-- int, order filter
+            false	-- bool, can grow cache
+        )
+
+        if friendlies ~= nil and #friendlies ~= 0 then
+            for _, friend in pairs(friendlies) do
+                if friend:HasModifier(buff) then
+                    friend:RemoveModifierByName(buff)
+                end
+            end
+        end
+    end
+end

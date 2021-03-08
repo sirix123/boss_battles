@@ -49,10 +49,12 @@ function m2_combo_breaker:OnSpellStart()
     local damage = self:GetSpecialValueFor("damage")
 
     self.m1_bleed = caster:FindAbilityByName("m1_combo_hit_3")
-    local m1_bleed_tick = self.m1_bleed:GetSpecialValueFor("m1_bleed_tick")
+    local m1_bleed_tick = self.m1_bleed:GetSpecialValueFor("dmg_dot_base")
 
     self.ruptureAbility = caster:FindAbilityByName("r_rupture")
-    local rupture_bleed_tick = self.ruptureAbility:GetSpecialValueFor("rupture_bleed_tick")
+    local rupture_bleed_tick = self.ruptureAbility:GetSpecialValueFor("dmg_dot_base")
+
+    local env_bonus = self.ruptureAbility:GetSpecialValueFor("bonus_bleed_percent") / 100
 
     -- on attack end particle effect
     local offset = 40
@@ -88,6 +90,11 @@ function m2_combo_breaker:OnSpellStart()
             local hBuff = enemy:FindModifierByNameAndCaster("m2_combo_hit_3_bleed", caster)
             local flBuffDuration = hBuff:GetRemainingTime()
             local bleedTickDmg = m1_bleed_tick
+
+            if enemy:HasModifier("e_swallow_potion_modifier_debuff") then
+                bleedTickDmg = m1_bleed_tick + ( m1_bleed_tick * env_bonus )
+            end
+
             local dmgPop = ( flBuffDuration * bleedTickDmg ) / self:GetSpecialValueFor("bleed_pop_dmg_reduction")
             damage = damage + dmgPop
             enemy:RemoveModifierByName("m2_combo_hit_3_bleed")
@@ -97,8 +104,14 @@ function m2_combo_breaker:OnSpellStart()
             local hBuff = enemy:FindModifierByNameAndCaster("r_rupture_modifier", caster)
             local flBuffDuration = hBuff:GetRemainingTime()
             local bleedTickDmg = rupture_bleed_tick
+
+            if enemy:HasModifier("e_swallow_potion_modifier_debuff") then
+                bleedTickDmg = rupture_bleed_tick + ( rupture_bleed_tick * env_bonus )
+            end
+
             local dmgPop = ( flBuffDuration * bleedTickDmg ) / self:GetSpecialValueFor("bleed_pop_dmg_reduction")
             damage = damage + dmgPop
+
             enemy:RemoveModifierByName("r_rupture_modifier")
         end
 
