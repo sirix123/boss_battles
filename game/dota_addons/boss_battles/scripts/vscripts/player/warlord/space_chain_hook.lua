@@ -75,9 +75,9 @@ function space_chain_hook:OnSpellStart()
 
         caster:FindAbilityByName("m1_sword_slash"):SetActivated(false)
         caster:FindAbilityByName("m2_sword_slam"):SetActivated(false)
-        caster:FindAbilityByName("q_meditate"):SetActivated(false)
-        caster:FindAbilityByName("e_spawn_ward"):SetActivated(false)
-        caster:FindAbilityByName("r_sword_slam"):SetActivated(false)
+        caster:FindAbilityByName("q_conq_shout"):SetActivated(false)
+        caster:FindAbilityByName("e_warlord_shout"):SetActivated(false)
+        caster:FindAbilityByName("r_blade_vortex"):SetActivated(false)
         caster:FindAbilityByName("space_chain_hook"):SetActivated(false)
 
         self:GetCaster():EmitSound("Hero_Pudge.AttackHookRetract")

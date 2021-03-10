@@ -25,7 +25,7 @@
 		{
 			"01"{ "var_type"			"FIELD_INTEGER"		"radius"					"250" }	 
 			"02"{ "var_type"			"FIELD_INTEGER"		"damage"					"70" }
-			"03"{ "var_type"			"FIELD_INTEGER"		"mana_gain_percent"			"7" }
+			"03"{ "var_type"			"FIELD_INTEGER"		"mana_gain_percent"			"10" }
 			"04"{ "var_type"			"FIELD_INTEGER"		"mana_gain_percent_bonus"	"5" }
 		}
 	}
@@ -57,7 +57,7 @@
 			"01"{ "var_type"			"FIELD_INTEGER"		"width"								"150" }	
 			"02"{ "var_type"			"FIELD_INTEGER"		"base_dmg"							"100" }
 			"03"{ "var_type"			"FIELD_FLOAT"		"dmg_per_mana_point"				"2" }
-			"04"{ "var_type"			"FIELD_INTEGER"		"stack_duration"					"15" }
+			"04"{ "var_type"			"FIELD_INTEGER"		"dps_stance_m2_stack_duration"		"15" }
 			"05"{ "var_type"			"FIELD_INTEGER"		"dmg_per_debuff_stack"				"50" }
 			"06"{ "var_type"			"FIELD_INTEGER"		"max_stacks"						"3" }
 			
@@ -72,19 +72,21 @@
     
 	}
 
-	"q_conq_shout"
+	"q_meditate"
 	{
 		"BaseClass"						"ability_lua"
-		"ScriptFile"					"player/warlord/q_conq_shout"
+		"ScriptFile"					"player/warlord/q_meditate"
 		"MaxLevel"						"1"
 
-		"AbilityTextureName"			"huskar_berserkers_blood"
+		"AbilityTextureName"			"dragon_knight_dragon_tail"
 		"SpellImmunityType"				"SPELL_IMMUNITY_ENEMIES_YES"
         "AbilityBehavior"				"DOTA_ABILITY_BEHAVIOR_NO_TARGET"
 		"AbilityCastRange" 				"600"
-        "AbilityCooldown"				"20.0"
-        "AbilityCastPoint"              "0.2"
-		"AbilityManaCost"        		"10"
+        "AbilityCooldown"				"30" //30
+        "AbilityCastPoint"              "0.0"
+		"AbilityManaCost"        		"0"
+
+		"AbilityChannelTime"			"3"
 
 		"TargetingIndicator"
 		{
@@ -94,34 +96,31 @@
         
 		"AbilitySpecial"
 		{
-			"01"{ "var_type"			"FIELD_INTEGER"		"duration"					"10" }
-			"02"{ "var_type"			"FIELD_INTEGER"		"radius"					"250" }
-			"03"{ "var_type"			"FIELD_FLOAT"		"crit_chance"				"0.3" }
-			"04"{ "var_type"			"FIELD_FLOAT"		"crit_multi"				"0.5" }
+			"01"{ "var_type"			"FIELD_INTEGER"		"duration"				"3" }	
 		}
 
         "precache"
 		{
 			"particle"	"particles/units/heroes/hero_axe/axe_beserkers_call_owner.vpcf"
-			"soundfile"	"soundevents/game_sounds_heroes/game_sounds_axe.vsndevts"
+			"soundfile"	"soundevents/game_sounds_heroes/game_sounds_sven.vsndevts"
 			"soundfile" "sounds/weapons/hero/shared/large_blade/whoosh01.vsnd"
 		}
     
 	}
 
-	"e_warlord_shout"
+	"e_spawn_ward"
 	{
 		"BaseClass"						"ability_lua"
-		"ScriptFile"					"player/warlord/e_warlord_shout"
+		"ScriptFile"					"player/warlord/e_spawn_ward"
 		"MaxLevel"						"1"
 
 		"AbilityTextureName"			"axe_berserkers_call"
-		"SpellImmunityType"				"SPELL_IMMUNITY_ENEMIES_YES"
+		"AbilityUnitDamageType"			"DAMAGE_TYPE_PHYSICAL"	
         "AbilityBehavior"				"DOTA_ABILITY_BEHAVIOR_NO_TARGET"
-		"AbilityCastRange" 				"600"
-        "AbilityCooldown"				"20.0"
-        "AbilityCastPoint"              "0.2"
-		"AbilityManaCost"        		"10"
+		"AbilityCastRange" 				"1000"
+        "AbilityCooldown"				"50"
+        "AbilityCastPoint"              "0.0"
+		"AbilityManaCost"        		"0"
 
 		"TargetingIndicator"
 		{
@@ -131,25 +130,26 @@
         
 		"AbilitySpecial"
 		{
-			"01"{ "var_type"			"FIELD_INTEGER"		"duration"					"12" }
-			"02"{ "var_type"			"FIELD_INTEGER"		"radius"					"250" }
-			"03"{ "var_type"			"FIELD_FLOAT"		"bubble_amount"				"200" }
+			"01"{ "var_type"			"FIELD_INTEGER"		"radius"				"350" }	
+			"02"{ "var_type"			"FIELD_INTEGER"		"dmg"					"20" }	
+			"03"{ "var_type"			"FIELD_FLOAT"		"interval"				"0.1" }	
+			"04"{ "var_type"			"FIELD_INTEGER"		"duration"				"15" }	
+			"05"{ "var_type"			"FIELD_INTEGER"		"buff_duration"			"3" }
+			"06"{ "var_type"			"FIELD_INTEGER"		"dmg_reduction"			"50" }
+			"07"{ "var_type"			"FIELD_INTEGER"		"heal_amount_per_tick"	"30" }
 		}
 
         "precache"
 		{
-			"particle"	"particles/units/heroes/hero_axe/axe_beserkers_call_owner.vpcf"
-			"soundfile"	"soundevents/game_sounds_heroes/game_sounds_axe.vsndevts"
-			"soundfile"	"soundevents/game_sounds_heroes/game_sounds_abaddon.vsndevts"
-			"soundfile" "sounds/weapons/hero/shared/large_blade/whoosh01.vsnd"
+
 		}
     
 	}
 
-	"r_blade_vortex"
+	"r_sword_slam"
 	{
 		"BaseClass"						"ability_lua"
-		"ScriptFile"					"player/warlord/r_blade_vortex"
+		"ScriptFile"					"player/warlord/r_sword_slam"
 		"MaxLevel"						"1"
 
 		"AbilityTextureName"			"juggernaut_blade_fury"
@@ -158,26 +158,22 @@
 		"SpellImmunityType"				"SPELL_IMMUNITY_ENEMIES_YES"
         "AbilityBehavior"				"DOTA_ABILITY_BEHAVIOR_POINT"
 		"AbilityCastRange" 				"1000"
-        "AbilityCooldown"				"0"
-        "AbilityCastPoint"              "0.2"
+        "AbilityCooldown"				"5"
+        "AbilityCastPoint"              "0.9"
 		"AbilityManaCost"        		"0"
-		"AbilityCharges"				"2"
-		"AbilityChargeRestoreTime"		"40"
 
 		"TargetingIndicator"
 		{
-			"Type"						"TARGETING_INDICATOR_AOE"
-			"Fixed"						"0"
+			"Type" 						"TARGETING_INDICATOR_LINE"
+			"Fixed"						"1"
 		}
         
 		"AbilitySpecial"
 		{
-			"01"{ "var_type"			"FIELD_INTEGER"		"radius"							"250" }	
-			"02"{ "var_type"			"FIELD_INTEGER"		"duration"							"30" }	
-			"03"{ "var_type"			"FIELD_INTEGER"		"base_dmg"							"150" }
-			"04"{ "var_type"			"FIELD_FLOAT"		"tick_rate"							"1" }
-			"05"{ "var_type"			"FIELD_INTEGER"		"shout_duration_increase"			"5" }
-			"06"{ "var_type"			"FIELD_INTEGER"		"mana_gain_percent_bonus"			"5" }
+			"01"{ "var_type"			"FIELD_INTEGER"		"width"								"150" }	
+			"02"{ "var_type"			"FIELD_INTEGER"		"base_dmg"							"100" }
+			"03"{ "var_type"			"FIELD_FLOAT"		"dmg_per_mana_point"				"3" }
+			"04"{ "var_type"			"FIELD_INTEGER"		"dmg_per_debuff_stack"				"50" }
 		}
 
         "precache"

@@ -36,18 +36,11 @@ end
 function m1_sword_slash:OnSpellStart()
 	local caster = self:GetCaster()
 	local origin = caster:GetOrigin()
-
-	-- remove casting animation
 	self:GetCaster():FadeGesture(ACT_DOTA_ATTACK)
-
-	-- function in utility_functions
 	local point = Vector(caster.mouse.x, caster.mouse.y, caster.mouse.z)
-
 	local radius = self:GetSpecialValueFor("radius")
 	local direction = (Vector(point.x-origin.x, point.y-origin.y, 0)):Normalized()
-
 	local damage = self:GetSpecialValueFor("damage")
-
 	local base_mana = self:GetSpecialValueFor( "mana_gain_percent" )
 	local bonus_mana = self:GetSpecialValueFor( "mana_gain_percent_bonus" )
 

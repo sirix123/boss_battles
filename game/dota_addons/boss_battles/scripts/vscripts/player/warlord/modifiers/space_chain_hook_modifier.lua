@@ -81,16 +81,15 @@ function space_chain_hook_modifier:OnDestroy( kv )
         if self.caster:HasModifier("r_whirlwind_modifier") == false then
             self.caster:FindAbilityByName("m1_sword_slash"):SetActivated(true)
             self.caster:FindAbilityByName("m2_sword_slam"):SetActivated(true)
-            self.caster:FindAbilityByName("q_meditate"):SetActivated(true)
-            self.caster:FindAbilityByName("e_spawn_ward"):SetActivated(true)
-            self.caster:FindAbilityByName("r_sword_slam"):SetActivated(true)
+            self.caster:FindAbilityByName("q_conq_shout"):SetActivated(true)
+            self.caster:FindAbilityByName("e_warlord_shout"):SetActivated(true)
+            self.caster:FindAbilityByName("r_blade_vortex"):SetActivated(true)
             self.caster:FindAbilityByName("space_chain_hook"):SetActivated(true)
         end
 
         self:GetParent():RemoveHorizontalMotionController( self )
         self:GetCaster():EmitSound("Hero_Pudge.AttackHookImpact")
         self:GetCaster():StopSound("Hero_Pudge.AttackHookRetract")
-
 	end
 end
 ---------------------------------------------------------------------------

@@ -19,13 +19,18 @@ function GenerateLocalizationData() {
     var bladefuryColour = "<b><font color=\"#ffffff\">Blade Fury</font></b>";
     // modifiers
     Modifiers.push({
-        modifier_classname: "e_spawn_ward_buff",
-        name: "Warcry",
-        description: "Reduces damage taken by {" + "MODIFIER_PROPERTY_INCOMING_DAMAGE_PERCENTAGE" /* INCOMING_DAMAGE_PERCENTAGE */ + "}% and provides {" + "MODIFIER_PROPERTY_HEALTH_REGEN_CONSTANT" /* HEALTH_REGEN_CONSTANT */ + "} health regen to everyone inside the shouts radius.",
+        modifier_classname: "m2_sword_slam_debuff",
+        name: "Weakness",
+        description: "Increases the damage of your Sword Slams.",
     });
     Modifiers.push({
-        modifier_classname: "q_meditate_modifier",
-        name: "Meditating",
+        modifier_classname: "e_warlord_shout_modifier",
+        name: "Warlord Shout",
+        description: "Provides a shield that will abosrbs damage.",
+    });
+    Modifiers.push({
+        modifier_classname: "q_conq_shout_modifier",
+        name: "Conquerer Shout",
         description: "Invulnerable and regenerating rage.",
     });
     Abilities.push({
@@ -54,7 +59,6 @@ function GenerateLocalizationData() {
         name: "Sword Slam",
         description: "Slam the sword in a line with your sword, dealing damage to all enemies caught in its path. Applies a buff to the Warlord increasing the damage delt by Sword Slam.",
         notes: [
-            "The debuff also increases the damage of " + bladefuryColour + ".",
             "Max stacks of the debuff is {max_stacks}",
         ],
         ability_specials: [
@@ -72,8 +76,12 @@ function GenerateLocalizationData() {
                 text: "CAST POINT:",
             },
             {
+                ability_special: "dmg_per_mana_point",
+                text: "DAMAGE PER ENERGY:",
+            },
+            {
                 ability_special: "dps_stance_m2_stack_duration",
-                text: "DEBUFF DURATION:",
+                text: "BUFF DURATION:",
             },
             {
                 ability_special: "dmg_per_debuff_stack",
@@ -82,54 +90,61 @@ function GenerateLocalizationData() {
         ]
     });
     Abilities.push({
-        ability_classname: "q_meditate",
-        name: "Meditate",
-        description: "Enter a state where you take no damage and you regenerate energy.",
-        notes: [],
-        ability_specials: [
-            {
-                ability_special: "duration",
-                text: "DURATION:"
-            },
-        ]
-    });
-    Abilities.push({
-        ability_classname: "e_spawn_ward",
-        name: "Warcry",
-        description: "Shout a battle cry continously that reduces incoming damage and increases health regen to all nearby allies and your self.",
-        notes: [],
-        ability_specials: [
-            {
-                ability_special: "duration",
-                text: "DURATION:"
-            },
-            {
-                ability_special: "dmg_reduction",
-                text: "DAMAGE REDUCTION:"
-            },
-            {
-                ability_special: "heal_amount_per_tick",
-                text: "HEAL:"
-            },
-        ]
-    });
-    Abilities.push({
-        ability_classname: "r_sword_slam",
-        name: "Blade Fury",
-        description: "Blade Fury.",
+        ability_classname: "q_conq_shout",
+        name: "Conquerer Shout",
+        description: "Increase the damage of your Blade Vortex(s).",
         notes: [],
         ability_specials: [
             {
                 ability_special: "base_dmg",
-                text: "BASE DAMAGE:"
+                text: "DAMAGE:"
             },
             {
-                ability_special: "dmg_per_mana_point",
-                text: "DAMAGE PER ENERGY POINT:"
+                ability_special: "duration",
+                text: "DURATION:"
+            },
+        ]
+    });
+    Abilities.push({
+        ability_classname: "e_warlord_shout",
+        name: "Warlord Shout",
+        description: "Shout a battle cry that applies a shield to all targets in range of you and your Blade Vortex(s).",
+        notes: [],
+        ability_specials: [
+            {
+                ability_special: "duration",
+                text: "DURATION:"
             },
             {
-                ability_special: "dmg_per_debuff_stack",
-                text: "DAMAGE PER DEBUFF STACK:"
+                ability_special: "bubble_amount",
+                text: "SHIELD:"
+            },
+        ]
+    });
+    Abilities.push({
+        ability_classname: "r_blade_vortex",
+        name: "Blade Vortex",
+        description: "Place a Blade Vortex on the ground that deals damage and channels your shouts.",
+        notes: [
+            'Shouts will increase the duration of the vortex.'
+        ],
+        ability_specials: [
+            {
+                ability_special: "duration",
+                text: "DURATION:"
+            },
+            {
+                ability_special: "base_dmg",
+                text: "DAMAGE:"
+            },
+            {
+                ability_special: "shout_duration_increase",
+                text: "PER SHOUT VORTEX DURATION INCREASE:"
+            },
+            {
+                ability_special: "mana_gain_percent_bonus",
+                text: "ENERGY GAIN:",
+                percentage: true
             },
         ]
     });

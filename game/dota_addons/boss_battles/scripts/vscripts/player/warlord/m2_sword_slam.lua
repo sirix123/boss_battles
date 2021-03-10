@@ -1,5 +1,5 @@
 m2_sword_slam = class({})
-LinkLuaModifier( "m2_sword_slam_buff", "player/warlord/modifiers/m2_sword_slam_buff", LUA_MODIFIER_MOTION_NONE )
+LinkLuaModifier( "m2_sword_slam_debuff", "player/warlord/modifiers/m2_sword_slam_debuff", LUA_MODIFIER_MOTION_NONE )
 --------------------------------------------------------------------------------
 
 function m2_sword_slam:OnAbilityPhaseStart()
@@ -67,27 +67,30 @@ function m2_sword_slam:OnSpellStart()
 
     -- dmg formula
     local dmg = self:GetSpecialValueFor( "base_dmg" )
-    --local dmgPerManaPoint = self:GetSpecialValueFor( "dmg_per_mana_point" )
+    local dmgPerManaPoint = self:GetSpecialValueFor( "dmg_per_mana_point" )
     local dmgPerDebuffStack = self:GetSpecialValueFor( "dmg_per_debuff_stack" )
-    local damage = dmg --+ ( self.mana * dmgPerManaPoint )
+    local damage = dmg
 
     -- stack duration
-    local duration = self:GetSpecialValueFor( "dps_stance_m2_stack_duration" )
+    local duration = self:GetSpecialValueFor( "stack_duration" )
 
     if units ~= nil and #units ~= 0 then
         self:GetCaster():AddNewModifier(
             self.caster, -- player source
             self, -- ability source
-            "m2_sword_slam_buff", -- modifier name
+            "m2_sword_slam_debuff", -- modifier name
             {duration = duration} -- kv
         )
     end
 
-    if self:GetCaster():HasModifier("m2_sword_slam_buff") then
-        local hBuff = self:GetCaster():FindModifierByNameAndCaster("m2_sword_slam_buff", self.caster)
+    if self:GetCaster():HasModifier("m2_sword_slam_debuff") then
+        local hBuff = self:GetCaster():FindModifierByNameAndCaster("m2_sword_slam_debuff", self.caster)
         local nStackCount = hBuff:GetStackCount()
         damage = damage + ( nStackCount * dmgPerDebuffStack )
     end
+
+    -- add mana
+    damage = damage + ( self.mana * dmgPerManaPoint )
 
     for _,unit in pairs(units) do
 
