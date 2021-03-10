@@ -5,7 +5,7 @@ function m1_omni_basic_attack:OnAbilityPhaseStart()
     if IsServer() then
 
         -- start casting animation
-        self:GetCaster():StartGestureWithPlaybackRate(ACT_DOTA_ATTACK, 1.1)
+        self:GetCaster():StartGestureWithPlaybackRate(ACT_DOTA_ATTACK, 0.8)
 
         -- add casting modifier
         self:GetCaster():AddNewModifier(self:GetCaster(), self, "casting_modifier_thinker",

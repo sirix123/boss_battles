@@ -75,16 +75,12 @@ function space_judgement:OnSpellStart()
                     damage = self:GetSpecialValueFor( "dmg" ) + self:GetSpecialValueFor( "bonus_dmg" )
                     enemy:AddNewModifier(self.caster, self, "q_armor_aura_debuff", {duration = self:GetSpecialValueFor( "debuff_duration" )})
 
-                    self:RemoveBuffsAllUnits( "q_armor_aura_buff" )
-
                 elseif self.caster:HasModifier("e_regen_aura_buff") then
 
                     EmitSoundOn("Hero_DragonKnight.DragonTail.Target", enemies[1])
 
                     damage = self:GetSpecialValueFor( "dmg" ) + self:GetSpecialValueFor( "bonus_dmg" )
                     enemy:AddNewModifier(self.caster, self, "e_regen_aura_debuff", {duration = self:GetSpecialValueFor( "debuff_duration" )})
-
-                    self:RemoveBuffsAllUnits( "e_regen_aura_buff" )
 
                 elseif self.caster:HasModifier("r_outgoing_dmg_buff") then
 
@@ -96,7 +92,9 @@ function space_judgement:OnSpellStart()
                     local nfxID = ParticleManager:CreateParticle("particles/units/heroes/hero_sven/sven_storm_bolt_projectile_explosion.vpcf", PATTACH_POINT, enemies[1])
                     ParticleManager:SetParticleControlEnt(nfxID, 3, enemies[1], PATTACH_ABSORIGIN_FOLLOW, "attach_hitloc", enemies[1]:GetAbsOrigin(), false)
 
-                    self:RemoveBuffsAllUnits( "r_outgoing_dmg_buff" )
+                else
+
+                    EmitSoundOn("Hero_DragonKnight.DragonTail.Target", enemies[1])
 
                 end
 
@@ -110,6 +108,14 @@ function space_judgement:OnSpellStart()
 
                 ApplyDamage(self.dmgTable)
             end
+        end
+
+        if self.caster:HasModifier("q_armor_aura_buff") then
+            self:RemoveBuffsAllUnits( "q_armor_aura_buff" )
+        elseif self.caster:HasModifier("e_regen_aura_buff") then
+            self:RemoveBuffsAllUnits( "e_regen_aura_buff" )
+        elseif self.caster:HasModifier("r_outgoing_dmg_buff") then
+            self:RemoveBuffsAllUnits( "r_outgoing_dmg_buff" )
         end
 
         local particle = "particles/units/heroes/hero_omniknight/omniknight_shard_hammer_of_purity_target.vpcf"
