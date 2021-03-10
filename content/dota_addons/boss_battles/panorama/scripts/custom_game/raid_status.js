@@ -166,8 +166,8 @@ function updatePlayerFrames(data)
             var mana = Entities.GetMana( hero )
             var manaMax = Entities.GetMaxMana( hero )
 
-            let percent_health = ( health / healthMax ) * 100
-            let percent_mana = ( mana / manaMax ) * 100
+            let percent_health = Math.round( ( health / healthMax ) * 100 )
+            let percent_mana = Math.round( ( mana / manaMax ) * 100 )
 
             var pHealthLabel = playerFrame.FindChildTraverse("PlayerHealthLabel")
             pHealthLabel.text = percent_health + "%"
@@ -201,6 +201,5 @@ function updatePlayerFrames(data)
 
 GameEvents.Subscribe( "create_player_frame", createPlayerFrames );
 GameEvents.Subscribe( "update_player_frame", updatePlayerFrames );
-CustomNetTables.SubscribeNetTableListener( "hide_player_frame", hidePlayerFrame );
 
 

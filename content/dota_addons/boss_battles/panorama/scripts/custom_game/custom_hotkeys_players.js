@@ -22,7 +22,7 @@ function ForceAddAbilityToQueue(abilityIndex) {
     //Either add this ability as the currentAbility, or force it to be the next ability
 
     //$.Msg("we trtying to cast spells?")
-
+    
     if (currentAbility === null) {
         currentAbility = abilityIndex;
         return;
@@ -262,7 +262,8 @@ function OnLeftButtonPressed()
     if ( Players.GetPlayerSelectedHero( playerEntity ) != "npc_dota_hero_lina" ){
         $.Schedule(0.3, function tic(){
             //only continue timer if mouse still down
-            if (GameUI.IsMouseDown(0)){
+            if (GameUI.IsMouseDown(0))
+            {
                 TryAddAbilityToQueue(0);
                 $.Schedule(0.3, tic);
             }
