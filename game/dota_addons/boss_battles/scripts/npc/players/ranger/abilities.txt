@@ -82,7 +82,7 @@
 		"AbilityUnitTargetTeam"			"DOTA_UNIT_TARGET_TEAM_FRIENDLY"
 		"SpellImmunityType"				"SPELL_IMMUNITY_ENEMIES_YES"
         "AbilityBehavior"				"DOTA_ABILITY_BEHAVIOR_POINT"
-		"AbilityCastRange" 				"1400"
+		"AbilityCastRange" 				"2000"
         "AbilityCooldown"				"15"
         "AbilityCastPoint"              "0.5"
 
@@ -95,9 +95,9 @@
         
 		"AbilitySpecial"
 		{
-			"01"{ "var_type"			"FIELD_INTEGER"		"hit_box"							"160" }
-			"02"{ "var_type"			"FIELD_INTEGER"		"proj_speed"						"1800" }
-			"03"{ "var_type"			"FIELD_INTEGER"		"heal"								"120" }
+			"01"{ "var_type"			"FIELD_INTEGER"		"hit_box"							"200" }
+			"02"{ "var_type"			"FIELD_INTEGER"		"proj_speed"						"1300" }
+			"03"{ "var_type"			"FIELD_INTEGER"		"heal"								"100" }
 			"04"{ "var_type"			"FIELD_FLOAT"		"heal_dist_multi"					"0.08" }
 			"05"{ "var_type"			"FIELD_INTEGER"		"mana_gain_per_hit"             	"3" }
 		}
