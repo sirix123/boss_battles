@@ -109,8 +109,8 @@ function Spawn( entityKeyValues )
 	thisEntity.missile_salvo:StartCooldown(thisEntity.missile_salvo:GetCooldown(thisEntity.missile_salvo:GetLevel()))
 
 	-- chooking gas
-	--thisEntity.choking_gas = thisEntity:FindAbilityByName( "choking_gas" )
-	--thisEntity.choking_gas:StartCooldown(thisEntity.choking_gas:GetCooldown(thisEntity.choking_gas:GetLevel()))
+	thisEntity.choking_gas = thisEntity:FindAbilityByName( "choking_gas" )
+	thisEntity.choking_gas:StartCooldown(thisEntity.choking_gas:GetCooldown(thisEntity.choking_gas:GetLevel()))
 
 	-- vortex grenade
 	thisEntity.vortex_grenade = thisEntity:FindAbilityByName( "vortex_grenade" )
@@ -220,6 +220,10 @@ function ClockThink()
 		return CastHookshot()
 	end
 
+	if thisEntity.choking_gas:IsFullyCastable() then
+		return CastChokingGas()
+	end
+
 	return 0.5
 end
 --------------------------------------------------------------------------------
@@ -312,6 +316,18 @@ function CastFireMissile( vTarget )
 	})
 
 	return 0.7
+end
+--------------------------------------------------------------------------------
+
+
+function CastChokingGas()
+	ExecuteOrderFromTable({
+		UnitIndex = thisEntity:entindex(),
+		OrderType = DOTA_UNIT_ORDER_CAST_NO_TARGET,
+		AbilityIndex = thisEntity.choking_gas:entindex(),
+		Queue = 0,
+	})
+	return 0.5
 end
 --------------------------------------------------------------------------------
 

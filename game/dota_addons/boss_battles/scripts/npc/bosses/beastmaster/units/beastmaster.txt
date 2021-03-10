@@ -57,7 +57,7 @@
 
 		// Status
 		//----------------------------------------------------------------
-		"StatusHealth"				"4000"//"4000"//"5000"		// Base health.
+		"StatusHealth"				"5000"//"4000"//"5000"		// Base health.
 		"StatusHealthRegen"			"1"			// Health regeneration rate.
 		"StatusMana"				"0"			// Base mana.
 		"StatusManaRegen"			"0.0"		// Mana regeneration rate.		 
@@ -210,13 +210,15 @@
 
 		// Attack
 		//----------------------------------------------------------------
-		"AttackCapabilities"		"DOTA_UNIT_CAP_MELEE_ATTACK"
-		"AttackDamageMin"			"10"		// Damage range min.
+		"AttackCapabilities"		"DOTA_UNIT_CAP_RANGED_ATTACK"
+		"AttackDamageMin"			"5"			// Damage range min.
 		"AttackDamageMax"			"10"		// Damage range max.
-		"AttackRate"				"1.6"		// Speed of attack.
-		"AttackAnimationPoint"		"0.4"		// Normalized time in animation cycle to attack.
-		"AttackAcquisitionRange"	"4000"		// Range within a target can be acquired.
-		"AttackRange"				"50"		// Range within a target can be attacked.     
+		"AttackRate"				"1.5"		// Speed of attack.
+		"AttackAnimationPoint"		"0.3"		// Normalized time in animation cycle to attack.
+		"AttackAcquisitionRange"	"10000"		// Range within a target can be acquired.
+		"AttackRange"				"900"		// Range within a target can be attacked. 
+		"ProjectileModel" 			"particles/beastmaster/quill_boar_base_attack.vpcf"
+		"ProjectileSpeed" 			"900"	    
 
 		// Bounds
 		//----------------------------------------------------------------

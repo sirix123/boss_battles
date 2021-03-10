@@ -176,7 +176,7 @@ function march:OnProjectileHit(hTarget, vLocation)
             ParticleManager:SetParticleControl(nfx, 1, vLocation)
             ParticleManager:ReleaseParticleIndex(nfx)
 
-            local enemies = FindUnitsInRadius(
+            --[[local enemies = FindUnitsInRadius(
                 self:GetCaster():GetTeamNumber(),	-- int, your team number
                 vLocation,	-- point, center point
                 nil,	-- handle, cacheUnit. (not known)
@@ -198,7 +198,17 @@ function march:OnProjectileHit(hTarget, vLocation)
             for _,enemy in pairs(enemies) do
                 damageTable.victim = enemy
                 ApplyDamage(damageTable)
-            end
+            end]]
+
+            local damageTable = {
+                victim = hTarget,
+                attacker = self:GetCaster(),
+                damage = 150,
+                damage_type = DAMAGE_TYPE_PHYSICAL,
+                ability = self,
+            }
+
+            ApplyDamage(damageTable)
 
             return true
         end

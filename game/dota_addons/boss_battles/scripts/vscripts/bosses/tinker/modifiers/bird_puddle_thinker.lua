@@ -19,7 +19,7 @@ function bird_puddle_thinker:OnCreated( kv )
         self.parent = self:GetParent()
         self.caster = self:GetCaster()
         self.radius = 200
-        self.dmg_dot = 20
+        self.dmg_dot = 80
         self.stopDamageLoop = false
         self.damage_interval = 1
 

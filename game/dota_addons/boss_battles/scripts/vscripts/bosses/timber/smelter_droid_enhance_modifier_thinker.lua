@@ -28,7 +28,7 @@ function smelter_droid_enhance_modifier_thinker:OnCreated( kv )
 	self.radius = 600
 	local interval = 1.5
 	self.mana = 2
-	self.heal = 50
+	self.heal = 150
 
 	if IsServer() then
 		self.parent = self:GetParent()

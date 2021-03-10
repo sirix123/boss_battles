@@ -140,7 +140,7 @@ function green_beam:CreateBeam( )
         local caster = self:GetCaster()
         local radius = self:GetSpecialValueFor( "radius" ) --30
         local dmg = self:GetSpecialValueFor( "damage" ) --10
-        local angleIncrement = 0.15--self:GetSpecialValueFor( "beam_speed_angle_increment" ) -- 0.6
+        local angleIncrement = 0.18--self:GetSpecialValueFor( "beam_speed_angle_increment" ) -- 0.6
         local currentAngle = 1
         local particleName = "particles/tinker/green_phoenix_sunray.vpcf"
         self.end_beams = false

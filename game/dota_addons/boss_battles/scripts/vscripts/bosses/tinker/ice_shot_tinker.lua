@@ -88,7 +88,7 @@ function ice_shot_tinker:OnSpellStart()
 
                 EmitSoundOn( "Hero_Tinker.ProjectileImpact", unit )
 
-                if unit:GetUnitName() == "npc_crystal" or unit:GetUnitName() == "npc_rubick"  then
+                if unit:GetUnitName() == "npc_crystal" then
                     if self.stack_count == 0 then
                         unit:GiveMana(10)
                         BossNumbersOnTarget(unit, 10, Vector(75,75,255))

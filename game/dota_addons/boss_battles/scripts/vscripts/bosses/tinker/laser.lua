@@ -89,7 +89,7 @@ function laser:OnSpellStart()
         local caster = self:GetCaster()
 
         -- load data
-        local damage = 400--self:GetSpecialValueFor("laser_damage")
+        local damage = 800--self:GetSpecialValueFor("laser_damage")
         local index = 1
 
         -- check if there is a rock or crystal between the player and the caster

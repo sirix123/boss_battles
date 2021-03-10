@@ -183,7 +183,7 @@ function TimberThink()
 		end
 
 		-- droid support logic
-		if thisEntity:GetHealthPercent() < 85 and thisEntity.timber_droid_support ~= nil and thisEntity.timber_droid_support:IsFullyCastable() and thisEntity.timber_droid_support:IsCooldownReady() then
+		if thisEntity:GetHealthPercent() < 95 and thisEntity.timber_droid_support ~= nil and thisEntity.timber_droid_support:IsFullyCastable() and thisEntity.timber_droid_support:IsCooldownReady() then
 			return CastDroidSupport()
 		end
 

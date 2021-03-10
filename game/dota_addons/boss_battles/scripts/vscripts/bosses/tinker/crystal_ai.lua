@@ -77,7 +77,7 @@ function Spawn( entityKeyValues )
             return false
         end)
 
-        return 80
+        return 65
     end)
 
     thisEntity:SetContextThink( "CrystalThinker", CrystalThinker, 0.1 )
@@ -305,8 +305,14 @@ function ElementalPhaseTimer()
                 thisEntity.ice_phase = true
                 thisEntity.fire_phase = true
                 thisEntity.elec_phase = false
-            elseif thisEntity.beam_stack_count == 2 then
-                local random_summon_pool = RandomInt(1,3)
+            elseif thisEntity.beam_stack_count >= 2 then
+
+                thisEntity.ice_phase = true
+                thisEntity.fire_phase = true
+                thisEntity.elec_phase = true
+
+
+                --[[local random_summon_pool = RandomInt(1,3)
 
                 if random_summon_pool == 1 then
                     thisEntity.ice_phase = true
@@ -320,7 +326,7 @@ function ElementalPhaseTimer()
                     thisEntity.ice_phase = false
                     thisEntity.fire_phase = true
                     thisEntity.elec_phase = true
-                end
+                end]]
 
             elseif thisEntity.beam_stack_count >= 3 then
                 thisEntity.ice_phase = true

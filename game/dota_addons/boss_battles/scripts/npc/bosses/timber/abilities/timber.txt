@@ -41,7 +41,7 @@
 			"01"
 			{
 				"var_type"			                "FIELD_INTEGER"
-				"nMaxSawBlades"		                "7 7 9 12" 
+				"nMaxSawBlades"		                "9 10 12 13" 
 			}
             "02"
 			{
@@ -61,12 +61,12 @@
             "05"
 			{
 				"var_type"			                "FIELD_INTEGER"
-				"stay_duration"		                "4 4 6 6"
+				"stay_duration"		                "6 6 4 4"
 			}
             "06"
 			{
 				"var_type"			                "FIELD_INTEGER"
-				"damage"		                    "3 3 3 3"
+				"damage"		                    "5 5 5 5"
 			}
             "07"
 			{
@@ -424,7 +424,7 @@
 
         // Time     
         //-------------------------------------------------------------------------------------------------------------
-        "AbilityCooldown"               "30 30 30 30"
+        "AbilityCooldown"               "25 25 25 25"
 
         // Cost
         //-------------------------------------------------------------------------------------------------------------
@@ -442,7 +442,7 @@
             "02"
 			{
 				"var_type"			"FIELD_INTEGER"
-				"droidsPerLocation" "2 3 4 5"
+				"droidsPerLocation" "3 4 5 6"
             }
 		}
     }
