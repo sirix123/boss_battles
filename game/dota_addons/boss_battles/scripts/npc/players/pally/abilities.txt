@@ -25,7 +25,7 @@
 		"AbilitySpecial"
 		{
 			"01"{ "var_type"			"FIELD_INTEGER"		"radius"							"250" }
-			"02"{ "var_type"			"FIELD_INTEGER"		"damage"							"90" }
+			"02"{ "var_type"			"FIELD_INTEGER"		"damage"							"70" }
 		}
 
 		"precache"
@@ -90,8 +90,8 @@
 		"AbilitySpecial"
 		{
 			"01"{ "var_type"			"FIELD_INTEGER"		"duration"							"10" }
-			"02"{ "var_type"			"FIELD_INTEGER"		"armor_plus"						"9" }
-			"03"{ "var_type"			"FIELD_INTEGER"		"armor_minus"						"5" }
+			"02"{ "var_type"			"FIELD_INTEGER"		"armor_plus"						"4" }
+			"03"{ "var_type"			"FIELD_INTEGER"		"armor_minus"						"2" }
 		}
 
 		"precache"
@@ -124,8 +124,8 @@
 		"AbilitySpecial"
 		{
 			"01"{ "var_type"			"FIELD_INTEGER"		"duration"							"10" }
-			"02"{ "var_type"			"FIELD_INTEGER"		"regen_plus"						"25" }
-			"03"{ "var_type"			"FIELD_INTEGER"		"regen_minus"						"50" }
+			"02"{ "var_type"			"FIELD_INTEGER"		"regen_plus"						"15" }
+			"03"{ "var_type"			"FIELD_INTEGER"		"regen_minus"						"35" }
 		}
 
 		"precache"
@@ -158,8 +158,8 @@
 		"AbilitySpecial"
 		{
 			"01"{ "var_type"			"FIELD_INTEGER"		"duration"							"10" }
-			"02"{ "var_type"			"FIELD_INTEGER"		"outgoing_plus"						"20" }
-			"03"{ "var_type"			"FIELD_INTEGER"		"outgoing_minus"					"5" }
+			"02"{ "var_type"			"FIELD_INTEGER"		"outgoing_plus"						"7" }
+			//"03"{ "var_type"			"FIELD_INTEGER"		"outgoing_minus"					"5" }
 		}
 
 		"precache"
@@ -191,11 +191,11 @@
         
 		"AbilitySpecial"
 		{
-			"01"{ "var_type"			"FIELD_INTEGER"		"dmg"							"250" 	}
+			"01"{ "var_type"			"FIELD_INTEGER"		"dmg"							"200" 	}
 			"02"{ "var_type"			"FIELD_INTEGER"		"radius"						"250" 	}
-			"03"{ "var_type"			"FIELD_INTEGER"		"bonus_dmg"						"250" 	}
-			"04"{ "var_type"			"FIELD_INTEGER"		"r_dmg"							"500" 	}
-			"05"{ "var_type"			"FIELD_INTEGER"		"debuff_duration"				"20" 	}
+			"03"{ "var_type"			"FIELD_INTEGER"		"bonus_dmg"						"200" 	}
+			"04"{ "var_type"			"FIELD_INTEGER"		"r_dmg"							"400" 	}
+			"05"{ "var_type"			"FIELD_INTEGER"		"debuff_duration"				"15" 	}
 			
 		}
 
