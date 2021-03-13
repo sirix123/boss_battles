@@ -24,8 +24,9 @@
 //painter
 #base "players/painter/abilities.txt"
 
-//painter
+//firemage
 #base "players/firemage/abilities.txt"
+#base "players/firemage/firemage_unit_spells.txt"
 
 //pally
 #base "players/pally/abilities.txt"

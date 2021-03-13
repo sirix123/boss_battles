@@ -7,11 +7,11 @@
 	{
 		"override_hero"			"npc_dota_hero_lina" 			// Hero to override
 		"Ability1"              "m1_beam" 
-        "Ability2"              "" 
-        "Ability3"              "" 
-        "Ability4"              ""
-        "Ability5"              ""
-        "Ability6"              ""
+        "Ability2"              "m2_meteor" 
+        "Ability3"              "q_fire_bubble" 
+        "Ability4"              "e_fireball"
+        "Ability5"              "r_remnant"
+        "Ability6"              "space_dive"
         "Ability7"              ""
         "Ability8"              ""
         "Ability9"              ""

@@ -37,6 +37,10 @@ end
 function m1_beam:OnSpellStart()
     if IsServer() then
 
+        if self.timer ~= nil then
+            Timers:RemoveTimer(self.timer)
+        end
+
         -- when spell starts fade gesture
         self:GetCaster():FadeGesture(ACT_DOTA_ATTACK)
 
@@ -46,9 +50,11 @@ function m1_beam:OnSpellStart()
 		self.caster = self:GetCaster()
         self.origin = self.caster:GetAbsOrigin()
         self.beam_width = 100
-        local dmg = 50
-        local channel_time_buff = 3
-        self.proj_damage = 100
+        local dmg = self:GetSpecialValueFor( "dmg" )
+        local dmg_1 = dmg * 0.2
+        local dmg_2 = dmg * 0.5
+        local dmg_3 = dmg
+        local channel_time_buff = self:GetSpecialValueFor( "buff_channel_time" ) --timer runs at 0.5
 
         self.beam_point = Vector(0,0,0)
         local particleName = "particles/econ/items/phoenix/phoenix_solar_forge/phoenix_sunray_solar_forge.vpcf"
@@ -66,7 +72,7 @@ function m1_beam:OnSpellStart()
 
             ParticleManager:SetParticleControl(self.pfx, 0, Vector( self.caster:GetAbsOrigin().x, self.caster:GetAbsOrigin().y, self.caster:GetAbsOrigin().z + 100 ))
 
-            local beam_length = 500
+            local beam_length = self:GetSpecialValueFor( "beam_length" )
             local caster_forward = self.caster:GetForwardVector()
             self.beam_point = self.origin + caster_forward * beam_length
             self.beam_point = GetGroundPosition( self.beam_point, nil )
@@ -74,15 +80,19 @@ function m1_beam:OnSpellStart()
 
             ParticleManager:SetParticleControl( self.pfx, 1, self.beam_point )
 
-            return 0.03
+            return 0.01
 
         end)
 
         -- dmg timer
-        Timers:CreateTimer(function()
+        local j = 0
+        local i = 0
+        self.timer = Timers:CreateTimer(function()
             if IsValidEntity(self.caster) == false then return false end
 
             if self.caster.left_mouse_up_down == 1 then
+                j = 0
+                i = 0
                 return false
             end
 
@@ -98,6 +108,18 @@ function m1_beam:OnSpellStart()
 
                     if units ~= nil and #units ~= 0 then
                         for _,unit in pairs(units) do
+
+                            if i == 1 then
+                                self.caster:ManaOnHit(self:GetSpecialValueFor( "mana_gain_percent") * 0.6)
+                                dmg = dmg_1
+                            elseif i == 3 then
+                                self.caster:ManaOnHit(self:GetSpecialValueFor( "mana_gain_percent") * 0.6)
+                                dmg = dmg_2
+                            elseif i >= 5 then
+                                self.caster:ManaOnHit(self:GetSpecialValueFor( "mana_gain_percent"))
+                                dmg = dmg_3
+                            end
+
                             local damage = {
                                 victim = unit,
                                 attacker = self:GetCaster(),
@@ -109,86 +131,16 @@ function m1_beam:OnSpellStart()
                         end
                     end
 
+                    if j == channel_time_buff then
+                        j = 0
+                        self.caster:AddNewModifier(self.caster,self,"m1_beam_fire_rage", { duration = self:GetSpecialValueFor( "buff_duration" ) })
+                    end
+
+            i = i + 0.5
+            j = j + 0.5
             return 0.5
-        end)
-
-        -- buff timer
-        local j = 0
-        Timers:CreateTimer(1,function()
-            if IsValidEntity(self.caster) == false then return false end
-
-            if self.caster.left_mouse_up_down == 1 then
-                j = 0
-                return false
-            end
-
-            if j == channel_time_buff then
-                j = 0
-                self.caster:AddNewModifier(self.caster,self,"m1_beam_fire_rage", { duration = 30 })
-                self:Proj( self.beam_point )
-            end
-            j = j + 1
-            return 1
         end)
 
 	end
 end
 ----------------------------------------------------------------------------------------------------------------
-
-function m1_beam:Proj( location )
-    if IsServer() then
-
-        EmitSoundOn( "Hero_Lina.attack", self:GetCaster() )
-
-        local enemies = FindUnitsInRadius(
-			self:GetCaster():GetTeamNumber(),	-- int, your team number
-			location,	-- point, center point
-			nil,	-- handle, cacheUnit. (not known)
-			self.beam_width,	-- float, radius. or use FIND_UNITS_EVERYWHERE
-			DOTA_UNIT_TARGET_TEAM_ENEMY,	-- int, team filter
-			DOTA_UNIT_TARGET_HERO + DOTA_UNIT_TARGET_BASIC,	-- int, type filter
-			0,	-- int, flag filter
-			0,	-- int, order filter
-			false	-- bool, can grow cache
-		)
-
-        if enemies ~= nil and #enemies ~= 0 then
-            for _,enemy in pairs(enemies) do
-                local info = {
-                    EffectName = "particles/units/heroes/hero_lina/lina_base_attack.vpcf",
-                    Ability = self,
-                    iMoveSpeed = 800,
-                    Source = self.caster,
-                    Target = enemy,
-                    bDodgeable = false,
-                    iSourceAttachment = DOTA_PROJECTILE_ATTACHMENT_HITLOCATION,
-                    bProvidesVision = true,
-                    iVisionTeamNumber = self:GetCaster():GetTeamNumber(),
-                    iVisionRadius = 300,
-                }
-
-                ProjectileManager:CreateTrackingProjectile( info )
-            end
-        end
-    end
-end
-----------------------------------------------------------------------------------------------------------------
-
-function m1_beam:OnProjectileHit( hTarget, vLocation)
-    if IsServer() then
-
-        self.damageTable = {
-            victim = hTarget,
-            attacker = self:GetCaster(),
-            damage = self.proj_damage,
-            damage_type = DAMAGE_TYPE_PHYSICAL,
-            ability = self,
-        }
-
-        ApplyDamage(self.damageTable)
-
-        EmitSoundOn( "Hero_Lina.ProjectileImpact", hTarget )
-
-    end
-end
-

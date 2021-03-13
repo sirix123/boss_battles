@@ -6,7 +6,7 @@
 		"ScriptFile"					"player/fire_mage/m1_beam"
 		"MaxLevel"						"1"
 
-		"AbilityTextureName"			"lich_chain_frost"
+		"AbilityTextureName"			"lina_dragon_slave"
 		"AbilityUnitTargetTeam"			"DOTA_UNIT_TARGET_TEAM_ENEMY"
 		"AbilityUnitDamageType"			"DAMAGE_TYPE_PHYSICAL"	
         "AbilityBehavior"				"DOTA_ABILITY_BEHAVIOR_POINT"
@@ -17,13 +17,204 @@
 
 		"TargetingIndicator"
 		{
-			"Type"						"TARGETING_INDICATOR_LINE"
-			"Fixed"						"1"
+			//"Type"						"TARGETING_INDICATOR_LINE"
+			//"Fixed"						"1"
 		}
         
 		"AbilitySpecial"
 		{
-			"01"{ "var_type"			"FIELD_INTEGER"		"dmg"							"100" } 
+			"01"{ "var_type"			"FIELD_INTEGER"		"dmg"							"100" 	} 
+			"02"{ "var_type"			"FIELD_INTEGER"		"mana_gain_percent"				"3" 	}
+			"03"{ "var_type"			"FIELD_INTEGER"		"buff_duration"					"20" 	} 
+			"04"{ "var_type"			"FIELD_INTEGER"		"beam_length"					"900" 	} 
+			"05"{ "var_type"			"FIELD_INTEGER"		"buff_channel_time"				"6" 	} // timer runs at 0.5
 		}
+	}
+
+	"m2_meteor"
+	{
+		"BaseClass"						"ability_lua"
+		"ScriptFile"					"player/fire_mage/m2_meteor"
+		"MaxLevel"						"1"
+
+		"AbilityTextureName"			"lina_light_strike_array"
+		"AbilityUnitTargetTeam"			"DOTA_UNIT_TARGET_TEAM_ENEMY"
+		"AbilityUnitDamageType"			"DAMAGE_TYPE_PHYSICAL"	
+        "AbilityBehavior"				"DOTA_ABILITY_BEHAVIOR_POINT"
+		"AbilityCastRange" 				"900"
+        "AbilityCooldown"				"1"
+        "AbilityCastPoint"              "1.5"
+
+
+		"TargetingIndicator"
+		{
+			//"Type"						"TARGETING_INDICATOR_AOE"
+			//"Fixed"						"1"
+		}
+        
+		"AbilitySpecial"
+		{
+			"01"{ "var_type"			"FIELD_INTEGER"		"damage"						"500" }
+			"02"{ "var_type"			"FIELD_INTEGER"		"radius"						"250" } 
+			"03"{ "var_type"			"FIELD_INTEGER"		"fire_weakness_duration"		"30" } 
+			"04"{ "var_type"			"FIELD_FLOAT"		"fire_weakness_dmg_increase"	"0.2" }
+		}
+
+		"precache"
+		{
+			"soundfile"	"sounds/items/meteor_impact.vsnd"
+		}
+	}
+
+	"q_fire_bubble"
+	{
+		"BaseClass"						"ability_lua"
+		"ScriptFile"					"player/fire_mage/q_fire_bubble"
+		"MaxLevel"						"1"
+
+		"AbilityTextureName"			"ember_spirit_flame_guard"
+		"AbilityUnitTargetTeam"			"DOTA_UNIT_TARGET_TEAM_FRIENDLY"
+        "AbilityBehavior"				"DOTA_ABILITY_BEHAVIOR_POINT"
+		"AbilityUnitDamageType"			"DAMAGE_TYPE_PHYSICAL"	
+		"AbilityUnitTargetType"			"DOTA_UNIT_TARGET_HERO"
+		"AbilityCastRange" 				"750"
+        "AbilityCooldown"				"20"
+        "AbilityCastPoint"              "0.2"
+		"AbilityManaCost"        		"0"
+
+		"TargetingIndicator"
+		{
+			//"Type"						"TARGETING_INDICATOR_AOE"
+			//"Fixed"						"1"
+		}
+        
+		"AbilitySpecial"
+		{
+			"01"{ "var_type"			"FIELD_INTEGER"		"duration"				"15" }
+			"02"{ "var_type"			"FIELD_INTEGER"		"find_radius"			"100" }
+			"03"{ "var_type"			"FIELD_INTEGER"		"bubble_amount"			"250" }
+			"04"{ "var_type"			"FIELD_FLOAT"		"burn_tick"				"0.3" }
+			"05"{ "var_type"			"FIELD_INTEGER"		"burn_amount"			"20" }
+			"06"{ "var_type"			"FIELD_INTEGER"		"radius"				"200" }
+		}
+
+		"precache"
+		{
+			//"soundfile"	"soundevents/game_sounds_heroes/game_sounds_winter_wyvern.vsndevts"
+			"particle"	"particles/econ/items/ember_spirit/ember_ti9/ember_ti9_flameguard.vpcf"
+		}
+
+	}
+
+	"e_fireball"
+	{
+		"BaseClass"						"ability_lua"
+		//"ScriptFile"					"player/fire_mage/e_fireball"
+		"MaxLevel"						"1"
+
+		"AbilityTextureName"			"winter_wyvern_cold_embrace"
+		"AbilityUnitTargetTeam"			"DOTA_UNIT_TARGET_TEAM_FRIENDLY"
+        "AbilityBehavior"				"DOTA_ABILITY_BEHAVIOR_POINT"
+		"AbilityUnitDamageType"			"DAMAGE_TYPE_PHYSICAL"	
+		"AbilityUnitTargetType"			"DOTA_UNIT_TARGET_HERO"
+		"AbilityCastRange" 				"750"
+        "AbilityCooldown"				"20"
+        "AbilityCastPoint"              "0.2"
+		"AbilityManaCost"        		"0"
+
+		"TargetingIndicator"
+		{
+			//"Type"						"TARGETING_INDICATOR_AOE"
+			//"Fixed"						"1"
+		}
+        
+		"AbilitySpecial"
+		{
+			"01"{ "var_type"			"FIELD_INTEGER"		"duration"				"15" }
+			"02"{ "var_type"			"FIELD_INTEGER"		"find_radius"			"100" }
+			"03"{ "var_type"			"FIELD_INTEGER"		"bubble_amount"			"250" }
+			"04"{ "var_type"			"FIELD_FLOAT"		"burn_tick"				"0.3" }
+			"05"{ "var_type"			"FIELD_INTEGER"		"burn_amount"			"20" }
+			"06"{ "var_type"			"FIELD_INTEGER"		"radius"				"200" }
+		}
+
+		"precache"
+		{
+			//"soundfile"	"soundevents/game_sounds_heroes/game_sounds_winter_wyvern.vsndevts"
+			//"particle"	"particles/econ/items/ember_spirit/ember_ti9/ember_ti9_flameguard.vpcf"
+		}
+
+	}
+
+	"r_remnant"
+	{
+		"BaseClass"						"ability_lua"
+		"ScriptFile"					"player/fire_mage/r_remnant"
+		"MaxLevel"						"1"
+
+		"AbilityTextureName"			"ember_spirit_fire_remnant"
+		"AbilityUnitTargetTeam"			"DOTA_UNIT_TARGET_TEAM_ENEMY"
+		"AbilityUnitDamageType"			"DAMAGE_TYPE_PHYSICAL"	
+		"SpellImmunityType"				"SPELL_IMMUNITY_ENEMIES_YES"
+        "AbilityBehavior"				"DOTA_ABILITY_BEHAVIOR_POINT"
+		"AbilityCastRange" 				"1000"
+        "AbilityCooldown"				"0"
+        "AbilityCastPoint"              "0.2"
+		"AbilityManaCost"        		"0"
+		"AbilityCharges"				"2"
+		"AbilityChargeRestoreTime"		"40"
+
+		"TargetingIndicator"
+		{
+			//"Type"						"TARGETING_INDICATOR_AOE"
+			//"Fixed"						"0"
+		}
+        
+		"AbilitySpecial"
+		{
+			"01"{ "var_type"			"FIELD_INTEGER"		"duration"							"30" }	
+		}
+
+        "precache"
+		{
+
+		}
+
+	}
+
+	"space_dive"
+	{
+		"BaseClass"						"ability_lua"
+		"ScriptFile"					"player/fire_mage/space_dive"
+		"MaxLevel"						"1"
+
+		"AbilityTextureName"			"phoenix_icarus_dive"
+		"AbilityUnitTargetTeam"			"DOTA_UNIT_TARGET_TEAM_ENEMY"
+		"AbilityUnitDamageType"			"DAMAGE_TYPE_PHYSICAL"	
+		"SpellImmunityType"				"SPELL_IMMUNITY_ENEMIES_YES"
+        "AbilityBehavior"				"DOTA_ABILITY_BEHAVIOR_POINT"
+		"AbilityCastRange" 				"1000"
+        "AbilityCooldown"				"0"
+        "AbilityCastPoint"              "0.2"
+		"AbilityManaCost"        		"0"
+		"AbilityCharges"				"2"
+		"AbilityChargeRestoreTime"		"40"
+
+		"TargetingIndicator"
+		{
+			//"Type"						"TARGETING_INDICATOR_AOE"
+			//"Fixed"						"0"
+		}
+        
+		"AbilitySpecial"
+		{
+			"01"{ "var_type"			"FIELD_INTEGER"		"duration"							"30" }	
+		}
+
+        "precache"
+		{
+
+		}
+
 	}
 }
