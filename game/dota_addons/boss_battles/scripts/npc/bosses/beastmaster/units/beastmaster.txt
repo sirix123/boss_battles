@@ -217,7 +217,7 @@
 		"AttackAnimationPoint"		"0.3"		// Normalized time in animation cycle to attack.
 		"AttackAcquisitionRange"	"10000"		// Range within a target can be acquired.
 		"AttackRange"				"900"		// Range within a target can be attacked. 
-		"ProjectileModel" 			"particles/beastmaster/quill_boar_base_attack.vpcf"
+		"ProjectileModel" 			"particles/units/heroes/hero_beastmaster/beastmaster_boar_attack.vpcf"
 		"ProjectileSpeed" 			"900"	    
 
 		// Bounds
