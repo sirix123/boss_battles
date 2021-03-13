@@ -82,7 +82,7 @@
 		"SpellImmunityType"				"SPELL_IMMUNITY_ENEMIES_YES"
         "AbilityBehavior"				"DOTA_ABILITY_BEHAVIOR_NO_TARGET"
 		"AbilityCastRange" 				"600"
-        "AbilityCooldown"				"20.0"
+        "AbilityCooldown"				"14.0"
         "AbilityCastPoint"              "0.2"
 		"AbilityManaCost"        		"10"
 

@@ -43,13 +43,13 @@
 		"AbilityTextureName"			"omniknight_purification"
 		"AbilityUnitDamageType"			"DAMAGE_TYPE_PHYSICAL"	
 		"SpellImmunityType"				"SPELL_IMMUNITY_ENEMIES_YES"
-        "AbilityBehavior"				"DOTA_ABILITY_BEHAVIOR_POINT | DOTA_ABILITY_BEHAVIOR_AOE"
+        "AbilityBehavior"				"DOTA_ABILITY_BEHAVIOR_POINT"
 		"AbilityCastRange" 				"1400"
         "AbilityCooldown"				"0"
-        "AbilityCastPoint"              "0.5"
+        "AbilityCastPoint"              "0.6"
 		"AbilityManaCost"        		"0"
 		"AbilityCharges"				"2"
-		"AbilityChargeRestoreTime"		"25"
+		"AbilityChargeRestoreTime"		"20"
 
 
 		"TargetingIndicator"
@@ -78,7 +78,7 @@
         "AbilityBehavior"				"DOTA_ABILITY_BEHAVIOR_NO_TARGET"
 		"AbilityCastRange" 				"1400"
         "AbilityCooldown"				"10"
-        "AbilityCastPoint"              "0.5"
+        "AbilityCastPoint"              "0.0"
 
 
 		"TargetingIndicator"
@@ -112,7 +112,7 @@
         "AbilityBehavior"				"DOTA_ABILITY_BEHAVIOR_NO_TARGET"
 		"AbilityCastRange" 				"1400"
         "AbilityCooldown"				"10"
-        "AbilityCastPoint"              "0.5"
+        "AbilityCastPoint"              "0.0"
 
 
 		"TargetingIndicator"
@@ -146,7 +146,7 @@
         "AbilityBehavior"				"DOTA_ABILITY_BEHAVIOR_NO_TARGET"
 		"AbilityCastRange" 				"1400"
         "AbilityCooldown"				"10"
-        "AbilityCastPoint"              "0.5"
+        "AbilityCastPoint"              "0.0"
 
 
 		"TargetingIndicator"
