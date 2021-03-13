@@ -60,7 +60,6 @@ function m2_meteor:OnSpellStart()
 
         local damageTable = {
             attacker = self:GetCaster(),
-            damage = damage,
             damage_type = self:GetAbilityDamageType(),
             ability = self,
         }
@@ -93,6 +92,13 @@ function m2_meteor:OnSpellStart()
             if enemies ~= nil and #enemies ~= 0 then
                 for _,enemy in pairs(enemies) do
                     damageTable.victim = enemy
+
+                    if enemy:HasModifier("m2_meteor_fire_weakness") then
+                        damageTable.damage = damage + ( damage * self:GetCaster():FindAbilityByName("m2_meteor"):GetSpecialValueFor( "fire_weakness_dmg_increase" ) )
+                    else
+                        damageTable.damage = damage
+                    end
+
                     ApplyDamage(damageTable)
 
                     enemy:AddNewModifier(self:GetCaster(),self,"m2_meteor_fire_weakness", { duration = self:GetSpecialValueFor( "fire_weakness_duration" ) })

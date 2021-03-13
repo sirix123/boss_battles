@@ -39,6 +39,9 @@ function q_fire_bubble_modifier:OnCreated( kv )
 		self.caster = self:GetCaster()
 		self.parent = self:GetParent()
 
+        self.dmg = self.burn_amount
+        self.dmg_buff = ( self.burn_amount) + ( ( self.burn_amount ) * self.caster:FindAbilityByName("m2_meteor"):GetSpecialValueFor( "fire_weakness_dmg_increase" )  )
+
 		self:StartIntervalThink(self.burn_tick)
 
     end
@@ -61,9 +64,16 @@ function q_fire_bubble_modifier:OnIntervalThink()
 
         if enemies ~= nil and #enemies ~= 0 then
             for _, enemy in pairs(enemies) do
+                local dmg = 0
+                if enemy:HasModifier("m2_meteor_fire_weakness") then
+                    dmg = self.dmg_buff
+                else
+                    dmg = self.dmg
+                end
+
 				local damageTable = {
 					attacker = self:GetCaster(),
-					damage = self.burn_amount,
+					damage = dmg,
 					damage_type = self:GetAbility():GetAbilityDamageType(),
 					ability = self:GetAbility(),
 				}

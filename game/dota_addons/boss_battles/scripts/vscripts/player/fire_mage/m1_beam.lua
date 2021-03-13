@@ -6,7 +6,7 @@ function m1_beam:OnAbilityPhaseStart()
 
         -- start casting animation
         -- the 1 below is imporant if set incorrectly the animation will stutter (second variable in startgesture is the playback override)
-        self:GetCaster():StartGestureWithPlaybackRate(ACT_DOTA_ATTACK, 1.2)
+        self:GetCaster():StartGestureWithPlaybackRate(ACT_DOTA_GENERIC_CHANNEL_1, 1.2)
 
         -- add casting modifier
         self:GetCaster():AddNewModifier(self:GetCaster(), self, "casting_modifier_thinker",
@@ -25,7 +25,7 @@ function m1_beam:OnAbilityPhaseInterrupted()
     if IsServer() then
 
         -- remove casting animation
-        self:GetCaster():FadeGesture(ACT_DOTA_ATTACK)
+        self:GetCaster():FadeGesture(ACT_DOTA_GENERIC_CHANNEL_1)
 
         -- remove casting modifier
         self:GetCaster():RemoveModifierByName("casting_modifier_thinker")
@@ -41,9 +41,6 @@ function m1_beam:OnSpellStart()
             Timers:RemoveTimer(self.timer)
         end
 
-        -- when spell starts fade gesture
-        self:GetCaster():FadeGesture(ACT_DOTA_ATTACK)
-
         EmitSoundOn("Hero_Phoenix.SunRay.Cast", self:GetCaster())
 
         -- init
@@ -51,9 +48,15 @@ function m1_beam:OnSpellStart()
         self.origin = self.caster:GetAbsOrigin()
         self.beam_width = 100
         local dmg = self:GetSpecialValueFor( "dmg" )
-        local dmg_1 = dmg * 0.2
-        local dmg_2 = dmg * 0.5
+
+        local dmg_1 = dmg * self:GetSpecialValueFor( "dmg_reduction_stage_1" )
+        local dmg_2 = dmg * self:GetSpecialValueFor( "dmg_reduction_stage_2" )
         local dmg_3 = dmg
+
+        local dmg_1_buff = ( dmg * self:GetSpecialValueFor( "dmg_reduction_stage_1" ) )   + ( ( dmg * self:GetSpecialValueFor( "dmg_reduction_stage_1" ) ) * self.caster:FindAbilityByName("m2_meteor"):GetSpecialValueFor( "fire_weakness_dmg_increase" )  )
+        local dmg_2_buff = ( dmg * self:GetSpecialValueFor( "dmg_reduction_stage_2" ) )   + ( ( dmg * self:GetSpecialValueFor( "dmg_reduction_stage_2" ) ) * self.caster:FindAbilityByName("m2_meteor"):GetSpecialValueFor( "fire_weakness_dmg_increase" )  )
+        local dmg_3_buff = dmg             + ( dmg           * self.caster:FindAbilityByName("m2_meteor"):GetSpecialValueFor( "fire_weakness_dmg_increase" )  )
+
         local channel_time_buff = self:GetSpecialValueFor( "buff_channel_time" ) --timer runs at 0.5
 
         self.beam_point = Vector(0,0,0)
@@ -93,6 +96,7 @@ function m1_beam:OnSpellStart()
             if self.caster.left_mouse_up_down == 1 then
                 j = 0
                 i = 0
+                self:GetCaster():FadeGesture(ACT_DOTA_GENERIC_CHANNEL_1)
                 return false
             end
 
@@ -109,15 +113,27 @@ function m1_beam:OnSpellStart()
                     if units ~= nil and #units ~= 0 then
                         for _,unit in pairs(units) do
 
-                            if i == 1 then
-                                self.caster:ManaOnHit(self:GetSpecialValueFor( "mana_gain_percent") * 0.6)
-                                dmg = dmg_1
-                            elseif i == 3 then
-                                self.caster:ManaOnHit(self:GetSpecialValueFor( "mana_gain_percent") * 0.6)
-                                dmg = dmg_2
+                            if i <= 1 then
+                                self.caster:ManaOnHit(self:GetSpecialValueFor( "mana_gain_percent") * self:GetSpecialValueFor( "mana_reduction_stage_1" ))
+                                if unit:HasModifier("m2_meteor_fire_weakness") then
+                                    dmg = dmg_1_buff
+                                else
+                                    dmg = dmg_1
+                                end
+                            elseif i <= 5 then
+                                self.caster:ManaOnHit(self:GetSpecialValueFor( "mana_gain_percent") * self:GetSpecialValueFor( "mana_reduction_stage_2" ))
+                                if unit:HasModifier("m2_meteor_fire_weakness") then
+                                    dmg = dmg_2_buff
+                                else
+                                    dmg = dmg_2
+                                end
                             elseif i >= 5 then
                                 self.caster:ManaOnHit(self:GetSpecialValueFor( "mana_gain_percent"))
-                                dmg = dmg_3
+                                if unit:HasModifier("m2_meteor_fire_weakness") then
+                                    dmg = dmg_3_buff
+                                else
+                                    dmg = dmg_3
+                                end
                             end
 
                             local damage = {
@@ -133,7 +149,7 @@ function m1_beam:OnSpellStart()
 
                     if j == channel_time_buff then
                         j = 0
-                        self.caster:AddNewModifier(self.caster,self,"m1_beam_fire_rage", { duration = self:GetSpecialValueFor( "buff_duration" ) })
+                        --self.caster:AddNewModifier(self.caster,self,"m1_beam_fire_rage", { duration = self:GetSpecialValueFor( "buff_duration" ) })
                     end
 
             i = i + 0.5

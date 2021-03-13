@@ -3,6 +3,8 @@ m1_beam_remnant = class({})
 function m1_beam_remnant:OnAbilityPhaseStart()
     if IsServer() then
 
+        self:GetCaster():StartGestureWithPlaybackRate(ACT_DOTA_GENERIC_CHANNEL_1, 1.2)
+
         local enemies = FindUnitsInRadius(
             DOTA_TEAM_GOODGUYS,
             self:GetCaster():GetAbsOrigin(),
@@ -31,12 +33,16 @@ end
 function m1_beam_remnant:OnAbilityPhaseInterrupted()
     if IsServer() then
 
+        self:GetCaster():FadeGesture(ACT_DOTA_GENERIC_CHANNEL_1)
+
     end
 end
 ---------------------------------------------------------------------------
 
 function m1_beam_remnant:OnChannelFinish(bInterrupted)
 	if IsServer() then
+
+        self:GetCaster():FadeGesture(ACT_DOTA_GENERIC_CHANNEL_1)
 
         if self.pfx ~= nil then
             ParticleManager:DestroyParticle(self.pfx,true)
@@ -53,19 +59,17 @@ function m1_beam_remnant:OnChannelThink( flinterval )
         self.origin = self.caster:GetAbsOrigin()
 
         -- caster direction
-        self:GetCaster():SetForwardVector( self.target:GetAbsOrigin() )
-        self:GetCaster():FaceTowards( self.target:GetAbsOrigin() )
+        local caster_forward = ( self.target:GetAbsOrigin() - self.origin ):Normalized()
+        self:GetCaster():SetForwardVector( caster_forward )
+        self:GetCaster():FaceTowards( caster_forward )
 
         -- ref
         -- dmg
-        local dmg = 10--self:GetSpecialValueFor( "dmg" )
-        local dmg_1 = dmg * 0.2
-        local dmg_2 = dmg * 0.5
-        local dmg_3 = dmg
+        local dmg = self:GetCaster():GetOwner():FindAbilityByName("m1_beam"):GetSpecialValueFor( "dmg" )
 
         -- beam
         self.beam_width = 100
-        local beam_length = 900--self:GetSpecialValueFor( "beam_length" )
+        local beam_length = self:GetCaster():GetOwner():FindAbilityByName("m1_beam"):GetSpecialValueFor( "beam_length" )
 
         -- beam particle and movement
         if self.create_particle == true then
@@ -78,7 +82,7 @@ function m1_beam_remnant:OnChannelThink( flinterval )
 
         ParticleManager:SetParticleControl(self.pfx, 0, Vector( self.caster:GetAbsOrigin().x, self.caster:GetAbsOrigin().y, self.caster:GetAbsOrigin().z + 100 ))
 
-        local caster_forward = ( self.target:GetAbsOrigin() - self.origin ):Normalized()
+        caster_forward = ( self.target:GetAbsOrigin() - self.origin ):Normalized()
         self.beam_point = self.origin + caster_forward * beam_length
         self.beam_point = GetGroundPosition( self.beam_point, nil )
         self.beam_point.z = self.beam_point.z + 100
@@ -104,13 +108,18 @@ function m1_beam_remnant:OnChannelThink( flinterval )
 
                     if units ~= nil and #units ~= 0 then
                         for _,unit in pairs(units) do
+                            if unit:HasModifier("m2_meteor_fire_weakness") then
+                                dmg = dmg * ( dmg * self:GetCaster():GetOwner():FindAbilityByName("m2_meteor"):GetSpecialValueFor( "fire_weakness_dmg_increase" ) )
+                            else
+                                dmg = dmg
+                            end
 
                             local damage = {
                                 victim = unit,
-                                attacker = self:GetCaster(),
+                                attacker = self:GetCaster():GetOwner(),
                                 damage = dmg,
                                 damage_type = DAMAGE_TYPE_PHYSICAL,
-                                ability = self
+                                ability = self:GetCaster():GetOwner():FindAbilityByName("e_fireball")
                             }
                             ApplyDamage( damage )
                         end

@@ -18,7 +18,7 @@
 		"ModelScale" 				"1.0"
 
         "Ability1"              "m1_beam_remnant" 
-        "Ability2"              ""
+        "Ability2"              "e_fireball_remnant"
 
 		// Movement
 		//----------------------------------------------------------------

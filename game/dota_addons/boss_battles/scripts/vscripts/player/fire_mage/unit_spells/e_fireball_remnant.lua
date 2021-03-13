@@ -1,77 +1,72 @@
-e_fireball = class({})
-LinkLuaModifier( "cast_fireball_modifier", "player/fire_mage/modifiers/cast_fireball_modifier", LUA_MODIFIER_MOTION_NONE )
+e_fireball_remnant = class({})
 
-function e_fireball:OnAbilityPhaseStart()
+function e_fireball_remnant:OnAbilityPhaseStart()
     if IsServer() then
 
         self:GetCaster():StartGestureWithPlaybackRate(ACT_DOTA_GENERIC_CHANNEL_1, 1.2)
 
-        -- add casting modifier
-        self:GetCaster():AddNewModifier(self:GetCaster(), self, "casting_modifier_thinker",
-        {
-            duration = -1,
-            bMovementLock = true,
-            bTurnRateLimit = true,
-        })
+        local enemies = FindUnitsInRadius(
+            DOTA_TEAM_GOODGUYS,
+            self:GetCaster():GetAbsOrigin(),
+            nil,
+            self:GetCastRange(Vector(0,0,0), nil),
+            DOTA_TEAM_BADGUYS,
+            DOTA_UNIT_TARGET_BASIC,
+            DOTA_UNIT_TARGET_FLAG_NONE,
+            FIND_CLOSEST,
+            false )
 
-        self.onceoff = true
+        if #enemies == 0 or enemies == nil then
+            return false
+        else
+            self.tProjs = {}
+            self.target = enemies[1]
+        end
 
         return true
     end
 end
 ---------------------------------------------------------------------------
 
-function e_fireball:OnAbilityPhaseInterrupted()
+function e_fireball_remnant:OnAbilityPhaseInterrupted()
     if IsServer() then
 
         -- remove casting animation
         self:GetCaster():FadeGesture(ACT_DOTA_GENERIC_CHANNEL_1)
 
-        -- remove casting modifier
-        self:GetCaster():RemoveModifierByName("casting_modifier_thinker")
 
     end
 end
 ---------------------------------------------------------------------------
 
-function e_fireball:OnChannelFinish(bInterrupted)
+function e_fireball_remnant:OnChannelFinish(bInterrupted)
 	if IsServer() then
 
-        self:GetCaster():RemoveModifierByName("casting_modifier_thinker")
+        --[[for _, proj in pairs(self.tProjs) do
+            proj:RemoveSelf()
+        end]]
 
         self:GetCaster():FadeGesture(ACT_DOTA_GENERIC_CHANNEL_1)
-
-        local remnant = self:FindRemnant()
-        if remnant ~= nil then
-            remnant:RemoveModifierByName("cast_fireball_modifier")
-        end
 
 	end
 end
 
-function e_fireball:OnChannelThink( flinterval )
+function e_fireball_remnant:OnChannelThink( flinterval )
 	if IsServer() then
 
         -- init
         self.caster = self:GetCaster()
         self.origin = self.caster:GetAbsOrigin()
 
-        local caster_forward = self.caster:GetForwardVector()
+        local caster_forward = ( self.target:GetAbsOrigin() - self.origin ):Normalized()
+        self:GetCaster():SetForwardVector( caster_forward )
+        self:GetCaster():FaceTowards( caster_forward )
 
-        local dmg = self:GetSpecialValueFor( "dmg" )
-
-        -- do this once
-        if self.onceoff == true then
-            local remnant = self:FindRemnant()
-            if remnant ~= nil then
-                remnant:AddNewModifier(remnant, nil, "cast_fireball_modifier",{ duration = -1, })
-            end
-            self.onceoff = false
-        end
+        local dmg = self:GetCaster():GetOwner():FindAbilityByName("e_fireball"):GetSpecialValueFor( "dmg" )
 
         -- dmg
         self.time = (self.time or 0) + flinterval
-        if self.time < self:GetSpecialValueFor( "interval" ) then
+        if self.time < self:GetCaster():GetOwner():FindAbilityByName("e_fireball"):GetSpecialValueFor( "interval" ) then
             self:GetCaster():RemoveGesture(ACT_DOTA_ATTACK)
             return
         else
@@ -82,9 +77,9 @@ function e_fireball:OnChannelThink( flinterval )
                 EffectName = "particles/fire_mage/linear_lina_base_attack.vpcf",
                 vSpawnOrigin = self.origin + Vector(0, 0, 100),
                 fDistance = self:GetCastRange(Vector(0,0,0), nil),
-                fUniqueRadius = self:GetSpecialValueFor( "hit_box" ),
+                fUniqueRadius = self:GetCaster():GetOwner():FindAbilityByName("e_fireball"):GetSpecialValueFor( "hit_box" ),
                 Source = self.caster,
-                vVelocity = caster_forward * self:GetSpecialValueFor( "speed" ),
+                vVelocity = caster_forward * self:GetCaster():GetOwner():FindAbilityByName("e_fireball"):GetSpecialValueFor( "speed" ),
                 UnitBehavior = PROJECTILES_DESTROY,
                 TreeBehavior = PROJECTILES_DESTROY,
                 WallBehavior = PROJECTILES_DESTROY,
@@ -98,15 +93,15 @@ function e_fireball:OnChannelThink( flinterval )
                     if unit:IsInvulnerable() ~= true then
 
                         if unit:HasModifier("m2_meteor_fire_weakness") then
-                            dmg = dmg + ( dmg * self.caster:FindAbilityByName("m2_meteor"):GetSpecialValueFor( "fire_weakness_dmg_increase" ))
+                            dmg = dmg + ( dmg * self:GetCaster():GetOwner():FindAbilityByName("m2_meteor"):GetSpecialValueFor( "fire_weakness_dmg_increase" ) )
                         end
 
                         local damage = {
                             victim = unit,
-                            attacker = self:GetCaster(),
+                            attacker = self:GetCaster():GetOwner(),
                             damage = dmg,
                             damage_type = DAMAGE_TYPE_PHYSICAL,
-                            ability = self
+                            ability = self:GetCaster():GetOwner():FindAbilityByName("m1_beam")
                         }
                         ApplyDamage( damage )
 
@@ -125,7 +120,7 @@ function e_fireball:OnChannelThink( flinterval )
                 end,
             }
 
-            Projectiles:CreateProjectile(projectile)
+            table.insert(self.tProjs,Projectiles:CreateProjectile(projectile))
 
             self.time = 0
         end
@@ -133,7 +128,7 @@ function e_fireball:OnChannelThink( flinterval )
 	end
 end
 
-function e_fireball:OnSpellStart()
+function e_fireball_remnant:OnSpellStart()
     if IsServer() then
 
         if not self:IsChanneling() then return end
@@ -141,32 +136,3 @@ function e_fireball:OnSpellStart()
 	end
 end
 ----------------------------------------------------------------------------------------------------------------
-
-function e_fireball:FindRemnant()
-    if IsServer() then
-
-        local result = nil
-        local previous_result = nil
-        local unit_name = ""
-
-        while unit_name ~= "npc_lina_remant" do
-            if previous_result == nil then
-                result = Entities:FindByClassnameWithin(nil, "npc_dota_creature", self.caster:GetAbsOrigin(), 9000)
-            else
-                result = Entities:FindByClassnameWithin(previous_result, "npc_dota_creature", self.caster:GetAbsOrigin(), 9000)
-            end
-
-            if result ~= nil then
-                previous_result = result
-                unit_name = result:GetUnitName()
-                if unit_name == "npc_lina_remant" then
-                    local unit = result
-                    return unit
-                end
-            elseif result == nil then
-                break
-            end
-        end
-
-	end
-end

@@ -9,6 +9,8 @@ function Spawn( entityKeyValues )
     thisEntity.beam = thisEntity:FindAbilityByName( "m1_beam_remnant" )
 	thisEntity.beam:StartCooldown(2)
 
+	thisEntity.e_fireball_remnant = thisEntity:FindAbilityByName( "e_fireball_remnant" )
+
     thisEntity:SetContextThink( "RemnantThinker", RemnantThinker, 0.3)
 
     thisEntity.idleAnimate = true --thisEntity:StartGestureWithPlaybackRate(ACT_DOTA_IDLE, 1.0)
@@ -27,20 +29,15 @@ function RemnantThinker()
 		return 0.5
 	end
 
-	if thisEntity.beam:IsFullyCastable() and thisEntity.beam:IsCooldownReady() and thisEntity.beam:IsInAbilityPhase() == false then
+	if thisEntity:HasModifier("cast_fireball_modifier") then
+		if thisEntity.e_fireball_remnant:IsFullyCastable() and thisEntity.e_fireball_remnant:IsCooldownReady() and thisEntity.e_fireball_remnant:IsInAbilityPhase() == false then
+			CastFireball( )
+		end
+	end
+
+	if thisEntity.beam:IsFullyCastable() and thisEntity.beam:IsCooldownReady() and thisEntity.beam:IsInAbilityPhase() == false and thisEntity:IsChanneling() == false then
         CastBeam( )
     end
-
-    -- in a timer that runs instantly on spawn slight delay 0.3 then every 2-3seconds
-    -- find units in beam lenght range
-    -- set target as that , need to tracka nd compare current abd prev target
-    -- cast beam (need to change beam code to look at who is casting the spell) or create a new spell for this unit might be easier but reference the same kv 
-
-    -- whatever the e spell turns out to be will apply a modifier to all remenats if we have the modifier cast that new spell, then go back to beaming
-
-    -- idle animate while we aren't casting anything
-
-
 
 	return 0.3
 end
@@ -57,3 +54,16 @@ function CastBeam( )
 
 	return thisEntity.beam:GetChannelTime()
 end
+
+function CastFireball( )
+
+	ExecuteOrderFromTable({
+		UnitIndex = thisEntity:entindex(),
+		OrderType = DOTA_UNIT_ORDER_CAST_NO_TARGET,
+		AbilityIndex = thisEntity.e_fireball_remnant:entindex(),
+		Queue = false,
+	})
+
+	return thisEntity.e_fireball_remnant:GetChannelTime()
+end
+

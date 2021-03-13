@@ -23,11 +23,16 @@
         
 		"AbilitySpecial"
 		{
-			"01"{ "var_type"			"FIELD_INTEGER"		"dmg"							"100" 	} 
-			"02"{ "var_type"			"FIELD_INTEGER"		"mana_gain_percent"				"3" 	}
-			"03"{ "var_type"			"FIELD_INTEGER"		"buff_duration"					"20" 	} 
-			"04"{ "var_type"			"FIELD_INTEGER"		"beam_length"					"900" 	} 
-			"05"{ "var_type"			"FIELD_INTEGER"		"buff_channel_time"				"6" 	} // timer runs at 0.5
+			"01"{ "var_type"			"FIELD_INTEGER"		"dmg"							"100" 	}
+			"02"{ "var_type"			"FIELD_FLOAT"		"dmg_reduction_stage_1"			"0.2" 	}
+			"03"{ "var_type"			"FIELD_FLOAT"		"dmg_reduction_stage_2"			"0.5" 	}
+			"04"{ "var_type"			"FIELD_FLOAT"		"mana_reduction_stage_1"		"0.3" 	} 
+			"05"{ "var_type"			"FIELD_FLOAT"		"mana_reduction_stage_2"		"0.6" 	}  
+			"06"{ "var_type"			"FIELD_INTEGER"		"mana_gain_percent"				"3" 	}
+			"07"{ "var_type"			"FIELD_INTEGER"		"buff_duration"					"20" 	} 
+			"08"{ "var_type"			"FIELD_INTEGER"		"beam_length"					"900" 	} 
+			"09"{ "var_type"			"FIELD_INTEGER"		"buff_channel_time"				"6" 	} // timer runs at 0.5
+
 		}
 	}
 
@@ -42,9 +47,9 @@
 		"AbilityUnitDamageType"			"DAMAGE_TYPE_PHYSICAL"	
         "AbilityBehavior"				"DOTA_ABILITY_BEHAVIOR_POINT"
 		"AbilityCastRange" 				"900"
-        "AbilityCooldown"				"1"
+        "AbilityCooldown"				"12"
         "AbilityCastPoint"              "1.5"
-
+		"AbilityManaCost"        		"10"
 
 		"TargetingIndicator"
 		{
@@ -80,7 +85,7 @@
 		"AbilityCastRange" 				"750"
         "AbilityCooldown"				"20"
         "AbilityCastPoint"              "0.2"
-		"AbilityManaCost"        		"0"
+		"AbilityManaCost"        		"20"
 
 		"TargetingIndicator"
 		{
@@ -109,33 +114,32 @@
 	"e_fireball"
 	{
 		"BaseClass"						"ability_lua"
-		//"ScriptFile"					"player/fire_mage/e_fireball"
+		"ScriptFile"					"player/fire_mage/e_fireball"
 		"MaxLevel"						"1"
 
-		"AbilityTextureName"			"winter_wyvern_cold_embrace"
-		"AbilityUnitTargetTeam"			"DOTA_UNIT_TARGET_TEAM_FRIENDLY"
-        "AbilityBehavior"				"DOTA_ABILITY_BEHAVIOR_POINT"
+		"AbilityTextureName"			"ember_spirit_searing_chains"
+		"AbilityUnitTargetTeam"			"DOTA_UNIT_TARGET_TEAM_ENEMY"
 		"AbilityUnitDamageType"			"DAMAGE_TYPE_PHYSICAL"	
-		"AbilityUnitTargetType"			"DOTA_UNIT_TARGET_HERO"
-		"AbilityCastRange" 				"750"
+        "AbilityBehavior"				"DOTA_ABILITY_BEHAVIOR_POINT | DOTA_ABILITY_BEHAVIOR_CHANNELLED"
+		"AbilityCastRange" 				"1200"
         "AbilityCooldown"				"20"
         "AbilityCastPoint"              "0.2"
-		"AbilityManaCost"        		"0"
+		"AbilityUnitTargetType"			"DOTA_UNIT_TARGET_HERO | DOTA_UNIT_TARGET_BASIC"
+		"AbilityChannelTime"			"3"
+		"AbilityManaCost"        		"20"
 
 		"TargetingIndicator"
 		{
-			//"Type"						"TARGETING_INDICATOR_AOE"
-			//"Fixed"						"1"
+			"Type"						"TARGETING_INDICATOR_LINE"
+			"Fixed"						"1"
 		}
         
 		"AbilitySpecial"
 		{
-			"01"{ "var_type"			"FIELD_INTEGER"		"duration"				"15" }
-			"02"{ "var_type"			"FIELD_INTEGER"		"find_radius"			"100" }
-			"03"{ "var_type"			"FIELD_INTEGER"		"bubble_amount"			"250" }
-			"04"{ "var_type"			"FIELD_FLOAT"		"burn_tick"				"0.3" }
-			"05"{ "var_type"			"FIELD_INTEGER"		"burn_amount"			"20" }
-			"06"{ "var_type"			"FIELD_INTEGER"		"radius"				"200" }
+			"01"{ "var_type"			"FIELD_INTEGER"		"hit_box"				"80" }
+			"02"{ "var_type"			"FIELD_INTEGER"		"dmg"					"150" }
+			"03"{ "var_type"			"FIELD_INTEGER"		"speed"					"1000" }
+			"04"{ "var_type"			"FIELD_FLOAT"		"interval"				"0.2" }
 		}
 
 		"precache"
@@ -158,11 +162,9 @@
 		"SpellImmunityType"				"SPELL_IMMUNITY_ENEMIES_YES"
         "AbilityBehavior"				"DOTA_ABILITY_BEHAVIOR_POINT"
 		"AbilityCastRange" 				"1000"
-        "AbilityCooldown"				"0"
+        "AbilityCooldown"				"45"
         "AbilityCastPoint"              "0.2"
-		"AbilityManaCost"        		"0"
-		"AbilityCharges"				"2"
-		"AbilityChargeRestoreTime"		"40"
+		"AbilityManaCost"        		"50"
 
 		"TargetingIndicator"
 		{
@@ -172,7 +174,7 @@
         
 		"AbilitySpecial"
 		{
-			"01"{ "var_type"			"FIELD_INTEGER"		"duration"							"30" }	
+			"01"{ "var_type"			"FIELD_INTEGER"		"duration"							"10" }	
 		}
 
         "precache"
@@ -194,11 +196,9 @@
 		"SpellImmunityType"				"SPELL_IMMUNITY_ENEMIES_YES"
         "AbilityBehavior"				"DOTA_ABILITY_BEHAVIOR_POINT"
 		"AbilityCastRange" 				"1000"
-        "AbilityCooldown"				"0"
-        "AbilityCastPoint"              "0.2"
+        "AbilityCooldown"				"20"
+        "AbilityCastPoint"              "0.1"
 		"AbilityManaCost"        		"0"
-		"AbilityCharges"				"2"
-		"AbilityChargeRestoreTime"		"40"
 
 		"TargetingIndicator"
 		{
