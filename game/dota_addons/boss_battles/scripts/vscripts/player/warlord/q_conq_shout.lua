@@ -88,7 +88,7 @@ function q_conq_shout:OnSpellStart()
             for _, vortex in pairs(self.tHandleVortex) do
 
                 -- inc their tick damage
-                vortex.dmg = caster:FindAbilityByName("r_blade_vortex"):GetSpecialValueFor( "base_dmg" )
+                vortex.dmg = caster:FindAbilityByName("r_blade_vortex"):GetSpecialValueFor( "base_dmg" ) + ( self:GetSpecialValueFor( "vortex_dmg_inc" ) * caster:FindAbilityByName("r_blade_vortex"):GetSpecialValueFor( "base_dmg" ) )
 
                 --PrintTable(vortex)
 
