@@ -147,7 +147,7 @@ function beastmaster_net:OnSpellStart()
 				--print("unit ",unit)
 				--print("unit ",unit:GetUnitName())
 
-				if unit:GetUnitName() == "npc_dota_thinker" then
+				if unit:GetUnitName() == "npc_dota_thinker" and CheckGlobalUnitTableForUnitName(unit) == true then
 					return false
 				else
 					return true

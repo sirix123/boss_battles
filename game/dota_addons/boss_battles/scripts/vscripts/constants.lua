@@ -19,7 +19,6 @@ _G.tUNIT_TABLE =
     "npc_shadow",
     "npc_dota_gyrocopter_homing_missile",
     "npc_dota_thinker",
-    "npc_dota_thinker",
     "npc_rubick",
     "npc_lina_remant",
 }

@@ -57,6 +57,10 @@ function bird_death_modifier:OnDestroy()
             unit:RemoveModifierByName("beastmaster_mark_modifier")
         end
 
+        if unit:HasModifier("bird_mark_modifier") ~= nil then
+            unit:RemoveModifierByName("bird_mark_modifier")
+        end
+
         if unit:GetUnitName() == "npc_beastmaster" then
 
             --print(" aibl;ity sumon bird ", unit:FindAbilityByName("summon_bird"))
