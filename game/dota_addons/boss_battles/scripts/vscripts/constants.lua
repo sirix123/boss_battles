@@ -21,6 +21,7 @@ _G.tUNIT_TABLE =
     "npc_dota_thinker",
     "npc_dota_thinker",
     "npc_rubick",
+    "npc_lina_remant",
 }
 
 _G.UNQIUE_INT = 0
