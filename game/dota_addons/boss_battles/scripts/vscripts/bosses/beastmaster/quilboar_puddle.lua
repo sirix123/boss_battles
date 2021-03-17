@@ -15,8 +15,8 @@ function quilboar_puddle:OnAbilityPhaseStart()
 		end
 
 		local particle = "particles/beastmaster/viper_poison_debuff_ti7_drips_beastmaster.vpcf"
-		self.particle_1 = ParticleManager:CreateParticle(particle, PATTACH_ABSORIGIN_FOLLOW, self:GetCaster())
-        ParticleManager:SetParticleControl(self.particle_1 , 0, self:GetCaster():GetAbsOrigin())
+		self.particle_1 = ParticleManager:CreateParticle(particle, PATTACH_ABSORIGIN_FOLLOW, self.hTarget)
+        ParticleManager:SetParticleControl(self.particle_1 , 0, self.hTarget:GetAbsOrigin())
 
         return true
     end
@@ -37,8 +37,6 @@ end
 
 function quilboar_puddle:OnSpellStart()
 	if IsServer() then
-
-		ParticleManager:DestroyParticle(self.particle_1,true)
 
 		self.projectile_speed = self:GetSpecialValueFor( "projectile_speed" )
 		local caster = self:GetCaster()
@@ -70,7 +68,7 @@ end
 
 function quilboar_puddle:OnProjectileHit( hTarget, vLocation)
     if IsServer() then
-
+		ParticleManager:DestroyParticle(self.particle_1,true)
 		CreateModifierThinker( self:GetCaster(), self, "quillboar_puddle_modifier", { self:GetSpecialValueFor( "duration" ) }, vLocation, self:GetCaster():GetTeamNumber(), false )
 		self:PlayEffects(vLocation)
     end

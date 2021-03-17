@@ -32,11 +32,11 @@
 		// Attack
 		//----------------------------------------------------------------
 		"AttackCapabilities"		"DOTA_UNIT_CAP_MELEE_ATTACK"
-		"AttackDamageMin"			"15"		// Damage range min.
-		"AttackDamageMax"			"25"		// Damage range max.
+		"AttackDamageMin"			"20"		// Damage range min.
+		"AttackDamageMax"			"20"		// Damage range max.
 		"AttackRate"				"0.7"		// Speed of attack.
 		"AttackAnimationPoint"		"0.1"		// Normalized time in animation cycle to attack.
-		"AttackAcquisitionRange"	"1000"		// Range within a target can be acquired.
+		"AttackAcquisitionRange"	"2500"		// Range within a target can be acquired.
 		"AttackRange"				"150"		// Range within a target can be attacked.     
 
 		// Bounds
@@ -46,14 +46,14 @@
 
 		// Bounty
 		//----------------------------------------------------------------
-		"BountyXP"					"24"		// Experience earn.
-		"BountyGoldMin"				"21"		// Gold earned min.
-		"BountyGoldMax"				"29"		// Gold earned max.
+		"BountyXP"					"0"		// Experience earn.
+		"BountyGoldMin"				"0"		// Gold earned min.
+		"BountyGoldMax"				"0"		// Gold earned max.
 
 		// Movement
 		//----------------------------------------------------------------
 		"MovementCapabilities"		"DOTA_UNIT_CAP_MOVE_GROUND"
-		"MovementSpeed"				"380"		// Speed.			
+		"MovementSpeed"				"200"		// Speed.			
 
 		// Status
 		//----------------------------------------------------------------
@@ -137,9 +137,9 @@
 
 		// Bounty
 		//----------------------------------------------------------------
-		"BountyXP"					"24"		// Experience earn.
-		"BountyGoldMin"				"21"		// Gold earned min.
-		"BountyGoldMax"				"29"		// Gold earned max.
+		"BountyXP"					"0"		// Experience earn.
+		"BountyGoldMin"				"0"		// Gold earned min.
+		"BountyGoldMax"				"0"		// Gold earned max.
 
 		// Movement
 		//----------------------------------------------------------------
@@ -211,8 +211,8 @@
 		// Attack
 		//----------------------------------------------------------------
 		"AttackCapabilities"		"DOTA_UNIT_CAP_RANGED_ATTACK"
-		"AttackDamageMin"			"5"			// Damage range min.
-		"AttackDamageMax"			"10"		// Damage range max.
+		"AttackDamageMin"			"15"			// Damage range min.
+		"AttackDamageMax"			"20"		// Damage range max.
 		"AttackRate"				"1.5"		// Speed of attack.
 		"AttackAnimationPoint"		"0.3"		// Normalized time in animation cycle to attack.
 		"AttackAcquisitionRange"	"10000"		// Range within a target can be acquired.
@@ -227,9 +227,9 @@
 
 		// Bounty
 		//----------------------------------------------------------------
-		"BountyXP"					"24"		// Experience earn.
-		"BountyGoldMin"				"21"		// Gold earned min.
-		"BountyGoldMax"				"29"		// Gold earned max.
+		"BountyXP"					"0"		// Experience earn.
+		"BountyGoldMin"				"0"		// Gold earned min.
+		"BountyGoldMax"				"0"		// Gold earned max.
 
 		// Movement
 		//----------------------------------------------------------------
@@ -238,7 +238,7 @@
 
 		// Status
 		//----------------------------------------------------------------
-		"StatusHealth"				"600"		// Base health.
+		"StatusHealth"				"800"		// Base health.
 		"StatusHealthRegen"			"0.5"		// Health regeneration rate.
 		"StatusMana"				"0"			// Base mana.
 		"StatusManaRegen"			"0.0"		// Mana regeneration rate.		 

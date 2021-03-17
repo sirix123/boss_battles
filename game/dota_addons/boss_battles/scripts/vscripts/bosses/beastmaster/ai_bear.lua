@@ -47,7 +47,7 @@ function BearThink()
 		return 0.5
 	end
 
-	-- find all players in the entire map
+	--[[ find all players in the entire map
 	local enemies = FindUnitsInRadius(
 		DOTA_TEAM_BADGUYS,
 		thisEntity:GetOrigin(),
@@ -69,16 +69,16 @@ function BearThink()
 			thisEntity.target = enemy
 			thisEntity:MoveToTargetToAttack(thisEntity.target)
 		end
-	end
-
-	if thisEntity.hClaw ~= nil and thisEntity.hClaw:IsFullyCastable() and thisEntity.hBloodlust:IsCooldownReady() then
-		return CastClaw(thisEntity.target)
-	end
+	end]]
 
 	if thisEntity.hBloodlust ~= nil and thisEntity.hBloodlust:IsCooldownReady() then
 		--print("we casting this every 10seconds?")
 		return CastBloodlust()
 	end
+
+	--[[if thisEntity.hClaw ~= nil and thisEntity.hClaw:IsFullyCastable() and thisEntity.hBloodlust:IsCooldownReady() then
+		return CastClaw(thisEntity.target)
+	end]]
 
 	return 0.1
 end

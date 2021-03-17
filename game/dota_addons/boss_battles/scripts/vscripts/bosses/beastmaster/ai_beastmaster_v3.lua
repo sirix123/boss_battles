@@ -66,12 +66,12 @@ function BeastmasterThink()
 
 	--print("thisEntity.summon_bird ", thisEntity.summon_bird:GetCooldownTimeRemaining())
 
-	if thisEntity.markTarget ~= nil then
+	--[[if thisEntity.markTarget ~= nil then
 		if thisEntity.markTarget:IsAlive() ~= nil and thisEntity.markTarget:IsAlive() ~= true then
 			-- target is dead find a new one / end cooddown for mark spell
 			thisEntity.beastmaster_mark:EndCooldown()
 		end
-	end
+	end]]
 
 	if thisEntity.summon_bear:IsFullyCastable() and thisEntity.summon_bear:IsCooldownReady()then
 		SummonBear()
@@ -89,9 +89,9 @@ function BeastmasterThink()
 		BeastmasterNet_v2()
 	end
 
-	if thisEntity.beastmaster_mark:IsFullyCastable() and thisEntity.beastmaster_mark:IsCooldownReady() then
+	--[[if thisEntity.beastmaster_mark:IsFullyCastable() and thisEntity.beastmaster_mark:IsCooldownReady() then
 		BeastmasterMark()
-	end
+	end]]
 
 	--[[if thisEntity.beastmaster_break:IsFullyCastable() then
 		BreakArmor()

@@ -125,6 +125,8 @@ function beastmaster_net:OnSpellStart()
 		local hero = self:GetCaster()
 		local projectile_direction = ( self.vTargetPos - origin ):Normalized()
 		local offset = 150
+		local duration = self:GetSpecialValueFor( "duration" )
+		local duration_bear = self:GetSpecialValueFor( "duration_bear" )
 
 		local projectile = {
 			EffectName = "particles/beastmaster/beastmaster_axe.vpcf",--"particles/units/heroes/hero_meepo/meepo_earthbind_projectile_fx.vpcf",--"particles/units/heroes/hero_meepo/meepo_earthbind_projectile_fx.vpcf", --"particles/econ/items/mars/mars_ti9_immortal/mars_ti9_immortal_crimson_spear.vpcf",--"particles/units/heroes/hero_meepo/meepo_earthbind_projectile_fx.vpcf",
@@ -155,7 +157,12 @@ function beastmaster_net:OnSpellStart()
 
 			end, -- unit:GetTeamNumber() ~= hero:GetTeamNumber() and unit:GetTeamNumber() ~= DOTA_TEAM_NEUTRALS end
 			OnUnitHit = function(_self, unit)
-				unit:AddNewModifier( self:GetCaster(), self, "modifier_beastmaster_net", { duration = self:GetSpecialValueFor( "duration" ) } )
+
+				if unit:GetUnitName() == "npc_beastmaster_bear" then
+					unit:AddNewModifier( self:GetCaster(), self, "modifier_beastmaster_net", { duration = duration_bear } )
+				else
+					unit:AddNewModifier( self:GetCaster(), self, "modifier_beastmaster_net", { duration = duration } )
+				end
 
 				local dmgTable = {
 					victim = unit,

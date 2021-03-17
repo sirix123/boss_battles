@@ -15,9 +15,10 @@ function bear_bloodlust:OnSpellStart()
 
 		local ms_bonus = self:GetSpecialValueFor( "bloodlust_speed" )
 		local as_bonus = self:GetSpecialValueFor( "bloodlust_as_speed" )
+		local damage_bonus = self:GetSpecialValueFor( "bloodlust_damage_bonus" )
 
 		-- adds modifier to bear that increases as and ms
-		self:GetCaster():AddNewModifier( self:GetCaster(), self, "bear_bloodlust_modifier", { duration = -1, ms_bonus = ms_bonus, as_bonus = as_bonus } )
+		self:GetCaster():AddNewModifier( self:GetCaster(), self, "bear_bloodlust_modifier", { duration = -1, ms_bonus = ms_bonus, as_bonus = as_bonus, damage_bonus = damage_bonus } )
 		-- add stack
 		local hBuff = self:GetCaster():FindModifierByName( "bear_bloodlust_modifier" )
 		hBuff:IncrementStackCount()

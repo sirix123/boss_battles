@@ -29,9 +29,11 @@ end
 --------------------------------------------------------------------------------
 
 function modifier_beastmaster_net:OnDestroy()
-	if self.nFXIndex then
-		ParticleManager:DestroyParticle(self.nFXIndex, true)
-		--ParticleManager:ReleaseParticleIndex( self.nFXIndex )
+	if IsServer() then
+		if self.nFXIndex then
+			ParticleManager:DestroyParticle(self.nFXIndex, true)
+			--ParticleManager:ReleaseParticleIndex( self.nFXIndex )
+		end
 	end
 end
 
