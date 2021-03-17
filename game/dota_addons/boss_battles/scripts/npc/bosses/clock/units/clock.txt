@@ -29,6 +29,7 @@
 		"Ability7"					"summon_furnace_droid"			// Ability 7
 		"Ability8"					"cogs"			// Ability 7
 		"Ability9"					"fire_missile"			// Ability 7
+		"Ability10"					"choking_gas"			// Ability 7
 		
 		// Armor
 		//----------------------------------------------------------------
