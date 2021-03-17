@@ -91,6 +91,10 @@ function q_conq_shout:OnSpellStart()
                 vortex.dmg = caster:FindAbilityByName("r_blade_vortex"):GetSpecialValueFor( "base_dmg" ) + ( self:GetSpecialValueFor( "vortex_dmg_inc" ) * caster:FindAbilityByName("r_blade_vortex"):GetSpecialValueFor( "base_dmg" ) )
 
                 --PrintTable(vortex)
+                Timers:CreateTimer(caster:FindAbilityByName("q_conq_shout"):GetSpecialValueFor( "duration" ), function()
+                    vortex.dmg = caster:FindAbilityByName("r_blade_vortex"):GetSpecialValueFor( "base_dmg" )
+                    return false
+                end)
 
                 -- inc duration
                 local remaining_time = vortex:GetRemainingTime()

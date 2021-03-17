@@ -70,7 +70,7 @@ function r_blade_vortex_thinker:OnIntervalThink()
             self:GetCaster():ManaOnHit( self.base_mana )
 
             for _, enemy in pairs(enemies) do
-                EmitSoundOn("Hero_Juggernaut.BladeFury.Impact", enemy)
+                --EmitSoundOn("Hero_Juggernaut.BladeFury.Impact", enemy)
 
                 self.dmgTable = {
                     victim = enemy,
