@@ -66,7 +66,7 @@ function q_fire_bubble:OnSpellStart()
 
         local duration = self:GetSpecialValueFor( "duration" )
 
-        self.modifier = self.target:AddNewModifier(
+        self.target:AddNewModifier(
             self.caster, -- player source
             self, -- ability source
             "q_fire_bubble_modifier", -- modifier name

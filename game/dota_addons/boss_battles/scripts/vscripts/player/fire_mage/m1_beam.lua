@@ -8,6 +8,11 @@ function m1_beam:OnAbilityPhaseStart()
         -- the 1 below is imporant if set incorrectly the animation will stutter (second variable in startgesture is the playback override)
         self:GetCaster():StartGestureWithPlaybackRate(ACT_DOTA_GENERIC_CHANNEL_1, 1.2)
 
+        self:GetCaster():FindAbilityByName("m2_meteor"):SetActivated(false)
+        self:GetCaster():FindAbilityByName("q_fire_bubble"):SetActivated(false)
+        self:GetCaster():FindAbilityByName("r_remnant"):SetActivated(false)
+        self:GetCaster():FindAbilityByName("e_fireball"):SetActivated(false)
+
         -- add casting modifier
         self:GetCaster():AddNewModifier(self:GetCaster(), self, "casting_modifier_thinker",
         {
@@ -41,7 +46,7 @@ function m1_beam:OnSpellStart()
             Timers:RemoveTimer(self.timer)
         end
 
-        EmitSoundOn("Hero_Phoenix.SunRay.Cast", self:GetCaster())
+        --EmitSoundOn("Hero_Phoenix.SunRay.Cast", self:GetCaster())
 
         -- init
 		self.caster = self:GetCaster()
@@ -55,28 +60,33 @@ function m1_beam:OnSpellStart()
 
         local dmg_1_buff = ( dmg * self:GetSpecialValueFor( "dmg_reduction_stage_1" ) )   + ( ( dmg * self:GetSpecialValueFor( "dmg_reduction_stage_1" ) ) * self.caster:FindAbilityByName("m2_meteor"):GetSpecialValueFor( "fire_weakness_dmg_increase" )  )
         local dmg_2_buff = ( dmg * self:GetSpecialValueFor( "dmg_reduction_stage_2" ) )   + ( ( dmg * self:GetSpecialValueFor( "dmg_reduction_stage_2" ) ) * self.caster:FindAbilityByName("m2_meteor"):GetSpecialValueFor( "fire_weakness_dmg_increase" )  )
-        local dmg_3_buff = dmg             + ( dmg           * self.caster:FindAbilityByName("m2_meteor"):GetSpecialValueFor( "fire_weakness_dmg_increase" )  )
+        local dmg_3_buff = dmg   + ( dmg           * self.caster:FindAbilityByName("m2_meteor"):GetSpecialValueFor( "fire_weakness_dmg_increase" )  )
 
         local channel_time_buff = self:GetSpecialValueFor( "buff_channel_time" ) --timer runs at 0.5
 
-        self.beam_point = Vector(0,0,0)
+        local beam_length = self:GetSpecialValueFor( "beam_length" )
+        local caster_forward = self.caster:GetForwardVector()
+        self.beam_point = self.origin + caster_forward * beam_length
+
+        --self.beam_point = Vector(0,0,0)
         local particleName = "particles/econ/items/phoenix/phoenix_solar_forge/phoenix_sunray_solar_forge.vpcf"
         self.pfx = ParticleManager:CreateParticle( particleName, PATTACH_ABSORIGIN, self.caster )
 
         -- particle effect timer
         Timers:CreateTimer(function()
-            if IsValidEntity(self.caster) == false then return false end
+            if IsValidEntity(self.caster) == false then
+                self:CleanUp()
+                return false
+            end
 
-            if self.caster.left_mouse_up_down == 1 then
-                self:GetCaster():RemoveModifierByName("casting_modifier_thinker")
-                ParticleManager:DestroyParticle(self.pfx,true)
+            if self.caster.left_mouse_up_down == 1 or self.caster:IsStunned() then
+                self:CleanUp()
                 return false
             end
 
             ParticleManager:SetParticleControl(self.pfx, 0, Vector( self.caster:GetAbsOrigin().x, self.caster:GetAbsOrigin().y, self.caster:GetAbsOrigin().z + 100 ))
 
-            local beam_length = self:GetSpecialValueFor( "beam_length" )
-            local caster_forward = self.caster:GetForwardVector()
+            caster_forward = self.caster:GetForwardVector()
             self.beam_point = self.origin + caster_forward * beam_length
             self.beam_point = GetGroundPosition( self.beam_point, nil )
             self.beam_point.z = self.beam_point.z + 100
@@ -91,12 +101,15 @@ function m1_beam:OnSpellStart()
         local j = 0
         local i = 0
         self.timer = Timers:CreateTimer(function()
-            if IsValidEntity(self.caster) == false then return false end
+            if IsValidEntity(self.caster) == false then
+                self:CleanUp()
+                return false
+            end
 
-            if self.caster.left_mouse_up_down == 1 then
+            if self.caster.left_mouse_up_down == 1 or self.caster:IsStunned() or self.caster:HasModifier("modifier_stomp_push") or self.caster:IsAlive() == false then
+                self:CleanUp()
                 j = 0
                 i = 0
-                self:GetCaster():FadeGesture(ACT_DOTA_GENERIC_CHANNEL_1)
                 return false
             end
 
@@ -160,3 +173,16 @@ function m1_beam:OnSpellStart()
 	end
 end
 ----------------------------------------------------------------------------------------------------------------
+
+function m1_beam:CleanUp()
+    if IsServer() then
+        self:GetCaster():FindAbilityByName("m2_meteor"):SetActivated(true)
+        self:GetCaster():FindAbilityByName("r_remnant"):SetActivated(true)
+        self:GetCaster():FindAbilityByName("e_fireball"):SetActivated(true)
+        self:GetCaster():FindAbilityByName("q_fire_bubble"):SetActivated(true)
+        self:GetCaster():RemoveModifierByName("casting_modifier_thinker")
+        ParticleManager:DestroyParticle(self.pfx,true)
+        self:GetCaster():FadeGesture(ACT_DOTA_GENERIC_CHANNEL_1)
+        --StopSound("Hero_Phoenix.SunRay.Cast")
+    end
+end

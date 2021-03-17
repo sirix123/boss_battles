@@ -3,10 +3,8 @@ m1_beam_remnant = class({})
 function m1_beam_remnant:OnAbilityPhaseStart()
     if IsServer() then
 
-        self:GetCaster():StartGestureWithPlaybackRate(ACT_DOTA_GENERIC_CHANNEL_1, 1.2)
-
         local enemies = FindUnitsInRadius(
-            DOTA_TEAM_GOODGUYS,
+            self:GetCaster():GetOwner():GetTeamNumber(),
             self:GetCaster():GetAbsOrigin(),
             nil,
             900,
@@ -17,15 +15,21 @@ function m1_beam_remnant:OnAbilityPhaseStart()
             false )
 
         if #enemies == 0 or enemies == nil then
+            --print("#enemies= 0, / cant find any")
             return false
         else
-            self.create_particle = true
-            self.beam_point = Vector(0,0,0)
-            self.target = enemies[1]
-            --print("self.target ",self.target:GetUnitName())
+            for i = 1, #enemies, 1 do
+                if CheckGlobalUnitTableForUnitName(enemies[i]) == nil then
+                    self.create_particle = true
+                    self.beam_point = Vector(0,0,0)
+                    self.target = enemies[i]
+                    --print("self.target ",self.target:GetUnitName())
+                    return true
+                else
+                    --print("self.target ",self.target:GetUnitName())
+                end
+            end
         end
-
-        return true
     end
 end
 ---------------------------------------------------------------------------
@@ -54,6 +58,8 @@ end
 function m1_beam_remnant:OnChannelThink( flinterval )
 	if IsServer() then
 
+        self:GetCaster():StartGestureWithPlaybackRate(ACT_DOTA_GENERIC_CHANNEL_1, 1.2)
+
         -- init
         self.caster = self:GetCaster()
         self.origin = self.caster:GetAbsOrigin()
@@ -66,6 +72,7 @@ function m1_beam_remnant:OnChannelThink( flinterval )
         -- ref
         -- dmg
         local dmg = self:GetCaster():GetOwner():FindAbilityByName("m1_beam"):GetSpecialValueFor( "dmg" )
+        local dmg_buff = dmg + ( dmg * self:GetCaster():GetOwner():FindAbilityByName("m2_meteor"):GetSpecialValueFor( "fire_weakness_dmg_increase" ) )
 
         -- beam
         self.beam_width = 100
@@ -73,7 +80,7 @@ function m1_beam_remnant:OnChannelThink( flinterval )
 
         -- beam particle and movement
         if self.create_particle == true then
-            EmitSoundOn("Hero_Phoenix.SunRay.Cast", self:GetCaster())
+            --EmitSoundOn("Hero_Phoenix.SunRay.Cast", self:GetCaster())
 
             local particleName = "particles/econ/items/phoenix/phoenix_solar_forge/phoenix_sunray_solar_forge.vpcf"
             self.pfx = ParticleManager:CreateParticle( particleName, PATTACH_ABSORIGIN, self:GetCaster() )
@@ -97,7 +104,7 @@ function m1_beam_remnant:OnChannelThink( flinterval )
             return
         else
             local units = FindUnitsInLine(
-                        self:GetCaster():GetTeamNumber(),
+                        self:GetCaster():GetOwner():GetTeamNumber(),
                         self:GetCaster():GetAbsOrigin(),
                         self.beam_point,
                         nil,
@@ -109,7 +116,7 @@ function m1_beam_remnant:OnChannelThink( flinterval )
                     if units ~= nil and #units ~= 0 then
                         for _,unit in pairs(units) do
                             if unit:HasModifier("m2_meteor_fire_weakness") then
-                                dmg = dmg * ( dmg * self:GetCaster():GetOwner():FindAbilityByName("m2_meteor"):GetSpecialValueFor( "fire_weakness_dmg_increase" ) )
+                                dmg = dmg_buff
                             else
                                 dmg = dmg
                             end

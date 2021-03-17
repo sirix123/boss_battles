@@ -6,7 +6,7 @@ function e_fireball_remnant:OnAbilityPhaseStart()
         self:GetCaster():StartGestureWithPlaybackRate(ACT_DOTA_GENERIC_CHANNEL_1, 1.2)
 
         local enemies = FindUnitsInRadius(
-            DOTA_TEAM_GOODGUYS,
+            self:GetCaster():GetOwner():GetTeamNumber(),
             self:GetCaster():GetAbsOrigin(),
             nil,
             self:GetCastRange(Vector(0,0,0), nil),
@@ -19,11 +19,17 @@ function e_fireball_remnant:OnAbilityPhaseStart()
         if #enemies == 0 or enemies == nil then
             return false
         else
-            self.tProjs = {}
-            self.target = enemies[1]
+            for i = 1, #enemies, 1 do
+                if CheckGlobalUnitTableForUnitName(enemies[i]) == nil then
+                    self.tProjs = {}
+                    self.target = enemies[1]
+                    --print("self.target ",self.target:GetUnitName())
+                    return true
+                else
+                    --print("self.target ",self.target:GetUnitName())
+                end
+            end
         end
-
-        return true
     end
 end
 ---------------------------------------------------------------------------
@@ -86,7 +92,7 @@ function e_fireball_remnant:OnChannelThink( flinterval )
                 GroundBehavior = PROJECTILES_NOTHING,
                 fGroundOffset = 80,
                 UnitTest = function(_self, unit)
-                    return unit:GetTeamNumber() ~= self.caster:GetTeamNumber() and unit:GetModelName() ~= "models/development/invisiblebox.vmdl" and CheckGlobalUnitTableForUnitName(unit) ~= true
+                    return unit:GetTeamNumber() ~= self:GetCaster():GetOwner():GetTeamNumber() and unit:GetModelName() ~= "models/development/invisiblebox.vmdl" and CheckGlobalUnitTableForUnitName(unit) ~= true
                 end,
                 OnUnitHit = function(_self, unit)
 

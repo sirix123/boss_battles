@@ -8,6 +8,8 @@ function m2_meteor:OnAbilityPhaseStart()
         -- the 1 below is imporant if set incorrectly the animation will stutter (second variable in startgesture is the playback override)
         self:GetCaster():StartGestureWithPlaybackRate(ACT_DOTA_CAST_ABILITY_2, 0.7)
 
+        self:GetCaster():FindAbilityByName("m1_beam"):SetActivated(false)
+
         -- add casting modifier
         self:GetCaster():AddNewModifier(self:GetCaster(), self, "casting_modifier_thinker",
         {
@@ -30,6 +32,8 @@ end
 
 function m2_meteor:OnAbilityPhaseInterrupted()
     if IsServer() then
+
+        self:GetCaster():FindAbilityByName("m1_beam"):SetActivated(true)
 
         -- remove casting animation
         self:GetCaster():FadeGesture(ACT_DOTA_ATTACK)
@@ -115,6 +119,10 @@ function m2_meteor:OnSpellStart()
 
             return false
         end)
+
+        self:GetCaster():FindAbilityByName("m1_beam"):SetActivated(true)
+
+
 	end
 end
 ----------------------------------------------------------------------------------------------------------------

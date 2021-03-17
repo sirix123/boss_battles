@@ -17,13 +17,13 @@ function q_fire_bubble_modifier:IsPurgable()
 end
 -----------------------------------------------------------------------------
 
-function q_fire_bubble_modifier:GetEffectName()
+--[[function q_fire_bubble_modifier:GetEffectName()
     return "particles/econ/items/ember_spirit/ember_ti9/ember_ti9_flameguard.vpcf"
 end
 
 function q_fire_bubble_modifier:GetEffectAttachType()
     return PATTACH_ABSORIGIN_FOLLOW
-end
+end]]
 -----------------------------------------------------------------------------
 
 function q_fire_bubble_modifier:OnCreated( kv )
@@ -38,6 +38,8 @@ function q_fire_bubble_modifier:OnCreated( kv )
 
 		self.caster = self:GetCaster()
 		self.parent = self:GetParent()
+
+        self.particle_index = ParticleManager:CreateParticle("particles/econ/items/ember_spirit/ember_ti9/ember_ti9_flameguard.vpcf", PATTACH_ROOTBONE_FOLLOW, self.parent)
 
         self.dmg = self.burn_amount
         self.dmg_buff = ( self.burn_amount) + ( ( self.burn_amount ) * self.caster:FindAbilityByName("m2_meteor"):GetSpecialValueFor( "fire_weakness_dmg_increase" )  )
@@ -90,7 +92,7 @@ end
 
 function q_fire_bubble_modifier:OnDestroy()
 	if IsServer() then
-
+        ParticleManager:DestroyParticle(self.particle_index,true)
 	end
 end
 ----------------------------------------------------------------------------
