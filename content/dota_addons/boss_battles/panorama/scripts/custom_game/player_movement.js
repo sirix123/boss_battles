@@ -2,10 +2,8 @@
 
 GameEvents.Subscribe( "picking_done", Init );
 
-let LAG_SIM = false
-
-var pingaverage = 1500;
-var pingdelta = 750;
+var pingaverage = 500;
+var pingdelta = 200;
 function SendCustomGameEventWithLag( e, data ) {
     // Calculate delay
     var time = pingaverage/2;

@@ -28,10 +28,11 @@ function CDOTA_BaseNPC:Initialize(data)
   self.maxMp = self:GetMaxMana()
   self.mpPercent = self:GetManaPercentCustom()
 
-  self.type = '0'
-  self.command = '0'
-  self.previousType = '0'
-  self.previousCommand = '0'
+  self.type = nil
+  self.command = nil
+  self.previousType = nil
+  self.previousCommand = nil
+  self.playerLagging = false
 
   self.playerName = PlayerResource:GetPlayerName(self.playerId)
   self.steamId = PlayerResource:GetSteamID(self.playerId)

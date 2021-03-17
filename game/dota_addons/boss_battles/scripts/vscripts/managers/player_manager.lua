@@ -7,8 +7,14 @@ LinkLuaModifier("turnrate_modifier_thinker", "player/generic/turnrate_modifier_t
 
 function PlayerManager:SetUpMovement()
 
-    self.previous_type = "0"
-    self.previous_command = "0"
+    Timers:CreateTimer(3, function()
+
+        for _, unit in pairs(HERO_LIST) do
+            unit.playerLagging = false
+        end
+
+        return 3
+    end)
 
     CustomGameEventManager:RegisterListener('MoveUnit', function(eventSourceIndex, args)
         --print("GameMode:SetUpMovement(): MoveUnit event caught")
@@ -23,65 +29,62 @@ function PlayerManager:SetUpMovement()
 
         -- make sure direction has some value (NPC has initialised)
         if unit.direction == nil then return end
-
-        local playerId = unit:GetPlayerID()
+        local playerId = EntIndexToHScript(args.heroEnt):GetPlayerID()
         local player = PlayerResource:GetPlayer(playerId)
 
-        --print("args", args)
-        --print("args.command", args.command)
-        --print("args.heroEnt", args.heroEnt)
-        --print("args.type", args.type)
-        --print("unit ",unit)
-        --print("---------")
+        -- need to create a 'buffer' for each player that comes in
 
-        --[[ store the args against the hero so we can check individual heroes
-        unit.command = args.command
-        unit.type = args.type
+        --[[print("args", args)
+        print("args", args.command)
+        print("args.heroEnt", args.heroEnt)
+        print("args.type", args.type)
+        print("hero", EntIndexToHScript(args.heroEnt):GetUnitName())
+        print("player ",player)
+        print("---------")]]
 
-        if unit.previousType ~= "0" and unit.previousCommand ~= "0" then
-            if args.type == unit.type and args.command == unit.command then
+        unit.currentType = args.type
+        unit.currentCommand = args.command
 
-                print("network lag detected - movement controller")
-
-                -- set a flag in the session data so we can search through how many attempts / games have lag?
-
-                -- send a message to the client of the lagger (used to display a network lag message)
-                CustomGameEventManager:Send_ServerToPlayer( player, "display_lag_message", nil )
-
-                unit.direction.x = 0
-                unit.direction.y = 0
-                return
-            end
-        end]]
-
-        if args.command == "W" then
-            if args.type == "+" then
-                unit.direction.y = unit.direction.y + 1
-            elseif args.type == "-" then
-                unit.direction.y = unit.direction.y - 1
-            end
-        elseif args.command == "A" then
-            if args.type == "+" then
-                unit.direction.x = unit.direction.x - 1
-            elseif args.type == "-" then
-                unit.direction.x = unit.direction.x + 1
-            end
-        elseif args.command == "S"  then
-            if args.type == "+" then
-                unit.direction.y = unit.direction.y - 1
-            elseif args.type == "-" then
-                unit.direction.y = unit.direction.y + 1
-            end
-        elseif args.command == "D"  then
-            if args.type == "+" then
-                unit.direction.x = unit.direction.x + 1
-            elseif args.type == "-" then
-                unit.direction.x = unit.direction.x - 1
-            end
+        if unit.playerLagging == true then
+            unit.direction.x = 0
+            unit.direction.y = 0
+            return
         end
 
-        --unit.previousType = args.type
-        --unit.previousCommand = args.command
+        if unit.currentType == unit.previousType and unit.currentCommand == unit.previousCommand then
+            unit.playerLagging = true
+            print("network lag detected - movement controller")
+            CustomGameEventManager:Send_ServerToPlayer( player, "display_lag_message", nil )
+        elseif unit.playerLagging == false then
+            if args.command == "W" then
+                if args.type == "+" then
+                    unit.direction.y = unit.direction.y + 1
+                elseif args.type == "-" then
+                    unit.direction.y = unit.direction.y - 1
+                end
+            elseif args.command == "A" then
+                if args.type == "+" then
+                    unit.direction.x = unit.direction.x - 1
+                elseif args.type == "-" then
+                    unit.direction.x = unit.direction.x + 1
+                end
+            elseif args.command == "S"  then
+                if args.type == "+" then
+                    unit.direction.y = unit.direction.y - 1
+                elseif args.type == "-" then
+                    unit.direction.y = unit.direction.y + 1
+                end
+            elseif args.command == "D"  then
+                if args.type == "+" then
+                    unit.direction.x = unit.direction.x + 1
+                elseif args.type == "-" then
+                    unit.direction.x = unit.direction.x - 1
+                end
+            end
+
+            unit.previousType = unit.currentType
+            unit.previousCommand = unit.currentCommand
+        end
 
     end) -- end of MoveUnit listener
 end

@@ -225,13 +225,13 @@ function SubscribeToNetTableKey(table, key, loadNow, callback){
 
 // init called by hero selection
 function Init(){
-    UpdateTargetIndicator();
 
     SubscribeToNetTableKey("main", "targetingIndicators", true, function(data){
         targetingIndicators = data;
         //$.Msg(targetingIndicators)
     });
 
+    UpdateTargetIndicator();
 }
 
 
