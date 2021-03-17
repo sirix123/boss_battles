@@ -28,7 +28,7 @@ socials
     vertical-align: top;
 	margin-top: 50px;
 	margin-left: 50px;
-	background-color: rgb(70, 58, 58);
+	background-color: #151515;
 }
 
 
@@ -36,45 +36,108 @@ socials
 leaderboard 
 ----------------------------------------------------------------*/
 #LeaderboardContainer{
-	width: 25%;
+	width: 35%;
     height: 70%;
+	flow-children: down;
 	horizontal-align: left;
     vertical-align: bottom;
 	margin-bottom: 50px;
 	margin-left: 50px;
-	background-color: rgb(70, 58, 58);
+	border: 3px solid black;
+	border-radius: 5px 5px 5px 5px;
+}
+
+.leaderboard_titles{
+	flow-children: right;
+	height: 10%;
+	width: 100%;
+	background-color: #151515; /* rgba */
+	background-size: 100% 100%;
+}
+
+.leaderboard_rows{
+	flow-children: right;
+	height: 9%;
+	width: 100%;
+	background-color: #151515; /* rgba */
+	background-size: 100% 100%;
 }
 
 /*--------------------------------------------------------------
 leaderboard - headers
 ----------------------------------------------------------------*/
-.header_bossFight_info{
+.leaderboard_header_info{
 	flow-children: right;
-	height: 5%;
+	height: 100%;
 	width: 100%;
-	background-color: #292626cc; /* rgba */
+	background-color: #151515; /* rgba */
 	background-size: 100% 100%;
 }
 
 .header_container{
 	height: 100%;
-	width: 2%;
+	width: 10%;
 	flow-children: down;
 	vertical-align: middle;
-	background-color: #292626cc; /* rgba */
+	background-color: #151515; /* rgba */
 	background-size: 100% 100%;
 }
 
 .header_bossFight_heading_text{
 	horizontal-align: left;
 	vertical-align: center;
-	margin: 3px;
-	margin-left: 7px;
+	margin: 1px;
+	margin-left: 3px;
 	color: #fff;
-	font-size: 20px;
+	font-size: 15px;
 	font-family: defaultFont;
 }
 
 /*--------------------------------------------------------------
 leaderboard - cells
 ----------------------------------------------------------------*/
+.leaderboard_row_info{
+	vertical-align: top;
+	flow-children: right;
+	height: 100%;
+	width: 100%;
+	background-color: #151515; /* rgba */
+	background-size: 100% 100%;
+}
+
+.leaderboard_row_info_cell{
+	height: 100%;
+	width: 10%;
+	flow-children: down;
+	vertical-align: middle;
+	background-color: #151515; /* rgba */
+	background-size: 100% 100%;
+}
+
+.leaderboard_row_info_cell_stack{
+	height: 100%;
+	width: 10%;
+	flow-children: down;
+	vertical-align: middle;
+	background-color: #151515; /* rgba */
+	background-size: 100% 100%;
+}
+
+.leaderboard_row_info_cell_stack_child{
+	height: 25%;
+	width: 100%;
+	flow-children: down;
+	vertical-align: middle;
+	background-color: #151515; /* rgba */
+	background-size: 100% 100%;
+}
+
+.leaderboard_row_info_cell_text{
+	horizontal-align: left;
+	vertical-align: center;
+	margin: 1px;
+	margin-left: 3px;
+	color: #fff;
+	font-size: 15px;
+	font-family: defaultFont;
+}
