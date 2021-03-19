@@ -22,13 +22,15 @@ background
 socials
 ----------------------------------------------------------------*/
 #SocialsContainer{
-	width: 20%;
-    height: 10%;
+	width: 30%;
+    height: 5%;
 	horizontal-align: left;
     vertical-align: top;
-	margin-top: 50px;
+	margin-top: 10px;
 	margin-left: 50px;
 	background-color: #151515;
+	border: 3px solid black;
+	border-radius: 5px 5px 5px 5px;
 }
 
 
@@ -36,18 +38,37 @@ socials
 leaderboard 
 ----------------------------------------------------------------*/
 #LeaderboardContainer{
-	width: 35%;
+	width: 30%;
     height: 70%;
 	flow-children: down;
 	horizontal-align: left;
-    vertical-align: bottom;
-	margin-bottom: 50px;
+    vertical-align: top;
+	margin-top: 80px;
 	margin-left: 50px;
 	border: 3px solid black;
 	border-radius: 5px 5px 5px 5px;
 }
 
 .leaderboard_titles{
+	flow-children: down;
+	height: 10%;
+	width: 100%;
+	background-color: #151515; /* rgba */
+	background-size: 100% 100%;
+	border-bottom-style: solid;
+	border-bottom-width: 2px;
+	border-bottom-color: rgb(126, 126, 126);
+}
+
+.leaderboard_rows{
+	height: 90%;
+	width: 100%;
+	flow-children: down;
+	background-color: #151515; /* rgba */
+	background-size: 100% 100%;
+}
+
+.leaderboard_row_info{
 	flow-children: right;
 	height: 10%;
 	width: 100%;
@@ -55,11 +76,11 @@ leaderboard
 	background-size: 100% 100%;
 }
 
-.leaderboard_rows{
+.leaderboard_row_info_odd{
 	flow-children: right;
-	height: 9%;
+	height: 10%;
 	width: 100%;
-	background-color: #151515; /* rgba */
+	background-color: #2e2e2e; /* rgba */
 	background-size: 100% 100%;
 }
 
@@ -76,51 +97,81 @@ leaderboard - headers
 
 .header_container{
 	height: 100%;
-	width: 10%;
+	width: 8.5%;
 	flow-children: down;
 	vertical-align: middle;
 	background-color: #151515; /* rgba */
 	background-size: 100% 100%;
+	border-left-style: solid;
+	border-left-width: 2px;
+	border-left-color: rgb(126, 126, 126);
+}
+
+.header_container_small{
+	height: 100%;
+	width: 5%;
+	flow-children: down;
+	vertical-align: middle;
+	background-color: #151515; /* rgba */
+	background-size: 100% 100%;
+	border-left-style: solid;
+	border-left-width: 2px;
+	border-left-color: rgb(126, 126, 126);
+}
+
+.header_container_large{
+	height: 100%;
+	width: 15%;
+	flow-children: down;
+	vertical-align: middle;
+	background-color: #151515; /* rgba */
+	background-size: 100% 100%;
+	border-left-style: solid;
+	border-left-width: 2px;
+	border-left-color: rgb(126, 126, 126);
 }
 
 .header_bossFight_heading_text{
 	horizontal-align: left;
 	vertical-align: center;
-	margin: 1px;
-	margin-left: 3px;
 	color: #fff;
-	font-size: 15px;
+	font-size: 14px;
 	font-family: defaultFont;
 }
 
 /*--------------------------------------------------------------
 leaderboard - cells
 ----------------------------------------------------------------*/
-.leaderboard_row_info{
-	vertical-align: top;
-	flow-children: right;
+.leaderboard_row_info_cell_small{
 	height: 100%;
-	width: 100%;
-	background-color: #151515; /* rgba */
-	background-size: 100% 100%;
+	width: 5%;
+	flow-children: down;
+	vertical-align: middle;
+	border-left-style: solid;
+	border-left-width: 2px;
+	border-left-color: rgb(126, 126, 126);
+
 }
 
 .leaderboard_row_info_cell{
 	height: 100%;
-	width: 10%;
+	width: 8.5%;
 	flow-children: down;
 	vertical-align: middle;
-	background-color: #151515; /* rgba */
-	background-size: 100% 100%;
+	border-left-style: solid;
+	border-left-width: 2px;
+	border-left-color: rgb(126, 126, 126);
+
 }
 
 .leaderboard_row_info_cell_stack{
 	height: 100%;
-	width: 10%;
+	width: 15%;
 	flow-children: down;
 	vertical-align: middle;
-	background-color: #151515; /* rgba */
-	background-size: 100% 100%;
+	border-left-style: solid;
+	border-left-width: 2px;
+	border-left-color: rgb(126, 126, 126);
 }
 
 .leaderboard_row_info_cell_stack_child{
@@ -128,8 +179,12 @@ leaderboard - cells
 	width: 100%;
 	flow-children: down;
 	vertical-align: middle;
-	background-color: #151515; /* rgba */
-	background-size: 100% 100%;
+	color: #fff;
+	font-size: 12px;
+	font-family: defaultFont;
+	border-bottom-style: solid;
+	border-bottom-width: 2px;
+	border-bottom-color: rgb(126, 126, 126);
 }
 
 .leaderboard_row_info_cell_text{
@@ -138,6 +193,6 @@ leaderboard - cells
 	margin: 1px;
 	margin-left: 3px;
 	color: #fff;
-	font-size: 15px;
+	font-size: 12px;
 	font-family: defaultFont;
 }

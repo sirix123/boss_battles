@@ -16,23 +16,23 @@
             <Panel class="leaderboard_header_info" hittest="false" >
 
 				<!-- RANK -->
-				<Panel id="header_bossFight_rank_container" class="header_container">
-                  	<Label text="Rank" class="header_bossFight_heading_text" id="header_bossFight_heading_text"/>
+				<Panel id="header_bossFight_rank_container" class="header_container_small">
+                  	<Label text="'#'" class="header_bossFight_heading_text" id="header_bossFight_heading_text"/>
 				</Panel>
 
 				<!-- PLAYERS -->
-				<Panel id="header_bossFight_players_container" class="header_container">
+				<Panel id="header_bossFight_players_container" class="header_container_large">
                   	<Label text="Players" class="header_bossFight_heading_text" id="header_bossFight_heading_text"/>
 				</Panel>
 
 				<!-- CLASSES -->
-				<Panel id="header_bossFight_classes_container" class="header_container">
+				<Panel id="header_bossFight_classes_container" class="header_container_large">
                   	<Label text="Heroes" class="header_bossFight_heading_text" id="header_bossFight_heading_text"/>
 				</Panel>
 
 				<!-- LIVES -->
-				<Panel id="header_bossFight_lives_container" class="header_container">
-                  	<Label text="Lives" class="header_bossFight_heading_text" id="header_bossFight_heading_text"/>
+				<Panel id="header_bossFight_lives_container" class="header_container_small">
+                  	<Label text="L" class="header_bossFight_heading_text" id="header_bossFight_heading_text"/>
 				</Panel>
 
 				<!-- BOSS1 -->
@@ -66,7 +66,7 @@
 				</Panel>
 
 				<!-- TOTAL -->
-				<Panel id="header_bossFight_boss6_container" class="header_container">
+				<Panel id="header_bossFight_total_container" class="header_container">
                   	<Label text="Total" class="header_bossFight_heading_text" id="header_bossFight_heading_text"/>
 				</Panel>
 
@@ -77,8 +77,8 @@
             <Panel hittest="false" class="leaderboard_row_info" >
 
 				<!-- RANK -->
-				<Panel id="leaderboard_row_info_cell_rank" class="leaderboard_row_info_cell">
-                	<Label text="#1" class="leaderboard_row_info_cell_text" id="leaderboard_row_info_rank"/>
+				<Panel id="leaderboard_row_info_cell_rank" class="leaderboard_row_info_cell_small">
+                	<Label text="1" class="leaderboard_row_info_cell_text" id="leaderboard_row_info_rank"/>
 				</Panel>
 
 				<!-- Players -->
@@ -98,7 +98,7 @@
 				</Panel>
 
 				<!-- Lives -->
-				<Panel id="leaderboard_row_info_cell_lives" class="leaderboard_row_info_cell_stack">
+				<Panel id="leaderboard_row_info_cell_lives" class="leaderboard_row_info_cell_small">
                 	<Label text="1" class="leaderboard_row_info_cell_stack_child" id="leaderboard_row_info_live_1"/>
 					<Label text="3" class="leaderboard_row_info_cell_stack_child" id="leaderboard_row_info_live_2"/>
 					<Label text="1" class="leaderboard_row_info_cell_stack_child" id="leaderboard_row_info_live_3"/>
