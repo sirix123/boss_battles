@@ -22,7 +22,7 @@ end
 -- debuff effect on npc
 -- these probably need to be like... stack count above the hero and... 'mob starts getting incased in ice?'
 function choking_gas_timer:GetEffectName()
-	return "particles/units/heroes/hero_abaddon/abaddon_curse_counter_debuff.vpcf"
+	return "particles/clock/clock_gas_abaddon_curse_counter_debuff.vpcf"
 end
 
 function choking_gas_timer:GetStatusEffectName()

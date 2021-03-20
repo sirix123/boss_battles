@@ -114,8 +114,8 @@
 		"Ability4"					"beastmaster_net"			// Ability 4
 		"Ability5"					"beastmaster_break"			// Ability 5
 		"Ability6"					"summon_bird"			// Ability 5
+		"Ability7"					"roar"			// Ability 5
 		
-
 		// Armor
 		//----------------------------------------------------------------
 		"ArmorPhysical"				"0"			// Physical protection.

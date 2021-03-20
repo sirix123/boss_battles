@@ -249,7 +249,7 @@
 		"AbilitySpecial"
 		{
             "01"{ "var_type"			"FIELD_INTEGER"		"speed"		        "700" }
-            "02"{ "var_type"			"FIELD_INTEGER"		"dmg"		        "50" }
+            "02"{ "var_type"			"FIELD_INTEGER"		"dmg"		        "25" }
             "03"{ "var_type"			"FIELD_INTEGER"		"radius"		    "100" }
             "04"{ "var_type"			"FIELD_INTEGER"		"interval"		    "2" }
             "05"{ "var_type"			"FIELD_INTEGER"		"duration"		    "50" }
@@ -452,7 +452,7 @@
 
         // Time     
         //-------------------------------------------------------------------------------------------------------------
-        "AbilityCooldown"               "30 25 25 25"
+        "AbilityCooldown"               "35 25 25 25"
 
         // Cost
         //-------------------------------------------------------------------------------------------------------------
@@ -620,7 +620,7 @@
             "05"
             {
                 "var_type"                  "FIELD_INTEGER"
-                "attack_damage"             "240"
+                "attack_damage"             "200"
                 //"attack_damage"             "600"
             }
             "06"

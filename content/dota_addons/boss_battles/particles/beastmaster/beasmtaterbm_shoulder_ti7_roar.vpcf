@@ -1,0 +1,58 @@
+<!-- kv3 encoding:text:version{e21c7f3c-8a33-41c5-9977-a76d3a32aa0d} format:vpcf31:version{593cd181-a1d6-4c6f-9a8c-0534e8d44db0} -->
+{
+	_class = "CParticleSystemDefinition"
+	m_nMaxParticles = 0
+	m_nBehaviorVersion = 10
+	m_controlPointConfigurations = 
+	[
+		{
+			m_name = "preview"
+			m_drivers = 
+			[
+				{
+					m_iAttachType = "PATTACH_WORLDORIGIN"
+					m_vecOffset = [ 0.0, 0.0, 0.0 ]
+					m_angOffset = [ 0.0, 0.0, 0.0 ]
+					m_entityName = "self"
+				},
+			]
+		},
+	]
+	m_Children = 
+	[
+		{
+			m_ChildRef = resource:"particles/econ/items/beastmaster/bm_shoulder_ti7/bm_shoulder_ti7_roar_ground.vpcf"
+		},
+		{
+			m_ChildRef = resource:"particles/econ/items/beastmaster/bm_shoulder_ti7/bm_shoulder_ti7_roar_warp.vpcf"
+		},
+		{
+			m_ChildRef = resource:"particles/econ/items/beastmaster/bm_shoulder_ti7/bm_shoulder_ti7_roar_rings.vpcf"
+		},
+		{
+			m_ChildRef = resource:"particles/econ/items/beastmaster/bm_shoulder_ti7/bm_shoulder_ti7_roar_streak.vpcf"
+		},
+		{
+			m_ChildRef = resource:"particles/econ/items/beastmaster/bm_shoulder_ti7/bm_shoulder_ti7_roar_streak_b.vpcf"
+		},
+		{
+			m_ChildRef = resource:"particles/econ/items/beastmaster/bm_shoulder_ti7/bm_shoulder_ti7_roar_aura.vpcf"
+		},
+		{
+			m_ChildRef = resource:"particles/econ/items/beastmaster/bm_shoulder_ti7/bm_shoulder_ti7_roar_dust.vpcf"
+		},
+		{
+			m_ChildRef = resource:"particles/econ/items/beastmaster/bm_shoulder_ti7/bm_shoulder_ti7_roar_shout.vpcf"
+			m_bDisableChild = true
+		},
+		{
+			m_ChildRef = resource:"particles/econ/items/beastmaster/bm_shoulder_ti7/bm_shoulder_ti7_roar_flash.vpcf"
+		},
+		{
+			m_ChildRef = resource:"particles/econ/items/beastmaster/bm_shoulder_ti7/bm_shoulder_ti7_roar_shout_b.vpcf"
+		},
+		{
+			m_ChildRef = resource:"particles/beastmaster/beastmater_bm_shoulder_ti7_roar_model.vpcf"
+		},
+	]
+}

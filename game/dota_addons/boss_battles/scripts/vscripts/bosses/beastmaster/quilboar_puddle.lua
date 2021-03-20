@@ -25,7 +25,9 @@ end
 
 function quilboar_puddle:OnAbilityPhaseInterrupted()
 	if IsServer() then
-		ParticleManager:DestroyParticle(self.particle_1,true)
+		if self.particle_1 then
+			ParticleManager:DestroyParticle(self.particle_1,true)
+		end
 	end
 end
 
@@ -68,7 +70,9 @@ end
 
 function quilboar_puddle:OnProjectileHit( hTarget, vLocation)
     if IsServer() then
-		ParticleManager:DestroyParticle(self.particle_1,true)
+		if self.particle_1 then
+			ParticleManager:DestroyParticle(self.particle_1,true)
+		end
 		CreateModifierThinker( self:GetCaster(), self, "quillboar_puddle_modifier", { self:GetSpecialValueFor( "duration" ) }, vLocation, self:GetCaster():GetTeamNumber(), false )
 		self:PlayEffects(vLocation)
     end

@@ -7,6 +7,10 @@ function q_armor_aura_buff:IsHidden()
 	return false
 end
 
+function q_armor_aura_buff:RemoveOnDeath()
+    return false
+end
+
 -----------------------------------------------------------------------------
 
 function q_armor_aura_buff:GetEffectName()

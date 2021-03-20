@@ -7,6 +7,10 @@ function r_outgoing_dmg_buff:IsHidden()
 	return false
 end
 
+function r_outgoing_dmg_buff:RemoveOnDeath()
+    return false
+end
+
 -----------------------------------------------------------------------------
 
 function r_outgoing_dmg_buff:GetEffectName()

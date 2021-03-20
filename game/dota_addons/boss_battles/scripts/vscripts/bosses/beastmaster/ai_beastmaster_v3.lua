@@ -28,6 +28,9 @@ function Spawn( entityKeyValues )
 	thisEntity.beastmaster_mark = thisEntity:FindAbilityByName( "beastmaster_mark" )
 	thisEntity.summon_bear = thisEntity:FindAbilityByName( "summon_bear" )
 
+	thisEntity.roar = thisEntity:FindAbilityByName( "roar" )
+	thisEntity.roar:StartCooldown(30)
+
 	thisEntity.summon_bird = thisEntity:FindAbilityByName( "summon_bird" )
 	thisEntity.summon_bird:StartCooldown(10)
 
@@ -73,15 +76,19 @@ function BeastmasterThink()
 		end
 	end]]
 
-	if thisEntity.summon_bear:IsFullyCastable() and thisEntity.summon_bear:IsCooldownReady()then
+	if thisEntity.roar:IsFullyCastable() and thisEntity.roar:IsCooldownReady() and thisEntity.roar:IsInAbilityPhase() == false then
+		CastRoar()
+	end
+
+	if thisEntity.summon_bear:IsFullyCastable() and thisEntity.summon_bear:IsCooldownReady() and thisEntity.summon_bear:IsInAbilityPhase() == false then
 		SummonBear()
 	end
 
-	if thisEntity.summon_bird:IsFullyCastable() and thisEntity.summon_bird:IsCooldownReady() and thisEntity:GetHealthPercent() < 95 then
+	if thisEntity.summon_bird:IsFullyCastable() and thisEntity.summon_bird:IsCooldownReady() and thisEntity:GetHealthPercent() < 95 and thisEntity.summon_bird:IsInAbilityPhase() == false then
 		SummonBird()
 	end
 
-	if thisEntity.summon_quillboar:IsFullyCastable() and thisEntity.summon_quillboar:IsCooldownReady() then
+	if thisEntity.summon_quillboar:IsFullyCastable() and thisEntity.summon_quillboar:IsCooldownReady() and thisEntity.summon_quillboar:IsInAbilityPhase() == false then
 		SummonQuillBoar()
 	end
 
@@ -153,6 +160,19 @@ function SummonBear()
 	return 0.5
 end
 
+--------------------------------------------------------------------------------
+
+function CastRoar()
+
+	ExecuteOrderFromTable({
+		UnitIndex = thisEntity:entindex(),
+		OrderType = DOTA_UNIT_ORDER_CAST_NO_TARGET,
+		AbilityIndex = thisEntity.roar:entindex(),
+		Queue = false,
+	})
+
+	return thisEntity.roar:GetSpecialValueFor( "duration" )
+end
 --------------------------------------------------------------------------------
 
 function SummonBird()

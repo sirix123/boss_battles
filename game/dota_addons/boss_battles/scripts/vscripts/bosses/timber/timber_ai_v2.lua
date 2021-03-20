@@ -39,6 +39,7 @@ function Spawn( entityKeyValues )
 
 	thisEntity.chain_map_edge = thisEntity:FindAbilityByName( "chain_map_edge" )
 	thisEntity.chain_edge_speed = thisEntity.chain_map_edge:GetLevelSpecialValueFor("speed", thisEntity.chain_map_edge:GetLevel())
+	thisEntity.createParticleOnce = true
 
 	thisEntity.vertical_saw_blade = thisEntity:FindAbilityByName( "vertical_saw_blade" )
 
@@ -78,18 +79,16 @@ function TimberThink()
 		return 0.5
 	end
 
-	--print("thisEntity.state ",thisEntity.state)
-
 	-- state change handler
 	if thisEntity:GetHealthPercent() < 85 and thisEntity.chain_map_edge:IsCooldownReady() == true then
+		thisEntity.createParticleOnce = true
 		thisEntity.state = 2
-	elseif thisEntity.state == 2 and FindUnitsClose() == true then
+	elseif thisEntity.state == 2 and FindUnitsCloseAndBubbleGone() == true then
 
 		-- start the CD on fireshell just incase he can cast it when the circle is tiny particles/units/heroes/hero_shredder/shredder_armor_lyr.vpcf
 		thisEntity.fire_shell:StartCooldown(60)
 
 		-- furion handler
-		--EmitGlobalSound("furion_furi_death_04")
 		thisEntity:EmitSoundParams("furion_furi_death_04", 1, 3.0, 0.0)
 
 		-- tp particle effect
@@ -97,8 +96,7 @@ function TimberThink()
 		local nFXIndex = ParticleManager:CreateParticle( particle, PATTACH_WORLDORIGIN, nil )
 
         ParticleManager:SetParticleControl(nFXIndex, 0, Vector(10136,-10597,136) )
-		
-		-- timer
+
 		Timers:CreateTimer(4, function()
 			if IsValidEntity(thisEntity) == false then return false end
 			ParticleManager:DestroyParticle(nFXIndex, false)
@@ -107,18 +105,6 @@ function TimberThink()
 
 			-- animation channel
 			thisEntity.furion:StartGestureWithPlaybackRate(ACT_DOTA_CAST_ABILITY_2, 0.3)
-
-			-- need circle particle effect that grows over the trees big circle thing
-			local particle_cast = "particles/timber/timber_tree_grow_hero_snapfire_ultimate_calldown.vpcf"
-
-			-- Create Particle
-			--[[ not working needs work
-			thisEntity.tree_grow_effect = ParticleManager:CreateParticle( particle_cast, PATTACH_CUSTOMORIGIN, thisEntity )
-			ParticleManager:SetParticleControl( thisEntity.tree_grow_effect, 0, thisEntity.furion:GetOrigin() )
-			ParticleManager:SetParticleControl( thisEntity.tree_grow_effect, 1, Vector( 2500, 0, -10 ) )
-			ParticleManager:SetParticleControl( thisEntity.tree_grow_effect, 2, Vector( 10, 0, 0 ) )
-			ParticleManager:ReleaseParticleIndex( thisEntity.tree_grow_effect )]]
-
 			return false
 		end)
 
@@ -212,9 +198,22 @@ function TimberThink()
 	end
 
 	if thisEntity.state == 2 then
-		--print("in phase 2")
+		if thisEntity.createParticleOnce == true then
+			thisEntity.createParticleOnce = false
+
+			thisEntity.particle_bubble = ParticleManager:CreateParticle("particles/timber/timber_abaddon_aphotic_shield.vpcf", PATTACH_ABSORIGIN_FOLLOW, thisEntity)
+			local common_vector = Vector(250,0,250)
+			ParticleManager:SetParticleControl(thisEntity.particle_bubble , 1, common_vector)
+			ParticleManager:SetParticleControl(thisEntity.particle_bubble , 5, Vector(250,0,0))
+			ParticleManager:SetParticleControlEnt(thisEntity.particle_bubble , 0, thisEntity, PATTACH_POINT_FOLLOW, "attach_hitloc", thisEntity:GetAbsOrigin(), true)
+
+			local bubble = 1500
+			thisEntity.timberHP = thisEntity:GetHealth()
+			thisEntity.timberHP_bubble_expire = thisEntity.timberHP - bubble
+
+		end
+
 		if thisEntity.chain_map_edge ~= nil and thisEntity.chain_map_edge:IsFullyCastable() and thisEntity.chain_map_edge:IsCooldownReady() and thisEntity.chain_map_edge:IsInAbilityPhase() == false then
-			--print("map edge")
 			return CastChainMapEdge()
 		end
 
@@ -252,7 +251,15 @@ function LevelUpAbilities()
 end
 --------------------------------------------------------------------------------
 
-function FindUnitsClose()
+function FindUnitsCloseAndBubbleGone()
+
+	if thisEntity:GetHealth() < thisEntity.timberHP_bubble_expire then
+		-- destroy particle if exists
+		if thisEntity.particle_bubble then
+			ParticleManager:DestroyParticle(thisEntity.particle_bubble ,true)
+		end
+	end
+
 	-- find closet player
 	local enemies = FindUnitsInRadius(
 		thisEntity:GetTeamNumber(),
@@ -267,7 +274,12 @@ function FindUnitsClose()
 
 	if #enemies == 0 or enemies == nil then
 		return false
-	else
+	elseif #enemies >= 1 and thisEntity:GetHealth() < thisEntity.timberHP_bubble_expire then
+
+		if thisEntity.particle_bubble then
+			ParticleManager:DestroyParticle(thisEntity.particle_bubble ,true)
+		end
+
 		return true
 	end
 end

@@ -7,6 +7,11 @@ function e_regen_aura_buff:IsHidden()
 	return false
 end
 
+function e_regen_aura_buff:RemoveOnDeath()
+    return false
+end
+
+
 -----------------------------------------------------------------------------
 
 function e_regen_aura_buff:GetEffectName()
