@@ -22,6 +22,9 @@ function Spawn( entityKeyValues )
 	thisEntity.hBloodlust = thisEntity:FindAbilityByName( "bear_bloodlust" )
 	thisEntity.hBloodlust:StartCooldown(thisEntity.hBloodlust:GetCooldown(thisEntity.hBloodlust:GetLevel()))
 
+	thisEntity.bear_charge = thisEntity:FindAbilityByName( "bear_charge" )
+	--thisEntity.bear_charge:StartCooldown(thisEntity.bear_charge:GetCooldown(thisEntity.bear_charge:GetLevel()))
+
 	thisEntity:AddNewModifier( nil, nil, "modifier_phased", { duration = -1 } )
 
 	thisEntity:SetContextThink( "BearThink", BearThink, 0.5 )
@@ -47,57 +50,39 @@ function BearThink()
 		return 0.5
 	end
 
-	--[[ find all players in the entire map
+	-- find all players in the entire map
 	local enemies = FindUnitsInRadius(
 		DOTA_TEAM_BADGUYS,
 		thisEntity:GetOrigin(),
 		nil,
-		FIND_UNITS_EVERYWHERE,
+		1500,
 		DOTA_UNIT_TARGET_TEAM_ENEMY,
 		DOTA_UNIT_TARGET_ALL,
-		DOTA_UNIT_TARGET_FLAG_NONE,
+		DOTA_UNIT_TARGET_FLAG_INVULNERABLE,
 		FIND_ANY_ORDER,
 		false)
 
-	if #enemies == 0 then
-		return 0.5
-	end
-
-	-- search each enemy on the map for the beastmaster mark
-	for _, enemy in pairs(enemies) do
-		if enemy:HasModifier("beastmaster_mark_modifier") then
-			thisEntity.target = enemy
-			thisEntity:MoveToTargetToAttack(thisEntity.target)
-		end
-	end]]
-
-	if thisEntity.hBloodlust ~= nil and thisEntity.hBloodlust:IsCooldownReady() then
-		--print("we casting this every 10seconds?")
+	if thisEntity.hBloodlust ~= nil and thisEntity.hBloodlust:IsCooldownReady() and thisEntity.hBloodlust:IsFullyCastable() then
 		return CastBloodlust()
 	end
 
-	--[[if thisEntity.hClaw ~= nil and thisEntity.hClaw:IsFullyCastable() and thisEntity.hBloodlust:IsCooldownReady() then
-		return CastClaw(thisEntity.target)
-	end]]
+	if thisEntity.bear_charge ~= nil and thisEntity.bear_charge:IsFullyCastable() and thisEntity.bear_charge:IsCooldownReady() and #enemies >= 1 then
+		return CastCharge()
+	end
 
 	return 0.1
 end
 
 --------------------------------------------------------------------------------
 
-function CastClaw(beastmasterMarkTarget)
+function CastCharge()
 
-	if IsValidEntity(beastmasterMarkTarget) then
-
-		ExecuteOrderFromTable({
-			UnitIndex = thisEntity:entindex(),
-			OrderType = DOTA_UNIT_ORDER_CAST_TARGET,
-			TargetIndex = beastmasterMarkTarget:entindex(),
-			AbilityIndex = thisEntity.hClaw:entindex(),
-			Queue = false,
+	ExecuteOrderFromTable({
+		UnitIndex = thisEntity:entindex(),
+		OrderType = DOTA_UNIT_ORDER_CAST_NO_TARGET,
+		AbilityIndex = thisEntity.bear_charge:entindex(),
+		Queue = false,
 	})
-
-	end
 
 	return 0.5
 end

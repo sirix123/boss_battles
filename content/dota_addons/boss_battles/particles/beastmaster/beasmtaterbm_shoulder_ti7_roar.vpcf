@@ -22,6 +22,7 @@
 	[
 		{
 			m_ChildRef = resource:"particles/econ/items/beastmaster/bm_shoulder_ti7/bm_shoulder_ti7_roar_ground.vpcf"
+			m_bDisableChild = true
 		},
 		{
 			m_ChildRef = resource:"particles/econ/items/beastmaster/bm_shoulder_ti7/bm_shoulder_ti7_roar_warp.vpcf"

@@ -4,7 +4,7 @@ summon_fire_ele = class({})
 function summon_fire_ele:OnAbilityPhaseStart()
     if IsServer() then
 
-        self.run_times = 2
+        self.run_times = 1
 
         -- determine spawn location, ice minions spawn 1 at each location
         local spawn_1 = Entities:FindByName(nil, "tinker_add_spawn_1"):GetAbsOrigin()

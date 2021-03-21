@@ -46,7 +46,7 @@
 		"AbilityUnitTargetTeam"			"DOTA_UNIT_TARGET_TEAM_ENEMY"
 		"AbilityUnitDamageType"			"DAMAGE_TYPE_PHYSICAL"	
         "AbilityBehavior"				"DOTA_ABILITY_BEHAVIOR_POINT"
-		"AbilityCastRange" 				"900"
+		"AbilityCastRange" 				"1000"
         "AbilityCooldown"				"12"
         "AbilityCastPoint"              "0.8"
 		"AbilityManaCost"        		"10"
@@ -59,7 +59,7 @@
         
 		"AbilitySpecial"
 		{
-			"01"{ "var_type"			"FIELD_INTEGER"		"damage"						"500" }
+			"01"{ "var_type"			"FIELD_INTEGER"		"damage"						"1000" }
 			"02"{ "var_type"			"FIELD_INTEGER"		"radius"						"250" } 
 			"03"{ "var_type"			"FIELD_INTEGER"		"fire_weakness_duration"		"30" } 
 			"04"{ "var_type"			"FIELD_FLOAT"		"fire_weakness_dmg_increase"	"0.2" }
@@ -122,7 +122,7 @@
 		"AbilityUnitDamageType"			"DAMAGE_TYPE_PHYSICAL"	
         "AbilityBehavior"				"DOTA_ABILITY_BEHAVIOR_POINT | DOTA_ABILITY_BEHAVIOR_CHANNELLED"
 		"AbilityCastRange" 				"1200"
-        "AbilityCooldown"				"20"
+        "AbilityCooldown"				"12"
         "AbilityCastPoint"              "0.2"
 		"AbilityUnitTargetType"			"DOTA_UNIT_TARGET_HERO | DOTA_UNIT_TARGET_BASIC"
 		"AbilityChannelTime"			"3"
@@ -137,7 +137,7 @@
 		"AbilitySpecial"
 		{
 			"01"{ "var_type"			"FIELD_INTEGER"		"hit_box"				"80" }
-			"02"{ "var_type"			"FIELD_INTEGER"		"dmg"					"150" }
+			"02"{ "var_type"			"FIELD_INTEGER"		"dmg"					"120" }
 			"03"{ "var_type"			"FIELD_INTEGER"		"speed"					"1000" }
 			"04"{ "var_type"			"FIELD_FLOAT"		"interval"				"0.2" }
 		}
@@ -162,7 +162,7 @@
 		"SpellImmunityType"				"SPELL_IMMUNITY_ENEMIES_YES"
         "AbilityBehavior"				"DOTA_ABILITY_BEHAVIOR_POINT"
 		"AbilityCastRange" 				"1000"
-        "AbilityCooldown"				"45"
+        "AbilityCooldown"				"20"
         "AbilityCastPoint"              "0.2"
 		"AbilityManaCost"        		"25"
 

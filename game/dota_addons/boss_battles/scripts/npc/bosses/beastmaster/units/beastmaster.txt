@@ -21,9 +21,9 @@
 		// Abilities
 		//----------------------------------------------------------------
 		"Ability1"					"bear_claw"			// Ability 1
-		"Ability2"					"bear_bloodlust"			// Ability 2
-		"Ability3"					""			// Ability 3
-		"Ability4"					""			// Ability 4
+		"Ability2"					"bear_bloodlust"	// Ability 2
+		"Ability3"					"bear_charge"		// Ability 3
+		"Ability4"					""					// Ability 4
 
 		// Armor
 		//----------------------------------------------------------------

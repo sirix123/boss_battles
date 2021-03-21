@@ -33,7 +33,7 @@ function r_blade_vortex_thinker:OnCreated( kv )
 
         --DebugDrawCircle(self.currentTarget,Vector(255,0,0),128,self.radius,true,60)
 
-        EmitSoundOn("Hero_Juggernaut.BladeFuryStart", self.parent)
+        --EmitSoundOn("Hero_Juggernaut.BladeFuryStart", self.parent)
 
         self:StartIntervalThink( self.interval )
 	end
@@ -95,10 +95,10 @@ function r_blade_vortex_thinker:OnDestroy( kv )
     if IsServer() then
 
         -- stop looping sound
-        self.parent:StopSound("Hero_Juggernaut.BladeFuryStart")
+        --self.parent:StopSound("Hero_Juggernaut.BladeFuryStart")
 
         -- play end sound
-        EmitSoundOn("Hero_Juggernaut.BladeFuryStop", self.parent)
+        --EmitSoundOn("Hero_Juggernaut.BladeFuryStop", self.parent)
 
         ParticleManager:DestroyParticle(self.nfx,false)
 

@@ -40,9 +40,11 @@ function q_conq_shout:OnSpellStart()
             if result ~= nil then
                 previous_result = result
                 local modifier = result:FindModifierByName("r_blade_vortex_thinker")
-                if modifier:GetCaster() == self:GetCaster() then
-                    table.insert(self.tLocations,modifier.currentTarget)
-                    table.insert(self.tHandleVortex,modifier)
+                if modifier then
+                    if modifier:GetCaster() == self:GetCaster() then
+                        table.insert(self.tLocations,modifier.currentTarget)
+                        table.insert(self.tHandleVortex,modifier)
+                    end
                 end
             end
 

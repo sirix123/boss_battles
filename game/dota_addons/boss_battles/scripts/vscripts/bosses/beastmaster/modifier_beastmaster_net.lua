@@ -11,7 +11,7 @@ end
 function modifier_beastmaster_net:OnCreated( kv )
 	if IsServer() then
 		-- create particle effect on target
-		self.nFXIndex = ParticleManager:CreateParticle( "particles/units/heroes/hero_meepo/meepo_earthbind.vpcf", PATTACH_WORLDORIGIN, nil )
+		self.nFXIndex = ParticleManager:CreateParticle( "particles/units/heroes/hero_meepo/meepo_earthbind.vpcf", PATTACH_ABSORIGIN_FOLLOW, self:GetParent() )
 		ParticleManager:SetParticleControl( self.nFXIndex, 0, self:GetParent():GetOrigin() + Vector( 0, 0, 40 ) )
 
 	end

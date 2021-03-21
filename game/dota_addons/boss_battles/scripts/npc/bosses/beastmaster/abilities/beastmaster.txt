@@ -217,12 +217,12 @@
             "03"
             {
                 "var_type"              "FIELD_FLOAT"
-                "projectile_speed"     	"500"
+                "projectile_speed"     	"400"
             }
             "04"
             {
                 "var_type"              "FIELD_FLOAT"
-                "damage"     	        "50"
+                "damage"     	        "10"
             }
             "05"
             {
@@ -616,7 +616,7 @@
 
         // Casting
         //-------------------------------------------------------------------------------------------------------------
-        "AbilityCastPoint"              "1.0 1.0 1.0 1.0"
+        "AbilityCastPoint"              "1.5 1.5 1.5 1.5"
 
         // Time     
         //-------------------------------------------------------------------------------------------------------------
@@ -637,6 +637,48 @@
 		{
             "soundfile" "soundevents/game_sounds_heroes/game_sounds_stormspirit.vsndevts"
 	        "particle" "particles/units/heroes/hero_stormspirit/stormspirit_electric_vortex.vpcf"
+		}
+    }
+
+    //=================================================================================================================
+    // beastmaster bear : bear_charge
+    //=================================================================================================================
+    "bear_charge"
+    { 
+        "BaseClass"                     "ability_lua"
+        "ScriptFile"                    "bosses/beastmaster/bear_charge"
+        "MaxLevel"						"4"
+
+        // General
+        //-------------------------------------------------------------------------------------------------------------
+        "AbilityBehavior"               "DOTA_ABILITY_BEHAVIOR_NO_TARGET"
+        "AbilityUnitDamageType"         "DAMAGE_TYPE_PHYSICAL"  
+
+        // Casting
+        //-------------------------------------------------------------------------------------------------------------
+        "AbilityCastPoint"              "0.6 0.6 0.6 0.6 "
+
+        // Time     
+        //-------------------------------------------------------------------------------------------------------------
+        "AbilityCooldown"               "25 25 25 25"
+
+        // Cost
+        //-------------------------------------------------------------------------------------------------------------
+        "AbilityManaCost"               "0"
+
+        // Special
+        //-------------------------------------------------------------------------------------------------------------
+		"AbilitySpecial"
+		{
+            "01"{ "var_type"			"FIELD_INTEGER"		"stun_duration"		                            "3" }
+            "02"{ "var_type"			"FIELD_INTEGER"		"charge_length"		                            "1500" }
+            "03"{ "var_type"			"FIELD_INTEGER"		"charge_speed"		                            "1500" }
+		}
+
+        "precache"
+		{
+            "soundfile" "soundevents/game_sounds_heroes/game_sounds_centaur.vsndevts"
+	        "particle" "particles/units/heroes/hero_centaur/centaur_warstomp.vpcf"
 		}
     }
 }

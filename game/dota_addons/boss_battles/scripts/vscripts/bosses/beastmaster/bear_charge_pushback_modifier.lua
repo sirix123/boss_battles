@@ -1,12 +1,12 @@
-modifier_roar = modifier_roar or class({})
+bear_charge_pushback_modifier = bear_charge_pushback_modifier or class({})
 
-function modifier_roar:IsDebuff() return false end
-function modifier_roar:IsHidden() return false end
-function modifier_roar:IsStunDebuff() return true end
-function modifier_roar:IsMotionController()  return true end
-function modifier_roar:GetMotionControllerPriority()  return DOTA_MOTION_CONTROLLER_PRIORITY_MEDIUM end
+function bear_charge_pushback_modifier:IsDebuff() return false end
+function bear_charge_pushback_modifier:IsHidden() return false end
+function bear_charge_pushback_modifier:IsStunDebuff() return true end
+function bear_charge_pushback_modifier:IsMotionController()  return true end
+function bear_charge_pushback_modifier:GetMotionControllerPriority()  return DOTA_MOTION_CONTROLLER_PRIORITY_MEDIUM end
 
-function modifier_roar:OnCreated()
+function bear_charge_pushback_modifier:OnCreated()
 	if not IsServer() then return end
 
 	local particle_name = "particles/items_fx/force_staff.vpcf"
@@ -21,10 +21,10 @@ function modifier_roar:OnCreated()
 	self:GetParent():FaceTowards(self.angle * (-1))
 	self:GetParent():SetForwardVector((self:GetParent():GetAbsOrigin() - self.angle):Normalized())
 
-	self.distance =  110 --/ ( self:GetDuration() / FrameTime()) --self:GetAbility():GetSpecialValueFor("push_length")
+	self.distance =  500 --/ ( self:GetDuration() / FrameTime()) --self:GetAbility():GetSpecialValueFor("push_length")
 end
 
-function modifier_roar:OnDestroy()
+function bear_charge_pushback_modifier:OnDestroy()
 	if not IsServer() then return end
 	ParticleManager:DestroyParticle(self.pfx, false)
 	ParticleManager:ReleaseParticleIndex(self.pfx)
@@ -32,12 +32,12 @@ function modifier_roar:OnDestroy()
 	ResolveNPCPositions(self:GetParent():GetAbsOrigin(), 128)
 end
 
-function modifier_roar:OnIntervalThink()
+function bear_charge_pushback_modifier:OnIntervalThink()
 
 	self:HorizontalMotion(self:GetParent(), FrameTime())
 end
 
-function modifier_roar:HorizontalMotion(unit, time)
+function bear_charge_pushback_modifier:HorizontalMotion(unit, time)
 	if not IsServer() then return end
 
 
@@ -45,17 +45,3 @@ function modifier_roar:HorizontalMotion(unit, time)
 	unit:SetOrigin( unit:GetOrigin() + distance * 800 * time )
 
 end
-
-function modifier_roar:DeclareFunctions()
-	local funcs =
-	{
-        MODIFIER_PROPERTY_MOVESPEED_BONUS_PERCENTAGE,
-	}
-	return funcs
-end
------------------------------------------------------------------------------
-
-function modifier_roar:GetModifierMoveSpeedBonus_Percentage( params )
-	return -70
-end
---------------------------------------------------------------------------------

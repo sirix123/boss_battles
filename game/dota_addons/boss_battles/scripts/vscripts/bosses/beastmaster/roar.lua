@@ -8,48 +8,7 @@ function roar:OnAbilityPhaseStart()
 
         self:GetCaster():AddNewModifier( self:GetCaster(), self, "modifier_rooted", { duration = self:GetCastPoint() + self:GetSpecialValueFor( "duration" ) } )
 
-        local units = FindUnitsInRadius(
-            self:GetCaster():GetTeamNumber(),	-- int, your team number
-            self:GetCaster():GetAbsOrigin(),	-- point, center point
-            nil,	-- handle, cacheUnit. (not known)
-            5000,	-- float, radius. or use FIND_UNITS_EVERYWHERE
-            DOTA_UNIT_TARGET_TEAM_ENEMY,
-            DOTA_UNIT_TARGET_ALL,
-            DOTA_UNIT_TARGET_FLAG_INVULNERABLE,	-- int, flag filter
-            0,	-- int, order filter
-            false	-- bool, can grow cache
-        )
-
-        if units == nil or #units == 0 then
-            return false
-        else
-
-            local randomEnemy = units[RandomInt(1, #units)]
-
-            self.vTargetPos = randomEnemy:GetAbsOrigin()
-
-            self:GetCaster():SetForwardVector(self.vTargetPos)
-            self:GetCaster():FaceTowards(self.vTargetPos)
-
-            self.direction = ( randomEnemy:GetAbsOrigin() - self:GetCaster():GetAbsOrigin() ):Normalized()
-            self.distance = 2500
-
-            -- play voice line
-            EmitSoundOn("Hero_Beastmaster.Primal_Roar", self:GetCaster())
-
-            self.radius = 380
-            local particle = "particles/custom/mouse_range_static/range_finder_cone.vpcf"
-            self.particleNfx = ParticleManager:CreateParticle(particle, PATTACH_ABSORIGIN_FOLLOW,  units[1])
-    
-            ParticleManager:SetParticleControl(self.particleNfx , 0, Vector(0,0,0))
-            ParticleManager:SetParticleControl(self.particleNfx , 1, self:GetCaster():GetAbsOrigin()) -- origin
-            ParticleManager:SetParticleControl(self.particleNfx , 2, ( self:GetCaster():GetAbsOrigin() + ( self.direction * self.distance ) )) -- target
-            ParticleManager:SetParticleControl(self.particleNfx , 3, Vector( self.radius,self.radius,0) ) -- line width
-            ParticleManager:SetParticleControl(self.particleNfx , 4, Vector(255,0,0)) -- colour
-
-            return true
-        end
-
+        return true
     end
 end
 ---------------------------------------------------------------------------------------------------------------------------------------
@@ -77,6 +36,21 @@ function roar:OnSpellStart()
     local duration = self:GetSpecialValueFor( "duration" )
     local count = 0
 
+    local distance_particle = 1600
+    local distance_find_units = 2000
+
+    local tLocations = {}
+    local location = nil
+    local currentAngle = 0
+    local angleIncrement = 15
+
+    while currentAngle <= 360 do
+        location = RotatePosition(caster:GetAbsOrigin(), QAngle(0,currentAngle,0), caster:GetAbsOrigin() + caster:GetForwardVector() * distance_particle  )
+
+        currentAngle = currentAngle + angleIncrement
+        table.insert(tLocations,location)
+    end
+
     Timers:CreateTimer(function()
         if IsValidEntity(caster) == false then
             if self.particleNfx then
@@ -92,23 +66,25 @@ function roar:OnSpellStart()
             return false
         end
 
-        self:GetCaster():SetForwardVector(self.vTargetPos)
-        self:GetCaster():FaceTowards(self.vTargetPos)
-
-        self.units = FindUnitsInLine(
+        self.units = FindUnitsInRadius(
             caster:GetTeamNumber(),
             caster:GetAbsOrigin(),
-            self:GetCaster():GetAbsOrigin() + ( self.direction * self.distance ),
             nil,
-            self.radius,
+            distance_find_units,
             DOTA_UNIT_TARGET_TEAM_ENEMY,
-            DOTA_UNIT_TARGET_HERO + DOTA_UNIT_TARGET_BASIC,
-            DOTA_UNIT_TARGET_FLAG_INVULNERABLE)
+            DOTA_UNIT_TARGET_ALL,
+            DOTA_UNIT_TARGET_FLAG_INVULNERABLE,
+            FIND_ANY_ORDER,
+            false)
 
-        local particle = ParticleManager:CreateParticle("particles/beastmaster/beasmtaterbm_shoulder_ti7_roar.vpcf", PATTACH_WORLDORIGIN,nil)
-        ParticleManager:SetParticleControl(particle, 0, self:GetCaster():GetAbsOrigin())
-        ParticleManager:SetParticleControl(particle, 1, self.vTargetPos)
-        ParticleManager:ReleaseParticleIndex(particle)
+        --DebugDrawCircle(caster:GetAbsOrigin(), Vector(255,0,0), 64, 2000, true, 0.5) -- melee is red
+
+        for _, location in ipairs(tLocations) do
+            local particle = ParticleManager:CreateParticle("particles/beastmaster/beasmtaterbm_shoulder_ti7_roar.vpcf", PATTACH_WORLDORIGIN,nil)
+            ParticleManager:SetParticleControl(particle, 0, self:GetCaster():GetAbsOrigin())
+            ParticleManager:SetParticleControl(particle, 1, location)
+            ParticleManager:ReleaseParticleIndex(particle)
+        end
 
         if self.units ~= nil and #self.units ~= 0 then
             for _, unit in pairs(self.units) do
