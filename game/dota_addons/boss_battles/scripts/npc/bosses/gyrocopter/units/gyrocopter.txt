@@ -24,7 +24,6 @@
 		"Ability1"					"gyro_base_attack"			
 		"Ability2"					"radar_scan"
 		"Ability3"					"radar_pulse"
-		"Ability4"					"tracking_beacon"
 
 		"Ability5"					"dumb_homing_missile_v2"
 		"Ability6"					"smart_homing_missile_v2"
@@ -39,13 +38,11 @@
 
 		"Ability13"					"absorbing_shell"
 		"Ability14"					"call_down"
-		"Ability15"					"rotating_flak_cannon"
-		"Ability16"					"rotating_flak_cannon_attack"
-		"Ability17"					"continuous_radar_scan"
-		"Ability18"					"dumb_rocket_waves"
+		"Ability15"					"continuous_radar_scan"
+		"Ability16"					"dumb_rocket_waves"
 
-		"Ability19"					"whirlwind"
-		"Ability20"					"whirlwind_attack"
+		"Ability17"					"whirlwind"
+		"Ability18"					"whirlwind_attack"
 		
 		
 

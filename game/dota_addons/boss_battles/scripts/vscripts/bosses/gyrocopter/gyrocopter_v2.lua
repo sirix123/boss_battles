@@ -61,8 +61,6 @@ function Spawn( entityKeyValues )
 	thisEntity.gyro_base_attack = thisEntity:FindAbilityByName( "gyro_base_attack" )	
 	thisEntity.dumb_homing_missile = thisEntity:FindAbilityByName( "dumb_homing_missile_v2" )
 	thisEntity.smart_homing_missile = thisEntity:FindAbilityByName( "smart_homing_missile_v2" )
-	thisEntity.rotating_flak_cannon = thisEntity:FindAbilityByName( "rotating_flak_cannon" )
-	thisEntity.rotating_flak_cannon_attack = thisEntity:FindAbilityByName( "rotating_flak_cannon_attack" )	
 	thisEntity.dumb_rocket_waves = thisEntity:FindAbilityByName("dumb_rocket_waves")
 	thisEntity.continuous_radar_scan = thisEntity:FindAbilityByName( "continuous_radar_scan" )
 
@@ -181,15 +179,11 @@ function MainLoop()
 	if GameRules:IsGamePaused() == true then return 0.5 end
 
 	tickCount = tickCount+1
-
-
-
 	--TESTING:
 	if (tickCount % 50 == 0) then
 	--if (tickCount == 50) then
 		--CurrentTestCode()
 	end	
-
 
 	--init: combat sequence and then perform opening sequence
 	--Opening sequence: swoop(to South), barrage, zoom(to Center), missile dumb waves
@@ -212,22 +206,12 @@ function MainLoop()
 		AddToAbilityQueue(thisEntity.barrage, DOTA_UNIT_ORDER_CAST_NO_TARGET, nil, false, nil)
 		AddToAbilityQueue(thisEntity.flee, DOTA_UNIT_ORDER_CAST_POSITION, GyroArenaLocations["C"], false, nil)
 		AddToAbilityQueue(thisEntity.dumb_rocket_waves, DOTA_UNIT_ORDER_CAST_NO_TARGET, nil, false, nil)
-
-
 	-- The openning sequences finishes after: 175 ticks
 	-- the macropyre dissapears after 250 ticks
+	-- BUGISH: risky to hardcode this... what if spell durations change?
+	--TODO: calc the wait period based on spell durations from kvp file
 		nextSpellAtTick = 250 --TODO: actually calc this based on the above spell durations
 	end
-
-	--print(tickCount ..". _G.IsGyroBusy? " .. tostring(_G.IsGyroBusy))
-	
-
-	--UNTESTED:
-
-	--COMBAT SEQUENCE: 
-	-- Swoop to a ranged player.
-	-- Shoot rockets (alternate smart/dumb) at ranged targets
-	-- Do barrage? / calldown?
 
 	-- Every 10% hp loss, flee, to a distant location. (TODO: algo to calc/get location to flee)
 	if (thisEntity:GetHealthPercent() <= nextHp10PercentThreshold) then
@@ -295,82 +279,6 @@ function MainLoop()
 		end
 	end
 
-
-
-	--Start main combat sequence:
-	-- if tickCount == nextSpellAtTick then
-	-- 	--start a timer to wait some random time, --check if hp at 10% incr or 25% incr, otherwise do the next spell in sequence?
-
-	-- 	--calculate some random wait/cooldown, sometimes the abilities will happen one after another, but sometimes theres a delay
-
-	-- 	-- Every 10-20 seconds, queue a new ability
-
-
-	-- end
-	
-	
-
-	
-
-
-
-
-
-	--OLD AI:
-	-- -- TODO: at 75% hp - zoom away... 
-	-- if (isHpAbove75Percent and thisEntity:GetHealthPercent() <= 75) then
-	-- 	isHpAbove75Percent = false
-	-- 	AddToAbilityQueue(thisEntity.flee, DOTA_UNIT_ORDER_CAST_POSITION, thisEntity:GetAbsOrigin() + Vector(0,2500,0), false, nil)
-
-	-- 	thisEntity.dumb_homing_missile:SetLevel(thisEntity.dumb_homing_missile:GetLevel() +1)
-	-- 	thisEntity.smart_homing_missile:SetLevel(thisEntity.smart_homing_missile:GetLevel() +1)
-	-- end
-
-	-- -- TODO: at 50% hp - zoom away...
-	-- if (isHpAbove50Percent and thisEntity:GetHealthPercent() <= 50) then
-	-- 	isHpAbove50Percent = false
-	-- 	--print("hp below 50%. Time to zoom")
-	-- end
-
-	-- --at 5th second and every 15 seconds afterwards. 
-	-- if (tickCount >= 50 and (tickCount-50) % 150 == 0  ) then
-	-- 	-- alternate between casting call_down and dhm
-	-- 	if (_G.PulseAndCast == "call_down") then
-	-- 		_G.PulseAndCast = "dumb_homing_missile_v2"
-	-- 	else
-	-- 		_G.PulseAndCast = "call_down"
-	-- 	end
-	-- 	AddToAbilityQueue(thisEntity.radar_pulse, DOTA_UNIT_ORDER_CAST_NO_TARGET, nil, false, nil)
-	-- end
-
-	-- --at 10th second and every 30 seconds afterwards, cast barrage
-	-- if (tickCount >= 100 and (tickCount-100) % 300 == 0  ) then
-	-- 	--print("queueing  barrage")
-	-- 	AddToAbilityQueue(thisEntity.barrage, DOTA_UNIT_ORDER_CAST_NO_TARGET, nil, false, nil)
-	-- end
-
-	-- --at 30th second and every 60 seconds afterwards, cast shm
-	-- if (tickCount >= 300 and (tickCount-300) % 600 == 0  ) then
-	-- 	--print("queueing  radarScan and smart_homing_missile")
-	-- 	_G.ScanAndCast = "smart_homing_missile_v2"
-	-- 	AddToAbilityQueue(thisEntity.radar_scan, DOTA_UNIT_ORDER_CAST_NO_TARGET, nil, false, nil)
-	-- end
-
-	-- if (tickCount % 550 == 0 ) then
-	-- 	--print("55 seconds, queueing  Absorbing Shell")
-	-- 	AddToAbilityQueue(thisEntity.absorbing_shell, DOTA_UNIT_ORDER_CAST_NO_TARGET, nil, false, nil)
-	-- end
-
-	-- -- swoop every 30 seconds, or 30 seconds since last swoop.
-	-- if (tickCount > (timeOfLastSwoop+300) ) then
-	-- 	local enemies = FindUnitsInRadius(DOTA_TEAM_BADGUYS, thisEntity:GetAbsOrigin(), nil, 3000, DOTA_UNIT_TARGET_TEAM_ENEMY, DOTA_UNIT_TARGET_ALL, DOTA_UNIT_TARGET_FLAG_NONE, FIND_CLOSEST, false )
-	-- 	if #enemies > 0 then
-	-- 		AddToAbilityQueue(thisEntity.swoop, DOTA_UNIT_ORDER_CAST_POSITION, enemies[1]:GetAbsOrigin(), false, nil)
-	-- 	end
-	-- 	timeOfLastSwoop = tickCount
-	-- end
-
-	--TODO: rotating_flak_cannon
 	--TODO implement agro table
 	--Auto attack closest enemy is no other action is happening:
 	if not _G.IsGyroBusy and (tickCount % 7) == 0 then
@@ -386,107 +294,9 @@ function MainLoop()
 end
 
 
--- SWOOP BUILD: SwoopBuild is a swoop first and swoop often build. Gyro uses swoop as a priority. Casting abilities in between. 
--- Every ability 
-local dt = 0.1
-local tickCount = 0
-local timeOfLastSwoop = 0
-local isHpAbove75Percent = true
-local isHpAbove50Percent = true
-local swoopDelay = 100 -- 10 seconds.
-local spellCount = 1
-local spellSequence = {}
-spellSequence[1] = thisEntity.smart_homing_missile
-spellSequence[2] = thisEntity.barrage
-spellSequence[3] = thisEntity.dumb_homing_missile
-spellSequence[4] = thisEntity.call_down
-
-
---perhaps alternate swoop with something, coz swoop is really an attack for ranged.
-
---swoop every 20 seconds, and then cycle through the spells above.
-function SwoopBuild()
-	--Check certain game states and return early if needed
-	if not IsServer() then return end
-	if ( not thisEntity:IsAlive() ) then return -1 end
-	if GameRules:IsGamePaused() == true then return 0.5 end
-
-	tickCount = tickCount+1
-	--print("tickCount = "..tickCount.. " IsGyroBusy? ".. tostring(IsGyroBusy))
-
-		--TESTING:
-	if (tickCount % 80 == 0) then
-	--if (tickCount == 50) then
-		--CurrentTestCode()
-	end	
-
-	if (tickCount % 200 == 0 ) then
-		--Swoop players immediately
-		local enemies = FindUnitsInRadius(DOTA_TEAM_BADGUYS, thisEntity:GetAbsOrigin(), nil, 3000, DOTA_UNIT_TARGET_TEAM_ENEMY, DOTA_UNIT_TARGET_ALL, DOTA_UNIT_TARGET_FLAG_NONE, FIND_FARTHEST, false )
-		if #enemies > 0 then
-			AddToAbilityQueue(thisEntity.swoop, DOTA_UNIT_ORDER_CAST_POSITION, enemies[1]:GetAbsOrigin(), false, nil)
-		end
-	end
-
-	--at 30th second and every 20 seconds afterwards, cast barrage
-	if (tickCount >= 300 and (tickCount-300) % 200 == 0  ) then
-		spellCount = spellCount +1
-		if spellCount > #spellSequence then
-			spellCount = 1
-		end
-
-		--spellSequence[spellSequence]
-		--need to do different things for each spell...
-
-		if spellSequence[spellSequence] == thisEntity.call_down then
-			print("spellSequence = call_down")
-			_G.PulseAndCast = "call_down"
-			AddToAbilityQueue(thisEntity.radar_pulse, DOTA_UNIT_ORDER_CAST_NO_TARGET, nil, false, nil)
-
-		end
-		if spellSequence[spellSequence] == thisEntity.barrage then
-			print("spellSequence = barrage")
-			AddToAbilityQueue(thisEntity.barrage, DOTA_UNIT_ORDER_CAST_NO_TARGET, nil, false, nil)
-		end
-		if spellSequence[spellSequence] == thisEntity.smart_homing_missile then
-			print("spellSequence = smart missile")
-			_G.ScanAndCast = "smart_homing_missile_v2"
-			AddToAbilityQueue(thisEntity.radar_scan, DOTA_UNIT_ORDER_CAST_NO_TARGET, nil, false, nil)
-		end
-
-		if (spellSequence[spellSequence] == thisEntity.dumb_homing_missile) then 
-			print("spellSequence = dumb missile")
-			_G.PulseAndCast = "dumb_homing_missile_v2"
-			AddToAbilityQueue(thisEntity.radar_pulse, DOTA_UNIT_ORDER_CAST_NO_TARGET, nil, false, nil)
-		end
-	end
-
-	--init:
-	if tickCount == 1 then
-		initialZ = thisEntity:GetAbsOrigin().z
-		--Swoop players immediately
-		local enemies = FindUnitsInRadius(DOTA_TEAM_BADGUYS, thisEntity:GetAbsOrigin(), nil, 3000, DOTA_UNIT_TARGET_TEAM_ENEMY, DOTA_UNIT_TARGET_ALL, DOTA_UNIT_TARGET_FLAG_NONE, FIND_FARTHEST, false )
-		if #enemies > 0 then
-			AddToAbilityQueue(thisEntity.swoop, DOTA_UNIT_ORDER_CAST_POSITION, enemies[1]:GetAbsOrigin(), false, nil)
-		end
-		timeOfLastSwoop = tickCount
-	end
-
-	return dt
-end
-
-
-
-
-
-
 -- Generic boss agro table functions
 --------------------------------------------------------------------
-
-
 --TODO; how do I track dmg taken and who it comes from
-
-
 
 
 
@@ -498,7 +308,6 @@ local abilityQueue = {}
 --BUG? when tickDelay is too low you can't queue multiple abilities, some will get skipped
 --local tickDelay = 0.01 
 local tickDelay = 0.1
-
 
 --abilityQueue structure:
 --abilityQueue[1].ability = ability

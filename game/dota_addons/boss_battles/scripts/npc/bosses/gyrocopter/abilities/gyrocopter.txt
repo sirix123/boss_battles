@@ -75,16 +75,6 @@
             }
         }
     }
-    "tracking_beacon"
-    { 
-        "BaseClass"                     "ability_lua"
-        "ScriptFile"                    "bosses/gyrocopter/tracking_beacon"
-        "AbilityBehavior"               "DOTA_ABILITY_BEHAVIOR_NO_TARGET"
-        "AbilityUnitDamageType"         "DAMAGE_TYPE_PHYSICAL"  
-        "AbilityCastPoint"              "0.0"
-        "AbilityCooldown"               "0.0"
-        "AbilityManaCost"               "0"
-    }
     "dumb_homing_missile_v2"
     { 
         "BaseClass"                     "ability_lua"
@@ -369,17 +359,7 @@
             }
         }
     }    
-    "rotating_flak_cannon"
-    { 
-        "BaseClass"                     "ability_lua"
-        "ScriptFile"                    "bosses/gyrocopter/rotating_flak_cannon"
-        "AbilityBehavior"               "DOTA_ABILITY_BEHAVIOR_NO_TARGET"
-        "AbilityUnitDamageType"         "DAMAGE_TYPE_PHYSICAL"  
-        "AbilityCastPoint"              "0.0"
-        "AbilityCooldown"               "0.0"
-        "AbilityManaCost"               "0"
-    }
-
+    
     "continuous_radar_scan"
     { 
         "BaseClass"                     "ability_lua"
