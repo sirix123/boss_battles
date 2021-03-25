@@ -78,66 +78,66 @@
 
 				<!-- RANK -->
 				<Panel id="leaderboard_row_info_cell_rank" class="leaderboard_row_info_cell_small">
-                	<Label text="1" class="leaderboard_row_info_cell_text" id="leaderboard_row_info_rank"/>
+                	<Label text="" class="leaderboard_row_info_cell_text" id="leaderboard_row_info_rank"/>
 				</Panel>
 
 				<!-- Players -->
 				<Panel id="leaderboard_row_info_cell_players" class="leaderboard_row_info_cell_stack">
-                	<Label text="Marc" 		class="leaderboard_row_info_cell_stack_child" id="leaderboard_row_info_player_1"/>
-					<Label text="Nic" 		class="leaderboard_row_info_cell_stack_child" id="leaderboard_row_info_player_2"/>
-					<Label text="Mike" 		class="leaderboard_row_info_cell_stack_child" id="leaderboard_row_info_player_3"/>
-					<Label text="Brotato" 	class="leaderboard_row_info_cell_stack_child" id="leaderboard_row_info_player_4"/>
+                	<Label text="" 		class="leaderboard_row_info_cell_stack_child" id="leaderboard_row_info_player_1"/>
+					<Label text="" 		class="leaderboard_row_info_cell_stack_child" id="leaderboard_row_info_player_2"/>
+					<Label text="" 		class="leaderboard_row_info_cell_stack_child" id="leaderboard_row_info_player_3"/>
+					<Label text="" 		class="leaderboard_row_info_cell_stack_child" id="leaderboard_row_info_player_4"/>
 				</Panel>
 
 				<!-- Heroes -->
 				<Panel id="leaderboard_row_info_cell_heroes" class="leaderboard_row_info_cell_stack">
-                	<Label text="Ice mage" 		class="leaderboard_row_info_cell_stack_child" id="leaderboard_row_info_hero_1"/>
-					<Label text="Cenzuo" 		class="leaderboard_row_info_cell_stack_child" id="leaderboard_row_info_hero_2"/>
-					<Label text="Blademaster" 	class="leaderboard_row_info_cell_stack_child" id="leaderboard_row_info_hero_3"/>
-					<Label text="Fire mage" 	class="leaderboard_row_info_cell_stack_child" id="leaderboard_row_info_hero_4"/>
+                	<Label text="" 	class="leaderboard_row_info_cell_stack_child" id="leaderboard_row_info_hero_1"/>
+					<Label text="" 	class="leaderboard_row_info_cell_stack_child" id="leaderboard_row_info_hero_2"/>
+					<Label text="" 	class="leaderboard_row_info_cell_stack_child" id="leaderboard_row_info_hero_3"/>
+					<Label text="" 	class="leaderboard_row_info_cell_stack_child" id="leaderboard_row_info_hero_4"/>
 				</Panel>
 
 				<!-- Lives -->
 				<Panel id="leaderboard_row_info_cell_lives" class="leaderboard_row_info_cell_small">
-                	<Label text="1" class="leaderboard_row_info_cell_stack_child" id="leaderboard_row_info_live_1"/>
-					<Label text="3" class="leaderboard_row_info_cell_stack_child" id="leaderboard_row_info_live_2"/>
-					<Label text="1" class="leaderboard_row_info_cell_stack_child" id="leaderboard_row_info_live_3"/>
-					<Label text="2" class="leaderboard_row_info_cell_stack_child" id="leaderboard_row_info_live_4"/>
+                	<Label text="" class="leaderboard_row_info_cell_stack_child" id="leaderboard_row_info_live_1"/>
+					<Label text="" class="leaderboard_row_info_cell_stack_child" id="leaderboard_row_info_live_2"/>
+					<Label text="" class="leaderboard_row_info_cell_stack_child" id="leaderboard_row_info_live_3"/>
+					<Label text="" class="leaderboard_row_info_cell_stack_child" id="leaderboard_row_info_live_4"/>
 				</Panel>
 
 				<!-- B1 time -->
 				<Panel id="leaderboard_row_info_cell_boss_1" class="leaderboard_row_info_cell">
-                	<Label text="0:10:24" class="leaderboard_row_info_cell_text" id="leaderboard_row_info_boss_1_time"/>
+                	<Label text="" class="leaderboard_row_info_cell_text" id="leaderboard_row_info_boss_1_time"/>
 				</Panel>
 
 				<!-- B2 time -->
 				<Panel id="leaderboard_row_info_cell_boss_2" class="leaderboard_row_info_cell">
-                	<Label text="0:70:24" class="leaderboard_row_info_cell_text" id="leaderboard_row_info_boss_2_time"/>
+                	<Label text="" class="leaderboard_row_info_cell_text" id="leaderboard_row_info_boss_2_time"/>
 				</Panel>
 
 				<!-- B3 time -->
 				<Panel id="leaderboard_row_info_cell_boss_3" class="leaderboard_row_info_cell">
-                	<Label text="0:40:24" class="leaderboard_row_info_cell_text" id="leaderboard_row_info_boss_3_time"/>
+                	<Label text="" class="leaderboard_row_info_cell_text" id="leaderboard_row_info_boss_3_time"/>
 				</Panel>
 
 				<!-- B4 time -->
 				<Panel id="leaderboard_row_info_cell_boss_4" class="leaderboard_row_info_cell">
-                	<Label text="0:00:24" class="leaderboard_row_info_cell_text" id="leaderboard_row_info_boss_4_time"/>
+                	<Label text="" class="leaderboard_row_info_cell_text" id="leaderboard_row_info_boss_4_time"/>
 				</Panel>
 
 				<!-- B5 time -->
 				<Panel id="leaderboard_row_info_cell_boss_5" class="leaderboard_row_info_cell">
-                	<Label text="0:30:24" class="leaderboard_row_info_cell_text" id="leaderboard_row_info_boss_5_time"/>
+                	<Label text="" class="leaderboard_row_info_cell_text" id="leaderboard_row_info_boss_5_time"/>
 				</Panel>
 
 				<!-- B6 time -->
 				<Panel id="leaderboard_row_info_cell_boss_6" class="leaderboard_row_info_cell">
-                	<Label text="1:30:24" class="leaderboard_row_info_cell_text" id="leaderboard_row_info_boss_6_time"/>
+                	<Label text="" class="leaderboard_row_info_cell_text" id="leaderboard_row_info_boss_6_time"/>
 				</Panel>
 
 				<!-- Total time -->
 				<Panel id="leaderboard_row_info_cell_boss_total" class="leaderboard_row_info_cell">
-                	<Label text="0:30:24" class="leaderboard_row_info_cell_text" id="leaderboard_row_info_boss_total_time"/>
+                	<Label text="" class="leaderboard_row_info_cell_text" id="leaderboard_row_info_boss_total_time"/>
 				</Panel>
             </Panel>
         </snippet>
@@ -145,19 +145,33 @@
 	</snippets>
 
 	<Panel hittest="false" style="width: 100%; height: 100%;">
-		<Panel class="AddonLoadingRoot">
+		<Panel class="AddonLoadingRoot" hittest="false">
 
-			<!-- Pick list (showing options) | Row 1 |  style="border: 1px solid red;"
+			<!-- background  style="border: 1px solid red;"
 			==================================================================--> 
-			<Panel id="BackGround" >
+			<Panel id="BackGround" hittest="false">
 				<Image src="file://{images}/loading_screen/Tinker.jpg" scaling="stretch-to-fit-preserve-aspect" />
+			</Panel>
+
+			<!-- background  style="border: 1px solid red;"
+			==================================================================--> 
+			<Panel id="LoadingScreenLeaderBoard" hittest="true">
+				<Label id="leaderboard_loadingscreen_text" class="leaderboard_loadingscreen_text" text="Leaderboard loading..." />
 			</Panel>
 
 			<!-- Leaderboard Container |  style="border: 1px solid red;" 
 			=========================================-->
-			<Panel id="LeaderboardContainer" >
+			<Panel id="LeaderboardContainer" hittest="false" >
 				<!-- Leaderboard snippets 
 				==================================================================-->
+				<Panel class="leaderboard_buttons_container" id="leaderboard_buttons">
+					<Button id="leaderboard_button_mode_1" class="leaderboard_buttons" onactivate="OnNormalButtonPressed()" >
+						<Label id="leaderboard_button_mode_1_text" class="leaderboard_buttons_text" text="Normal Mode" />
+					</Button>
+					<Button id="leaderboard_button_mode_2" class="leaderboard_buttons" onactivate="OnHardButtonPressed()" >
+						<Label id="leaderboard_button_mode_2_text" class="leaderboard_buttons_text" text="Hard mode" />
+					</Button>
+				</Panel>
 
 				<Panel class="leaderboard_titles" id="leaderboard_titles" hittest="false">
 					<!-- snippet: leaderboard_titles goes here -->

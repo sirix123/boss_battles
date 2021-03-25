@@ -34,6 +34,9 @@ function GameSetup:init()
     -- timer for updating player frames
     player_frame_manager:UpdatePlayer()
 
+    -- target indicators setup
+    TargetingIndicator:Load()
+
     --listen to game state event
     -- events here: https://developer.valvesoftware.com/wiki/Dota_2_Workshop_Tools/Scripting/Built-In_Engine_Events
     ListenToGameEvent("game_rules_state_change", Dynamic_Wrap(self, "OnStateChange"), self) -- valve engine event
@@ -46,8 +49,11 @@ end
 --------------------------------------------------------------------------------------------------
 
 function GameSetup:OnStateChange()
-    if GameRules:State_Get() == DOTA_GAMERULES_STATE_PRE_GAME then
+    if GameRules:State_Get() == DOTA_GAMERULES_STATE_CUSTOM_GAME_SETUP then
+        loading_screen_data:SendLeaderBoardData()
+    end
 
+    if GameRules:State_Get() == DOTA_GAMERULES_STATE_PRE_GAME then
         Filters:Activate(GameSetup, self)
 
         local mode = GameRules:GetGameModeEntity()

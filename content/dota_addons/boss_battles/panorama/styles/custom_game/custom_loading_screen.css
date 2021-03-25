@@ -9,13 +9,36 @@ Root
 }
 
 /*--------------------------------------------------------------
-background
+background + loadingscreen for leaderboard
 ----------------------------------------------------------------*/
 #BackGround
 {
     horizontal-align: left;
     vertical-align: center;
     margin-left: 150px;
+	z-index:-10;
+}
+
+#LoadingScreenLeaderBoard{
+	width: 30%;
+    height: 80%;
+	horizontal-align: left;
+    vertical-align: top;
+	margin-top: 120px;
+	margin-left: 50px;
+	border: 3px solid black;
+	border-radius: 5px 5px 5px 5px;
+	background-color: #151515; /* rgba */
+	background-size: 100% 100%;
+	z-index:401;
+}
+
+#leaderboard_loadingscreen_text{
+	horizontal-align: center;
+	vertical-align: center;
+	color: #fff;
+	font-size: 30px;
+	font-family: defaultFont;
 }
 
 /*--------------------------------------------------------------
@@ -33,25 +56,80 @@ socials
 	border-radius: 5px 5px 5px 5px;
 }
 
-
 /*--------------------------------------------------------------
-leaderboard 
+leaderboard containers
 ----------------------------------------------------------------*/
 #LeaderboardContainer{
 	width: 30%;
-    height: 70%;
+    height: 80%;
 	flow-children: down;
 	horizontal-align: left;
     vertical-align: top;
-	margin-top: 80px;
+	margin-top: 120px;
 	margin-left: 50px;
-	border: 3px solid black;
+	border: 2px solid black;
 	border-radius: 5px 5px 5px 5px;
 }
 
+.leaderboard_buttons_container{
+	height: 5%;
+    width: 100%;
+	flow-children: right;
+	background-color: #151515; /* rgba */
+	background-size: 100% 100%;
+	border-bottom-style: solid;
+	border-bottom-width: 2px;
+	border-bottom-color: rgb(126, 126, 126);
+	z-index:400;
+}
+
+/*--------------------------------------------------------------
+leaderboard - buttons
+----------------------------------------------------------------*/
+
+.leaderboard_buttons{
+	height: 100%;
+    width: 50%;
+	horizontal-align: center;
+	vertical-align: bottom;
+	background-image: url("file://panorama/images/backgrounds/background_play_button_large_2x_png.png");
+}
+
+.leaderboard_buttons.disabled{
+	border: 3px solid black;
+	border-radius: 5px 5px 5px 5px;
+	box-shadow: 0px 8px 15px rgba(0, 0, 0, 0.1);
+	transition: all 0.3s ease 0s;
+}
+
+.leaderboard_buttons.enable{
+	background-color: gradient( linear, 0% 0%, 0% 100%, from( #65a15a ), to( #87d69533 ) );
+	background-size: 100px 50px;
+	box-shadow: 0px 8px 15px rgba(0, 0, 0, 0.1);
+	transition: all 0.3s ease 0s;
+}
+
+.leaderboard_buttons:Hover {
+	background-color: gradient( linear, 0% 0%, 0% 100%, from( #de6f6f ), to( #87d69533 ) );
+}
+
+.leaderboard_buttons_text{
+	horizontal-align: center;
+	vertical-align: center;
+	color: #fff;
+	font-size: 18px;
+	font-family: defaultFont;
+	text-transform: uppercase;
+  	letter-spacing: 2.5px;
+}
+
+/*--------------------------------------------------------------
+leaderboard - containers one level down
+----------------------------------------------------------------*/
+
 .leaderboard_titles{
 	flow-children: down;
-	height: 10%;
+	height: 5%;
 	width: 100%;
 	background-color: #151515; /* rgba */
 	background-size: 100% 100%;
