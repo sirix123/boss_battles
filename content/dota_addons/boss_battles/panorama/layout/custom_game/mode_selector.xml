@@ -31,7 +31,7 @@
 
         <Panel id="ToolTip" class="ToolTip"> 
             <Label id="ToolTipTxt" text="ToolTipText" />
-            <Label id="ToolTipInfo" class="ToolTipInfoOpenToolTip" text="i" />
+            <!--<Label id="ToolTipInfo" class="ToolTipInfoOpenToolTip" text="i" />-->
         </Panel>
     </Panel>
 

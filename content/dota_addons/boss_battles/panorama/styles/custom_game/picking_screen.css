@@ -151,7 +151,7 @@
 	vertical-align: bottom;
 	box-shadow: fill #00000066 -4px -4px 8px 8px;
 	background-color: gradient( linear, 0% 0%, 0% 100%, from( #5AA15E ), to( #87d69533 ) );
-	background-image: url("s2r://panorama/images/backgrounds/background_play_button_large_2x_png.vtex");
+	background-image: url("file://panorama/images/backgrounds/background_play_button_large_2x_png.png");
 	background-size: 100px 50px;
 	height: 50px;
 	width: 100px;

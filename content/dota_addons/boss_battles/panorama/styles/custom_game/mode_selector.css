@@ -40,7 +40,7 @@
 	width: 100%;
 	box-shadow: fill #00000066 -4px -4px 8px 8px;
 	background-color: gradient( linear, 0% 0%, 0% 100%, from( #5AA15E ), to( #87d69533 ) );
-	background-image: url("s2r://panorama/images/backgrounds/background_play_button_large_2x_png.vtex");
+	background-image: url("file://panorama/images/backgrounds/background_play_button_large_2x_png.png");
 }
 
 #StoryModeButtonBtnTxt {
@@ -64,7 +64,7 @@
 	width: 100%;
 	box-shadow: fill #00000066 -4px -4px 8px 8px;
 	background-color: gradient( linear, 0% 0%, 0% 100%, from( #5AA15E ), to( #87d69533 ) );
-	background-image: url("s2r://panorama/images/backgrounds/background_play_button_large_2x_png.vtex");
+	background-image: url("file://panorama/images/backgrounds/background_play_button_large_2x_png.png");
 }
 
 #NormalModeButtonTxt {
@@ -88,7 +88,7 @@
 	width: 100%;
 	box-shadow: fill #00000066 -4px -4px 8px 8px;
 	background-color: gradient( linear, 0% 0%, 0% 100%, from( #5AA15E ), to( #87d69533 ) );
-	background-image: url("s2r://panorama/images/backgrounds/background_play_button_large_2x_png.vtex");
+	background-image: url("file://panorama/images/backgrounds/background_play_button_large_2x_png.png");
 }
 
 #HardModeButtonTxt {
@@ -111,8 +111,8 @@
 =================================================================*/
 
 #ToolTip{
-	width: 200px;
-	height: 150px;
+	width: 250px;
+	/*height: 150px;*/
 	margin-top: 50px;
 	margin-left: 250px;
 	background-color: #151515;
