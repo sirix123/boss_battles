@@ -51,7 +51,10 @@
   //"item_flask"      "REMOVE"
   //"item_dust"     "REMOVE"
   //"item_bottle"     "REMOVE"
-  //"item_ward_observer"      "REMOVE"
+  "item_ward_observer"
+  {
+    "ItemPurchasable" "0"
+  }
   //"item_ward_sentry"      "REMOVE"
   //"item_tango"      "REMOVE"
   //"item_tango_single"     "REMOVE"
