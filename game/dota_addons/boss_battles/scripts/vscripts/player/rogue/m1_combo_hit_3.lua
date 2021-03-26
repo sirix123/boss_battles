@@ -52,16 +52,16 @@ function m1_combo_hit_3:OnSpellStart()
 	local enemies = FindUnitsInCone(
 		caster:GetTeamNumber(),
 		direction,
-		0,
 		origin,
+		5,
 		radius,
+		self:GetCastRange(Vector(0,0,0), nil),
 		nil,
 		DOTA_UNIT_TARGET_TEAM_ENEMY,
 		DOTA_UNIT_TARGET_HERO + DOTA_UNIT_TARGET_BASIC,
-		DOTA_UNIT_TARGET_FLAG_NONE,
-		FIND_CLOSEST,
-		false
-	)
+		0,
+		FIND_ANY_ORDER,
+		false)
 
 	for _, enemy in pairs(enemies) do
 

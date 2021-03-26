@@ -11,7 +11,7 @@
 		"AbilityUnitDamageType"			"DAMAGE_TYPE_PHYSICAL"	
 		"SpellImmunityType"				"SPELL_IMMUNITY_ENEMIES_YES"
         "AbilityBehavior"				"DOTA_ABILITY_BEHAVIOR_POINT"
-		"AbilityCastRange" 				"350"
+		"AbilityCastRange" 				"450"
         "AbilityCooldown"				"0"
         "AbilityCastPoint"              "0.3"
 
@@ -23,7 +23,7 @@
         
 		"AbilitySpecial"
 		{
-			"01"{ "var_type"			"FIELD_INTEGER"		"radius"					"250" }	 
+			"01"{ "var_type"			"FIELD_INTEGER"		"radius"					"350" }	 
 			"02"{ "var_type"			"FIELD_INTEGER"		"damage"					"70" }
 			"03"{ "var_type"			"FIELD_INTEGER"		"mana_gain_percent"			"7" }
 			"04"{ "var_type"			"FIELD_INTEGER"		"mana_gain_percent_bonus"	"5" }
@@ -41,7 +41,7 @@
 		"AbilityUnitDamageType"			"DAMAGE_TYPE_PHYSICAL"	
 		"SpellImmunityType"				"SPELL_IMMUNITY_ENEMIES_YES"
         "AbilityBehavior"				"DOTA_ABILITY_BEHAVIOR_POINT"
-		"AbilityCastRange" 				"500"
+		"AbilityCastRange" 				"600"
         "AbilityCooldown"				"0"
         "AbilityCastPoint"              "0.3"
 		"AbilityManaCost"        		"30"
@@ -56,9 +56,9 @@
 		{
 			"01"{ "var_type"			"FIELD_INTEGER"		"width"								"150" }	
 			"02"{ "var_type"			"FIELD_INTEGER"		"base_dmg"							"100" }
-			"03"{ "var_type"			"FIELD_FLOAT"		"dmg_per_mana_point"				"2" }
-			"04"{ "var_type"			"FIELD_INTEGER"		"stack_duration"					"15" }
-			"05"{ "var_type"			"FIELD_INTEGER"		"dmg_per_debuff_stack"				"50" }
+			"03"{ "var_type"			"FIELD_FLOAT"		"dmg_per_mana_point"				"2.5" }
+			"04"{ "var_type"			"FIELD_INTEGER"		"stack_duration"					"20" }
+			"05"{ "var_type"			"FIELD_INTEGER"		"dmg_per_debuff_stack"				"70" }
 			"06"{ "var_type"			"FIELD_INTEGER"		"max_stacks"						"3" }
 			
 		}
@@ -96,7 +96,7 @@
 		{
 			"01"{ "var_type"			"FIELD_INTEGER"		"duration"					"10" }
 			"02"{ "var_type"			"FIELD_INTEGER"		"radius"					"500" }
-			"03"{ "var_type"			"FIELD_FLOAT"		"vortex_dmg_inc"			"0.1" }
+			"03"{ "var_type"			"FIELD_FLOAT"		"vortex_dmg_inc"			"0.3" }
 		}
 
         "precache"
@@ -132,7 +132,7 @@
 		{
 			"01"{ "var_type"			"FIELD_INTEGER"		"duration"					"12" }
 			"02"{ "var_type"			"FIELD_INTEGER"		"radius"					"500" }
-			"03"{ "var_type"			"FIELD_FLOAT"		"bubble_amount"				"150" }
+			"03"{ "var_type"			"FIELD_FLOAT"		"bubble_amount"				"200" }
 		}
 
         "precache"

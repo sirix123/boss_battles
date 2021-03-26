@@ -30,18 +30,18 @@ function q_armor_aura_buff:OnCreated( kv )
 
 	if IsServer() then
 		self.caster = self:GetCaster()
-		self.caster:FindAbilityByName("q_armor_aura"):SetActivated(false)
+		--[[self.caster:FindAbilityByName("q_armor_aura"):SetActivated(false)
 		self.caster:FindAbilityByName("e_regen_aura"):SetActivated(false)
-		self.caster:FindAbilityByName("r_outgoing_dmg"):SetActivated(false)
+		self.caster:FindAbilityByName("r_outgoing_dmg"):SetActivated(false)]]
     end
 end
 
 -----------------------------------------------------------------------------
 function q_armor_aura_buff:OnDestroy()
 	if IsServer() then
-		self.caster:FindAbilityByName("q_armor_aura"):SetActivated(true)
+		--[[self.caster:FindAbilityByName("q_armor_aura"):SetActivated(true)
 		self.caster:FindAbilityByName("e_regen_aura"):SetActivated(true)
-		self.caster:FindAbilityByName("r_outgoing_dmg"):SetActivated(true)
+		self.caster:FindAbilityByName("r_outgoing_dmg"):SetActivated(true)]]
 	end
 end
 

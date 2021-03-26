@@ -29,10 +29,10 @@ function r_outgoing_dmg_buff:OnCreated( kv )
 	--if IsServer() then
 	    self.outgoing_plus = self:GetAbility():GetSpecialValueFor( "outgoing_plus" )
         if IsServer() then
-            self.caster = self:GetCaster()
+            --[[self.caster = self:GetCaster()
             self.caster:FindAbilityByName("q_armor_aura"):SetActivated(false)
             self.caster:FindAbilityByName("e_regen_aura"):SetActivated(false)
-            self.caster:FindAbilityByName("r_outgoing_dmg"):SetActivated(false)
+            self.caster:FindAbilityByName("r_outgoing_dmg"):SetActivated(false)]]
         end
     --end
 end
@@ -40,9 +40,9 @@ end
 
 function r_outgoing_dmg_buff:OnDestroy()
     if IsServer() then
-        self.caster:FindAbilityByName("q_armor_aura"):SetActivated(true)
+        --[[self.caster:FindAbilityByName("q_armor_aura"):SetActivated(true)
         self.caster:FindAbilityByName("e_regen_aura"):SetActivated(true)
-        self.caster:FindAbilityByName("r_outgoing_dmg"):SetActivated(true)
+        self.caster:FindAbilityByName("r_outgoing_dmg"):SetActivated(true)]]
     end
 end
 -----------------------------------------------------------------------------

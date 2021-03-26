@@ -30,18 +30,18 @@ function e_regen_aura_buff:OnCreated( kv )
 	self.regen_plus = self:GetAbility():GetSpecialValueFor( "regen_plus" )
     if IsServer() then
         self.caster = self:GetCaster()
-        self.caster:FindAbilityByName("q_armor_aura"):SetActivated(false)
+        --[[self.caster:FindAbilityByName("q_armor_aura"):SetActivated(false)
         self.caster:FindAbilityByName("e_regen_aura"):SetActivated(false)
-        self.caster:FindAbilityByName("r_outgoing_dmg"):SetActivated(false)
+        self.caster:FindAbilityByName("r_outgoing_dmg"):SetActivated(false)]]
     end
 end
 -----------------------------------------------------------------------------
 
 function e_regen_aura_buff:OnDestroy()
     if IsServer() then
-        self.caster:FindAbilityByName("q_armor_aura"):SetActivated(true)
+        --[[self.caster:FindAbilityByName("q_armor_aura"):SetActivated(true)
         self.caster:FindAbilityByName("e_regen_aura"):SetActivated(true)
-        self.caster:FindAbilityByName("r_outgoing_dmg"):SetActivated(true)
+        self.caster:FindAbilityByName("r_outgoing_dmg"):SetActivated(true)]]
     end
 end
 -----------------------------------------------------------------------------

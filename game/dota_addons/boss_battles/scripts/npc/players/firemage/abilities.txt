@@ -191,30 +191,20 @@
 		"MaxLevel"						"1"
 
 		"AbilityTextureName"			"phoenix_icarus_dive"
-		"AbilityUnitTargetTeam"			"DOTA_UNIT_TARGET_TEAM_ENEMY"
-		"AbilityUnitDamageType"			"DAMAGE_TYPE_PHYSICAL"	
-		"SpellImmunityType"				"SPELL_IMMUNITY_ENEMIES_YES"
-        "AbilityBehavior"				"DOTA_ABILITY_BEHAVIOR_POINT"
-		"AbilityCastRange" 				"1000"
-        "AbilityCooldown"				"20"
-        "AbilityCastPoint"              "0.1"
-		"AbilityManaCost"        		"0"
+        "AbilityBehavior"				"DOTA_ABILITY_BEHAVIOR_POINT | DOTA_ABILITY_BEHAVIOR_ROOT_DISABLES"
+		"AbilityCastRange" 				"500"
+        "AbilityCastPoint"              "0.0"
+		"AbilityCharges"				"2"
+		"AbilityChargeRestoreTime"		"10"
 
 		"TargetingIndicator"
 		{
 			//"Type"						"TARGETING_INDICATOR_AOE"
-			//"Fixed"						"0"
+			//"Fixed"						"1"
 		}
         
 		"AbilitySpecial"
 		{
-			"01"{ "var_type"			"FIELD_INTEGER"		"duration"							"30" }	
 		}
-
-        "precache"
-		{
-
-		}
-
 	}
 }

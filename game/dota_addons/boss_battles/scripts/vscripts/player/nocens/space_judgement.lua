@@ -75,12 +75,20 @@ function space_judgement:OnSpellStart()
                     damage = self:GetSpecialValueFor( "dmg" ) + self:GetSpecialValueFor( "bonus_dmg" )
                     enemy:AddNewModifier(self.caster, self, "q_armor_aura_debuff", {duration = self:GetSpecialValueFor( "debuff_duration" )})
 
+                    self.caster:FindAbilityByName("q_armor_aura"):EndCooldown()
+                    self.caster:FindAbilityByName("e_regen_aura"):EndCooldown()
+                    self.caster:FindAbilityByName("r_outgoing_dmg"):EndCooldown()
+
                 elseif self.caster:HasModifier("e_regen_aura_buff") then
 
                     EmitSoundOn("Hero_DragonKnight.DragonTail.Target", enemies[1])
 
                     damage = self:GetSpecialValueFor( "dmg" ) + self:GetSpecialValueFor( "bonus_dmg" )
                     enemy:AddNewModifier(self.caster, self, "e_regen_aura_debuff", {duration = self:GetSpecialValueFor( "debuff_duration" )})
+
+                    self.caster:FindAbilityByName("q_armor_aura"):EndCooldown()
+                    self.caster:FindAbilityByName("e_regen_aura"):EndCooldown()
+                    self.caster:FindAbilityByName("r_outgoing_dmg"):EndCooldown()
 
                 elseif self.caster:HasModifier("r_outgoing_dmg_buff") then
 
@@ -91,6 +99,10 @@ function space_judgement:OnSpellStart()
 
                     local nfxID = ParticleManager:CreateParticle("particles/units/heroes/hero_sven/sven_storm_bolt_projectile_explosion.vpcf", PATTACH_POINT, enemies[1])
                     ParticleManager:SetParticleControlEnt(nfxID, 3, enemies[1], PATTACH_ABSORIGIN_FOLLOW, "attach_hitloc", enemies[1]:GetAbsOrigin(), false)
+
+                    self.caster:FindAbilityByName("q_armor_aura"):EndCooldown()
+                    self.caster:FindAbilityByName("e_regen_aura"):EndCooldown()
+                    self.caster:FindAbilityByName("r_outgoing_dmg"):EndCooldown()
 
                 else
 

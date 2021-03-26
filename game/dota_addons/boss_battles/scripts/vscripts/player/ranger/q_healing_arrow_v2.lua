@@ -77,7 +77,8 @@ function q_healing_arrow_v2:OnSpellStart()
             EffectName = enEffect,
             vSpawnOrigin = origin + Vector(0, 0, 100),
             fDistance = self:GetCastRange(Vector(0,0,0), nil),
-            fUniqueRadius = self:GetSpecialValueFor( "hit_box" ),
+            fStartRadius = self:GetSpecialValueFor( "hit_box" ),
+			fEndRadius = self:GetSpecialValueFor( "hit_box" ),
             Source = self.caster,
             vVelocity = projectile_direction * projectile_speed,
             UnitBehavior = PROJECTILES_NOTHING,
@@ -89,6 +90,8 @@ function q_healing_arrow_v2:OnSpellStart()
                 return unit:GetTeamNumber() == self.caster:GetTeamNumber() and unit:GetModelName() ~= "models/development/invisiblebox.vmdl"
             end,
             OnUnitHit = function(_self, unit)
+
+                print("unitname,", unit:GetUnitName())
 
                 local distanceFromHero = (unit:GetAbsOrigin() - origin ):Length2D()
 
