@@ -1,6 +1,7 @@
 
 bear_charge = class({})
 LinkLuaModifier("bear_charge_pushback_modifier", "bosses/beastmaster/bear_charge_pushback_modifier", LUA_MODIFIER_MOTION_NONE)
+LinkLuaModifier("modifier_bear_charge_travel_push", "bosses/beastmaster/modifier_bear_charge_travel_push", LUA_MODIFIER_MOTION_NONE)
 
 --------------------------------------------------------------------------------
 
@@ -69,6 +70,63 @@ function bear_charge:OnSpellStart()
             ParticleManager:DestroyParticle(self.particleNfx, true)
         end
 
+        self.caught_enemies = {}
+
+        -- while we are charging (dmg units once? move them to the side?)
+        -- find units (remove thjis modifier in the arc call back)
+
+        self.timer = Timers:CreateTimer(function()
+            if IsValidEntity(self:GetCaster()) == false then
+                return false
+            end
+
+            if self:GetCaster():IsAlive() == false then
+                return false
+            end
+
+            local units = FindUnitsInRadius(
+                self:GetCaster():GetTeamNumber(),	-- int, your team number
+                self:GetCaster():GetAbsOrigin(),	-- point, center point self:GetCaster():GetAbsOrigin()
+                nil,	-- handle, cacheUnit. (not known)
+                100,	-- float, radius. or use FIND_UNITS_EVERYWHERE
+                DOTA_UNIT_TARGET_TEAM_ENEMY,
+                DOTA_UNIT_TARGET_ALL,
+                DOTA_UNIT_TARGET_FLAG_NONE,	-- int, flag filter
+                0,	-- int, order filter
+                false	-- bool, can grow cache
+            )
+
+            if units ~= nil and #units ~= 0 then
+                for _, unit in pairs(units) do
+                    if not self.caught_enemies[unit] then
+                        self.caught_enemies[unit] = true
+
+                        self.damageTable = {
+                            attacker = self.caster,
+                            victim = unit,
+                            damage = 100,
+                            damage_type = self:GetAbilityDamageType(),
+                            ability = self,
+                        }
+
+                        ApplyDamage( self.damageTable )
+
+                        unit:AddNewModifier(
+                            self:GetCaster(), -- player source
+                            self, -- ability source
+                            "modifier_bear_charge_travel_push", -- modifier name
+                            {
+                                duration = 0.3,
+                            }
+                        )
+
+                    end
+                end
+            end
+
+            return 0.03
+        end)
+
         local arc = self:GetCaster():AddNewModifier(
             self:GetCaster(), -- player source
             self, -- ability source
@@ -87,12 +145,15 @@ function bear_charge:OnSpellStart()
 
         arc:SetEndCallback( function()
 
+            Timers:RemoveTimer(self.timer)
+            self.caught_enemies = {}
+
             -- stun self and players
             local units = FindUnitsInRadius(
                 self:GetCaster():GetTeamNumber(),	-- int, your team number
                 self:GetCaster():GetAbsOrigin(),	-- point, center point self:GetCaster():GetAbsOrigin()
                 nil,	-- handle, cacheUnit. (not known)
-                400,	-- float, radius. or use FIND_UNITS_EVERYWHERE
+                200,	-- float, radius. or use FIND_UNITS_EVERYWHERE
                 DOTA_UNIT_TARGET_TEAM_ENEMY,
                 DOTA_UNIT_TARGET_ALL,
                 DOTA_UNIT_TARGET_FLAG_NONE,	-- int, flag filter

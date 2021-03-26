@@ -27,6 +27,8 @@ function Spawn( entityKeyValues )
 
 	thisEntity:AddNewModifier( nil, nil, "modifier_phased", { duration = -1 } )
 
+	TargetingTimer()
+
 	thisEntity:SetContextThink( "BearThink", BearThink, 0.5 )
 
 	thisEntity.target = nil
@@ -97,3 +99,25 @@ function CastBloodlust()
 	return 0.5
 end
 
+function TargetingTimer()
+	Timers:CreateTimer(3.0,function()
+
+		local bear_enemies = FindUnitsInRadius(
+			DOTA_TEAM_BADGUYS,
+			thisEntity:GetOrigin(),
+			nil,
+			5000,
+			DOTA_UNIT_TARGET_TEAM_ENEMY,
+			DOTA_UNIT_TARGET_ALL,
+			DOTA_UNIT_TARGET_FLAG_INVULNERABLE,
+			FIND_FARTHEST,
+			false)
+
+		if bear_enemies ~= nil and #bear_enemies ~= 0 then
+			thisEntity.bear_target = bear_enemies[1]
+			thisEntity:MoveToTargetToAttack(thisEntity.bear_target)
+		end
+
+		return 45
+	end)
+end
