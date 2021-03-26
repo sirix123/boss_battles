@@ -74,12 +74,12 @@ function clock_hookshot_modifier:OnDestroy( kv )
 
                 -- arc modifier
                 -- references
-                local distance = self:GetAbility():GetSpecialValueFor( "knock_distance" ) -- special value 1000
-                local speed = self:GetAbility():GetSpecialValueFor( "knock_speed" ) -- special value500 
-                local height = self:GetAbility():GetSpecialValueFor( "knock_height" )
+                --local distance = self:GetAbility():GetSpecialValueFor( "knock_distance" ) -- special value 1000
+                --local speed = self:GetAbility():GetSpecialValueFor( "knock_speed" ) -- special value500 
+                --local height = self:GetAbility():GetSpecialValueFor( "knock_height" )
 
                 -- leap
-                local arc = enemy:AddNewModifier(
+                --[[local arc = enemy:AddNewModifier(
                     self:GetCaster(), -- player source
                     self, -- ability source
                     "modifier_generic_arc_lua", -- modifier name
@@ -93,7 +93,7 @@ function clock_hookshot_modifier:OnDestroy( kv )
                 )
 
                 arc:SetEndCallback( function()
-                end)
+                end)]]
             end
         end
 	end

@@ -1,7 +1,9 @@
 hookshot = class({})
 LinkLuaModifier("clock_hookshot_modifier", "bosses/clock/modifiers/clock_hookshot_modifier", LUA_MODIFIER_MOTION_HORIZONTAL)
+LinkLuaModifier("clock_battery_modifier", "bosses/clock/modifiers/clock_battery_modifier", LUA_MODIFIER_MOTION_NONE)
 LinkLuaModifier( "modifier_generic_arc_lua", "player/generic/modifier_generic_arc_lua", LUA_MODIFIER_MOTION_BOTH )
 LinkLuaModifier( "stunned_modifier", "player/generic/stunned_modifier", LUA_MODIFIER_MOTION_NONE )
+LinkLuaModifier( "modifier_generic_stunned", "core/modifier_generic_stunned", LUA_MODIFIER_MOTION_NONE )
 
 --[[function hookshot:OnAbilityPhaseStart()
     if IsServer() then
@@ -136,6 +138,8 @@ function hookshot:OnProjectileHit(hTarget, vLocation)
                 latch_radius = self.latch_radius,
                 speed = self.speed
             })
+
+        self:GetCaster():AddNewModifier(self:GetCaster(), self, "clock_battery_modifier", {duration = 10})
 
         local targets = FindUnitsInRadius(
             self:GetCaster():GetTeamNumber(),

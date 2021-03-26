@@ -17,11 +17,11 @@
 
         // Casting
         //-------------------------------------------------------------------------------------------------------------
-        "AbilityCastPoint"              "2.0 2.0 2.0 2.0"
+        "AbilityCastPoint"              "3.0 3.0 3.0 3.0"
 
         // Time     
         //-------------------------------------------------------------------------------------------------------------
-        "AbilityCooldown"               "70 60 60 55"
+        "AbilityCooldown"               "70 70 70 70"
 
         // Cost
         //-------------------------------------------------------------------------------------------------------------
@@ -33,9 +33,9 @@
 		{
             "01"{ "var_type"			"FIELD_INTEGER"		"missile_radius"		"200" }
             "02"{ "var_type"			"FIELD_INTEGER"		"flTimeBetweenWaves"	"5" }
-            "03"{ "var_type"			"FIELD_INTEGER"		"nMaxWaves"				"3" }
-            "04"{ "var_type"			"FIELD_INTEGER"		"dmg_hit"				"175" }
-            "05"{ "var_type"			"FIELD_INTEGER"		"dmg_dot"				"60" }
+            "03"{ "var_type"			"FIELD_INTEGER"		"nMaxWaves"				"2 2 3 3" }
+            "04"{ "var_type"			"FIELD_INTEGER"		"dmg_hit"				"100" }
+            "05"{ "var_type"			"FIELD_INTEGER"		"dmg_dot"				"10" }
             "06"{ "var_type"			"FIELD_INTEGER"		"dmg_interval"			"1" }
             "07"{ "var_type"			"FIELD_INTEGER"		"duration"			    "2" }
 		}
@@ -67,7 +67,7 @@
         // Casting
         //-------------------------------------------------------------------------------------------------------------
         "AbilityCastPoint"              "1.5 1.5 1.5 1.5"
-        "AbilityCooldown"               "20 15 15 13"
+        "AbilityCooldown"               "20 20 20 20"
         "AbilityManaCost"               "0"
         "AbilityCastRange" 				"9000"
 
