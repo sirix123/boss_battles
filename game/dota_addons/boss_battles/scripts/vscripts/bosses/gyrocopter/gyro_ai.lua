@@ -10,6 +10,8 @@ function Spawn( entityKeyValues )
 		return
 	end
 
+	_G.Oil_Puddles = {}
+
 	-- general boss init
 	boss_frame_manager:SendBossName()
 	boss_frame_manager:UpdateManaHealthFrame( thisEntity )
@@ -22,7 +24,7 @@ function Spawn( entityKeyValues )
 	thisEntity:SetHullRadius(60)
 
 	-- spell init
-	thisEntity.swoop = thisEntity:FindAbilityByName( "swoop" )
+	thisEntity.swoop = thisEntity:FindAbilityByName( "swoop_v2" )
 	thisEntity.swoop_speed = thisEntity.swoop:GetLevelSpecialValueFor("charge_speed", thisEntity.swoop:GetLevel())
 	thisEntity.barrage_duration = thisEntity.swoop:GetLevelSpecialValueFor("barrage_duration", thisEntity.swoop:GetLevel())
 
@@ -87,8 +89,6 @@ function CastSwoop( hTarget )
 		return 0.1
 	end
 
-	print("hTarget ",hTarget)
-
 	local distance = ( thisEntity:GetAbsOrigin() - hTarget:GetAbsOrigin() ):Length2D()
 
 	ExecuteOrderFromTable({
@@ -121,7 +121,6 @@ function FindFurthestPlayer()
 		false )
 
 	if #enemies ~= 0 and enemies ~= nil then
-		print('target ',enemies[#enemies])
 		return enemies[#enemies]
 	else
 		return nil

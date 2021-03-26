@@ -21,7 +21,7 @@
 
 		// Abilities
 		//----------------------------------------------------------------
-		"Ability1"					"swoop"			
+		"Ability1"					"swoop_v2"			
 		"Ability2"					""
 		"Ability3"					""
 		"Ability5"					""

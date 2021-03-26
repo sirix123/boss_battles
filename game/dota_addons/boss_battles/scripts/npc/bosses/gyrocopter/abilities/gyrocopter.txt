@@ -2,18 +2,20 @@
 "DOTAAbilities"
 {
     //=================================================================================================================
-    // Gyro: swoop
+    // Gyro: swoop_v2
     //=================================================================================================================
-    "swoop"
+    "swoop_v2"
     { 
         "BaseClass"                     "ability_lua"
-        "ScriptFile"                    "bosses/gyrocopter/swoop"
+        "ScriptFile"                    "bosses/gyrocopter/swoop_v2"
         "MaxLevel"						"4"
 
         // General
         //-------------------------------------------------------------------------------------------------------------
         "AbilityBehavior"               "DOTA_ABILITY_BEHAVIOR_UNIT_TARGET"
         "AbilityUnitDamageType"         "DAMAGE_TYPE_PHYSICAL"  
+        "AbilityUnitTargetTeam"         "DOTA_UNIT_TARGET_TEAM_ENEMY"
+        "AbilityUnitTargetType"         "DOTA_UNIT_TARGET_HERO"
 
         // Casting
         //-------------------------------------------------------------------------------------------------------------
@@ -22,7 +24,7 @@
 
         // Time     
         //-------------------------------------------------------------------------------------------------------------
-        "AbilityCooldown"               "12 12 12 12"
+        "AbilityCooldown"               "15 15 15 15"
 
         // Cost
         //-------------------------------------------------------------------------------------------------------------
@@ -32,16 +34,17 @@
         //-------------------------------------------------------------------------------------------------------------
 		"AbilitySpecial"
 		{
-            "01"{ "var_type"			"FIELD_INTEGER"		"barrage_duration"		            "12" }
-            "02"{ "var_type"			"FIELD_INTEGER"		"charge_speed"		                "800" }
+            "01"{ "var_type"			"FIELD_INTEGER"		"barrage_duration"		            "6" }
+            "02"{ "var_type"			"FIELD_INTEGER"		"charge_speed"		                "1500" }
             "03"{ "var_type"			"FIELD_FLOAT"		"oil_drop_freq"		                "0.5" }
-            "04"{ "var_type"			"FIELD_INTEGER"		"barrage_dmg"                       "100" }
+            "04"{ "var_type"			"FIELD_INTEGER"		"barrage_dmg"                       "50" }
+            "05"{ "var_type"			"FIELD_FLOAT"		"barrage_tick_rate"                 "0.1" }
 		}
 
         "precache"
 		{
 			//"soundfile"  "sounds/weapons/hero/techies/land_mine_plant.vsnd"
-            //"soundfile"  "soundevents/game_sounds_heroes/game_sounds_techies.vsndevts"
+            "soundfile"  "soundevents/game_sounds_heroes/game_sounds_disruptor.vsndevts"
 		}
     }
 
