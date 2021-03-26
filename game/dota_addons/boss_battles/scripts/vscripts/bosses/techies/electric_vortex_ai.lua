@@ -60,6 +60,11 @@ function ElectricTurretThink_v2()
 
 	if ( not thisEntity:IsAlive() ) then
 		Timers:RemoveTimer(thisEntity.timer)
+		if thisEntity.randomTarget then
+			if thisEntity.randomTarget:HasModifier("modifier_electric_vortex") then
+				thisEntity.randomTarget:RemoveModifierByName("modifier_electric_vortex")
+			end
+		end
 		return -1
 	end
 

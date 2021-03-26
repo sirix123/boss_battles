@@ -177,32 +177,35 @@ function SetTimer( time )
 end
 
 -- find units in a cone
--- fMinProjection is a value from -1 to 1, 1 when the unit is aligned with vDirection, -1 is the vector opposite to vDirection
-function FindUnitsInCone(nTeamNumber, vDirection, fMinProjection, vCenterPos, fRadius, hCacheUnit, nTeamFilter, nTypeFilter, nFlagFilter, nOrderFilter, bCanGrowCache)
-	local units = FindUnitsInRadius(
-		nTeamNumber,	-- int, your team number
-		vCenterPos,	-- point, center point
-		hCacheUnit,	-- handle, cacheUnit. (not known)
-		fRadius,	-- float, radius. or use FIND_UNITS_EVERYWHERE
-		nTeamFilter,	-- int, team filter
-		nTypeFilter,	-- int, type filter
-		nFlagFilter,	-- int, flag filter
-		nOrderFilter,	-- int, order filter
-		bCanGrowCache	-- bool, can grow cache
-	)
+function FindUnitsInCone(teamNumber, vDirection, vPosition, startRadius, endRadius, flLength, hCacheUnit, targetTeam, targetUnit, targetFlags, findOrder, bCache)
+	local vDirectionCone = Vector( vDirection.y, -vDirection.x, 0.0 )
+	local enemies = FindUnitsInRadius(teamNumber, vPosition, hCacheUnit, endRadius + flLength, targetTeam, targetUnit, targetFlags, findOrder, bCache )
+	local unitTable = {}
+	if #enemies > 0 then
+		for _,enemy in pairs(enemies) do
+			if enemy ~= nil then
+				local vToPotentialTarget = enemy:GetOrigin() - vPosition
+				local flSideAmount = math.abs( vToPotentialTarget.x * vDirectionCone.x + vToPotentialTarget.y * vDirectionCone.y + vToPotentialTarget.z * vDirectionCone.z )
+				local enemy_distance_from_caster = ( vToPotentialTarget.x * vDirection.x + vToPotentialTarget.y * vDirection.y + vToPotentialTarget.z * vDirection.z )
 
-	-- Filter within cone
-	local targets = {}
-	for _,unit in pairs(units) do
-		local direction = (unit:GetAbsOrigin() - vCenterPos):Normalized()
-        local projection = direction.x * vDirection.x + direction.y * vDirection.y
+				-- Author of this "increase over distance": Fudge, pretty proud of this :D (THANKS FUDGE!)
 
-		if projection >= fMinProjection then
-			table.insert(targets, unit)
+				-- Calculate how much the width of the check can be higher than the starting point
+				local max_increased_radius_from_distance = endRadius - startRadius
+
+				-- Calculate how close the enemy is to the caster, in comparison to the total distance
+				local pct_distance = enemy_distance_from_caster / flLength
+
+				-- Calculate how much the width should be higher due to the distance of the enemy to the caster.
+				local radius_increase_from_distance = max_increased_radius_from_distance * pct_distance
+
+				if ( flSideAmount < startRadius + radius_increase_from_distance ) and ( enemy_distance_from_caster > 0.0 ) and ( enemy_distance_from_caster < flLength ) then
+					table.insert(unitTable, enemy)
+				end
+			end
 		end
-    end
-
-	return targets
+	end
+	return unitTable
 end
 
 -- clamps target point
