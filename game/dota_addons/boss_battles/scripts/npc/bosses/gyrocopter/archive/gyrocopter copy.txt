@@ -8,7 +8,7 @@
 	"npc_gyrocopter"	
 	{
 		// script
-		"vscripts"					"bosses/gyrocopter/gyro_ai.lua"
+		"vscripts"					"bosses/gyrocopter/gyrocopter_v2.lua"
 
 		// General
 		//----------------------------------------------------------------
@@ -21,23 +21,31 @@
 
 		// Abilities
 		//----------------------------------------------------------------
-		"Ability1"					"swoop"			
-		"Ability2"					""
-		"Ability3"					""
-		"Ability5"					""
-		"Ability6"					""
-		"Ability7"					""			
-		"Ability8"					""
-		"Ability9"					""
-		"Ability10"					""
-		"Ability11"					""
-		"Ability12"					""
-		"Ability13"					""
-		"Ability14"					""
-		"Ability15"					""
-		"Ability16"					""
-		"Ability17"					""
-		"Ability18"					""
+		"Ability1"					"gyro_base_attack"			
+		"Ability2"					"radar_scan"
+		"Ability3"					"radar_pulse"
+
+		"Ability5"					"dumb_homing_missile_v2"
+		"Ability6"					"smart_homing_missile_v2"
+
+		"Ability7"					"swoop"			
+		"Ability8"					"flee"
+
+		"Ability9"					"barrage"
+		"Ability10"					"barrage_radius_melee"
+		"Ability11"					"barrage_radius_ranged"
+		"Ability12"					"barrage_radius_attack"
+
+		"Ability13"					"absorbing_shell"
+		"Ability14"					"call_down"
+		"Ability15"					"continuous_radar_scan"
+		"Ability16"					"dumb_rocket_waves"
+
+		"Ability17"					"whirlwind"
+		"Ability18"					"whirlwind_attack"
+		
+		
+
 
 		// Precache
 		//-------------------------------------------------------------------------------------------------------------
@@ -59,7 +67,7 @@
 		"AttackAnimationPoint"		"0.4"		// Normalized time in animation cycle to attack.
 		"AttackAcquisitionRange"	"3000"		// Range within a target can be acquired.
 		"AttackRange"				"1000"
-		"ProjectileModel" 			"particles/econ/items/gyrocopter/hero_gyrocopter_gyrotechnics/gyro_base_attack.vpcf"
+		"ProjectileModel" 			"particles/units/heroes/hero_tinker/tinker_base_attack.vpcf"
 		"ProjectileSpeed" 			"900"		
 
 		// Bounds

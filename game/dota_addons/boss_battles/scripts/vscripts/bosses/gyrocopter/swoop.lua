@@ -1,116 +1,93 @@
+
 swoop = class({})
+LinkLuaModifier( "modifier_generic_arc_lua", "player/generic/modifier_generic_arc_lua", LUA_MODIFIER_MOTION_BOTH )
 
---TODO: put these vars into kvp txt file
--- Gyro moves toward target, crashing into it upon arrival
+--------------------------------------------------------------------------------
+
+function swoop:OnAbilityPhaseStart()
+    if IsServer() then
+
+        self.hTargetPos = nil
+		if self:GetCursorTarget() then
+			self.hTarget = self:GetCursorTarget()
+		end
+
+        if self.hTarget then
+
+            -- shoot the fast zap proj
+
+            -- create modifier on them (stunned with electrical particle effect)
+
+        end
+
+        print("phase start")
+
+        return true
+    end
+end
+
+--------------------------------------------------------------------------------
+
+function swoop:OnAbilityPhaseInterrupted()
+	if IsServer() then
+
+    end
+end
+--------------------------------------------------------------------------------
+
 function swoop:OnSpellStart()
-	--print("swoop:OnSpellStart()")
-	_G.IsGyroBusy = true
+	if IsServer() then
 
-	local caster = self:GetCaster()
-	local swoopSpeed = self:GetSpecialValueFor("swoop_speed")
-	local radius = self:GetSpecialValueFor("radius")
-	local dmg = self:GetSpecialValueFor("damage")
-	local stunDuration = self:GetSpecialValueFor("stun_duration")
-	local collisionDist  = self:GetSpecialValueFor("collision_distance")
+        print("on spell start")
 
-	--Use the below for abilities that are: DOTA_ABILITY_BEHAVIOR_UNIT_TARGET
-	--local target = self:GetCursorTarget():GetAbsOrigin()
+        -- dorp oil timer
+        self.timer = Timers:CreateTimer(function()
+            if IsValidEntity(self:GetCaster()) == false then
+                return false
+            end
 
-	--Use the below for abilities that are: DOTA_ABILITY_BEHAVIOR_POINT
-	local target = self:GetCursorPosition()
-	--DebugDrawCircle(target, Vector(255,0,0), 128, 100, true, 1)
+            if self:GetCaster():IsAlive() == false then
+                return false
+            end
 
-	local originalMs = self:GetCaster():GetBaseMoveSpeed()
-	caster:SetBaseMoveSpeed(swoopSpeed)
-	local distance = (target - caster:GetAbsOrigin()):Length2D()
-	local travelTime = distance / caster:GetBaseMoveSpeed()
+            -- create the modifier thinker
 
-	--tilt gyro's nose 25 degrees down, so he aiming at the ground
-	caster:SetAngles(25,0,0)
-	caster:MoveToPosition(target)
+            return 0.2
+        end)
 
-	local enemiesAlreadyHit = {}
-	Timers:CreateTimer(function()
-		local distance = (target  - caster:GetAbsOrigin()):Length2D()
+        -- movement
+        local arc = self:GetCaster():AddNewModifier(
+            self:GetCaster(), -- player source
+            self, -- ability source
+            "modifier_generic_arc_lua", -- modifier name
+            {
+                target_x = self.hTarget.x,
+                target_y = self.hTarget.y,
+                speed = self:GetSpecialValueFor("charge_speed"),
+                distance = ( self:GetCaster():GetAbsOrigin() - self.hTargetPos:GetAbsOrigin() ):Length2D(),
+                fix_end = true,
+                isStun = true,
+                activity = ACT_DOTA_RUN,
+                isForward = true,
+            } -- kv
+        )
 
-		-- check for any units within collision radius, if any, hit them and add to hitlist to prevent second hit..
-		--they take half damage.  
-		local runOverEnemies = FindUnitsInRadius(DOTA_TEAM_BADGUYS, caster:GetAbsOrigin(), nil, collisionDist*2, DOTA_UNIT_TARGET_TEAM_ENEMY, DOTA_UNIT_TARGET_ALL, DOTA_UNIT_TARGET_FLAG_NONE, FIND_CLOSEST, false )
-		for _,enemy in pairs(runOverEnemies) do
-			
-			-- check that enemy is in enemiesAlreadyHit.
-			local enemyAlreadyHit = false
-			if #enemiesAlreadyHit > 0 then
-				for i = 1, #enemiesAlreadyHit do 
-					if enemiesAlreadyHit[i] == enemy then
-						enemyAlreadyHit = true
-					end
-				end
-			end
-			--only damage enemies not already hit
-			if not enemyAlreadyHit then
-				local dmgTable =
-	            {
-	                victim = enemy,
-	                attacker = caster,
-	                damage = dmg/2,
-	                damage_type = DAMAGE_TYPE_PHYSICAL,
-	            }
-	            ApplyDamage(dmgTable)
-				enemiesAlreadyHit[#enemiesAlreadyHit+1] = enemy
+        arc:SetEndCallback( function()
 
-				--TODO: apply daze?
+            Timers:RemoveTimer(self.timer)
 
-			end
-		end
+            -- add the gyro q modifier
 
-		--gyro arrived at target		
-		if (distance <= collisionDist) then
-			--reset ms to original ms
-			self:GetCaster():SetBaseMoveSpeed(originalMs)
+            -- play small slam particle effect
+            local nfx = ParticleManager:CreateParticle('particles/units/heroes/hero_centaur/centaur_warstomp.vpcf', PATTACH_ABSORIGIN, self:GetCaster())
+            ParticleManager:SetParticleControl(nfx, 1, Vector(400,400,400))
+            ParticleManager:SetParticleControl(nfx, 2, self:GetCaster():GetOrigin())
+            ParticleManager:SetParticleControl(nfx, 3, self:GetCaster():GetOrigin())
+            ParticleManager:SetParticleControl(nfx, 4, self:GetCaster():GetOrigin())
+            ParticleManager:SetParticleControl(nfx, 5, self:GetCaster():GetOrigin())
+            ParticleManager:ReleaseParticleIndex(nfx)
+            self:GetCaster():EmitSound('Hero_Centaur.HoofStomp')
 
-			--DEBUG
-			--DebugDrawCircle(caster:GetAbsOrigin(), Vector(255,0,0), 128, 100, true, 1)
-
-			--find enemies in range and dmg them and stun
-			local enemies = FindUnitsInRadius(DOTA_TEAM_BADGUYS, caster:GetAbsOrigin(), nil, radius,
-			DOTA_UNIT_TARGET_TEAM_ENEMY, DOTA_UNIT_TARGET_ALL, DOTA_UNIT_TARGET_FLAG_NONE, FIND_CLOSEST, false )
-
-			for _,enemy in pairs(enemies) do 
-				-- damage enemies in radius
-	            local dmgTable =
-	            {
-	                victim = enemy,
-	                attacker = caster,
-	                damage = dmg,
-	                damage_type = DAMAGE_TYPE_PHYSICAL,
-	            }
-	            ApplyDamage(dmgTable)
-				-- stun enemies in radius
-				enemy:AddNewModifier(
-					caster, -- caster source
-					self, -- ability source
-					"modifier_generic_stunned", -- modifier name
-					{ duration = stunDuration } 
-				)
-				
-	        end
-	        -- stun gyro too? but then _G.IsGyroBusy needs to continue until unstunned
-			self:GetCaster():AddNewModifier(
-					caster, -- caster source
-					self, -- ability source
-					"modifier_generic_stunned", -- modifier name
-					{ duration = stunDuration } 
-				)
-
-			-- delay until the end of stun duration before resetting IsGyroBusy
-			Timers:CreateTimer(stunDuration, function()
-		        _G.IsGyroBusy = false	
-		        return
-			end)
-			caster:SetAngles(0,0,0)
-        	return --stop timer, ability ended.
-		end
-		return 0.05 --continue timer, gyro still flying
-	end)
+        end)
+	end
 end
