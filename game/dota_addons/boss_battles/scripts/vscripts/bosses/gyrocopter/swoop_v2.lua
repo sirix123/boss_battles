@@ -88,7 +88,7 @@ function swoop_v2:OnSpellStart()
 
             table.insert(_G.Oil_Puddles, puddle)
 
-            return 0.2
+            return self:GetSpecialValueFor("oil_drop_freq")
         end)
 
         -- movement
@@ -111,7 +111,6 @@ function swoop_v2:OnSpellStart()
         arc:SetEndCallback( function()
 
             Timers:RemoveTimer(self.timer)
-            self:GetCaster():RemoveModifierByName("oil_drop_thinker")
 
             -- add the gyro q modifier
             self:GetCaster():AddNewModifier(

@@ -1,5 +1,19 @@
 "DOTAAbilities"
 {
+	"ice_mage_passive"
+	{
+		"BaseClass"						"ability_lua"
+		"MaxLevel"						"1"
+		"AbilityTextureName"			"lich_chain_frost"
+        "AbilityBehavior"				"DOTA_ABILITY_BEHAVIOR_PASSIVE"
+        
+		"AbilitySpecial"
+		{
+			"01"{ "var_type"			"FIELD_INTEGER"		"dmg"							"100" } 
+		}
+	}
+
+
 	"m1_iceshot"
 	{
 		"BaseClass"						"ability_lua"

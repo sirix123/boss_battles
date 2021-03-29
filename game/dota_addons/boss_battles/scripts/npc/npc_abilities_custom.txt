@@ -59,6 +59,30 @@
 
     }
 
+    "test_oil_watergun_debug"
+    { 
+        "BaseClass"                     "ability_lua"
+        "ScriptFile"                    "bosses/gyrocopter/test_oil_watergun_debug"
+
+        // General
+        //-------------------------------------------------------------------------------------------------------------
+        "AbilityBehavior"               "DOTA_ABILITY_BEHAVIOR_NO_TARGET"
+        "AbilityUnitDamageType"         "DAMAGE_TYPE_PHYSICAL"  
+
+        // Casting
+        //-------------------------------------------------------------------------------------------------------------
+        "AbilityCastPoint"              "0.0 0.0 0.0 0.0"
+
+        // Time     
+        //-------------------------------------------------------------------------------------------------------------
+        "AbilityCooldown"               "1.0 1.0 1.0 1.0"
+
+        // Cost
+        //-------------------------------------------------------------------------------------------------------------
+        "AbilityManaCost"               "0"
+
+    }
+
     "create_item_on_floor_testing"
     { 
         "BaseClass"                     "ability_lua"

@@ -22,9 +22,9 @@
 		// Abilities
 		//----------------------------------------------------------------
 		"Ability1"					"swoop_v2"			
-		"Ability2"					""
-		"Ability3"					""
-		"Ability5"					""
+		"Ability2"					"flee_v2"
+		"Ability3"					"flak_cannon"
+		"Ability5"					"cannon_ball"
 		"Ability6"					""
 		"Ability7"					""			
 		"Ability8"					""
@@ -58,9 +58,9 @@
 		"AttackRate"				"1"		// Speed of attack.
 		"AttackAnimationPoint"		"0.4"		// Normalized time in animation cycle to attack.
 		"AttackAcquisitionRange"	"3000"		// Range within a target can be acquired.
-		"AttackRange"				"1000"
+		"AttackRange"				"500"
 		"ProjectileModel" 			"particles/econ/items/gyrocopter/hero_gyrocopter_gyrotechnics/gyro_base_attack.vpcf"
-		"ProjectileSpeed" 			"900"		
+		"ProjectileSpeed" 			"1100"		
 
 		// Bounds
 		//----------------------------------------------------------------

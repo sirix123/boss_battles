@@ -22,7 +22,7 @@
         "Ability14"             ""
         "Ability15"             ""
         "Ability16"             ""
-        "Ability17"             ""
+        "Ability17"             "ice_mage_passive"
 
         "ArmorPhysical"             "0"
         "MagicalResistance"         "0"

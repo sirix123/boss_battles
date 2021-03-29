@@ -99,29 +99,6 @@ function GenerateLocalizationData() {
             },
         ]
     });
-    Abilities.push({
-        ability_classname: "space_judgement",
-        name: "Judgement",
-        description: "Judges all enemies in radius with holy light, does something extra if you have an aura active.",
-        ability_specials: [
-            {
-                ability_special: "dmg",
-                text: "DAMAGE:"
-            },
-            {
-                ability_special: "bonus_dmg",
-                text: "ACTIVE AURA BONUS DAMAGE:",
-            },
-            {
-                ability_special: "r_dmg",
-                text: "DIVINE PURGE BONUS DAMAGE:",
-            },
-            {
-                ability_special: "debuff_duration",
-                text: "DEBUFF DURATION:",
-            },
-        ]
-    });
     // Return data to compiler
     return localization_info;
 }

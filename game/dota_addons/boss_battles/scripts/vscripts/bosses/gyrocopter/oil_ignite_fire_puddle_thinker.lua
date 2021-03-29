@@ -1,16 +1,16 @@
-oil_drop_thinker = class({})
+oil_ignite_fire_puddle_thinker = class({})
 
 --------------------------------------------------------------------------------
-function oil_drop_thinker:IsHidden()
+function oil_ignite_fire_puddle_thinker:IsHidden()
 	return false
 end
 
-function oil_drop_thinker:GetTexture()
+function oil_ignite_fire_puddle_thinker:GetTexture()
 	return "batrider_sticky_napalm"
 end
 
 --------------------------------------------------------------------------------
-function oil_drop_thinker:OnCreated(kv)
+function oil_ignite_fire_puddle_thinker:OnCreated(kv)
 	self.radius = 150
 	self.tick_rate = 0.2
 
@@ -21,7 +21,7 @@ function oil_drop_thinker:OnCreated(kv)
 end
 
 --------------------------------------------------------------------------------
-function oil_drop_thinker:OnIntervalThink()
+function oil_ignite_fire_puddle_thinker:OnIntervalThink()
 	if IsServer() then
 
 		if self:GetParent() == nil then self:Destroy() end
@@ -61,25 +61,27 @@ function oil_drop_thinker:OnIntervalThink()
 end
 
 --------------------------------------------------------------------------------
-function oil_drop_thinker:PlayEffects()
+function oil_ignite_fire_puddle_thinker:PlayEffects()
 
-	--  raidus that affects players is not linked to particel radisu need to change that as well in particle manager
-	local particle_cast = "particles/gyrocopter/viper_poison_crimson_debuff_ti7_oil_puddle.vpcf"
-	self.nFXIndex_1 = ParticleManager:CreateParticle( particle_cast, PATTACH_ABSORIGIN , self:GetParent()  )
-	ParticleManager:SetParticleControl( self.nFXIndex_1, 0, self:GetParent():GetAbsOrigin() )
-	ParticleManager:ReleaseParticleIndex( self.nFXIndex_1 )
+	-- at each oil thinker location, create a fire puddle
+	local particle = "particles/econ/items/jakiro/jakiro_ti10_immortal/jakiro_ti10_macropyre_line_flames.vpcf"
+	self.nFXIndex_1 = ParticleManager:CreateParticle(particle, PATTACH_WORLDORIGIN, nil)
+	ParticleManager:SetParticleControl(self.nFXIndex_1, 0, self:GetParent():GetAbsOrigin())
+	ParticleManager:SetParticleControl(self.nFXIndex_1, 1, self:GetParent():GetAbsOrigin())
 
-	particle_cast = "particles/gyrocopter/oil_viper_immortal_ti8_nethertoxin_bubbles.vpcf"
-	self.nFXIndex_3 = ParticleManager:CreateParticle( particle_cast, PATTACH_ABSORIGIN , self:GetParent()  )
-	ParticleManager:SetParticleControl( self.nFXIndex_3, 0, self:GetParent():GetAbsOrigin() )
-	ParticleManager:ReleaseParticleIndex( self.nFXIndex_3 )
 
 end
 
-function oil_drop_thinker:OnDestroy( kv )
+function oil_ignite_fire_puddle_thinker:OnDestroy( kv )
 	if IsServer() then
 		ParticleManager:DestroyParticle(self.nFXIndex_1,true)
-		ParticleManager:DestroyParticle(self.nFXIndex_3,true)
+
+		local particle = "particles/units/heroes/hero_phoenix/phoenix_supernova_death_steam.vpcf"
+		local effect_cast = ParticleManager:CreateParticle( particle, PATTACH_WORLDORIGIN, self:GetParent() )
+		ParticleManager:SetParticleControl( effect_cast, 1, self:GetParent():GetAbsOrigin() )
+		ParticleManager:ReleaseParticleIndex( effect_cast )
+
+
 		self:StartIntervalThink(-1)
         UTIL_Remove( self:GetParent() )
 	end
