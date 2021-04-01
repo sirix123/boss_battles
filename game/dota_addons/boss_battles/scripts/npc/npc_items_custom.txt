@@ -73,5 +73,17 @@
 		{
 
 		}
+
+		"Precache"
+		{
+			"soundfile" "sounds/physics/footsteps/common/waterstep_01.vsnd",
+			"soundfile" "sounds/physics/footsteps/common/waterstep_02.vsnd",
+			"soundfile" "sounds/physics/footsteps/common/waterstep_03.vsnd",
+			"soundfile" "sounds/physics/footsteps/common/waterstep_04.vsnd",
+			"soundfile" "sounds/physics/footsteps/common/wade5.vsnd",
+			"soundfile" "sounds/physics/footsteps/common/wade6.vsnd",
+			"soundfile" "sounds/physics/footsteps/common/wade7.vsnd",
+			"soundfile" "sounds/physics/footsteps/common/wade8.vsnd",
+		}
     }	
 }

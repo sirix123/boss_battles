@@ -28,7 +28,7 @@ background + loadingscreen for leaderboard
 	margin-left: 50px;
 	border: 3px solid black;
 	border-radius: 5px 5px 5px 5px;
-	background-color: #151515; /* rgba */
+	background-color: #000000; /* rgba */
 	background-size: 100% 100%;
 	z-index:401;
 }
@@ -54,6 +54,24 @@ socials
 	background-color: #151515;
 	border: 3px solid black;
 	border-radius: 5px 5px 5px 5px;
+	flow-children: right;
+}
+
+.social_buttons{
+	height: 100%;
+    width: 50%;
+	horizontal-align: center;
+	vertical-align: bottom;
+}
+
+.social_buttons_text{
+	horizontal-align: center;
+	vertical-align: center;
+	color: #fff;
+	font-size: 18px;
+	font-family: defaultFont;
+	text-transform: uppercase;
+  	letter-spacing: 2.5px;
 }
 
 /*--------------------------------------------------------------
@@ -68,7 +86,7 @@ leaderboard containers
 	margin-top: 120px;
 	margin-left: 50px;
 	border: 2px solid black;
-	border-radius: 5px 5px 5px 5px;
+	border-radius: 20px 20px 0px 0px;
 }
 
 .leaderboard_buttons_container{
@@ -92,12 +110,14 @@ leaderboard - buttons
     width: 50%;
 	horizontal-align: center;
 	vertical-align: bottom;
-	background-image: url("file://panorama/images/backgrounds/background_play_button_large_2x_png.png");
+	/*background-image: url("file://panorama/images/backgrounds/background_play_button_large_2x_png.png");*/
 }
 
 .leaderboard_buttons.disabled{
+	background-color: gradient( linear, 0% 0%, 0% 100%, from( #3f423f ), to( #8d958f33 ) );
+	background-size: 100px 50px;
 	border: 3px solid black;
-	border-radius: 5px 5px 5px 5px;
+	border-radius: 20px 20px 0px 0px;
 	box-shadow: 0px 8px 15px rgba(0, 0, 0, 0.1);
 	transition: all 0.3s ease 0s;
 }
@@ -105,12 +125,14 @@ leaderboard - buttons
 .leaderboard_buttons.enable{
 	background-color: gradient( linear, 0% 0%, 0% 100%, from( #65a15a ), to( #87d69533 ) );
 	background-size: 100px 50px;
+	border: 3px solid black;
+	border-radius: 20px 20px 0px 0px;
 	box-shadow: 0px 8px 15px rgba(0, 0, 0, 0.1);
 	transition: all 0.3s ease 0s;
 }
 
 .leaderboard_buttons:Hover {
-	background-color: gradient( linear, 0% 0%, 0% 100%, from( #de6f6f ), to( #87d69533 ) );
+	background-color: gradient( linear, 0% 0%, 0% 100%, from( #884f4f ), to( #9e313133 ) );
 }
 
 .leaderboard_buttons_text{
@@ -215,6 +237,7 @@ leaderboard - headers
 	color: #fff;
 	font-size: 14px;
 	font-family: defaultFont;
+	margin-left: 5px;
 }
 
 /*--------------------------------------------------------------
@@ -263,14 +286,15 @@ leaderboard - cells
 	border-bottom-style: solid;
 	border-bottom-width: 2px;
 	border-bottom-color: rgb(126, 126, 126);
+	padding-left: 5px;
+	padding-top: 3px;
 }
 
 .leaderboard_row_info_cell_text{
 	horizontal-align: left;
 	vertical-align: center;
-	margin: 1px;
-	margin-left: 3px;
 	color: #fff;
 	font-size: 12px;
 	font-family: defaultFont;
+	margin-left: 5px;
 }

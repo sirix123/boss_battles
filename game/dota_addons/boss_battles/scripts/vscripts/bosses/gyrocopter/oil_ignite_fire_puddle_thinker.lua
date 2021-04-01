@@ -62,14 +62,13 @@ end
 
 --------------------------------------------------------------------------------
 function oil_ignite_fire_puddle_thinker:PlayEffects()
-
-	-- at each oil thinker location, create a fire puddle
-	local particle = "particles/econ/items/jakiro/jakiro_ti10_immortal/jakiro_ti10_macropyre_line_flames.vpcf"
-	self.nFXIndex_1 = ParticleManager:CreateParticle(particle, PATTACH_WORLDORIGIN, nil)
-	ParticleManager:SetParticleControl(self.nFXIndex_1, 0, self:GetParent():GetAbsOrigin())
-	ParticleManager:SetParticleControl(self.nFXIndex_1, 1, self:GetParent():GetAbsOrigin())
-
-
+	if IsServer() then
+		-- at each oil thinker location, create a fire puddle
+		local particle = "particles/gyrocopter/gyro_jakiro_ti10_macropyre_line_flames.vpcf"
+		self.nFXIndex_1 = ParticleManager:CreateParticle(particle, PATTACH_ABSORIGIN , self:GetParent())
+		ParticleManager:SetParticleControl(self.nFXIndex_1, 0, self:GetParent():GetAbsOrigin())
+		ParticleManager:SetParticleControl(self.nFXIndex_1, 1, self:GetParent():GetAbsOrigin())
+	end
 end
 
 function oil_ignite_fire_puddle_thinker:OnDestroy( kv )

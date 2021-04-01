@@ -1,17 +1,34 @@
 flame_thrower = class({})
-LinkLuaModifier( "modifier_generic_npc_reduce_turnrate", "core/modifier_generic_npc_reduce_turnrate", LUA_MODIFIER_MOTION_NONE )
+LinkLuaModifier( "turn_rate_modifier", "bosses/techies/modifiers/turn_rate_modifier", LUA_MODIFIER_MOTION_NONE )
 
 function flame_thrower:OnAbilityPhaseStart()
     if IsServer() then
         self:GetCaster():StartGestureWithPlaybackRate(ACT_DOTA_CAST_ABILITY_1, 0.4)
+
+        self:GetCaster():AddNewModifier( nil, nil, "turn_rate_modifier", { duration = -1 })
+
         self.create_particle = true
 
-        self:GetCaster():AddNewModifier( self:GetCaster(), self, "modifier_generic_npc_reduce_turnrate",
-        {
-            duration = -1,
-        })
+        local enemies = FindUnitsInRadius(
+            self:GetCaster():GetTeamNumber(),
+            self:GetCaster():GetAbsOrigin(),
+            nil,
+            1200,
+            DOTA_TEAM_BADGUYS,
+            DOTA_UNIT_TARGET_HERO,
+            DOTA_UNIT_TARGET_FLAG_INVULNERABLE,
+            FIND_CLOSEST,
+            false )
 
-        return true
+        if #enemies == 0 or enemies == nil then
+            return false
+        else
+            self.target = enemies[RandomInt(1,#enemies)]
+
+            -- chuck a target indicator on them
+
+            return true
+        end
     end
 end
 ---------------------------------------------------------------------------------------------------------------------------------------
@@ -22,7 +39,7 @@ function flame_thrower:OnAbilityPhaseInterrupted()
         -- remove casting animation
         self:GetCaster():RemoveGesture(ACT_DOTA_CAST_ABILITY_1)
 
-        self:GetCaster():RemoveModifierByName("modifier_generic_npc_reduce_turnrate")
+        self:GetCaster():RemoveModifierByName("turn_rate_modifier")
 
         if self.nfx ~= nil then
             ParticleManager:DestroyParticle(self.nfx,true)
@@ -32,17 +49,31 @@ function flame_thrower:OnAbilityPhaseInterrupted()
 end
 ---------------------------------------------------------------------------
 
-function flame_thrower:OnSpellStart( )
-    if not IsServer() then return end
+function flame_thrower:OnChannelFinish(bInterrupted)
+	if IsServer() then
 
-    if self.timer ~= nil then
-        Timers:RemoveTimer(self.timer)
-    end
+        self:GetCaster():FadeGesture(ACT_DOTA_GENERIC_CHANNEL_1)
+
+        if self.nfx ~= nil then
+            ParticleManager:DestroyParticle(self.nfx,true)
+        end
+
+        self:GetCaster():RemoveModifierByName("turn_rate_modifier")
+
+	end
+end
+
+function flame_thrower:OnChannelThink( flinterval )
+    if not IsServer() then return end
 
     self:GetCaster():FadeGesture(ACT_DOTA_CAST_ABILITY_1)
     self.caster = self:GetCaster()
 
     local radius = 280
+
+    local caster_forward = ( self.target:GetAbsOrigin() - self.caster:GetAbsOrigin() ):Normalized()
+    self:GetCaster():SetForwardVector( caster_forward )
+    self:GetCaster():FaceTowards( caster_forward )
 
     if self.create_particle == true then
         local effect = "particles/gyrocopter/gyro_shredder_flame_thrower.vpcf"
@@ -51,28 +82,10 @@ function flame_thrower:OnSpellStart( )
         self.create_particle = false
     end
 
-    local i = 0
-    Timers:CreateTimer(function()
-        if IsValidEntity(self.caster) == false then
-            if self.nfx ~= nil then
-                ParticleManager:DestroyParticle(self.nfx,true)
-            end
-            i = 0
-            return false
-        end
-
-        if self.caster:IsAlive() == false or i >= self:GetSpecialValueFor( "duration") or self:GetCaster():HasModifier("modifier_generic_npc_reduce_turnrate") == false then
-            if self.nfx ~= nil then
-                ParticleManager:DestroyParticle(self.nfx,true)
-            end
-            self:StartCooldown(self:GetCooldown(self:GetLevel()))
-            if self:GetCaster():HasModifier("modifier_generic_npc_reduce_turnrate") == true then
-                self:GetCaster():RemoveModifierByName("modifier_generic_npc_reduce_turnrate")
-            end
-            i = 0
-            return false
-        end
-
+    self.time = (self.time or 0) + flinterval
+    if self.time < 0.3 then
+        return
+    else
         -- find units in cone and hurt em
         local enemies = FindUnitsInCone(
             self.caster:GetTeamNumber(),
@@ -93,7 +106,7 @@ function flame_thrower:OnSpellStart( )
             local dmgTable = {
                 victim = enemy,
                 attacker = self.caster,
-                damage = self:GetSpecialValueFor( "dmg"),
+                damage = 50,
                 damage_type = self:GetAbilityDamageType(),
                 ability = self,
             }
@@ -101,7 +114,14 @@ function flame_thrower:OnSpellStart( )
             ApplyDamage(dmgTable)
         end
 
-        i = i + 0.1
-        return 0.1
-    end)
+		self.time = 0
+	end
+end
+
+function flame_thrower:OnSpellStart()
+    if IsServer() then
+
+        if not self:IsChanneling() then return end
+
+	end
 end

@@ -19,6 +19,7 @@ function OnNormalButtonPressed(){
     if (normal_mode_data){
         $.Msg("click normal button ", normal_mode_data);
         normalDataButton.AddClass( "enable" );
+        hardDataButton.RemoveClass( "enable" );
         hardDataButton.AddClass( "disabled" );
         UpdateScoreboardRows( normal_mode_data );
     }
@@ -31,6 +32,7 @@ function OnHardButtonPressed(){
     if (hard_mode_data){
         $.Msg("click hard button ", hard_mode_data);
         hardDataButton.AddClass( "enable" );
+        normalDataButton.RemoveClass( "enable" );
         normalDataButton.AddClass( "disabled" );
         UpdateScoreboardRows( hard_mode_data );
     }

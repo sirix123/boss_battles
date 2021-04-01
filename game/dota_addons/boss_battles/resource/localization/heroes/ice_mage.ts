@@ -32,53 +32,31 @@ export function GenerateLocalizationData(): LocalizationData
     Modifiers.push({
         modifier_classname: "shatter_modifier",
         name: "Shatter",
+        description: `Current number of Shatter stacks.`
     });
 
     Modifiers.push({
         modifier_classname: "bonechill_modifier",
         name: "Bonechill",
-        description: `Provides {${LocalizationModifierProperty.MANA_REGEN_CONSTANT}} energy regen.`
+        description: `Regenerating {${LocalizationModifierProperty.MANA_REGEN_CONSTANT}} per second.`
     });
 
     Modifiers.push({
         modifier_classname: "q_iceblock_modifier",
         name: "Ice Block",
-        description: `Heals you for {${LocalizationModifierProperty.HEALTH_REGEN_PERCENTAGE}}% of max health per second`
+        description: `Regenerating {${LocalizationModifierProperty.HEALTH_REGEN_PERCENTAGE}}% of max health per second.`
     });
 
     // abilities
     Abilities.push({
         ability_classname: "m1_iceshot",
         name: "Frost Bolt",
-        description: `Long range projectile that deals damage and generates one stack of ${shatterColour}. Also ${chillscolour} target slowing their movement speed and attack speed.`,
-        notes:
-        [
-            `Max ${shatterColour} stacks: {max_shatter_stacks}.`,
-            `${shatterColour} Modifies ${icelanceColour} and ${froststrikeColour}.`,
-            `${chillcolour} does not affect bosses.`,
-        ],
+        description: `Ice mage fires an icy projectile that deals damage and ${chillscolour}, generating one stack of ${shatterColour} on hit.`,
         ability_specials:
         [
             {
                 ability_special: "dmg",
                 text: "DAMAGE:"
-            },
-    
-            {
-                ability_special: "chill_duration",
-                text: "CHILL DURATION:"
-            },
-    
-            {
-                ability_special: "ms_slow",
-                text: "MOVE SPEED SLOW:",
-                percentage: true
-            },
-
-            {
-                ability_special: "as_slow",
-                text: "ATTACK SPEED SLOW:",
-                percentage: true
             },
 
             {
@@ -97,11 +75,10 @@ export function GenerateLocalizationData(): LocalizationData
     Abilities.push({
         ability_classname: "m2_icelance",
         name: "Ice Lance",
-        description: `Fire {max_proj} long range projectile(s) that deal damage. The projectiles have a delay between them. If ${icelanceColour} hits a target when the caster has max ${shatterColour} stacks it grants the caster ${boneChill}.`,
+        description: `Ice mage launches {max_proj} long range frozen projectiles that deal damage and explode upon impact, dealing additional damage based on the number of ${shatterColour} stacks. If ${icelanceColour} consumes 3 ${shatterColour} stacks this way, it grants ${boneChill}.`,
         notes:
         [
             `Consumes all ${shatterColour} stacks.`,
-            `The first ${icelanceColour} also explodes dealing extra damage based on number of ${shatterColour} stacks.`,
         ],
         ability_specials:
         [
@@ -126,16 +103,6 @@ export function GenerateLocalizationData(): LocalizationData
             },
 
             {
-                ability_special: "bone_chill_duration",
-                text: "BONECHILL DURATION:",
-            },
-
-            {
-                ability_special: "mana_regen",
-                text: "BONECHILL ENERGY REGEN:",
-            },
-
-            {
                 ability_special: "AbilityCastPoint",
                 text: "CAST POINT:",
             },
@@ -145,17 +112,23 @@ export function GenerateLocalizationData(): LocalizationData
     Abilities.push({
         ability_classname: "q_iceblock",
         name: "Ice Block",
-        description: `Encases an ally in a block of ice freezing them solid while healing them.`,
+        description: `Freezes an ally in a block of ice, rendering them unable to move while reducing their damage taken and healing them for a percentage of their max health per second.`,
         ability_specials:
         [
             {
                 ability_special: "duration",
                 text: "DURATION:"
             },
+			
+			{
+                ability_special: "ADD DMG REDUCTION% HERE",
+                text: "DAMAGE REDUCTION:",
+				percentage: true,
+            },
     
             {
                 ability_special: "health_regen_percent",
-                text: "HEALTH REGEN:",
+                text: "MAX HEAL PER SECOND:",
                 percentage: true,
             },
 
@@ -169,16 +142,16 @@ export function GenerateLocalizationData(): LocalizationData
     Abilities.push({
         ability_classname: "e_icefall",
         name: "Blizzard",
-        description: `Summon a Blizzard at target location dealing damage to all targets inside area. ${blizzard} also applies ${chillcolour} to all targets hit. If a non-boss unit stays inside ${blizzard} for 2seconds it is frozen for 5seconds.`,
+        description: `Ice mage summons a violent blizzard at the target location dealing damage and ${chillscolour} all enemies. Enemies trapped inside ${blizzard} for 2 seconds are frozen in place.`,
         notes:
         [
-            `${chillcolour} does not affect bosses.`,
+            `Bosses cannot be frozen.`,
         ],
         ability_specials:
         [
             {
                 ability_special: "dmg",
-                text: "DAMAGE PER TICK:"
+                text: "DAMAGE PER SECOND:"
             },
 
             {
@@ -192,28 +165,6 @@ export function GenerateLocalizationData(): LocalizationData
             },
 
             {
-                ability_special: "chill_duration",
-                text: "CHILL DURATION:",
-            },
-
-            {
-                ability_special: "chill_duration",
-                text: "CHILL DURATION:",
-            },
-
-            {
-                ability_special: "ms_slow",
-                text: "MOVE SPEED SLOW:",
-                percentage: true
-            },
-
-            {
-                ability_special: "as_slow",
-                text: "ATTACK SPEED SLOW:",
-                percentage: true
-            },
-
-            {
                 ability_special: "AbilityCastPoint",
                 text: "CAST POINT:",
             },
@@ -223,10 +174,11 @@ export function GenerateLocalizationData(): LocalizationData
     Abilities.push({
         ability_classname: "r_frostbomb",
         name: "Frost Strike",
-        description: `Summon a sphere of frost above target location. After a delay the sphere hits the ground and explodes applying a damage over time debuff to all enemies.`,
+        description: `Ice mage conjures a sphere of frost above target location. After a delay the sphere hits the ground and explodes, dealing damage on impact and over time to all enemies. ${froststrikeColour} is empowered if Ice mage is affected by ${shatterColour} or ${boneChill}.`,
         notes:
         [
-            `Consumes ${boneChill}.`,
+            `Consumes Bonechill.`,
+			`Shatter only affects the damage over time debuff.`
         ],
         ability_specials:
         [
@@ -237,17 +189,17 @@ export function GenerateLocalizationData(): LocalizationData
 
             {
                 ability_special: "radius",
-                text: "RADIUS:"
+                text: "RADIUS:",
             },
     
             {
                 ability_special: "damage_interval",
-                text: "DAMAGE TICK RATE:",
+                text: "DAMAGE PER SECOND:",
             },
 
             {
                 ability_special: "fb_bse_dmg",
-                text: "BASE DAMAGE:",
+                text: "IMPACT DAMAGE:",
             },
 
             {
@@ -275,12 +227,52 @@ export function GenerateLocalizationData(): LocalizationData
     Abilities.push({
         ability_classname: "space_frostblink",
         name: "Blink",
-        description: `Teleport forward. Applies chill to units from where you casted`,
+        description: `Ice mage teleports forward and ${chillscolour} enemies at the start and end location.`,
         ability_specials:
         [
             {
                 ability_special: "mana_gain_percent",
                 text: "ENERGY GAIN:"
+            },
+        ]
+    });
+
+    Abilities.push({
+        ability_classname: "ice_mage_passive",
+        name: "Cold Blood",
+        description: `Ice mage passively generates ${shatterColour} stacks through her abilities and can grant her ${boneChill} by consuming them. Additionally, certain abilities will also ${chillcolour} enemies on hit.`,
+        notes:
+        [
+            `${shatterColour} Modifies ${icelanceColour} and ${froststrikeColour}.`,
+            `${chillcolour} does not affect bosses.`,
+			`${chillcolour} applies to both movement and attack speed.`,
+        ],
+        ability_specials:
+        [
+            {
+                ability_special: "ADD SHATTER STACKS",
+                text: "MAX SHATTER:"
+            },
+			
+            {
+                ability_special: "bone_chill_duration",
+                text: "BONECHILL DURATION:",
+            },
+
+            {
+                ability_special: "mana_regen",
+                text: "BONECHILL ENERGY PER SECOND:",
+            },
+
+            {
+                ability_special: "chill_duration",
+                text: "CHILL DURATION:"
+            },
+    
+            {
+                ability_special: "ms_slow",
+                text: "CHILL SLOW:",
+                percentage: true
             },
         ]
     });

@@ -84,6 +84,34 @@ function space_frostblink:OnSpellStart()
         self:PlayEffects(0)
         FindClearSpaceForUnit(caster, point , true)
         self:PlayEffects(1)
+
+        enemies = FindUnitsInRadius(
+            self:GetCaster():GetTeamNumber(),	-- int, your team number
+            point,	-- point, center point
+            nil,	-- handle, cacheUnit. (not known)
+            self.radius,	-- float, radius. or use FIND_UNITS_EVERYWHERE
+            DOTA_UNIT_TARGET_TEAM_ENEMY,	-- int, team filter
+            DOTA_UNIT_TARGET_HERO + DOTA_UNIT_TARGET_BASIC,	-- int, type filter
+            0,	-- int, flag filter
+            0,	-- int, order filter
+            false	-- bool, can grow cache
+            )
+
+        for _, enemy in pairs(enemies) do
+            if CheckRaidTableForBossName(enemy) ~= true and enemy:GetUnitName() ~= "npc_guard" then
+                enemy:AddNewModifier(caster, self, "chill_modifier", { duration = self:GetSpecialValueFor( "chill_duration"), ms_slow = self.ms_slow, as_slow = self.as_slow})
+            end
+        end
+
+        -- Get Resources
+        local particle_cast = "particles/icemage/shatter_maxstacks_explode_maiden_crystal_nova.vpcf"
+
+        -- Create Particle
+        local effect_cast = ParticleManager:CreateParticle( particle_cast, PATTACH_WORLDORIGIN, nil )
+        ParticleManager:SetParticleControl( effect_cast, 0, point )
+        ParticleManager:SetParticleControl( effect_cast, 1, Vector( self.radius, 2, self.radius ) )
+        ParticleManager:ReleaseParticleIndex( effect_cast )
+
     end
 end
 ---------------------------------------------------------------------------

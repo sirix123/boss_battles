@@ -8,17 +8,17 @@ function modifier_flak_cannon:IsHidden()
 end
 -----------------------------------------------------------------------------
 
+function modifier_flak_cannon:GetEffectName()
+	return "particles/gyrocopter/higher_gyro_flak_cannon_overhead.vpcf"
+end
+
+function modifier_flak_cannon:GetEffectAttachType()
+	return PATTACH_OVERHEAD_FOLLOW
+end
+
 function modifier_flak_cannon:OnCreated(  )
     if IsServer() then
-        self.radius				= 800 --self:GetAbility():GetSpecialValueFor("radius")
-        self.projectile_speed	= 150 --self:GetAbility():GetSpecialValueFor("projectile_speed")
-
-        print("casting flak cnon")
-
-        local particle = "particles/units/heroes/hero_gyrocopter/gyro_flak_cannon_overhead.vpcf"
-        self.nfx = ParticleManager:CreateParticle(particle,PATTACH_OVERHEAD_FOLLOW,self:GetParent())
-        ParticleManager:SetParticleControl(self.nfx, 0, Vector(self:GetParent():GetAbsOrigin().x,self:GetParent():GetAbsOrigin().y,300))
-        ParticleManager:SetParticleControl(self.nfx, 1, Vector(self:GetParent():GetAbsOrigin().x,self:GetParent():GetAbsOrigin().y,300))
+        self.radius				= self:GetAbility():GetSpecialValueFor("radius")
     end
 end
 
@@ -30,12 +30,12 @@ end
 
 function modifier_flak_cannon:OnDestroy()
     if IsServer() then
-        ParticleManager:DestroyParticle(self.nfx,true)
+        self:GetAbility():StartCooldown(self:GetAbility():GetCooldown(self:GetAbility():GetLevel()))
     end
 end
 
 -----------------------------------------------------------------------------
---[[
+
 function modifier_flak_cannon:DeclareFunctions()
     local funcs = {
             MODIFIER_EVENT_ON_ATTACK,
@@ -50,12 +50,54 @@ function modifier_flak_cannon:OnAttack(keys)
 	if keys.attacker == self:GetParent() then
 		self:GetParent():EmitSound("Hero_Gyrocopter.FlackCannon")
 
-		for _, enemy in pairs(FindUnitsInRadius(self:GetCaster():GetTeamNumber(), self:GetParent():GetAbsOrigin(), nil, self.radius, DOTA_UNIT_TARGET_TEAM_ENEMY, DOTA_UNIT_TARGET_HERO + DOTA_UNIT_TARGET_BASIC, DOTA_UNIT_TARGET_FLAG_MAGIC_IMMUNE_ENEMIES + DOTA_UNIT_TARGET_FLAG_FOW_VISIBLE + DOTA_UNIT_TARGET_FLAG_NO_INVIS + DOTA_UNIT_TARGET_FLAG_NOT_ATTACK_IMMUNE, FIND_ANY_ORDER, false)) do
+        local enemies = FindUnitsInRadius(
+            self:GetParent():GetTeamNumber(),
+            self:GetParent():GetAbsOrigin(),
+            nil,
+            self.radius,
+            DOTA_UNIT_TARGET_TEAM_ENEMY,
+            DOTA_UNIT_TARGET_HERO,
+            DOTA_UNIT_TARGET_FLAG_NONE,
+            FIND_CLOSEST,
+            false )
+
+		for _, enemy in pairs(enemies) do
 			if enemy ~= keys.target then
-				self:GetParent():PerformAttack(enemy, false, false, true, true, true, false, false)
+                local info = {
+                    EffectName = "particles/econ/items/gyrocopter/hero_gyrocopter_gyrotechnics/gyro_base_attack.vpcf",
+                    Ability = self,
+                    iMoveSpeed = 1500,
+                    Source = self:GetCaster(),
+                    Target = enemy,
+                    bDodgeable = false,
+                    iSourceAttachment = DOTA_PROJECTILE_ATTACHMENT_ATTACK_1,
+                    bProvidesVision = true,
+                    iVisionTeamNumber = self:GetCaster():GetTeamNumber(),
+                    iVisionRadius = 300,
+                }
+
+                -- shoot proj
+                ProjectileManager:CreateTrackingProjectile( info )
 			end
 		end
 	end
-end]]
+end
+
+function modifier_flak_cannon:OnProjectileHit( hTarget, vLocation)
+    if IsServer() then
+        if hTarget then
+            local dmgTable =
+            {
+                victim = hTarget,
+                attacker = self:GetCaster(),
+                damage = self:GetAbility():GetSpecialValueFor("dmg"),
+                damage_type = DAMAGE_TYPE_PHYSICAL,
+            }
+
+            ApplyDamage(dmgTable)
+
+        end
+    end
+end
 
 

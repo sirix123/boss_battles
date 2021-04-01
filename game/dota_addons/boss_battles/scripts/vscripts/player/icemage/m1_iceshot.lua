@@ -51,7 +51,7 @@ function m1_iceshot:OnSpellStart()
         self.dmg = self:GetSpecialValueFor( "dmg" )
 
         if self.caster:HasModifier("admin_god_mode") then
-            self.dmg = 40000
+            self.dmg = 10000
         end
 
         if self.caster:HasModifier("e_whirling_winds_modifier") then

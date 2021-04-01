@@ -409,3 +409,37 @@ function CheckGlobalModifierTable(modifierName)
         end
     end
 end
+
+function FindCloestUnitInALine( hCaster, vOrigin, vTarget, nWidth)
+	local units = FindUnitsInLine(
+		hCaster:GetTeamNumber(),
+		vOrigin,
+		vTarget,
+		nil,
+		nWidth,
+		DOTA_UNIT_TARGET_TEAM_BOTH,
+		DOTA_UNIT_TARGET_HERO + DOTA_UNIT_TARGET_BASIC,
+		DOTA_UNIT_TARGET_FLAG_INVULNERABLE)
+
+	if units == nil or #units == 0 then
+		return nil
+	end
+
+	local previous_distance = 999999
+	local close_target = nil
+	for k, unit in pairs(units) do
+		if unit:GetUnitName() == hCaster:GetUnitName() then
+			table.remove(units,k)
+		end
+	end
+
+	for _, unit in pairs(units) do
+		local distance = ( hCaster:GetAbsOrigin() - unit:GetAbsOrigin() ):Length2D()
+		if distance < previous_distance then
+			close_target = unit
+		end
+		previous_distance = distance
+	end
+
+	return close_target
+end

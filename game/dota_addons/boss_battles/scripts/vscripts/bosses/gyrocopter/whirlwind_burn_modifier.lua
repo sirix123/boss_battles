@@ -18,14 +18,11 @@ end
 function whirlwind_burn_modifier:IsPurgable()
 	return false
 end
-
-
 -----------------------------------------------------------------------------
+
 -- debuff effect on npc
--- these probably need to be like... stack count above the hero and... 'mob starts getting incased in ice?'
 function whirlwind_burn_modifier:GetEffectName()
-	--print("whirlwind_burn_modifier:GetEffectName()")
-	--return "particles/units/heroes/hero_grimstroke/grimstroke_phantom_marker.vpcf"--"particles/items4_fx/nullifier_mute_debuff.vpcf"--"particles/units/heroes/hero_arc_warden/arc_warden_flux_tgt.vpcf"
+	return "particles/units/heroes/hero_huskar/huskar_burning_spear_debuff.vpcf"
 end
 
 function whirlwind_burn_modifier:GetEffectAttachType()
@@ -44,9 +41,9 @@ function whirlwind_burn_modifier:OnCreated(kv)
 	    self.parent = self:GetParent() -- parent is the unit the modifier is on. 
 	    self.caster = self:GetCaster()
 	    -- read these values from parent kv files; whirlwind and whirlwind_attack
-	    self.duration = self:GetCaster():FindAbilityByName( "whirlwind" ):GetSpecialValueFor("burn_duration")
-	    self.dps = self:GetCaster():FindAbilityByName( "whirlwind" ):GetSpecialValueFor("burn_dps")
-	    self.interval = self:GetCaster():FindAbilityByName( "whirlwind" ):GetSpecialValueFor("burn_damage_interval")
+	    self.duration = self:GetCaster():FindAbilityByName( "whirlwind_v2" ):GetSpecialValueFor("burn_duration")
+	    self.dps = self:GetCaster():FindAbilityByName( "whirlwind_v2" ):GetSpecialValueFor("burn_dps")
+	    self.interval = self:GetCaster():FindAbilityByName( "whirlwind_v2" ):GetSpecialValueFor("burn_damage_interval")
 		self:PlayEffects()
 		self:StartIntervalThink(self.interval)
 	end

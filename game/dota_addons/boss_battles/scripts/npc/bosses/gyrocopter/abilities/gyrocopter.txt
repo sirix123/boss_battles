@@ -107,12 +107,12 @@
 
         // Casting
         //-------------------------------------------------------------------------------------------------------------
-        "AbilityCastPoint"              "1.0 1.0 1.0 1.0"
+        "AbilityCastPoint"              "0.5 0.5 0.5 0.5"
         "AbilityCastRange" 				"2000"
 
         // Time     
         //-------------------------------------------------------------------------------------------------------------
-        "AbilityCooldown"               "1 1 1 1"
+        "AbilityCooldown"               "25 25 25 25"
 
         // Cost
         //-------------------------------------------------------------------------------------------------------------
@@ -122,8 +122,8 @@
         //-------------------------------------------------------------------------------------------------------------
 		"AbilitySpecial"
 		{
-            "01"{ "var_type"			"FIELD_INTEGER"		"speed"		                        "1500" }
-            "02"{ "var_type"			"FIELD_FLOAT"		"oil_drop_freq"		                "0.2" }
+            "01"{ "var_type"			"FIELD_INTEGER"		"duration"		                        "15" }
+            "02"{ "var_type"			"FIELD_INTEGER"		"dmg"		                            "50" }
 		}
 
         "precache"
@@ -164,7 +164,9 @@
         //-------------------------------------------------------------------------------------------------------------
 		"AbilitySpecial"
 		{
-            "01"{ "var_type"			"FIELD_INTEGER"		"duration"		                        "10" }
+            "01"{ "var_type"			"FIELD_INTEGER"		"duration"		                        "15" }
+            "02"{ "var_type"			"FIELD_INTEGER"		"radius"		                        "800" }
+            "03"{ "var_type"			"FIELD_INTEGER"		"dmg"		                            "50" }
 		}
 
         "precache"
@@ -218,7 +220,149 @@
 		}
     }
 
+    //=================================================================================================================
+    // Gyro: whirlwind
+    //=================================================================================================================
+    "whirlwind_v2"
+    { 
+        "BaseClass"                     "ability_lua"
+        "ScriptFile"                    "bosses/gyrocopter/whirlwind_v2"
+        "AbilityBehavior"               "DOTA_ABILITY_BEHAVIOR_NO_TARGET"
+        "AbilityUnitDamageType"         "DAMAGE_TYPE_PHYSICAL"  
+        "AbilityCastPoint"              "0.1"
+        "AbilityCooldown"               "1"
+        "AbilityManaCost"               "0"
+        "AbilitySpecial"
+        {
+            "01"
+            {
+                "var_type"       "FIELD_INTEGER"
+                "max_radius"       "2500"
+            }
+            "02"
+            {
+                "var_type"       "FIELD_INTEGER"
+                "inner_radius"       "700"
+            }
+            "03"
+            {
+                "var_type"       "FIELD_INTEGER"
+                "fire_movespeed"       "40"
+            }            
+            "04"
+            {
+                "var_type"       "FIELD_INTEGER"
+                "gust_duration"       "35"
+            }            
+            "05"
+            {
+                "var_type"       "FIELD_INTEGER"
+                "burn_duration"       "5"
+            }
+            "06"
+            {
+                "var_type"       "FIELD_FLOAT"
+                "burn_damage_interval"       "0.2"
+            }
+            "07"
+            {
+                "var_type"       "FIELD_INTEGER"
+                "burn_dps"       "5"
+            }
+            "08"
+            {
+                "var_type"       "FIELD_INTEGER"
+                "macropyre_maxLength"       "40"
+            }
+            "09"
+            {
+                "var_type"       "FIELD_INTEGER"
+                "macropyre_radius"       "100"
+            }
+        }
+    }
 
+    //=================================================================================================================
+    // Gyro: whirlwind_attack
+    //=================================================================================================================
+    "whirlwind_attack"
+    { 
+        "BaseClass"                     "ability_lua"
+        "ScriptFile"                    "bosses/gyrocopter/whirlwind_attack"
+        "AbilityBehavior"               "DOTA_ABILITY_BEHAVIOR_NO_TARGET"
+        "AbilityUnitDamageType"         "DAMAGE_TYPE_PHYSICAL"  
+        "AbilityCastPoint"              "0.0"
+        "AbilityCooldown"               "0.0"
+        "AbilityManaCost"               "0"
+        "AbilitySpecial"
+        {
+            "01"
+            {
+                "var_type"       "FIELD_INTEGER"
+                "radius"       "100"
+            }
+            "02"
+            {
+                "var_type"       "FIELD_INTEGER"
+                "burn_duration"       "5"
+            }
+            "03"
+            {
+                "var_type"       "FIELD_FLOAT"
+                "burn_damage_interval"       "0.2"
+            }
+            "04"
+            {
+                "var_type"       "FIELD_INTEGER"
+                "burn_dps"       "10"
+            }        
+        }
+    }
+
+    //=================================================================================================================
+    // Gyro: gyro_call_down
+    //=================================================================================================================
+    "gyro_call_down"
+    { 
+        "BaseClass"                     "ability_lua"
+        "ScriptFile"                    "bosses/gyrocopter/gyro_call_down"
+        "MaxLevel"						"4"
+
+        // General
+        //-------------------------------------------------------------------------------------------------------------
+        "AbilityBehavior"               "DOTA_ABILITY_BEHAVIOR_NO_TARGET | DOTA_ABILITY_BEHAVIOR_CHANNELLED"
+        "AbilityUnitDamageType"         "DAMAGE_TYPE_PHYSICAL"  
+
+        // Casting
+        //-------------------------------------------------------------------------------------------------------------
+        "AbilityCastPoint"              "0.5 0.5 0.5 0.5"
+        "AbilityCastRange" 				"2000"
+        "AbilityCastAnimation"			"ACT_DOTA_CAST_ABILITY_1"
+		"AbilityChannelTime"			"20"
+
+        // Time     
+        //-------------------------------------------------------------------------------------------------------------
+        "AbilityCooldown"               "50 50 50 50"
+
+        // Cost
+        //-------------------------------------------------------------------------------------------------------------
+        "AbilityManaCost"               "0"
+
+        // Special
+        //-------------------------------------------------------------------------------------------------------------
+		"AbilitySpecial"
+		{
+            "01"{ "var_type"			"FIELD_INTEGER"		"duration"		                        "15" }
+            "02"{ "var_type"			"FIELD_INTEGER"		"radius"		                        "800" }
+            "03"{ "var_type"			"FIELD_INTEGER"		"dmg"		                            "50" }
+		}
+
+        "precache"
+		{
+			//"soundfile"  "sounds/weapons/hero/techies/land_mine_plant.vsnd"
+            //"soundfile"  "soundevents/game_sounds_heroes/game_sounds_disruptor.vsndevts"
+		}
+    }
 }
 
 

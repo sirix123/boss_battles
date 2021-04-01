@@ -28,7 +28,7 @@ function whirlwind_attack:OnSpellStart()
 
 		local noZVelocity = Vector(caster:GetForwardVector().x, caster:GetForwardVector().y, 0) * 1800
 		local distance = (self.target - caster:GetAbsOrigin()):Length2D()
-		local info = 
+		local info =
 		{
 			Ability = self,
 	    	EffectName = "particles/gyrocopter/phoenix_base_attack.vpcf",

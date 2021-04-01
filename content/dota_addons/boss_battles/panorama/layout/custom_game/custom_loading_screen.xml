@@ -186,7 +186,12 @@
 			<!-- Socials |  style="border: 1px solid red;" 
 			=========================================-->
 			<Panel id="SocialsContainer">
-
+				<Button id="socials_button_1" class="social_buttons" onactivate="OnSocialButtonOnePressed()" >
+					<Label id="socials_button_1_text" class="social_buttons_text" text="Website" />
+				</Button>
+				<Button id="socials_button_2" class="social_buttons" onactivate="OnSocialButtonTwoPressed()" >
+					<Label id="socials_button_1_text" class="social_buttons_text" text="Discord" />
+				</Button>
 			</Panel>
 		</Panel>
 	</Panel>

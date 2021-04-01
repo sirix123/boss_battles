@@ -55,6 +55,7 @@ function item_water_gun:OnSpellStart()
 
                         if i == 0 then
                             caster:AddNewModifier( caster, self, "water_gun_dmg_buff", { duration = 10 } )
+                            EmitSoundOn("Hero_Shared.WaterFootsteps",caster)
                         end
 
                     end
