@@ -21,166 +21,157 @@ export function GenerateLocalizationData(): LocalizationData
     // Enter localization data below!
     // variables
     const judgementColour = `<b><font color=\"#ffffff\">Judgement</font></b>`
-
+​
     // modifiers
     Modifiers.push({
         modifier_classname: "e_regen_aura_buff",
         name: "Divine Light",
-        description: `Provides {${LocalizationModifierProperty.HEALTH_REGEN_CONSTANT}} health regen.`
+        description: `Regenerating {${LocalizationModifierProperty.HEALTH_REGEN_CONSTANT}} health per second.`
     });
-
+​
     Modifiers.push({
         modifier_classname: "q_armor_aura_buff",
         name: "Bolster",
-        description: `Provides {${LocalizationModifierProperty.PHYSICAL_ARMOR_BONUS}} increased armor.`
+        description: `Armour increased by {${LocalizationModifierProperty.PHYSICAL_ARMOR_BONUS}}.`
     });
-
+​
     Modifiers.push({
         modifier_classname: "r_outgoing_dmg_buff",
         name: "Divine Purge",
-        description: `Provides {${LocalizationModifierProperty.TOTALDAMAGEOUTGOING_PERCENTAGE}}% increased outgoing damage for all spells and abilities.`
+        description: `Damage increased by {${LocalizationModifierProperty.TOTALDAMAGEOUTGOING_PERCENTAGE}}%.`
     });
 
     // abilities
     Abilities.push({
         ability_classname: "m1_omni_basic_attack",
-        name: "Hammer Smash",
-        description: `Smash`,
+        name: "Hammer of Justice",
+        description: `Paladin swings his mighty hammer at his foes, dealing damage in an area infront of him.`,
         ability_specials:
         [
             {
                 ability_special: "damage",
                 text: "DAMAGE:"
             },
-
+    ​
             {
                 ability_special: "AbilityCastPoint",
                 text: "CAST POINT:",
             },
         ]
     });
-
+    ​
     Abilities.push({
         ability_classname: "m2_direct_heal",
-        name: "Flash Heal",
-        description: `After a short delay heal all allies in the area.`,
+        name: "Holy Light",
+        description: `Paladin calls upon the light to heal all his allies in a targeted area.`,
         ability_specials:
         [
             {
                 ability_special: "heal",
                 text: "HEAL:"
             },
-
+    ​
             {
                 ability_special: "AbilityCastPoint",
                 text: "CAST POINT:",
             },
         ]
     });
-
+    ​
     Abilities.push({
         ability_classname: "q_armor_aura",
-        name: "Bolster",
-        description: `Grant all allies armor.`,
-        notes:
-        [
-            `When consumed by ${judgementColour} applies a minus armor debuff to enemies.`,
-        ],
+        name: "Holy Ward",
+        description: `Paladin grants all of his allies a protective ward that increases their armour. If Paladin uses ${judgementColour} while using this aura, then it reduces the targeted enemies armour.`,
         ability_specials:
         [
             {
-                ability_special: "duration",
-                text: "DURATION:"
-            },
-
-            {
                 ability_special: "armor_plus",
-                text: "ARMOUR GAIN:",
+                text: "ARMOUR:",
             },
-
+    ​
             {
                 ability_special: "armor_minus",
                 text: "ARMOUR REDUCTION:",
             },
         ]
     });
-
+    ​
     Abilities.push({
         ability_classname: "e_regen_aura",
         name: "Divine Light",
-        description: `Grant all allies health regen.`,
-        notes:
-        [
-            `When consumed by ${judgementColour} applies a health degen debuff to enemies.`,
-        ],
+        description: `Paladin covers his allies in a divine light that grants all allies health regeneration. If Paladin uses ${judgementColour} while using this aura, then it applies a damage over time effect to all targeted enemmies.`,
         ability_specials:
         [
-            {
-                ability_special: "duration",
-                text: "DURATION:"
-            },
-
             {
                 ability_special: "regen_plus",
-                text: "REGEN:",
+                text: "HEALTH REGENERATION PER SECOND:",
             },
-
+    ​
             {
                 ability_special: "regen_minus",
-                text: "DEGEN:",
+                text: "DAMAGE PER SECOND:",
             },
         ]
     });
-
+    ​
     Abilities.push({
         ability_classname: "r_outgoing_dmg",
-        name: "Divine Purge",
-        description: `Increases damage of all abilities and spells cast by all friendly players.`,
-        notes:
-        [
-            `When consumed by ${judgementColour} does high damage to all enemies.`,
-        ],
+        name: "Zealotry ",
+        description: `Paladin inspires all allies with a zealous fervour, increasing their damage. If Paladin uses ${judgementColour} while using this aura, then ${judgementColour} deals additional damage.`,
         ability_specials:
         [
             {
-                ability_special: "duration",
-                text: "DURATION:"
-            },
-
-            {
                 ability_special: "outgoing_plus",
-                text: "DAMAGE BONUS:",
+                text: "DAMAGE AURA:",
+                percentage: true,
             },
-
+            
+            {
+                ability_special: "r_dmg",
+                text: "JUDGEMENT DAMAGE:",
+            },
+    ​
         ]
     });
-
+    ​
     Abilities.push({
         ability_classname: "space_judgement",
         name: "Judgement",
-        description: `Judges all enemies in radius with holy light, does something extra if you have an aura active.`,
+        description: `Paladin judges all enemies in a targeted area, consuming active auras to deal additional effects.`,
         ability_specials:
         [
             {
                 ability_special: "dmg",
-                text: "DAMAGE:"
+                text: "DAMAGE:",
             },
+        ]
+    });
 
+    Abilities.push({
+        ability_classname: "nocens_passive",
+        name: "Crusader",
+        description: `Paladin's devotion to the light allows him to empower his allies with auras as well as burn his enemies with his ${judgementColour}. Consuming any auras with ${judgementColour} increases its damage and deals additional effects.`,
+        notes:
+        [
+            `Paladin may have only one active aura at a time.`,
+            `Paladin auras have global range.`,
+        ],
+        ability_specials:
+        [
             {
-                ability_special: "bonus_dmg",
-                text: "ACTIVE AURA BONUS DAMAGE:",
+                ability_special: "dmg",
+                text: "AURA DAMAGE:"
             },
-
-            {
-                ability_special: "r_dmg",
-                text: "DIVINE PURGE BONUS DAMAGE:",
-            },
-
+    ​
             {
                 ability_special: "debuff_duration",
                 text: "DEBUFF DURATION:",
             },
-
+            
+            {
+                ability_special: "aura_cooldown",
+                text: "AURA COOLDOWN:",
+            },
         ]
     });
 

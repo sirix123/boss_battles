@@ -43,6 +43,18 @@ function swoop_v2:OnAbilityPhaseStart()
 				{ duration = self:GetSpecialValueFor("barrage_duration") + 1 } -- kv
 			)
 
+            self.effect_indicator = ParticleManager:CreateParticle( "particles/gyrocopter/gyro_barrage_debuff.vpcf", PATTACH_OVERHEAD_FOLLOW, self.hTarget )
+            ParticleManager:SetParticleControl( self.effect_indicator, 0, self.hTarget:GetAbsOrigin() )
+            ParticleManager:SetParticleControl( self.effect_indicator, 3, self.hTarget:GetAbsOrigin() )
+            ParticleManager:SetParticleControl( self.effect_indicator, 4, Vector(self:GetSpecialValueFor("barrage_duration") + 1,0,0) )
+            ParticleManager:ReleaseParticleIndex(self.effect_indicator)
+
+            self.nPreviewFXIndex = ParticleManager:CreateParticle( "particles/econ/events/darkmoon_2017/darkmoon_calldown_marker.vpcf", PATTACH_CUSTOMORIGIN, nil )
+            ParticleManager:SetParticleControl( self.nPreviewFXIndex, 0, self.hTarget:GetAbsOrigin() )
+            ParticleManager:SetParticleControl( self.nPreviewFXIndex, 1, Vector( 250, -250, -250 ) )
+            ParticleManager:SetParticleControl( self.nPreviewFXIndex, 2, Vector(self:GetSpecialValueFor("barrage_duration") + 1,0,0) );
+            ParticleManager:ReleaseParticleIndex( self.nPreviewFXIndex )
+
             return true
 
         end

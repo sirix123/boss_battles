@@ -4,7 +4,7 @@ LinkLuaModifier( "clock_thinker_missile_salvo", "bosses/clock/modifiers/clock_th
 function missile_salvo:OnAbilityPhaseStart()
     if IsServer() then
 
-        self:GetCaster():StartGestureWithPlaybackRate(ACT_DOTA_CAST_ABILITY_3, 1.0)
+        self:GetCaster():StartGestureWithPlaybackRate(ACT_DOTA_GENERIC_CHANNEL_1, 1.0)
 
         EmitSoundOn("rattletrap_ratt_laugh_01", self:GetCaster())
 
@@ -15,7 +15,7 @@ end
 
 function missile_salvo:OnSpellStart()
     if IsServer() then
-        self:GetCaster():FadeGesture(ACT_DOTA_CAST_ABILITY_3)
+        self:GetCaster():RemoveGesture(ACT_DOTA_GENERIC_CHANNEL_1)
 
         -- sound effect
         self:GetCaster():EmitSound("rattletrap_ratt_laugh_01")

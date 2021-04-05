@@ -2,6 +2,8 @@ modifier_hide_hero = class({})
 
 function modifier_hide_hero:IsHidden() return true end
 
+function modifier_hide_hero:RemoveOnDeath() return false end
+
 function modifier_hide_hero:OnCreated()
   if not IsServer() then return end
   self.parent = self:GetParent()

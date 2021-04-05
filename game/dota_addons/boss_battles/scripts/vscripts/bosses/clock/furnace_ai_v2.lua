@@ -21,7 +21,7 @@ function Spawn( entityKeyValues )
 
 	thisEntity.last_time_furance_activated = 0
 
-	thisEntity.cool_down_between_furnaces = 20
+	thisEntity.cool_down_between_furnaces = 25
 
     thisEntity:SetContextThink( "ActivateFurnace", ActivateFurnace, 2 )
 

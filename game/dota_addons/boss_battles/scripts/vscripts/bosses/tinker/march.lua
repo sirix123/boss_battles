@@ -203,7 +203,7 @@ function march:OnProjectileHit(hTarget, vLocation)
             local damageTable = {
                 victim = hTarget,
                 attacker = self:GetCaster(),
-                damage = 150,
+                damage = 100,
                 damage_type = DAMAGE_TYPE_PHYSICAL,
                 ability = self,
             }

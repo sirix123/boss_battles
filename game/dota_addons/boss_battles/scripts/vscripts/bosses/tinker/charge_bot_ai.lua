@@ -22,7 +22,7 @@ function Spawn( entityKeyValues )
     -- new target timer
     NewQuickStrikeTarget()
 
-    --thisEntity:AddNewModifier( nil, nil, "modifier_phased", { duration = -1 } )
+    thisEntity:AddNewModifier( nil, nil, "modifier_phased", { duration = -1 } )
 
     thisEntity:SetContextThink( "ChargeThinker", ChargeThinker, 0.1 )
 

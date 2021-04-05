@@ -119,7 +119,7 @@ function GenerateLocalizationData() {
     Abilities.push({
         ability_classname: "e_icefall",
         name: "Blizzard",
-        description: "Ice mage summons a violent blizzard at the target location dealing damage and " + chillscolour + " all enemies. Enemies trapped inside " + blizzard + " for 2 seconds are frozen in place.",
+        description: "Ice mage summons a violent blizzard at the target location dealing damage and " + chillscolour + " all enemies. Enemies affected by " + blizzard + " for 2 seconds are frozen in place.",
         notes: [
             "Bosses cannot be frozen.",
         ],

@@ -12,28 +12,41 @@ function cannon_ball:OnAbilityPhaseStart()
 
 		self:GetCaster():SetForwardVector(self.vTargetPos)
 		self:GetCaster():FaceTowards(self.vTargetPos)
-
-		local particle = "particles/custom/sirix_mouse/range_finder_cone.vpcf"
-		self.particleNfx = ParticleManager:CreateParticle(particle, PATTACH_ABSORIGIN_FOLLOW, self:GetCaster())
 		self.stop_timer = false
 
-		ParticleManager:SetParticleControl(self.particleNfx , 0, Vector(0,0,0))
-		ParticleManager:SetParticleControl(self.particleNfx , 3, Vector(125,125,0)) -- line width
-		ParticleManager:SetParticleControl(self.particleNfx , 4, Vector(255,0,0)) -- colour
+		local particle = "particles/custom/sirix_mouse/range_finder_cone.vpcf"
 
-		Timers:CreateTimer(function()
+		-- depending on the level of the ball spell... cast more balls
+		self.num_balls = self:GetSpecialValueFor("balls_to_summon")
+		self.balls = {}
+		local direction = Vector(0,0,GetGroundPosition(self:GetCaster():GetAbsOrigin(),self:GetCaster()).z )
+		local randomVectorDirection = Vector(0,0,0)
 
-			if self.stop_timer == true then
-				return false
+		for i = 1, self.num_balls, 1 do
+
+			self.ball_data = {}
+
+			self.particleNfx = ParticleManager:CreateParticle(particle, PATTACH_ABSORIGIN_FOLLOW, self:GetCaster())
+			ParticleManager:SetParticleControl(self.particleNfx , 0, Vector(0,0,0))
+			ParticleManager:SetParticleControl(self.particleNfx , 3, Vector(125,125,0)) -- line width
+			ParticleManager:SetParticleControl(self.particleNfx , 4, Vector(255,0,0)) -- colour
+
+			if i == 1 then
+				direction = (( self.vTargetPos - self:GetCaster():GetAbsOrigin()):Normalized() )
+			else
+				direction = RandomVector(1):Normalized()
 			end
 
-			self.distance = ( ( self.vTargetPos - self:GetCaster():GetAbsOrigin() ):Normalized() ) * 700
+			self.distance = self:GetCaster():GetAbsOrigin() + direction * 700
 
 			ParticleManager:SetParticleControl(self.particleNfx , 1, self:GetCaster():GetAbsOrigin()) -- origin
-			ParticleManager:SetParticleControl(self.particleNfx , 2, self:GetCaster():GetAbsOrigin() + self.distance)  -- target self:GetCaster():GetAbsOrigin() + (direction * 1600) self.vTargetPos
+			ParticleManager:SetParticleControl(self.particleNfx , 2, self.distance)  -- target
 
-			return FrameTime()
-		end)
+			self.ball_data["direction"] = direction
+			self.ball_data["particle_index"] = self.particleNfx
+
+			table.insert(self.balls,self.ball_data)
+		end
 
         return true
     end
@@ -43,12 +56,14 @@ end
 function cannon_ball:OnAbilityPhaseInterrupted()
 	if IsServer() then
 
-		self.stop_timer = true
+		--self.stop_timer = true
 
         -- remove casting animation
 		self:GetCaster():FadeGesture(ACT_DOTA_CAST_ABILITY_1)
 
-		ParticleManager:DestroyParticle(self.particleNfx, true)
+		for _, value in ipairs(self.balls) do
+			ParticleManager:DestroyParticle(value["particle_index"], true)
+		end
 
     end
 end
@@ -60,73 +75,78 @@ function cannon_ball:OnSpellStart()
 		self:GetCaster():SetForwardVector(self.vTargetPos)
 		self:GetCaster():FaceTowards(self.vTargetPos)
 
-		self.stop_timer = true
+		--self.stop_timer = true
 
         -- remove casting animation
 		self:GetCaster():FadeGesture(ACT_DOTA_CAST_ABILITY_1)
 
-		ParticleManager:DestroyParticle(self.particleNfx, true)
+		for _, value in ipairs(self.balls) do
+			ParticleManager:DestroyParticle(value["particle_index"], true)
+		end
 
 		local radius = self:GetSpecialValueFor("radius")
 		local projectile_speed = self:GetSpecialValueFor("ball_speed")
 		local caster = self:GetCaster()
 		local origin = caster:GetAbsOrigin()
-		local projectile_direction = ( self.vTargetPos - origin ):Normalized()
 		local offset = 150
 
-		local projectile = {
-			EffectName = "particles/gyrocopter/gyro_cannon_ball.vpcf",
-			vSpawnOrigin = origin + projectile_direction * offset,
-			fDistance = self:GetSpecialValueFor("distance"),
-			fStartRadius = radius,
-			fEndRadius = radius,
-			Source = caster,
-			vVelocity = projectile_direction * projectile_speed,
-			UnitBehavior = PROJECTILES_NOTHING,
-			bMultipleHits = true,
-			TreeBehavior = PROJECTILES_NOTHING,
-			WallBehavior = PROJECTILES_BOUNCE,
-			GroundBehavior = PROJECTILES_FOLLOW,
-			fGroundOffset = 80,
-            nChangeMax = 99,
-			draw = false,
-			UnitTest = function(_self, unit)
+		for _, value in ipairs(self.balls) do
+			local projectile_direction = value["direction"]
 
-				if unit:GetUnitName() == "npc_dota_thinker" and CheckGlobalUnitTableForUnitName(unit) == true then
-					return false
-				else
-					return true
-				end
+			local projectile = {
+				EffectName = "particles/gyrocopter/gyro_cannon_ball.vpcf",
+				vSpawnOrigin = origin + projectile_direction * offset,
+				fDistance = self:GetSpecialValueFor("distance"),
+				fStartRadius = radius,
+				fEndRadius = radius,
+				Source = caster,
+				vVelocity = projectile_direction * projectile_speed,
+				UnitBehavior = PROJECTILES_NOTHING,
+				bMultipleHits = true,
+				TreeBehavior = PROJECTILES_NOTHING,
+				WallBehavior = PROJECTILES_BOUNCE,
+				GroundBehavior = PROJECTILES_FOLLOW,
+				fGroundOffset = 80,
+				nChangeMax = 99,
+				draw = false,
+				UnitTest = function(_self, unit)
 
-			end,
-			OnUnitHit = function(_self, unit)
+					if unit:GetUnitName() == "npc_dota_thinker" and CheckGlobalUnitTableForUnitName(unit) == true then
+						return false
+					else
+						return true
+					end
 
-				local dmgTable = {
-					victim = unit,
-					attacker = caster,
-					damage = self:GetSpecialValueFor("damage"),
-					damage_type = self:GetAbilityDamageType(),
-				}
+				end,
+				OnUnitHit = function(_self, unit)
 
-				ApplyDamage(dmgTable)
+					local dmgTable = {
+						victim = unit,
+						attacker = caster,
+						damage = self:GetSpecialValueFor("damage"),
+						damage_type = self:GetAbilityDamageType(),
+					}
 
-				EmitSoundOn( "Hero_Beastmaster.Wild_Axes_Damage", unit )
-			end,
-			OnWallHit = function(_self, gnvPos)
+					ApplyDamage(dmgTable)
 
-			end,
-			OnFinish = function(_self, pos)
+					EmitSoundOn( "Hero_Beastmaster.Wild_Axes_Damage", unit )
+				end,
+				OnWallHit = function(_self, gnvPos)
 
-                local particle_cast = "particles/gyrocopter/crumber_metal_ball.vpcf"
-                local effect_cast = ParticleManager:CreateParticle(particle_cast, PATTACH_WORLDORIGIN, nil)
-                ParticleManager:SetParticleControl(effect_cast, 3, pos)
-                ParticleManager:ReleaseParticleIndex(effect_cast)
+				end,
+				OnFinish = function(_self, pos)
 
-			end,
-		}
+					local particle_cast = "particles/gyrocopter/crumber_metal_ball.vpcf"
+					local effect_cast = ParticleManager:CreateParticle(particle_cast, PATTACH_WORLDORIGIN, nil)
+					ParticleManager:SetParticleControl(effect_cast, 3, pos)
+					ParticleManager:ReleaseParticleIndex(effect_cast)
 
-		-- Cast projectile
-		Projectiles:CreateProjectile(projectile)
+				end,
+			}
+
+			-- Cast projectile
+			Projectiles:CreateProjectile(projectile)
+		end
 	end
 end
 ---------------------------------------------------------------------------

@@ -24,70 +24,46 @@ function water_gun_dmg_buff:OnCreated(  )
     end
 
     if self:GetStackCount() == 1 then
-        self.dmg_bonus = 2
-    elseif self:GetStackCount() == 2 then
-        self.dmg_bonus = 3
-    elseif self:GetStackCount() == 3 then
-        self.dmg_bonus = 4
-    elseif self:GetStackCount() == 4 then
         self.dmg_bonus = 5
-    elseif self:GetStackCount() == 5 then
-        self.dmg_bonus = 6
-    elseif self:GetStackCount() == 6 then
+    elseif self:GetStackCount() == 2 then
+        self.dmg_bonus = 8
+    elseif self:GetStackCount() == 3 then
         self.dmg_bonus = 10
-    elseif self:GetStackCount() == 7 then
+    elseif self:GetStackCount() == 4 then
         self.dmg_bonus = 15
-    elseif self:GetStackCount() == 8 then
-        self.dmg_bonus = 20
     end
 
 end
 
 function water_gun_dmg_buff:OnRefresh(  )
     if IsServer() then
-        if self:GetStackCount() < 8 then
+        if self:GetStackCount() < 4 then
             self:IncrementStackCount()
         end
 
         --print("self:GetStackCount() ",self:GetStackCount())
 
         if self:GetStackCount() == 1 then
-            self.dmg_bonus = 2
-        elseif self:GetStackCount() == 2 then
-            self.dmg_bonus = 3
-        elseif self:GetStackCount() == 3 then
-            self.dmg_bonus = 4
-        elseif self:GetStackCount() == 4 then
             self.dmg_bonus = 5
-        elseif self:GetStackCount() == 5 then
-            self.dmg_bonus = 6
-        elseif self:GetStackCount() == 6 then
+        elseif self:GetStackCount() == 2 then
+            self.dmg_bonus = 8
+        elseif self:GetStackCount() == 3 then
             self.dmg_bonus = 10
-        elseif self:GetStackCount() == 7 then
+        elseif self:GetStackCount() == 4 then
             self.dmg_bonus = 15
-        elseif self:GetStackCount() == 8 then
-            self.dmg_bonus = self.max_dmg_bonus
             self:GetCaster():AddNewModifier( self:GetCaster(), self, "water_gun_dmg_debuff", { duration = 5 } )
         end
 
     end
 
     if self:GetStackCount() == 1 then
-        self.dmg_bonus = 2
-    elseif self:GetStackCount() == 2 then
-        self.dmg_bonus = 3
-    elseif self:GetStackCount() == 3 then
-        self.dmg_bonus = 4
-    elseif self:GetStackCount() == 4 then
         self.dmg_bonus = 5
-    elseif self:GetStackCount() == 5 then
-        self.dmg_bonus = 6
-    elseif self:GetStackCount() == 6 then
+    elseif self:GetStackCount() == 2 then
+        self.dmg_bonus = 8
+    elseif self:GetStackCount() == 3 then
         self.dmg_bonus = 10
-    elseif self:GetStackCount() == 7 then
+    elseif self:GetStackCount() == 4 then
         self.dmg_bonus = 15
-    elseif self:GetStackCount() == 8 then
-        self.dmg_bonus = 20
     end
 
 end

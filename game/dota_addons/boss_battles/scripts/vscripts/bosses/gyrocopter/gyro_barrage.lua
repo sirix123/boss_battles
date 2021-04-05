@@ -2,7 +2,7 @@ gyro_barrage = class ({})
 
 function gyro_barrage:OnCreated( kv )
 
-    self.radius = 100
+    self.radius = 250
     self.tick_rate = self:GetAbility():GetSpecialValueFor("barrage_tick_rate")
     self.dmg = self:GetAbility():GetSpecialValueFor("barrage_dmg")
     self.particle_attach = {"attach_attack1", "attach_attack2"}

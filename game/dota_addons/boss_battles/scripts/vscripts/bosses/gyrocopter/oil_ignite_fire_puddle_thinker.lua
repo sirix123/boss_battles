@@ -13,6 +13,7 @@ end
 function oil_ignite_fire_puddle_thinker:OnCreated(kv)
 	self.radius = 150
 	self.tick_rate = 0.2
+	self.dmg = 10
 
 	if IsServer() then
         self:PlayEffects()
@@ -39,7 +40,16 @@ function oil_ignite_fire_puddle_thinker:OnIntervalThink()
 		)
 
 		for _,unit in pairs(units) do
-            -- apply slow
+            -- hurt em
+			self.damageTable = {
+				victim = unit,
+				attacker = self:GetParent(),
+				damage = self.dmg,
+				damage_type = DAMAGE_TYPE_PHYSICAL,
+				ability = self,
+			}
+
+			ApplyDamage( self.damageTable )
 		end
 
 		local areAllHeroesDead = true --start on true, then set to false if you find one hero alive.

@@ -1,4 +1,5 @@
 oil_drop_thinker = class({})
+LinkLuaModifier( "oil_puddle_slow_modifier", "bosses/gyrocopter/oil_puddle_slow_modifier", LUA_MODIFIER_MOTION_NONE )
 
 --------------------------------------------------------------------------------
 function oil_drop_thinker:IsHidden()
@@ -40,6 +41,7 @@ function oil_drop_thinker:OnIntervalThink()
 
 		for _,unit in pairs(units) do
             -- apply slow
+			unit:AddNewModifier(self:GetCaster(), self:GetAbility(), "oil_puddle_slow_modifier", {duration = 1})
 		end
 
 		local areAllHeroesDead = true --start on true, then set to false if you find one hero alive.

@@ -43,7 +43,7 @@
 	{	
 		"ID"							"3008"
 		"BaseClass"						"item_lua"	
-		"AbilityTextureName" 			"spell/morphling_adaptive_strike"
+		"AbilityTextureName" 			"item_ocean_heart"
         "ScriptFile"                    "bosses/gyrocopter/item_water_gun.lua"
         "Model"							"models/items/sniper/machine_gun_charlie/machine_gun_charlie.vmdl"
 
@@ -61,7 +61,7 @@
 		"AbilityBehavior"				"DOTA_ABILITY_BEHAVIOR_POINT | DOTA_ABILITY_BEHAVIOR_AOE"
 		"AbilityCastRange"				"1500"
 		"AbilityManaCost"				"0"
-		"AbilityCooldown"				"8.0"	
+		"AbilityCooldown"				"5.0"	
         "AbilityCastPoint"              "0.0"
 
 		"TargetingIndicator"

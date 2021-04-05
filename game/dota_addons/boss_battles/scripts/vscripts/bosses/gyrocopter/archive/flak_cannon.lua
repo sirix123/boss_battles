@@ -1,5 +1,5 @@
 flak_cannon = class({})
-LinkLuaModifier( "modifier_flak_cannon", "bosses/gyrocopter/modifier_flak_cannon", LUA_MODIFIER_MOTION_NONE )
+--LinkLuaModifier( "modifier_flak_cannon", "bosses/gyrocopter/modifier_flak_cannon", LUA_MODIFIER_MOTION_NONE )
 
 function flak_cannon:OnAbilityPhaseStart()
     if IsServer() then
@@ -25,13 +25,13 @@ function flak_cannon:OnSpellStart()
                 duration = self:GetSpecialValueFor("duration"),
             })
 
-        caster:AddNewModifier(
+        --[[caster:AddNewModifier(
             caster, -- player source
             self, -- ability source
             "modifier_rooted", -- modifier name
             {
                 duration = self:GetSpecialValueFor("duration"),
-            })
+            })]]
 
     end
 end

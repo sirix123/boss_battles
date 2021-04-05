@@ -11,6 +11,10 @@ function flee_v2:OnAbilityPhaseStart()
 			self.vTargetPos = self:GetCursorPosition()
 		end
 
+        self.effect_indicator = ParticleManager:CreateParticle( "particles/econ/events/new_bloom/dragon_cast_dust.vpcf", PATTACH_WORLDORIGIN, nil )
+        ParticleManager:SetParticleControl( self.effect_indicator, 0, self:GetCaster():GetAbsOrigin() )
+        ParticleManager:ReleaseParticleIndex(self.effect_indicator)
+
         return true
     end
 end
@@ -38,16 +42,16 @@ function flee_v2:OnSpellStart()
             end
 
             -- create the modifier thinker
-           local puddle = CreateModifierThinker(
+            local puddle = CreateModifierThinker(
             self:GetCaster(),
                 self,
                 "oil_drop_thinker",
                 {
                     target_x = self:GetCaster().x,
                     target_y = self:GetCaster().y,
-                    target_z = self:GetCaster().z,
+                    target_z = GetGroundPosition(self:GetCaster():GetAbsOrigin(),self:GetCaster()).z,
                 },
-                self:GetCaster():GetAbsOrigin(),
+                GetGroundPosition(self:GetCaster():GetAbsOrigin(),self:GetCaster()),
                 self:GetCaster():GetTeamNumber(),
                 false
             )
@@ -67,6 +71,7 @@ function flee_v2:OnSpellStart()
                 target_y = self.vTargetPos.y,
                 speed = self:GetSpecialValueFor("speed"),
                 distance = ( self:GetCaster():GetAbsOrigin() - self.vTargetPos ):Length2D(),
+                height = 500,
                 fix_end = true,
                 isStun = true,
                 activity = ACT_DOTA_RUN,
@@ -75,6 +80,10 @@ function flee_v2:OnSpellStart()
         )
 
         arc:SetEndCallback( function()
+
+            self.effect_indicator = ParticleManager:CreateParticle( "particles/econ/events/new_bloom/dragon_cast_dust.vpcf", PATTACH_WORLDORIGIN, nil )
+            ParticleManager:SetParticleControl( self.effect_indicator, 0, self:GetCaster():GetAbsOrigin() )
+            ParticleManager:ReleaseParticleIndex(self.effect_indicator)
 
             Timers:RemoveTimer(self.timer)
 

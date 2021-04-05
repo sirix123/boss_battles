@@ -40,7 +40,7 @@ function whirlwind_v2:OnSpellStart()
 
 	self:GetCaster():AddNewModifier( nil, nil, "modifier_rooted", { duration = -1 })
 
-	self:GetCaster():AddNewModifier( nil, nil, "modifier_generic_disable_auto_attack", { duration = -1 })
+	--self:GetCaster():AddNewModifier( nil, nil, "modifier_generic_disable_auto_attack", { duration = -1 })
 
 
 	--[[ 	---------------------------------------------

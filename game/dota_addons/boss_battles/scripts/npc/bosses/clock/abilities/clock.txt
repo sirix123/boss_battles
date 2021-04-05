@@ -32,8 +32,8 @@
 		"AbilitySpecial"
 		{
             "01"{ "var_type"			"FIELD_INTEGER"		"missile_radius"		"200" }
-            "02"{ "var_type"			"FIELD_INTEGER"		"flTimeBetweenWaves"	"5" }
-            "03"{ "var_type"			"FIELD_INTEGER"		"nMaxWaves"				"2 2 3 3" }
+            "02"{ "var_type"			"FIELD_INTEGER"		"flTimeBetweenWaves"	"5 5 4 3" }
+            "03"{ "var_type"			"FIELD_INTEGER"		"nMaxWaves"				"2 2 3 4" }
             "04"{ "var_type"			"FIELD_INTEGER"		"dmg_hit"				"100" }
             "05"{ "var_type"			"FIELD_INTEGER"		"dmg_dot"				"10" }
             "06"{ "var_type"			"FIELD_INTEGER"		"dmg_interval"			"1" }
@@ -146,7 +146,7 @@
         // Casting
         //-------------------------------------------------------------------------------------------------------------
         "AbilityCastPoint"              "0.0 0.0 0.0 0.0"
-        "AbilityCooldown"               "40 40 30 30"
+        "AbilityCooldown"               "40 40 30 25"
         "AbilityManaCost"               "0"
         "AbilityCastRange" 				"9000"
 
@@ -155,11 +155,11 @@
 		"AbilitySpecial"
 		{
             "01"{ "var_type"			"FIELD_FLOAT"		"cloud_spawn_interval"		            "0.5 0.5 0.5 0.5" }
-            "02"{ "var_type"			"FIELD_INTEGER"		"duration_cloud"		                "60 60 60 60" }
+            "02"{ "var_type"			"FIELD_INTEGER"		"duration_cloud"		                "60 60 80 90" }
             "03"{ "var_type"			"FIELD_INTEGER"		"radius"		                        "150 150 150 150" }
             "04"{ "var_type"			"FIELD_INTEGER"		"dmg"		                            "100 100 100 100" }
             "05"{ "var_type"			"FIELD_INTEGER"		"dmg_interval"		                    "1 1 1 1" }
-            "06"{ "var_type"			"FIELD_INTEGER"		"duration_debuff"		                "8 8 8 8" }
+            "06"{ "var_type"			"FIELD_INTEGER"		"duration_debuff"		                "8 8 10 12" }
 		}
 
         "precache"
@@ -317,7 +317,7 @@
         //-------------------------------------------------------------------------------------------------------------
 		"AbilitySpecial"
 		{
-            "01"{ "var_type"			"FIELD_INTEGER"		"number_of_turrets_to_spawn"		"2 3 3 4" }
+            "01"{ "var_type"			"FIELD_INTEGER"		"number_of_turrets_to_spawn"		"2 3 4 5" }
 		}
 
 		"precache"
@@ -387,7 +387,7 @@
         //-------------------------------------------------------------------------------------------------------------
 		"AbilitySpecial"
 		{
-            "01"{ "var_type"			"FIELD_INTEGER"		"number_of_turrets_to_spawn"		    "2 3 3 4" }
+            "01"{ "var_type"			"FIELD_INTEGER"		"number_of_turrets_to_spawn"		    "2 3 4 5" }
             "02"{ "var_type"			"FIELD_INTEGER"		"delay_between_turrets_spawning"		"1" } //obvs need more than one turret to spawn for this
 		}
 
@@ -543,7 +543,7 @@
         // Casting
         //-------------------------------------------------------------------------------------------------------------
         "AbilityCastPoint"              "1.0 1.0 1.0 1.0"
-        "AbilityCooldown"               "90 90 90 90"
+        "AbilityCooldown"               "90 90 70 60"
         "AbilityManaCost"               "0"
         "AbilityCastRange" 				"5000"
 
@@ -578,7 +578,7 @@
         // Casting
         //-------------------------------------------------------------------------------------------------------------
         "AbilityCastPoint"              "2.0 2.0 2.0 2.0"
-        "AbilityCooldown"               "30 30 30 30"
+        "AbilityCooldown"               "30 30 26 23"
         "AbilityManaCost"               "0"
         "AbilityCastRange" 				"5000"
 

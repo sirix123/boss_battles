@@ -154,16 +154,24 @@ function ClockThink()
 		SpawnArrows()
 	end
 
-	local nActiveFurnaces = FindFurnacesWithActivatedBuff()
-	if thisEntity:HasModifier("armor_buff_modifier") == true then
+	if thisEntity.cast_cogs ~= true then
+		thisEntity.nActiveFurnaces = FindFurnacesWithActivatedBuff()
+	end
+
+	if thisEntity:HasModifier("armor_buff_modifier") == true and thisEntity.nActiveFurnaces ~= 4 or thisEntity.nActiveFurnaces ~= 0.5 and thisEntity.hBuff:IsNull() == false then
 		thisEntity.nStacks = thisEntity.hBuff:GetStackCount()
+		print("thisEntity.nStacks ",thisEntity.nStacks)
 	end
 
 	-- after using the cogs ability reapply the armor modifier with the correct stacks
-	if thisEntity:HasModifier("armor_buff_modifier") == false and thisEntity.cast_cogs == true and nActiveFurnaces < 4 then
-		thisEntity.hBuff = thisEntity:AddNewModifier( nil, nil, "armor_buff_modifier", { duration = -1 } )
-		thisEntity.hBuff:SetStackCount(thisEntity.nStacks)
-		thisEntity.cast_cogs = false
+	if thisEntity.nActiveFurnaces ~= nil then
+		if thisEntity:HasModifier("armor_buff_modifier") == false and thisEntity.cast_cogs == true and thisEntity.nActiveFurnaces < 4 and thisEntity.nStacks ~= 0 then
+			print("nActiveFurnaces ",thisEntity.nActiveFurnaces)
+			print("----")
+			thisEntity.hBuff = thisEntity:AddNewModifier( nil, nil, "armor_buff_modifier", { duration = -1 } )
+			thisEntity.hBuff:SetStackCount(thisEntity.nStacks)
+			thisEntity.cast_cogs = false
+		end
 	end
 
 	--[[if thisEntity:HasModifier("armor_buff_modifier") then
@@ -174,16 +182,16 @@ function ClockThink()
 	end]]
 
 	-- check how many furnaces are active so we can level up abilities
-	if nActiveFurnaces == 1 and thisEntity.levelTracker == 1 then
+	if thisEntity.nActiveFurnaces == 1 and thisEntity.levelTracker == 1 then
 		LevelUpAbilities() -- forces all abilities to be level 2
 	end
-	if nActiveFurnaces == 2 and thisEntity.levelTracker == 2 then
+	if thisEntity.nActiveFurnaces == 2 and thisEntity.levelTracker == 2 then
 		LevelUpAbilities() -- forces all abilities to be level 2
 	end
-	if nActiveFurnaces == 3 and thisEntity.levelTracker == 3 then
+	if thisEntity.nActiveFurnaces == 3 and thisEntity.levelTracker == 3 then
 		LevelUpAbilities() -- forces all abilities to be level 3
 	end
-	if nActiveFurnaces == 4 and thisEntity.levelTracker == 4 then
+	if thisEntity.nActiveFurnaces == 4 and thisEntity.levelTracker == 4 then
 		LevelUpAbilities() -- forces all abilities to be level 4
 	end
 
@@ -192,19 +200,19 @@ function ClockThink()
 		--return ChaseTargetFireMissile()
 	end]]
 
-	if thisEntity.choking_gas:IsFullyCastable() and thisEntity.choking_gas:IsCooldownReady() and thisEntity:HasModifier("furnace_modifier_2") then
+	if thisEntity.choking_gas:IsFullyCastable() and thisEntity.choking_gas:IsCooldownReady() and thisEntity:HasModifier("furnace_modifier_2") and thisEntity.choking_gas:IsInAbilityPhase() == false then
 		return CastChokingGas()
 	end
 
-	if thisEntity.summon_flame_turret:IsFullyCastable() and thisEntity.summon_flame_turret:IsCooldownReady() then
+	if thisEntity.summon_flame_turret:IsFullyCastable() and thisEntity.summon_flame_turret:IsCooldownReady() and thisEntity.summon_flame_turret:IsInAbilityPhase() == false then
 		return CastSummonFlameTurret()
 	end
 
-	if thisEntity.summon_chain_gun_turret:IsFullyCastable() and thisEntity.summon_chain_gun_turret:IsCooldownReady() then
+	if thisEntity.summon_chain_gun_turret:IsFullyCastable() and thisEntity.summon_chain_gun_turret:IsCooldownReady() and thisEntity.summon_chain_gun_turret:IsInAbilityPhase() == false then
 		return CastChainGunTurret()
 	end
 
-	if thisEntity.cogs:IsFullyCastable() and thisEntity.cogs:IsCooldownReady() and thisEntity.cast_cogs == false then
+	if thisEntity.cogs:IsFullyCastable() and thisEntity.cogs:IsCooldownReady() and thisEntity.cast_cogs == false and thisEntity.cogs:IsInAbilityPhase() == false then
 		return CastCogs()
 	end
 
@@ -233,6 +241,8 @@ function LevelUpAbilities()
 	thisEntity.summon_electric_turret:SetLevel(thisEntity.levelTracker)
 	thisEntity.hookshot:SetLevel(thisEntity.levelTracker)
 	thisEntity.vortex_grenade:SetLevel(thisEntity.levelTracker)
+	thisEntity.choking_gas:SetLevel(thisEntity.levelTracker)
+	thisEntity.cogs:SetLevel(thisEntity.levelTracker)
 
 end
 --------------------------------------------------------------------------------
@@ -416,7 +426,7 @@ function CastCogs()
 
 	end)
 
-	return ( thisEntity.loop * thisEntity.interval ) + 1
+	return ( thisEntity.loop * thisEntity.interval ) + 3
 end
 --------------------------------------------------------------------------------
 
@@ -500,9 +510,9 @@ end
 
 function FindFurnacesWithActivatedBuff()
 
-	if thisEntity.cast_cogs == true then return 0.5 end
+	--if thisEntity.cast_cogs == true then return 0.5 end
 
-	if thisEntity.furnace_1_unit.FURNACE_1 == true and thisEntity.furnace_1_activated == false then
+	if thisEntity.furnace_1_unit.FURNACE_1 == true and thisEntity.furnace_1_activated == false and thisEntity.cast_cogs ~= true then
 		thisEntity.furnace_1_activated = true
 		thisEntity.nActivatedFurnaces = thisEntity.nActivatedFurnaces + 1
 		thisEntity:AddNewModifier( nil, nil, "furnace_modifier_1", { duration = -1 } )
@@ -530,7 +540,7 @@ function FindFurnacesWithActivatedBuff()
 		end
 
 
-	elseif thisEntity.furnace_2_unit.FURNACE_2 == true and thisEntity.furnace_2_activated == false then
+	elseif thisEntity.furnace_2_unit.FURNACE_2 == true and thisEntity.furnace_2_activated == false and thisEntity.cast_cogs ~= true then
 		thisEntity.furnace_2_activated = true
 		thisEntity.nActivatedFurnaces = thisEntity.nActivatedFurnaces + 1
 		thisEntity:AddNewModifier( nil, nil, "furnace_modifier_2", { duration = -1 } )
@@ -557,7 +567,7 @@ function FindFurnacesWithActivatedBuff()
 			thisEntity.hBuff:DecrementStackCount()
 		end
 
-	elseif thisEntity.furnace_3_unit.FURNACE_3 == true and thisEntity.furnace_3_activated == false then
+	elseif thisEntity.furnace_3_unit.FURNACE_3 == true and thisEntity.furnace_3_activated == false and thisEntity.cast_cogs ~= true then
 		thisEntity.furnace_3_activated = true
 		thisEntity.nActivatedFurnaces = thisEntity.nActivatedFurnaces + 1
 		thisEntity:AddNewModifier( nil, nil, "furnace_modifier_3", { duration = -1 } )
@@ -584,7 +594,7 @@ function FindFurnacesWithActivatedBuff()
 			thisEntity.hBuff:DecrementStackCount()
 		end
 
-	elseif thisEntity.furnace_4_unit.FURNACE_4 == true and thisEntity.furnace_4_activated == false then
+	elseif thisEntity.furnace_4_unit.FURNACE_4 == true and thisEntity.furnace_4_activated == false and thisEntity.cast_cogs ~= true then
 		thisEntity.furnace_4_activated = true
 		thisEntity.nActivatedFurnaces = thisEntity.nActivatedFurnaces + 1
 		thisEntity:AddNewModifier( nil, nil, "furnace_modifier_4", { duration = -1 } )

@@ -753,12 +753,12 @@
 
         // General
         //-------------------------------------------------------------------------------------------------------------
-        "AbilityBehavior"               "DOTA_ABILITY_BEHAVIOR_NO_TARGET"
+        "AbilityBehavior"               "DOTA_ABILITY_BEHAVIOR_NO_TARGET | DOTA_ABILITY_BEHAVIOR_IMMEDIATE"
         "AbilityTextureName"			"forged_spirit_melting_strike"
 
         // Casting
         //-------------------------------------------------------------------------------------------------------------
-        "AbilityCastPoint"              "0.1 0.1 0.1 0.1"
+        "AbilityCastPoint"              "0.0 0.0 0.0 0.0"
         "AbilityCooldown"               "1 1 1 1"
         "AbilityManaCost"               "0"
         "AbilityCastRange" 				"600"
