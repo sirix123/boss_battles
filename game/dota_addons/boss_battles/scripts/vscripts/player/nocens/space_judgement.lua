@@ -94,7 +94,7 @@ function space_judgement:OnSpellStart()
 
                     EmitSoundOn("Hero_Sven.StormBoltImpact", enemies[1])
 
-                    damage = self:GetSpecialValueFor( "dmg" ) + self:GetSpecialValueFor( "bonus_dmg" ) + self:GetSpecialValueFor( "r_dmg" )
+                    damage = self:GetSpecialValueFor( "dmg" ) + self:GetSpecialValueFor( "bonus_dmg" ) + self:GetCaster():FindAbilityByName("r_outgoing_dmg"):GetSpecialValueFor( "r_dmg" )
                     --enemy:AddNewModifier(self.caster, self, "r_outgoing_dmg_debuff", {duration = self:GetSpecialValueFor( "debuff_duration" )})
 
                     local nfxID = ParticleManager:CreateParticle("particles/units/heroes/hero_sven/sven_storm_bolt_projectile_explosion.vpcf", PATTACH_POINT, enemies[1])

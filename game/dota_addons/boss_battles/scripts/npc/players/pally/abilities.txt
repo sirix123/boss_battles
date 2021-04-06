@@ -175,6 +175,7 @@
 		{
 			"01"{ "var_type"			"FIELD_INTEGER"		"duration"							"10" }
 			"02"{ "var_type"			"FIELD_INTEGER"		"outgoing_plus"						"7" }
+			"03"{ "var_type"			"FIELD_INTEGER"		"r_dmg"								"200" 	}
 			//"03"{ "var_type"			"FIELD_INTEGER"		"outgoing_minus"					"5" }
 		}
 
@@ -210,8 +211,7 @@
 			"01"{ "var_type"			"FIELD_INTEGER"		"dmg"							"200" 	}
 			"02"{ "var_type"			"FIELD_INTEGER"		"radius"						"250" 	}
 			"03"{ "var_type"			"FIELD_INTEGER"		"bonus_dmg"						"200" 	}
-			"04"{ "var_type"			"FIELD_INTEGER"		"r_dmg"							"200" 	}
-			"05"{ "var_type"			"FIELD_INTEGER"		"debuff_duration"				"15" 	}
+			"04"{ "var_type"			"FIELD_INTEGER"		"debuff_duration"				"15" 	}
 			
 		}
 

@@ -190,15 +190,12 @@
 		},
 		{
 			m_ChildRef = resource:"particles/units/heroes/hero_invoker/invoker_chaos_meteor_land_dust_b.vpcf"
-			m_bDisableChild = true
 		},
 		{
 			m_ChildRef = resource:"particles/units/heroes/hero_invoker/invoker_chaos_meteor_land_soil.vpcf"
-			m_bDisableChild = true
 		},
 		{
 			m_ChildRef = resource:"particles/units/heroes/hero_invoker/invoker_chaos_meteor_land_soil_b.vpcf"
-			m_bDisableChild = true
 		},
 		{
 			m_ChildRef = resource:"particles/units/heroes/hero_invoker/invoker_chaos_meteor_land_ring.vpcf"
@@ -218,7 +215,6 @@
 		},
 		{
 			m_ChildRef = resource:"particles/units/heroes/hero_invoker/invoker_chaos_meteor_land_debris.vpcf"
-			m_bDisableChild = true
 		},
 		{
 			m_ChildRef = resource:"particles/units/heroes/hero_invoker/invoker_chaos_meteor_land_embers.vpcf"
@@ -239,8 +235,7 @@
 			m_ChildRef = resource:"particles/units/heroes/hero_invoker/invoker_chaos_meteor_smoke_b.vpcf"
 		},
 		{
-			m_ChildRef = resource:"particles/units/heroes/hero_invoker/invoker_chaos_meteor_burnt.vpcf"
-			m_bDisableChild = true
+			m_ChildRef = resource:"particles/gyrocopter/cracks_invoker_chaos_meteor_burnt.vpcf"
 		},
 		{
 			m_ChildRef = resource:"particles/units/heroes/hero_invoker/invoker_chaos_meteor_light.vpcf"

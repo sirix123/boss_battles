@@ -104,7 +104,7 @@
         "DOTA_Tooltip_Ability_e_regen_aura_description"    "Paladin covers his allies in a divine light that grants all allies health regeneration. If Paladin uses <b><font color=\"#ffffff\">Judgement</font></b> while using this aura, then it applies a damage over time effect to all targeted enemmies."
         "DOTA_Tooltip_Ability_e_regen_aura_regen_plus"    "HEALTH REGENERATION PER SECOND:"
         "DOTA_Tooltip_Ability_e_regen_aura_regen_minus"    "DAMAGE PER SECOND:"
-        "DOTA_Tooltip_Ability_r_outgoing_dmg"    "Zealotry "
+        "DOTA_Tooltip_Ability_r_outgoing_dmg"    "Zealotry"
         "DOTA_Tooltip_Ability_r_outgoing_dmg_description"    "Paladin inspires all allies with a zealous fervour, increasing their damage. If Paladin uses <b><font color=\"#ffffff\">Judgement</font></b> while using this aura, then <b><font color=\"#ffffff\">Judgement</font></b> deals additional damage."
         "DOTA_Tooltip_Ability_r_outgoing_dmg_outgoing_plus"    "%DAMAGE AURA:"
         "DOTA_Tooltip_Ability_r_outgoing_dmg_r_dmg"    "JUDGEMENT DAMAGE:"

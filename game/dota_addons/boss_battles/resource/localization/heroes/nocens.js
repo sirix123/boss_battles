@@ -97,7 +97,7 @@ function GenerateLocalizationData() {
     });
     Abilities.push({
         ability_classname: "r_outgoing_dmg",
-        name: "Zealotry ",
+        name: "Zealotry",
         description: "Paladin inspires all allies with a zealous fervour, increasing their damage. If Paladin uses " + judgementColour + " while using this aura, then " + judgementColour + " deals additional damage.",
         ability_specials: [
             {
