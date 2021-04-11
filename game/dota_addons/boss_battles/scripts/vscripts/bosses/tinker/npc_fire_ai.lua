@@ -57,7 +57,8 @@ function FireThinker()
 		return Approach( hApproachTarget )
 	end
 
-    if hAttackTarget and  thisEntity.fire_ele_attack ~= nil and  thisEntity.fire_ele_attack:IsFullyCastable() then
+	local flDist = ( hAttackTarget:GetOrigin() - thisEntity:GetOrigin() ):Length2D()
+    if hAttackTarget and  thisEntity.fire_ele_attack ~= nil and  thisEntity.fire_ele_attack:IsFullyCastable() and flDist < thisEntity.fire_ele_attack:GetCastRange(thisEntity:GetAbsOrigin(), hEnemy)then
 		return CastFireEleAttack( hAttackTarget )
 	end
 

@@ -40,7 +40,7 @@ function cogs:OnSpellStart()
         local caster = self:GetCaster()
         local vCaster = caster:GetAbsOrigin()
 
-        local nCogs = 8
+        local nCogs = self:GetSpecialValueFor( "nCogs" )
         local nCogRadius = 900
         local vCogSpawn = GetGroundPosition(vCaster + Vector(0, nCogRadius, 0), nil)
         local tCogs = {}
@@ -173,7 +173,7 @@ function cogs:OnSpellStart()
                     changedDirections = false
                 end
 
-                randomNumber = RandomInt(5, 15)
+                randomNumber = RandomInt(8, 19)
                 randomDirectionCount = 0
             end
 

@@ -18,7 +18,7 @@ function beastmaster_bloodlust_modifier:OnCreated( kv )
 	if IsServer() then
 		self.bloodlust_speed = 150
 		self.bloodlust_as_speed = 50
-		self.dmg_bonus = 250
+		self.dmg_bonus = 300
 		self.bat = 1.0
 
 		-- takes more dmg?

@@ -3,6 +3,7 @@
 	"ice_mage_passive"
 	{
 		"BaseClass"						"ability_lua"
+		"ScriptFile"					"player/icemage/ice_mage_passive"
 		"MaxLevel"						"1"
 		"AbilityTextureName"			"lich_chain_frost"
         "AbilityBehavior"				"DOTA_ABILITY_BEHAVIOR_PASSIVE"
@@ -30,7 +31,7 @@
         "AbilityBehavior"				"DOTA_ABILITY_BEHAVIOR_POINT"
 		"AbilityCastRange" 				"1000"
         "AbilityCooldown"				"0.0"
-        "AbilityCastPoint"              "0.8"
+        "AbilityCastPoint"              "0.4"
 
 
 		"TargetingIndicator"
@@ -67,7 +68,7 @@
         "AbilityBehavior"				"DOTA_ABILITY_BEHAVIOR_POINT"
 		"AbilityCastRange" 				"1200"
         "AbilityCooldown"				"3"
-        "AbilityCastPoint"              "1.0"
+        "AbilityCastPoint"              "0.5"
 		"AbilityManaCost"        		"15"
 
 		"TargetingIndicator"
@@ -83,7 +84,7 @@
 			"03"{ "var_type"			"FIELD_INTEGER"		"proj_speed"					"1200" 	}
 			"04"{ "var_type"			"FIELD_INTEGER"		"max_shatter_stacks"			"3" 	}
 			"05"{ "var_type"			"FIELD_INTEGER"		"max_proj"						"2" 	}
-			"06"{ "var_type"			"FIELD_FLOAT"		"time_between_proj"             "0.4" 	}
+			"06"{ "var_type"			"FIELD_FLOAT"		"time_between_proj"             "0.2" 	}
 			"07"{ "var_type"			"FIELD_INTEGER"		"base_shatter_dmg"				"120" 	}
 			"08"{ "var_type"			"FIELD_INTEGER"		"shatter_dmg_xStacks"			"60" 	}
 			"09"{ "var_type"			"FIELD_INTEGER"		"shatter_radius"				"200" 	}
@@ -100,11 +101,11 @@
 
 		"AbilityTextureName"			"winter_wyvern_cold_embrace"
 		"AbilityUnitTargetTeam"			"DOTA_UNIT_TARGET_TEAM_FRIENDLY"
-        "AbilityBehavior"				"DOTA_ABILITY_BEHAVIOR_POINT"
-		"AbilityUnitTargetType"			"DOTA_UNIT_TARGET_HERO"
+        "AbilityBehavior"				"DOTA_ABILITY_BEHAVIOR_UNIT_TARGET"  //"DOTA_ABILITY_BEHAVIOR_POINT"
+		"AbilityUnitTargetType"			"DOTA_UNIT_TARGET_HERO | DOTA_UNIT_TARGET_BASIC"
 		"AbilityCastRange" 				"750"
         "AbilityCooldown"				"20"
-        "AbilityCastPoint"              "0.2"
+        "AbilityCastPoint"              "0.0"
 		"AbilityManaCost"        		"20"
 
 		"TargetingIndicator"
@@ -122,7 +123,6 @@
 			"05"{ "var_type"			"FIELD_INTEGER"		"bone_chill_duration"	"10" }
 			"06"{ "var_type"			"FIELD_FLOAT"		"i_frame"				"0.3" }
 			"07"{ "var_type"			"FIELD_FLOAT"		"find_radius"			"100" }
-			
 			
 		}
 

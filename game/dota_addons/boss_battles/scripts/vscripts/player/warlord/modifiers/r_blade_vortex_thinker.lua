@@ -27,13 +27,86 @@ function r_blade_vortex_thinker:OnCreated( kv )
         -- ref from spell
         self.currentTarget = Vector( kv.target_x, kv.target_y, kv.target_z )
         self.previous_location = nil
+        self.base_mana = self.caster:FindAbilityByName("m1_sword_slash"):GetSpecialValueFor( "mana_gain_percent" )
+        self.bonus_mana = self.caster:FindAbilityByName("m1_sword_slash"):GetSpecialValueFor( "mana_gain_percent_bonus" )
 
         -- do on create stuff
         self:PlayEffectsOnCreated()
 
-        --DebugDrawCircle(self.currentTarget,Vector(255,0,0),128,self.radius,true,60)
+        --[[self.timer_find_caster = Timers:CreateTimer(function()
 
-        --EmitSoundOn("Hero_Juggernaut.BladeFuryStart", self.parent)
+            -- find friendlies
+            local friendlies = FindUnitsInRadius(
+                self:GetCaster():GetTeamNumber(),	-- int, your team number
+                self.currentTarget,	-- point, center point
+                nil,	-- handle, cacheUnit. (not known)
+                FIND_UNITS_EVERYWHERE,	-- float, radius. or use FIND_UNITS_EVERYWHERE
+                DOTA_UNIT_TARGET_TEAM_FRIENDLY,	-- int, team filter
+                DOTA_UNIT_TARGET_HERO,	-- int, type filter
+                DOTA_UNIT_TARGET_FLAG_INVULNERABLE,	-- int, flag filter
+                0,	-- int, order filter
+                false	-- bool, can grow cache
+                )
+
+            if friendlies ~= nil and #friendlies ~= 0  then
+                for _, friend in pairs(friendlies) do
+                    if friend:GetUnitName() == self.caster:GetUnitName() and self.caster:HasModifier("q_conq_shout_modifier") then
+
+                        if self.flag == true then
+                            -- move vortex to caster location
+                            self.currentTarget = friend:GetAbsOrigin()
+
+                            -- play effects
+                            local particle = 'particles/units/heroes/hero_elder_titan/elder_titan_echo_stomp.vpcf'
+                            local particle_stomp_fx = ParticleManager:CreateParticle(particle, PATTACH_ABSORIGIN, self.caster)
+                            ParticleManager:SetParticleControl(particle_stomp_fx, 0, self.currentTarget)
+                            ParticleManager:SetParticleControl(particle_stomp_fx, 1, Vector(self.radius, 1, 1))
+                            ParticleManager:SetParticleControl(particle_stomp_fx, 2, Vector(250,0,0))
+                            ParticleManager:ReleaseParticleIndex(particle_stomp_fx)
+
+                            -- increase dmg
+                            self.dmg = self.caster:FindAbilityByName("r_blade_vortex"):GetSpecialValueFor( "base_dmg" ) + ( self.caster:FindAbilityByName("q_conq_shout"):GetSpecialValueFor( "vortex_dmg_inc" ) * self.caster:FindAbilityByName("r_blade_vortex"):GetSpecialValueFor( "base_dmg" ) )
+
+                            -- reset dmg
+                            self.timer_damage_boost = Timers:CreateTimer(self.caster:FindAbilityByName("q_conq_shout"):GetSpecialValueFor( "duration" ), function()
+                                self.dmg = self.caster:FindAbilityByName("r_blade_vortex"):GetSpecialValueFor( "base_dmg" )
+                                self.flag = true
+                                return false
+                            end)
+
+                            self.flag = false
+                        end
+                    end
+                end
+            end
+
+            return 0.03
+        end)]]
+
+        self.timer_find_caster = Timers:CreateTimer(function()
+                if self.caster:HasModifier("q_conq_shout_modifier") then
+                    -- move vortex to caster location
+                    self.currentTarget = self.caster:GetAbsOrigin()
+
+                    -- play effects
+                    local particle = 'particles/units/heroes/hero_elder_titan/elder_titan_echo_stomp.vpcf'
+                    local particle_stomp_fx = ParticleManager:CreateParticle(particle, PATTACH_ABSORIGIN, self.caster)
+                    ParticleManager:SetParticleControl(particle_stomp_fx, 0, self.currentTarget)
+                    ParticleManager:SetParticleControl(particle_stomp_fx, 1, Vector(self.radius, 1, 1))
+                    ParticleManager:SetParticleControl(particle_stomp_fx, 2, Vector(250,0,0))
+                    ParticleManager:ReleaseParticleIndex(particle_stomp_fx)
+
+                    -- increase dmg
+                    self.dmg = self.caster:FindAbilityByName("r_blade_vortex"):GetSpecialValueFor( "base_dmg" ) + ( self.caster:FindAbilityByName("q_conq_shout"):GetSpecialValueFor( "vortex_dmg_inc" ) * self.caster:FindAbilityByName("r_blade_vortex"):GetSpecialValueFor( "base_dmg" ) )
+
+                    -- reset dmg
+                    self.timer_damage_boost = Timers:CreateTimer(self.caster:FindAbilityByName("q_conq_shout"):GetSpecialValueFor( "duration" ), function()
+                        self.dmg = self.caster:FindAbilityByName("r_blade_vortex"):GetSpecialValueFor( "base_dmg" )
+                        return false
+                    end)
+                end
+            return 0.03
+        end)
 
         self:StartIntervalThink( self.interval )
 	end
@@ -43,16 +116,22 @@ end
 function r_blade_vortex_thinker:OnIntervalThink()
     if IsServer() then
 
+        -- destroy conditions
+        if self.caster:IsAlive() == false or ( self.caster:GetAbsOrigin() - self.currentTarget ):Length2D() > 5000 then
+            self:Destroy()
+            print("destryoing case far away from caster or caster is dead")
+        end
 
         -- play effects
         if self.previous_location ~= self.currentTarget or self.previous_location == nil then
+            self.previous_location = self.currentTarget
             if self.nfx ~= nil then
                 ParticleManager:DestroyParticle(self.nfx,true)
             end
             self:PlayEffectsOnCreated()
         end
 
-        -- find friendlies
+        -- find enemies
         local enemies = FindUnitsInRadius(
             self:GetCaster():GetTeamNumber(),	-- int, your team number
             self.currentTarget,	-- point, center point
@@ -83,10 +162,19 @@ function r_blade_vortex_thinker:OnIntervalThink()
                 ApplyDamage(self.dmgTable)
 
             end
+
+            if self.caster:HasModifier("q_conq_shout_modifier") then
+                if #enemies == 1 then
+                    self.caster:ManaOnHit( self.base_mana )
+                elseif #enemies == 2 then
+                    self.caster:ManaOnHit( self.base_mana + ( math.fmod(#enemies,self.bonus_mana) ))
+                elseif #enemies == 3 then
+                    self.caster:ManaOnHit( self.base_mana + ( math.fmod(#enemies,self.bonus_mana) ))
+                else
+                    self.caster:ManaOnHit( self.base_mana + self.bonus_mana )
+                end
+            end
         end
-
-        self.previous_location = self.currentTarget
-
     end
 end
 ---------------------------------------------------------------------------
@@ -99,6 +187,9 @@ function r_blade_vortex_thinker:OnDestroy( kv )
 
         -- play end sound
         --EmitSoundOn("Hero_Juggernaut.BladeFuryStop", self.parent)
+
+        Timers:RemoveTimer(self.timer_find_caster)
+        Timers:RemoveTimer(self.timer_damage_boost)
 
         ParticleManager:DestroyParticle(self.nfx,false)
 

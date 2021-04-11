@@ -127,7 +127,7 @@ function modifier_flak_cannon:OnProjectileHit( hTarget, vLocation)
             {
                 victim = hTarget,
                 attacker = self:GetCaster(),
-                damage = self:GetAbility():GetSpecialValueFor("dmg"),
+                damage = 50,
                 damage_type = DAMAGE_TYPE_PHYSICAL,
             }
 

@@ -102,9 +102,9 @@ function bear_charge:OnSpellStart()
                         self.caught_enemies[unit] = true
 
                         self.damageTable = {
-                            attacker = self.caster,
+                            attacker = self:GetCaster(),
                             victim = unit,
-                            damage = 100,
+                            damage = 150,
                             damage_type = self:GetAbilityDamageType(),
                             ability = self,
                         }

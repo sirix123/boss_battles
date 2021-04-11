@@ -337,7 +337,7 @@
 		"AttackRate"				"4"		// Speed of attack.
 		"AttackAnimationPoint"		"0.9"		// Normalized time in animation cycle to attack.
 		"AttackAcquisitionRange"	"10000"		// Range within a target can be acquired.
-		"AttackRange"				"350"		
+		"AttackRange"				"500"		
 
 		// Bounds
 		//----------------------------------------------------------------

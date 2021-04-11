@@ -29,15 +29,13 @@ function water_gun_dmg_buff:OnCreated(  )
         self.dmg_bonus = 8
     elseif self:GetStackCount() == 3 then
         self.dmg_bonus = 10
-    elseif self:GetStackCount() == 4 then
-        self.dmg_bonus = 15
     end
 
 end
 
 function water_gun_dmg_buff:OnRefresh(  )
     if IsServer() then
-        if self:GetStackCount() < 4 then
+        if self:GetStackCount() < 3 then
             self:IncrementStackCount()
         end
 
@@ -49,9 +47,6 @@ function water_gun_dmg_buff:OnRefresh(  )
             self.dmg_bonus = 8
         elseif self:GetStackCount() == 3 then
             self.dmg_bonus = 10
-        elseif self:GetStackCount() == 4 then
-            self.dmg_bonus = 15
-            self:GetCaster():AddNewModifier( self:GetCaster(), self, "water_gun_dmg_debuff", { duration = 5 } )
         end
 
     end
@@ -62,8 +57,6 @@ function water_gun_dmg_buff:OnRefresh(  )
         self.dmg_bonus = 8
     elseif self:GetStackCount() == 3 then
         self.dmg_bonus = 10
-    elseif self:GetStackCount() == 4 then
-        self.dmg_bonus = 15
     end
 
 end

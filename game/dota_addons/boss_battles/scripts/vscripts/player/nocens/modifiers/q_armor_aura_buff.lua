@@ -39,9 +39,9 @@ end
 -----------------------------------------------------------------------------
 function q_armor_aura_buff:OnDestroy()
 	if IsServer() then
-		--[[self.caster:FindAbilityByName("q_armor_aura"):SetActivated(true)
+		--self.caster:FindAbilityByName("q_armor_aura"):StartCooldown(self.caster:FindAbilityByName("q_armor_aura"):GetCooldown(1))
+		self.caster:FindAbilityByName("r_outgoing_dmg"):SetActivated(true)
 		self.caster:FindAbilityByName("e_regen_aura"):SetActivated(true)
-		self.caster:FindAbilityByName("r_outgoing_dmg"):SetActivated(true)]]
 	end
 end
 

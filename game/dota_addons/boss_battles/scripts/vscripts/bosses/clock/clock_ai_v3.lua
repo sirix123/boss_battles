@@ -58,7 +58,7 @@ function Spawn( entityKeyValues )
 
 	thisEntity.t_activated_furnaces = {thisEntity.furnace_1_unit, thisEntity.furnace_2_unit, thisEntity.furnace_3_unit, thisEntity.furnace_4_unit}
 
-	thisEntity.cool_down_between_furnaces = 20
+	thisEntity.cool_down_between_furnaces = 35
 
 	-- spawn arrows in furnace location
 	thisEntity.spawn_arrows = true
@@ -731,7 +731,7 @@ function CheckFurnace()
 			end
 
 			--after x seconds enrage
-			Timers:CreateTimer(7,function()
+			Timers:CreateTimer(10,function()
 
 				-- destroy particle effect
 				if thisEntity.nfx_1 ~= nil then
@@ -757,9 +757,9 @@ function CheckFurnace()
 				thisEntity:AddNewModifier( nil, nil, "enrage", { duration = -1 } )
 			end)
 
-			return 120
+			return 160
 		else
-			return 120
+			return 160
 		end
 
 	end)

@@ -18,35 +18,52 @@ function q_conq_shout:OnSpellStart()
     if IsServer() then
 
         local caster = self:GetCaster()
-        local duration = self:GetSpecialValueFor( "duration" )
-        self.radius = self:GetSpecialValueFor( "radius" )
+        self.radius = self:GetSpecialValueFor("radius")
 
-        self.tLocations = {}
-        self.tHandleVortex = {}
-        self.tFriends = {}
+        caster:AddNewModifier(caster, self, "q_conq_shout_modifier",
+        {
+            duration = 0.1, --self:GetSpecialValueFor( "duration" ) 0.1
+        })
+
+        -- Create Sound
+        EmitSoundOn( "Hero_Axe.Berserkers_Call", caster )
+
+        -- particle
+        local particle = 'particles/units/heroes/hero_elder_titan/elder_titan_echo_stomp.vpcf'
+
+        local particle_stomp_fx = ParticleManager:CreateParticle(particle, PATTACH_ABSORIGIN, caster)
+        ParticleManager:SetParticleControl(particle_stomp_fx, 0, caster:GetAbsOrigin())
+        ParticleManager:SetParticleControl(particle_stomp_fx, 1, Vector(self.radius, 1, 1))
+        ParticleManager:SetParticleControl(particle_stomp_fx, 2, Vector(250,0,0))
+        ParticleManager:ReleaseParticleIndex(particle_stomp_fx)
 
         -- find the vortex thinkers on the map, then add its location to the table
-        local i = 0
-        local previous_result = nil
+        --local i = 0
+        --[[local previous_result = nil
         local result = nil
         while i < 2 do
 
             if previous_result == nil then
-                result = Entities:FindByClassnameWithin(nil, "npc_dota_thinker", caster:GetAbsOrigin(), 9000)
+                result = Entities:FindByClassname(nil, "npc_dota_thinker")
             else
-                result = Entities:FindByClassnameWithin(previous_result, "npc_dota_thinker", caster:GetAbsOrigin(), 9000)
+                result = Entities:FindByClassname(previous_result, "npc_dota_thinker")
             end
+
+            print("result ",result)
 
             if result ~= nil then
                 previous_result = result
                 local modifier = result:FindModifierByName("r_blade_vortex_thinker")
                 if modifier then
+                    print("modifier ",modifier)
                     if modifier:GetCaster() == self:GetCaster() then
                         table.insert(self.tLocations,modifier.currentTarget)
                         table.insert(self.tHandleVortex,modifier)
                     end
                 end
             end
+
+            if result == nil then break end
 
             i = i + 1
         end
@@ -73,18 +90,6 @@ function q_conq_shout:OnSpellStart()
             end
         end
 
-        --[[ for friendly in the table add the modifier
-        if self.tFriends ~= nil and #self.tFriends ~= 0 then
-            for _,friend in pairs(self.tFriends) do
-                friend:AddNewModifier(
-                    caster, -- player source
-                    self, -- ability source
-                    "q_conq_shout_modifier", -- modifier name
-                    { duration = duration} -- kv
-                )
-            end
-        end]]
-
         -- increase duration of the vortex(s)
         if self.tHandleVortex ~= nil and #self.tHandleVortex ~= 0 then
             for _, vortex in pairs(self.tHandleVortex) do
@@ -107,34 +112,11 @@ function q_conq_shout:OnSpellStart()
                 -- set their obsorigin to caster origin
                 vortex.currentTarget = self:GetCaster():GetAbsOrigin()
 
+                print("moving vortex")
+                print("--------------")
+
             end
-        end
+        end]]
 
-        -- Create Sound
-        EmitSoundOn( "Hero_Axe.Berserkers_Call", self:GetCaster() )
-
-    end
-end
-
-function q_conq_shout:FindFriends( location )
-    if IsServer() then
-
-        local friendlies = FindUnitsInRadius(
-            self:GetCaster():GetTeamNumber(),	-- int, your team number
-            location,	-- point, center point
-            nil,	-- handle, cacheUnit. (not known)
-            self.radius,	-- float, radius. or use FIND_UNITS_EVERYWHERE
-            DOTA_UNIT_TARGET_TEAM_FRIENDLY,	-- int, team filter
-            DOTA_UNIT_TARGET_HERO + DOTA_UNIT_TARGET_BASIC,	-- int, type filter
-            DOTA_UNIT_TARGET_FLAG_INVULNERABLE,	-- int, flag filter
-            0,	-- int, order filter
-            false	-- bool, can grow cache
-	    )
-
-        if friendlies ~= nil and friendlies ~= 0 then
-            for _, friend in pairs(friendlies) do
-                table.insert(self.tFriends,friend)
-            end
-        end
     end
 end

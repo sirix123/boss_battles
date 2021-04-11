@@ -82,7 +82,7 @@
 		"SpellImmunityType"				"SPELL_IMMUNITY_ENEMIES_YES"
         "AbilityBehavior"				"DOTA_ABILITY_BEHAVIOR_NO_TARGET"
 		"AbilityCastRange" 				"600"
-        "AbilityCooldown"				"14.0"
+        "AbilityCooldown"				"15.0"
         "AbilityCastPoint"              "0.2"
 		"AbilityManaCost"        		"5"
 
@@ -96,7 +96,7 @@
 		{
 			"01"{ "var_type"			"FIELD_INTEGER"		"duration"					"10" }
 			"02"{ "var_type"			"FIELD_INTEGER"		"radius"					"500" }
-			"03"{ "var_type"			"FIELD_FLOAT"		"vortex_dmg_inc"			"0.3" }
+			"03"{ "var_type"			"FIELD_FLOAT"		"vortex_dmg_inc"			"0.4" }
 		}
 
         "precache"
@@ -130,9 +130,9 @@
         
 		"AbilitySpecial"
 		{
-			"01"{ "var_type"			"FIELD_INTEGER"		"duration"					"12" }
+			"01"{ "var_type"			"FIELD_INTEGER"		"duration"					"10" }
 			"02"{ "var_type"			"FIELD_INTEGER"		"radius"					"500" }
-			"03"{ "var_type"			"FIELD_FLOAT"		"bubble_amount"				"200" }
+			"03"{ "var_type"			"FIELD_FLOAT"		"bubble_amount"				"300" }
 		}
 
         "precache"
@@ -161,7 +161,7 @@
         "AbilityCastPoint"              "0.2"
 		"AbilityManaCost"        		"0"
 		"AbilityCharges"				"2"
-		"AbilityChargeRestoreTime"		"30"
+		"AbilityChargeRestoreTime"		"35"
 
 		"TargetingIndicator"
 		{
@@ -172,7 +172,7 @@
 		"AbilitySpecial"
 		{
 			"01"{ "var_type"			"FIELD_INTEGER"		"radius"							"250" }	
-			"02"{ "var_type"			"FIELD_INTEGER"		"duration"							"25" }	
+			"02"{ "var_type"			"FIELD_INTEGER"		"duration"							"20" }	
 			"03"{ "var_type"			"FIELD_INTEGER"		"base_dmg"							"150" }
 			"04"{ "var_type"			"FIELD_FLOAT"		"tick_rate"							"1" }
 			"05"{ "var_type"			"FIELD_INTEGER"		"shout_duration_increase"			"5" }

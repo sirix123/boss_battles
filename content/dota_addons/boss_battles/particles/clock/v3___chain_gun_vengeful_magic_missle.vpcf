@@ -1,4 +1,4 @@
-<!-- kv3 encoding:text:version{e21c7f3c-8a33-41c5-9977-a76d3a32aa0d} format:vpcf27:version{36c3961f-02a4-4c52-bf8f-6e3147d7d142} -->
+<!-- kv3 encoding:text:version{e21c7f3c-8a33-41c5-9977-a76d3a32aa0d} format:vpcf35:version{ec5bfcca-b89d-4591-9ef4-c8679487d623} -->
 {
 	_class = "CParticleSystemDefinition"
 	m_bShouldHitboxesFallbackToRenderBounds = false
@@ -6,41 +6,39 @@
 	m_flConstantRadius = 0.35
 	m_nConstantSequenceNumber = 6
 	m_bShouldSort = false
-	m_Renderers = 
+	m_nBehaviorVersion = 11
+	m_controlPointConfigurations = 
 	[
 		{
-			_class = "C_OP_RenderModels"
-			m_bOrientZ = true
-			m_ModelList = 
+			m_name = "preview"
+			m_drivers = 
 			[
 				{
-					m_model = resource:"models/heroes/vengeful/vengeful_terror_head.vmdl"
+					m_iAttachType = "PATTACH_WORLDORIGIN"
+					m_entityName = "self"
+				},
+				{
+					m_iControlPoint = 1
+					m_iAttachType = "PATTACH_WORLDORIGIN"
+					m_entityName = "self"
+				},
+				{
+					m_iControlPoint = 3
+					m_iAttachType = "PATTACH_WORLDORIGIN"
+					m_entityName = "self"
 				},
 			]
-			m_bAnimated = true
-			m_nLOD = 1
-			m_bForceLoopingAnimation = true
 		},
 	]
-	m_Operators = 
+	m_Emitters = 
 	[
 		{
-			_class = "C_OP_BasicMovement"
-		},
-		{
-			_class = "C_OP_Decay"
-			m_nOpEndCapState = 1
-		},
-		{
-			_class = "C_OP_SetChildControlPoints"
-			m_bSetOrientation = true
-			m_nFirstControlPoint = 3
-		},
-		{
-			_class = "C_OP_Orient2DRelToCP"
-			m_flRotOffset = 270.0
-			m_nCP = 1
-			m_nFieldOutput = "12"
+			_class = "C_OP_InstantaneousEmitter"
+			m_nParticlesToEmit = 
+			{
+				m_nType = "PF_TYPE_LITERAL"
+				m_flLiteralValue = 1.0
+			}
 		},
 	]
 	m_Initializers = 
@@ -56,15 +54,41 @@
 			m_nControlPoint = 1
 		},
 	]
-	m_Emitters = 
+	m_Operators = 
 	[
 		{
-			_class = "C_OP_InstantaneousEmitter"
-			m_nParticlesToEmit = 
-			{
-				m_nType = "PF_TYPE_LITERAL"
-				m_flLiteralValue = 1.0
-			}
+			_class = "C_OP_BasicMovement"
+		},
+		{
+			_class = "C_OP_Decay"
+			m_nOpEndCapState = "PARTICLE_ENDCAP_ENDCAP_ON"
+		},
+		{
+			_class = "C_OP_SetChildControlPoints"
+			m_bSetOrientation = true
+			m_nFirstControlPoint = 3
+		},
+		{
+			_class = "C_OP_Orient2DRelToCP"
+			m_flRotOffset = 270.0
+			m_nCP = 1
+			m_nFieldOutput = 12
+		},
+	]
+	m_Renderers = 
+	[
+		{
+			_class = "C_OP_RenderModels"
+			m_bOrientZ = true
+			m_ModelList = 
+			[
+				{
+					m_model = resource:"models/heroes/vengeful/vengeful_terror_head.vmdl"
+				},
+			]
+			m_bAnimated = true
+			m_nLOD = 1
+			m_bForceLoopingAnimation = true
 		},
 	]
 	m_Children = 
@@ -85,34 +109,4 @@
 			m_bDisableChild = true
 		},
 	]
-	m_controlPointConfigurations = 
-	[
-		{
-			m_name = "preview"
-			m_drivers = 
-			[
-				{
-					m_iAttachType = "PATTACH_WORLDORIGIN"
-					m_vecOffset = [ 0.0, 0.0, 0.0 ]
-					m_angOffset = [ null, null, null ]
-					m_entityName = "self"
-				},
-				{
-					m_iControlPoint = 1
-					m_iAttachType = "PATTACH_WORLDORIGIN"
-					m_vecOffset = [ 0.0, 0.0, 0.0 ]
-					m_angOffset = [ null, null, null ]
-					m_entityName = "self"
-				},
-				{
-					m_iControlPoint = 3
-					m_iAttachType = "PATTACH_WORLDORIGIN"
-					m_vecOffset = [ 0.0, 0.0, 0.0 ]
-					m_angOffset = [ null, null, null ]
-					m_entityName = "self"
-				},
-			]
-		},
-	]
-	m_nBehaviorVersion = 5
 }

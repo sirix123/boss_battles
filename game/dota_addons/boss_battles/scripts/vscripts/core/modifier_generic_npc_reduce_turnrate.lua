@@ -12,21 +12,8 @@ function modifier_generic_npc_reduce_turnrate:OnCreated( kv )
 
         self.interval = 0.03
 
-        local enemies = FindUnitsInRadius(
-            self:GetCaster():GetTeamNumber(),
-            self:GetCaster():GetAbsOrigin(),
-            nil,
-            5000,
-            DOTA_TEAM_BADGUYS,
-            DOTA_UNIT_TARGET_HERO,
-            DOTA_UNIT_TARGET_FLAG_INVULNERABLE,
-            FIND_CLOSEST,
-            false )
-
-        if #enemies == 0 or enemies == nil then
-            self:Destroy()
-        else
-            self.target = enemies[RandomInt(1,#enemies)]
+        if kv.target then
+            self.target = kv.target
             self.turn_rate = 25
             local vec = self.target:GetAbsOrigin()
             self:SetDirection( vec )
@@ -37,8 +24,34 @@ function modifier_generic_npc_reduce_turnrate:OnCreated( kv )
 
             self:StartIntervalThink(self.interval)
 
-        end
+        else
+            local enemies = FindUnitsInRadius(
+                self:GetCaster():GetTeamNumber(),
+                self:GetCaster():GetAbsOrigin(),
+                nil,
+                5000,
+                DOTA_TEAM_BADGUYS,
+                DOTA_UNIT_TARGET_HERO,
+                DOTA_UNIT_TARGET_FLAG_INVULNERABLE,
+                FIND_CLOSEST,
+                false )
 
+            if #enemies == 0 or enemies == nil then
+                self:Destroy()
+            else
+                self.target = enemies[RandomInt(1,#enemies)]
+                self.turn_rate = 25
+                local vec = self.target:GetAbsOrigin()
+                self:SetDirection( vec )
+                self.current_dir = self.target_dir
+                self.face_target = true
+                self.parent:SetForwardVector( self.current_dir )
+                self.turn_speed = self.interval*self.turn_rate
+
+                self:StartIntervalThink(self.interval)
+
+            end
+        end
     end
 end
 ----------------------------------------------------------------------------

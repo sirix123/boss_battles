@@ -34,9 +34,6 @@ function GameSetup:init()
     -- timer for updating player frames
     player_frame_manager:UpdatePlayer()
 
-    -- target indicators setup
-    TargetingIndicator:Load()
-
     --listen to game state event
     -- events here: https://developer.valvesoftware.com/wiki/Dota_2_Workshop_Tools/Scripting/Built-In_Engine_Events
     ListenToGameEvent("game_rules_state_change", Dynamic_Wrap(self, "OnStateChange"), self) -- valve engine event
@@ -114,6 +111,9 @@ function GameSetup:OnNPCSpawned(keys)
 
     if npc:IsRealHero() and npc:GetUnitName() ~= "npc_dota_hero_wisp" and npc.bFirstSpawned == nil then
         -- npc.bFirstSpawned is set to true during initlize()
+
+        -- target indicators setup
+        TargetingIndicator:Load()
 
         -- create our own hero list because of the custom hero select screen
         table.insert(HERO_LIST,npc)

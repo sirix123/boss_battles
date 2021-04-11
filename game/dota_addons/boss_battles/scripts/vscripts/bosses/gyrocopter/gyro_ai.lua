@@ -1,8 +1,8 @@
 gyro_ai = class({})
 LinkLuaModifier( "oil_ignite_fire_puddle_thinker", "bosses/gyrocopter/oil_ignite_fire_puddle_thinker", LUA_MODIFIER_MOTION_NONE )
-LinkLuaModifier( "whirlwind_phase_handler", "bosses/gyrocopter/whirlwind_phase_handler", LUA_MODIFIER_MOTION_NONE )
-LinkLuaModifier( "gyro_bubble", "bosses/gyrocopter/gyro_bubble", LUA_MODIFIER_MOTION_NONE )
 LinkLuaModifier( "modifier_flak_cannon", "bosses/gyrocopter/modifier_flak_cannon", LUA_MODIFIER_MOTION_NONE )
+LinkLuaModifier( "modifier_generic_disable_movement_abilities", "player/generic/modifier_generic_disable_movement_abilities", LUA_MODIFIER_MOTION_NONE )
+LinkLuaModifier( "modifier_generic_disable_auto_attack", "core/modifier_generic_disable_auto_attack", LUA_MODIFIER_MOTION_NONE )
 
 function Spawn( entityKeyValues )
 
@@ -59,14 +59,14 @@ function Spawn( entityKeyValues )
 	thisEntity.flame_thrower:StartCooldown(12)
 	thisEntity.flame_thrower_duration = thisEntity.flame_thrower:GetLevelSpecialValueFor("duration", thisEntity.flame_thrower:GetLevel())
 
-	thisEntity.whirlwind = thisEntity:FindAbilityByName( "whirlwind_v2" )
 	thisEntity.percent_total_health = thisEntity:GetBaseMaxHealth() / 4 -- 1/4 of max (50k if 200kmax)
-	thisEntity.whirlwind_count_tracker = 1
-	thisEntity.phase_2_count = 0
-	thisEntity.createParticleOnce = true
-	thisEntity.bubble_kill_time = 20
-
+	thisEntity.gyro_call_down_count_tracker = 1
 	thisEntity.gyro_call_down = thisEntity:FindAbilityByName( "gyro_call_down" )
+	thisEntity.gyro_call_down_ring_gap = thisEntity.gyro_call_down:GetLevelSpecialValueFor("gap_between_rings", thisEntity.gyro_call_down:GetLevel())
+	thisEntity.max_rings = thisEntity.gyro_call_down:GetLevelSpecialValueFor("max_rings", thisEntity.gyro_call_down:GetLevel())
+	thisEntity.call_down_phase_over = false
+	thisEntity.summon_rocks = false
+	thisEntity.gyro_in_place = false
 
 	thisEntity.flee = thisEntity:FindAbilityByName( "flee_v2" )
 	thisEntity.flee:StartCooldown(15)
@@ -138,44 +138,25 @@ function GyroThink()
 	-- whirldwind modifier removed in whirlwind spell when its finished
 
 	phase 1 = normal phase
-	phase 2 = whirlwind attack
-	phase 3 = bubble after phase 2
-	phase 4 = flak cannon phase (fly around in circle)
-
+	phase 2 = flak cannon phase (fly around in circle)
+	phase 3 = calldown (rings of rocks)
+	phase 4 = calldown (rings of rocks)
+	phase 5 = calldown (rings of rocks)
 	]]
 
 	--print("phase ",thisEntity.PHASE)
 
-	if thisEntity.PHASE == 3 and thisEntity:HasModifier("gyro_bubble") == false then
-		print("phase 1 starting")
-
-		if thisEntity:HasModifier("modifier_generic_disable_auto_attack") == true then
-			thisEntity:RemoveModifier("modifier_generic_disable_auto_attack")
-		end
-
-		thisEntity:RemoveModifierByName("modifier_rooted")
-		thisEntity.gyro_call_down:EndCooldown()
-		thisEntity.PHASE = 1
-	end
-
 	if thisEntity:GetHealthDeficit() > thisEntity.percent_total_health then
 		print("phase 2 starting")
-		thisEntity.createParticleOnce = true
-		thisEntity.whirlwind_count_tracker = thisEntity.whirlwind_count_tracker + 1
-		thisEntity.percent_total_health = thisEntity.percent_total_health * thisEntity.whirlwind_count_tracker
+		thisEntity.summon_rocks = true
+		thisEntity.gyro_call_down_count_tracker = thisEntity.gyro_call_down_count_tracker + 1
+		thisEntity.percent_total_health = thisEntity.percent_total_health * thisEntity.gyro_call_down_count_tracker
 		thisEntity:AddNewModifier( nil, nil, "modifier_generic_disable_auto_attack", { duration = -1 })
-		thisEntity.PHASE = 2
-	end
-
-	if thisEntity.phase_2_count == 3 then
-		print("phase 3 starting")
-		thisEntity:AddNewModifier( nil, nil, "gyro_bubble", { duration = -1 } )
-		thisEntity.phase_2_count = 0
 		thisEntity.PHASE = 3
 	end
 
 	if thisEntity.flak_cannon:IsFullyCastable() and thisEntity.flak_cannon:IsCooldownReady() and thisEntity.flak_cannon:IsInAbilityPhase() == false and thisEntity.PHASE == 1 and thisEntity.circle_timer_running == false then
-		print("phase 4 starting")
+		print("phase 3 starting")
 
 		thisEntity:EmitSound("Hero_Gyrocopter.FlackCannon.Activate")
 
@@ -188,11 +169,23 @@ function GyroThink()
             })
 
 		CricleTimer()
-		thisEntity.PHASE = 4
+		thisEntity.PHASE = 2
 	end
 
-	if thisEntity.flak_cannon:IsCooldownReady() == false and thisEntity.PHASE == 4 and thisEntity.circle_timer_running == false then
+	if thisEntity.flak_cannon:IsCooldownReady() == false and thisEntity.PHASE == 2 and thisEntity.circle_timer_running == false then
 		print("phase 1 starting")
+		thisEntity.PHASE = 1
+	end
+
+	if thisEntity.PHASE == 5 and thisEntity.call_down_phase_over == true then
+		print("phase 1 starting")
+		thisEntity.gyro_in_place = false
+		thisEntity.call_down_phase_over = false
+		CleanUpRemainingRocks()
+		RemoveModifierByName_V2( "modifier_generic_disable_movement_abilities" )
+		thisEntity:RemoveModifierByName("modifier_generic_disable_auto_attack")
+		thisEntity:RemoveModifierByName("modifier_rooted")
+		thisEntity.gyro_call_down:EndCooldown()
 		thisEntity.PHASE = 1
 	end
 
@@ -225,49 +218,42 @@ function GyroThink()
 
 	end
 
-	if thisEntity.PHASE == 2 then
-		if thisEntity.whirlwind:IsFullyCastable() and thisEntity.whirlwind:IsCooldownReady() and thisEntity.whirlwind:IsInAbilityPhase() == false then
-			thisEntity.phase_2_count = thisEntity.phase_2_count + 1
-			return CastWhirlwind()
+	if thisEntity.PHASE == 3 then
+
+		StartCallDownPhase() -- stun players, (stun lasts just after the rocks are created), apply no movement abilities modifier
+
+		thisEntity:MoveToPosition(Vector(-12204.878662, 1552.228516, 131.128906)) --fly to center
+
+		thisEntity.PHASE = 4
+	end
+
+	if thisEntity.PHASE == 4 then
+
+		if thisEntity.gyro_in_place == false then
+			if ( thisEntity:GetAbsOrigin() - Vector(-12204.878662, 1552.228516, 131.128906) ):Length2D() < 100 then -- once in the center
+				thisEntity.gyro_in_place = true
+
+				thisEntity:AddNewModifier(
+					thisEntity, -- player source
+					nil, -- ability source
+					"modifier_rooted", -- modifier name
+					{ duration = -1 } -- kv
+				)
+
+				TeleportHeroesToCenter() --, tp them to center,
+
+				CreateRockRings() -- call create rock function (dependong on kv level determine number of rocks)
+
+				-- swithcing to phase 5 is inside the create rockring
+			end
 		end
 	end
 
-	if thisEntity.PHASE == 3 then
-		if thisEntity.createParticleOnce == true then
-			thisEntity.createParticleOnce = false
-
-			thisEntity.particle_bubble = ParticleManager:CreateParticle("particles/timber/timber_abaddon_aphotic_shield.vpcf", PATTACH_ABSORIGIN_FOLLOW, thisEntity)
-			local common_vector = Vector(250,0,250)
-			ParticleManager:SetParticleControl(thisEntity.particle_bubble , 1, common_vector)
-			ParticleManager:SetParticleControl(thisEntity.particle_bubble , 5, Vector(250,0,0))
-			ParticleManager:SetParticleControlEnt(thisEntity.particle_bubble , 0, thisEntity, PATTACH_POINT_FOLLOW, "attach_hitloc", thisEntity:GetAbsOrigin(), true)
-
-			local bubble = 5000
-			thisEntity.gyroHP = thisEntity:GetHealth()
-			thisEntity.gyroHP_bubble_expire = thisEntity.gyroHP - bubble
-
-			-- remove attack and start a calldown timer
-			CallDownTimer() -- at the end of this timer he will cast calldown
-			thisEntity:AddNewModifier( nil, nil, "modifier_generic_disable_auto_attack", { duration = -1 })
-
-		end
-
-		-- if players hurt him enough do this...
-		if thisEntity:GetHealth() < thisEntity.gyroHP_bubble_expire then
-
-			if thisEntity.call_down_timer ~= nil then
-				Timers:RemoveTimer(thisEntity.call_down_timer)
-			end
-
-			if thisEntity:HasModifier("modifier_generic_disable_auto_attack") then
-				thisEntity:RemoveModifier("modifier_generic_disable_auto_attack")
-			end
-
-			-- destroy particle if exists
-			if thisEntity.particle_bubble then
-				ParticleManager:DestroyParticle(thisEntity.particle_bubble ,true)
-				thisEntity:RemoveModifierByName("gyro_bubble")
-			end
+	if thisEntity.PHASE == 5 then
+		-- after x seconds calldown
+		if thisEntity.gyro_call_down:IsFullyCastable() and thisEntity.gyro_call_down:IsCooldownReady() and thisEntity.gyro_call_down:IsInAbilityPhase() == false then
+			print("casting calldown")
+			return CastCallDown()
 		end
 	end
 
@@ -354,20 +340,9 @@ function CastFlameThrower()
 end
 --------------------------------------------------------------------------------
 
-function CastWhirlwind()
-
-	ExecuteOrderFromTable({
-		UnitIndex = thisEntity:entindex(),
-		OrderType = DOTA_UNIT_ORDER_CAST_NO_TARGET,
-		AbilityIndex = thisEntity.whirlwind:entindex(),
-		Queue = false,
-	})
-
-	return 20 -- reutrn the whirlwind duration 20?
-end
---------------------------------------------------------------------------------
-
 function CastCallDown()
+
+	thisEntity.call_down_phase_over = true
 
 	ExecuteOrderFromTable({
 		UnitIndex = thisEntity:entindex(),
@@ -376,7 +351,7 @@ function CastCallDown()
 		Queue = false,
 	})
 
-	return 1
+	return thisEntity.gyro_call_down:GetChannelTime() + 3
 end
 --------------------------------------------------------------------------------
 
@@ -457,21 +432,6 @@ function IgniteOil()
 end
 --------------------------------------------------------------------------------
 
-function CallDownTimer()
-
-	thisEntity.call_down_timer = Timers:CreateTimer(20,function()
-		if IsValidEntity(thisEntity) == false then return false end
-
-			-- starts channeling calldown
-			if thisEntity.gyro_call_down:IsFullyCastable() and thisEntity.gyro_call_down:IsCooldownReady() and thisEntity.gyro_call_down:IsChanneling() == false then
-				return CastCallDown()
-			end
-
-		return false
-	end)
-end
---------------------------------------------------------------------------------
-
 function CricleTimer()
     thisEntity.circle_timer_running = true
     local currentAngle = 0
@@ -484,7 +444,7 @@ function CricleTimer()
     Timers:CreateTimer(function()
         if IsValidEntity(thisEntity) == false then return false end
 
-        if thisEntity.PHASE ~= 4 or thisEntity == nil or count >= max_duration then
+        if thisEntity.PHASE ~= 2 or thisEntity == nil or count >= max_duration then
             thisEntity.circle_timer_running = false
             return false
         end
@@ -507,9 +467,180 @@ function LevelUpAbilities()
 	thisEntity.flak_cannon:SetLevel(thisEntity.level_tracker)
 	thisEntity.cannon_ball:SetLevel(thisEntity.level_tracker)
 	thisEntity.flame_thrower:SetLevel(thisEntity.level_tracker)
-	thisEntity.whirlwind:SetLevel(thisEntity.level_tracker)
 	thisEntity.gyro_call_down:SetLevel(thisEntity.level_tracker)
 	thisEntity.flee:SetLevel(thisEntity.level_tracker)
 
 end
 --------------------------------------------------------------------------------
+
+function StartCallDownPhase()
+
+	local enemies = FindUnitsInRadius(
+		thisEntity:GetTeamNumber(),
+		thisEntity:GetAbsOrigin(),
+		nil,
+		5000,
+		DOTA_UNIT_TARGET_TEAM_ENEMY,
+		DOTA_UNIT_TARGET_HERO,
+		DOTA_UNIT_TARGET_FLAG_INVULNERABLE,
+		FIND_CLOSEST,
+		false )
+
+	if #enemies == 0 or enemies == nil then
+		return
+	else
+
+		for _, enemy in pairs(enemies) do
+
+			local info = {
+				EffectName = "particles/units/heroes/hero_disruptor/disruptor_base_attack.vpcf",
+				Ability = nil,
+				iMoveSpeed = 3000,
+				Source = thisEntity,
+				Target = enemy,
+				bDodgeable = false,
+				iSourceAttachment = DOTA_PROJECTILE_ATTACHMENT_HITLOCATION,
+				bProvidesVision = true,
+				iVisionTeamNumber = thisEntity:GetTeamNumber(),
+				iVisionRadius = 300,
+			}
+
+			ProjectileManager:CreateTrackingProjectile( info )
+
+			thisEntity:EmitSound("Hero_Disruptor.Attack")
+
+			enemy:AddNewModifier(
+				thisEntity, -- player source
+				nil, -- ability source
+				"modifier_generic_stunned", -- modifier name
+				{ duration = -1 } -- kv
+			)
+
+			enemy:AddNewModifier(
+				thisEntity, -- player source
+				nil, -- ability source
+				"modifier_generic_disable_movement_abilities", -- modifier name
+				{ duration = -1 } -- kv
+			)
+
+		end
+	end
+end
+--------------------------------------------------------------------------------
+
+function TeleportHeroesToCenter()
+	local enemies = FindUnitsInRadius(
+		thisEntity:GetTeamNumber(),
+		thisEntity:GetAbsOrigin(),
+		nil,
+		5000,
+		DOTA_UNIT_TARGET_TEAM_ENEMY,
+		DOTA_UNIT_TARGET_HERO,
+		DOTA_UNIT_TARGET_FLAG_INVULNERABLE,
+		FIND_CLOSEST,
+		false )
+
+	if #enemies == 0 or enemies == nil then
+		return
+	else
+		for _, enemy in pairs(enemies) do
+			FindClearSpaceForUnit(enemy, Vector(-12204.878662, 1552.228516, 131.128906), true)
+		end
+	end
+end
+--------------------------------------------------------------------------------
+
+function CreateRockRings()
+	local number_of_rings = thisEntity.max_rings
+	local gap_between_rings = thisEntity.gyro_call_down_ring_gap
+	local timerDelay = 0.03
+	local rotationPerTick = 5
+	local tickCount = 0
+	local start_point =  GetGroundPosition(thisEntity:GetAbsOrigin() + Vector(0, gap_between_rings, 0), nil)
+
+	local current_ring = 1
+
+	Timers:CreateTimer(function()
+
+		if (tickCount * rotationPerTick) > 360  then
+			current_ring = current_ring + 1
+			start_point =  GetGroundPosition(thisEntity:GetAbsOrigin() + Vector(0, gap_between_rings * current_ring, 0), nil)
+ 			tickCount = 0
+		end
+
+		--end condition: stop after all rings created
+		if current_ring > number_of_rings then
+			RemoveModifierByName_V2( "modifier_generic_stunned" ) -- finds heroes removes stun
+			thisEntity.PHASE = 5
+			return false
+		end
+
+		start_point = RotatePosition(thisEntity:GetAbsOrigin(), QAngle(0,rotationPerTick,0), start_point )
+		start_point.z = 132
+
+		local rock_unit = CreateUnitByName("npc_gyro_ring_blocker", start_point, true, nil, nil, DOTA_TEAM_BADGUYS)
+		rock_unit:SetHullRadius( 80 )
+		--rock_unit:SetForwardVector( Vector( RandomFloat(-1, 1) , RandomFloat(-1, 1), RandomFloat(-1, 1) ) )
+
+		--DebugDrawCircle(start_point,Vector(255,255,255),128,100,true,60)
+
+		tickCount = tickCount + 1
+		return timerDelay
+	end)
+end
+--------------------------------------------------------------------------------
+
+function RemoveModifierByName_V2( sModifier )
+	local enemies = FindUnitsInRadius(
+		thisEntity:GetTeamNumber(),
+		thisEntity:GetAbsOrigin(),
+		nil,
+		5000,
+		DOTA_UNIT_TARGET_TEAM_ENEMY,
+		DOTA_UNIT_TARGET_HERO,
+		DOTA_UNIT_TARGET_FLAG_INVULNERABLE,
+		FIND_CLOSEST,
+		false )
+
+	if #enemies == 0 or enemies == nil then
+		return
+	else
+		for _, enemy in pairs(enemies) do
+			if enemy:HasModifier(sModifier) then
+				enemy:RemoveModifierByName(sModifier)
+			end
+		end
+	end
+end
+--------------------------------------------------------------------------------
+
+function CleanUpRemainingRocks()
+    if IsServer() then
+        local units = FindUnitsInRadius(
+			thisEntity:GetTeamNumber(),
+            thisEntity:GetAbsOrigin(),
+            nil,
+            5000,
+            DOTA_UNIT_TARGET_TEAM_BOTH,
+            DOTA_UNIT_TARGET_ALL,
+            DOTA_UNIT_TARGET_FLAG_INVULNERABLE,
+            FIND_ANY_ORDER,
+            false )
+
+        if units ~= nil and #units ~= 0 then
+            for _,unit in pairs(units) do
+                if unit:GetUnitName() == "npc_gyro_ring_blocker" then
+
+					local particle = "particles/units/heroes/hero_rubick/rubick_chaos_meteor_cubes.vpcf"
+					local nfx = ParticleManager:CreateParticle(particle, PATTACH_WORLDORIGIN, nil)
+					ParticleManager:SetParticleControl(nfx , 3, unit:GetAbsOrigin())
+					ParticleManager:ReleaseParticleIndex(nfx)
+
+                    unit:RemoveSelf()
+                end
+            end
+        end
+
+    end
+end
+------------------------------------------------------------------------------------------------------------------------------

@@ -37,7 +37,7 @@ export function GenerateLocalizationData(): LocalizationData
     Modifiers.push({
         modifier_classname: "q_conq_shout_modifier",
         name: "Conquerer Shout",
-        description: `Invulnerable and regenerating rage.`,
+        description: `Your vortexes are generating you energy and have increased damage.`,
     });
 
     Abilities.push({
@@ -114,7 +114,7 @@ export function GenerateLocalizationData(): LocalizationData
     Abilities.push({
         ability_classname: "q_conq_shout",
         name: "Conquerer Shout",
-        description: `Increase the damage of your Blade Vortex(s).`,
+        description: `Your vortex(s) are generating you energy and have increased damage`,
         notes:
         [
         ],
@@ -158,10 +158,6 @@ export function GenerateLocalizationData(): LocalizationData
         ability_classname: "r_blade_vortex",
         name: "Blade Vortex",
         description: `Place a Blade Vortex on the ground that deals damage and channels your shouts.`,
-        notes:
-        [  
-            'Shouts will increase the duration of the vortex.'
-        ],
         ability_specials:
         [
             {
@@ -172,11 +168,6 @@ export function GenerateLocalizationData(): LocalizationData
             {
                 ability_special: "base_dmg",
                 text: "DAMAGE:"
-            },
-
-            {
-                ability_special: "shout_duration_increase",
-                text: "PER SHOUT VORTEX DURATION INCREASE:"
             },
 
             {

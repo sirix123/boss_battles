@@ -11,7 +11,7 @@ function item_water_gun:OnSpellStart()
 
     local projectile_direction = ( vTargetPos - origin ):Normalized()
 
-    local radius = 150
+    local radius = 250
 
     local projectile = {
         EffectName = "particles/gyrocopter/water_gun_morphling_base_attack.vpcf",--"particles/units/heroes/hero_meepo/meepo_earthbind_projectile_fx.vpcf",--"particles/units/heroes/hero_meepo/meepo_earthbind_projectile_fx.vpcf", --"particles/econ/items/mars/mars_ti9_immortal/mars_ti9_immortal_crimson_spear.vpcf",--"particles/units/heroes/hero_meepo/meepo_earthbind_projectile_fx.vpcf",
@@ -40,7 +40,7 @@ function item_water_gun:OnSpellStart()
             local i = 0
             local previous_result = nil
             local result = nil
-            while i < 4 do
+            while i < 8 do
 
                 if previous_result == nil then
                     result = Entities:FindByClassnameWithin(nil, "npc_dota_thinker", pos, radius)
@@ -81,6 +81,6 @@ end
 ---------------------------------------------------------------------------------------------------------------------------------------------------------------------
 
 function item_water_gun:GetAOERadius()
-	return 150
+	return 250
 end
 ---------------------------------------------------------------------------------------------------------------------------------------------------------------------

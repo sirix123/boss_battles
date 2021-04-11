@@ -3,27 +3,12 @@ tinker_teleport_beam_phase = class({})
 function tinker_teleport_beam_phase:OnAbilityPhaseStart()
     if IsServer() then
 
-        self:GetCaster():StartGestureWithPlaybackRate(ACT_DOTA_TELEPORT, 1.5)
-
-        -- sound effect
-        EmitSoundOnLocationWithCaster(self:GetCaster():GetAbsOrigin(), "NeutralItem.TeleportToStash", self:GetCaster())
-
-        local particle = "particles/econ/events/ti8/teleport_end_ti8.vpcf"
-        self.effect_cast = ParticleManager:CreateParticle(particle, PATTACH_WORLDORIGIN, nil)
-        ParticleManager:SetParticleControl(self.effect_cast, 0, self:GetCaster():GetAbsOrigin())
-        ParticleManager:SetParticleControl(self.effect_cast, 1, self:GetCaster():GetAbsOrigin())
-        --ParticleManager:ReleaseParticleIndex(effect_cast)
-
         return true
     end
 end
 
 function tinker_teleport_beam_phase:OnSpellStart()
     if IsServer() then
-
-        self:GetCaster():RemoveGesture(ACT_DOTA_TELEPORT)
-
-        ParticleManager:DestroyParticle(self.effect_cast,false)
 
         StopSoundOn("NeutralItem.TeleportToStash", self:GetCaster())
 

@@ -6,7 +6,7 @@
 	m_flConstantRadius = 24.0
 	m_ConstantColor = [ 255, 255, 255, 220 ]
 	m_bShouldSort = false
-	m_nBehaviorVersion = 5
+	m_nBehaviorVersion = 11
 	m_controlPointConfigurations = 
 	[
 		{
@@ -15,29 +15,21 @@
 			[
 				{
 					m_iAttachType = "PATTACH_WORLDORIGIN"
-					m_vecOffset = [ 0.0, 0.0, 0.0 ]
-					m_angOffset = [ 0.0, 0.0, 0.0 ]
 					m_entityName = "self"
 				},
 				{
 					m_iControlPoint = 1
 					m_iAttachType = "PATTACH_WORLDORIGIN"
-					m_vecOffset = [ 0.0, 0.0, 0.0 ]
-					m_angOffset = [ 0.0, 0.0, 0.0 ]
 					m_entityName = "self"
 				},
 				{
 					m_iControlPoint = 3
 					m_iAttachType = "PATTACH_WORLDORIGIN"
-					m_vecOffset = [ 0.0, 0.0, 0.0 ]
-					m_angOffset = [ 0.0, 0.0, 0.0 ]
 					m_entityName = "self"
 				},
 				{
 					m_iControlPoint = 9
 					m_iAttachType = "PATTACH_WORLDORIGIN"
-					m_vecOffset = [ 0.0, 0.0, 0.0 ]
-					m_angOffset = [ 0.0, 0.0, 0.0 ]
 					m_entityName = "self"
 				},
 			]
@@ -503,7 +495,7 @@
 		},
 		{
 			_class = "C_OP_RampScalarLinear"
-			m_nField = "4"
+			m_nField = 4
 			m_RateMin = -16.0
 			m_RateMax = 16.0
 			m_flEndTime_min = 1000000000.0

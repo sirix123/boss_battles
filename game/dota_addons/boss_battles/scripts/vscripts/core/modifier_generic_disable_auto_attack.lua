@@ -11,17 +11,28 @@ function modifier_generic_disable_auto_attack:IsStunDebuff()
 end
 
 --------------------------------------------------------------------------------
+function modifier_generic_disable_auto_attack:OnCreated()
+	if IsServer() then
+		print("creating modifier_generic_disable_auto_attack")
+	end
+end
 
-
-function modifier_generic_disable_auto_attack:DeclareFunctions()
-	local funcs = {
-		MODIFIER_PROPERTY_DISABLE_AUTOATTACK,
+function modifier_generic_disable_auto_attack:CheckState()
+	local state = {
+		[MODIFIER_STATE_DISARMED] = true,
 	}
 
-	return funcs
+	return state
 end
+
+function modifier_generic_disable_auto_attack:DeclareFunctions()
+    local funcs = {
+        MODIFIER_PROPERTY_DISABLE_AUTOATTACK,
+    }
+    return funcs
+end
+
 
 function modifier_generic_disable_auto_attack:GetDisableAutoAttack()
-	return true
+    return true
 end
-

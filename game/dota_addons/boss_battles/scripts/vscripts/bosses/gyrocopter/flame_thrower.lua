@@ -6,12 +6,35 @@ function flame_thrower:OnAbilityPhaseStart()
         self:GetCaster():StartGestureWithPlaybackRate(ACT_DOTA_CAST_ABILITY_1, 0.4)
         self.create_particle = true
 
-        self:GetCaster():AddNewModifier( self:GetCaster(), self, "modifier_generic_npc_reduce_turnrate",
-        {
-            duration = -1,
-        })
+        local enemies = FindUnitsInRadius(
+            self:GetCaster():GetTeamNumber(),
+            self:GetCaster():GetAbsOrigin(),
+            nil,
+            5000,
+            DOTA_TEAM_BADGUYS,
+            DOTA_UNIT_TARGET_HERO,
+            DOTA_UNIT_TARGET_FLAG_INVULNERABLE,
+            FIND_CLOSEST,
+            false )
 
-        return true
+        if #enemies == 0 or enemies == nil then
+            return false
+        else
+            local hTarget = enemies[RandomInt(1,#enemies)]
+            self:GetCaster():AddNewModifier( self:GetCaster(), self, "modifier_generic_npc_reduce_turnrate",
+            {
+                duration = -1,
+                target = hTarget,
+            })
+
+            self.nfx_indicator = ParticleManager:CreateParticle( "particles/gyrocopter/gyro_flame_debuff.vpcf", PATTACH_OVERHEAD_FOLLOW, hTarget )
+            ParticleManager:SetParticleControl( self.nfx_indicator, 0, hTarget:GetAbsOrigin() )
+            ParticleManager:SetParticleControl( self.nfx_indicator, 3, hTarget:GetAbsOrigin() )
+            ParticleManager:SetParticleControl( self.nfx_indicator, 4, Vector(self:GetSpecialValueFor("duration") + 1,0,0) )
+            ParticleManager:ReleaseParticleIndex(self.nfx_indicator)
+
+            return true
+        end
     end
 end
 ---------------------------------------------------------------------------------------------------------------------------------------
@@ -24,8 +47,8 @@ function flame_thrower:OnAbilityPhaseInterrupted()
 
         self:GetCaster():RemoveModifierByName("modifier_generic_npc_reduce_turnrate")
 
-        if self.nfx ~= nil then
-            ParticleManager:DestroyParticle(self.nfx,true)
+        if self.nfx_indicator ~= nil then
+            ParticleManager:DestroyParticle(self.nfx_indicator,true)
         end
 
     end
@@ -57,6 +80,9 @@ function flame_thrower:OnSpellStart( )
             if self.nfx ~= nil then
                 ParticleManager:DestroyParticle(self.nfx,true)
             end
+            if self.nfx_indicator ~= nil then
+                ParticleManager:DestroyParticle(self.nfx_indicator,true)
+            end
             i = 0
             return false
         end
@@ -68,6 +94,10 @@ function flame_thrower:OnSpellStart( )
             self:StartCooldown(self:GetCooldown(self:GetLevel()))
             if self:GetCaster():HasModifier("modifier_generic_npc_reduce_turnrate") == true then
                 self:GetCaster():RemoveModifierByName("modifier_generic_npc_reduce_turnrate")
+            end
+
+            if self.nfx_indicator ~= nil then
+                ParticleManager:DestroyParticle(self.nfx_indicator,true)
             end
             i = 0
             return false
