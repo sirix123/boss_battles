@@ -59,17 +59,21 @@ function GameSetup:OnStateChange()
     end
 
     if GameRules:State_Get() == DOTA_GAMERULES_STATE_HERO_SELECTION then
-        ModeSelector:Start()
-        HeroSelection:Start()
+
     end
 
     if GameRules:State_Get() == DOTA_GAMERULES_STATE_GAME_IN_PROGRESS then
+        ModeSelector:Start()
+        HeroSelection:Start()
 
         -- register the raid wipe timer
         self:RegisterRaidWipe()
 
         -- spawn testing stuff
         intermission_manager:SpawnTestingStuff()
+
+        -- target indicators setup
+        TargetingIndicator:Load()
 
     end
 
@@ -112,9 +116,6 @@ function GameSetup:OnNPCSpawned(keys)
     if npc:IsRealHero() and npc:GetUnitName() ~= "npc_dota_hero_wisp" and npc.bFirstSpawned == nil then
         -- npc.bFirstSpawned is set to true during initlize()
 
-        -- target indicators setup
-        TargetingIndicator:Load()
-
         -- create our own hero list because of the custom hero select screen
         table.insert(HERO_LIST,npc)
 
@@ -134,18 +135,15 @@ function GameSetup:OnNPCSpawned(keys)
         end
 
         -- level up abilities for all heroes to level 1
-        for _, hero in pairs(HERO_NAME_LIST) do
-            if hero == npc:GetUnitName() then
-                local index = 0
-
-                while (npc:GetAbilityByIndex(index) ~= nil) do
-                    if npc:GetAbilityByIndex(index):GetAbilityType() ~= 2 then
-                        npc:GetAbilityByIndex(index):SetLevel(1)
-                        index = index +1
-                    end
+        for i = 0, 23 do
+            local ability = npc:GetAbilityByIndex(i)
+            if ability then
+                if ability:GetAbilityType() ~= 2 and ability:GetName() ~= "special_bonus_attributes" then -- To not level up the talents
+                    ability:SetLevel(1)
                 end
             end
         end
+
     end
 end
 --------------------------------------------------------------------------------------------------

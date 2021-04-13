@@ -15,22 +15,18 @@
 			[
 				{
 					m_iAttachType = "PATTACH_WORLDORIGIN"
-					m_vecOffset = [ 0.0, 0.0, 0.0 ]
-					m_angOffset = [ 0.0, 0.0, 0.0 ]
 					m_entityName = "self"
 				},
 				{
 					m_iControlPoint = 1
 					m_iAttachType = "PATTACH_WORLDORIGIN"
 					m_vecOffset = [ 1.0, 0.0, 0.0 ]
-					m_angOffset = [ 0.0, 0.0, 0.0 ]
 					m_entityName = "self"
 				},
 				{
 					m_iControlPoint = 2
 					m_iAttachType = "PATTACH_WORLDORIGIN"
 					m_vecOffset = [ 1.0, 0.0, 0.0 ]
-					m_angOffset = [ 0.0, 0.0, 0.0 ]
 					m_entityName = "self"
 				},
 			]
@@ -42,10 +38,10 @@
 			m_ChildRef = resource:"particles/econ/events/darkmoon_2017/darkmoon_calldown_marker_ring.vpcf"
 		},
 		{
-			m_ChildRef = resource:"particles/econ/events/darkmoon_2017/darkmoon_calldown_marker_top_rope.vpcf"
+			m_ChildRef = resource:"particles/gyrocopter/gyro_darkmoon_calldown_marker_top_rope.vpcf"
 		},
 		{
-			m_ChildRef = resource:"particles/econ/events/darkmoon_2017/darkmoon_calldown_marker_core.vpcf"
+			m_ChildRef = resource:"particles/gyrocopter/gyro_darkmoon_calldown_marker_core.vpcf"
 		},
 		{
 			m_ChildRef = resource:"particles/econ/events/darkmoon_2017/darkmoon_calldown_marker_arrows.vpcf"

@@ -18,16 +18,24 @@ end
 ]]
 function HeroSelection:Start()
 
-	HeroSelection.numPickers = PlayerResource:GetPlayerCount()
-	HeroSelection.playersPicked  = 0
-	HeroSelection.playerPicks = {}
-	HeroSelection.playerSelects = {}
+	if PICKING_DONE == false then
 
-	--Listen for the pick event
-	HeroSelection.listener = CustomGameEventManager:RegisterListener( "hero_picked", HeroSelection.HeroPicked )
+		print("are we sending the open hero select event?")
 
-	--Listen for the select event
-	HeroSelection.listener = CustomGameEventManager:RegisterListener( "hero_selected", HeroSelection.HeroSelected )
+		CustomGameEventManager:Send_ServerToAllClients( "begin_hero_select", { })
+
+		HeroSelection.numPickers = PlayerResource:GetPlayerCount()
+		HeroSelection.playersPicked  = 0
+		HeroSelection.playerPicks = {}
+		HeroSelection.playerSelects = {}
+
+		--Listen for the pick event
+		HeroSelection.listener = CustomGameEventManager:RegisterListener( "hero_picked", HeroSelection.HeroPicked )
+
+		--Listen for the select event
+		HeroSelection.listener = CustomGameEventManager:RegisterListener( "hero_selected", HeroSelection.HeroSelected )
+
+	end
 end
 
 --[[

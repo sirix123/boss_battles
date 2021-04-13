@@ -7,8 +7,14 @@ function HideOther(top_panel){
     var neutral_item = top_panel.FindChildTraverse("inventory_neutral_slot_container");
     neutral_item.style.visibility = "collapse";
 
-    var talents = top_panel.FindChildTraverse("StatBranch");
+    var talents = top_panel.FindChildTraverse("StatBranchBG");
     talents.style.visibility = "collapse";
+
+    var talents_2 = top_panel.FindChildTraverse("StatBranchGraphics");
+    talents_2.style.visibility = "collapse";
+
+    var talents_3 = top_panel.FindChildTraverse("StatBranch");
+    talents_3.style.visibility = "collapse";
 
     var guides = top_panel.FindChildTraverse("GuideFlyout");
     guides.style.visibility = "collapse";

@@ -553,7 +553,7 @@
 		{
             "01"{ "var_type"			"FIELD_INTEGER"		"totalTicks"		           "30" }
             "02"{ "var_type"			"FIELD_INTEGER"		"timerInterval"		           "1" }
-            "03"{ "var_type"			"FIELD_INTEGER"		"timerInterval"		           "8 8 16 16" }
+            "03"{ "var_type"			"FIELD_INTEGER"		"nCogs"		                    "8 16 24 24" }
 		}
 
         "precache"

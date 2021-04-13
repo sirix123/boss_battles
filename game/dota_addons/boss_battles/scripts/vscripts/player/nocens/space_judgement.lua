@@ -75,7 +75,7 @@ function space_judgement:OnSpellStart()
                     damage = self:GetSpecialValueFor( "dmg" ) + self:GetSpecialValueFor( "bonus_dmg" )
                     enemy:AddNewModifier(self.caster, self, "q_armor_aura_debuff", {duration = self:GetSpecialValueFor( "debuff_duration" )})
 
-                    self.caster:FindAbilityByName("q_armor_aura"):StartCooldown(self.caster:FindAbilityByName("q_armor_aura"):GetCooldown(1))
+                    --self.caster:FindAbilityByName("q_armor_aura"):StartCooldown(self.caster:FindAbilityByName("q_armor_aura"):GetCooldown(1))
                     self.caster:FindAbilityByName("r_outgoing_dmg"):SetActivated(true)
                     self.caster:FindAbilityByName("e_regen_aura"):SetActivated(true)
 
@@ -86,7 +86,7 @@ function space_judgement:OnSpellStart()
                     damage = self:GetSpecialValueFor( "dmg" ) + self:GetSpecialValueFor( "bonus_dmg" )
                     enemy:AddNewModifier(self.caster, self, "e_regen_aura_debuff", {duration = self:GetSpecialValueFor( "debuff_duration" )})
 
-                    self.caster:FindAbilityByName("e_regen_aura"):StartCooldown(self.caster:FindAbilityByName("e_regen_aura"):GetCooldown(1))
+                    --self.caster:FindAbilityByName("e_regen_aura"):StartCooldown(self.caster:FindAbilityByName("e_regen_aura"):GetCooldown(1))
                     self.caster:FindAbilityByName("r_outgoing_dmg"):SetActivated(true)
                     self.caster:FindAbilityByName("q_armor_aura"):SetActivated(true)
 
@@ -100,7 +100,7 @@ function space_judgement:OnSpellStart()
                     local nfxID = ParticleManager:CreateParticle("particles/units/heroes/hero_sven/sven_storm_bolt_projectile_explosion.vpcf", PATTACH_POINT, enemies[1])
                     ParticleManager:SetParticleControlEnt(nfxID, 3, enemies[1], PATTACH_ABSORIGIN_FOLLOW, "attach_hitloc", enemies[1]:GetAbsOrigin(), false)
 
-                    self.caster:FindAbilityByName("r_outgoing_dmg"):StartCooldown(self.caster:FindAbilityByName("r_outgoing_dmg"):GetCooldown(1))
+                    --self.caster:FindAbilityByName("r_outgoing_dmg"):StartCooldown(self.caster:FindAbilityByName("r_outgoing_dmg"):GetCooldown(1))
                     self.caster:FindAbilityByName("e_regen_aura"):SetActivated(true)
                     self.caster:FindAbilityByName("q_armor_aura"):SetActivated(true)
 

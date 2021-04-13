@@ -42,8 +42,13 @@ function cannon_ball:OnAbilityPhaseStart()
 			ParticleManager:SetParticleControl(self.particleNfx , 1, self:GetCaster():GetAbsOrigin()) -- origin
 			ParticleManager:SetParticleControl(self.particleNfx , 2, self.distance)  -- target
 
+			local portal_particle = "particles/econ/items/weaver/weaver_immortal_ti6/weaver_immortal_ti6_shukuchi_portal.vpcf"
+			self.particleNfx_portal = ParticleManager:CreateParticle(portal_particle, PATTACH_ABSORIGIN_FOLLOW, self:GetCaster())
+			ParticleManager:SetParticleControl(self.particleNfx_portal , 0, self:GetCaster():GetAbsOrigin())
+
 			self.ball_data["direction"] = direction
 			self.ball_data["particle_index"] = self.particleNfx
+			self.ball_data["particleNfx_portal"] = self.particleNfx_portal
 
 			table.insert(self.balls,self.ball_data)
 		end
@@ -63,6 +68,7 @@ function cannon_ball:OnAbilityPhaseInterrupted()
 
 		for _, value in ipairs(self.balls) do
 			ParticleManager:DestroyParticle(value["particle_index"], true)
+			ParticleManager:DestroyParticle(value["particleNfx_portal"], true)
 		end
 
     end
@@ -82,6 +88,7 @@ function cannon_ball:OnSpellStart()
 
 		for _, value in ipairs(self.balls) do
 			ParticleManager:DestroyParticle(value["particle_index"], true)
+			ParticleManager:DestroyParticle(value["particleNfx_portal"], true)
 		end
 
 		local radius = self:GetSpecialValueFor("radius")

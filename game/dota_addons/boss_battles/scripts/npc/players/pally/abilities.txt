@@ -4,6 +4,7 @@
 	"nocens_passive"
 	{
 		"BaseClass"						"ability_lua"
+		"ScriptFile"					"player/nocens/nocens_passive"
 		"MaxLevel"						"1"
 		"AbilityTextureName"			"keeper_of_the_light_chakra_magic"
         "AbilityBehavior"				"DOTA_ABILITY_BEHAVIOR_PASSIVE"

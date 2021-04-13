@@ -40,7 +40,7 @@ end
 -----------------------------------------------------------------------------
 
 function biting_frost_modifier_buff_fire:GetModifierPhysicalArmorBonus( params )
-	return -10
+	return -5
 end
 
 --------------------------------------------------------------------------------

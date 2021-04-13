@@ -23,9 +23,14 @@ function biting_frost_modifier_debuff:OnCreated( kv )
         self.damage_interval = kv.interval
         self:IncrementStackCount()
 
+        
+
         self:StartApplyDamageLoop()
 
 	end
+
+    self.ms_slow = -2
+
 end
 ---------------------------------------------------------------------------
 
@@ -98,3 +103,19 @@ function biting_frost_modifier_debuff:OnDestroy( kv )
 	end
 end
 ---------------------------------------------------------------------------
+
+function biting_frost_modifier_debuff:DeclareFunctions()
+	local funcs =
+	{
+        MODIFIER_PROPERTY_MOVESPEED_BONUS_PERCENTAGE,
+	}
+	return funcs
+end
+-----------------------------------------------------------------------------
+
+function biting_frost_modifier_debuff:GetModifierMoveSpeedBonus_Percentage( params )
+    if self.ms_slow ~= nil then
+		return self.ms_slow * self:GetStackCount()
+	end
+end
+--------------------------------------------------------------------------------

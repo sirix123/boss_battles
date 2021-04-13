@@ -1,0 +1,1 @@
+nocens_passive = class({})

@@ -1,13 +1,15 @@
 "use strict";
 
 GameEvents.Subscribe( "picking_done", OnPickingDone );
+GameEvents.Subscribe( "begin_hero_select", StartModeSelect );
 
 function OnPickingDone( ) {
     $('#HeroModeSelectorContainer').DeleteAsync( 0.0 );
     $('#ToolTip').DeleteAsync( 0.0 );
 }
 
-(function () {
+//(function () {
+function StartModeSelect(){
 
 	let modeSelectorContainer = $("#HeroModeSelectorContainer"); // mode selector handler
 	let normalModeButton = modeSelectorContainer.FindChildInLayoutFile("NormalModeButton") // nomral mode button
@@ -112,5 +114,5 @@ function OnPickingDone( ) {
 		toolTipContainer.style.visibility = 'collapse';
 
 	}
-
-})();
+}
+//})();

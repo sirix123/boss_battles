@@ -2,12 +2,9 @@
 {
 	_class = "CParticleSystemDefinition"
 	m_bShouldHitboxesFallbackToRenderBounds = false
-	m_nMaxParticles = 16
-	m_flConstantRadius = 110.0
-	m_ConstantColor = [ 50, 239, 134, 255 ]
-	m_nConstantSequenceNumber = 4
-	m_bShouldSort = false
-	m_nBehaviorVersion = 11
+	m_nMaxParticles = 32
+	m_nBehaviorVersion = 4
+	m_nFirstMultipleOverride_BackwardCompat = 7
 	m_controlPointConfigurations = 
 	[
 		{
@@ -18,80 +15,73 @@
 					m_iAttachType = "PATTACH_WORLDORIGIN"
 					m_entityName = "self"
 				},
-				{
-					m_iControlPoint = 1
-					m_iAttachType = "PATTACH_WORLDORIGIN"
-					m_entityName = "self"
-				},
-				{
-					m_iControlPoint = 3
-					m_iAttachType = "PATTACH_WORLDORIGIN"
-					m_entityName = "self"
-				},
-				{
-					m_iControlPoint = 9
-					m_iAttachType = "PATTACH_WORLDORIGIN"
-					m_entityName = "self"
-				},
-				{
-					m_iControlPoint = 15
-					m_iAttachType = "PATTACH_WORLDORIGIN"
-					m_vecOffset = [ 255.0, 255.0, 255.0 ]
-					m_entityName = "self"
-				},
-				{
-					m_iControlPoint = 16
-					m_iAttachType = "PATTACH_WORLDORIGIN"
-					m_entityName = "self"
-				},
-				{
-					m_iControlPoint = 60
-					m_iAttachType = "PATTACH_WORLDORIGIN"
-					m_vecOffset = [ 0.0, 135.0, 255.0 ]
-					m_entityName = "self"
-				},
-				{
-					m_iControlPoint = 61
-					m_iAttachType = "PATTACH_WORLDORIGIN"
-					m_entityName = "self"
-				},
-				{
-					m_iControlPoint = 5
-					m_iAttachType = "PATTACH_WORLDORIGIN"
-					m_entityName = "self"
-				},
 			]
 		},
 	]
 	m_Emitters = 
 	[
 		{
-			_class = "C_OP_InstantaneousEmitter"
-			m_nParticlesToEmit = 
+			_class = "C_OP_ContinuousEmitter"
+			m_flEmitRate = 
 			{
 				m_nType = "PF_TYPE_LITERAL"
-				m_flLiteralValue = 1.0
+				m_flLiteralValue = 10.0
 			}
 		},
 	]
 	m_Initializers = 
 	[
 		{
-			_class = "C_INIT_CreateWithinSphere"
-		},
-		{
 			_class = "C_INIT_RandomLifeTime"
+			m_fLifetimeMax = 1.7
+			m_fLifetimeMin = 1.0
 		},
 		{
-			_class = "C_INIT_VelocityFromCP"
-			m_nControlPoint = 1
+			_class = "C_INIT_RandomRadius"
+			m_flRadiusRandExponent = 0.75
+			m_flRadiusMax = 30.0
+			m_flRadiusMin = 20.0
+		},
+		{
+			_class = "C_INIT_CreateWithinSphere"
+			m_fSpeedMax = 100.0
+			m_fSpeedMin = 100.0
+			m_fRadiusMax = 20.0
+			m_fRadiusMin = 20.0
+		},
+		{
+			_class = "C_INIT_RandomRotation"
+		},
+		{
+			_class = "C_INIT_RandomSequence"
+			m_nSequenceMax = 63
+		},
+		{
+			_class = "C_INIT_RandomColor"
+			m_ColorMin = [ 167, 255, 108 ]
+			m_ColorMax = [ 24, 253, 16 ]
+			m_TintMin = [ 0, 0, 0 ]
+			m_TintMax = [ 255, 255, 255 ]
+		},
+		{
+			_class = "C_INIT_RandomRotationSpeed"
+			m_flDegreesMin = 120.0
+			m_flDegreesMax = 180.0
+		},
+		{
+			_class = "C_INIT_InitialVelocityNoise"
+			m_flNoiseScale = 3.0
+			m_vecOutputMax = [ 200.0, 200.0, 200.0 ]
+			m_vecOutputMin = [ -200.0, -200.0, 100.0 ]
+			m_flNoiseScaleLoc = 0.37
+			m_bDisableOperator = true
 		},
 		{
 			_class = "C_INIT_PositionOffset"
 			m_OffsetMin = 
 			{
 				m_nType = "PVEC_TYPE_LITERAL"
-				m_vLiteralValue = [ 0.0, 0.0, 80.0 ]
+				m_vLiteralValue = [ 0.0, 0.0, 200.0 ]
 				m_LiteralColor = [ 0, 0, 0, 0 ]
 				m_nVectorAttribute = 6
 				m_vVectorAttributeScale = [ 1.0, 1.0, 1.0 ]
@@ -291,7 +281,7 @@
 			m_OffsetMax = 
 			{
 				m_nType = "PVEC_TYPE_LITERAL"
-				m_vLiteralValue = [ 0.0, 0.0, 80.0 ]
+				m_vLiteralValue = [ 0.0, 0.0, 200.0 ]
 				m_LiteralColor = [ 0, 0, 0, 0 ]
 				m_nVectorAttribute = 6
 				m_vVectorAttributeScale = [ 1.0, 1.0, 1.0 ]
@@ -494,112 +484,48 @@
 	[
 		{
 			_class = "C_OP_BasicMovement"
+			m_fDrag = 0.15
+			m_Gravity = [ 0.0, 0.0, 250.0 ]
+		},
+		{
+			_class = "C_OP_InterpolateRadius"
+			m_flBias = 0.9
+			m_flEndScale = 0.0
 		},
 		{
 			_class = "C_OP_Decay"
-			m_nOpEndCapState = "PARTICLE_ENDCAP_ENDCAP_ON"
 		},
 		{
-			_class = "C_OP_SetChildControlPoints"
-			m_nFirstControlPoint = 3
-			m_bSetOrientation = true
+			_class = "C_OP_ColorInterpolate"
+			m_flFadeEndTime = 0.7
+			m_ColorFade = [ 25, 80, 0 ]
+		},
+		{
+			_class = "C_OP_VectorNoise"
+			m_bAdditive = true
+			m_vecOutputMax = [ 5.0, 5.0, 5.0 ]
+			m_vecOutputMin = [ -5.0, -5.0, -5.0 ]
+			m_nFieldOutput = 0
+			m_fl4NoiseScale = 0.35
+		},
+		{
+			_class = "C_OP_PositionLock"
 		},
 	]
 	m_Renderers = 
 	[
 		{
-			_class = "C_OP_RenderTrails"
-			m_flOverbrightFactor = 6.0
-			m_flAddSelfAmount = 2.0
-			m_bSaturateColorPreAlphaBlend = false
-			m_flMaxLength = 100.0
-			m_flLengthFadeInTime = 0.1
-			m_flMinLength = 64.0
-			m_flRadiusScale = 
-			{
-				m_nType = "PF_TYPE_LITERAL"
-				m_flLiteralValue = 0.5
-			}
+			_class = "C_OP_RenderSprites"
+			m_flOverbrightFactor = 15.0
+			m_flAnimationRate = 1.0
 			m_vecTexturesInput = 
 			[
 				{
-					m_hTexture = resource:"materials/particle/sparks/sparks.vtex"
-					m_TextureControls = 
-					{
-						m_flFinalTextureScaleV = 
-						{
-							m_nType = "PF_TYPE_LITERAL"
-							m_flLiteralValue = -1.0
-						}
-						m_flFinalTextureOffsetV = 
-						{
-							m_nType = "PF_TYPE_LITERAL"
-							m_flLiteralValue = 1.0
-						}
-					}
+					m_hTexture = resource:"materials/particle/flare/flare_01.vtex"
 				},
 			]
-		},
-		{
-			_class = "C_OP_RenderDeferredLight"
-			m_flRadiusScale = 3.0
-			m_flAlphaScale = 6.0
-			m_flStartFalloff = 0.1
-			m_hTexture = resource:"materials/particle/sparks/sparks.vtex"
-			m_vecColorScale = 
-			{
-				m_nType = "PVEC_TYPE_LITERAL_COLOR"
-				m_LiteralColor = [ 50, 239, 174 ]
-			}
-		},
-	]
-	m_Children = 
-	[
-		{
-			m_ChildRef = resource:"particles/econ/items/rubick/rubick_arcana/rbck_arc_skeletonking_hellfireblast_skull.vpcf"
-		},
-		{
-			m_ChildRef = resource:"particles/econ/items/rubick/rubick_arcana/rbck_arc_skeletonking_hellfireblast_trail_i.vpcf"
-		},
-		{
-			m_ChildRef = resource:"particles/econ/items/rubick/rubick_arcana/rbck_arc_skeletonking_hellfireblast_trail_f.vpcf"
-		},
-		{
-			m_ChildRef = resource:"particles/econ/items/rubick/rubick_arcana/rbck_arc_skeletonking_hellfireblast_trail_e.vpcf"
-		},
-		{
-			m_bEndCap = true
-			m_ChildRef = resource:"particles/econ/items/rubick/rubick_arcana/rbck_arc_skeletonking_hellfireblast_explosion.vpcf"
-		},
-		{
-			m_ChildRef = resource:"particles/econ/items/rubick/rubick_arcana/rbck_arc_skeletonking_hellfireblast_trail_h.vpcf"
-		},
-		{
-			m_ChildRef = resource:"particles/econ/items/rubick/rubick_arcana/rbck_arc_skeletonking_hellfireblast_trail_b.vpcf"
-		},
-		{
-			m_ChildRef = resource:"particles/econ/items/rubick/rubick_arcana/rbck_arc_skeletonking_hellfireblast_trail_g.vpcf"
-		},
-		{
-			m_ChildRef = resource:"particles/econ/items/rubick/rubick_arcana/rbck_arc_skeletonking_hellfireblast_sphere_glow.vpcf"
-		},
-		{
-			m_ChildRef = resource:"particles/econ/items/rubick/rubick_arcana/rbck_arc_skeletonking_hellfireblast_launch.vpcf"
-		},
-		{
-			m_ChildRef = resource:"particles/econ/items/rubick/rubick_arcana/rbck_arc_skeletonking_hellfireblast_trail_d.vpcf"
-		},
-		{
-			m_ChildRef = resource:"particles/econ/items/rubick/rubick_arcana/rbck_arc_skeletonking_hellfireblast_trail_detail.vpcf"
-		},
-		{
-			m_ChildRef = resource:"particles/econ/items/rubick/rubick_arcana/rbck_arc_wraith_king_spirits_2.vpcf"
-		},
-		{
-			m_ChildRef = resource:"particles/econ/items/rubick/rubick_arcana/rbck_arc_skeletonking_hellfireblast_sphere_glow_b.vpcf"
-		},
-		{
-			m_ChildRef = resource:"particles/econ/items/rubick/rubick_arcana/rbck_arc_skeletonking_hellfireblast_trail_cubes.vpcf"
+			m_nOutputBlendMode = "PARTICLE_OUTPUT_BLEND_MODE_ADD"
+			m_OutlineColor = [ 255, 255, 255 ]
 		},
 	]
 }

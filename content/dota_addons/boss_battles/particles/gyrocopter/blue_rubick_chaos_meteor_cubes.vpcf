@@ -1,62 +1,19 @@
 <!-- kv3 encoding:text:version{e21c7f3c-8a33-41c5-9977-a76d3a32aa0d} format:vpcf35:version{ec5bfcca-b89d-4591-9ef4-c8679487d623} -->
 {
 	_class = "CParticleSystemDefinition"
-	m_bShouldHitboxesFallbackToRenderBounds = false
 	m_nMaxParticles = 16
-	m_flConstantRadius = 110.0
-	m_ConstantColor = [ 50, 239, 134, 255 ]
-	m_nConstantSequenceNumber = 4
-	m_bShouldSort = false
+	m_flConstantRadius = 1.0
+	m_ConstantColor = [ 255, 196, 170, 255 ]
 	m_nBehaviorVersion = 11
+	m_nFirstMultipleOverride_BackwardCompat = 6
 	m_controlPointConfigurations = 
 	[
 		{
-			m_name = "preview"
+			m_name = "absorigin"
 			m_drivers = 
 			[
 				{
-					m_iAttachType = "PATTACH_WORLDORIGIN"
-					m_entityName = "self"
-				},
-				{
-					m_iControlPoint = 1
-					m_iAttachType = "PATTACH_WORLDORIGIN"
-					m_entityName = "self"
-				},
-				{
 					m_iControlPoint = 3
-					m_iAttachType = "PATTACH_WORLDORIGIN"
-					m_entityName = "self"
-				},
-				{
-					m_iControlPoint = 9
-					m_iAttachType = "PATTACH_WORLDORIGIN"
-					m_entityName = "self"
-				},
-				{
-					m_iControlPoint = 15
-					m_iAttachType = "PATTACH_WORLDORIGIN"
-					m_vecOffset = [ 255.0, 255.0, 255.0 ]
-					m_entityName = "self"
-				},
-				{
-					m_iControlPoint = 16
-					m_iAttachType = "PATTACH_WORLDORIGIN"
-					m_entityName = "self"
-				},
-				{
-					m_iControlPoint = 60
-					m_iAttachType = "PATTACH_WORLDORIGIN"
-					m_vecOffset = [ 0.0, 135.0, 255.0 ]
-					m_entityName = "self"
-				},
-				{
-					m_iControlPoint = 61
-					m_iAttachType = "PATTACH_WORLDORIGIN"
-					m_entityName = "self"
-				},
-				{
-					m_iControlPoint = 5
 					m_iAttachType = "PATTACH_WORLDORIGIN"
 					m_entityName = "self"
 				},
@@ -67,32 +24,38 @@
 	[
 		{
 			_class = "C_OP_InstantaneousEmitter"
-			m_nParticlesToEmit = 
-			{
-				m_nType = "PF_TYPE_LITERAL"
-				m_flLiteralValue = 1.0
-			}
 		},
 	]
 	m_Initializers = 
 	[
 		{
-			_class = "C_INIT_CreateWithinSphere"
-		},
-		{
 			_class = "C_INIT_RandomLifeTime"
+			m_fLifetimeMin = 1.5
+			m_fLifetimeMax = 2.5
 		},
 		{
-			_class = "C_INIT_VelocityFromCP"
-			m_nControlPoint = 1
+			_class = "C_INIT_CreateWithinSphere"
+			m_fRadiusMax = 40.0
+			m_fRadiusMin = 5.0
+			m_LocalCoordinateSystemSpeedMin = [ -200.0, -400.0, 300.0 ]
+			m_LocalCoordinateSystemSpeedMax = [ 200.0, 400.0, 500.0 ]
+			m_nControlPointNumber = 3
+		},
+		{
+			_class = "C_INIT_RandomRotation"
+		},
+		{
+			_class = "C_INIT_RandomRadius"
+			m_flRadiusMin = 2.0
+			m_flRadiusMax = 3.0
 		},
 		{
 			_class = "C_INIT_PositionOffset"
 			m_OffsetMin = 
 			{
 				m_nType = "PVEC_TYPE_LITERAL"
-				m_vLiteralValue = [ 0.0, 0.0, 80.0 ]
-				m_LiteralColor = [ 0, 0, 0, 0 ]
+				m_vLiteralValue = [ 0.0, -100.0, 0.0 ]
+				m_LiteralColor = [ 0, 0, 0, 255 ]
 				m_nVectorAttribute = 6
 				m_vVectorAttributeScale = [ 1.0, 1.0, 1.0 ]
 				m_nControlPoint = 0
@@ -124,7 +87,7 @@
 					m_nNoiseTurbulence = "PF_NOISE_TURB_NONE"
 					m_nNoiseType = "PF_NOISE_TYPE_PERLIN"
 					m_nNoiseModifier = "PF_NOISE_MODIFIER_NONE"
-					m_flNoiseTurbulenceScale = 1.25
+					m_flNoiseTurbulenceScale = 1.0
 					m_flNoiseTurbulenceMix = 0.5
 					m_flNoiseImgPreviewScale = 1.0
 					m_bNoiseImgPreviewLive = true
@@ -169,7 +132,7 @@
 					m_nNoiseTurbulence = "PF_NOISE_TURB_NONE"
 					m_nNoiseType = "PF_NOISE_TYPE_PERLIN"
 					m_nNoiseModifier = "PF_NOISE_MODIFIER_NONE"
-					m_flNoiseTurbulenceScale = 1.25
+					m_flNoiseTurbulenceScale = 1.0
 					m_flNoiseTurbulenceMix = 0.5
 					m_flNoiseImgPreviewScale = 1.0
 					m_bNoiseImgPreviewLive = true
@@ -214,7 +177,7 @@
 					m_nNoiseTurbulence = "PF_NOISE_TURB_NONE"
 					m_nNoiseType = "PF_NOISE_TYPE_PERLIN"
 					m_nNoiseModifier = "PF_NOISE_MODIFIER_NONE"
-					m_flNoiseTurbulenceScale = 1.25
+					m_flNoiseTurbulenceScale = 1.0
 					m_flNoiseTurbulenceMix = 0.5
 					m_flNoiseImgPreviewScale = 1.0
 					m_bNoiseImgPreviewLive = true
@@ -259,7 +222,7 @@
 					m_nNoiseTurbulence = "PF_NOISE_TURB_NONE"
 					m_nNoiseType = "PF_NOISE_TYPE_PERLIN"
 					m_nNoiseModifier = "PF_NOISE_MODIFIER_NONE"
-					m_flNoiseTurbulenceScale = 1.25
+					m_flNoiseTurbulenceScale = 1.0
 					m_flNoiseTurbulenceMix = 0.5
 					m_flNoiseImgPreviewScale = 1.0
 					m_bNoiseImgPreviewLive = true
@@ -291,8 +254,8 @@
 			m_OffsetMax = 
 			{
 				m_nType = "PVEC_TYPE_LITERAL"
-				m_vLiteralValue = [ 0.0, 0.0, 80.0 ]
-				m_LiteralColor = [ 0, 0, 0, 0 ]
+				m_vLiteralValue = [ 0.0, 100.0, 0.0 ]
+				m_LiteralColor = [ 0, 0, 0, 255 ]
 				m_nVectorAttribute = 6
 				m_vVectorAttributeScale = [ 1.0, 1.0, 1.0 ]
 				m_nControlPoint = 0
@@ -324,7 +287,7 @@
 					m_nNoiseTurbulence = "PF_NOISE_TURB_NONE"
 					m_nNoiseType = "PF_NOISE_TYPE_PERLIN"
 					m_nNoiseModifier = "PF_NOISE_MODIFIER_NONE"
-					m_flNoiseTurbulenceScale = 1.25
+					m_flNoiseTurbulenceScale = 1.0
 					m_flNoiseTurbulenceMix = 0.5
 					m_flNoiseImgPreviewScale = 1.0
 					m_bNoiseImgPreviewLive = true
@@ -369,7 +332,7 @@
 					m_nNoiseTurbulence = "PF_NOISE_TURB_NONE"
 					m_nNoiseType = "PF_NOISE_TYPE_PERLIN"
 					m_nNoiseModifier = "PF_NOISE_MODIFIER_NONE"
-					m_flNoiseTurbulenceScale = 1.25
+					m_flNoiseTurbulenceScale = 1.0
 					m_flNoiseTurbulenceMix = 0.5
 					m_flNoiseImgPreviewScale = 1.0
 					m_bNoiseImgPreviewLive = true
@@ -414,7 +377,7 @@
 					m_nNoiseTurbulence = "PF_NOISE_TURB_NONE"
 					m_nNoiseType = "PF_NOISE_TYPE_PERLIN"
 					m_nNoiseModifier = "PF_NOISE_MODIFIER_NONE"
-					m_flNoiseTurbulenceScale = 1.25
+					m_flNoiseTurbulenceScale = 1.0
 					m_flNoiseTurbulenceMix = 0.5
 					m_flNoiseImgPreviewScale = 1.0
 					m_bNoiseImgPreviewLive = true
@@ -459,7 +422,7 @@
 					m_nNoiseTurbulence = "PF_NOISE_TURB_NONE"
 					m_nNoiseType = "PF_NOISE_TYPE_PERLIN"
 					m_nNoiseModifier = "PF_NOISE_MODIFIER_NONE"
-					m_flNoiseTurbulenceScale = 1.25
+					m_flNoiseTurbulenceScale = 1.0
 					m_flNoiseTurbulenceMix = 0.5
 					m_flNoiseImgPreviewScale = 1.0
 					m_bNoiseImgPreviewLive = true
@@ -489,117 +452,53 @@
 				}
 			}
 		},
+		{
+			_class = "C_INIT_RandomRotationSpeed"
+			m_flDegreesMin = 300.0
+			m_flDegreesMax = 500.0
+		},
+		{
+			_class = "C_INIT_RandomRotation"
+			m_nFieldOutput = 12
+		},
 	]
 	m_Operators = 
 	[
 		{
 			_class = "C_OP_BasicMovement"
+			m_Gravity = [ 0.0, 0.0, -600.0 ]
+			m_fDrag = 0.05
+		},
+		{
+			_class = "C_OP_InterpolateRadius"
+			m_flEndScale = 0.0
+			m_flBias = 0.03
 		},
 		{
 			_class = "C_OP_Decay"
-			m_nOpEndCapState = "PARTICLE_ENDCAP_ENDCAP_ON"
 		},
 		{
-			_class = "C_OP_SetChildControlPoints"
-			m_nFirstControlPoint = 3
-			m_bSetOrientation = true
+			_class = "C_OP_SpinUpdate"
 		},
 	]
 	m_Renderers = 
 	[
 		{
-			_class = "C_OP_RenderTrails"
-			m_flOverbrightFactor = 6.0
-			m_flAddSelfAmount = 2.0
-			m_bSaturateColorPreAlphaBlend = false
-			m_flMaxLength = 100.0
-			m_flLengthFadeInTime = 0.1
-			m_flMinLength = 64.0
-			m_flRadiusScale = 
-			{
-				m_nType = "PF_TYPE_LITERAL"
-				m_flLiteralValue = 0.5
-			}
-			m_vecTexturesInput = 
+			_class = "C_OP_RenderModels"
+			m_ModelList = 
 			[
 				{
-					m_hTexture = resource:"materials/particle/sparks/sparks.vtex"
-					m_TextureControls = 
-					{
-						m_flFinalTextureScaleV = 
-						{
-							m_nType = "PF_TYPE_LITERAL"
-							m_flLiteralValue = -1.0
-						}
-						m_flFinalTextureOffsetV = 
-						{
-							m_nType = "PF_TYPE_LITERAL"
-							m_flLiteralValue = 1.0
-						}
-					}
+					m_model = resource:"models/items/rubick/force_staff/fs_cube.vmdl"
 				},
 			]
-		},
-		{
-			_class = "C_OP_RenderDeferredLight"
-			m_flRadiusScale = 3.0
-			m_flAlphaScale = 6.0
-			m_flStartFalloff = 0.1
-			m_hTexture = resource:"materials/particle/sparks/sparks.vtex"
-			m_vecColorScale = 
-			{
-				m_nType = "PVEC_TYPE_LITERAL_COLOR"
-				m_LiteralColor = [ 50, 239, 174 ]
-			}
-		},
-	]
-	m_Children = 
-	[
-		{
-			m_ChildRef = resource:"particles/econ/items/rubick/rubick_arcana/rbck_arc_skeletonking_hellfireblast_skull.vpcf"
-		},
-		{
-			m_ChildRef = resource:"particles/econ/items/rubick/rubick_arcana/rbck_arc_skeletonking_hellfireblast_trail_i.vpcf"
-		},
-		{
-			m_ChildRef = resource:"particles/econ/items/rubick/rubick_arcana/rbck_arc_skeletonking_hellfireblast_trail_f.vpcf"
-		},
-		{
-			m_ChildRef = resource:"particles/econ/items/rubick/rubick_arcana/rbck_arc_skeletonking_hellfireblast_trail_e.vpcf"
-		},
-		{
-			m_bEndCap = true
-			m_ChildRef = resource:"particles/econ/items/rubick/rubick_arcana/rbck_arc_skeletonking_hellfireblast_explosion.vpcf"
-		},
-		{
-			m_ChildRef = resource:"particles/econ/items/rubick/rubick_arcana/rbck_arc_skeletonking_hellfireblast_trail_h.vpcf"
-		},
-		{
-			m_ChildRef = resource:"particles/econ/items/rubick/rubick_arcana/rbck_arc_skeletonking_hellfireblast_trail_b.vpcf"
-		},
-		{
-			m_ChildRef = resource:"particles/econ/items/rubick/rubick_arcana/rbck_arc_skeletonking_hellfireblast_trail_g.vpcf"
-		},
-		{
-			m_ChildRef = resource:"particles/econ/items/rubick/rubick_arcana/rbck_arc_skeletonking_hellfireblast_sphere_glow.vpcf"
-		},
-		{
-			m_ChildRef = resource:"particles/econ/items/rubick/rubick_arcana/rbck_arc_skeletonking_hellfireblast_launch.vpcf"
-		},
-		{
-			m_ChildRef = resource:"particles/econ/items/rubick/rubick_arcana/rbck_arc_skeletonking_hellfireblast_trail_d.vpcf"
-		},
-		{
-			m_ChildRef = resource:"particles/econ/items/rubick/rubick_arcana/rbck_arc_skeletonking_hellfireblast_trail_detail.vpcf"
-		},
-		{
-			m_ChildRef = resource:"particles/econ/items/rubick/rubick_arcana/rbck_arc_wraith_king_spirits_2.vpcf"
-		},
-		{
-			m_ChildRef = resource:"particles/econ/items/rubick/rubick_arcana/rbck_arc_skeletonking_hellfireblast_sphere_glow_b.vpcf"
-		},
-		{
-			m_ChildRef = resource:"particles/econ/items/rubick/rubick_arcana/rbck_arc_skeletonking_hellfireblast_trail_cubes.vpcf"
+			m_bOrientZ = true
+			m_bForceLoopingAnimation = true
+			m_hOverrideMaterial = resource:"materials/dev/primary_blue.vmat"
+			m_MaterialVars = 
+			[
+				{
+				},
+			]
 		},
 	]
 }

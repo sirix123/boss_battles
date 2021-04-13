@@ -44,6 +44,7 @@
 	<Panel hittest="false" style="width: 100%; height: 100%;">
 		<Panel id="PickingScreen" hittest="true" >
 
+
 		<DOTAScenePanel id="PickingScreenScene" hittest="true" light="light" camera="camera1" map="backgrounds/background" particleonly="false"/>
 
 		<!-- Pick list (showing options) | Row 1 |  style="border: 1px solid red;" 

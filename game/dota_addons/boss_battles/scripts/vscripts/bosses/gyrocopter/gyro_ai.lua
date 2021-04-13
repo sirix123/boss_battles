@@ -60,20 +60,22 @@ function Spawn( entityKeyValues )
 	thisEntity.flame_thrower_duration = thisEntity.flame_thrower:GetLevelSpecialValueFor("duration", thisEntity.flame_thrower:GetLevel())
 
 	thisEntity.percent_total_health = thisEntity:GetBaseMaxHealth() / 4 -- 1/4 of max (50k if 200kmax)
-	thisEntity.gyro_call_down_count_tracker = 1
-	thisEntity.gyro_call_down = thisEntity:FindAbilityByName( "gyro_call_down" )
-	thisEntity.gyro_call_down_ring_gap = thisEntity.gyro_call_down:GetLevelSpecialValueFor("gap_between_rings", thisEntity.gyro_call_down:GetLevel())
-	thisEntity.max_rings = thisEntity.gyro_call_down:GetLevelSpecialValueFor("max_rings", thisEntity.gyro_call_down:GetLevel())
+	thisEntity.gyro_call_down_count_tracker = 0
 	thisEntity.call_down_phase_over = false
-	thisEntity.summon_rocks = false
 	thisEntity.gyro_in_place = false
+	thisEntity.creating_rocks = false
 
 	thisEntity.flee = thisEntity:FindAbilityByName( "flee_v2" )
 	thisEntity.flee:StartCooldown(15)
 	thisEntity.flee_speed = thisEntity.flee:GetLevelSpecialValueFor("speed", thisEntity.flee:GetLevel())
 
+	thisEntity.intermission_flee = thisEntity:FindAbilityByName( "intermission_flee" )
+	thisEntity.intermission_flee_return_value = thisEntity.intermission_flee:GetLevelSpecialValueFor("return_value", thisEntity.intermission_flee:GetLevel())
+	thisEntity.gyro_call_down_ring_gap = thisEntity.intermission_flee:GetLevelSpecialValueFor("gap_between_rings", thisEntity.intermission_flee:GetLevel())
+	thisEntity.max_rings = thisEntity.intermission_flee:GetLevelSpecialValueFor("max_rings", thisEntity.intermission_flee:GetLevel())
+
 	-- flee point calculations
-	local ArenaTop = 3025
+	local ArenaTop = 2700
 	local ArenaBot = 425
 	local ArenaLeft = -13600
 	local ArenaRight = -11000
@@ -89,6 +91,24 @@ function Spawn( entityKeyValues )
 		Vector(ArenaLeft,ArenaTop,132),
 		Vector(ArenaLeft,ArenaTop,132),
 		AreanMiddle,
+	}
+
+	--[[for _, point in pairs(thisEntity.GyroArenaLocations) do
+		DebugDrawCircle(point,Vector(255,255,255),128,100,true,60)
+	end]]
+
+	thisEntity.GyroIntermissionLocations = {
+		Vector(-13282,178,132),
+		Vector(-13716,916,132),
+		Vector(-13551,1932,132),
+		Vector(-13495,2593,132),
+		Vector(-12857,2991,132),
+		Vector(-11795,2980,132),
+		Vector(-11071,2720,132),
+		Vector(-10966,1806,132),
+		Vector(-11048,985,132),
+		Vector(-10939,152,132),
+		Vector(-12093,206,132),
 	}
 
 	-- phase init
@@ -114,22 +134,7 @@ function GyroThink()
 		return 0.5
 	end
 
-	--[[
 
-	LEVEL UP HANDLER
-
-	]]
-
-	if thisEntity:GetHealthPercent() < 75 and thisEntity:GetHealthPercent() > 50 then
-		thisEntity.level_tracker = 2
-		LevelUpAbilities()
-	elseif thisEntity:GetHealthPercent() < 50 and thisEntity:GetHealthPercent() > 25 then
-		thisEntity.level_tracker = 3
-		LevelUpAbilities()
-	elseif thisEntity:GetHealthPercent() < 25 and thisEntity:GetHealthPercent() > 0 then
-		thisEntity.level_tracker = 4
-		LevelUpAbilities()
-	end
 
 	--[[
 
@@ -146,17 +151,34 @@ function GyroThink()
 
 	--print("phase ",thisEntity.PHASE)
 
-	if thisEntity:GetHealthDeficit() > thisEntity.percent_total_health then
-		print("phase 2 starting")
-		thisEntity.summon_rocks = true
+	--[[
+
+	LEVEL UP HANDLER / phase 3
+
+	]]
+
+	if thisEntity:GetHealthPercent() < 75 and thisEntity:GetHealthPercent() > 50 and thisEntity.gyro_call_down_count_tracker == 0 and thisEntity.PHASE == 1 then
 		thisEntity.gyro_call_down_count_tracker = thisEntity.gyro_call_down_count_tracker + 1
-		thisEntity.percent_total_health = thisEntity.percent_total_health * thisEntity.gyro_call_down_count_tracker
+		thisEntity.level_tracker = 2
+		LevelUpAbilities()
+		thisEntity:AddNewModifier( nil, nil, "modifier_generic_disable_auto_attack", { duration = -1 })
+		thisEntity.PHASE = 3
+	elseif thisEntity:GetHealthPercent() < 50 and thisEntity:GetHealthPercent() > 25 and thisEntity.gyro_call_down_count_tracker == 1 and thisEntity.PHASE == 1 then
+		thisEntity.gyro_call_down_count_tracker = thisEntity.gyro_call_down_count_tracker + 1
+		thisEntity.level_tracker = 3
+		LevelUpAbilities()
+		thisEntity:AddNewModifier( nil, nil, "modifier_generic_disable_auto_attack", { duration = -1 })
+		thisEntity.PHASE = 3
+	elseif thisEntity:GetHealthPercent() < 25 and thisEntity:GetHealthPercent() > 0 and thisEntity.gyro_call_down_count_tracker == 2 and thisEntity.PHASE == 1 then
+		thisEntity.gyro_call_down_count_tracker = thisEntity.gyro_call_down_count_tracker + 1
+		thisEntity.level_tracker = 4
+		LevelUpAbilities()
 		thisEntity:AddNewModifier( nil, nil, "modifier_generic_disable_auto_attack", { duration = -1 })
 		thisEntity.PHASE = 3
 	end
 
 	if thisEntity.flak_cannon:IsFullyCastable() and thisEntity.flak_cannon:IsCooldownReady() and thisEntity.flak_cannon:IsInAbilityPhase() == false and thisEntity.PHASE == 1 and thisEntity.circle_timer_running == false then
-		print("phase 3 starting")
+		print("phase 2 starting")
 
 		thisEntity:EmitSound("Hero_Gyrocopter.FlackCannon.Activate")
 
@@ -165,7 +187,7 @@ function GyroThink()
             thisEntity.flak_cannon, -- ability source
             "modifier_flak_cannon", -- modifier name
             {
-                duration = thisEntity.flak_cannon_duration,
+                duration = -1,
             })
 
 		CricleTimer()
@@ -177,7 +199,7 @@ function GyroThink()
 		thisEntity.PHASE = 1
 	end
 
-	if thisEntity.PHASE == 5 and thisEntity.call_down_phase_over == true then
+	if thisEntity.PHASE == 6 and thisEntity.call_down_phase_over == true then
 		print("phase 1 starting")
 		thisEntity.gyro_in_place = false
 		thisEntity.call_down_phase_over = false
@@ -185,7 +207,12 @@ function GyroThink()
 		RemoveModifierByName_V2( "modifier_generic_disable_movement_abilities" )
 		thisEntity:RemoveModifierByName("modifier_generic_disable_auto_attack")
 		thisEntity:RemoveModifierByName("modifier_rooted")
-		thisEntity.gyro_call_down:EndCooldown()
+		thisEntity.intermission_flee:EndCooldown()
+
+		ParticleManager:DestroyParticle(thisEntity.overhead_call_down_particle_nfx,true)
+
+		RandomiseCoolDowns()
+
 		thisEntity.PHASE = 1
 	end
 
@@ -222,9 +249,16 @@ function GyroThink()
 
 		StartCallDownPhase() -- stun players, (stun lasts just after the rocks are created), apply no movement abilities modifier
 
-		thisEntity:MoveToPosition(Vector(-12204.878662, 1552.228516, 131.128906)) --fly to center
+		-- apply particle effect show he is in calldown phase
+		local overhead_call_down_particle = "particles/gyrocopter/higher_gyro_flak_cannon_overhead_calldown.vpcf"
+		thisEntity.overhead_call_down_particle_nfx = ParticleManager:CreateParticle( overhead_call_down_particle, PATTACH_OVERHEAD_FOLLOW, thisEntity )
+		ParticleManager:SetParticleControl( thisEntity.overhead_call_down_particle_nfx, 0, thisEntity:GetAbsOrigin() )
+		ParticleManager:SetParticleControl( thisEntity.overhead_call_down_particle_nfx, 1, thisEntity:GetAbsOrigin() )
 
+		--thisEntity:MoveToPosition(Vector(-12204.878662, 1552.228516, 131.128906)) --fly to center
+		thisEntity.flee:EndCooldown()
 		thisEntity.PHASE = 4
+		return CastFlee( Vector(-12204.878662, 1552.228516, 131.128906) )
 	end
 
 	if thisEntity.PHASE == 4 then
@@ -243,17 +277,48 @@ function GyroThink()
 				TeleportHeroesToCenter() --, tp them to center,
 
 				CreateRockRings() -- call create rock function (dependong on kv level determine number of rocks)
-
-				-- swithcing to phase 5 is inside the create rockring
 			end
+		end
+		return 1
+	end
+
+	if thisEntity.PHASE == 5 and thisEntity.creating_rocks == false then
+
+		print("phase 5")
+		thisEntity:RemoveModifierByName("modifier_rooted")
+		-- swithcing to phase 5 is inside the create rockring
+		if thisEntity.intermission_flee:IsFullyCastable() and thisEntity.intermission_flee:IsCooldownReady() and thisEntity.intermission_flee:IsInAbilityPhase() == false then
+			return CastFleeIntermission( thisEntity.GyroIntermissionLocations[RandomInt(1,#thisEntity.GyroIntermissionLocations)])
 		end
 	end
 
-	if thisEntity.PHASE == 5 then
-		-- after x seconds calldown
-		if thisEntity.gyro_call_down:IsFullyCastable() and thisEntity.gyro_call_down:IsCooldownReady() and thisEntity.gyro_call_down:IsInAbilityPhase() == false then
-			print("casting calldown")
-			return CastCallDown()
+	if thisEntity.PHASE == 6 then
+		print("phase 6")
+
+		thisEntity:AddNewModifier(
+			thisEntity, -- player source
+			nil, -- ability source
+			"modifier_rooted", -- modifier name
+			{ duration = -1 } -- kv
+		)
+
+		-- find random player
+		local enemies = FindUnitsInRadius(
+			thisEntity:GetTeamNumber(),
+			thisEntity:GetAbsOrigin(),
+			nil,
+			500,
+			DOTA_UNIT_TARGET_TEAM_ENEMY,
+			DOTA_UNIT_TARGET_HERO,
+			DOTA_UNIT_TARGET_FLAG_INVULNERABLE,
+			FIND_CLOSEST,
+			false )
+
+		if #enemies ~= 0 and enemies ~= nil then
+			thisEntity.call_down_phase_over = true
+			return 1
+		else
+			return 1
 		end
 	end
 
@@ -285,7 +350,6 @@ end
 --------------------------------------------------------------------------------
 
 function CastFlee( vLocation )
-
 	if vLocation == nil then
 		return 0.1
 	end
@@ -340,18 +404,19 @@ function CastFlameThrower()
 end
 --------------------------------------------------------------------------------
 
-function CastCallDown()
-
-	thisEntity.call_down_phase_over = true
+function CastFleeIntermission( vLocation )
 
 	ExecuteOrderFromTable({
 		UnitIndex = thisEntity:entindex(),
-		OrderType = DOTA_UNIT_ORDER_CAST_NO_TARGET,
-		AbilityIndex = thisEntity.gyro_call_down:entindex(),
+		OrderType = DOTA_UNIT_ORDER_CAST_POSITION,
+		AbilityIndex = thisEntity.intermission_flee:entindex(),
+		Position = vLocation,
 		Queue = false,
 	})
 
-	return thisEntity.gyro_call_down:GetChannelTime() + 3
+	thisEntity.PHASE = 6
+
+	return thisEntity.intermission_flee_return_value + 2
 end
 --------------------------------------------------------------------------------
 
@@ -434,29 +499,37 @@ end
 
 function CricleTimer()
     thisEntity.circle_timer_running = true
-    local currentAngle = 0
-    local angleIncrement = 15
-    local length = 1000
-    local tickInterval = 0.5
-	local max_duration = thisEntity.flak_cannon_duration
 	local count = 0
+	local max_moves = RandomInt(3,6)
 
     Timers:CreateTimer(function()
         if IsValidEntity(thisEntity) == false then return false end
 
-        if thisEntity.PHASE ~= 2 or thisEntity == nil or count >= max_duration then
+        if thisEntity == nil or count >= max_moves then
+			print("circle timer ending")
+			thisEntity:RemoveModifierByName("modifier_flak_cannon")
+			thisEntity.flak_cannon:StartCooldown(thisEntity.flak_cannon:GetCooldown(thisEntity.flak_cannon:GetLevel()))
             thisEntity.circle_timer_running = false
             return false
         end
 
-        -- calculate a position length units away, rotating by currentAngle
-        currentAngle =  currentAngle + angleIncrement
-        local radAngle = currentAngle * 0.0174532925 --angle in radians
-        local point = Vector(length * math.cos(radAngle), length * math.sin(radAngle), 0)
-        local endPoint = point + Vector(-12204.878662, 1552.228516, 131.128906)
-        thisEntity:MoveToPosition(endPoint)
-		count = count + tickInterval
-        return tickInterval
+		-- pick two random spots from this table that are x units away from each other
+		local caster_location = thisEntity:GetAbsOrigin()
+		local spot_1 = thisEntity.GyroArenaLocations[RandomInt(1,#thisEntity.GyroArenaLocations)]
+
+		while (caster_location - spot_1):Length2D() < 800 do
+			spot_1 = thisEntity.GyroArenaLocations[RandomInt(1,#thisEntity.GyroArenaLocations)]
+		end
+
+        thisEntity:MoveToPosition(spot_1)
+
+		local distance = ( thisEntity:GetAbsOrigin() - spot_1 ):Length2D()
+		local velocity = thisEntity:GetIdealSpeed()
+		local time = distance / velocity
+
+		count = count + 1
+
+        return time
     end)
 end
 --------------------------------------------------------------------------------
@@ -467,8 +540,16 @@ function LevelUpAbilities()
 	thisEntity.flak_cannon:SetLevel(thisEntity.level_tracker)
 	thisEntity.cannon_ball:SetLevel(thisEntity.level_tracker)
 	thisEntity.flame_thrower:SetLevel(thisEntity.level_tracker)
-	thisEntity.gyro_call_down:SetLevel(thisEntity.level_tracker)
 	thisEntity.flee:SetLevel(thisEntity.level_tracker)
+	thisEntity.intermission_flee:SetLevel(thisEntity.level_tracker)
+
+	thisEntity.intermission_flee_return_value = thisEntity.intermission_flee:GetLevelSpecialValueFor("return_value", thisEntity.intermission_flee:GetLevel())
+	thisEntity.gyro_call_down_ring_gap = thisEntity.intermission_flee:GetLevelSpecialValueFor("gap_between_rings", thisEntity.intermission_flee:GetLevel())
+	thisEntity.max_rings = thisEntity.intermission_flee:GetLevelSpecialValueFor("max_rings", thisEntity.intermission_flee:GetLevel())
+	thisEntity.flame_thrower_duration = thisEntity.flame_thrower:GetLevelSpecialValueFor("duration", thisEntity.flame_thrower:GetLevel())
+	thisEntity.flak_cannon_duration = thisEntity.flak_cannon:GetLevelSpecialValueFor("duration", thisEntity.flak_cannon:GetLevel())
+	thisEntity.swoop_speed = thisEntity.swoop:GetLevelSpecialValueFor("charge_speed", thisEntity.swoop:GetLevel())
+	thisEntity.barrage_duration = thisEntity.swoop:GetLevelSpecialValueFor("barrage_duration", thisEntity.swoop:GetLevel())
 
 end
 --------------------------------------------------------------------------------
@@ -544,7 +625,25 @@ function TeleportHeroesToCenter()
 		return
 	else
 		for _, enemy in pairs(enemies) do
-			FindClearSpaceForUnit(enemy, Vector(-12204.878662, 1552.228516, 131.128906), true)
+
+			local particle = "particles/econ/events/ti10/portal/portal_open_good.vpcf"
+			thisEntity.portal_index = ParticleManager:CreateParticle( particle, PATTACH_WORLDORIGIN, nil )
+            ParticleManager:SetParticleControl( thisEntity.portal_index, 0, enemy:GetAbsOrigin() )
+
+			Timers:CreateTimer(2, function()
+				ParticleManager:DestroyParticle(thisEntity.portal_index,true)
+
+				EmitSoundOn( "rubick_rub_arc_attack_14", thisEntity )
+
+				FindClearSpaceForUnit(enemy, Vector(-12204.878662, 1552.228516, 131.128906), true)
+				particle = "particles/econ/events/fall_major_2016/blink_dagger_end_fm06.vpcf"
+				thisEntity.burst_index = ParticleManager:CreateParticle( particle, PATTACH_WORLDORIGIN, nil )
+				ParticleManager:SetParticleControl( thisEntity.burst_index, 0, Vector(-12204.878662, 1552.228516, 131.128906) )
+				ParticleManager:ReleaseParticleIndex(thisEntity.burst_index)
+
+				
+				return false
+			end)
 		end
 	end
 end
@@ -553,10 +652,11 @@ end
 function CreateRockRings()
 	local number_of_rings = thisEntity.max_rings
 	local gap_between_rings = thisEntity.gyro_call_down_ring_gap
-	local timerDelay = 0.03
+	local timerDelay = 0.005
 	local rotationPerTick = 5
 	local tickCount = 0
 	local start_point =  GetGroundPosition(thisEntity:GetAbsOrigin() + Vector(0, gap_between_rings, 0), nil)
+	thisEntity.creating_rocks = true
 
 	local current_ring = 1
 
@@ -568,9 +668,18 @@ function CreateRockRings()
  			tickCount = 0
 		end
 
+		if current_ring == 1 then
+			rotationPerTick = 20
+		elseif current_ring == 2 then
+			rotationPerTick = 10
+		elseif current_ring == 3 then
+			rotationPerTick = 5
+		end
+
 		--end condition: stop after all rings created
 		if current_ring > number_of_rings then
 			RemoveModifierByName_V2( "modifier_generic_stunned" ) -- finds heroes removes stun
+			thisEntity.creating_rocks = false
 			thisEntity.PHASE = 5
 			return false
 		end
@@ -578,6 +687,23 @@ function CreateRockRings()
 		start_point = RotatePosition(thisEntity:GetAbsOrigin(), QAngle(0,rotationPerTick,0), start_point )
 		start_point.z = 132
 
+		-- spawn special rocks
+		local chance_to_spawn_colour_rock = RandomInt(1,5)
+		if chance_to_spawn_colour_rock == 5 then
+			local which_rock = RandomInt(1,3)
+
+			if which_rock == 1 or which_rock == 3 then
+				thisEntity.rock_blue = CreateUnitByName("npc_gyro_ring_blocker_blue", start_point, true, nil, nil, DOTA_TEAM_BADGUYS)
+				thisEntity.rock_blue:SetHullRadius( 100 )
+				thisEntity.rock_blue:SetRenderColor(0,0,255)
+			elseif which_rock == 2 then
+				thisEntity.rock_red = CreateUnitByName("npc_gyro_ring_blocker_red", start_point, true, nil, nil, DOTA_TEAM_BADGUYS)
+				thisEntity.rock_red:SetHullRadius( 100 )
+				thisEntity.rock_red:SetRenderColor(255,0,0)
+			end
+		end
+
+		-- spawn green cubes
 		local rock_unit = CreateUnitByName("npc_gyro_ring_blocker", start_point, true, nil, nil, DOTA_TEAM_BADGUYS)
 		rock_unit:SetHullRadius( 80 )
 		--rock_unit:SetForwardVector( Vector( RandomFloat(-1, 1) , RandomFloat(-1, 1), RandomFloat(-1, 1) ) )
@@ -629,7 +755,7 @@ function CleanUpRemainingRocks()
 
         if units ~= nil and #units ~= 0 then
             for _,unit in pairs(units) do
-                if unit:GetUnitName() == "npc_gyro_ring_blocker" then
+                if unit:GetUnitName() == "npc_gyro_ring_blocker" or unit:GetUnitName() == "npc_gyro_ring_blocker_red" or unit:GetUnitName() == "npc_gyro_ring_blocker_blue" then
 
 					local particle = "particles/units/heroes/hero_rubick/rubick_chaos_meteor_cubes.vpcf"
 					local nfx = ParticleManager:CreateParticle(particle, PATTACH_WORLDORIGIN, nil)
@@ -644,3 +770,12 @@ function CleanUpRemainingRocks()
     end
 end
 ------------------------------------------------------------------------------------------------------------------------------
+
+function RandomiseCoolDowns( )
+	thisEntity.swoop:StartCooldown(RandomInt(1,5))
+	thisEntity.flak_cannon:StartCooldown(RandomInt(1,5))
+	thisEntity.cannon_ball:StartCooldown(RandomInt(1,5))
+	thisEntity.flame_thrower:StartCooldown(RandomInt(1,5))
+	thisEntity.flee:StartCooldown(RandomInt(1,5))
+end
+--------------------------------------------------------------------------------

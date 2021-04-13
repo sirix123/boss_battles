@@ -6,20 +6,24 @@ function flame_thrower:OnAbilityPhaseStart()
         self:GetCaster():StartGestureWithPlaybackRate(ACT_DOTA_CAST_ABILITY_1, 0.4)
         self.create_particle = true
 
+        EmitSoundOn( "gyrocopter_gyro_homing_missile_fire_04", self:GetCaster() )
+
         local enemies = FindUnitsInRadius(
             self:GetCaster():GetTeamNumber(),
             self:GetCaster():GetAbsOrigin(),
             nil,
             5000,
-            DOTA_TEAM_BADGUYS,
+            DOTA_UNIT_TARGET_TEAM_ENEMY,
             DOTA_UNIT_TARGET_HERO,
             DOTA_UNIT_TARGET_FLAG_INVULNERABLE,
             FIND_CLOSEST,
             false )
 
         if #enemies == 0 or enemies == nil then
+            print("no enemy found for flame")
             return false
         else
+            print("enemy found for flame thwoers")
             local hTarget = enemies[RandomInt(1,#enemies)]
             self:GetCaster():AddNewModifier( self:GetCaster(), self, "modifier_generic_npc_reduce_turnrate",
             {
@@ -31,7 +35,7 @@ function flame_thrower:OnAbilityPhaseStart()
             ParticleManager:SetParticleControl( self.nfx_indicator, 0, hTarget:GetAbsOrigin() )
             ParticleManager:SetParticleControl( self.nfx_indicator, 3, hTarget:GetAbsOrigin() )
             ParticleManager:SetParticleControl( self.nfx_indicator, 4, Vector(self:GetSpecialValueFor("duration") + 1,0,0) )
-            ParticleManager:ReleaseParticleIndex(self.nfx_indicator)
+            --ParticleManager:ReleaseParticleIndex(self.nfx_indicator)
 
             return true
         end

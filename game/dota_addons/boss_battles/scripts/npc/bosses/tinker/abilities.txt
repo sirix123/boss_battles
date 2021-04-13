@@ -249,7 +249,7 @@
 		"AbilitySpecial"
 		{
             "01"{ "var_type"			"FIELD_INTEGER"		"speed"		        "700" }
-            "02"{ "var_type"			"FIELD_INTEGER"		"dmg"		        "25" }
+            "02"{ "var_type"			"FIELD_INTEGER"		"dmg"		        "10" }
             "03"{ "var_type"			"FIELD_INTEGER"		"radius"		    "100" }
             "04"{ "var_type"			"FIELD_INTEGER"		"interval"		    "2" }
             "05"{ "var_type"			"FIELD_INTEGER"		"duration"		    "50" }

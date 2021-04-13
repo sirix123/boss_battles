@@ -44,7 +44,7 @@ function e_regen_aura:OnSpellStart()
         --caster:AddNewModifier(caster, self, "e_regen_aura_buff", {duration = self:GetSpecialValueFor( "duration" )})
 
         --caster:FindAbilityByName("q_armor_aura"):StartCooldown(caster:FindAbilityByName("q_armor_aura"):GetCooldown(1))
-        caster:FindAbilityByName("e_regen_aura"):StartCooldown(caster:FindAbilityByName("e_regen_aura"):GetCooldown(1))
+        --caster:FindAbilityByName("e_regen_aura"):StartCooldown(caster:FindAbilityByName("e_regen_aura"):GetCooldown(1))
         --caster:FindAbilityByName("r_outgoing_dmg"):StartCooldown(caster:FindAbilityByName("r_outgoing_dmg"):GetCooldown(1))
 
         caster:FindAbilityByName("q_armor_aura"):SetActivated(false)

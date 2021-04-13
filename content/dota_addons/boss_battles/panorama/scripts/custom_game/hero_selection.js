@@ -1,6 +1,7 @@
 "use strict";
 
 //Subscribe to events
+GameEvents.Subscribe( "begin_hero_select", StartHeroSelect );
 GameEvents.Subscribe( "picking_done", OnPickingDone );
 GameEvents.Subscribe( "picking_time_update", OnTimeUpdate );
 GameEvents.Subscribe( "picking_player_pick", OnPlayerPicked );
@@ -8,6 +9,12 @@ GameEvents.Subscribe( "picking_player_selected", OnPlayerSelected );
 
 /* Event Handlers
 =========================================================================*/
+
+/* Wait for the server to tell us when to start hero select */
+function StartHeroSelect( data ) {
+	$.Msg("got start event from server to open the hero select screen")
+	DisplayHeroSelect()
+}
 
 /* Picking phase is done, allow the player to enter the game */
 function OnPickingDone( data ) {
@@ -90,6 +97,7 @@ function PlayerSelected( player, hero ) {
 	if ( hero == "npc_dota_hero_medusa" 			) 	{ hero = "Medusa"; }
 	if ( hero == "npc_dota_hero_lina" 				) 	{ hero = "Lina"; }
 	if ( hero == "npc_dota_hero_omniknight" 		) 	{ hero = "Nocens"; }
+	if ( hero == "npc_dota_hero_grimstroke" 		) 	{ hero = "Zeeke"; }
 
 	// add the players name to the bottom of the pedestal
 	var pedHeroHeroText = heroPedPanels[player].FindChildInLayoutFile("HeroNamePedTxt");
@@ -193,12 +201,14 @@ let heroes =
 	"npc_dota_hero_medusa",
 	"npc_dota_hero_lina",
 	"npc_dota_hero_omniknight",
+	"npc_dota_hero_grimstroke",
 ];
 
 // container for the ped on the scene
 let PedRowContainer = $("#PedList");
 
-(function () {
+//(function () {
+function DisplayHeroSelect(){
 
 	// if tools mode.. load Ta and kunka
 	if ( Game.IsInToolsMode() == false ) {
@@ -211,6 +221,10 @@ let PedRowContainer = $("#PedList");
 			}
 
 			if ( heroes[i] == "npc_dota_hero_kunkka"  ) {
+				heroes.splice(i, 1);
+			}
+
+			if ( heroes[i] == "npc_dota_hero_grimstroke"  ) {
 				heroes.splice(i, 1);
 			}
 		}
@@ -257,5 +271,5 @@ let PedRowContainer = $("#PedList");
 		//store this panel to update it later.
 		heroFramePanels[i] = containerPanel
 	}
-
-})();
+}
+//})();

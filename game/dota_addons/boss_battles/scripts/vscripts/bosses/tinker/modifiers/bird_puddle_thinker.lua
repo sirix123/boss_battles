@@ -1,5 +1,6 @@
 
 bird_puddle_thinker = class({})
+LinkLuaModifier( "biting_frost_modifier_buff_fire", "bosses/tinker/modifiers/biting_frost_modifier_buff_fire", LUA_MODIFIER_MOTION_NONE  )
 
 function bird_puddle_thinker:IsHidden()
 	return false
@@ -72,26 +73,13 @@ function bird_puddle_thinker:StartApplyDamageLoop()
             false	-- bool, can grow cache
         )
 
-       --[[if friendlies ~= nil and #friendlies ~= 0 then
+       if friendlies ~= nil and #friendlies ~= 0 then
             for _, friend in pairs(friendlies) do
-                if friend:GetUnitName() == "npc_ice_ele" then
-                    self.dmgTable = {
-                        victim = friend,
-                        attacker = self.caster,
-                        damage = self.dmg_dot + 500,
-                        damage_type = DAMAGE_TYPE_PHYSICAL,
-                    }
-
-                    ApplyDamage(self.dmgTable)
-
-                elseif friend:GetUnitName() == "npc_fire_ele" then
-                    friend:Heal(50, nil)
-
-                elseif friend:GetUnitName() == "npc_elec_ele"then
-                    self:Destroy()
+                if friend:GetUnitName() == "npc_charge_bot" then
+                    friend:AddNewModifier(self:GetCaster(), self, "biting_frost_modifier_buff_fire", {duration = 5})
                 end
             end
-        end]]
+        end
 
         if enemies ~= nil and #enemies ~= 0 then
             for _, enemy in pairs(enemies) do

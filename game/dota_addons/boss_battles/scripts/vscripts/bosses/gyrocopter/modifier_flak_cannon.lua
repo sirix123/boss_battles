@@ -55,8 +55,8 @@ function modifier_flak_cannon:OnCreated(  )
             self.nPreviewFXIndex = ParticleManager:CreateParticle( "particles/gyrocopter/no_arrows_gyro_darkmoon_calldown_marker.vpcf", PATTACH_ABSORIGIN_FOLLOW, self:GetParent() )
             ParticleManager:SetParticleControl( self.nPreviewFXIndex, 0, self:GetParent():GetAbsOrigin() )
             ParticleManager:SetParticleControl( self.nPreviewFXIndex, 1, Vector( self.radius, -self.radius, -self.radius ) )
-            ParticleManager:SetParticleControl( self.nPreviewFXIndex, 2, Vector(self:GetDuration() + 2,0,0) );
-            ParticleManager:ReleaseParticleIndex( self.nPreviewFXIndex )
+            ParticleManager:SetParticleControl( self.nPreviewFXIndex, 2, Vector(999,0,0) );
+            --ParticleManager:ReleaseParticleIndex( self.nPreviewFXIndex )
 
             self:StartIntervalThink(self.tick_rate)
         end
@@ -71,6 +71,7 @@ end
 
 function modifier_flak_cannon:OnDestroy()
     if IsServer() then
+        ParticleManager:DestroyParticle( self.nPreviewFXIndex,true )
         Timers:RemoveTimer(self.timer)
         self:GetAbility():StartCooldown(self:GetAbility():GetCooldown(self:GetAbility():GetLevel()))
     end
@@ -114,6 +115,18 @@ function modifier_flak_cannon:OnIntervalThink()
 
             -- shoot proj
             ProjectileManager:CreateTrackingProjectile( info )
+
+            local dmgTable =
+            {
+                victim = unit,
+                attacker = self:GetCaster(),
+                damage = 50,
+                damage_type = DAMAGE_TYPE_PHYSICAL,
+            }
+
+            ApplyDamage(dmgTable)
+
+
 		end
 	end
 end
@@ -122,7 +135,8 @@ end
 
 function modifier_flak_cannon:OnProjectileHit( hTarget, vLocation)
     if IsServer() then
-        if hTarget then
+        --[[if hTarget then
+            print("flak hitting target")
             local dmgTable =
             {
                 victim = hTarget,
@@ -133,7 +147,7 @@ function modifier_flak_cannon:OnProjectileHit( hTarget, vLocation)
 
             ApplyDamage(dmgTable)
 
-        end
+        end]]
     end
 end
 -----------------------------------------------------------------------------
@@ -151,7 +165,7 @@ end
 -----------------------------------------------------------------------------
 
 function modifier_flak_cannon:GetModifierMoveSpeedBonus_Percentage( params )
-	return 100
+	return 250
 end
 --------------------------------------------------------------------------------
 
