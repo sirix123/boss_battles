@@ -13,6 +13,18 @@
 	height: 100%;
 	width: 100%;
 	brightness: 1;
+	contrast: 1;
+	saturation: 1;
+	transition-property: blur, brightness, wash-color;
+	transition-duration: .32s;
+	transition-timing-function: ease-in-out;
+}
+
+#BGVingette{
+	height: 100%;
+	width: 100%;
+	background-image: url("s2r://panorama/images/backgrounds/chest_vignette_psd.vtex");
+	background-size: 100%;
 }
 
 #PickListRowOne {
