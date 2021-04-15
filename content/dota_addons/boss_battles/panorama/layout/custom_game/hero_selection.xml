@@ -49,9 +49,11 @@
 		<DOTAScenePanel id="PickingScreenScene" camera="dashboard_cam" map="scenes/backgrounds/hero_frontpage_dawnbreaker" hittest="false" particleonly="false"/>
 		<DOTAScenePanel id="PickingScreenScene" camera="dashboard_cam" map="maps/backgrounds/hero_frontpage_dawnbreaker"/>
 		-->
-
-		<DOTAScenePanel id="PickingScreenScene" camera="dashboard_cam" map="maps/backgrounds/dueling_fates_main_bg" hittest="false" particleonly="false"/>
-		<Panel id="BGVingette" hittest="false" />
+		
+		<!--
+		<DOTAScenePanel id="PickingScreenScene" camera="dashboard_cam" map="maps/backgrounds/dueling_fates_main_bg" hittest="true" particleonly="false"/>
+		<Panel id="BGVingette" hittest="true" />
+		-->
 
 		<!-- Pick list (showing options) | Row 1 |  style="border: 1px solid red;" 
 		=========================================-->
