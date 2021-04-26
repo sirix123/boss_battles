@@ -12,8 +12,8 @@ function modifier_generic_npc_reduce_turnrate:OnCreated( kv )
 
         self.interval = 0.03
 
-        if kv.target then
-            self.target = kv.target
+        if kv.target == 1 then
+            self.target = global_hTarget
             self.turn_rate = 25
             local vec = self.target:GetAbsOrigin()
             self:SetDirection( vec )

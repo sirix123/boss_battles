@@ -16,3 +16,5 @@ function TargetingIndicator:Load()
 
     CustomNetTables:SetTableValue("main", "targetingIndicators", targetingIndicators)
 end
+
+TargetingIndicator:Load()

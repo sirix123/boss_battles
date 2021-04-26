@@ -1,10 +1,14 @@
 item_water_gun = class({})
 LinkLuaModifier("water_gun_dmg_buff", "bosses/gyrocopter/water_gun_dmg_buff", LUA_MODIFIER_MOTION_NONE)
 LinkLuaModifier("water_gun_dmg_debuff", "bosses/gyrocopter/water_gun_dmg_debuff", LUA_MODIFIER_MOTION_NONE)
+LinkLuaModifier("water_gun_modifier", "bosses/gyrocopter/water_gun_modifier", LUA_MODIFIER_MOTION_NONE)
+
 
 function item_water_gun:OnSpellStart()
     local caster = self:GetCaster()
     local origin = caster:GetOrigin()
+
+    caster:AddNewModifier( caster, self, "water_gun_modifier", { duration = -1 } )
 
     local vTargetPos = nil
     vTargetPos = Clamp(caster:GetOrigin(), Vector(caster.mouse.x, caster.mouse.y, caster.mouse.z), self:GetCastRange(Vector(0,0,0), nil), 0)
@@ -12,6 +16,8 @@ function item_water_gun:OnSpellStart()
     local projectile_direction = ( vTargetPos - origin ):Normalized()
 
     local radius = 250
+
+    self:SpendCharge()
 
     local projectile = {
         EffectName = "particles/gyrocopter/water_gun_morphling_base_attack.vpcf",--"particles/units/heroes/hero_meepo/meepo_earthbind_projectile_fx.vpcf",--"particles/units/heroes/hero_meepo/meepo_earthbind_projectile_fx.vpcf", --"particles/econ/items/mars/mars_ti9_immortal/mars_ti9_immortal_crimson_spear.vpcf",--"particles/units/heroes/hero_meepo/meepo_earthbind_projectile_fx.vpcf",

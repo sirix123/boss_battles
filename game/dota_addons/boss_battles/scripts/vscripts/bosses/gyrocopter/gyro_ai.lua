@@ -224,11 +224,11 @@ function GyroThink()
 
 	if thisEntity.PHASE == 1 then
 		if thisEntity.swoop:IsFullyCastable() and thisEntity.swoop:IsCooldownReady() and thisEntity.swoop:IsInAbilityPhase() == false then
-			return CastSwoop( FindFurthestPlayer() )
+			--return CastSwoop( FindFurthestPlayer() )
 		end
 
 		if thisEntity.flee:IsFullyCastable() and thisEntity.flee:IsCooldownReady() and thisEntity.flee:IsInAbilityPhase() == false then
-			return CastFlee( thisEntity.GyroArenaLocations[RandomInt(1,#thisEntity.GyroArenaLocations)])
+			--return CastFlee( thisEntity.GyroArenaLocations[RandomInt(1,#thisEntity.GyroArenaLocations)])
 		end
 
 		if thisEntity.cannon_ball:IsFullyCastable() and thisEntity.cannon_ball:IsCooldownReady() and thisEntity.cannon_ball:IsInAbilityPhase() == false then
@@ -400,7 +400,7 @@ function CastFlameThrower()
 
 	IgniteOil()
 
-	return thisEntity.flame_thrower_duration + 1
+	return thisEntity.flame_thrower_duration + 2
 end
 --------------------------------------------------------------------------------
 
@@ -626,7 +626,7 @@ function TeleportHeroesToCenter()
 	else
 		for _, enemy in pairs(enemies) do
 
-			local particle = "particles/econ/events/ti10/portal/portal_open_good.vpcf"
+			local particle = "particles/gyrocopter/gyro_portal_open_good.vpcf"
 			thisEntity.portal_index = ParticleManager:CreateParticle( particle, PATTACH_WORLDORIGIN, nil )
             ParticleManager:SetParticleControl( thisEntity.portal_index, 0, enemy:GetAbsOrigin() )
 
@@ -641,7 +641,6 @@ function TeleportHeroesToCenter()
 				ParticleManager:SetParticleControl( thisEntity.burst_index, 0, Vector(-12204.878662, 1552.228516, 131.128906) )
 				ParticleManager:ReleaseParticleIndex(thisEntity.burst_index)
 
-				
 				return false
 			end)
 		end
@@ -656,6 +655,7 @@ function CreateRockRings()
 	local rotationPerTick = 5
 	local tickCount = 0
 	local start_point =  GetGroundPosition(thisEntity:GetAbsOrigin() + Vector(0, gap_between_rings, 0), nil)
+
 	thisEntity.creating_rocks = true
 
 	local current_ring = 1
@@ -678,6 +678,22 @@ function CreateRockRings()
 
 		--end condition: stop after all rings created
 		if current_ring > number_of_rings then
+
+			local start_point_purple_1 =  GetGroundPosition(thisEntity:GetAbsOrigin() + Vector(0, ( gap_between_rings / 2 ) * 3, 0), nil)
+			local start_point_purple_2 =  GetGroundPosition(thisEntity:GetAbsOrigin() + Vector(0, ( gap_between_rings / 2 ) * 6, 0), nil)
+
+			local purple_spawn_1 = RotatePosition(thisEntity:GetAbsOrigin(), QAngle(0,RandomInt(0,360),0), start_point_purple_1 )
+			local purple_spawn_2 = RotatePosition(thisEntity:GetAbsOrigin(), QAngle(0,RandomInt(0,360),0), start_point_purple_2 )
+
+			-- create the purple crystals
+			thisEntity.rock_purple = CreateUnitByName("npc_gyro_ring_blocker_purple", purple_spawn_1, true, nil, nil, DOTA_TEAM_BADGUYS)
+			thisEntity.rock_purple:SetHullRadius( 100 )
+			thisEntity.rock_purple:SetRenderColor(154,0,255)
+
+			thisEntity.rock_purple = CreateUnitByName("npc_gyro_ring_blocker_purple", purple_spawn_2, true, nil, nil, DOTA_TEAM_BADGUYS)
+			thisEntity.rock_purple:SetHullRadius( 100 )
+			thisEntity.rock_purple:SetRenderColor(154,0,255)
+
 			RemoveModifierByName_V2( "modifier_generic_stunned" ) -- finds heroes removes stun
 			thisEntity.creating_rocks = false
 			thisEntity.PHASE = 5
@@ -755,7 +771,7 @@ function CleanUpRemainingRocks()
 
         if units ~= nil and #units ~= 0 then
             for _,unit in pairs(units) do
-                if unit:GetUnitName() == "npc_gyro_ring_blocker" or unit:GetUnitName() == "npc_gyro_ring_blocker_red" or unit:GetUnitName() == "npc_gyro_ring_blocker_blue" then
+                if unit:GetUnitName() == "npc_gyro_ring_blocker" or unit:GetUnitName() == "npc_gyro_ring_blocker_red" or unit:GetUnitName() == "npc_gyro_ring_blocker_blue" or unit:GetUnitName() == "npc_gyro_ring_blocker_purple" then
 
 					local particle = "particles/units/heroes/hero_rubick/rubick_chaos_meteor_cubes.vpcf"
 					local nfx = ParticleManager:CreateParticle(particle, PATTACH_WORLDORIGIN, nil)

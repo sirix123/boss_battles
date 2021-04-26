@@ -12,7 +12,7 @@
         "Ability4"              "r_outgoing_dmg"
         "Ability5"              "e_regen_aura"
         "Ability6"              "space_judgement"
-        "Ability7"              "nocens_passive"
+        "Ability7"              ""
         "Ability8"              ""
         "Ability9"              ""
         "Ability10"             ""

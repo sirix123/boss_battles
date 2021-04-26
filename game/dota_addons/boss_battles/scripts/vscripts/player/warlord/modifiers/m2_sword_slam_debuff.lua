@@ -7,7 +7,7 @@ function m2_sword_slam_debuff:IsHidden()
 end
 
 function m2_sword_slam_debuff:IsDebuff()
-	return true
+	return false
 end
 
 function m2_sword_slam_debuff:IsPurgable()

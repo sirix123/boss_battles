@@ -24,16 +24,16 @@ function flame_thrower:OnAbilityPhaseStart()
             return false
         else
             print("enemy found for flame thwoers")
-            local hTarget = enemies[RandomInt(1,#enemies)]
+            _G.global_hTarget = enemies[RandomInt(1,#enemies)]
             self:GetCaster():AddNewModifier( self:GetCaster(), self, "modifier_generic_npc_reduce_turnrate",
             {
                 duration = -1,
-                target = hTarget,
+                target = true,
             })
 
-            self.nfx_indicator = ParticleManager:CreateParticle( "particles/gyrocopter/gyro_flame_debuff.vpcf", PATTACH_OVERHEAD_FOLLOW, hTarget )
-            ParticleManager:SetParticleControl( self.nfx_indicator, 0, hTarget:GetAbsOrigin() )
-            ParticleManager:SetParticleControl( self.nfx_indicator, 3, hTarget:GetAbsOrigin() )
+            self.nfx_indicator = ParticleManager:CreateParticle( "particles/gyrocopter/gyro_flame_debuff.vpcf", PATTACH_OVERHEAD_FOLLOW, global_hTarget )
+            ParticleManager:SetParticleControl( self.nfx_indicator, 0, global_hTarget:GetAbsOrigin() )
+            ParticleManager:SetParticleControl( self.nfx_indicator, 3, global_hTarget:GetAbsOrigin() )
             ParticleManager:SetParticleControl( self.nfx_indicator, 4, Vector(self:GetSpecialValueFor("duration") + 1,0,0) )
             --ParticleManager:ReleaseParticleIndex(self.nfx_indicator)
 

@@ -104,7 +104,7 @@ function bear_charge:OnSpellStart()
                         self.damageTable = {
                             attacker = self:GetCaster(),
                             victim = unit,
-                            damage = 150,
+                            damage = 350,
                             damage_type = self:GetAbilityDamageType(),
                             ability = self,
                         }
@@ -116,7 +116,7 @@ function bear_charge:OnSpellStart()
                             self, -- ability source
                             "modifier_bear_charge_travel_push", -- modifier name
                             {
-                                duration = 0.3,
+                                duration = 0.6,
                             }
                         )
 

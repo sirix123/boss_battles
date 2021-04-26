@@ -12,7 +12,7 @@ function mana_drain:OnAbilityPhaseStart()
 
         self:GetCaster():AddNewModifier( self:GetCaster(), self, "mana_drain_root_modifier", { duration = -1 } )
 
-        self.mana = 2
+        self.mana = 1.4
 
         self:PlayEffects()
 

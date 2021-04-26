@@ -1,6 +1,7 @@
 rock_ai_gyro = class({})
 LinkLuaModifier( "gyro_field_thinker", "bosses/gyrocopter/gyro_field_thinker", LUA_MODIFIER_MOTION_NONE )
 LinkLuaModifier( "vortex_prison_modifier", "bosses/clock/modifiers/vortex_prison_modifier", LUA_MODIFIER_MOTION_NONE )
+LinkLuaModifier( "modifier_generic_stunned", "core/modifier_generic_stunned", LUA_MODIFIER_MOTION_NONE )
 
 --------------------------------------------------------------------------------
 
@@ -30,6 +31,12 @@ function RockThinker()
 			ParticleManager:ReleaseParticleIndex(nfx)
 			OnRockDeathEffects(thisEntity)
 		elseif thisEntity:GetUnitName() == "npc_gyro_ring_blocker_red" then
+			local particle = "particles/gyrocopter/red_rubick_chaos_meteor_cubes.vpcf"
+			local nfx = ParticleManager:CreateParticle(particle, PATTACH_WORLDORIGIN, nil)
+			ParticleManager:SetParticleControl(nfx , 3, thisEntity:GetAbsOrigin())
+			ParticleManager:ReleaseParticleIndex(nfx)
+			OnRockDeathEffects(thisEntity)
+		elseif thisEntity:GetUnitName() == "npc_gyro_ring_blocker_purple" then
 			local particle = "particles/gyrocopter/red_rubick_chaos_meteor_cubes.vpcf"
 			local nfx = ParticleManager:CreateParticle(particle, PATTACH_WORLDORIGIN, nil)
 			ParticleManager:SetParticleControl(nfx , 3, thisEntity:GetAbsOrigin())
@@ -95,6 +102,34 @@ function OnRockDeathEffects(unit)
 					ParticleManager:ReleaseParticleIndex(nfx_2)
 
                     friend:RemoveSelf()
+                end
+            end
+        end
+	elseif unit:GetUnitName() == "npc_gyro_ring_blocker_purple" then
+		local friendly = FindUnitsInRadius(
+			unit:GetTeamNumber(),
+            unit:GetAbsOrigin(),
+            nil,
+            9000,
+            DOTA_UNIT_TARGET_TEAM_FRIENDLY,
+            DOTA_UNIT_TARGET_ALL,
+            DOTA_UNIT_TARGET_FLAG_INVULNERABLE,
+            FIND_ANY_ORDER,
+            false )
+
+        if friendly ~= nil and #friendly ~= 0 then
+            for _, friend in pairs(friendly) do
+                if friend:GetUnitName() == "npc_gyrocopter" then
+
+					EmitSoundOn( "Hero_Rubick.FadeBolt.Cast", unit )
+
+					friend:AddNewModifier( unit, nil, "modifier_generic_stunned", { duration = 15 } )
+
+					local nFXIndex = ParticleManager:CreateParticle( "particles/gyrocopter/gyro_rubick_ti8_immortal_fade_bolt.vpcf", PATTACH_CUSTOMORIGIN, nil )
+					ParticleManager:SetParticleControl(nFXIndex, 0, unit:GetAbsOrigin())
+					ParticleManager:SetParticleControlEnt( nFXIndex, 1, friend, PATTACH_POINT_FOLLOW, "attach_hitloc", friend:GetOrigin(), true )
+					ParticleManager:ReleaseParticleIndex( nFXIndex )
+
                 end
             end
         end
