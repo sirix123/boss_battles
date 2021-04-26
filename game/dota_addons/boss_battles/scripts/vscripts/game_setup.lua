@@ -15,6 +15,9 @@ function GameSetup:init()
 
     self.player_deaths = {}
 
+    -- init client handshake
+    client_handshake:Init()
+
     -- default game rules our mod needs to run
     GameRules:Init()
 
@@ -41,6 +44,7 @@ function GameSetup:init()
     --ListenToGameEvent('dota_player_pick_hero', Dynamic_Wrap(self, 'PlayerPickHero'), self) -- dota_player_pick_hero is a valve engine event
     ListenToGameEvent('entity_killed', Dynamic_Wrap(self, 'OnEntityKilled'), self) --
     ListenToGameEvent('entity_hurt', Dynamic_Wrap(self, 'OnEntityHurt'), self)
+    ListenToGameEvent('player_reconnected', Dynamic_Wrap(self, 'OnPlayerReconnected'), self)
 
 end
 --------------------------------------------------------------------------------------------------
@@ -63,19 +67,40 @@ function GameSetup:OnStateChange()
     end
 
     if GameRules:State_Get() == DOTA_GAMERULES_STATE_GAME_IN_PROGRESS then
-        ModeSelector:Start()
-        HeroSelection:Start()
 
-        -- register the raid wipe timer
-        self:RegisterRaidWipe()
+        -- might to need check all clients are ready with a timer ehre and dont move past until theyre
+        Timers:CreateTimer(1.0, function()
+            if PLAYERS_HANDSHAKE_READY == PlayerResource:GetPlayerCount() then
+                ModeSelector:Start()
+                HeroSelection:Start()
 
-        -- spawn testing stuff
-        intermission_manager:SpawnTestingStuff()
+                -- register the raid wipe timer
+                self:RegisterRaidWipe()
 
-        -- target indicators setup
-        TargetingIndicator:Load()
+                -- spawn testing stuff
+                intermission_manager:SpawnTestingStuff()
 
+                return false
+            end
+            return 1.0
+        end)
     end
+end
+--------------------------------------------------------------------------------------------------
+
+function GameSetup:OnPlayerReconnected(keys)
+    print("GameSetup:OnPlayerReconnected(keys) ",keys)
+
+    --CustomGameEventManager:Send_ServerToPlayer( player, "display_scoreboard", data )
+
+    -- send event to the client that reconnected most likely... we can send the picking done command as they're setup for that listener.
+
+    -- not sure if we need to makesure the client is ready before we sent this event..
+
+    local pID = keys.PlayerID
+    local hPlayer = PlayerResource:GetPlayer( pID )
+
+    CustomGameEventManager:Send_ServerToPlayer( hPlayer, "player_reconnect", {} )
 
 end
 --------------------------------------------------------------------------------------------------
@@ -83,6 +108,7 @@ end
 function GameSetup:OnNPCSpawned(keys)
     local npc = EntIndexToHScript(keys.entindex)
 
+    -- runs when the player respawns after a death
     if npc:IsRealHero() == true then
         -- add grace period when respawning..
         npc:AddNewModifier( npc, nil, "modifier_grace_period", { duration = 3 } )
@@ -109,12 +135,16 @@ function GameSetup:OnNPCSpawned(keys)
 
     end
 
+    -- runs when the player loads in as wisp automatically
     if npc:GetUnitName() == "npc_dota_hero_wisp" then
         npc:AddNewModifier(npc,nil,"modifier_hide_hero",{duration = -1})
     end
 
+    -- this runs on intial spawn
     if npc:IsRealHero() and npc:GetUnitName() ~= "npc_dota_hero_wisp" and npc.bFirstSpawned == nil then
         -- npc.bFirstSpawned is set to true during initlize()
+
+        CustomGameEventManager:Send_ServerToPlayer( npc, "player_hero_spawned", {} )
 
         -- create our own hero list because of the custom hero select screen
         table.insert(HERO_LIST,npc)

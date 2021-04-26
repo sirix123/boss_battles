@@ -1,4 +1,6 @@
 GameEvents.Subscribe( "picking_done", Init );
+GameEvents.Subscribe( "player_reconnect", Init );
+GameEvents.Subscribe( "player_hero_spawned", Init );
 
 var targetingIndicators = {};
 
@@ -225,6 +227,8 @@ function SubscribeToNetTableKey(table, key, loadNow, callback){
 
 // init called by hero selection
 function Init(){
+
+    $.Msg("ehllo target indciators")
 
     SubscribeToNetTableKey("main", "targetingIndicators", true, function(data){
         targetingIndicators = data;

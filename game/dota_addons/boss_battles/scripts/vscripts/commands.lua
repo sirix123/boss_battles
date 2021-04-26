@@ -34,9 +34,11 @@ end
 function Commands:OnPlayerChat(keys)
     local userID = keys.userid
     local text = keys.text
+    local playerID = keys.playerid
     --print("userID = ", userID)
     local commandChar = "!"
     local firstChar = string.sub(text,1,1)
+    PrintTable(keys)
 
     if not keys.userid then return end
 
@@ -55,6 +57,19 @@ function Commands:OnPlayerChat(keys)
             if string.find(text, "dps meter") then
                 --send event to hPlayer to show dps meter
                 CustomGameEventManager:Send_ServerToPlayer( hPlayer, "showDpsMeterUIEvent", {} )
+            end
+
+            if string.find(text, "reset") then
+                print("playerID = ", playerID)
+                if playerID then
+                    local hero = PlayerResource:GetPlayer(playerID):GetAssignedHero()
+                    print("hero ",hero:GetUnitName() )
+                    if hero then
+                        hero.direction.x = 0
+                        hero.direction.y = 0
+                        hero.direction.z = 0
+                    end
+                end
             end
 
             if string.find(text, "admin-panel") then
@@ -104,7 +119,7 @@ function Commands:OnPlayerChat(keys)
             end
 
         else
-            GameRules:SendCustomMessage("You're in Normal mode you cannot use this command.", 0, 0)
+            GameRules:SendCustomMessage("You're in Hard mode you cannot use this command.", 0, 0)
         end
 
         --quick start gyro, control which AI function is used. 

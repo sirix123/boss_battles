@@ -134,6 +134,7 @@ function Activate()
     -- our stuff
     require('constants')
     require('managers/loading_screen_data')
+    require('client_handshake')
     require('core/npc_override')
     require('core/ability_override')
     require('internal/util')

@@ -1,4 +1,5 @@
 GameEvents.Subscribe( "picking_done", Init );
+GameEvents.Subscribe( "player_reconnect", Init );
 
 function HideOther(top_panel){
     var tp_scroll = top_panel.FindChildTraverse("inventory_tpscroll_container");

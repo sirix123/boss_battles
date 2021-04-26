@@ -2,6 +2,7 @@
 
 GameEvents.Subscribe( "picking_done", OnPickingDone );
 GameEvents.Subscribe( "begin_hero_select", StartModeSelect );
+GameEvents.Subscribe( "player_reconnect", OnPickingDone );
 
 function OnPickingDone( ) {
     $('#HeroModeSelectorContainer').DeleteAsync( 0.0 );

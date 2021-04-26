@@ -3,6 +3,7 @@
 #PickingScreen {
 	width: 100%;
 	height: 100%;
+	background-color: black;
 	/*background-color: #000000;*/
 }
 
@@ -10,22 +11,11 @@
 =================================================================*/
 #PickingScreenScene
 {
-	height: 100%;
-	width: 100%;
-	brightness: 1;
-	contrast: 1;
-	saturation: 1;
-	transition-property: blur, brightness, wash-color;
-	transition-duration: .32s;
-	transition-timing-function: ease-in-out;
+	/*height: 100%;
+	width: 100%;*/
+	z-index:-10;
 }
 
-#BGVingette{
-	height: 100%;
-	width: 100%;
-	background-image: url("s2r://panorama/images/backgrounds/chest_vignette_psd.vtex");
-	background-size: 100%;
-}
 
 #PickListRowOne {
 	/*width: 35%;*/
@@ -210,5 +200,59 @@
 	font-size: 24px;
 	background-color: #151515;
 	background-size: 100% 100%;
+	font-family: defaultFont;
+}
+
+/* '' tooltips
+=================================================================*/
+
+#ToolTip{
+	width: 250px;
+	/*height: 150px;*/
+	margin-top: 400px;
+	margin-right: 400px;
+	background-color: #151515;
+	background-size: 100% 100%;
+	border-radius: 12px;
+	horizontal-align: right;
+}
+
+#ToolTipTxt {
+	horizontal-align: center;
+	vertical-align: bottom;
+	color: #fff;
+    font-size: 17px;
+    margin-top: 20px;
+    margin: 10px;
+    font-family: defaultFont;
+}
+
+.ToolTipInfo {
+	width: 20px;
+	height: 25px;
+	horizontal-align: left;
+	vertical-align: center;
+	color: #fff;
+	text-align: center;
+	font-size: 24px;
+	margin-left: 5px;
+	background-color: gradient( linear, 0% 0%, 0% 100%, from( #3553fa ), to( #8887d633 ) );
+	background-size: 100% 100%;
+	border-radius: 6px;
+	font-family: defaultFont;
+}
+
+.ToolTipInfoOpenToolTip {
+	width: 20px;
+	height: 25px;
+	horizontal-align: left;
+	vertical-align: top;
+	color: #fff;
+	text-align: center;
+	font-size: 24px;
+	margin: 10px;
+	background-color: gradient( linear, 0% 0%, 0% 100%, from( #3553fa ), to( #8887d633 ) );
+	background-size: 100% 100%;
+	border-radius: 6px;
 	font-family: defaultFont;
 }

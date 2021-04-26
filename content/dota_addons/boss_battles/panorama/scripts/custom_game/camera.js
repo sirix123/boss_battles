@@ -1,6 +1,7 @@
 "use strict";
 
 GameEvents.Subscribe( "picking_done", Init );
+GameEvents.Subscribe( "player_reconnect", Init );
 GameEvents.Subscribe("camera_control", CameraControl);
 
 var camera_distance = 0;

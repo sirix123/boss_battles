@@ -10,7 +10,7 @@
     <Panel hittest="false" class="parent">
         <Panel id="LagMessageContainer" class="LagMessageContainer">
             <Panel id="LagMessageLabelContainer" class="LagMessageLabelContainer">
-                <Label id="LagMessageLabel" class="LagMessageLabel" text="Network lag detected | Movement controller" />
+                <Label id="LagMessageLabel" class="LagMessageLabel" text="Network lag detected | Movement controller | Type !reset to fix reset movement controller" />
             </Panel>
         </Panel>
     </Panel>

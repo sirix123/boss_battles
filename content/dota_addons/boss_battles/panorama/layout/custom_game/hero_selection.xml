@@ -53,6 +53,11 @@
 		<!--
 		<DOTAScenePanel id="PickingScreenScene" camera="dashboard_cam" map="maps/backgrounds/dueling_fates_main_bg" hittest="true" particleonly="false"/>
 		<Panel id="BGVingette" hittest="true" />
+		
+
+		<Panel id="BackGround" hittest="false">
+			<Image src="file://{images}/loading_screen/Tinker.jpg" scaling="stretch-to-fit-preserve-aspect" />
+		</Panel>
 		-->
 
 		<!-- Pick list (showing options) | Row 1 |  style="border: 1px solid red;" 
@@ -88,8 +93,13 @@
 			<Panel id="wasdcontainer" class="wasdcontainer" >
 				<Panel id="wasdcontainerLabelContainer" class="wasdcontainerLabelContainer">
 					<Label id="wasdLabel" class="wasdLabel" text="This game uses WASD controls." />
+					<Label id="ToolTipInfo" class="ToolTipInfo" text="i" />
 				</Panel>
 			</Panel>
+
+			<Panel id="ToolTip" class="ToolTip"> 
+            	<Label id="ToolTipTxt" text="ToolTipText" />
+        	</Panel>
 
 		</Panel>
 	</Panel>

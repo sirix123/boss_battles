@@ -18,9 +18,14 @@ end
 ]]
 function HeroSelection:Start()
 
-	if PICKING_DONE == false then
+	print("PLAYERS_HANDSHAKE_READY ",PLAYERS_HANDSHAKE_READY)
+	print("PlayerResource:GetPlayerCount() ",PlayerResource:GetPlayerCount())
 
-		print("are we sending the open hero select event?")
+	--or PICKING_DONE == false and IsInToolsMode() == true
+
+	if PICKING_DONE == false and PLAYERS_HANDSHAKE_READY == PlayerResource:GetPlayerCount()  then
+
+		--print("are we sending the open hero select event?")
 
 		CustomGameEventManager:Send_ServerToAllClients( "begin_hero_select", { })
 
@@ -104,7 +109,7 @@ function HeroSelection:EndPicking()
 	Timers:CreateTimer(1.0, function()
 		--print("how many times does this run")
 
-		--Signal the picking screen to disappear
+		--Signal the picking screen to disappear 9also calls other front end things)
 		CustomGameEventManager:Send_ServerToAllClients( "picking_done", { } )
 
 		-- use in lua in gamesetup to control other things

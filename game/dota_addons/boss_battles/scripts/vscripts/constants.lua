@@ -63,4 +63,4 @@ _G.tCORE_MODIFIERS =
     "modifier_hero_movement",
 }
 
-_G.tPLAYERS_HANDSHAKE = {}
+_G.PLAYERS_HANDSHAKE_READY = 0

@@ -14,10 +14,13 @@ GameEvents.Subscribe( "picking_player_selected", OnPlayerSelected );
 function StartHeroSelect( data ) {
 	$.Msg("got start event from server to open the hero select screen")
 	DisplayHeroSelect()
+	DisplayWASDToolTip()
 }
 
 /* Picking phase is done, allow the player to enter the game */
 function OnPickingDone( data ) {
+	$('#wasdcontainer').DeleteAsync( 0.0 );
+    $('#ToolTip').DeleteAsync( 0.0 );
 	EnterGame()
 }
 
@@ -210,6 +213,8 @@ let PedRowContainer = $("#PedList");
 //(function () {
 function DisplayHeroSelect(){
 
+	// load background image
+
 	// if tools mode.. load Ta and kunka
 	if ( Game.IsInToolsMode() == false ) {
 		$.Msg("tools ",Game.IsInToolsMode())
@@ -229,6 +234,8 @@ function DisplayHeroSelect(){
 			}
 		}
 	}
+
+	// spawn the parent panel
 
 	//Set panel visibility
 	$('#PickListRowOne').style.visibility = 'visible';
@@ -273,3 +280,22 @@ function DisplayHeroSelect(){
 	}
 }
 //})();
+
+function DisplayWASDToolTip(){
+	let wasdContainer = $("#wasdcontainer");
+	let wasdLabel = wasdContainer.FindChildInLayoutFile("wasdcontainerLabelContainer")
+
+	let toolTipContainer = $("#ToolTip");
+	toolTipContainer.style.visibility = 'collapse';
+
+	wasdLabel.SetPanelEvent( 'onmouseover', function () {
+		toolTipContainer.style.visibility = 'visible';
+		var tooltipText = toolTipContainer.FindChildInLayoutFile("ToolTipTxt")
+		tooltipText.text = "Very rarely when you intially spawn or if you lag a movement key might get 'stuck' down. To fix this type !reset."
+	});
+
+	wasdLabel.SetPanelEvent( 'onmouseout', function () {
+		toolTipContainer.style.visibility = 'collapse';
+	});
+
+}
