@@ -334,11 +334,11 @@ function ElementalPhaseTimer()
                 thisEntity.elec_phase = true
             end
 
-        thisEntity.summon_ice_ele:EndCooldown()
-        thisEntity.summon_fire_ele:EndCooldown()
-        thisEntity.summon_elec_ele:EndCooldown()
+        --thisEntity.summon_ice_ele:EndCooldown()
+        --thisEntity.summon_fire_ele:EndCooldown()
+        --thisEntity.summon_elec_ele:EndCooldown()
 
-		return 45
+		return 10
 	end)
 end
 --------------------------------------------------------------------------------

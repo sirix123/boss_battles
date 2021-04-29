@@ -2,6 +2,7 @@ rock_ai_gyro = class({})
 LinkLuaModifier( "gyro_field_thinker", "bosses/gyrocopter/gyro_field_thinker", LUA_MODIFIER_MOTION_NONE )
 LinkLuaModifier( "vortex_prison_modifier", "bosses/clock/modifiers/vortex_prison_modifier", LUA_MODIFIER_MOTION_NONE )
 LinkLuaModifier( "modifier_generic_stunned", "core/modifier_generic_stunned", LUA_MODIFIER_MOTION_NONE )
+LinkLuaModifier( "purple_crystal_modifier", "bosses/gyrocopter/purple_crystal_modifier", LUA_MODIFIER_MOTION_NONE )
 
 --------------------------------------------------------------------------------
 
@@ -129,6 +130,9 @@ function OnRockDeathEffects(unit)
 					ParticleManager:SetParticleControl(nFXIndex, 0, unit:GetAbsOrigin())
 					ParticleManager:SetParticleControlEnt( nFXIndex, 1, friend, PATTACH_POINT_FOLLOW, "attach_hitloc", friend:GetOrigin(), true )
 					ParticleManager:ReleaseParticleIndex( nFXIndex )
+
+					-- particle effect to show gyro is some sort of state, use a modifier set duration to same as stuns duration
+					friend:AddNewModifier( unit, nil, "purple_crystal_modifier", { duration = 15 } )
 
                 end
             end

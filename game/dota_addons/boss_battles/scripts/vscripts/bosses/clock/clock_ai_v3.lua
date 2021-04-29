@@ -77,10 +77,10 @@ function Spawn( entityKeyValues )
 
 	-- droids + turrets
 	thisEntity.summon_flame_turret = thisEntity:FindAbilityByName( "summon_flame_turret" )
-	thisEntity.summon_flame_turret:StartCooldown(thisEntity.summon_flame_turret:GetCooldown(thisEntity.summon_flame_turret:GetLevel()))
+	thisEntity.summon_flame_turret:StartCooldown(5)
 
 	thisEntity.summon_chain_gun_turret = thisEntity:FindAbilityByName( "summon_chain_gun_turret" )
-	thisEntity.summon_chain_gun_turret:StartCooldown(thisEntity.summon_chain_gun_turret:GetCooldown(thisEntity.summon_chain_gun_turret:GetLevel()))
+	thisEntity.summon_chain_gun_turret:StartCooldown(8)
 
 	thisEntity.summon_furnace_droid = thisEntity:FindAbilityByName( "summon_furnace_droid" )
 	--thisEntity.summon_furnace_droid:StartCooldown(thisEntity.summon_furnace_droid:GetCooldown(thisEntity.summon_furnace_droid:GetLevel()))

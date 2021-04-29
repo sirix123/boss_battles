@@ -134,7 +134,9 @@ function GyroThink()
 		return 0.5
 	end
 
-
+	if thisEntity:IsStunned() == true then
+		return 2
+	end
 
 	--[[
 
@@ -732,7 +734,7 @@ function CreateRockRings()
 end
 --------------------------------------------------------------------------------
 
-function RemoveModifierByName_V2( sModifier )
+function RemoveModifierByName_V2( sModifier ) -- only works on enemies to boss
 	local enemies = FindUnitsInRadius(
 		thisEntity:GetTeamNumber(),
 		thisEntity:GetAbsOrigin(),

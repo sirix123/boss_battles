@@ -25,7 +25,7 @@ function FireThinker()
     end
 
     -- find all units
-    local hEnemies = FindUnitsInRadius( thisEntity:GetTeamNumber(), thisEntity:GetOrigin(), nil, 4000, DOTA_UNIT_TARGET_TEAM_ENEMY, DOTA_UNIT_TARGET_HERO, DOTA_UNIT_TARGET_FLAG_MAGIC_IMMUNE_ENEMIES, FIND_CLOSEST, false )
+    local hEnemies = FindUnitsInRadius( thisEntity:GetTeamNumber(), thisEntity:GetOrigin(), nil, 8000, DOTA_UNIT_TARGET_TEAM_ENEMY, DOTA_UNIT_TARGET_HERO, DOTA_UNIT_TARGET_FLAG_MAGIC_IMMUNE_ENEMIES, FIND_CLOSEST, false )
 	if #hEnemies == 0 then
 		return 1
 	end
@@ -36,16 +36,13 @@ function FireThinker()
         if hEnemy ~= nil and hEnemy:IsAlive() then
             --print("found enemy")
 			local flDist = ( hEnemy:GetOrigin() - thisEntity:GetOrigin() ):Length2D()
+
             if flDist < thisEntity.fire_ele_attack:GetCastRange(thisEntity:GetAbsOrigin(), hEnemy) then
-                --print("casting")
-				hAttackTarget = hEnemy
-			end
-            if flDist > thisEntity.fire_ele_attack:GetCastRange(thisEntity:GetAbsOrigin(), hEnemy) then
                 --print("enemy fasr away")
 				hAttackTarget = hEnemy
 			end
 
-			if flDist < thisEntity.fire_ele_attack:GetCastRange(thisEntity:GetAbsOrigin(), hEnemy) then
+			if flDist > thisEntity.fire_ele_attack:GetCastRange(thisEntity:GetAbsOrigin(), hEnemy) then
                 --print("enemy fasr away")
 				hApproachTarget = hEnemy
 			end
