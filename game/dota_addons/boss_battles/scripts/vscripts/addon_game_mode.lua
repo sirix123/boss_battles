@@ -140,6 +140,7 @@ function Activate()
     require('internal/util')
     require('gamerules')
     require('commands')
+    require('disconnect_manager')
 
     require('game_setup')
     require('intermission_manager')

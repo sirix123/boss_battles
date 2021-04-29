@@ -20,9 +20,9 @@ function SessionManager:Init()
     end
 
     if STORY_MODE == true then
-        self.session_data["mode"] = "storyMode"
-    elseif NORMAL_MODE == true then
         self.session_data["mode"] = "normalMode"
+    elseif NORMAL_MODE == true then
+        self.session_data["mode"] = "hardMode"
     end
 
     self.start_time = 0
@@ -64,7 +64,6 @@ function SessionManager:StopRecordingAttempt( bBossKilled )
         player["playerDeaths"] = hero.playerDeaths
         player["heroName"] = hero.hero_name
         player["dmgDoneAttempt"] = hero.dmgDoneAttempt
-        table.insert(self.player_data,player)
         table.insert(self.player_attempt_data,player)
     end
 
@@ -79,7 +78,6 @@ function SessionManager:StopRecordingAttempt( bBossKilled )
 
     -- adds boss data and player data to the session data collection
     self.session_data["boss_data"] = self.boss_data
-    self.session_data["player_data"] = self.player_data
 
     -- attempt data,used for the ingame scoreboard, snapshot of last attempt
     self.attempt_data["boss_data"] = self.boss_attempt
@@ -96,7 +94,24 @@ end
 
 -- send session data (leaderboard/databse)
 function SessionManager:SendSessionData()
-    --print(dump(self.session_data))
+
+    -- when we send the session data, happens once...
+    -- individual player data
+    for _, hero in pairs(HERO_LIST) do
+        local player = {}
+        player["playerId"] = tonumber(hero.playerId)
+        player["steamId"] = tostring(hero.steamId)
+        player["className"] = tostring(hero.class_name)
+        player["playerName"] = hero.playerName
+        player["playerLives"] = hero.playerLives
+        player["playerDeaths"] = hero.playerDeaths
+        player["heroName"] = hero.hero_name
+        player["dmgDoneTotal"] = hero.dmgDoneTotal
+        table.insert(self.player_data,player)
+    end
+
+    self.session_data["player_data"] = self.player_data
+
     WebApi:SaveSessionData( self.session_data )
 end
 ----------------------------------------

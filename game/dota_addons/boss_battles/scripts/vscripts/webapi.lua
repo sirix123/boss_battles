@@ -36,7 +36,7 @@ function WebApi:SaveSessionData(data)
 	print(dump(json.encode(data)))
 
 	--local request = CreateHTTPRequestScriptVM("POST", firebaseUrl ..  "sessionData.json")
-	local request = CreateHTTPRequestScriptVM("http://143.198.224.131/session/data")
+	local request = CreateHTTPRequestScriptVM("POST","http://143.198.224.131/session/data")
 	request:SetHTTPRequestRawPostBody("application/json", json.encode(data))
       request:Send(function(response) 
         if response.StatusCode == 200 then

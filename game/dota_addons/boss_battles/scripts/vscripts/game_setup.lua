@@ -37,6 +37,9 @@ function GameSetup:init()
     -- timer for updating player frames
     player_frame_manager:UpdatePlayer()
 
+    -- init the disconnection manager
+    disconnect_manager:Init() -- starts a timer that watches for disconnects
+
     --listen to game state event
     -- events here: https://developer.valvesoftware.com/wiki/Dota_2_Workshop_Tools/Scripting/Built-In_Engine_Events
     ListenToGameEvent("game_rules_state_change", Dynamic_Wrap(self, "OnStateChange"), self) -- valve engine event
@@ -407,6 +410,8 @@ function GameSetup:ReadyupCheck() -- called from trigger lua file for activators
     print("game_setup: Start boss counter: ", BOSS_BATTLES_ENCOUNTER_COUNTER," ", RAID_TABLES[BOSS_BATTLES_ENCOUNTER_COUNTER].boss )
 
     for _,hero in pairs(HERO_LIST) do
+        hero.dmgDoneTotal = hero.dmgDoneTotal + hero.dmgDoneAttempt
+        print("hero total dmg done, ", hero.dmgDoneTotal)
         hero.dmgDoneAttempt = 0  -- reset damage done
     end
 
