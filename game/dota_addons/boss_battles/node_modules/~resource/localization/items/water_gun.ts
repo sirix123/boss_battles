@@ -24,9 +24,9 @@ export function GenerateLocalizationData(): LocalizationData
         description: "Who left this water gun here...",
         notes:
         [
-            `Shooting the water gun will give you 1 stack of living water.`,
-            `Each stack of living water increases your outgoing damage. (Scales based on current stacks).`,
-            `At 8 stacks your gun will overheat and set you on fire.`,
+            `Shooting the water gun will remove oil and fire.`,
+            `Charges slowly replenish overtime.`,
+            `Cleaning fire and oil grants you a stacking outgoing damage buff.`,
         ],
     });
 

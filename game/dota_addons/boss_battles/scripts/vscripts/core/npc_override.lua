@@ -40,6 +40,7 @@ function CDOTA_BaseNPC:Initialize(data)
   self.hero_name = self:GetUnitName()
 
   self.dmgDoneAttempt = 0
+  self.dmgDoneTotal = 0
 
   self.ready_up = false
 

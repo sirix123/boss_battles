@@ -86,7 +86,7 @@ function e_warlord_shout:OnSpellStart()
             end
         end
 
-        -- increase duration of the vortex(s)
+        --[[ increase duration of the vortex(s)
         if self.tHandleVortex ~= nil and #self.tHandleVortex ~= 0 then
             for _, vortex in pairs(self.tHandleVortex) do
                 local remaining_time = vortex:GetRemainingTime()
@@ -94,7 +94,7 @@ function e_warlord_shout:OnSpellStart()
                 local extended_duration = remaining_time + vortex_ability_shout_duration_increase
                 vortex:SetDuration(extended_duration, true)
             end
-        end
+        end]]
 
         -- Create Sound
         EmitSoundOn( "Hero_Axe.Berserkers_Call", self:GetCaster() )
