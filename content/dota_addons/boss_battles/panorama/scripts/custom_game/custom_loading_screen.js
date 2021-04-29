@@ -1,5 +1,22 @@
 "use strict";
 
+/* buttons for leaderboard to link */
+function OnSocialButtonOnePressed(){
+    $.Msg("click social button 1 website");
+
+}
+
+function OnSocialButtonTwoPressed(){
+    $.Msg("click social button 2 discord ");
+
+}
+
+function OnSocialButtonThreePressed(){
+    $.Msg("click social button 3 pateron");
+
+}
+
+
 let top10panels = {};
 let normal_mode_data = null;
 let hard_mode_data = null;
@@ -12,6 +29,7 @@ normalDataButton.AddClass( "leaderboard_buttons" );
 let hardDataButton = leaderboard_buttons_container.FindChildInLayoutFile("leaderboard_button_mode_2");
 hardDataButton.AddClass( "leaderboard_buttons" );
 
+/* buttons for leaderboard to load different data*/
 function OnNormalButtonPressed(){
     $.Msg("click normal button ");
     normalDataButton.RemoveClass( "disabled" );
