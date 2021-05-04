@@ -6,6 +6,7 @@
 #base "players\painter\painter.txt"
 #base "players\firemage\firemage.txt"
 #base "players\pally\pally.txt"
+#base "players\queenofpain\queenofpain.txt"
 
 "DOTAHeroes"
 {
@@ -15,7 +16,7 @@
 	"npc_dota_hero_templar_assassin_template"
 	{
 		"override_hero"				"npc_dota_hero_templar_assassin"			// Hero to override
-		"Ability1"					"flame_thrower"									// Ability 1
+		"Ability1"					"fire_cross_grenade"									// Ability 1
 		"Ability2"					"green_beam"										// Ability 2
 		"Ability3"					"vortex_grenade"								// Ability 3
 		"Ability4"					"summon_ice_ele"							// Ability 4

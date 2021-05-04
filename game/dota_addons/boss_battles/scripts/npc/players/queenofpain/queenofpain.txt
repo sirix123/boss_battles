@@ -1,0 +1,58 @@
+"DOTAHeroes"
+{
+	//=================================================================================================================
+	// HERO: Queen of Pain - Player Character
+	//=================================================================================================================
+	"npc_dota_hero_queenofpain"
+	{
+		"override_hero"			"npc_dota_hero_queenofpain" 			// Hero to override
+		"Ability1"              "m1_qop_basic_attack" 
+        "Ability2"              "m2_qop_direct_heal" 
+        "Ability3"              "q_pen" 
+        "Ability4"              "e_qop_shield"
+        "Ability5"              "r_delayed_aoe_heal"
+        "Ability6"              "space_leap_of_grip"
+        "Ability7"              ""
+        "Ability8"              ""
+        "Ability9"              ""
+        "Ability10"             ""
+        "Ability11"             ""
+        "Ability12"             ""
+        "Ability13"             ""
+        "Ability14"             ""
+        "Ability15"             ""
+        "Ability16"             ""
+        "Ability17"             "qop_passive"
+
+        "ArmorPhysical"             "0"
+        "MagicalResistance"         "0"
+
+        "AttackCapabilities"        "DOTA_UNIT_CAP_RANGED_ATTACK"
+        "AttackDamageMin"           "1"
+        "AttackDamageMax"           "1"
+
+        //"AttributePrimary"        "DOTA_ATTRIBUTE_STRENGTH"
+        "AttributeBaseStrength"     "0"
+        "AttributeStrengthGain"     "0"
+        "AttributeBaseIntelligence" "0"
+        "AttributeIntelligenceGain" "0"
+        "AttributeBaseAgility"      "0"
+        "AttributeAgilityGain"      "0"
+
+        "BountyXP"                  "0"
+        "BountyGoldMin"             "0"
+        "BountyGoldMax"             "0"
+
+        "MovementCapabilities"      "DOTA_UNIT_CAP_MOVE_GROUND"
+        "MovementSpeed"             "400"
+        "MovementTurnRate"          "1.0"
+
+        "StatusHealth"              "500" //500 50000
+        "StatusHealthRegen"         "0"
+        "StatusMana"                "100"
+        "StatusManaRegen"           "0.0"
+
+        "VisionDaytimeRange"        "5000"
+        "VisionNighttimeRange"      "5000"
+	}
+}

@@ -52,6 +52,7 @@ _G.HERO_NAME_LIST =
     "npc_dota_hero_grimstroke",
     "npc_dota_hero_lina",
     "npc_dota_hero_omniknight",
+    "npc_dota_hero_queenofpain",
 }
 
 _G.tCORE_MODIFIERS =

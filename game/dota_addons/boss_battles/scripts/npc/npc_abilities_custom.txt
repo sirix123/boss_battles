@@ -31,6 +31,9 @@
 //pally
 #base "players/pally/abilities.txt"
 
+//qop
+#base "players/queenofpain/abilities.txt"
+
 
 "DOTAAbilities"
 {

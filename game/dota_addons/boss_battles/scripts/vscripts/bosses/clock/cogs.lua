@@ -1,5 +1,6 @@
 cogs = class({})
 LinkLuaModifier( "cog_modifier", "bosses/clock/modifiers/cog_modifier", LUA_MODIFIER_MOTION_NONE )
+LinkLuaModifier( "modifier_generic_disable_auto_attack", "core/modifier_generic_disable_auto_attack", LUA_MODIFIER_MOTION_NONE )
 
 function cogs:OnAbilityPhaseStart()
     if IsServer() then
@@ -36,6 +37,8 @@ function cogs:OnSpellStart()
         self:GetCaster():RemoveGesture(ACT_DOTA_RATTLETRAP_POWERCOGS)
 
         self:GetCaster():StartGestureWithPlaybackRate(ACT_DOTA_GENERIC_CHANNEL_1, 2.0)
+
+        self:GetCaster():AddNewModifier( self:GetCaster(), nil, "modifier_generic_disable_auto_attack", { duration = -1 })
 
         local caster = self:GetCaster()
         local vCaster = caster:GetAbsOrigin()
@@ -133,6 +136,8 @@ function cogs:OnSpellStart()
 
                 -- remove rooted modifier
                 caster:RemoveModifierByName("modifier_rooted")
+
+                caster:RemoveModifierByName("modifier_generic_disable_auto_attack")
 
                 StopGlobalSound(self.sound_cast)
 

@@ -101,6 +101,7 @@ function PlayerSelected( player, hero ) {
 	if ( hero == "npc_dota_hero_lina" 				) 	{ hero = "Lina"; }
 	if ( hero == "npc_dota_hero_omniknight" 		) 	{ hero = "Nocens"; }
 	if ( hero == "npc_dota_hero_grimstroke" 		) 	{ hero = "Zeeke"; }
+	if ( hero == "npc_dota_hero_queenofpain" 		) 	{ hero = "Akasha"; }
 
 	// add the players name to the bottom of the pedestal
 	var pedHeroHeroText = heroPedPanels[player].FindChildInLayoutFile("HeroNamePedTxt");
@@ -205,6 +206,7 @@ let heroes =
 	"npc_dota_hero_lina",
 	"npc_dota_hero_omniknight",
 	"npc_dota_hero_grimstroke",
+	"npc_dota_hero_queenofpain",
 ];
 
 // container for the ped on the scene
@@ -232,6 +234,7 @@ function DisplayHeroSelect(){
 			if ( heroes[i] == "npc_dota_hero_grimstroke"  ) {
 				heroes.splice(i, 1);
 			}
+
 		}
 	}
 

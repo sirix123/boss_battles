@@ -38,7 +38,7 @@ function GameSetup:init()
     player_frame_manager:UpdatePlayer()
 
     -- init the disconnection manager
-    disconnect_manager:Init() -- starts a timer that watches for disconnects
+    --disconnect_manager:Init() -- starts a timer that watches for disconnects
 
     --listen to game state event
     -- events here: https://developer.valvesoftware.com/wiki/Dota_2_Workshop_Tools/Scripting/Built-In_Engine_Events
@@ -48,6 +48,7 @@ function GameSetup:init()
     ListenToGameEvent('entity_killed', Dynamic_Wrap(self, 'OnEntityKilled'), self) --
     ListenToGameEvent('entity_hurt', Dynamic_Wrap(self, 'OnEntityHurt'), self)
     ListenToGameEvent('player_reconnected', Dynamic_Wrap(self, 'OnPlayerReconnected'), self)
+    --ListenToGameEvent('player_team', Dynamic_Wrap(self, 'OnPlayerTeamChange'), self)
 
 end
 --------------------------------------------------------------------------------------------------
@@ -107,6 +108,14 @@ function GameSetup:OnPlayerReconnected(keys)
 
 end
 --------------------------------------------------------------------------------------------------
+--[[
+function GameSetup:OnPlayerTeamChange(keys)
+    print("GameRules:State_Get() ", GameRules:State_Get())
+    if GameRules:State_Get() >= DOTA_GAMERULES_STATE_GAME_IN_PROGRESS then
+        print("keys.disconnect ", keys.disconnect)
+    end
+end]]
+--------------------------------------------------------------------------------------------------
 
 function GameSetup:OnNPCSpawned(keys)
     local npc = EntIndexToHScript(keys.entindex)
@@ -128,6 +137,7 @@ function GameSetup:OnNPCSpawned(keys)
             if npc:GetUnitName() == "npc_dota_hero_lina" then npc:SetMana(0) end
             if npc:GetUnitName() == "npc_dota_hero_juggernaut" then npc:SetMana(0) end
             if npc:GetUnitName() == "npc_dota_hero_grimstroke" then npc:SetMana(0) end
+            if npc:GetUnitName() == "npc_dota_hero_queenofpain" then npc:SetMana(0) end
             return false
         end)
 

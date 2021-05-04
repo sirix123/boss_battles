@@ -69,6 +69,9 @@ function Spawn( entityKeyValues )
 	thisEntity.flee:StartCooldown(15)
 	thisEntity.flee_speed = thisEntity.flee:GetLevelSpecialValueFor("speed", thisEntity.flee:GetLevel())
 
+	thisEntity.fire_gren = thisEntity:FindAbilityByName( "fire_cross_grenade" )
+	thisEntity.fire_gren:StartCooldown(2)
+
 	thisEntity.intermission_flee = thisEntity:FindAbilityByName( "intermission_flee" )
 	thisEntity.intermission_flee_return_value = thisEntity.intermission_flee:GetLevelSpecialValueFor("return_value", thisEntity.intermission_flee:GetLevel())
 	thisEntity.gyro_call_down_ring_gap = thisEntity.intermission_flee:GetLevelSpecialValueFor("gap_between_rings", thisEntity.intermission_flee:GetLevel())
@@ -196,6 +199,14 @@ function GyroThink()
 		thisEntity.PHASE = 2
 	end
 
+	if thisEntity.PHASE == 2 then
+		-- keep casting fire thing spell as well
+		if thisEntity.fire_gren:IsFullyCastable() and thisEntity.fire_gren:IsCooldownReady() and thisEntity.fire_gren:IsInAbilityPhase() == false then
+			return CastFireGrenade()
+		end
+
+	end
+
 	if thisEntity.flak_cannon:IsCooldownReady() == false and thisEntity.PHASE == 2 and thisEntity.circle_timer_running == false then
 		print("phase 1 starting")
 		thisEntity.PHASE = 1
@@ -225,12 +236,17 @@ function GyroThink()
 	]]
 
 	if thisEntity.PHASE == 1 then
+
+		if thisEntity.fire_gren:IsFullyCastable() and thisEntity.fire_gren:IsCooldownReady() and thisEntity.fire_gren:IsInAbilityPhase() == false then
+			return CastFireGrenade()
+		end
+
 		if thisEntity.swoop:IsFullyCastable() and thisEntity.swoop:IsCooldownReady() and thisEntity.swoop:IsInAbilityPhase() == false then
-			--return CastSwoop( FindFurthestPlayer() )
+			return CastSwoop( FindFurthestPlayer() )
 		end
 
 		if thisEntity.flee:IsFullyCastable() and thisEntity.flee:IsCooldownReady() and thisEntity.flee:IsInAbilityPhase() == false then
-			--return CastFlee( thisEntity.GyroArenaLocations[RandomInt(1,#thisEntity.GyroArenaLocations)])
+			return CastFlee( thisEntity.GyroArenaLocations[RandomInt(1,#thisEntity.GyroArenaLocations)])
 		end
 
 		if thisEntity.cannon_ball:IsFullyCastable() and thisEntity.cannon_ball:IsCooldownReady() and thisEntity.cannon_ball:IsInAbilityPhase() == false then
@@ -406,6 +422,21 @@ function CastFlameThrower()
 end
 --------------------------------------------------------------------------------
 
+function CastFireGrenade()
+
+	ExecuteOrderFromTable({
+		UnitIndex = thisEntity:entindex(),
+		OrderType = DOTA_UNIT_ORDER_CAST_NO_TARGET,
+		AbilityIndex = thisEntity.fire_gren:entindex(),
+		Queue = false,
+	})
+
+	thisEntity.fire_gren:StartCooldown(2)
+
+	return 0.5
+end
+--------------------------------------------------------------------------------
+
 function CastFleeIntermission( vLocation )
 
 	ExecuteOrderFromTable({
@@ -502,7 +533,7 @@ end
 function CricleTimer()
     thisEntity.circle_timer_running = true
 	local count = 0
-	local max_moves = RandomInt(3,6)
+	local max_moves = RandomInt(2,5)
 
     Timers:CreateTimer(function()
         if IsValidEntity(thisEntity) == false then return false end

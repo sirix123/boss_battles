@@ -26,7 +26,7 @@
 		"Ability3"					"flak_cannon"
 		"Ability5"					"cannon_ball"
 		"Ability6"					"flame_thrower"
-		"Ability7"					""			
+		"Ability7"					"fire_cross_grenade"			
 		"Ability8"					"intermission_flee"
 		"Ability9"					""
 		"Ability10"					""

@@ -32,6 +32,16 @@ function casting_modifier_thinker:OnCreated(params)
             self.turn_speed = self.interval*self.turn_rate
 
         end
+
+        if params.bFaceTarget == 1 then
+            self.bFaceTarget = true
+
+            self.target = EntIndexToHScript(params.target)
+
+			self.parent:SetForwardVector(Vector(self.target:GetAbsOrigin().x, self.target:GetAbsOrigin().y, self.parent:GetForwardVector().z ))
+			self.parent:FaceTowards(self.parent:GetAbsOrigin() + Vector(self.target:GetAbsOrigin().x, self.target:GetAbsOrigin().y, self.parent:GetForwardVector().z ))
+
+        end
 	end
 end
 
@@ -55,6 +65,12 @@ function casting_modifier_thinker:OnIntervalThink()
         local vec = Vector(self.parent.mouse.x, self.parent.mouse.y, self.parent.mouse.z)
         self:SetDirection( vec )
         self:TurnLogic()
+    end
+
+    if self.bFaceTarget == true then
+        local targetDirection = (self.target:GetAbsOrigin() - self.parent:GetOrigin()):Normalized()
+        self.parent:SetForwardVector(Vector(targetDirection.x, targetDirection.y, self.parent:GetForwardVector().z ))
+        self.parent:FaceTowards(self.parent:GetAbsOrigin() + Vector(targetDirection.x, targetDirection.y, self.parent:GetForwardVector().z )) 
     end
 
 end
