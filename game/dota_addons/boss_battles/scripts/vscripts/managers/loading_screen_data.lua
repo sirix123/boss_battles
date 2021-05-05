@@ -3,33 +3,32 @@ if loading_screen_data == nil then
 end
 ----------------------------------------------------------------------------------------
 
--- grab data from the server
-function loading_screen_data:GetLeaderBoardData()
-    if IsServer() then
-
-        self.data = self:DummyData()
-
-        -- function to use the normal mode top 10 endpoint (returns an object)
-
-        -- function to use the hard mode top 10 endpoint (returns an object)
-
-        -- combine the data into one table
-
-    end
-end
-
 -- send data to front end, if client is ready
 function loading_screen_data:SendLeaderBoardData()
     if IsServer() then
-
         -- holy shit.. the server really does send data when the client isn't ready (without this delay the data wont display for the client)
         Timers:CreateTimer(5,function ()
-            self:GetLeaderBoardData()
-
-            print("sending data")
-
-            CustomGameEventManager:Send_ServerToAllClients( "loading_screen_data", self.data )
+            -- make the http request and send the data to clients once it returns. 
+            self:GetLeaderBoardDataFromApi()
         end)
+    end
+end
+
+
+function loading_screen_data:GetLeaderBoardDataFromApi()
+    if IsServer() then
+        local request = CreateHTTPRequestScriptVM("GET", "http://143.198.224.131/api/leaderboard?mode=normalMode")
+        --local request = CreateHTTPRequestScriptVM("GET", "https://localhost:44363/api/leaderboard?mode=MOCK")
+        request:Send(function(response) 
+         if response.StatusCode == 200 then -- HTTP 200 = Success
+            local data = json.decode(response.Body)
+            CustomGameEventManager:Send_ServerToAllClients( "loading_screen_data", data )
+            return data
+         else 
+             print("Http GET failed ", response.StatusCode)
+         end
+        end)
+
     end
 end
 

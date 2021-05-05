@@ -103,78 +103,34 @@ function CreateLeaderBoard( data ) {
 
 })();
 
+
 function UpdateScoreboardRows( data )
 {
-    let leaderboardContainer_row = $("#leaderboard_rows");
+    //$.Msg("UpdateScoreboardRows( data )")
+    //$.Msg("data = ", data)
+    //$.Msg("data[games] = ", data["games"])
 
-    // populate the panels with leaderboard information
-    for (let i=1; i < leaderboardContainer_row.GetChildCount(); i++)
-    {
-        // leader board row 
-        let leaderboardRow = top10panels[i];
+    //for each row in the leaderboard
+    for (var index in data["games"]) {
+        let leaderboardRow = top10panels[index];
+        var rank = leaderboardRow.FindChildTraverse("leaderboard_row_info_rank").text = index
 
-        if ( data[i] == leaderboardRow.id ); 
+        for(var bossTimeIndex in data["games"][index]["boss_times"])
         {
-
-            // rank
-            var rank = leaderboardRow.FindChildTraverse("leaderboard_row_info_rank")
-            rank.text = data[i].rank
-
-            // player 1
-            var playerName_1 = leaderboardRow.FindChildTraverse("leaderboard_row_info_player_1")
-            var playerHero_1 = leaderboardRow.FindChildTraverse("leaderboard_row_info_hero_1")
-            var playerLives_1 = leaderboardRow.FindChildTraverse("leaderboard_row_info_live_1")
-            playerName_1.text = data[i].playerData[1].name
-            playerHero_1.text = data[i].playerData[1].hero
-            playerLives_1.text = data[i].playerData[1].lives_remaining
-
-            // player 2
-            var playerName_2 = leaderboardRow.FindChildTraverse("leaderboard_row_info_player_2")
-            var playerHero_2 = leaderboardRow.FindChildTraverse("leaderboard_row_info_hero_2")
-            var playerLives_2 = leaderboardRow.FindChildTraverse("leaderboard_row_info_live_2")
-            playerName_2.text = data[i].playerData[2].name
-            playerHero_2.text = data[i].playerData[2].hero
-            playerLives_2.text = data[i].playerData[2].lives_remaining
-
-            // player 3
-            var playerName_3 = leaderboardRow.FindChildTraverse("leaderboard_row_info_player_3")
-            var playerHero_3 = leaderboardRow.FindChildTraverse("leaderboard_row_info_hero_3")
-            var playerLives_3 = leaderboardRow.FindChildTraverse("leaderboard_row_info_live_3")
-            playerName_3.text = data[i].playerData[3].name
-            playerHero_3.text = data[i].playerData[3].hero
-            playerLives_3.text = data[i].playerData[3].lives_remaining
-
-            // player 4
-            var playerName_4 = leaderboardRow.FindChildTraverse("leaderboard_row_info_player_4")
-            var playerHero_4 = leaderboardRow.FindChildTraverse("leaderboard_row_info_hero_4")
-            var playerLives_4 = leaderboardRow.FindChildTraverse("leaderboard_row_info_live_4")
-            playerName_4.text = data[i].playerData[4].name
-            playerHero_4.text = data[i].playerData[4].hero
-            playerLives_4.text = data[i].playerData[4].lives_remaining
-
-            // boss times
-            var bosstime_1 = leaderboardRow.FindChildTraverse("leaderboard_row_info_boss_1_time")
-            bosstime_1.text = data[i].boss_1_time
-
-            var bosstime_2 = leaderboardRow.FindChildTraverse("leaderboard_row_info_boss_2_time")
-            bosstime_2.text = data[i].boss_2_time
-
-            var bosstime_3 = leaderboardRow.FindChildTraverse("leaderboard_row_info_boss_3_time")
-            bosstime_3.text = data[i].boss_3_time
-
-            var bosstime_4 = leaderboardRow.FindChildTraverse("leaderboard_row_info_boss_4_time")
-            bosstime_4.text = data[i].boss_4_time
-
-            var bosstime_5 = leaderboardRow.FindChildTraverse("leaderboard_row_info_boss_5_time")
-            bosstime_5.text = data[i].boss_5_time
-
-            var bosstime_6 = leaderboardRow.FindChildTraverse("leaderboard_row_info_boss_6_time")
-            bosstime_6.text = data[i].boss_6_time
-
-            var bosstime_total = leaderboardRow.FindChildTraverse("leaderboard_row_info_boss_total_time")
-            bosstime_total.text = data[i].boss_total_time
+            //$.Msg("bossRow = ", data["games"][index]["boss_times"][bossTimeIndex])
+            //bossRow = {"boss_name":"Tinker","time_taken":"04:59:460"}
+            leaderboardRow.FindChildTraverse("leaderboard_row_info_boss_"+bossTimeIndex+"_time").text = data["games"][index]["boss_times"][bossTimeIndex]["time_taken"]
         }
-        //$.Msg("data[i] ",data[i])   
+         leaderboardRow.FindChildTraverse("leaderboard_row_info_boss_total_time").text = "TODO"
+
+        for(var playerIndex in data["games"][index]["players"])
+        {
+            //$.Msg("playerRow = ", data["games"][index]["players"][playerIndex])
+            //playerRow = {"lives":1,"player_name":"Moomoo","hero":"ranger"}
+            leaderboardRow.FindChildTraverse("leaderboard_row_info_player_"+playerIndex).text = data["games"][index]["players"][playerIndex]["player_name"]
+            leaderboardRow.FindChildTraverse("leaderboard_row_info_hero_"+playerIndex).text = data["games"][index]["players"][playerIndex]["hero"]
+            leaderboardRow.FindChildTraverse("leaderboard_row_info_live_"+playerIndex).text = data["games"][index]["players"][playerIndex]["lives"]
+        }
     }
 }
 
