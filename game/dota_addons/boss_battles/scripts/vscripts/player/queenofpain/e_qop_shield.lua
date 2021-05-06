@@ -1,5 +1,6 @@
 e_qop_shield = class({})
 LinkLuaModifier("e_qop_shield_modifier", "player/queenofpain/modifiers/e_qop_shield_modifier", LUA_MODIFIER_MOTION_NONE)
+LinkLuaModifier("e_qop_shield_modifier_enemy", "player/queenofpain/modifiers/e_qop_shield_modifier_enemy", LUA_MODIFIER_MOTION_NONE)
 
 function e_qop_shield:OnAbilityPhaseStart()
     if IsServer() then
@@ -33,13 +34,22 @@ function e_qop_shield:OnSpellStart()
 
         local duration = self:GetSpecialValueFor( "duration" )
 
-        self.target:AddNewModifier(
-            self.caster, -- player source
-            self, -- ability source
-            "e_qop_shield_modifier", -- modifier name
-            { duration = duration } -- kv
-        )
+        if hTarget:GetTeam() == DOTA_TEAM_GOODGUYS then
+            self.target:AddNewModifier(
+                self.caster, -- player source
+                self, -- ability source
+                "e_qop_shield_modifier", -- modifier name
+                { duration = duration } -- kv
+            )
 
+        elseif hTarget:GetTeam() == DOTA_TEAM_BADGUYS then
+            self.target:AddNewModifier(
+                self.caster, -- player source
+                self, -- ability source
+                "e_qop_shield_modifier_enemy", -- modifier name
+                { duration = duration } -- kv
+            )
+        end
 	end
 end
 ----------------------------------------------------------------------------------------------------------------

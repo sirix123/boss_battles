@@ -10,7 +10,7 @@
         
 		"AbilitySpecial"
 		{
-			"01"{ "var_type"			"FIELD_FLOAT"		"dmg_to_heal_reduction"			"0.2" 	}
+			"01"{ "var_type"			"FIELD_FLOAT"		"dmg_to_heal_reduction"			"0.5" 	}
 			"02"{ "var_type"			"FIELD_INTEGER"		"duration_main_buff"			"5" 	}
 		}
 	}
@@ -39,7 +39,7 @@
         
 		"AbilitySpecial"
 		{
-			"01"{ "var_type"			"FIELD_INTEGER"		"dmg"							"100" } 
+			"01"{ "var_type"			"FIELD_INTEGER"		"dmg"							"60" } 
 			"02"{ "var_type"			"FIELD_INTEGER"		"hit_box"						"80" }
 			"03"{ "var_type"			"FIELD_INTEGER"		"proj_speed"					"1200" }
 			"04"{ "var_type"			"FIELD_INTEGER"		"mana_gain_percent"             "5" }
@@ -56,7 +56,7 @@
 		"AbilityUnitTargetTeam"			"DOTA_UNIT_TARGET_TEAM_FRIENDLY"
         "AbilityBehavior"				"DOTA_ABILITY_BEHAVIOR_UNIT_TARGET"  //"DOTA_ABILITY_BEHAVIOR_POINT"
 		"AbilityUnitTargetType"			"DOTA_UNIT_TARGET_HERO | DOTA_UNIT_TARGET_BASIC"
-		"AbilityCastRange" 				"1100"
+		"AbilityCastRange" 				"1300"
         "AbilityCooldown"				"0"
         "AbilityCastPoint"              "0.4"
 		"AbilityManaCost"        		"10"
@@ -69,9 +69,9 @@
         
 		"AbilitySpecial"
 		{
-			"01"{ "var_type"			"FIELD_INTEGER"		"duration_main_buff"		"5" }
+			"01"{ "var_type"			"FIELD_INTEGER"		"duration_main_buff"		"10" }
 			"02"{ "var_type"			"FIELD_INTEGER"		"duration_debuff"			"3" }
-			"03"{ "var_type"			"FIELD_INTEGER"		"base_heal"					"50" }
+			"03"{ "var_type"			"FIELD_INTEGER"		"base_heal"					"80" }
 		}
 
 		"precache"
@@ -92,10 +92,10 @@
         "AbilityBehavior"				"DOTA_ABILITY_BEHAVIOR_UNIT_TARGET"
 		"AbilityUnitTargetType"			"DOTA_UNIT_TARGET_HERO | DOTA_UNIT_TARGET_BASIC"
 		"AbilityUnitDamageType"			"DAMAGE_TYPE_PHYSICAL"
-		"AbilityCastRange" 				"1100"
+		"AbilityCastRange" 				"1300"
         "AbilityCooldown"				"20"
         "AbilityCastPoint"              "0.3"
-		"AbilityManaCost"        		"10"
+		"AbilityManaCost"        		"0"
 
 		"TargetingIndicator"
 		{
@@ -109,7 +109,7 @@
 			"02"{ "var_type"			"FIELD_INTEGER"		"max_ticks"				"5" }
 			"03"{ "var_type"			"FIELD_FLOAT"		"tick_rate"				"0.5" }
 			"04"{ "var_type"			"FIELD_INTEGER"		"dmg"					"50" }
-			"05"{ "var_type"			"FIELD_INTEGER"		"base_heal"				"30" }
+			"05"{ "var_type"			"FIELD_INTEGER"		"base_heal"				"80" }
 		}
 
 		"precache"
@@ -133,7 +133,7 @@
 		"AbilityCastRange" 				"1100"
         "AbilityCooldown"				"0"
         "AbilityCastPoint"              "0.4"
-		"AbilityManaCost"        		"40"
+		"AbilityManaCost"        		"10"
 
 		"TargetingIndicator"
 		{
@@ -145,6 +145,7 @@
 		{
 			"01"{ "var_type"			"FIELD_INTEGER"		"duration"				"15" }
 			"02"{ "var_type"			"FIELD_INTEGER"		"base_bubble"			"100" }
+			"03"{ "var_type"			"FIELD_INTEGER"		"dmg_multiplier"		"0.5" }
 		}
 
 		"precache"

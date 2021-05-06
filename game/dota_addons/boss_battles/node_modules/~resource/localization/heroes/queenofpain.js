@@ -91,7 +91,7 @@ function GenerateLocalizationData() {
     Abilities.push({
         ability_classname: "e_qop_shield",
         name: "Blood Light",
-        description: "Give your ally a shield. Also consumes all stacks from m2. If consuming stacks buffs the bubble",
+        description: "Give your ally a shield. Also consumes all stacks from m2. If consuming stacks buffs the bubble amount. Casting on enemies gives them a debuff that tracks dmg taken during the buffs duration. At the end of the duration damage is dealt based on the damage received during the debuff. Multipler affected by buff stacks.",
         ability_specials: [
             {
                 ability_special: "duration",
@@ -100,6 +100,10 @@ function GenerateLocalizationData() {
             {
                 ability_special: "base_bubble",
                 text: "BUBBLE AMOUNT:",
+            },
+            {
+                ability_special: "dmg_multiplier",
+                text: "MULTIPLIER:",
             },
         ]
     });
