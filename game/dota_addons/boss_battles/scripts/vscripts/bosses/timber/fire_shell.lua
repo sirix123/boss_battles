@@ -97,7 +97,6 @@ function fire_shell:OnSpellStart()
 			-- start timer to track proj z axis 
 			if firstWave == true then
 				firstWave = false
-				self:StartThinkLoop()
 			end
 
 			-- new wave init
@@ -115,38 +114,42 @@ function fire_shell:OnSpellStart()
 			--as long as tProjectilesDirection and tProjectilesLocation have the same count and are in the same order this will work. 
 			for i = 1, #tProjectilesDirection, 1 do
 
-				local hProjectile = {
-					Source = caster,
-					Ability = self,
+				local projectile = {
+					EffectName = "particles/timber/napalm_wave_basedtidehuntergushupgrade.vpcf", --particles/tinker/iceshot__invoker_chaos_meteor.vpcf particles/tinker/blue_tinker_missile.vpcf
 					vSpawnOrigin = origin,
-					bDeleteOnHit = false,
-					iUnitTargetTeam = DOTA_UNIT_TARGET_TEAM_ENEMY,
-					iUnitTargetFlags = DOTA_UNIT_TARGET_FLAG_NONE,
-					iUnitTargetType = DOTA_UNIT_TARGET_HERO + DOTA_UNIT_TARGET_BASIC,
-					EffectName = "particles/timber/napalm_wave_basedtidehuntergushupgrade.vpcf", --"particles/econ/items/mars/mars_ti9_immortal/mars_ti9_immortal_crimson_spear.vpcf"
-					fDistance = 9000,
-					fStartRadius = radius,
-					fEndRadius = radius,
+					fDistance = 2000,
+					fUniqueRadius = radius,
+					Source = caster,
 					vVelocity = tProjectilesDirection[i] * projectile_speed,
-					bHasFrontalCone = false,
-					bReplaceExisting = false,
-					fExpireTime = GameRules:GetGameTime() + 30.0,
-					bProvidesVision = true,
-					iVisionRadius = 200,
-					iVisionTeamNumber = caster:GetTeamNumber(),
+					UnitBehavior = PROJECTILES_DESTROY,
+					TreeBehavior = PROJECTILES_NOTHING,
+					WallBehavior = PROJECTILES_DESTROY,
+					GroundBehavior = PROJECTILES_NOTHING,
+					fGroundOffset = 80,
+					UnitTest = function(_self, unit)
+						return unit:GetModelName() ~= "models/development/invisiblebox.vmdl" and CheckGlobalUnitTableForUnitName(unit) ~= true and unit:GetTeamNumber() ~= caster:GetTeamNumber()
+					end,
+					OnUnitHit = function(_self, unit)
+
+						local damage = self:GetSpecialValueFor( "damage" )
+
+						-- init dmg table
+						local damageTable = {
+							victim = unit,
+							attacker = caster,
+							damage = damage,
+							damage_type = DAMAGE_TYPE_PHYSICAL,
+						}
+
+						ApplyDamage( damageTable )
+
+					end,
+					OnFinish = function(_self, pos)
+					end,
 				}
 
-				local projectileId = ProjectileManager:CreateLinearProjectile(hProjectile)
+				Projectiles:CreateProjectile(projectile)
 
-				local projectileInfo  = {
-					projectile = projectileId,
-					position = origin,
-					velocity = tProjectilesDirection[i] * projectile_speed,
-					handleProjectile = hProjectile
-				}
-
-				table.insert(tProjectileData, projectileInfo)
-				
 			end
 
 			return fTimeBetweenWaves
@@ -154,75 +157,3 @@ function fire_shell:OnSpellStart()
 	end
 end
 ------------------------------------------------------------------------------------------------
-
-function fire_shell:OnProjectileThink(vLocation)
-	--GridNav:DestroyTreesAroundPoint( vLocation, self.destroy_tree_radius, true )
-	--DebugDrawCircle(vLocation, Vector(0,255,255), 128, 150, true, 60)
-end
-------------------------------------------------------------------------------------------------
-
-function fire_shell:OnProjectileHit(hTarget, vLocation)
-
-	local caster = self:GetCaster()
-
-	local damage = self:GetSpecialValueFor( "damage" )
-
-	-- init dmg table
-	local damageTable = {
-		victim = hTarget,
-		attacker = caster,
-		damage = damage,
-		damage_type = DAMAGE_TYPE_PHYSICAL,
-	}
-
-	ApplyDamage( damageTable )
-
-	--DebugDrawCircle(vLocation, Vector(0,255,255), 128, 150, true, 60)
-	--DebugDrawSphere(vLocation, Vector(0,255,255), 128, 50, true, 60)
-
-end
-------------------------------------------------------------------------------------------------
-
-function fire_shell:StartThinkLoop()
-	--[[
-
-		this is a thinker, it will grab the proj ground pos every iteration and check to see if it is above the map floor (z256)
-		if it is it will destroy it
-
-	]]
-
-	Timers:CreateTimer(1, function()
-	if not tProjectileData or #tProjectileData == 0 then
-		-- return bIsFireShellResolved = true to AI file and check if == true before casting, set to false at the top of this file
-		return false
-	end
-
-	--print(#tProjectileData)
-	--print("is the timer still running?")
-
-	for k, projectileInfo in pairs(tProjectileData) do
-		projectileInfo.position = projectileInfo.position + projectileInfo.velocity
-
-		--DebugDrawCircle(projectileInfo.position, Vector(0,0,255), 128, 50, true, 60)
-
-        if GetGroundPosition(projectileInfo.position, handleProjectile).z > 256 then
-			ProjectileManager:DestroyLinearProjectile(projectileInfo.projectile)
-			table.remove(tProjectileData, k)
-		end
-
-		-- particles/units/heroes/hero_shredder/shredder_flame_thrower_tree_afterburn.vpcf
-		local trees = GridNav:GetAllTreesAroundPoint(projectileInfo.position, 100, false)
-
-		for _, tree in pairs(trees) do
-			local particle = "particles/units/heroes/hero_shredder/shredder_flame_thrower_tree_afterburn.vpcf"
-			local particle_id = ParticleManager:CreateParticle(particle, PATTACH_ABSORIGIN_FOLLOW, tree)
-            ParticleManager:SetParticleControl(particle_id, 0, tree:GetAbsOrigin())
-            ParticleManager:ReleaseParticleIndex(particle_id)
-		end
-
-
-	end
-
-		return 1.5
-	end)
-end

@@ -1,6 +1,7 @@
 
 fire_cross_grenade = class({})
 LinkLuaModifier( "fire_cross_grenade_thinker", "bosses/gyrocopter/fire_cross_grenade_thinker", LUA_MODIFIER_MOTION_NONE )
+LinkLuaModifier( "fire_cross_grenade_debuff", "bosses/gyrocopter/fire_cross_grenade_debuff", LUA_MODIFIER_MOTION_NONE )
 
 function fire_cross_grenade:OnAbilityPhaseStart()
     if IsServer() then

@@ -18,6 +18,10 @@ end
 function ally_buff_heal:OnCreated( kv )
 	if not IsServer() then return end
 
+	local particle_cast = "particles/rogue/rogue_abaddon_curse_counter_debuff.vpcf"
+	self.effect_cast = ParticleManager:CreateParticleForPlayer(particle_cast, PATTACH_OVERHEAD_FOLLOW, self:GetParent(), self:GetCaster():GetPlayerOwner())
+	ParticleManager:SetParticleControl(self.effect_cast, 0, self:GetParent():GetAbsOrigin())
+
 end
 ----------------------------------------------------------------------------
 
@@ -29,6 +33,10 @@ end
 
 function ally_buff_heal:OnDestroy()
 	if not IsServer() then return end
+
+	if self.effect_cast ~= nil then
+		ParticleManager:DestroyParticle(self.effect_cast, true)
+	end
 
 end
 ----------------------------------------------------------------------------

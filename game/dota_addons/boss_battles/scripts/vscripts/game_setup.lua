@@ -89,6 +89,10 @@ function GameSetup:OnStateChange()
             return 1.0
         end)
     end
+
+    if GameRules:State_Get() == DOTA_GAMERULES_STATE_POST_GAME or GameRules:State_Get() == DOTA_GAMERULES_STATE_DISCONNECT then
+        SessionManager:SendSessionData()
+    end
 end
 --------------------------------------------------------------------------------------------------
 

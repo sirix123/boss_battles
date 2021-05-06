@@ -24,7 +24,7 @@
 
         // Time     
         //-------------------------------------------------------------------------------------------------------------
-        "AbilityCooldown"               "15 15 15 15"
+        "AbilityCooldown"               "20 20 20 20"
 
         // Cost
         //-------------------------------------------------------------------------------------------------------------
@@ -70,7 +70,7 @@
 
         // Time     
         //-------------------------------------------------------------------------------------------------------------
-        "AbilityCooldown"               "15 15 15 15"
+        "AbilityCooldown"               "20 20 20 20"
 
         // Cost
         //-------------------------------------------------------------------------------------------------------------
@@ -81,7 +81,7 @@
 		"AbilitySpecial"
 		{
             "01"{ "var_type"			"FIELD_INTEGER"		"speed"		                        "1500" }
-            "02"{ "var_type"			"FIELD_FLOAT"		"oil_drop_freq"		                "0.2" }
+            "02"{ "var_type"			"FIELD_FLOAT"		"oil_drop_freq"		                "0.5" }
 		}
 
         "precache"
@@ -112,7 +112,7 @@
 
         // Time     
         //-------------------------------------------------------------------------------------------------------------
-        "AbilityCooldown"               "5 25 25 25"
+        "AbilityCooldown"               "25 25 25 25"
 
         // Cost
         //-------------------------------------------------------------------------------------------------------------
@@ -253,7 +253,7 @@
 		"AbilitySpecial"
 		{
             "01"{ "var_type"			"FIELD_INTEGER"		"speed"		                        "1500" }
-            "02"{ "var_type"			"FIELD_FLOAT"		"oil_drop_freq"		                "0.2" }
+            "02"{ "var_type"			"FIELD_FLOAT"		"oil_drop_freq"		                "0.5" }
             "03"{ "var_type"			"FIELD_FLOAT"		"return_value"		                "15" }
             "04"{ "var_type"			"FIELD_FLOAT"		"gap_between_rings"		            "300" }
             "05"{ "var_type"			"FIELD_FLOAT"		"max_rings"		                    "2 2 3 3" } // first level not used
@@ -306,6 +306,46 @@
 		{
 			//"soundfile"  "sounds/weapons/hero/techies/land_mine_plant.vsnd"
             //"soundfile"  "soundevents/game_sounds_heroes/game_sounds_disruptor.vsndevts"
+		}
+    }
+
+    //=================================================================================================================
+    // Gyro: spawn cleaning botr
+    //=================================================================================================================
+    "spawn_cleaning_bot"
+    { 
+        "BaseClass"                     "ability_lua"
+        "ScriptFile"                    "bosses/gyrocopter/spawn_cleaning_bot"
+        "MaxLevel"						"4"
+
+        // General
+        //-------------------------------------------------------------------------------------------------------------
+        "AbilityBehavior"               "DOTA_ABILITY_BEHAVIOR_NO_TARGET"
+        "AbilityUnitDamageType"         "DAMAGE_TYPE_PHYSICAL"  
+
+        // Casting
+        //-------------------------------------------------------------------------------------------------------------
+        "AbilityCastPoint"              "0.0 0.0 0.0 0.0"
+        "AbilityCastRange" 				"5000"
+
+        // Time     
+        //-------------------------------------------------------------------------------------------------------------
+        "AbilityCooldown"               "25 25 25 25"
+
+        // Cost
+        //-------------------------------------------------------------------------------------------------------------
+        "AbilityManaCost"               "0"
+
+        // Special
+        //-------------------------------------------------------------------------------------------------------------
+		"AbilitySpecial"
+		{
+		}
+
+        "precache"
+		{
+			//"soundfile"  "sounds/weapons/hero/techies/land_mine_plant.vsnd"
+            //"soundfile"  "soundevents/game_sounds_heroes/game_sounds_obsidian_destroyer.vsndevts"
 		}
     }
 }

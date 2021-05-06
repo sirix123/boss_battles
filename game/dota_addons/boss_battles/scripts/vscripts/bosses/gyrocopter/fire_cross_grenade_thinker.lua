@@ -17,6 +17,10 @@ function fire_cross_grenade_thinker:OnCreated( kv )
         self.effect_cast = ParticleManager:CreateParticle(particle, PATTACH_WORLDORIGIN, nil)
         ParticleManager:SetParticleControl(self.effect_cast, 0, self:GetParent():GetAbsOrigin())
 
+        local particleName_3 = "particles/clock/green_clock_npx_moveto_arrow.vpcf"
+        self.pfx_3 = ParticleManager:CreateParticle( particleName_3, PATTACH_WORLDORIGIN, self:GetParent() )
+        ParticleManager:SetParticleControl( self.pfx_3, 0, self:GetParent():GetAbsOrigin() )
+
         self.max_waves = 6
         self.current_waves = 0
         self.destroy_count = 0
@@ -26,6 +30,47 @@ function fire_cross_grenade_thinker:OnCreated( kv )
         self.start_delay = 2
         --self:StartIntervalThink(self.start_delay)
         self:StartTimer()
+        self:DetectPlayerTimer()
+    end
+end
+
+function fire_cross_grenade_thinker:DetectPlayerTimer()
+    if IsServer() then
+        Timers:CreateTimer(self.start_delay, function()
+            if IsValidEntity(self:GetParent()) == false then
+                return false
+            end
+
+            if self.destroy_flag == true then
+                self:OnDestroy()
+                return false
+            end
+
+            local enemies = FindUnitsInRadius(
+                self:GetCaster():GetTeamNumber(),	-- int, your team number
+                self:GetParent():GetAbsOrigin(),	-- point, center point
+                nil,	-- handle, cacheUnit. (not known)
+                200,	-- float, radius. or use FIND_UNITS_EVERYWHERE
+                DOTA_UNIT_TARGET_TEAM_ENEMY,	-- int, team filter
+                DOTA_UNIT_TARGET_HERO,	-- int, type filter
+                DOTA_UNIT_TARGET_FLAG_INVULNERABLE,	-- int, flag filter
+                0,	-- int, order filter
+                false	-- bool, can grow cache
+            )
+
+            if enemies ~= nil and #enemies ~= 0 then
+                for _,enemy in pairs(enemies) do
+                    enemy:AddNewModifier( self:GetCaster(), self, "fire_cross_grenade_debuff", { duration = 30 } )
+                end
+            end
+
+            if enemies ~= nil and #enemies ~= 0 then
+                self.destroy_flag = true
+                return 8
+            end
+
+            return 0.03
+        end)
     end
 end
 
@@ -34,7 +79,7 @@ function fire_cross_grenade_thinker:StartTimer(  )
 
         local effect = "particles/gyrocopter/gyro_invoker_chaos_meteor.vpcf"-- "particles/techies/techies_lion_spell_impale.vpcf"
 
-        local distance = 5000
+        local distance = 2000
 
         local tDirection =
         {
@@ -50,19 +95,20 @@ function fire_cross_grenade_thinker:StartTimer(  )
             end
 
             if self.destroy_flag == true then
-                self:Destroy()
+                self:OnDestroy()
+                return false
             end
 
             if self.current_waves == self.max_waves then
                 self.destroy_flag = true
-                return 5
+                return 8
             end
 
             -- projectile
             for i = 1, #tDirection, 1 do
                 local projectile = {
                     EffectName = effect,
-                    vSpawnOrigin = self:GetParent():GetAbsOrigin() + tDirection[i] ,
+                    vSpawnOrigin = self:GetParent():GetAbsOrigin() + tDirection[i] * 100 ,
                     fDistance = distance,
                     fUniqueRadius = 100,
                     Source = self:GetParent(),
@@ -117,6 +163,7 @@ end
 function fire_cross_grenade_thinker:OnDestroy()
     if IsServer() then
         ParticleManager:DestroyParticle(self.effect_cast,false)
+        ParticleManager:DestroyParticle(self.pfx_3,true)
         --UTIL_Remove( self:GetParent() )
     end
 end

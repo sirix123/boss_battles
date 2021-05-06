@@ -42,7 +42,7 @@ function flee_v2:OnSpellStart()
             end
 
             -- create the modifier thinker
-            local puddle = CreateModifierThinker(
+            --[[local puddle = CreateModifierThinker(
             self:GetCaster(),
                 self,
                 "oil_drop_thinker",
@@ -58,7 +58,7 @@ function flee_v2:OnSpellStart()
 
             table.insert(_G.Oil_Puddles, puddle)
 
-            return self:GetSpecialValueFor("oil_drop_freq")
+            return self:GetSpecialValueFor("oil_drop_freq")]]
         end)
 
         -- movement

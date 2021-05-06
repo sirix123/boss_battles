@@ -26,7 +26,7 @@ function Spawn( entityKeyValues )
 	thisEntity:AddNewModifier( nil, nil, "modifier_phased", { duration = -1 })
 	thisEntity:SetHullRadius(80)
 
-	-- spawn water gun on the ground left between players and gyro
+	--[[ spawn water gun on the ground left between players and gyro
 	for _, hero in ipairs(HERO_LIST) do
 
 		hero:AddItemByName("item_water_gun")
@@ -39,7 +39,7 @@ function Spawn( entityKeyValues )
 		local nfx = ParticleManager:CreateParticle(particle, PATTACH_ABSORIGIN, obj)
 		ParticleManager:SetParticleControl(nfx, 1, obj:GetAbsOrigin())
 		obj:SetForwardVector( Vector( RandomFloat(-1, 1) , RandomFloat(-1, 1), RandomFloat(-1, 1) ) )]]
-	end
+	--end
 
 	-- spell init
 	thisEntity.swoop = thisEntity:FindAbilityByName( "swoop_v2" )
@@ -71,6 +71,9 @@ function Spawn( entityKeyValues )
 
 	thisEntity.fire_gren = thisEntity:FindAbilityByName( "fire_cross_grenade" )
 	thisEntity.fire_gren:StartCooldown(2)
+
+	thisEntity.spawn_cleaning_bot = thisEntity:FindAbilityByName( "spawn_cleaning_bot" )
+	thisEntity.spawn_cleaning_bot:StartCooldown(2)
 
 	thisEntity.intermission_flee = thisEntity:FindAbilityByName( "intermission_flee" )
 	thisEntity.intermission_flee_return_value = thisEntity.intermission_flee:GetLevelSpecialValueFor("return_value", thisEntity.intermission_flee:GetLevel())
@@ -183,7 +186,7 @@ function GyroThink()
 	end
 
 	if thisEntity.flak_cannon:IsFullyCastable() and thisEntity.flak_cannon:IsCooldownReady() and thisEntity.flak_cannon:IsInAbilityPhase() == false and thisEntity.PHASE == 1 and thisEntity.circle_timer_running == false then
-		print("phase 2 starting")
+		--print("phase 2 starting")
 
 		thisEntity:EmitSound("Hero_Gyrocopter.FlackCannon.Activate")
 
@@ -208,12 +211,12 @@ function GyroThink()
 	end
 
 	if thisEntity.flak_cannon:IsCooldownReady() == false and thisEntity.PHASE == 2 and thisEntity.circle_timer_running == false then
-		print("phase 1 starting")
+		--print("phase 1 starting")
 		thisEntity.PHASE = 1
 	end
 
 	if thisEntity.PHASE == 6 and thisEntity.call_down_phase_over == true then
-		print("phase 1 starting")
+		--print("phase 1 starting")
 		thisEntity.gyro_in_place = false
 		thisEntity.call_down_phase_over = false
 		CleanUpRemainingRocks()
@@ -241,12 +244,16 @@ function GyroThink()
 			return CastFireGrenade()
 		end
 
+		if thisEntity.spawn_cleaning_bot:IsFullyCastable() and thisEntity.spawn_cleaning_bot:IsCooldownReady() and thisEntity.spawn_cleaning_bot:IsInAbilityPhase() == false then
+			return CastCleaner()
+		end
+
 		if thisEntity.swoop:IsFullyCastable() and thisEntity.swoop:IsCooldownReady() and thisEntity.swoop:IsInAbilityPhase() == false then
 			return CastSwoop( FindFurthestPlayer() )
 		end
 
 		if thisEntity.flee:IsFullyCastable() and thisEntity.flee:IsCooldownReady() and thisEntity.flee:IsInAbilityPhase() == false then
-			return CastFlee( thisEntity.GyroArenaLocations[RandomInt(1,#thisEntity.GyroArenaLocations)])
+			return CastFlee( thisEntity.GyroArenaLocations[RandomInt(1,#thisEntity.GyroArenaLocations)] )
 		end
 
 		if thisEntity.cannon_ball:IsFullyCastable() and thisEntity.cannon_ball:IsCooldownReady() and thisEntity.cannon_ball:IsInAbilityPhase() == false then
@@ -302,7 +309,7 @@ function GyroThink()
 
 	if thisEntity.PHASE == 5 and thisEntity.creating_rocks == false then
 
-		print("phase 5")
+		--print("phase 5")
 		thisEntity:RemoveModifierByName("modifier_rooted")
 		-- swithcing to phase 5 is inside the create rockring
 		if thisEntity.intermission_flee:IsFullyCastable() and thisEntity.intermission_flee:IsCooldownReady() and thisEntity.intermission_flee:IsInAbilityPhase() == false then
@@ -311,7 +318,7 @@ function GyroThink()
 	end
 
 	if thisEntity.PHASE == 6 then
-		print("phase 6")
+		--print("phase 6")
 
 		thisEntity:AddNewModifier(
 			thisEntity, -- player source
@@ -404,7 +411,7 @@ function CastCannonBall( vLocation )
 	})
 
 	return 2
-end
+end 
 --------------------------------------------------------------------------------
 
 function CastFlameThrower()
@@ -421,6 +428,17 @@ function CastFlameThrower()
 	return thisEntity.flame_thrower_duration + 2
 end
 --------------------------------------------------------------------------------
+
+function CastCleaner()
+	ExecuteOrderFromTable({
+		UnitIndex = thisEntity:entindex(),
+		OrderType = DOTA_UNIT_ORDER_CAST_NO_TARGET,
+		AbilityIndex = thisEntity.spawn_cleaning_bot:entindex(),
+		Queue = false,
+	})
+
+	return 1
+end
 
 function CastFireGrenade()
 
@@ -539,7 +557,7 @@ function CricleTimer()
         if IsValidEntity(thisEntity) == false then return false end
 
         if thisEntity == nil or count >= max_moves then
-			print("circle timer ending")
+			--print("circle timer ending")
 			thisEntity:RemoveModifierByName("modifier_flak_cannon")
 			thisEntity.flak_cannon:StartCooldown(thisEntity.flak_cannon:GetCooldown(thisEntity.flak_cannon:GetLevel()))
             thisEntity.circle_timer_running = false
@@ -827,4 +845,4 @@ function RandomiseCoolDowns( )
 	thisEntity.flame_thrower:StartCooldown(RandomInt(1,5))
 	thisEntity.flee:StartCooldown(RandomInt(1,5))
 end
---------------------------------------------------------------------------------
+------------------------------------------------------------------------------------------------------------------------------
