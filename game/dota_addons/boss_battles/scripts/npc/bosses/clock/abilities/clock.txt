@@ -67,7 +67,7 @@
         // Casting
         //-------------------------------------------------------------------------------------------------------------
         "AbilityCastPoint"              "1.5 1.5 1.5 1.5"
-        "AbilityCooldown"               "30 20 15 10"
+        "AbilityCooldown"               "30 20 15 15"
         "AbilityManaCost"               "0"
         "AbilityCastRange" 				"9000"
 
@@ -155,7 +155,7 @@
 		"AbilitySpecial"
 		{
             "01"{ "var_type"			"FIELD_FLOAT"		"cloud_spawn_interval"		            "0.5 0.5 0.5 0.5" }
-            "02"{ "var_type"			"FIELD_INTEGER"		"duration_cloud"		                "60 60 80 90" }
+            "02"{ "var_type"			"FIELD_INTEGER"		"duration_cloud"		                "60 60 60 60" }
             "03"{ "var_type"			"FIELD_INTEGER"		"radius"		                        "150 150 150 150" }
             "04"{ "var_type"			"FIELD_INTEGER"		"dmg"		                            "100 100 100 100" }
             "05"{ "var_type"			"FIELD_INTEGER"		"dmg_interval"		                    "1 1 1 1" }
@@ -317,7 +317,7 @@
         //-------------------------------------------------------------------------------------------------------------
 		"AbilitySpecial"
 		{
-            "01"{ "var_type"			"FIELD_INTEGER"		"number_of_turrets_to_spawn"		"3 5 6 7" }
+            "01"{ "var_type"			"FIELD_INTEGER"		"number_of_turrets_to_spawn"		"3 4 5 6" }
 		}
 
 		"precache"
@@ -387,7 +387,7 @@
         //-------------------------------------------------------------------------------------------------------------
 		"AbilitySpecial"
 		{
-            "01"{ "var_type"			"FIELD_INTEGER"		"number_of_turrets_to_spawn"		    "2 4 5 6" }
+            "01"{ "var_type"			"FIELD_INTEGER"		"number_of_turrets_to_spawn"		    "2 3 4 5" }
             "02"{ "var_type"			"FIELD_INTEGER"		"delay_between_turrets_spawning"		"1" } //obvs need more than one turret to spawn for this
 		}
 

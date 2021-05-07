@@ -230,7 +230,7 @@ end
 function movement_modifier_thinker:PickUpItems()
 	
 	-- consstantly search for items around the player
-	local objs = Entities:FindAllByClassnameWithin("dota_item_drop", self.parent:GetAbsOrigin(), self.parent:GetHullRadius() * 2)
+	local objs = Entities:FindAllByClassnameWithin("dota_item_drop", self.parent:GetAbsOrigin(), self.parent:GetHullRadius() * 4)
 
 	-- loop through the items on the floor and add them to heroes inventory
 	for _, obj in pairs(objs) do

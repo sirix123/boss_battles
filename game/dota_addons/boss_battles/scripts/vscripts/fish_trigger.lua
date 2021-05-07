@@ -15,8 +15,8 @@ function fishtrigger(trigger)
         ent:AddNewModifier( thisEntity, nil, "modifier_stunned", { duration = -1 } )
 
         local bubbles = "particles/units/heroes/hero_kunkka/kunkka_spell_torrent_bubbles.vpcf"
-        thisEntity.bubbles = ParticleManager:CreateParticle(particle, PATTACH_WORLDORIGIN, nil)
-        ParticleManager:SetParticleControl(thisEntity.bubbles , 0, thisEntity:GetAbsOrigin())
+        thisEntity.bubbles = ParticleManager:CreateParticle(bubbles, PATTACH_WORLDORIGIN, nil)
+        ParticleManager:SetParticleControl(thisEntity.bubbles , 0, ent:GetAbsOrigin())
 
         Timers:CreateTimer(3.0,function()
             ParticleManager:DestroyParticle(thisEntity.bubbles, true)
@@ -25,7 +25,7 @@ function fishtrigger(trigger)
 
             local particle = "particles/econ/items/kunkka/kunkka_weapon_whaleblade_retro/kunkka_spell_torrent_retro_splash_whaleblade.vpcf"
             thisEntity.head_particle = ParticleManager:CreateParticle(particle, PATTACH_WORLDORIGIN, nil)
-            ParticleManager:SetParticleControl(thisEntity.head_particle, 0, thisEntity:GetAbsOrigin())
+            ParticleManager:SetParticleControl(thisEntity.head_particle, 0, ent:GetAbsOrigin())
             ParticleManager:ReleaseParticleIndex(thisEntity.head_particle)
 
             --[[local damageTable = {

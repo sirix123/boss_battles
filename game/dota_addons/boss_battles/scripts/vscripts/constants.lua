@@ -21,6 +21,7 @@ _G.tUNIT_TABLE =
     "npc_dota_thinker",
     "npc_rubick",
     "npc_lina_remant",
+    "npc_cleaning_bot",
 }
 
 _G.UNQIUE_INT = 0
@@ -65,3 +66,4 @@ _G.tCORE_MODIFIERS =
 }
 
 _G.PLAYERS_HANDSHAKE_READY = 0
+_G.RECONNECTING_PLAYER_ID = 0

@@ -4,10 +4,12 @@
 ---String mapping functions to translate dota terms into our game terms
 function GetClassName(unitName)
 	local unitNameClassNameMap = {}
-	unitNameClassNameMap["npc_dota_hero_crystal_maiden"] = "ice_mage"
-	unitNameClassNameMap["npc_dota_hero_medusa"] = "ranger"
-	unitNameClassNameMap["npc_dota_hero_phantom_assassin"] = "rogue"
-	unitNameClassNameMap["npc_dota_hero_juggernaut"] = "warlord"
+	unitNameClassNameMap["npc_dota_hero_crystal_maiden"] = "Frost Mage"
+	unitNameClassNameMap["npc_dota_hero_medusa"] = "Medusa"
+	unitNameClassNameMap["npc_dota_hero_phantom_assassin"] = "Cenzuo"
+	unitNameClassNameMap["npc_dota_hero_lina"] = "Lina"
+	unitNameClassNameMap["npc_dota_hero_omniknight"] = "Nocens"
+	unitNameClassNameMap["npc_dota_hero_queenofpain"] = "Akasha"
 
 	if unitNameClassNameMap[unitName] ~= nil then
 		return unitNameClassNameMap[unitName] 

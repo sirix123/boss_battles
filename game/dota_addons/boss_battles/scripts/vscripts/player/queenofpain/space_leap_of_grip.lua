@@ -6,7 +6,23 @@ function space_leap_of_grip:OnAbilityPhaseStart()
 
         self:GetCaster():StartGestureWithPlaybackRate(ACT_DOTA_CAST_ABILITY_3, 1.0)
 
-        return true
+        local units = FindUnitsInRadius(
+            self:GetCaster():GetTeamNumber(),
+            Clamp(self:GetCaster():GetOrigin(), Vector(self:GetCaster().mouse.x, self:GetCaster().mouse.y, self:GetCaster().mouse.z), self:GetCastRange(Vector(0,0,0), nil), 0),
+            nil,
+            200,
+            DOTA_UNIT_TARGET_TEAM_FRIENDLY,
+            DOTA_UNIT_TARGET_ALL,
+            DOTA_UNIT_TARGET_FLAG_MAGIC_IMMUNE_ENEMIES + DOTA_UNIT_TARGET_FLAG_INVULNERABLE,
+            FIND_CLOSEST,
+            false)
+
+        if units == nil or #units == 0 then
+            return false
+        else
+            self.target = units[1]
+            return true
+        end
     end
 end
 ---------------------------------------------------------------------------
@@ -29,7 +45,6 @@ function space_leap_of_grip:OnSpellStart()
 
         -- init
         self.caster = self:GetCaster()
-        self.target = self:GetCursorTarget()
 
         local distance = (self.caster:GetAbsOrigin() - self.target:GetAbsOrigin()  ):Length2D()
         local speed = 1500

@@ -36,7 +36,7 @@
             "02"{ "var_type"			"FIELD_INTEGER"		"radius"		        "400" }
             "03"{ "var_type"			"FIELD_INTEGER"		"triggerRadius"		    "300" }
             "04"{ "var_type"			"FIELD_INTEGER"		"explosion_delay"		"1" }
-            "05"{ "var_type"			"FIELD_INTEGER"		"damage"		        "200" }
+            "05"{ "var_type"			"FIELD_INTEGER"		"damage"		        "175" }
             "06"{ "var_type"			"FIELD_INTEGER"		"activationTime"		"1" }
             "07"{ "var_type"			"FIELD_INTEGER"		"explosion_range"		"300" }
 		}

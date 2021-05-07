@@ -7,7 +7,25 @@ function e_qop_shield:OnAbilityPhaseStart()
 
         self:GetCaster():StartGestureWithPlaybackRate(ACT_DOTA_CAST_ABILITY_3, 1.0)
 
-        return true
+        local units = FindUnitsInRadius(
+            self:GetCaster():GetTeamNumber(),
+            Clamp(self:GetCaster():GetOrigin(), Vector(self:GetCaster().mouse.x, self:GetCaster().mouse.y, self:GetCaster().mouse.z), self:GetCastRange(Vector(0,0,0), nil), 0),
+            nil,
+            200,
+            DOTA_UNIT_TARGET_TEAM_BOTH,
+            DOTA_UNIT_TARGET_ALL,
+            DOTA_UNIT_TARGET_FLAG_MAGIC_IMMUNE_ENEMIES + DOTA_UNIT_TARGET_FLAG_INVULNERABLE,
+            FIND_CLOSEST,
+            false)
+
+        if units == nil or #units == 0 then
+            return false
+        else
+
+            self.target = units[1]
+
+            return true
+        end
     end
 end
 ---------------------------------------------------------------------------
@@ -30,11 +48,10 @@ function e_qop_shield:OnSpellStart()
 
         -- init
         self.caster = self:GetCaster()
-        self.target = self:GetCursorTarget()
 
         local duration = self:GetSpecialValueFor( "duration" )
 
-        if hTarget:GetTeam() == DOTA_TEAM_GOODGUYS then
+        if self.target:GetTeam() == DOTA_TEAM_GOODGUYS then
             self.target:AddNewModifier(
                 self.caster, -- player source
                 self, -- ability source
@@ -42,13 +59,16 @@ function e_qop_shield:OnSpellStart()
                 { duration = duration } -- kv
             )
 
-        elseif hTarget:GetTeam() == DOTA_TEAM_BADGUYS then
+        elseif self.target:GetTeam() == DOTA_TEAM_BADGUYS then
             self.target:AddNewModifier(
                 self.caster, -- player source
                 self, -- ability source
                 "e_qop_shield_modifier_enemy", -- modifier name
                 { duration = duration } -- kv
             )
+
+            self:StartCooldown(self:GetSpecialValueFor( "enemy_cooldown" ))
+
         end
 	end
 end

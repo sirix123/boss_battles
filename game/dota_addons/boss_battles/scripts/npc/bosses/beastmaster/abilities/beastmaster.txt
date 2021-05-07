@@ -97,7 +97,7 @@
             "01"
             {
                 "var_type"              "FIELD_INTEGER"
-                "bloodlust_speed"       "16"
+                "bloodlust_speed"       "30"
             }
 			"02"
             {
@@ -107,7 +107,7 @@
             "03"
             {
                 "var_type"          	"FIELD_INTEGER"
-                "bloodlust_damage_bonus"    "30"
+                "bloodlust_damage_bonus"    "50"
             }      
 
                              
@@ -222,7 +222,7 @@
             "04"
             {
                 "var_type"              "FIELD_FLOAT"
-                "damage"     	        "10"
+                "damage"     	        "15"
             }
             "05"
             {
@@ -660,7 +660,7 @@
 
         // Time     
         //-------------------------------------------------------------------------------------------------------------
-        "AbilityCooldown"               "12 12 12 12"
+        "AbilityCooldown"               "20 20 20 20"
 
         // Cost
         //-------------------------------------------------------------------------------------------------------------
@@ -680,6 +680,49 @@
             "soundfile" "soundevents/game_sounds_heroes/game_sounds_centaur.vsndevts"
 	        "particle" "particles/units/heroes/hero_centaur/centaur_warstomp.vpcf"
 		}
+    }
+
+    //=================================================================================================================
+    // beastmaster dino charge
+    //=================================================================================================================
+    "dino_charge"
+    {
+        "BaseClass"                     "ability_lua"
+        "ScriptFile"                    "bosses/beastmaster/dino_charge"
+        "AbilityTextureName"            "life_stealer_open_wounds"
+
+        "AbilityCastAnimation"          "ACT_DOTA_CAST_ABILITY_3"
+        "AbilityBehavior"               "DOTA_ABILITY_BEHAVIOR_UNIT_TARGET"
+        "AbilityUnitTargetTeam"         "DOTA_UNIT_TARGET_TEAM_ENEMY"
+        "AbilityUnitTargetType"         "DOTA_UNIT_TARGET_HERO"
+        "AbilityUnitDamageType"         "DAMAGE_TYPE_PHYSICAL"   
+        "SpellImmunityType"             "SPELL_IMMUNITY_ENEMIES_NO"
+        "SpellDispellableType"          "SPELL_DISPELLABLE_NO"
+        "FightRecapLevel"               "1"
+
+        // Casting
+        //-------------------------------------------------------------------------------------------------------------
+        "AbilityCastRange"              "5000"
+        "AbilityCastPoint"              "5"
+        
+        // Time     
+        //-------------------------------------------------------------------------------------------------------------
+        "AbilityCooldown"               "30"
+
+        // Cost
+        //-------------------------------------------------------------------------------------------------------------
+        "AbilityManaCost"               "0"
+
+        // Stats
+        //-------------------------------------------------------------------------------------------------------------
+        "AbilityModifierSupportValue"   "0.5"   // Applies multiple modifiers
+        
+        // Special
+        //-------------------------------------------------------------------------------------------------------------
+        "AbilitySpecial"
+        {
+               
+        }
     }
 }
 

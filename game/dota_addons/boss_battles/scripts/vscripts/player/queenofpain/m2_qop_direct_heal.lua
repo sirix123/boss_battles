@@ -5,15 +5,33 @@ LinkLuaModifier("m2_qop_stacks", "player/queenofpain/modifiers/m2_qop_stacks", L
 function m2_qop_direct_heal:OnAbilityPhaseStart()
     if IsServer() then
 
-        self:GetCaster():StartGestureWithPlaybackRate(ACT_DOTA_CAST_ABILITY_2, 1.0)
+        local units = FindUnitsInRadius(
+            self:GetCaster():GetTeamNumber(),
+            Clamp(self:GetCaster():GetOrigin(), Vector(self:GetCaster().mouse.x, self:GetCaster().mouse.y, self:GetCaster().mouse.z), self:GetCastRange(Vector(0,0,0), nil), 0),
+            nil,
+            200,
+            DOTA_UNIT_TARGET_TEAM_FRIENDLY,
+            DOTA_UNIT_TARGET_ALL,
+            DOTA_UNIT_TARGET_FLAG_MAGIC_IMMUNE_ENEMIES + DOTA_UNIT_TARGET_FLAG_INVULNERABLE,
+            FIND_CLOSEST,
+            false)
 
-        local particle_cast = "particles/units/heroes/hero_omniknight/omniknight_purification_cast.vpcf"
-        local particle_cast_fx = ParticleManager:CreateParticle(particle_cast, PATTACH_ABSORIGIN_FOLLOW, self:GetCaster())
-        ParticleManager:SetParticleControlEnt(particle_cast_fx, 0, self:GetCaster(), PATTACH_POINT_FOLLOW, "attach_hitloc", self:GetCaster():GetAbsOrigin(), true)
-        ParticleManager:SetParticleControl(particle_cast_fx, 1, self:GetCursorTarget():GetAbsOrigin())
-        ParticleManager:ReleaseParticleIndex(particle_cast_fx)
+        if units == nil or #units == 0 then
+            return false
+        else
 
-        return true
+            self.target = units[1]
+
+            self:GetCaster():StartGestureWithPlaybackRate(ACT_DOTA_CAST_ABILITY_2, 1.0)
+
+            local particle_cast = "particles/units/heroes/hero_omniknight/omniknight_purification_cast.vpcf"
+            local particle_cast_fx = ParticleManager:CreateParticle(particle_cast, PATTACH_ABSORIGIN_FOLLOW, self:GetCaster())
+            ParticleManager:SetParticleControlEnt(particle_cast_fx, 0, self:GetCaster(), PATTACH_POINT_FOLLOW, "attach_hitloc", self:GetCaster():GetAbsOrigin(), true)
+            ParticleManager:SetParticleControl(particle_cast_fx, 1, self.target:GetAbsOrigin())
+            ParticleManager:ReleaseParticleIndex(particle_cast_fx)
+
+            return true
+        end
     end
 end
 ---------------------------------------------------------------------------
@@ -60,7 +78,6 @@ function m2_qop_direct_heal:OnSpellStart()
 
         -- init
         self.caster = self:GetCaster()
-        self.target = self:GetCursorTarget()
 
         local duration_buff = self:GetSpecialValueFor( "duration_main_buff" )
         local duration_debuff = self:GetSpecialValueFor( "duration_debuff" )

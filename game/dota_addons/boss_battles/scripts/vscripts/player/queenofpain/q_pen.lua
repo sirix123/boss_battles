@@ -6,20 +6,38 @@ function q_pen:OnAbilityPhaseStart()
 
         self:GetCaster():StartGestureWithPlaybackRate(ACT_DOTA_CAST_ABILITY_3, 1.0)
 
-        self:GetCaster():AddNewModifier(self:GetCaster(), self, "casting_modifier_thinker",
-        {
-            duration = -1,
-            pMovespeedReduction = 0,
-            bFaceTarget = true,
-            target = self:GetCursorTarget():GetEntityIndex(),
-        })
+        local units = FindUnitsInRadius(
+            self:GetCaster():GetTeamNumber(),
+            Clamp(self:GetCaster():GetOrigin(), Vector(self:GetCaster().mouse.x, self:GetCaster().mouse.y, self:GetCaster().mouse.z), self:GetCastRange(Vector(0,0,0), nil), 0),
+            nil,
+            200,
+            DOTA_UNIT_TARGET_TEAM_BOTH,
+            DOTA_UNIT_TARGET_ALL,
+            DOTA_UNIT_TARGET_FLAG_MAGIC_IMMUNE_ENEMIES + DOTA_UNIT_TARGET_FLAG_INVULNERABLE,
+            FIND_CLOSEST,
+            false)
 
-        --[[self:GetCaster():FindAbilityByName("m2_meteor"):SetActivated(false)
-        self:GetCaster():FindAbilityByName("q_fire_bubble"):SetActivated(false)
-        self:GetCaster():FindAbilityByName("r_remnant"):SetActivated(false)
-        self:GetCaster():FindAbilityByName("e_fireball"):SetActivated(false)]]
+        if units == nil or #units == 0 then
+            return false
+        else
 
-        return true
+            self.target = units[1]
+
+            self:GetCaster():AddNewModifier(self:GetCaster(), self, "casting_modifier_thinker",
+            {
+                duration = -1,
+                pMovespeedReduction = 0,
+                bFaceTarget = true,
+                target = self.target:GetEntityIndex(),
+            })
+
+            --[[self:GetCaster():FindAbilityByName("m2_meteor"):SetActivated(false)
+            self:GetCaster():FindAbilityByName("q_fire_bubble"):SetActivated(false)
+            self:GetCaster():FindAbilityByName("r_remnant"):SetActivated(false)
+            self:GetCaster():FindAbilityByName("e_fireball"):SetActivated(false)]]
+
+            return true
+        end
     end
 end
 ---------------------------------------------------------------------------
@@ -49,7 +67,6 @@ function q_pen:OnSpellStart()
 
         -- init
         self.caster = self:GetCaster()
-        self.target = self:GetCursorTarget()
 
         local base_heal = self:GetSpecialValueFor( "base_heal" )
         local max_ticks = self:GetSpecialValueFor( "max_ticks" )

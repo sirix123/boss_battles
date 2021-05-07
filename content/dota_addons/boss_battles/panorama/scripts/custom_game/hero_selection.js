@@ -6,6 +6,7 @@ GameEvents.Subscribe( "picking_done", OnPickingDone );
 GameEvents.Subscribe( "picking_time_update", OnTimeUpdate );
 GameEvents.Subscribe( "picking_player_pick", OnPlayerPicked );
 GameEvents.Subscribe( "picking_player_selected", OnPlayerSelected );
+GameEvents.Subscribe( "player_reconnect", OnPickingDone );
 
 /* Event Handlers
 =========================================================================*/
@@ -19,6 +20,9 @@ function StartHeroSelect( data ) {
 
 /* Picking phase is done, allow the player to enter the game */
 function OnPickingDone( data ) {
+
+	$.Msg("hero select ending / reconnected deleting panels")
+
 	$('#wasdcontainer').DeleteAsync( 0.0 );
     $('#ToolTip').DeleteAsync( 0.0 );
 	EnterGame()

@@ -47,6 +47,27 @@ function Spawn( entityKeyValues )
 
 	thisEntity.markTarget = nil
 
+	-- summon dino
+	thisEntity.dino_spawns = {
+		Vector(-3049.123779,-11183.102539,261.128906),
+		Vector(-3058.546387,-8512.565430,261.128906),
+		Vector(-333.317780,-8508.639648,261.128906),
+		Vector(-320.668762,-11194.767578,261.128906),
+	}
+
+	local center_pos = Vector(-1496.469482, -9943.101563, 261.128906)
+
+	Timers:CreateTimer(5,function ()
+
+		local dino_spawn = thisEntity.dino_spawns[RandomInt(1,#thisEntity.dino_spawns)]
+
+		local dino = CreateUnitByName("npc_beastmaster_dino", dino_spawn, true, nil, nil, DOTA_TEAM_BADGUYS)
+		dino:SetForwardVector(center_pos)
+		dino:FaceTowards(center_pos)
+
+		return false
+	end)
+
 	thisEntity:SetContextThink( "Beastmaster", BeastmasterThink, 0.5 )
 
 	thisEntity:SetHullRadius(60)

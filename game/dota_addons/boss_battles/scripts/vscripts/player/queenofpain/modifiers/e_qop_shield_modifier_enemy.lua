@@ -18,7 +18,7 @@ end
 -----------------------------------------------------------------------------
 
 function e_qop_shield_modifier_enemy:GetEffectName()
-	return "particles/items2_fx/orchid.vpcf"
+	return "particles/gyrocopter/gyro_orchid.vpcf"
 end
 
 function e_qop_shield_modifier_enemy:GetEffectAttachType()
@@ -41,14 +41,15 @@ function e_qop_shield_modifier_enemy:OnCreated( kv )
             self.caster:RemoveModifierByName(modifier)
         end
 
-        if stacks == 2 then
-            self.damage_factor = self.damage_factor / 0.75
+        if stacks == 1 then
+            self.damage_factor = self.damage_factor * 2 -- 50%
+        elseif stacks == 2 then
+            self.damage_factor = self.damage_factor * 3 -- 75%
         elseif stacks == 3 then
-            self.damage_factor = self.damage_factor / 0.5
+            self.damage_factor = self.damage_factor * 4 -- 100%
         end
 
         self.damage_taken_during_debuff = 0
-        
 
         --self.particle_index = ParticleManager:CreateParticle("particles/qop/qop_bloodseeker_bloodrage_ground_eztzhok.vpcf", PATTACH_ROOTBONE_FOLLOW, self.parent)
 

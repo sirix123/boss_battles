@@ -107,8 +107,22 @@ function GameSetup:OnPlayerReconnected(keys)
 
     local pID = keys.PlayerID
     local hPlayer = PlayerResource:GetPlayer( pID )
+    local entToH = EntIndexToHScript(keys.entindex)
 
-    CustomGameEventManager:Send_ServerToPlayer( hPlayer, "player_reconnect", {} )
+    for key, v in pairs(keys) do
+        print("key, ",key,"v, ",v)
+    end
+
+    print("ent index ",entToH)
+
+    if RECONNECTING_PLAYER_ID ~= nil then
+
+        print("sending reconnect message")
+
+        CustomGameEventManager:Send_ServerToPlayer( hPlayer, "player_reconnect", nil )
+        RECONNECTING_PLAYER_ID = nil
+
+    end
 
 end
 --------------------------------------------------------------------------------------------------
@@ -210,7 +224,7 @@ function GameSetup:RegisterRaidWipe( )
 
                     nATTEMPT_TRACKER = nATTEMPT_TRACKER + 1
 
-                    Timers:CreateTimer(5.0, function()
+                    Timers:CreateTimer(8.0, function()
 
                         -- revive and move dead heroes
                         for _, killedHero in pairs(self.player_deaths) do
@@ -565,6 +579,25 @@ function GameSetup:EncounterCleanUp( origin )
         for _, unit in pairs(units) do
             --unit:ForceKill(false)
             unit:RemoveSelf()
+        end
+    end
+
+    local all_units = FindUnitsInRadius(
+        DOTA_TEAM_BADGUYS,
+        origin,
+        nil,
+        5000,
+        DOTA_UNIT_TARGET_TEAM_ENEMY,
+        DOTA_UNIT_TARGET_ALL,
+        DOTA_UNIT_TARGET_FLAG_INVULNERABLE,
+        FIND_ANY_ORDER,
+        false)
+
+    if all_units ~= nil then
+        for _, unit in pairs(all_units) do
+            if unit:GetUnitName() == "npc_rock_techies" then
+                unit:RemoveSelf()
+            end
         end
     end
 end

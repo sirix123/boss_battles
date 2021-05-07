@@ -100,9 +100,9 @@
 		"MaxLevel"						"1"
 
 		"AbilityTextureName"			"winter_wyvern_cold_embrace"
-		"AbilityUnitTargetTeam"			"DOTA_UNIT_TARGET_TEAM_FRIENDLY"
-        "AbilityBehavior"				"DOTA_ABILITY_BEHAVIOR_UNIT_TARGET"  //"DOTA_ABILITY_BEHAVIOR_POINT"
-		"AbilityUnitTargetType"			"DOTA_UNIT_TARGET_HERO | DOTA_UNIT_TARGET_BASIC"
+		//"AbilityUnitTargetTeam"			"DOTA_UNIT_TARGET_TEAM_FRIENDLY"
+        "AbilityBehavior"				"DOTA_ABILITY_BEHAVIOR_POINT"  //"DOTA_ABILITY_BEHAVIOR_POINT"
+		//"AbilityUnitTargetType"			"DOTA_UNIT_TARGET_HERO | DOTA_UNIT_TARGET_BASIC"
 		"AbilityCastRange" 				"750"
         "AbilityCooldown"				"20"
         "AbilityCastPoint"              "0.0"

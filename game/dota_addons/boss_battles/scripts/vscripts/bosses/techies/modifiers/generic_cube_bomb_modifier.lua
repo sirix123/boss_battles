@@ -61,6 +61,12 @@ function generic_cube_bomb_modifier:OnCreated( kv )
     self.nFXIndex_2 = ParticleManager:CreateParticle( particle, PATTACH_OVERHEAD_FOLLOW , self:GetParent())
     ParticleManager:SetParticleControlEnt( self.nFXIndex_2, 0, self:GetParent(), PATTACH_OVERHEAD_FOLLOW, "attach_head", self:GetParent():GetAbsOrigin(), true)
 
+    self.random_location = self.random_diffuse_locations[RandomInt(1, #self.random_diffuse_locations)]
+
+    local particleName_3 = "particles/clock/red_clock_npx_moveto_arrow.vpcf"
+    self.pfx_3 = ParticleManager:CreateParticleForPlayer( particleName_3, PATTACH_WORLDORIGIN, self:GetParent(), self:GetParent():GetPlayerOwner() )
+    ParticleManager:SetParticleControl( self.pfx_3, 0, self.random_location )
+
     self:StartIntervalThink(0.01)
 
 end
@@ -82,6 +88,7 @@ function generic_cube_bomb_modifier:OnDestroy()
 
     ParticleManager:DestroyParticle(self.nFXIndex_2,true)
     ParticleManager:DestroyParticle(self.particleNfx,true)
+    ParticleManager:DestroyParticle(self.pfx_3,true)
 
     if self.removed_flag == true then
         local particle = "particles/techies/techies_remote_mine_detonate_embers_fizzle.vpcf"
@@ -136,7 +143,7 @@ function generic_cube_bomb_modifier:OnIntervalThink()
 
     -- get diffuse location
     if self.bHasDiffuseLocation == false then
-        self.target = self.random_diffuse_locations[RandomInt(1, #self.random_diffuse_locations)]
+        self.target = self.random_location
         self.bHasDiffuseLocation = true
     end
 

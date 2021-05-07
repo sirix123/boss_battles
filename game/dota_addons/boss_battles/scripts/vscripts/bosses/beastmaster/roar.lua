@@ -37,7 +37,7 @@ function roar:OnSpellStart()
     local count = 0
 
     local distance_particle = 1600
-    local distance_find_units = 2000
+    local distance_find_units = 1600
 
     local tLocations = {}
     local location = nil
