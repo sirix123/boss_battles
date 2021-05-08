@@ -17,7 +17,7 @@ function Spawn( entityKeyValues )
 
 	thisEntity.PHASE = 1
 	thisEntity.stack_count = 0
-	thisEntity.max_beam_stacks = 4--4
+	thisEntity.max_beam_stacks = 3--4
 
 	thisEntity.rearm = true
 
@@ -114,27 +114,35 @@ function TinkerThinker()
 	end
 
 	-- crystal phase
-	if thisEntity.PHASE == 2 and thisEntity.teleport_out ~= true then
+	if thisEntity.PHASE == 2 then
 
-		thisEntity.teleport_out = true
+		if thisEntity.teleport_out ~= true then
 
-		if thisEntity.tinker_teleport_beam_phase ~= nil and thisEntity.tinker_teleport_beam_phase:IsFullyCastable() and thisEntity.tinker_teleport_beam_phase:IsCooldownReady() and thisEntity.tinker_teleport_beam_phase:IsInAbilityPhase() == false then
-			CastTeleportBeamPhase()
-		end
+			thisEntity.teleport_out = true
+	
+			if thisEntity.tinker_teleport_beam_phase ~= nil and thisEntity.tinker_teleport_beam_phase:IsFullyCastable() and thisEntity.tinker_teleport_beam_phase:IsCooldownReady() and thisEntity.tinker_teleport_beam_phase:IsInAbilityPhase() == false then
+				CastTeleportBeamPhase()
+			end
 
-		Timers:CreateTimer(15,function()
-			if thisEntity.stop_timers == true then
+			Timers:CreateTimer(15,function()
+				if thisEntity.stop_timers == true then
+					return false
+				end
+
+				thisEntity.tinker_teleport:EndCooldown()
+
+				if thisEntity.tinker_teleport ~= nil and thisEntity.tinker_teleport:IsFullyCastable() and thisEntity.tinker_teleport:IsCooldownReady() and thisEntity.tinker_teleport:IsInAbilityPhase() == false then
+					CastTeleport()
+				end
+
+				thisEntity.ice_shot_tinker:StartCooldown(RandomInt(5,10))
+				thisEntity.red_missile:StartCooldown(RandomInt(10,25))
+				thisEntity.chain_light_v2:StartCooldown(RandomInt(10,20))
+
 				return false
-			end
+			end)
 
-			thisEntity.tinker_teleport:EndCooldown()
-
-			if thisEntity.tinker_teleport ~= nil and thisEntity.tinker_teleport:IsFullyCastable() and thisEntity.tinker_teleport:IsCooldownReady() and thisEntity.tinker_teleport:IsInAbilityPhase() == false then
-				CastTeleport()
-			end
-
-			return false
-		end)
+		end
 	end
 
 	-- phase 2
@@ -167,7 +175,7 @@ function TinkerThinker()
 
 	end
 
-	return 0.5
+	return 0.1
 end
 --------------------------------------------------------------------------------
 

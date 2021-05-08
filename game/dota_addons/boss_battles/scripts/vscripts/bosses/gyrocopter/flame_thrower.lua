@@ -37,6 +37,24 @@ function flame_thrower:OnAbilityPhaseStart()
             ParticleManager:SetParticleControl( self.nfx_indicator, 4, Vector(self:GetSpecialValueFor("duration") + 1,0,0) )
             --ParticleManager:ReleaseParticleIndex(self.nfx_indicator)
 
+            self.nfx_indicator_cone = ParticleManager:CreateParticle( "particles/custom/ui_mouseactions/flame_thrower_range_finder_cone.vpcf", PATTACH_ABSORIGIN_FOLLOW, self:GetCaster() )
+            ParticleManager:SetParticleControl( self.nfx_indicator_cone, 3, Vector(500, 125, 0))
+            ParticleManager:SetParticleControl( self.nfx_indicator_cone, 4, Vector(255, 255, 0)) --Color (green by default)
+            ParticleManager:SetParticleControl( self.nfx_indicator_cone, 6, Vector(1,1,1)) --Enable color change
+
+            self.timer_cone = Timers:CreateTimer(function()
+
+                local direction = global_hTarget:GetAbsOrigin() - self:GetCaster():GetAbsOrigin()
+                direction.z = 0
+                direction = direction:Normalized()
+
+                ParticleManager:SetParticleControl( self.nfx_indicator_cone, 0, self:GetCaster():GetAbsOrigin() )
+                ParticleManager:SetParticleControl( self.nfx_indicator_cone, 1, self:GetCaster():GetAbsOrigin() )
+                ParticleManager:SetParticleControl( self.nfx_indicator_cone, 2, self:GetCaster():GetAbsOrigin() + direction * 1550)
+
+                return 0.03
+            end)
+
             return true
         end
     end
@@ -55,16 +73,20 @@ function flame_thrower:OnAbilityPhaseInterrupted()
             ParticleManager:DestroyParticle(self.nfx_indicator,true)
         end
 
+        if self.nfx_indicator_cone ~= nil  then
+            ParticleManager:DestroyParticle(self.nfx_indicator_cone,true)
+        end
+
+        if self.timer_cone ~= nil then
+            Timers:RemoveTimer(self.timer_cone)
+        end
+
     end
 end
 ---------------------------------------------------------------------------
 
 function flame_thrower:OnSpellStart( )
     if not IsServer() then return end
-
-    if self.timer ~= nil then
-        Timers:RemoveTimer(self.timer)
-    end
 
     self:GetCaster():FadeGesture(ACT_DOTA_CAST_ABILITY_1)
     self.caster = self:GetCaster()
@@ -87,6 +109,12 @@ function flame_thrower:OnSpellStart( )
             if self.nfx_indicator ~= nil then
                 ParticleManager:DestroyParticle(self.nfx_indicator,true)
             end
+            if self.timer_cone ~= nil then
+                Timers:RemoveTimer(self.timer_cone)
+            end
+            if self.nfx_indicator_cone ~= nil  then
+                ParticleManager:DestroyParticle(self.nfx_indicator_cone,true)
+            end
             i = 0
             return false
         end
@@ -102,6 +130,12 @@ function flame_thrower:OnSpellStart( )
 
             if self.nfx_indicator ~= nil then
                 ParticleManager:DestroyParticle(self.nfx_indicator,true)
+            end
+            if self.timer_cone ~= nil then
+                Timers:RemoveTimer(self.timer_cone)
+            end
+            if self.nfx_indicator_cone ~= nil  then
+                ParticleManager:DestroyParticle(self.nfx_indicator_cone,true)
             end
             i = 0
             return false

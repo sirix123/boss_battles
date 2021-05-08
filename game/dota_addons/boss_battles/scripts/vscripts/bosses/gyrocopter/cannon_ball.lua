@@ -118,7 +118,7 @@ function cannon_ball:OnSpellStart()
 				draw = false,
 				UnitTest = function(_self, unit)
 
-					if unit:GetUnitName() == "npc_dota_thinker" and CheckGlobalUnitTableForUnitName(unit) == true and unit:GetTeamNumber() ~= caster:GetTeamNumber() then
+					if unit:GetUnitName() == "npc_dota_thinker" or CheckGlobalUnitTableForUnitName(unit) == true or unit:GetTeamNumber() ~= caster:GetTeamNumber() then
 						return false
 					else
 						return true

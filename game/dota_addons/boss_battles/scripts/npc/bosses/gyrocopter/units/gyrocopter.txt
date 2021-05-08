@@ -29,7 +29,7 @@
 		"Ability7"					"fire_cross_grenade"			
 		"Ability8"					"intermission_flee"
 		"Ability9"					"spawn_cleaning_bot"
-		"Ability10"					""
+		"Ability10"					"gyro_intermission_homing_missile"
 		"Ability11"					""
 		"Ability12"					""
 		"Ability13"					""
@@ -75,7 +75,7 @@
 
 		// Status
 		//----------------------------------------------------------------
-		"StatusHealth"				"200000"		// Base health.
+		"StatusHealth"				"120000"		// Base health.
 		"StatusHealthRegen"			"0.0"		// Health regeneration rate.
 		"StatusMana"				"0"			// Base mana.
 		"StatusManaRegen"			"0.0"		// Mana regeneration rate.		 
@@ -410,6 +410,89 @@
 		// General
 		//----------------------------------------------------------------
 		"Model"						"models/items/courier/deathripper/deathripper.vmdl"	// Model.
+		"BaseClass"					"npc_dota_creature"
+		"SoundSet"					"n_creep_Melee"
+		"GameSoundsFile"			"soundevents/game_sounds_heroes/game_sounds_gyrocopter.vsndevts"
+		"Level"						"1"
+		"ModelScale" 				"1.7"
+
+		// Abilities
+		//----------------------------------------------------------------
+		"Ability1"					""			
+		"Ability2"					""
+		"Ability3"					""
+		"Ability5"					""
+		"Ability6"					""
+		"Ability7"					""			
+		"Ability8"					""
+		"Ability9"					""
+		"Ability10"					""
+		"Ability11"					""
+		"Ability12"					""
+		"Ability13"					""
+		"Ability14"					""
+		"Ability15"					""
+		"Ability16"					""
+		"Ability17"					""
+		"Ability18"					""
+
+		// Armor
+		//----------------------------------------------------------------
+		"ArmorPhysical"				"0"			
+
+		// Attack
+		//----------------------------------------------------------------
+		"AttackCapabilities"		"DOTA_UNIT_CAP_NO_ATTACK"
+		"AttackDamageMin"			"20"		
+		"AttackDamageMax"			"40"		
+		"AttackRate"				"1"		// Speed of attack.
+		"AttackAnimationPoint"		"0.4"		// Normalized time in animation cycle to attack.
+		"AttackAcquisitionRange"	"3000"		// Range within a target can be acquired.
+		"AttackRange"				"500"
+
+		// Bounds
+		//----------------------------------------------------------------
+		"RingRadius"				"40"
+		"HealthBarOffset"			"170"
+
+		// Movement
+		//----------------------------------------------------------------
+		"MovementCapabilities"		"DOTA_UNIT_CAP_MOVE_GROUND" // or DOTA_UNIT_CAP_MOVE_FLY
+		"MovementSpeed"				"350"				
+		"MovementTurnRate"          "2.0"        // Turning rate. 	
+
+		// Status
+		//----------------------------------------------------------------
+		"StatusHealth"				"1000"		// Base health.
+		"StatusHealthRegen"			"0.0"		// Health regeneration rate.
+		"StatusMana"				"0"			// Base mana.
+		"StatusManaRegen"			"0.0"		// Mana regeneration rate.		 
+		
+		// Vision
+		//----------------------------------------------------------------
+		"VisionDaytimeRange"		"5000"		// Range of vision during day light.
+		"VisionNighttimeRange"		"5000"		// Range of vision at night time.
+
+		// Team
+		//----------------------------------------------------------------
+		"TeamName"					"DOTA_TEAM_BADGUYS"						// Team name.
+		"CombatClassAttack"			"DOTA_COMBAT_CLASS_ATTACK_PIERCE"
+		"CombatClassDefend"			"DOTA_COMBAT_CLASS_DEFEND_BASIC"
+		"UnitRelationshipClass"		"DOTA_NPC_UNIT_RELATIONSHIP_TYPE_DEFAULT"
+
+	}
+
+	//=================================================================================	
+	//  missile
+	//=================================================================================
+	"npc_gyrocopter_homing_missile"	
+	{
+		// script
+		//"vscripts"					"bosses/gyrocopter/cleaning_bot_ai.lua"
+
+		// General
+		//----------------------------------------------------------------
+		"Model"						"models/items/gyrocopter/gyro_ti10_immortal_missile/gyro_ti10_immortal_missile.vmdl"	// Model.
 		"BaseClass"					"npc_dota_creature"
 		"SoundSet"					"n_creep_Melee"
 		"GameSoundsFile"			"soundevents/game_sounds_heroes/game_sounds_gyrocopter.vsndevts"

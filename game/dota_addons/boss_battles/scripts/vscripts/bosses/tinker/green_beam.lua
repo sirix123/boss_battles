@@ -219,6 +219,8 @@ function green_beam:CreateBeam( )
                                         -- remove shield particle 
                                         self:GetCaster():RemoveModifierByName("shield_cosmetic")
 
+                                        self:GetCaster():SetBaseManaRegen(self:GetSpecialValueFor( "mana_regen" )) -- make sre matches inc rystal KV as wel
+
                                         -- everytime tinker is hit by the beam inc the stack on the modifier
                                         self.hBuff = unit:AddNewModifier( self:GetCaster(), self, "beam_counter", { duration = -1 } )
                                         if unit:HasModifier("beam_counter") == true and self.hBuff:GetStackCount() < 5 then

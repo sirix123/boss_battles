@@ -37,6 +37,7 @@ function bird_puddle_thinker:OnCreated( kv )
         ParticleManager:SetParticleControl( self.effect_cast, 1, self.parent:GetAbsOrigin() )
         --ParticleManager:ReleaseParticleIndex( effect_cast )
 
+        self:StartEnemyDebuffChecker()
         self:StartApplyDamageLoop()
 	end
 end
@@ -121,6 +122,47 @@ function bird_puddle_thinker:StartApplyDamageLoop()
 		end
 
 		return self.damage_interval
+	end)
+end
+--------------------------------------------------------------------------------
+
+function bird_puddle_thinker:StartEnemyDebuffChecker()
+
+    Timers:CreateTimer(self.damage_interval, function()
+	    if self.stopDamageLoop == true then
+		    return false
+        end
+
+        local enemies = FindUnitsInRadius(
+            self.parent:GetTeamNumber(),	-- int, your team number
+            self.currentTarget,	-- point, center point
+            nil,	-- handle, cacheUnit. (not known)
+            self.radius,	-- float, radius. or use FIND_UNITS_EVERYWHERE
+            DOTA_UNIT_TARGET_TEAM_ENEMY,	-- int, team filter
+            DOTA_UNIT_TARGET_HERO + DOTA_UNIT_TARGET_BASIC,	-- int, type filter
+            0,	-- int, flag filter
+            0,	-- int, order filter
+            false	-- bool, can grow cache
+        )
+
+        if enemies ~= nil and #enemies ~= 0 then
+            for _, enemy in pairs(enemies) do
+
+                if enemy:HasModifier("biting_frost_modifier_debuff") then
+                    -- little steam particle effect here?
+                    local particle = "particles/units/heroes/hero_phoenix/phoenix_supernova_death_steam.vpcf"
+                    local effect_cast = ParticleManager:CreateParticle( particle, PATTACH_WORLDORIGIN, self.parent )
+                    ParticleManager:SetParticleControl( effect_cast, 1, self.parent:GetAbsOrigin() )
+                    ParticleManager:ReleaseParticleIndex( effect_cast )
+
+                    enemy:RemoveModifierByName("biting_frost_modifier_debuff")
+                    self:Destroy()
+                end
+            end
+        end
+
+
+		return 0.01
 	end)
 end
 --------------------------------------------------------------------------------

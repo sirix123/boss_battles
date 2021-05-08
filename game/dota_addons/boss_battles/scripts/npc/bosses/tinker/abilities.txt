@@ -17,7 +17,7 @@
 
         // Casting
         //-------------------------------------------------------------------------------------------------------------
-        "AbilityCastPoint"              "1.5 1.0 1.0 1.0"
+        "AbilityCastPoint"              "2.5 1.0 1.0 1.0"
         "AbilityCastRange" 				"60"
 
         // Time     
@@ -37,6 +37,8 @@
             "03"{ "var_type"			"FIELD_INTEGER"		"damage"		                "50" }
             "04"{ "var_type"			"FIELD_FLOAT"		"beam_speed_angle_increment"    "0.6" }
             "05"{ "var_type"			"FIELD_INTEGER"		"wave_dmg"                   "500" }
+            "06"{ "var_type"			"FIELD_FLOAT"		"mana_regen"                   "3.0" }
+            
 		}
 
         "precache"
@@ -753,13 +755,13 @@
 
         // General
         //-------------------------------------------------------------------------------------------------------------
-        "AbilityBehavior"               "DOTA_ABILITY_BEHAVIOR_NO_TARGET | DOTA_ABILITY_BEHAVIOR_IMMEDIATE"
+        "AbilityBehavior"               "DOTA_ABILITY_BEHAVIOR_NO_TARGET"
         "AbilityTextureName"			"forged_spirit_melting_strike"
 
         // Casting
         //-------------------------------------------------------------------------------------------------------------
-        "AbilityCastPoint"              "0.0 0.0 0.0 0.0"
-        "AbilityCooldown"               "1 1 1 1"
+        "AbilityCastPoint"              "0.3 0.3 0.3 0.3"
+        "AbilityCooldown"               "5 5 5 5"
         "AbilityManaCost"               "0"
         "AbilityCastRange" 				"600"
 

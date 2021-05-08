@@ -26,7 +26,7 @@ function GenerateLocalizationData() {
     Modifiers.push({
         modifier_classname: "e_warlord_shout_modifier",
         name: "Warlord Shout",
-        description: "Provides a shield that will abosrbs damage.",
+        description: "Provides a shield that will abosrbs damage. Also increasing health and mana regen based on stack count.",
     });
     Modifiers.push({
         modifier_classname: "q_conq_shout_modifier",
@@ -108,7 +108,7 @@ function GenerateLocalizationData() {
     Abilities.push({
         ability_classname: "e_warlord_shout",
         name: "Warlord Shout",
-        description: "Shout a battle cry that applies a shield to all targets in range of you and your Blade Vortex(s).",
+        description: "Shout a battle cry that applies a shield to all targets in range of you and your Blade Vortex(s). Also increases health and mana regen per stack.",
         notes: [],
         ability_specials: [
             {
@@ -118,6 +118,14 @@ function GenerateLocalizationData() {
             {
                 ability_special: "bubble_amount",
                 text: "SHIELD:"
+            },
+            {
+                ability_special: "health_regen",
+                text: "HEALTH REGEN:"
+            },
+            {
+                ability_special: "mana_regen",
+                text: "MANA REGEN:"
             },
         ]
     });

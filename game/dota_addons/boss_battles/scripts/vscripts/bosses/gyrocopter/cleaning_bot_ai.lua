@@ -35,7 +35,7 @@ function CleaningThinker()
     -- state checker for klat state
     if thisEntity:HasModifier("oil_fire_checker_modifier") then
         thisEntity.stack_count = thisEntity:GetModifierStackCount("oil_fire_checker_modifier", nil)
-        print("thisEntity.stack_count ",thisEntity.stack_count)
+        --print("thisEntity.stack_count ",thisEntity.stack_count)
         if thisEntity.stack_count >= 10 then
             thisEntity.STATE = 4
         end
@@ -44,7 +44,7 @@ function CleaningThinker()
     -- state 1
     -- find oil puddles or fire puddles
     if thisEntity.STATE == 1 then
-        print("phase 1")
+        --print("phase 1")
 
         if #_G.Oil_Puddles ~= 0 or #_G.Fire_Puddles ~= 0 then
             if #_G.Oil_Puddles ~= 0 then
@@ -72,7 +72,7 @@ function CleaningThinker()
     -- state 2
     -- move towards the puddle
     if thisEntity.STATE == 2 then
-        print("phase 2")
+        --print("phase 2")
         if thisEntity.moving == false then
             thisEntity:MoveToPosition(thisEntity.puddle_location)
         end
@@ -89,7 +89,7 @@ function CleaningThinker()
     -- state 3
     -- channel over the puddle for 1 second
     if thisEntity.STATE == 3 then
-        print("phase 3")
+        --print("phase 3")
         thisEntity.moving = false
 
         -- water effect
@@ -114,7 +114,7 @@ function CleaningThinker()
     -- explode after 15 seconds
     -- if no enemies come close to me (inside the green indicator) then inflict dmg on all enemies, if someone is close just hurt them (kill them) if they have the buff don't kill them
     if thisEntity.STATE == 4 then
-        print("phase 4")
+        --print("phase 4")
 
         thisEntity.nPreviewFXIndex = ParticleManager:CreateParticle( "particles/custom/markercircle/darkmoon_calldown_marker.vpcf", PATTACH_CUSTOMORIGIN, nil )
         ParticleManager:SetParticleControl( thisEntity.nPreviewFXIndex, 0, thisEntity:GetAbsOrigin() )
@@ -131,8 +131,8 @@ function CleaningThinker()
 
             local particle_area_fx = ParticleManager:CreateParticle("particles/units/heroes/hero_obsidian_destroyer/obsidian_destroyer_sanity_eclipse_area.vpcf", PATTACH_WORLDORIGIN, thisEntity)
             ParticleManager:SetParticleControl(particle_area_fx, 0, thisEntity:GetAbsOrigin())
-            ParticleManager:SetParticleControl(particle_area_fx, 1, Vector(250, 1, 1))
-            ParticleManager:SetParticleControl(particle_area_fx, 2, Vector(250, 1, 1))
+            ParticleManager:SetParticleControl(particle_area_fx, 1, Vector(800, 1, 1))
+            ParticleManager:SetParticleControl(particle_area_fx, 2, Vector(800, 1, 1))
             ParticleManager:SetParticleControl(particle_area_fx, 3, thisEntity:GetAbsOrigin())
             ParticleManager:ReleaseParticleIndex(particle_area_fx)
 
@@ -182,18 +182,21 @@ function CleaningThinker()
                 if enemies_everywhere ~= nil and #enemies_everywhere ~= 0 then
                     for _, enemy in pairs(enemies_everywhere) do
 
-                        local particle_burn_fx = ParticleManager:CreateParticle("particles/units/heroes/hero_obsidian_destroyer/obsidian_destroyer_sanity_eclipse_mana_loss.vpcf", PATTACH_ABSORIGIN_FOLLOW, thisEntity)
-                        ParticleManager:SetParticleControl(particle_burn_fx, 0, enemy:GetAbsOrigin())
-                        ParticleManager:ReleaseParticleIndex(particle_burn_fx)
-
-                        local dmgTable = {
-                            victim = enemy,
-                            attacker = thisEntity,
-                            damage = 300,
-                            damage_type = DAMAGE_TYPE_PHYSICAL,
+                        local info = {
+                            EffectName = "particles/units/heroes/hero_necrolyte/necrolyte_pulse_enemy.vpcf",
+                            Ability = nil,
+                            iMoveSpeed = 1500,
+                            Source = thisEntity,
+                            Target = enemy,
+                            bDodgeable = false,
+                            iSourceAttachment = DOTA_PROJECTILE_ATTACHMENT_HITLOCATION,
+                            bProvidesVision = true,
+                            iVisionTeamNumber = thisEntity:GetTeamNumber(),
+                            iVisionRadius = 300,
                         }
 
-                        ApplyDamage(dmgTable)
+                        ProjectileManager:CreateTrackingProjectile( info )
+
                     end
                 end
             end
@@ -209,3 +212,24 @@ function CleaningThinker()
 	return 0.5
 end
 --------------------------------------------------------------------------------
+
+function cleaning_bot_ai:OnProjectileHit( hTarget, vLocation)
+    if IsServer() then
+
+        if hTarget == nil then return end
+
+        local particle_burn_fx = ParticleManager:CreateParticle("particles/units/heroes/hero_obsidian_destroyer/obsidian_destroyer_sanity_eclipse_mana_loss.vpcf", PATTACH_ABSORIGIN_FOLLOW, thisEntity)
+        ParticleManager:SetParticleControl(particle_burn_fx, 0, hTarget:GetAbsOrigin())
+        ParticleManager:ReleaseParticleIndex(particle_burn_fx)
+
+        local dmgTable = {
+            victim = hTarget,
+            attacker = thisEntity,
+            damage = 300,
+            damage_type = DAMAGE_TYPE_PHYSICAL,
+        }
+
+        ApplyDamage(dmgTable)
+
+    end
+end

@@ -45,7 +45,7 @@ function Spawn( entityKeyValues )
     thisEntity.beam_phase = false
 
     thisEntity.beam_stack_count = 0
-    thisEntity.total_beams = 4--4
+    thisEntity.total_beams = 3--4
 
     thisEntity:SetMana(0)
 
@@ -177,6 +177,7 @@ function CrystalThinker()
     --print("crystal thisEntity:GetManaPercent() ", thisEntity:GetManaPercent())
 
     if thisEntity:GetManaPercent() == 100 then
+        thisEntity:SetBaseManaRegen(0)
         thisEntity.beam_phase = true
         thisEntity.green_beam:EndCooldown()
         thisEntity.spawn_rocks:EndCooldown()

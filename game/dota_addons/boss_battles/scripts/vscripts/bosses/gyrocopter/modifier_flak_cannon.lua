@@ -49,7 +49,7 @@ function modifier_flak_cannon:OnCreated(  )
 
                 table.insert(_G.Oil_Puddles, puddle)
 
-                return 2
+                return 1
             end)
 
             self.nPreviewFXIndex = ParticleManager:CreateParticle( "particles/gyrocopter/no_arrows_gyro_darkmoon_calldown_marker.vpcf", PATTACH_ABSORIGIN_FOLLOW, self:GetParent() )
@@ -120,7 +120,7 @@ function modifier_flak_cannon:OnIntervalThink()
             {
                 victim = unit,
                 attacker = self:GetCaster(),
-                damage = 50,
+                damage = 15,
                 damage_type = DAMAGE_TYPE_PHYSICAL,
             }
 

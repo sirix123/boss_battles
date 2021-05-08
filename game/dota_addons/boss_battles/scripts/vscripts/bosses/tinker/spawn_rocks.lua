@@ -27,7 +27,7 @@ function spawn_rocks:OnSpellStart()
         local tRocks = {}
         local cRocks = {}
         local max_rocks_remove = 8
-        local min_rocks_remove = 5
+        local min_rocks_remove = 6
 
         local maxAngle = 360 --increase beyond 360 for ... more laps around, more density. You probably don't want that.
         local minIncrement = 20

@@ -115,15 +115,18 @@ function GameSetup:OnPlayerReconnected(keys)
 
     print("ent index ",entToH)
 
-    if RECONNECTING_PLAYER_ID ~= nil then
+    Timers:CreateTimer(1,function()
+        if RECONNECTING_PLAYER_ID ~= nil then
 
-        print("sending reconnect message")
+            print("sending reconnect message")
 
-        CustomGameEventManager:Send_ServerToPlayer( hPlayer, "player_reconnect", nil )
-        RECONNECTING_PLAYER_ID = nil
+            CustomGameEventManager:Send_ServerToPlayer( hPlayer, "player_reconnect", nil )
+            RECONNECTING_PLAYER_ID = nil
 
-    end
-
+            return false
+        end
+        return 1
+    end)
 end
 --------------------------------------------------------------------------------------------------
 --[[
