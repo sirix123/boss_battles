@@ -225,11 +225,11 @@ function blast_off:SpawnCubes()
 
         -- cubes and decide how many and where
         local tCubes = {}
-        local nCubesToSpawn = 3
+        local nCubesToSpawn = 4
 
         for i = 1, nCubesToSpawn, 1 do
             local mid_point = Vector(10126,1776,131)
-            local radius = 700
+            local radius = 600
             local randomX = RandomInt(mid_point.x - radius, mid_point.x + radius)
             local randomY = RandomInt(mid_point.y - radius, mid_point.y + radius)
             table.insert(tCubes, Vector(randomX,randomY,131))

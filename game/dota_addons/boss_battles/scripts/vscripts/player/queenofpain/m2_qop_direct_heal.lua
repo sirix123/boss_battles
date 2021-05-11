@@ -17,6 +17,7 @@ function m2_qop_direct_heal:OnAbilityPhaseStart()
             false)
 
         if units == nil or #units == 0 then
+            --FireGameEvent("dota_hud_error_message", { reason = 80, message = "Out of range or no target" })
             return false
         else
 

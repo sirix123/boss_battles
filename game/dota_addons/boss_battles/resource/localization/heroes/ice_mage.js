@@ -145,7 +145,7 @@ function GenerateLocalizationData() {
     Abilities.push({
         ability_classname: "r_frostbomb",
         name: "Frost Strike",
-        description: "Ice mage conjures a sphere of frost above target location. After a delay the sphere hits the ground and explodes, dealing damage on impact and over time to all enemies. " + froststrikeColour + " is empowered if Ice mage is affected by " + shatterColour + " or " + boneChill + ".",
+        description: "Ice mage conjures a sphere of frost above target location. After a delay the sphere hits the ground and explodes, dealing damage on impact and over time to all enemies. " + froststrikeColour + " can consume " + shatterColour + " and " + boneChill + " to empower its duration and damage.",
         notes: [
             "Consumes Bonechill.",
             "Shatter only affects the damage over time debuff."

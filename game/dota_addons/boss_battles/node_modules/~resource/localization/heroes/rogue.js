@@ -21,25 +21,25 @@ function GenerateLocalizationData() {
     Modifiers.push({
         modifier_classname: "q_smoke_bomb_modifier",
         name: "Evasive",
-        description: "Provides increased movement speed and invulnerability.",
+        description: "Increased movement speed and invulnerability.",
     });
     Modifiers.push({
         modifier_classname: "m2_energy_buff",
         name: "Adrenaline",
-        description: "Provides %dMODIFIER_PROPERTY_MANA_REGEN_CONSTANT% energy regen.",
+        description: "Regenerating %dMODIFIER_PROPERTY_MANA_REGEN_CONSTANT% energy per second.",
     });
     Modifiers.push({
         modifier_classname: "space_shadowstep_caster_modifier",
         name: "Shadow Dagger",
-        description: "Dagger will expire at the end of this buff.",
+        description: "Shadowstep.",
     });
     // abilities
     Abilities.push({
         ability_classname: "m1_combo_hit_1_2",
         name: "Slash",
-        description: "Short range attack that deals damage in a cone. After 2 attacks this ability changes into another ability.",
+        description: "Rogue delivers a quick slash to all enemies in front of her. After attacking twice the third attack is empowered.",
         notes: [
-            "This is a chain attack, after two attacks this ability changes into Lacerate.",
+            "This is a chained attack, after two attacks this ability changes into Lacerate.",
         ],
         ability_specials: [
             {
@@ -55,7 +55,7 @@ function GenerateLocalizationData() {
     Abilities.push({
         ability_classname: "m1_combo_hit_3",
         name: "Lacerate",
-        description: "A powerful final attack that deals damage and inflicts a bleed to all targets. Bleeds dealt by this ability are amplified by <b><font color=\"#6f92fc\">Envenom</font></b>.",
+        description: "Rogue ends with a deadly attack that deals damage and inflicts a bleed to all targets. Bleeds dealt by this ability are amplified by <b><font color=\"#6f92fc\">Envenom</font></b>.",
         notes: [
             "At the end of the attack this ability will change back into Slash.",
         ],
@@ -72,16 +72,12 @@ function GenerateLocalizationData() {
                 ability_special: "dmg_dot_base",
                 text: "BLEED DAMAGE:"
             },
-            {
-                ability_special: "bonus_bleed_percent",
-                text: "ENVENOM BONUS:"
-            },
         ]
     });
     Abilities.push({
         ability_classname: "m2_combo_breaker",
         name: "Assassinate",
-        description: "A powerful attack that consumes <font color=\"#9af9e0\">Lacerate</font> and <font color=\"#9af9e0\">Puncture</font> consuming the bleeds and dealing damage based on the bleeds duration remaining. If the caster has maximum stacks of <font color=\"#9af9e0\">Envenom</font> this attack consumes the stacks and gives the caster <font color=\"#6f92fc\">Adrenaline</font>.",
+        description: "Rogue assinates the targets with a strike that consumes the bleeds from <font color=\"#9af9e0\">Lacerate</font> and <font color=\"#9af9e0\">Rupture</font>, dealing damage based on their remaing duration. Additionally it will consume 3 stacks of <font color=\"#9af9e0\">Envenom</font> and grants <font color=\"#6f92fc\">Adrenaline</font>.",
         notes: [
             "Assassinate consumes the bleeds dealing damage based on the duration remaining times the damage per instance.",
         ],
@@ -100,17 +96,15 @@ function GenerateLocalizationData() {
             },
             {
                 ability_special: "energy_regen_bonus",
-                text: "ADRENALINE REGEN BONUS:"
+                text: "ADRENALINE ENERGY PER SECOND:"
             },
         ]
     });
     Abilities.push({
         ability_classname: "q_smoke_bomb",
         name: "Evasion",
-        description: "Instantly disappear in a cloud of smoke granting invulnerability for a brief moment and increasing movement speed.",
-        notes: [
-            "Assassinate consumes the bleeds dealing damage based on the duration remaining times the damage per instance.",
-        ],
+        description: "Rogue instantly disappears in a cloud of smoke, briefly granting invulnerability and increased movement speed.",
+        notes: [],
         ability_specials: [
             {
                 ability_special: "duration",
@@ -133,7 +127,7 @@ function GenerateLocalizationData() {
     Abilities.push({
         ability_classname: "e_swallow_potion",
         name: "Envenom",
-        description: "Envenom applies a debuff to enemies hit increasing the damage they take from all bleeds. Ability also generates <b><font color=\"#ffffff\">1</font></b> stack of Envenom per enemy hit stacking up to <b><font color=\"#ffffff\">3</font></b> times. Using Assassinate at maximum Envenom stacks grants the caster Adrenaline.",
+        description: "Rogue cuts all enemies infront of her with an envenomed blade, applying a debuff that increases the damage they take from all bleeds and gives rogue a stack of <font color=\"#9af9e0\">Envenom</font>",
         notes: [],
         ability_specials: [
             {
@@ -145,15 +139,16 @@ function GenerateLocalizationData() {
                 text: "DURATION:"
             },
             {
-                ability_special: "AbilityCastPoint",
-                text: "CAST POINT:"
+                ability_special: "bonus_bleed_percent",
+                text: "ENVENOM BONUS DAMAGE:",
+                percentage: true
             },
         ]
     });
     Abilities.push({
         ability_classname: "r_rupture",
         name: "Rupture",
-        description: "Fire a dagger that pierces through enemies applying a bleed to all enemies. Bleeds dealt by this ability are amplified by <b><font color=\"#6f92fc\">Envenom</font></b>.",
+        description: "Rogue throws a dagger that pierces through all enemies and applies a bleed. Bleeds dealt by this ability are amplified by <b><font color=\"#6f92fc\">Envenom</font></b>.",
         notes: [],
         ability_specials: [
             {
@@ -169,10 +164,6 @@ function GenerateLocalizationData() {
                 text: "BLEED DAMAGE:"
             },
             {
-                ability_special: "bonus_bleed_percent",
-                text: "ENVEOM BONUS:"
-            },
-            {
                 ability_special: "AbilityCastPoint",
                 text: "CAST POINT:"
             },
@@ -181,10 +172,8 @@ function GenerateLocalizationData() {
     Abilities.push({
         ability_classname: "space_shadowstep",
         name: "Shadowstep",
-        description: "Mark the ground with a special dagger.",
-        notes: [
-            'This is a combo ability, first cast will place the dagger, second cast will teleport the player to daggers location, third cast will teleport the player back.'
-        ],
+        description: "Rogue marks the ground with a shadowy dagger that can be teleported to.",
+        notes: [],
         ability_specials: [
             {
                 ability_special: "duration",
@@ -195,10 +184,8 @@ function GenerateLocalizationData() {
     Abilities.push({
         ability_classname: "space_shadowstep_teleport",
         name: "Jump",
-        description: "Jump to the special daggers location and place a dagger where you left from.",
-        notes: [
-            'This is a combo ability, first cast will place the dagger, second cast will teleport the player to daggers location, third cast will teleport the player back.'
-        ],
+        description: "Jump to dagger's location and place a dagger from the starting location.",
+        notes: [],
         ability_specials: [
             {
                 ability_special: "duration",
@@ -210,9 +197,7 @@ function GenerateLocalizationData() {
         ability_classname: "space_shadowstep_teleport_back",
         name: "Return",
         description: "Return to start location.",
-        notes: [
-            'This is a combo ability, first cast will place the dagger, second cast will teleport the player to daggers location, third cast will teleport the player back.'
-        ],
+        notes: [],
         ability_specials: []
     });
     // Return data to compiler

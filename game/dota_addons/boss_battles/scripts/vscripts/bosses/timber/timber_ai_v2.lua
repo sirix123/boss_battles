@@ -1,5 +1,6 @@
 LinkLuaModifier("modifier_remove_healthbar", "core/modifier_remove_healthbar", LUA_MODIFIER_MOTION_NONE)
 LinkLuaModifier("modifier_generic_everything_phasing", "core/modifier_generic_everything_phasing", LUA_MODIFIER_MOTION_NONE)
+LinkLuaModifier("chain_edge_bubble", "bosses/timber/chain_edge_bubble", LUA_MODIFIER_MOTION_NONE)
 
 timber_ai_v2 = class({})
 
@@ -163,7 +164,7 @@ function TimberThink()
 		end
 
 		-- fire shell logic
-		if thisEntity:GetHealthPercent() < 99 and thisEntity.fire_shell ~= nil and thisEntity.fire_shell:IsFullyCastable() and thisEntity.fire_shell:IsCooldownReady() then
+		if thisEntity:GetHealthPercent() < 99 and thisEntity.fire_shell ~= nil and thisEntity.fire_shell:IsFullyCastable() and thisEntity.fire_shell:IsCooldownReady() and thisEntity.fire_shell:IsInAbilityPhase() == false then
 			--print("casting fireshell")
 			return CastFireShell()
 		end
@@ -201,15 +202,7 @@ function TimberThink()
 		if thisEntity.createParticleOnce == true then
 			thisEntity.createParticleOnce = false
 
-			thisEntity.particle_bubble = ParticleManager:CreateParticle("particles/timber/timber_abaddon_aphotic_shield.vpcf", PATTACH_ABSORIGIN_FOLLOW, thisEntity)
-			local common_vector = Vector(250,0,250)
-			ParticleManager:SetParticleControl(thisEntity.particle_bubble , 1, common_vector)
-			ParticleManager:SetParticleControl(thisEntity.particle_bubble , 5, Vector(250,0,0))
-			ParticleManager:SetParticleControlEnt(thisEntity.particle_bubble , 0, thisEntity, PATTACH_POINT_FOLLOW, "attach_hitloc", thisEntity:GetAbsOrigin(), true)
-
-			local bubble = 1500
-			thisEntity.timberHP = thisEntity:GetHealth()
-			thisEntity.timberHP_bubble_expire = thisEntity.timberHP - bubble
+			thisEntity:AddNewModifier( thisEntity, nil, "chain_edge_bubble", { duration = -1 } )
 
 		end
 
@@ -253,13 +246,6 @@ end
 
 function FindUnitsCloseAndBubbleGone()
 
-	if thisEntity:GetHealth() < thisEntity.timberHP_bubble_expire then
-		-- destroy particle if exists
-		if thisEntity.particle_bubble then
-			ParticleManager:DestroyParticle(thisEntity.particle_bubble ,true)
-		end
-	end
-
 	-- find closet player
 	local enemies = FindUnitsInRadius(
 		thisEntity:GetTeamNumber(),
@@ -274,12 +260,7 @@ function FindUnitsCloseAndBubbleGone()
 
 	if #enemies == 0 or enemies == nil then
 		return false
-	elseif #enemies >= 1 and thisEntity:GetHealth() < thisEntity.timberHP_bubble_expire then
-
-		if thisEntity.particle_bubble then
-			ParticleManager:DestroyParticle(thisEntity.particle_bubble ,true)
-		end
-
+	elseif #enemies >= 1 and thisEntity:HasModifier("chain_edge_bubble") ~= true then
 		return true
 	end
 end

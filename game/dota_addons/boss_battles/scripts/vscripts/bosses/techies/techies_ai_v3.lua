@@ -148,7 +148,7 @@ function TechiesThinker()
         -- copy the hero list
         local techies_hero_list = HERO_LIST
 
-        local debug = true
+        local debug = false
 
         if #techies_hero_list == 4 then
             for _, player in pairs(techies_hero_list) do

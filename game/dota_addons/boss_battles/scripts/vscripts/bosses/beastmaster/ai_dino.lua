@@ -58,7 +58,7 @@ function DinoThink()
 		return 0.5
 	end
 
-	print("thisEntity.STATE ,", thisEntity.STATE)
+	--print("thisEntity.STATE ,", thisEntity.STATE)
 
 	-- state 1
 	-- dino waits until charge is off CD sitting in the corner, charge off cd, finds a target and charges at them
@@ -79,7 +79,7 @@ function DinoThink()
 					false )
 
 				if #enemies == 0 or enemies == nil then
-					print("cant find enemies")
+					--print("cant find enemies")
 					return 0.5
 				else
 					thisEntity.charge_target = enemies[RandomInt(1,#enemies)]
@@ -115,16 +115,16 @@ function DinoThink()
 		-- stuff that happens after the windup/castpoint
 		if thisEntity:HasModifier("modifier_generic_arc_lua") == false and thisEntity.dino_charge:IsInAbilityPhase() == false and thisEntity.charge_target ~= nil then
 
-			print("distance, ",distance)
+			--print("distance, ",distance)
 			local distance = ( thisEntity:GetAbsOrigin() - thisEntity.charge_target:GetAbsOrigin() ):Length2D()
 
 			if distance < 150 then
-				print("are we close to the player")
+				--print("are we close to the player")
 				thisEntity.STATE = 2
-				return 1
+				return 3
 			else
 				thisEntity.STATE = 3
-				return 1
+				return 3
 			end
 		end
 

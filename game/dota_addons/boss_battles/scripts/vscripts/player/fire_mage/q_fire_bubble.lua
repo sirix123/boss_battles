@@ -4,8 +4,6 @@ LinkLuaModifier( "q_fire_bubble_modifier", "player/fire_mage/modifiers/q_fire_bu
 function q_fire_bubble:OnAbilityPhaseStart()
     if IsServer() then
 
-        self:GetCaster():StartGestureWithPlaybackRate(ACT_DOTA_CAST_ABILITY_1, 1.0)
-
         local units = FindUnitsInRadius(
             self:GetCaster():GetTeamNumber(),
             Clamp(self:GetCaster():GetOrigin(), Vector(self:GetCaster().mouse.x, self:GetCaster().mouse.y, self:GetCaster().mouse.z), self:GetCastRange(Vector(0,0,0), nil), 0),
@@ -18,6 +16,7 @@ function q_fire_bubble:OnAbilityPhaseStart()
             false)
 
         if units == nil or #units == 0 then
+            FireGameEvent("dota_hud_error_message", { reason = 80, message = "Out of range or no target" })
             return false
         else
 

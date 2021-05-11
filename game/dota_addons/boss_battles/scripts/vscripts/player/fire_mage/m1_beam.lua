@@ -69,7 +69,7 @@ function m1_beam:OnSpellStart()
         self.beam_point = self.origin + caster_forward * beam_length
 
         --self.beam_point = Vector(0,0,0)
-        local particleName = "particles/econ/items/phoenix/phoenix_solar_forge/phoenix_sunray_solar_forge.vpcf"
+        local particleName = "particles/fire_mage/lina_phoenix_sunray_solar_forge.vpcf"
         self.pfx = ParticleManager:CreateParticle( particleName, PATTACH_ABSORIGIN, self.caster )
 
         -- particle effect timer

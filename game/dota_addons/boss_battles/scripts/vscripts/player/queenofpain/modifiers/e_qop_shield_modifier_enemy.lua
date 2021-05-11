@@ -32,7 +32,7 @@ function e_qop_shield_modifier_enemy:OnCreated( kv )
 		self.caster = self:GetCaster()
 		self.parent = self:GetParent()
 
-        self.damage_factor = self:GetAbility():GetSpecialValueFor( "dmg_multiplier" )
+        self.damage_factor = self:GetAbility():GetSpecialValueFor( "dmg_multiplier" ) / 100
 
         local modifier = "m2_qop_stacks"
         local stacks = 0
@@ -89,7 +89,7 @@ end
 
 function e_qop_shield_modifier_enemy:DeclareFunctions()
 	return {
-		MODIFIER_EVENT_ON_TAKEDAMAGE
+		MODIFIER_EVENT_ON_TAKEDAMAGE,
 	}
 end
 

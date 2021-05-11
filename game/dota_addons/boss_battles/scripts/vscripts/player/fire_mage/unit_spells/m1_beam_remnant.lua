@@ -15,18 +15,32 @@ function m1_beam_remnant:OnAbilityPhaseStart()
             false )
 
         if #enemies == 0 or enemies == nil then
-            --print("#enemies= 0, / cant find any")
             return false
         else
-            for i = 1, #enemies, 1 do
-                if CheckGlobalUnitTableForUnitName(enemies[i]) == nil then
+            self.target = enemies[1]
+
+            if CheckGlobalUnitTableForUnitName(self.target) == nil then
+                self.tProjs = {}
+                self.target = enemies[1]
+                self.create_particle = true
+                return true
+            else
+                local attempts_to_find_target = 5
+                local count = 0
+                while ( CheckGlobalUnitTableForUnitName(self.target) == true ) do
+                    self.target = enemies[RandomInt(1, #enemies)]
+                    if attempts_to_find_target >= count then
+                        return false
+                    end
+                    count = count + 1
+                end
+
+                if self.target ~= nil then
+                    self.tProjs = {}
                     self.create_particle = true
-                    self.beam_point = Vector(0,0,0)
-                    self.target = enemies[i]
-                    --print("self.target ",self.target:GetUnitName())
                     return true
                 else
-                    --print("self.target ",self.target:GetUnitName())
+                    return false
                 end
             end
         end
@@ -82,7 +96,7 @@ function m1_beam_remnant:OnChannelThink( flinterval )
         if self.create_particle == true then
             --EmitSoundOn("Hero_Phoenix.SunRay.Cast", self:GetCaster())
 
-            local particleName = "particles/econ/items/phoenix/phoenix_solar_forge/phoenix_sunray_solar_forge.vpcf"
+            local particleName = "particles/fire_mage/lina_phoenix_sunray_solar_forge.vpcf"
             self.pfx = ParticleManager:CreateParticle( particleName, PATTACH_ABSORIGIN, self:GetCaster() )
             self.create_particle = false
         end

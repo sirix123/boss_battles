@@ -48,6 +48,8 @@ function GameSetup:init()
     ListenToGameEvent('entity_killed', Dynamic_Wrap(self, 'OnEntityKilled'), self) --
     ListenToGameEvent('entity_hurt', Dynamic_Wrap(self, 'OnEntityHurt'), self)
     ListenToGameEvent('player_reconnected', Dynamic_Wrap(self, 'OnPlayerReconnected'), self)
+    ListenToGameEvent('player_disconnect', Dynamic_Wrap(self, 'OnPlayerDisconnected'), self)
+
     --ListenToGameEvent('player_team', Dynamic_Wrap(self, 'OnPlayerTeamChange'), self)
 
 end
@@ -96,6 +98,16 @@ function GameSetup:OnStateChange()
 end
 --------------------------------------------------------------------------------------------------
 
+function GameSetup:OnPlayerDisconnected(keys)
+    print("GameSetup:OnPlayerDisconnected(keys) ",keys)
+
+    for key, v in pairs(keys) do
+        print("key, ",key,"v, ",v)
+    end
+
+end
+--------------------------------------------------------------------------------------------------
+
 function GameSetup:OnPlayerReconnected(keys)
     print("GameSetup:OnPlayerReconnected(keys) ",keys)
 
@@ -128,14 +140,6 @@ function GameSetup:OnPlayerReconnected(keys)
         return 1
     end)
 end
---------------------------------------------------------------------------------------------------
---[[
-function GameSetup:OnPlayerTeamChange(keys)
-    print("GameRules:State_Get() ", GameRules:State_Get())
-    if GameRules:State_Get() >= DOTA_GAMERULES_STATE_GAME_IN_PROGRESS then
-        print("keys.disconnect ", keys.disconnect)
-    end
-end]]
 --------------------------------------------------------------------------------------------------
 
 function GameSetup:OnNPCSpawned(keys)
@@ -195,7 +199,7 @@ function GameSetup:OnNPCSpawned(keys)
         --print("on spanwed lives ", npc.playerLives )
 
         if IsInToolsMode() == true then
-            npc:AddNewModifier( npc,  nil, "admin_god_mode", { } )
+            --npc:AddNewModifier( npc,  nil, "admin_god_mode", { } )
         end
 
         -- level up abilities for all heroes to level 1
@@ -241,6 +245,7 @@ function GameSetup:RegisterRaidWipe( )
 
                             elseif NORMAL_MODE == true or HARD_MODE == true then -- 3 lives, one earned for each player after a boss kill, if players all die to a boss reset back to the first boss
                                 killedHero.playerLives = BOSS_BATTLES_PLAYER_LIVES
+                                self.previous_encounter = BOSS_BATTLES_ENCOUNTER_COUNTER
                                 BOSS_BATTLES_ENCOUNTER_COUNTER = 2
 
                             elseif DEBUG_MODE == true then -- not sure yet
@@ -258,7 +263,11 @@ function GameSetup:RegisterRaidWipe( )
                         end
 
                         -- call boss cleanup function
-                        self:EncounterCleanUp( Entities:FindByName(nil, RAID_TABLES[BOSS_BATTLES_ENCOUNTER_COUNTER].arena):GetAbsOrigin() )
+                        if STORY_MODE == true then
+                            self:EncounterCleanUp( Entities:FindByName(nil, RAID_TABLES[BOSS_BATTLES_ENCOUNTER_COUNTER].arena):GetAbsOrigin() )
+                        elseif NORMAL_MODE == true or HARD_MODE == true then
+                            self:EncounterCleanUp( Entities:FindByName(nil, RAID_TABLES[self.previous_encounter].arena):GetAbsOrigin() )
+                        end
 
                         -- reset death counter
                         self.player_deaths = {}
@@ -325,8 +334,6 @@ function GameSetup:OnEntityKilled(keys)
                     if hero.playerLives < 3 then
                         hero.playerLives = hero.playerLives + 1
                     end
-                elseif DEBUG_MODE == true then -- not sure yet
-
                 end
 
                 if hero:IsAlive() == true then
@@ -339,7 +346,7 @@ function GameSetup:OnEntityKilled(keys)
             end
 
             -- move alive players to intermission area
-            Timers:CreateTimer(1.0, function()
+            Timers:CreateTimer(2.5, function()
                 heroes = HERO_LIST --HeroList:GetAllHeroes()
                 for _,hero in pairs(heroes) do
 
@@ -357,7 +364,7 @@ function GameSetup:OnEntityKilled(keys)
 
             end)
 
-            Timers:CreateTimer(2.0, function()
+            Timers:CreateTimer(4.5, function()
                 -- clean up enounter
                 self:EncounterCleanUp( self.boss_spawn )
             end)
@@ -417,7 +424,8 @@ function GameSetup:OnEntityHurt(keys)
                 local word_length = string.len(tostring(math.floor(keys.damage)))
 
                 local color =  Vector(255, 255, 255)
-                local effect_cast = ParticleManager:CreateParticle("particles/custom_msg_damage.vpcf", PATTACH_WORLDORIGIN, nil) --particles/custom_msg_damage.vpcf particles/msg_fx/msg_damage.vpcf
+                --local effect_cast = ParticleManager:CreateParticle("particles/custom_msg_damage.vpcf", PATTACH_WORLDORIGIN, nil) --particles/custom_msg_damage.vpcf particles/msg_fx/msg_damage.vpcf
+                local effect_cast = ParticleManager:CreateParticleForPlayer( "particles/custom_msg_damage.vpcf", PATTACH_WORLDORIGIN , entAttacker, entAttacker:GetPlayerOwner() )
                 ParticleManager:SetParticleControl(effect_cast, 0, entVictim:GetAbsOrigin())
                 ParticleManager:SetParticleControl(effect_cast, 1, Vector(0, keys.damage, 0))
                 ParticleManager:SetParticleControl(effect_cast, 2, Vector(0.5, word_length, 0)) --vector(math.max(1, keys.damage / 10), word_length, 0))
@@ -450,6 +458,8 @@ function GameSetup:ReadyupCheck() -- called from trigger lua file for activators
     self.player_arena_name   = RAID_TABLES[BOSS_BATTLES_ENCOUNTER_COUNTER].arena
 
     self:EncounterCleanUp( Entities:FindByName(nil, self.boss_arena_name):GetAbsOrigin() )
+
+    PLAYERS_FIGHTING_BOSS = true
 
     Timers:CreateTimer(1.0, function()
 
@@ -498,11 +508,11 @@ function GameSetup:HeroKilled( keys )
     killedHero.playerLives = killedHero.playerLives - 1
     --print("OnEntityKilled lives ", killedHero.playerLives )
 
-    self.playerDeaths = self.playerDeaths + 1
+    killedHero.playerDeaths = killedHero.playerDeaths + 1
 
     if killedHero.playerLives <= 0 then
         table.insert(self.player_deaths, killedHero)
-        self.respawn_time = 999
+        self.respawn_time = 9999
 
         -- disable the camera so they can move around freely
         PlayerManager:CameraControl( killedPlayerID, 0 ) -- 0 = disable camera, 1 = enable camera
@@ -536,6 +546,7 @@ function GameSetup:EncounterCleanUp( origin )
     --print("cleaning up encounter ", RAID_TABLES[BOSS_BATTLES_ENCOUNTER_COUNTER].name)
 
     --GameRules:SetTreeRegrowTime( 1.0 )
+    PLAYERS_FIGHTING_BOSS = false
 
     DestroyItems( origin )
 

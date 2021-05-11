@@ -19,14 +19,28 @@ function e_fireball_remnant:OnAbilityPhaseStart()
         if #enemies == 0 or enemies == nil then
             return false
         else
-            for i = 1, #enemies, 1 do
-                if CheckGlobalUnitTableForUnitName(enemies[i]) == nil then
+            self.target = enemies[1]
+
+            if CheckGlobalUnitTableForUnitName(self.target) == nil then
+                self.tProjs = {}
+                self.target = enemies[1]
+                return true
+            else
+                local attempts_to_find_target = 5
+                local count = 0
+                while ( CheckGlobalUnitTableForUnitName(self.target) == true ) do
+                    self.target = enemies[RandomInt(1, #enemies)]
+                    if attempts_to_find_target >= count then
+                        return false
+                    end
+                    count = count + 1
+                end
+
+                if self.target ~= nil then
                     self.tProjs = {}
-                    self.target = enemies[1]
-                    --print("self.target ",self.target:GetUnitName())
                     return true
                 else
-                    --print("self.target ",self.target:GetUnitName())
+                    return false
                 end
             end
         end

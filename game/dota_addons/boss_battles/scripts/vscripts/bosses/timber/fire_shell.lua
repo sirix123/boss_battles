@@ -115,7 +115,7 @@ function fire_shell:OnSpellStart()
 			for i = 1, #tProjectilesDirection, 1 do
 
 				local projectile = {
-					EffectName = "particles/timber/napalm_wave_basedtidehuntergushupgrade.vpcf", --particles/tinker/iceshot__invoker_chaos_meteor.vpcf particles/tinker/blue_tinker_missile.vpcf
+					EffectName = "particles/timber/ltimber_fireshell_inear_lina_base_attack.vpcf", --particles/tinker/iceshot__invoker_chaos_meteor.vpcf particles/tinker/blue_tinker_missile.vpcf
 					vSpawnOrigin = origin,
 					fDistance = 2000,
 					fUniqueRadius = radius,
@@ -126,6 +126,7 @@ function fire_shell:OnSpellStart()
 					WallBehavior = PROJECTILES_DESTROY,
 					GroundBehavior = PROJECTILES_NOTHING,
 					fGroundOffset = 80,
+					draw = false,
 					UnitTest = function(_self, unit)
 						return unit:GetModelName() ~= "models/development/invisiblebox.vmdl" and CheckGlobalUnitTableForUnitName(unit) ~= true and unit:GetTeamNumber() ~= caster:GetTeamNumber()
 					end,
@@ -143,8 +144,22 @@ function fire_shell:OnSpellStart()
 
 						ApplyDamage( damageTable )
 
+						local particle_cast = "particles/units/heroes/hero_lina/lina_base_attack_explosion.vpcf"
+						local effect_cast = ParticleManager:CreateParticle(particle_cast, PATTACH_WORLDORIGIN, nil)
+						ParticleManager:SetParticleControl(effect_cast, 0, unit:GetAbsOrigin())
+						ParticleManager:SetParticleControl(effect_cast, 3, unit:GetAbsOrigin())
+						ParticleManager:ReleaseParticleIndex(effect_cast)
+
 					end,
 					OnFinish = function(_self, pos)
+
+						--
+						local particle_cast = "particles/units/heroes/hero_lina/lina_base_attack_explosion.vpcf"
+						local effect_cast = ParticleManager:CreateParticle(particle_cast, PATTACH_WORLDORIGIN, nil)
+						ParticleManager:SetParticleControl(effect_cast, 0, pos)
+						ParticleManager:SetParticleControl(effect_cast, 3, pos)
+						ParticleManager:ReleaseParticleIndex(effect_cast)
+
 					end,
 				}
 

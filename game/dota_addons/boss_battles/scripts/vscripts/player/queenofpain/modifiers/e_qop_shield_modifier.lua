@@ -32,9 +32,9 @@ function e_qop_shield_modifier:OnCreated( kv )
         end
 
         if stacks == 2 then
-            self.max_shield = self.max_shield * 4
+            self.max_shield = self.max_shield * 2
         elseif stacks == 3 then
-            self.max_shield = self.max_shield * 8
+            self.max_shield = self.max_shield * 4
         end
 
         self.shield_remaining = self.max_shield

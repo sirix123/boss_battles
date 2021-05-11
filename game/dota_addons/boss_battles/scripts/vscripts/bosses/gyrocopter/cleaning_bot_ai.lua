@@ -10,9 +10,11 @@ function Spawn( entityKeyValues )
 	thisEntity:AddNewModifier( nil, nil, "modifier_phased", { duration = -1 })
     thisEntity:AddNewModifier( nil, nil, "modifier_invulnerable", { duration = -1 })
 
+    thisEntity.cleaning_bot_explode = thisEntity:FindAbilityByName( "cleaning_bot_explode" )
+
 	thisEntity:SetHullRadius(80)
 
-    thisEntity.STATE = 1
+    thisEntity.STATE = 4
 
     thisEntity.moving = false
 
@@ -165,39 +167,8 @@ function CleaningThinker()
             end
 
             if enemies == nil or #enemies == 0 then
-
-                local enemies_everywhere = FindUnitsInRadius(
-                    thisEntity:GetTeamNumber(),	-- int, your team number
-                    thisEntity:GetAbsOrigin(),	-- point, center point
-                    nil,	-- handle, cacheUnit. (not known)
-                    FIND_UNITS_EVERYWHERE,	-- float, radius. or use FIND_UNITS_EVERYWHERE
-                    DOTA_UNIT_TARGET_TEAM_ENEMY,	-- int, team filter
-                    DOTA_UNIT_TARGET_HERO,	-- int, type filter
-                    DOTA_UNIT_TARGET_FLAG_INVULNERABLE,	-- int, flag filter
-                    FIND_CLOSEST,	-- int, order filter
-                    false	-- bool, can grow cache
-                    )
-
-
-                if enemies_everywhere ~= nil and #enemies_everywhere ~= 0 then
-                    for _, enemy in pairs(enemies_everywhere) do
-
-                        local info = {
-                            EffectName = "particles/units/heroes/hero_necrolyte/necrolyte_pulse_enemy.vpcf",
-                            Ability = nil,
-                            iMoveSpeed = 1500,
-                            Source = thisEntity,
-                            Target = enemy,
-                            bDodgeable = false,
-                            iSourceAttachment = DOTA_PROJECTILE_ATTACHMENT_HITLOCATION,
-                            bProvidesVision = true,
-                            iVisionTeamNumber = thisEntity:GetTeamNumber(),
-                            iVisionRadius = 300,
-                        }
-
-                        ProjectileManager:CreateTrackingProjectile( info )
-
-                    end
+                if thisEntity.cleaning_bot_explode:IsFullyCastable() and thisEntity.cleaning_bot_explode:IsCooldownReady() and thisEntity.cleaning_bot_explode:IsInAbilityPhase() == false then
+                    return CastExplode()
                 end
             end
 
@@ -213,23 +184,13 @@ function CleaningThinker()
 end
 --------------------------------------------------------------------------------
 
-function cleaning_bot_ai:OnProjectileHit( hTarget, vLocation)
-    if IsServer() then
+function CastExplode()
 
-        if hTarget == nil then return end
+	ExecuteOrderFromTable({
+		UnitIndex = thisEntity:entindex(),
+		OrderType = DOTA_UNIT_ORDER_CAST_NO_TARGET,
+		AbilityIndex = thisEntity.cleaning_bot_explode:entindex(),
+		Queue = false,
+	})
 
-        local particle_burn_fx = ParticleManager:CreateParticle("particles/units/heroes/hero_obsidian_destroyer/obsidian_destroyer_sanity_eclipse_mana_loss.vpcf", PATTACH_ABSORIGIN_FOLLOW, thisEntity)
-        ParticleManager:SetParticleControl(particle_burn_fx, 0, hTarget:GetAbsOrigin())
-        ParticleManager:ReleaseParticleIndex(particle_burn_fx)
-
-        local dmgTable = {
-            victim = hTarget,
-            attacker = thisEntity,
-            damage = 300,
-            damage_type = DAMAGE_TYPE_PHYSICAL,
-        }
-
-        ApplyDamage(dmgTable)
-
-    end
 end

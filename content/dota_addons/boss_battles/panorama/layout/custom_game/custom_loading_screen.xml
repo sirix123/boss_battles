@@ -17,7 +17,7 @@
 
 				<!-- RANK -->
 				<Panel id="header_bossFight_rank_container" class="header_container_small">
-                  	<Label text="'#'" class="header_bossFight_heading_text" id="header_bossFight_heading_text"/>
+                  	<Label text="" class="header_bossFight_heading_text" id="header_bossFight_heading_text"/>
 				</Panel>
 
 				<!-- PLAYERS -->

@@ -5,7 +5,7 @@ LinkLuaModifier("e_qop_shield_modifier_enemy", "player/queenofpain/modifiers/e_q
 function e_qop_shield:OnAbilityPhaseStart()
     if IsServer() then
 
-        self:GetCaster():StartGestureWithPlaybackRate(ACT_DOTA_CAST_ABILITY_3, 1.0)
+        
 
         local units = FindUnitsInRadius(
             self:GetCaster():GetTeamNumber(),
@@ -19,9 +19,10 @@ function e_qop_shield:OnAbilityPhaseStart()
             false)
 
         if units == nil or #units == 0 then
+            --FireGameEvent("dota_hud_error_message", { reason = 80, message = "Out of range or no target" })
             return false
         else
-
+            self:GetCaster():StartGestureWithPlaybackRate(ACT_DOTA_CAST_ABILITY_3, 1.0)
             self.target = units[1]
 
             return true

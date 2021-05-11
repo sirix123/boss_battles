@@ -20,7 +20,7 @@ background + loadingscreen for leaderboard
 }
 
 #LoadingScreenLeaderBoard{
-	width: 30%;
+	width: 40%;
     height: 80%;
 	horizontal-align: left;
     vertical-align: top;
@@ -45,7 +45,7 @@ background + loadingscreen for leaderboard
 socials
 ----------------------------------------------------------------*/
 #SocialsContainer{
-	width: 30%;
+	width: 40%;
     height: 5%;
 	horizontal-align: left;
     vertical-align: top;
@@ -78,7 +78,7 @@ socials
 leaderboard containers
 ----------------------------------------------------------------*/
 #LeaderboardContainer{
-	width: 30%;
+	width: 40%;
     height: 80%;
 	flow-children: down;
 	horizontal-align: left;

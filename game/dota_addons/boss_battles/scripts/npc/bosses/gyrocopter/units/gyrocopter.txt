@@ -418,7 +418,7 @@
 
 		// Abilities
 		//----------------------------------------------------------------
-		"Ability1"					""			
+		"Ability1"					"cleaning_bot_explode"			
 		"Ability2"					""
 		"Ability3"					""
 		"Ability5"					""

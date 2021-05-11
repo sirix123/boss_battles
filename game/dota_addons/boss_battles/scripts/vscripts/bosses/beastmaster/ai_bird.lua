@@ -236,6 +236,10 @@ function BirdThinker()
                 thisEntity.target:RemoveModifierByName("grab_player_modifier")
             end
 
+            if thisEntity.target:HasModifier("bird_mark_modifier") ~= nil then
+                thisEntity.target:RemoveModifierByName("bird_mark_modifier")
+            end
+
             -- put the spell on CD
             thisEntity.grab_player:StartCooldown(25)
 

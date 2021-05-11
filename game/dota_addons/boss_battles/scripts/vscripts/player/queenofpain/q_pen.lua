@@ -18,6 +18,7 @@ function q_pen:OnAbilityPhaseStart()
             false)
 
         if units == nil or #units == 0 then
+            --FireGameEvent("dota_hud_error_message", { reason = 80, message = "Out of range or no target" })
             return false
         else
 
@@ -119,6 +120,8 @@ end
 function q_pen:OnProjectileHit( hTarget, vLocation)
     if IsServer() then
         if hTarget == nil then return end
+
+        self.caster:Heal(self.heal_amount, self.caster)
 
         if hTarget:GetTeam() == DOTA_TEAM_GOODGUYS then
 

@@ -45,6 +45,7 @@ function enrage:DeclareFunctions()
 	local funcs =
 	{
 		MODIFIER_PROPERTY_BASEATTACK_BONUSDAMAGE,
+		MODIFIER_PROPERTY_MODEL_SCALE,
 	}
 	return funcs
 end
@@ -56,3 +57,7 @@ function enrage:GetModifierBaseAttack_BonusDamage( params )
 end
 
 --------------------------------------------------------------------------------
+
+function enrage:GetModifierModelScale()
+	return 50
+end

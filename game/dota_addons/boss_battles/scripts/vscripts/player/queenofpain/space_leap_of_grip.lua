@@ -4,8 +4,6 @@ LinkLuaModifier("space_leap_of_grip_modifier", "player/queenofpain/modifiers/spa
 function space_leap_of_grip:OnAbilityPhaseStart()
     if IsServer() then
 
-        self:GetCaster():StartGestureWithPlaybackRate(ACT_DOTA_CAST_ABILITY_3, 1.0)
-
         local units = FindUnitsInRadius(
             self:GetCaster():GetTeamNumber(),
             Clamp(self:GetCaster():GetOrigin(), Vector(self:GetCaster().mouse.x, self:GetCaster().mouse.y, self:GetCaster().mouse.z), self:GetCastRange(Vector(0,0,0), nil), 0),
@@ -18,8 +16,10 @@ function space_leap_of_grip:OnAbilityPhaseStart()
             false)
 
         if units == nil or #units == 0 then
+            FireGameEvent("dota_hud_error_message", { reason = 80, message = "Out of range or no target" })
             return false
         else
+            self:GetCaster():StartGestureWithPlaybackRate(ACT_DOTA_CAST_ABILITY_3, 1.0)
             self.target = units[1]
             return true
         end

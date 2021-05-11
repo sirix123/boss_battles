@@ -388,6 +388,46 @@
             //"soundfile"  "soundevents/game_sounds_heroes/game_sounds_obsidian_destroyer.vsndevts"
 		}
     }
+
+    //=================================================================================================================
+    // cleaning_bot_explode
+    //=================================================================================================================
+    "cleaning_bot_explode"
+    { 
+        "BaseClass"                     "ability_lua"
+        "ScriptFile"                    "bosses/gyrocopter/cleaning_bot_explode"
+        "MaxLevel"						"4"
+
+        // General
+        //-------------------------------------------------------------------------------------------------------------
+        "AbilityBehavior"               "DOTA_ABILITY_BEHAVIOR_NO_TARGET | DOTA_ABILITY_BEHAVIOR_DONT_CANCEL_MOVEMENT | DOTA_ABILITY_BEHAVIOR_IMMEDIATE"
+        "AbilityUnitDamageType"         "DAMAGE_TYPE_PHYSICAL"  
+
+        // Casting
+        //-------------------------------------------------------------------------------------------------------------
+        "AbilityCastPoint"              "0.0 0.0 0.0 0.0"
+        "AbilityCastRange" 				"5000"
+
+        // Time     
+        //-------------------------------------------------------------------------------------------------------------
+        "AbilityCooldown"               "0 0 0 0"
+
+        // Cost
+        //-------------------------------------------------------------------------------------------------------------
+        "AbilityManaCost"               "0"
+
+        // Special
+        //-------------------------------------------------------------------------------------------------------------
+		"AbilitySpecial"
+		{
+		}
+
+        "precache"
+		{
+			//"soundfile"  "sounds/weapons/hero/techies/land_mine_plant.vsnd"
+            //"soundfile"  "soundevents/game_sounds_heroes/game_sounds_obsidian_destroyer.vsndevts"
+		}
+    }
 }
 
 

@@ -127,7 +127,7 @@ function generic_cube_bomb_modifier:OnDestroy()
                 {
                     victim = unit,
                     attacker = self:GetCaster(),
-                    damage = 280,
+                    damage = 200,
                     damage_type = DAMAGE_TYPE_PHYSICAL,
                 }
 

@@ -8,6 +8,8 @@ function roar:OnAbilityPhaseStart()
 
         self:GetCaster():AddNewModifier( self:GetCaster(), self, "modifier_rooted", { duration = self:GetCastPoint() + self:GetSpecialValueFor( "duration" ) } )
 
+        EmitSoundOn("beastmaster_beas_attack_12", self:GetCaster())
+
         return true
     end
 end
@@ -92,6 +94,15 @@ function roar:OnSpellStart()
                 unit:AddNewModifier(self:GetCaster(), self, "modifier_generic_silenced", {duration = 1})
             end
         end
+
+        if count == 0 then
+            if self.units ~= nil and #self.units ~= 0 then
+                for _, unit in pairs(self.units) do
+                    unit:AddNewModifier(self:GetCaster(), self, "modifier_generic_silenced", {duration = 3})
+                end
+            end
+        end
+
 
         count = count + 0.5
         return 0.5

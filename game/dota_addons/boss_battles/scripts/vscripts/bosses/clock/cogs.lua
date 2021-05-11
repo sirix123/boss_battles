@@ -59,6 +59,13 @@ function cogs:OnSpellStart()
             -- create cog
             local cog = CreateUnitByName("npc_cog", vCogSpawn, true, caster, caster, caster:GetTeamNumber())
 
+            local units = FindUnitsInRadius(caster:GetTeamNumber(), vCogSpawn, nil, nCogRadius + 50, DOTA_UNIT_TARGET_TEAM_ENEMY, DOTA_UNIT_TARGET_HERO, DOTA_UNIT_TARGET_FLAG_MAGIC_IMMUNE_ENEMIES + DOTA_UNIT_TARGET_FLAG_INVULNERABLE, FIND_ANY_ORDER, false)
+            for _, unit in pairs(units) do
+                if units ~= nil and #units ~= 0 then
+                    FindClearSpaceForUnit(unit, unit:GetAbsOrigin(), false)
+                end
+            end
+
             -- set cog hull radius
             cog:SetHullRadius(150)
 
@@ -79,18 +86,9 @@ function cogs:OnSpellStart()
 
         end
 
-        --[[ find everyone within or on the cogs radius and pull them into the centre
-        local units = FindUnitsInRadius(caster:GetTeamNumber(), caster:GetAbsOrigin(), nil, nCogRadius + 100, DOTA_UNIT_TARGET_TEAM_BOTH, DOTA_UNIT_TARGET_HERO + DOTA_UNIT_TARGET_CREEP, DOTA_UNIT_TARGET_FLAG_MAGIC_IMMUNE_ENEMIES + DOTA_UNIT_TARGET_FLAG_INVULNERABLE, FIND_ANY_ORDER, false)
-        for _, unit in pairs(units) do
-            if (unit:GetAbsOrigin() - caster:GetAbsOrigin()):Length2D() <= nCogRadius then
-                if unit:GetTeamNumber() == self:GetCaster():GetTeamNumber() then
-                    FindClearSpaceForUnit(unit, unit:GetAbsOrigin(), false)
-                else
-                    FindClearSpaceForUnit(unit, self:GetCaster():GetAbsOrigin() + RandomVector(80), false)
-                end
-            else
-                FindClearSpaceForUnit(unit, unit:GetAbsOrigin(), false)
-            end
+        --[[ find people near the cog and move them
+        for _, cog in pairs(tCogs) do
+
         end]]
 
         -- play particle effect (around clock centrally cause getting close to him is death)

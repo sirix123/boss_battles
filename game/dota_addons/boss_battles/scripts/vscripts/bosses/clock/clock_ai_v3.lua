@@ -684,7 +684,7 @@ function CheckFurnace()
 
 	-- check if furnace count is increasing every 2mins
 	-- 120
-	Timers:CreateTimer(70,function()
+	Timers:CreateTimer(60,function()
 		if IsValidEntity(thisEntity) == false then return false end
 		if ( not thisEntity:IsAlive() ) then
 			thisEntity.i = 0
@@ -757,9 +757,9 @@ function CheckFurnace()
 				thisEntity:AddNewModifier( nil, nil, "enrage", { duration = -1 } )
 			end)
 
-			return 160
+			return 100
 		else
-			return 160
+			return 100
 		end
 
 	end)

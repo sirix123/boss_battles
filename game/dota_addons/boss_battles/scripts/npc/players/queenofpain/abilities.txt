@@ -144,8 +144,8 @@
 		"AbilitySpecial"
 		{
 			"01"{ "var_type"			"FIELD_INTEGER"		"duration"				"15" }
-			"02"{ "var_type"			"FIELD_INTEGER"		"base_bubble"			"100" }
-			"03"{ "var_type"			"FIELD_FLOAT"		"dmg_multiplier"		"0.25" }
+			"02"{ "var_type"			"FIELD_INTEGER"		"base_bubble"			"100 200 400" }
+			"03"{ "var_type"			"FIELD_FLOAT"		"dmg_multiplier"		"25 50 100" }
 			"04"{ "var_type"			"FIELD_INTEGER"		"enemy_cooldown"		"30" }
 		}
 

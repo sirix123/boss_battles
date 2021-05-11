@@ -22,11 +22,14 @@ _G.tUNIT_TABLE =
     "npc_rubick",
     "npc_lina_remant",
     "npc_cleaning_bot",
+    "npc_beastmaster_dino",
+    "npc_rock_techies",
 }
 
 _G.UNQIUE_INT = 0
 
 _G.PICKING_DONE = false
+_G.PLAYERS_FIGHTING_BOSS = false
 
 _G.HERO_LIST = {}
 

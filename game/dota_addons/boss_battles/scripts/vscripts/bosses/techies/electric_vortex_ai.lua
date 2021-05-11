@@ -108,8 +108,16 @@ function ElectricTurretThink_v2()
 
 			thisEntity.randomTarget = targets[RandomInt(1, #targets)]
 
-			while (thisEntity.randomTarget:GetUnitName() == "npc_rock_techies") do
+			--while (thisEntity.randomTarget:GetUnitName() == "npc_rock_techies") do
+			local attempts_to_find_target = 10
+			local count = 0
+			while ( CheckGlobalUnitTableForUnitName(thisEntity.randomTarget) == true ) do
 				thisEntity.randomTarget = targets[RandomInt(1, #targets)]
+				if attempts_to_find_target >= count then
+					thisEntity.PHASE = 3
+					break
+				end
+				count = count + 1
 			end
 
 			EmitSoundOn("techies_tech_trapgoesoff_01", thisEntity)

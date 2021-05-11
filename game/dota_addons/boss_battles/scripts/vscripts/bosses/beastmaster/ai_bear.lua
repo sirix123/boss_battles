@@ -101,6 +101,9 @@ end
 
 function TargetingTimer()
 	Timers:CreateTimer(3.0,function()
+		if IsValidEntity(boss) ==  false then
+			return false
+		end
 
 		local bear_enemies = FindUnitsInRadius(
 			DOTA_TEAM_BADGUYS,

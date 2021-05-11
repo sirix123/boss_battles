@@ -22,6 +22,7 @@ function space_chain_hook:OnAbilityPhaseStart()
             false)
 
         if #units == 0 or units == nil then
+            --FireGameEvent("dota_hud_error_message", { reason = 80, message = "Out of range or no target" })
             return false
         end
 

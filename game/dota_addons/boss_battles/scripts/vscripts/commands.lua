@@ -38,7 +38,7 @@ function Commands:OnPlayerChat(keys)
     --print("userID = ", userID)
     local commandChar = "!"
     local firstChar = string.sub(text,1,1)
-    PrintTable(keys)
+    --PrintTable(keys)
 
     if not keys.userid then return end
 
@@ -47,8 +47,6 @@ function Commands:OnPlayerChat(keys)
         local hPlayer = PlayerInstanceFromIndex( keys.userid )
         if not hPlayer then return end
         --local hHero = hPlayer:GetAssignedHero()
-
-        if NORMAL_MODE ~= true  then --or IsInToolsMode()
 
             if string.find(text, "reset damage") then
                 _G.DamageTable = {}
@@ -76,10 +74,16 @@ function Commands:OnPlayerChat(keys)
                 print("TODO: call function to show admin-panel")
             end
 
+        if STORY_MODE == true and NORMAL_MODE == false and PLAYERS_FIGHTING_BOSS == false then --or IsInToolsMode()
+
             if string.find(text, "start boss") then
                 print("found start boss command")
                 local parts = mysplit(text)
                 local bossName = parts[3]
+
+                -- reset the attempt tracker
+                nATTEMPT_TRACKER = 0
+
                 if bossName == "beastmaster" then
                     print("TODO: start boss ", bossName)
                     BOSS_BATTLES_ENCOUNTER_COUNTER = 2
@@ -119,7 +123,7 @@ function Commands:OnPlayerChat(keys)
             end
 
         else
-            GameRules:SendCustomMessage("You're in Hard mode you cannot use this command.", 0, 0)
+            GameRules:SendCustomMessage("This command cannot be used if you're in a boss fight or if you're in Hardmode.", 0, 0)
         end
 
         --quick start gyro, control which AI function is used. 
