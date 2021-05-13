@@ -11,13 +11,17 @@ function Filters:Activate(GameMode, this)
         end
 
         --
+
+        print("direction casting ",point)
+
         if order_type == DOTA_UNIT_ORDER_CAST_POSITION then
             local ability = EntIndexToHScript(filter_table.entindex_ability)
             local caster = EntIndexToHScript(filter_table.units["0"])
             local point = Vector(
                 filter_table.position_x,
                 filter_table.position_y,
-                filter_table.position_z
+                --filter_table.position_z
+                caster:GetForwardVector().z
            )
             local current_range = (point - caster:GetAbsOrigin()):Length2D()
             local direction = (point - caster:GetAbsOrigin()):Normalized()

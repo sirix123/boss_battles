@@ -32,4 +32,7 @@ content/materials/overviews/*
 game/materials/overviews/*
 game/resource/overviews/*
 
+# node modules
+game/dota_addons/boss_battles/node_modules
+
 
