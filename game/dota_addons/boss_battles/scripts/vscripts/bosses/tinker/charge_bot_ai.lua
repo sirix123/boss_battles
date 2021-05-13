@@ -128,6 +128,8 @@ end
 
 function CastManaDrain( prism )
 
+    if IsValidEntity(prism) == false then return 1 end
+
     ExecuteOrderFromTable({
         UnitIndex = thisEntity:entindex(),
         OrderType = DOTA_UNIT_ORDER_CAST_TARGET,

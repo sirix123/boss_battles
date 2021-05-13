@@ -26,8 +26,8 @@ function spawn_rocks:OnSpellStart()
         local fit_rocks = ( beam_length / rock_size )
         local tRocks = {}
         local cRocks = {}
-        local max_rocks_remove = 8
-        local min_rocks_remove = 6
+        local max_rocks_remove = 10
+        local min_rocks_remove = 8
 
         local maxAngle = 360 --increase beyond 360 for ... more laps around, more density. You probably don't want that.
         local minIncrement = 20
@@ -92,7 +92,7 @@ function spawn_rocks:OnSpellStart()
             for _, rock in pairs(tRocks) do
                 if rock ~= nil then
                     local rock_unit = CreateUnitByName("npc_rock", rock, true, nil, nil, DOTA_TEAM_BADGUYS)
-                    rock_unit:SetHullRadius(rock_size - 110 )
+                    rock_unit:SetHullRadius(rock_size - 100 )
                     rock_unit:AddNewModifier( nil, nil, "modifier_invulnerable", { duration = -1 } )
 
                     -- find units around each rock and push them back (apply the modifier)

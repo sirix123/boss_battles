@@ -74,7 +74,7 @@ function Commands:OnPlayerChat(keys)
                 print("TODO: call function to show admin-panel")
             end
 
-        if STORY_MODE == true and NORMAL_MODE == false and PLAYERS_FIGHTING_BOSS == false then --or IsInToolsMode()
+        if STORY_MODE == true and NORMAL_MODE == false and PLAYERS_FIGHTING_BOSS == false and bGAME_COMPLETE == false then --or IsInToolsMode()
 
             if string.find(text, "start boss") then
                 print("found start boss command")

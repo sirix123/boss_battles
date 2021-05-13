@@ -66,7 +66,7 @@ function ice_ele_attack:OnProjectileHit( hTarget, vLocation )
 				victim = hTarget,
 				attacker = self:GetCaster(),
 				damage = self.attack_damage,
-				damage_type = self:GetAbilityDamageType(),
+				damage_type = DAMAGE_TYPE_PHYSICAL,
 				ability = self
 			}
 			ApplyDamage( damage )

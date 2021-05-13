@@ -1,7 +1,8 @@
-mana_drain = class({})
+health_drain_tinker = class({})
 LinkLuaModifier( "mana_drain_root_modifier", "bosses/tinker/modifiers/mana_drain_root_modifier", LUA_MODIFIER_MOTION_NONE  )
+LinkLuaModifier( "attack_interupt", "bosses/tinker/modifiers/attack_interupt", LUA_MODIFIER_MOTION_NONE  )
 
-function mana_drain:OnAbilityPhaseStart()
+function health_drain_tinker:OnAbilityPhaseStart()
     if IsServer() then
 
         self.hTargetPos = self:GetCursorTarget()
@@ -12,7 +13,7 @@ function mana_drain:OnAbilityPhaseStart()
 
         self:GetCaster():AddNewModifier( self:GetCaster(), self, "mana_drain_root_modifier", { duration = -1 } )
 
-        self.mana = 2
+        self:GetCaster():AddNewModifier( self:GetCaster(), self, "attack_interupt", { duration = -1 } )
 
         self:PlayEffects()
 
@@ -22,7 +23,7 @@ function mana_drain:OnAbilityPhaseStart()
 end
 ---------------------------------------------------------------------------------------------------------------------------------------
 
-function mana_drain:OnAbilityPhaseInterrupted()
+function health_drain_tinker:OnAbilityPhaseInterrupted()
     if IsServer() then
 
         if self.effect_cast then
@@ -32,7 +33,7 @@ function mana_drain:OnAbilityPhaseInterrupted()
     end
 end
 
-function mana_drain:OnChannelFinish(bInterrupted)
+function health_drain_tinker:OnChannelFinish(bInterrupted)
     if IsServer() then
 
         if self:GetCaster():HasModifier("mana_drain_root_modifier") then
@@ -48,32 +49,31 @@ end
 
 ---------------------------------------------------------------------------
 
-function mana_drain:OnSpellStart()
+function health_drain_tinker:OnSpellStart()
     if not IsServer() then return end
     if not self:IsChanneling() then return end
 
 end
 ---------------------------------------------------------------------------------------------------------------------------------------
 
-function mana_drain:OnChannelThink( interval )
+function health_drain_tinker:OnChannelThink( interval )
     if not IsServer() then return end
-
-    if IsValidEntity(self:GetCaster()) == false or IsValidEntity(self.hTargetPos) == false then 
-        if self.effect_cast then
-            ParticleManager:DestroyParticle(self.effect_cast,true)
-        end
-        return false
-    end
 
     self.time = (self.time or 0) + interval
     local myInterval = 1
 
+    if self:GetCaster():HasModifier("attack_interupt") == false then
+        self:StartCooldown(self:GetCooldown(self:GetLevel()))
+        self:GetCaster():InterruptChannel()
+        if self.particle_drain_fx then
+            ParticleManager:DestroyParticle(self.particle_drain_fx,true)
+        end
+    end
+
     if self.time >= myInterval then
 
-        self:GetCaster():GiveMana(self.mana)
-        BossNumbersOnTarget(self:GetCaster(), self.mana, Vector(75,75,255))
-
-        self.hTargetPos:ReduceMana(self.mana)
+        self:GetCaster():Heal( self:GetCaster():GetMaxHealth() * 0.02, self:GetCaster())
+        BossNumbersOnTarget(self:GetCaster(), self:GetCaster():GetMaxHealth() * 0.02, Vector(75,255,75))
 
         self.time = self.time - myInterval
     end
@@ -81,32 +81,14 @@ function mana_drain:OnChannelThink( interval )
 end
 ---------------------------------------------------------------------------------------------------------------------------------------
 
-function mana_drain:PlayEffects()
+function health_drain_tinker:PlayEffects()
     if IsServer() then
         -- Get Resources
         --local particle_cast = "particles/timber/droid_smelter_lion_spell_mana_drain.vpcf"
-        local particle_cast = "particles/tinker/tinker_wisp_tether_agh.vpcf"
+        self.particle_drain = "particles/units/heroes/hero_pugna/pugna_life_drain.vpcf"
 
-        -- Create Particle
-        self.effect_cast = ParticleManager:CreateParticle( particle_cast, PATTACH_ABSORIGIN_FOLLOW, self.hTargetPos )
-        ParticleManager:SetParticleControlEnt(
-            self.effect_cast,
-            1,
-            self:GetCaster(),
-            PATTACH_POINT_FOLLOW,
-            "attach_rocket",
-            Vector(0,0,0), -- unknown
-            true -- unknown, true
-        )
-        ParticleManager:SetParticleControlEnt(
-            self.effect_cast,
-            0,
-            self.hTargetPos,
-            PATTACH_POINT_FOLLOW,
-            "attach_hitloc",
-            Vector(0,0,0), -- unknown
-            true -- unknown, true
-        )
-
+        self.particle_drain_fx = ParticleManager:CreateParticle(self.particle_drain, PATTACH_ABSORIGIN, self:GetCaster())
+        ParticleManager:SetParticleControlEnt(self.particle_drain_fx, 0, self:GetCaster(), PATTACH_POINT_FOLLOW, "attach_hitloc", self:GetCaster():GetAbsOrigin(), true)
+        ParticleManager:SetParticleControlEnt(self.particle_drain_fx, 1, self.hTargetPos, PATTACH_POINT_FOLLOW, "attach_hitloc", self.hTargetPos:GetAbsOrigin(), true)
     end
 end

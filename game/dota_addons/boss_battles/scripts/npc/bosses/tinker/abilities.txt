@@ -32,7 +32,7 @@
         //-------------------------------------------------------------------------------------------------------------
 		"AbilitySpecial"
 		{
-            "01"{ "var_type"			"FIELD_INTEGER"		"beam_length"		            "2700" }
+            "01"{ "var_type"			"FIELD_INTEGER"		"beam_length"		            "2900" }
             "02"{ "var_type"			"FIELD_INTEGER"		"radius"		                "30" }
             "03"{ "var_type"			"FIELD_INTEGER"		"damage"		                "50" }
             "04"{ "var_type"			"FIELD_FLOAT"		"beam_speed_angle_increment"    "0.6" }
@@ -760,7 +760,7 @@
 
         // Casting
         //-------------------------------------------------------------------------------------------------------------
-        "AbilityCastPoint"              "0.3 0.3 0.3 0.3"
+        "AbilityCastPoint"              "0.0 0.0 0.0 0.0 "
         "AbilityCooldown"               "5 5 5 5"
         "AbilityManaCost"               "0"
         "AbilityCastRange" 				"600"
@@ -866,13 +866,16 @@
 
         // General
         //-------------------------------------------------------------------------------------------------------------
-        "AbilityBehavior"               "DOTA_ABILITY_BEHAVIOR_NO_TARGET"
+        "AbilityBehavior"               "DOTA_ABILITY_BEHAVIOR_UNIT_TARGET"
         "AbilityTextureName"			"forged_spirit_melting_strike"
+        "AbilityUnitTargetTeam"			"DOTA_UNIT_TARGET_TEAM_ENEMY"
+        "AbilityUnitTargetType"		    "DOTA_UNIT_TARGET_HERO"
+        "AbilityUnitTargetFlags"		"DOTA_UNIT_TARGET_FLAG_INVULNERABLE"
 
         // Casting
         //-------------------------------------------------------------------------------------------------------------
         "AbilityCastPoint"              "4 4 4 4"
-        "AbilityCooldown"               "10 19 19 19"
+        "AbilityCooldown"               "8 19 19 19"
         "AbilityManaCost"               "0"
         "AbilityCastRange" 				"5000"
 
@@ -1108,6 +1111,117 @@
 		{
 			//"particle"  "particles/units/heroes/hero_razor/razor_plasmafield.vpcf"
 			"soundfile" "sounds/vo/rubick/rub_arc_attack_03.vsnd"
+		}
+    }
+
+    //=================================================================================================================
+    // link_crystals_tinker
+    //=================================================================================================================
+    "link_crystals_tinker"
+    { 
+        "BaseClass"                     "ability_lua"
+        "ScriptFile"                    "bosses/tinker/link_crystals_tinker"
+        "MaxLevel"						"4"
+
+        // General
+        //-------------------------------------------------------------------------------------------------------------
+        "AbilityBehavior"               "DOTA_ABILITY_BEHAVIOR_NO_TARGET"
+        "AbilityTextureName"			"forged_spirit_melting_strike"
+
+        // Casting
+        //-------------------------------------------------------------------------------------------------------------
+        "AbilityCastPoint"              "2.0 2.0 2.0 2.0"
+        "AbilityCooldown"               "35 35 35 35"
+        "AbilityManaCost"               "0"
+        "AbilityCastRange" 				"5000"
+
+        // Special
+        //-------------------------------------------------------------------------------------------------------------
+		"AbilitySpecial"
+		{
+
+		}
+
+        "precache"
+		{
+
+		}
+    }
+
+    //=================================================================================================================
+    // tinker TP
+    //=================================================================================================================
+    "tinker_teleport_phase2"
+    { 
+        "BaseClass"                     "ability_lua"
+        "ScriptFile"                    "bosses/tinker/tinker_teleport_phase2"
+        "MaxLevel"						"4"
+
+        // General
+        //-------------------------------------------------------------------------------------------------------------
+        "AbilityBehavior"               "DOTA_ABILITY_BEHAVIOR_UNIT_TARGET | DOTA_ABILITY_BEHAVIOR_DONT_CANCEL_MOVEMENT"
+        "AbilityTextureName"			"forged_spirit_melting_strike"
+        "AbilityUnitTargetTeam"			"DOTA_UNIT_TARGET_TEAM_BOTH"
+        "AbilityUnitTargetType"		    "DOTA_UNIT_TARGET_HERO | DOTA_UNIT_TARGET_CREEP"
+        "AbilityUnitTargetFlags"		"DOTA_UNIT_TARGET_FLAG_INVULNERABLE"
+
+        // Casting
+        //-------------------------------------------------------------------------------------------------------------
+        "AbilityCastPoint"              "1.5 1.5 1.5 1.5"
+        "AbilityCooldown"               "35 35 35 35"
+        "AbilityManaCost"               "0"
+        "AbilityCastRange" 				"5000"
+
+        // Special
+        //-------------------------------------------------------------------------------------------------------------
+		"AbilitySpecial"
+		{
+
+		}
+
+        "precache"
+		{
+
+		}
+    }
+
+    //=================================================================================================================
+    // health_drain_tinker
+    //=================================================================================================================
+    "health_drain_tinker"
+    { 
+        "BaseClass"                     "ability_lua"
+        "ScriptFile"                    "bosses/tinker/health_drain_tinker"
+        "MaxLevel"						"4"
+
+        // General
+        //-------------------------------------------------------------------------------------------------------------
+        "AbilityBehavior"               "DOTA_ABILITY_BEHAVIOR_UNIT_TARGET | DOTA_ABILITY_BEHAVIOR_CHANNELLED"
+        "AbilityTextureName"			"forged_spirit_melting_strike"
+        "AbilityUnitTargetFlags"		"DOTA_UNIT_TARGET_FLAG_INVULNERABLE"
+        "AbilityUnitTargetTeam"			"DOTA_UNIT_TARGET_TEAM_FRIENDLY"
+        "AbilityUnitTargetType"		    "DOTA_UNIT_TARGET_HERO | DOTA_UNIT_TARGET_CREEP"
+
+        // Casting
+        //-------------------------------------------------------------------------------------------------------------
+        "AbilityCastPoint"              "0.1 0.1 0.1 0.1"
+        "AbilityCooldown"               "30 30 30 30"
+        "AbilityManaCost"               "0"
+        "AbilityChannelTime"            "999 999 999 999"
+        "AbilityDuration"               "999 999 999 999"
+        "AbilityCastAnimation"          "ACT_DOTA_GENERIC_CHANNEL_1"
+        "AbilityCastRange" 				"5000"
+
+        // Special
+        //-------------------------------------------------------------------------------------------------------------
+		"AbilitySpecial"
+		{
+
+		}
+
+        "precache"
+		{
+
 		}
     }
 }

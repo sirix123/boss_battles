@@ -1,5 +1,6 @@
 crystal_ai = class({})
 LinkLuaModifier("modifier_rubick", "bosses/tinker/modifiers/modifier_rubick", LUA_MODIFIER_MOTION_NONE)
+LinkLuaModifier("phase_2_crystal_spawn_modifier", "bosses/tinker/modifiers/phase_2_crystal_spawn_modifier", LUA_MODIFIER_MOTION_NONE)
 --------------------------------------------------------------------------------
 function Spawn( entityKeyValues )
     if not IsServer() then return end
@@ -38,6 +39,8 @@ function Spawn( entityKeyValues )
     thisEntity.start_summoning = 3
     ElementalPhaseTimer()
 
+    CrystalPhase2Spawner()
+
     thisEntity.stop_timers = false
 
     thisEntity:SetHullRadius(100)
@@ -45,7 +48,7 @@ function Spawn( entityKeyValues )
     thisEntity.beam_phase = false
 
     thisEntity.beam_stack_count = 0
-    thisEntity.total_beams = 3--4
+    thisEntity.total_beams = 3 -- 3
 
     thisEntity:SetMana(0)
 
@@ -340,6 +343,40 @@ function ElementalPhaseTimer()
         --thisEntity.summon_elec_ele:EndCooldown()
 
 		return 10
+	end)
+end
+--------------------------------------------------------------------------------
+
+function CrystalPhase2Spawner()
+    Timers:CreateTimer(5,function()
+        if IsValidEntity(thisEntity) == false then return false end
+
+		if thisEntity.stop_timers == true then
+			return false
+		end
+
+        -- pick a random enemy and apply the phase_2_crystal_spawn_modifier to them
+        
+        local enemies = FindUnitsInRadius(
+            thisEntity:GetTeamNumber(),
+            thisEntity:GetAbsOrigin(),
+            nil,
+            4000,
+            DOTA_UNIT_TARGET_TEAM_ENEMY,
+            DOTA_UNIT_TARGET_HERO,
+            DOTA_UNIT_TARGET_FLAG_INVULNERABLE,
+            FIND_CLOSEST,
+            false
+        )
+
+        if enemies == nil or #enemies == 0 then
+            return 1
+        else
+            local target = enemies[RandomInt(1,#enemies)]
+            target:AddNewModifier( target, nil, "phase_2_crystal_spawn_modifier", { duration = 7 } )
+        end
+
+		return 15
 	end)
 end
 --------------------------------------------------------------------------------

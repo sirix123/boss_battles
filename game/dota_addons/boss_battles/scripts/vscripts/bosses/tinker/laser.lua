@@ -10,24 +10,11 @@ function laser:OnAbilityPhaseStart()
         self.nPreviewFXIndex = nil
         self.stopTimer = false
 
-        local units = FindUnitsInRadius(
-            self:GetCaster():GetTeamNumber(),	-- int, your team number
-            self:GetCaster():GetAbsOrigin(),	-- point, center point
-            nil,	-- handle, cacheUnit. (not known)
-            5000,	-- float, radius. or use FIND_UNITS_EVERYWHERE
-            DOTA_UNIT_TARGET_TEAM_ENEMY,
-            DOTA_UNIT_TARGET_ALL,
-            DOTA_UNIT_TARGET_FLAG_INVULNERABLE,	-- int, flag filter
-            0,	-- int, order filter
-            false	-- bool, can grow cache
-        )
+        self.target = self:GetCursorTarget()
 
-        if units == nil or #units == 0 then
+        if self.target == nil then
             return false
         else
-
-            local random_unit = RandomInt(1, #units)
-            self.target = units[random_unit]
 
             self.target:AddNewModifier( self:GetCaster(), self, "laser_timer_particle", { duration = self:GetCastPoint() } )
 
@@ -43,8 +30,8 @@ function laser:OnAbilityPhaseStart()
 
                 self.vTargetPos = self.target:GetAbsOrigin()
 
-                self:GetCaster():SetForwardVector(( self.target:GetAbsOrigin() - self:GetCaster():GetAbsOrigin()):Normalized())
-                self:GetCaster():FaceTowards(( self.target:GetAbsOrigin() - self:GetCaster():GetAbsOrigin()):Normalized())
+                --self:GetCaster():SetForwardVector(( self.target:GetAbsOrigin() - self:GetCaster():GetAbsOrigin()):Normalized())
+                --self:GetCaster():FaceTowards(( self.target:GetAbsOrigin() - self:GetCaster():GetAbsOrigin()):Normalized())
 
                 -- draw a line between tinker and the player
 

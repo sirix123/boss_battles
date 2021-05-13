@@ -17,14 +17,11 @@ function Spawn( entityKeyValues )
 
 	thisEntity.PHASE = 1
 	thisEntity.stack_count = 0
-	thisEntity.max_beam_stacks = 3 --3
+	thisEntity.max_beam_stacks = 3--4
 
 	thisEntity.rearm = true
 
 	thisEntity:SetHullRadius(100)
-
-	_G.Crystal_Phase2_Spawns = {}
-	_G.Crystal_Phase1_Spawns_Particles = {}
 
 	thisEntity.chain_light_v2 = thisEntity:FindAbilityByName( "chain_light_v2" )
 	thisEntity.chain_light_v2:StartCooldown(thisEntity.chain_light_v2:GetCooldown(thisEntity.chain_light_v2:GetLevel()))
@@ -44,16 +41,9 @@ function Spawn( entityKeyValues )
 
 	thisEntity.laser = thisEntity:FindAbilityByName( "laser" )
 
-	thisEntity.link_crystals_tinker = thisEntity:FindAbilityByName( "link_crystals_tinker" )
-
-	thisEntity.health_drain_tinker = thisEntity:FindAbilityByName( "health_drain_tinker" )
-	thisEntity.drain_lock = false
-
 	thisEntity.march = thisEntity:FindAbilityByName( "march" )
 	thisEntity.current_rearms_march = 0
 	thisEntity.max_rearms_march = 3
-
-	thisEntity.tinker_teleport_phase2 = thisEntity:FindAbilityByName( "tinker_teleport_phase2" )
 
 	thisEntity.prisonbeam = thisEntity:FindAbilityByName( "prisonbeam" )
 
@@ -85,7 +75,7 @@ function TinkerThinker()
 	-- if this unit has the beam phase modiifier then phase == 2
 	if thisEntity:HasModifier("beam_phase") then
 		thisEntity.PHASE = 2
-	elseif thisEntity.PHASE ~= 3 and thisEntity.PHASE ~= 4 then
+	elseif thisEntity.PHASE ~= 3 then
 		thisEntity.teleport_out = false
 		thisEntity.PHASE = 1
 	end
@@ -156,10 +146,6 @@ function TinkerThinker()
 	end
 
 	-- phase 2
-	if thisEntity.PHASE == 4 and thisEntity:HasModifier("attack_interupt") == false and thisEntity.drain_lock == false then
-		thisEntity.PHASE = 3
-	end
-
 	if thisEntity.PHASE == 3 then
 
 		boss_frame_manager:SendBossName( )
@@ -175,20 +161,16 @@ function TinkerThinker()
 			return CastLaser()
 		end
 
-		if thisEntity.link_crystals_tinker ~= nil and thisEntity.link_crystals_tinker:IsFullyCastable() and thisEntity.link_crystals_tinker:IsCooldownReady() and thisEntity.link_crystals_tinker:IsInAbilityPhase() == false then
-			return CastLinkCrystals()
+		if thisEntity.prisonbeam ~= nil and thisEntity.prisonbeam:IsFullyCastable() and thisEntity.prisonbeam:IsCooldownReady() and thisEntity.prisonbeam:IsInAbilityPhase() == false then
+			return CastPrisonBeam()
 		end
 
-		if thisEntity.tinker_teleport_phase2 ~= nil and thisEntity.tinker_teleport_phase2:IsFullyCastable() and thisEntity.tinker_teleport_phase2:IsCooldownReady() and thisEntity.tinker_teleport_phase2:IsInAbilityPhase() == false then
-			return CastTeleportPhase2()
+		if thisEntity.missile ~= nil and thisEntity.missile:IsFullyCastable() and thisEntity.missile:IsCooldownReady() and thisEntity.missile:IsInAbilityPhase() == false then
+			return CastMissile()
 		end
 
-	end
-
-	if thisEntity.PHASE == 4 then
-
-		if thisEntity.health_drain_tinker ~= nil and thisEntity.health_drain_tinker:IsFullyCastable() and thisEntity.health_drain_tinker:IsCooldownReady() and thisEntity.health_drain_tinker:IsInAbilityPhase() == false and thisEntity.health_drain_tinker:IsChanneling() == false then
-			return CastHealthDrain()
+		if thisEntity.tinker_teleport ~= nil and thisEntity.tinker_teleport:IsFullyCastable() and thisEntity.tinker_teleport:IsCooldownReady() and thisEntity.tinker_teleport:IsInAbilityPhase() == false then
+			return CastTeleport()
 		end
 
 	end
@@ -205,6 +187,17 @@ function CastTeleport(  )
         AbilityIndex = thisEntity.tinker_teleport:entindex(),
         Queue = false,
 	})
+
+	if thisEntity.PHASE == 3 then
+		Timers:CreateTimer(thisEntity.tinker_teleport:GetCastPoint() + 0.5, function() -- use the spells castpoint here + buffer?
+			local rearmChance = RandomInt(1,2)
+			if rearmChance == 2 then
+				CastRearm(thisEntity.tinker_teleport)
+			end
+
+			return false
+		end)
+	end
 
     return 3
 end
@@ -305,15 +298,14 @@ function Transition(  )
 				end
 			end
 
+
+
 			-- calculate postions inside arena and put into a table npc_phase2_rock and npc_phase2_crystal
-
-			-- Crystal_Phase2_Spawns
-			-- Crystal_Phase1_Spawns_Particles
-
-
-			-- rock spawning
-			local numRocks = 4
+			local numRocks = 6
+			local numCrystals = 8
+			local tRockCrystals = {}
 			local tRocks = {}
+
 			local centre_point = Vector(-10633,11918,130.33)
 			local radius = 1800
 
@@ -322,6 +314,13 @@ function Transition(  )
 				local y = RandomInt(centre_point.y - radius, centre_point.y + radius)
 				local spawn_pos = Vector(x,y,131)
 				table.insert(tRocks, spawn_pos)
+			end
+
+			for i = 1, numCrystals, 1 do
+				local x = RandomInt(centre_point.x - radius, centre_point.x + radius)
+				local y = RandomInt(centre_point.y - radius, centre_point.y + radius)
+				local spawn_pos = Vector(x,y,131)
+				table.insert(tRockCrystals, spawn_pos)
 			end
 
 			-- create swirls on the ground
@@ -333,17 +332,6 @@ function Transition(  )
 				ParticleManager:ReleaseParticleIndex(particle_effect_rock_spawn)
 			end
 
-			-- crystal spawnin (OLD)
-			local numCrystals = 4
-			local tRockCrystals = {}
-
-			for i = 1, numCrystals, 1 do
-				local x = RandomInt(centre_point.x - radius, centre_point.x + radius)
-				local y = RandomInt(centre_point.y - radius, centre_point.y + radius)
-				local spawn_pos = Vector(x,y,131)
-				table.insert(tRockCrystals, spawn_pos)
-			end
-
 			for _, crystal in pairs(tRockCrystals) do
 				local particle_rock_spawn = "particles/custom/swirl/dota_swirl.vpcf"
 				local particle_effect_rock_spawn = ParticleManager:CreateParticle( particle_rock_spawn, PATTACH_WORLDORIGIN, thisEntity )
@@ -351,15 +339,6 @@ function Transition(  )
 				ParticleManager:SetParticleControl(particle_effect_rock_spawn, 1, Vector(5,0,0) )
 				ParticleManager:ReleaseParticleIndex(particle_effect_rock_spawn)
 			end
-
-			Timers:CreateTimer(10, function ()
-				if Crystal_Phase1_Spawns_Particles ~= 0 then
-					for _, crystal_particle in pairs(Crystal_Phase1_Spawns_Particles) do
-						ParticleManager:DestroyParticle(crystal_particle,true)
-					end
-				end
-				return false
-			end)
 
 			-- play a couple of voice lines from rubick?
 			EmitGlobalSound("rubick_rub_arc_respawn_10")
@@ -381,24 +360,8 @@ function Transition(  )
 					KillUnits( rock )
 				end
 
-				--for _, crystal in pairs(tRockCrystals) do --Crystal_Phase2_Spawns (OLD)
-				if Crystal_Phase2_Spawns ~= 0 then
-					for _, crystal in pairs(Crystal_Phase2_Spawns) do
-						local crystal_unit = CreateUnitByName("npc_phase2_crystal", crystal, true, nil, nil, DOTA_TEAM_BADGUYS)
-						FindClearSpaceForUnit(crystal_unit, crystal, true)
-						crystal_unit:AddNewModifier( nil, nil, "modifier_invulnerable", { duration = -1 } )
-						crystal_unit:SetHullRadius(80)
-						--DebugDrawCircle(crystal,Vector(255,0,0),128,100,true,360)
-						-- RandomInt(-1,1)
-						--local randomVector = Vector( RandomInt(-1,1), RandomInt(-1,1), 0 )
-						--crystal_unit:SetForwardVector(randomVector)
-						KillUnits( crystal )
-					end
-				end
-
 				for _, crystal in pairs(tRockCrystals) do
 					local crystal_unit = CreateUnitByName("npc_phase2_crystal", crystal, true, nil, nil, DOTA_TEAM_BADGUYS)
-					FindClearSpaceForUnit(crystal_unit, crystal, true)
 					crystal_unit:AddNewModifier( nil, nil, "modifier_invulnerable", { duration = -1 } )
 					crystal_unit:SetHullRadius(80)
 					--DebugDrawCircle(crystal,Vector(255,0,0),128,100,true,360)
@@ -472,6 +435,32 @@ end
 --------------------------------------------------------------------------------
 -- phase 2 spells
 --------------------------------------------------------------------------------
+function CastRearm(spell)
+	-- reset cd
+	spell:EndCooldown()
+
+	-- voiceline
+	EmitGlobalSound("tinker_tink_ability_rearm_01")
+
+	-- sound
+	EmitSoundOn("Hero_Tinker.Rearm",thisEntity)
+
+	-- animation
+	thisEntity:StartGestureWithPlaybackRate(ACT_DOTA_TINKER_REARM1, 1.0)
+
+	-- particle
+	local particle = "particles/units/heroes/hero_tinker/tinker_rearm.vpcf"
+	local particle_rearm = ParticleManager:CreateParticle( particle, PATTACH_WORLDORIGIN, thisEntity )
+	ParticleManager:SetParticleControl(particle_rearm, 0, thisEntity:GetAbsOrigin() )
+
+	-- debugg
+	--print("rearming")
+	--print("spell name ", spell:GetAbilityName())
+	--print("spell cd ", spell:GetCooldownTimeRemaining())
+
+	return 4
+end
+--------------------------------------------------------------------------------
 
 function CastMarch()
 
@@ -482,36 +471,45 @@ function CastMarch()
         Queue = false,
 	})
 
+	Timers:CreateTimer(thisEntity.march:GetCastPoint() + 0.5, function() -- use the spells castpoint here + buffer?
+		local rearmChance = RandomInt(1,2)
+
+		if rearmChance == 2 then
+			thisEntity.current_rearms_march = thisEntity.current_rearms_march + 1
+			if thisEntity.current_rearms_march < thisEntity.max_rearms_march then
+				CastRearm(thisEntity.march)
+			elseif thisEntity.current_rearms_march > thisEntity.max_rearms_march then
+				thisEntity.current_rearms_march = 0
+				return false
+			end
+		end
+
+		return false
+	end)
+
 	return 2
 end
 --------------------------------------------------------------------------------
 
 function CastLaser()
+	ExecuteOrderFromTable({
+        UnitIndex = thisEntity:entindex(),
+        OrderType = DOTA_UNIT_ORDER_CAST_NO_TARGET,
+        AbilityIndex = thisEntity.laser:entindex(),
+        Queue = false,
+	})
 
-	local units = FindUnitsInRadius(
-		thisEntity:GetTeamNumber(),	-- int, your team number
-		thisEntity:GetAbsOrigin(),	-- point, center point
-		nil,	-- handle, cacheUnit. (not known)
-		5000,	-- float, radius. or use FIND_UNITS_EVERYWHERE
-		DOTA_UNIT_TARGET_TEAM_ENEMY,	-- int, team filter
-		DOTA_UNIT_TARGET_HERO,	-- int, type filter
-		DOTA_UNIT_TARGET_FLAG_INVULNERABLE,	-- int, flag filter
-		FIND_FARTHEST,	-- int, order filter
-		false	-- bool, can grow cache
-	)
+	Timers:CreateTimer(thisEntity.laser:GetCastPoint() + 0.5, function() -- use the spells castpoint here + buffer?
+		local rearmChance = RandomInt(1,2)
 
-	if units == nil or #units == 0 then
-		return 1
-	else
-		ExecuteOrderFromTable({
-			UnitIndex = thisEntity:entindex(),
-			OrderType = DOTA_UNIT_ORDER_CAST_TARGET,
-			TargetIndex = units[RandomInt(1,#units)]:entindex(),
-			AbilityIndex = thisEntity.laser:entindex(),
-			Queue = false,
-		})
-		return 4
-	end
+		if rearmChance == 2 then
+			CastRearm(thisEntity.laser)
+		end
+
+		return false
+	end)
+
+	return 4
 end
 --------------------------------------------------------------------------------
 
@@ -523,6 +521,9 @@ function CastMissile()
         AbilityIndex = thisEntity.missile:entindex(),
         Queue = false,
 	})
+
+
+
 
 	return 2
 end
@@ -537,87 +538,17 @@ function CastPrisonBeam()
         Queue = false,
 	})
 
+	Timers:CreateTimer(thisEntity.prisonbeam:GetCastPoint() + 0.5, function() -- use the spells castpoint here + buffer?
+		local rearmChance = RandomInt(1,2)
+
+		if rearmChance == 2 then
+			CastRearm(thisEntity.prisonbeam)
+		end
+
+		return false
+	end)
+
 	return 4
 end
 --------------------------------------------------------------------------------
 
-function CastLinkCrystals()
-
-	ExecuteOrderFromTable({
-        UnitIndex = thisEntity:entindex(),
-        OrderType = DOTA_UNIT_ORDER_CAST_NO_TARGET,
-        AbilityIndex = thisEntity.link_crystals_tinker:entindex(),
-        Queue = false,
-	})
-
-	return 1
-end
---------------------------------------------------------------------------------
-
-function CastTeleportPhase2(  )
-
-	local tCrystalsPhase2 = {}
-
-	local units = FindUnitsInRadius(
-		thisEntity:GetTeamNumber(),	-- int, your team number
-		thisEntity:GetAbsOrigin(),	-- point, center point
-		nil,	-- handle, cacheUnit. (not known)
-		5000,	-- float, radius. or use FIND_UNITS_EVERYWHERE
-		DOTA_UNIT_TARGET_TEAM_FRIENDLY,	-- int, team filter
-		DOTA_UNIT_TARGET_BASIC,	-- int, type filter
-		DOTA_UNIT_TARGET_FLAG_INVULNERABLE,	-- int, flag filter
-		FIND_FARTHEST,	-- int, order filter
-		false	-- bool, can grow cache
-	)
-
-	if units == nil or #units == 0 then
-		return 1
-	else
-
-		for _, crystal in pairs(units) do
-			if crystal:GetUnitName() == "npc_phase2_crystal" then
-				table.insert(tCrystalsPhase2,crystal)
-			end
-		end
-
-		if tCrystalsPhase2 ~= nil and #tCrystalsPhase2 ~= 0 then
-
-			thisEntity.crystal_health_drain = tCrystalsPhase2[1]
-
-			ExecuteOrderFromTable({
-				UnitIndex = thisEntity:entindex(),
-				OrderType = DOTA_UNIT_ORDER_CAST_TARGET,
-				TargetIndex = thisEntity.crystal_health_drain:entindex(),
-				AbilityIndex = thisEntity.tinker_teleport_phase2:entindex(),
-				Queue = false,
-			})
-
-			thisEntity.drain_lock = true
-			thisEntity.health_drain_tinker:EndCooldown()
-
-			thisEntity.PHASE = 4
-			return 4
-		end
-	end
-end
---------------------------------------------------------------------------------
-
-function CastHealthDrain( )
-
-	if thisEntity.crystal_health_drain == nil then
-		thisEntity.PHASE = 3
-		return 1
-	else
-		thisEntity.drain_lock = false
-		ExecuteOrderFromTable({
-			UnitIndex = thisEntity:entindex(),
-			OrderType = DOTA_UNIT_ORDER_CAST_TARGET,
-			TargetIndex = thisEntity.crystal_health_drain:entindex(),
-			AbilityIndex = thisEntity.health_drain_tinker:entindex(),
-			Queue = false,
-		})
-
-		return 4
-	end
-end
---------------------------------------------------------------------------------

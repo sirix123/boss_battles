@@ -100,6 +100,9 @@
 		"Ability6"					"march"					// Ability 6
 		"Ability7"					"prisonbeam"					// Ability 7
 		"Ability8"					"tinker_teleport_beam_phase"					// Ability 7
+		"Ability9"					"link_crystals_tinker"
+		"Ability10"					"tinker_teleport_phase2"
+		"Ability11"					"health_drain_tinker"
 		
 		// Armor
 		//----------------------------------------------------------------

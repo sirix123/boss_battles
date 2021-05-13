@@ -72,6 +72,7 @@ function SessionManager:StopRecordingAttempt( bBossKilled )
     self.boss_attempt["bossKilled"] = bBossKilled
     self.boss_attempt["bossName"] = RAID_TABLES[BOSS_BATTLES_ENCOUNTER_COUNTER].name
     self.boss_attempt["attemptNumber"] = self.attempt_tracker
+    self.boss_attempt["bossHpPercent"] = nBOSS_HP_ATTEMPT
 
     -- adds the boss attempt to the boss data collection
     table.insert(self.boss_data,self.boss_attempt)
@@ -111,6 +112,12 @@ function SessionManager:SendSessionData()
     end
 
     self.session_data["player_data"] = self.player_data
+
+    if GameRules:State_Get() == DOTA_GAMERULES_STATE_POST_GAME or GameRules:State_Get() == DOTA_GAMERULES_STATE_DISCONNECT then
+        self.session_data["sentFrom"] = "disconnect"
+    else
+        self.session_data["sentFrom"] = "gameComplete"
+    end
 
     WebApi:SaveSessionData( self.session_data )
 end

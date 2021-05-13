@@ -108,7 +108,7 @@ function march:OnSpellStart()
             previous_index = random_index
         end
 
-        self.proj_radius = 100
+        self.proj_radius = 80
         local length = 4400
         local nProj = length / self.proj_radius
         local maxWaves = 4
@@ -149,13 +149,13 @@ function march:CreateProjectile(vOrigin, vDirection, speed)
             iUnitTargetFlags = DOTA_UNIT_TARGET_FLAG_INVULNERABLE,
             iUnitTargetType = DOTA_UNIT_TARGET_HERO + DOTA_UNIT_TARGET_BASIC,
             EffectName = "particles/tinker/tinker_rollermaw_larger_tinker.vpcf",
-            fDistance = 8000,
+            fDistance = 5000,
             fStartRadius = self.proj_radius,
             fEndRadius = self.proj_radius,
             vVelocity = vDirection * speed,
             bHasFrontalCone = false,
             bReplaceExisting = false,
-            fExpireTime = GameRules:GetGameTime() + 40.0,
+            fExpireTime = GameRules:GetGameTime() + 25,
             bProvidesVision = true,
             iVisionRadius = 200,
             iVisionTeamNumber = self:GetCaster():GetTeamNumber(),
@@ -170,47 +170,51 @@ end
 function march:OnProjectileHit(hTarget, vLocation)
     if IsServer() then
         if hTarget ~= nil then
+            if hTarget:GetTeamNumber() ~= self:GetCaster():GetTeamNumber() then
 
-            local particle = "particles/econ/items/wisp/wisp_relocate_marker_ti7_end.vpcf"
-            local nfx = ParticleManager:CreateParticle(particle, PATTACH_WORLDORIGIN, nil)
-            ParticleManager:SetParticleControl(nfx, 1, vLocation)
-            ParticleManager:ReleaseParticleIndex(nfx)
+                local particle = "particles/econ/items/wisp/wisp_relocate_marker_ti7_end.vpcf"
+                local nfx = ParticleManager:CreateParticle(particle, PATTACH_WORLDORIGIN, nil)
+                ParticleManager:SetParticleControl(nfx, 1, vLocation)
+                ParticleManager:ReleaseParticleIndex(nfx)
 
-            --[[local enemies = FindUnitsInRadius(
-                self:GetCaster():GetTeamNumber(),	-- int, your team number
-                vLocation,	-- point, center point
-                nil,	-- handle, cacheUnit. (not known)
-                100,	-- float, radius. or use FIND_UNITS_EVERYWHERE
-                DOTA_UNIT_TARGET_TEAM_ENEMY,	-- int, team filter
-                DOTA_UNIT_TARGET_HERO + DOTA_UNIT_TARGET_BASIC,	-- int, type filter
-                0,	-- int, flag filter
-                0,	-- int, order filter
-                false	-- bool, can grow cache
-            )
+                --[[local enemies = FindUnitsInRadius(
+                    self:GetCaster():GetTeamNumber(),	-- int, your team number
+                    vLocation,	-- point, center point
+                    nil,	-- handle, cacheUnit. (not known)
+                    100,	-- float, radius. or use FIND_UNITS_EVERYWHERE
+                    DOTA_UNIT_TARGET_TEAM_ENEMY,	-- int, team filter
+                    DOTA_UNIT_TARGET_HERO + DOTA_UNIT_TARGET_BASIC,	-- int, type filter
+                    0,	-- int, flag filter
+                    0,	-- int, order filter
+                    false	-- bool, can grow cache
+                )
 
-            local damageTable = {
-                attacker = self:GetCaster(),
-                damage = 150,
-                damage_type = DAMAGE_TYPE_PHYSICAL,
-                ability = self,
-            }
+                local damageTable = {
+                    attacker = self:GetCaster(),
+                    damage = 150,
+                    damage_type = DAMAGE_TYPE_PHYSICAL,
+                    ability = self,
+                }
 
-            for _,enemy in pairs(enemies) do
-                damageTable.victim = enemy
+                for _,enemy in pairs(enemies) do
+                    damageTable.victim = enemy
+                    ApplyDamage(damageTable)
+                end]]
+
+                local damageTable = {
+                    victim = hTarget,
+                    attacker = self:GetCaster(),
+                    damage = 100,
+                    damage_type = DAMAGE_TYPE_PHYSICAL,
+                    ability = self,
+                }
+
                 ApplyDamage(damageTable)
-            end]]
 
-            local damageTable = {
-                victim = hTarget,
-                attacker = self:GetCaster(),
-                damage = 100,
-                damage_type = DAMAGE_TYPE_PHYSICAL,
-                ability = self,
-            }
-
-            ApplyDamage(damageTable)
-
-            return true
+                return true
+            else
+                return true
+            end
         end
 	end
 end

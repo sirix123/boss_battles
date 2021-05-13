@@ -37,9 +37,6 @@ function GameSetup:init()
     -- timer for updating player frames
     player_frame_manager:UpdatePlayer()
 
-    -- init the disconnection manager
-    --disconnect_manager:Init() -- starts a timer that watches for disconnects
-
     --listen to game state event
     -- events here: https://developer.valvesoftware.com/wiki/Dota_2_Workshop_Tools/Scripting/Built-In_Engine_Events
     ListenToGameEvent("game_rules_state_change", Dynamic_Wrap(self, "OnStateChange"), self) -- valve engine event
@@ -93,7 +90,7 @@ function GameSetup:OnStateChange()
     end
 
     if GameRules:State_Get() == DOTA_GAMERULES_STATE_POST_GAME or GameRules:State_Get() == DOTA_GAMERULES_STATE_DISCONNECT then
-        SessionManager:SendSessionData()
+        SessionManager:SendSessionData( )
     end
 end
 --------------------------------------------------------------------------------------------------
@@ -199,7 +196,7 @@ function GameSetup:OnNPCSpawned(keys)
         --print("on spanwed lives ", npc.playerLives )
 
         if IsInToolsMode() == true then
-            --npc:AddNewModifier( npc,  nil, "admin_god_mode", { } )
+            npc:AddNewModifier( npc,  nil, "admin_god_mode", { } )
         end
 
         -- level up abilities for all heroes to level 1
@@ -227,6 +224,7 @@ function GameSetup:RegisterRaidWipe( )
                 if self.bSessionManager_wipe == true then
                     self.bSessionManager_wipe = false
                     self.bBossKilled = false
+                    nBOSS_HP_ATTEMPT = self.boss:GetHealthPercent()
                     SessionManager:StopRecordingAttempt( self.bBossKilled )
 
                     nATTEMPT_TRACKER = nATTEMPT_TRACKER + 1
@@ -312,6 +310,7 @@ function GameSetup:OnEntityKilled(keys)
         if npc:GetUnitName() == RAID_TABLES[BOSS_BATTLES_ENCOUNTER_COUNTER].boss then
 
             self.bBossKilled = true
+            nBOSS_HP_ATTEMPT = 0.0
             SessionManager:StopRecordingAttempt( self.bBossKilled )
 
             -- reset the attempt tracker
@@ -375,6 +374,7 @@ function GameSetup:OnEntityKilled(keys)
 
             -- raid counter will go to 8 if tinkers is killed
             if BOSS_BATTLES_ENCOUNTER_COUNTER == 8 then --2
+                bGAME_COMPLETE = true
                 SessionManager:SendSessionData()
             end
 
