@@ -14,7 +14,7 @@ function Spawn( entityKeyValues )
 
 	thisEntity:SetHullRadius(80)
 
-    thisEntity.STATE = 4
+    thisEntity.STATE = 1
 
     thisEntity.moving = false
 

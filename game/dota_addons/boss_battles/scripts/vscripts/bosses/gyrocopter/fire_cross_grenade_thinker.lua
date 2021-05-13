@@ -60,11 +60,12 @@ function fire_cross_grenade_thinker:DetectPlayerTimer()
 
             if enemies ~= nil and #enemies ~= 0 then
                 for _,enemy in pairs(enemies) do
-                    enemy:AddNewModifier( self:GetCaster(), self, "fire_cross_grenade_debuff", { duration = 30 } )
+                    enemy:AddNewModifier( self:GetCaster(), self, "fire_cross_grenade_debuff", { duration = -1 } )
                 end
             end
 
-            if enemies ~= nil and #enemies ~= 0 then
+            if self.current_waves == self.max_waves then
+                ParticleManager:DestroyParticle(self.pfx_3,true)
                 self.destroy_flag = true
                 return 8
             end
@@ -108,7 +109,7 @@ function fire_cross_grenade_thinker:StartTimer(  )
             for i = 1, #tDirection, 1 do
                 local projectile = {
                     EffectName = effect,
-                    vSpawnOrigin = self:GetParent():GetAbsOrigin() + tDirection[i] * 100 ,
+                    vSpawnOrigin = self:GetParent():GetAbsOrigin() + tDirection[i] * 210 ,
                     fDistance = distance,
                     fUniqueRadius = 100,
                     Source = self:GetParent(),
@@ -118,6 +119,7 @@ function fire_cross_grenade_thinker:StartTimer(  )
                     WallBehavior = PROJECTILES_DESTROY,
                     GroundBehavior = PROJECTILES_NOTHING,
                     fGroundOffset = 80,
+                    --draw = true,
                     UnitTest = function(_self, unit)
                         return unit:GetTeamNumber() ~= self:GetCaster():GetTeamNumber() and unit:GetModelName() ~= "models/development/invisiblebox.vmdl"
                     end,
@@ -163,7 +165,6 @@ end
 function fire_cross_grenade_thinker:OnDestroy()
     if IsServer() then
         ParticleManager:DestroyParticle(self.effect_cast,false)
-        ParticleManager:DestroyParticle(self.pfx_3,true)
         --UTIL_Remove( self:GetParent() )
     end
 end

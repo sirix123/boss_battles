@@ -37,7 +37,22 @@ function gyro_intermission_homing_missile:OnSpellStart()
 	if IsServer() then
 
         self.pre_flight_time = self:GetSpecialValueFor("pre_flight_time")
-        self.starting_position = Vector(-12857,2991,132)
+
+        self.GyroIntermissionLocations = {
+            Vector(-13282,178,132),
+            Vector(-13716,916,132),
+            Vector(-13551,1932,132),
+            Vector(-13495,2593,132),
+            Vector(-12857,2991,132),
+            Vector(-11795,2980,132),
+            Vector(-11071,2720,132),
+            Vector(-10966,1806,132),
+            Vector(-11048,985,132),
+            Vector(-10939,152,132),
+            Vector(-12093,206,132),
+        }
+
+        self.starting_position = self.GyroIntermissionLocations[RandomInt(1,#self.GyroIntermissionLocations)]
 
         -- find targets for missile, create one for each player
         -- remeber to pass the entindex into the modifier

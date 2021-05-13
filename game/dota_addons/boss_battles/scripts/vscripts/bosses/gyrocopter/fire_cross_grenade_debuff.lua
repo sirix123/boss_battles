@@ -29,7 +29,7 @@ end
 function fire_cross_grenade_debuff:OnCreated( kv )
     if IsServer() then
 
-		self.max_shield = 300
+		self.max_shield = 400
 		self.shield_remaining = self.max_shield
 
 		local particle = "particles/econ/events/ti8/mjollnir_shield_ti8.vpcf"
