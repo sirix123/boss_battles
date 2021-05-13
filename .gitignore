@@ -34,5 +34,7 @@ game/resource/overviews/*
 
 # node modules
 game/dota_addons/boss_battles/node_modules
+game/dota_addons/boss_battles/package.json
+game/dota_addons/boss_battles/package-lock.json
 
 
