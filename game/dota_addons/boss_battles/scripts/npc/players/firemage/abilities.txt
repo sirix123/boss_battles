@@ -11,7 +11,7 @@
 		"AbilityUnitDamageType"			"DAMAGE_TYPE_PHYSICAL"	
         "AbilityBehavior"				"DOTA_ABILITY_BEHAVIOR_POINT"
 		"AbilityCastRange" 				"900"
-        "AbilityCooldown"				"1"
+        "AbilityCooldown"				"0"
         "AbilityCastPoint"              "0.0"
 
 
@@ -59,7 +59,7 @@
         
 		"AbilitySpecial"
 		{
-			"01"{ "var_type"			"FIELD_INTEGER"		"damage"						"1000" }
+			"01"{ "var_type"			"FIELD_INTEGER"		"damage"						"500" }
 			"02"{ "var_type"			"FIELD_INTEGER"		"radius"						"250" } 
 			"03"{ "var_type"			"FIELD_INTEGER"		"fire_weakness_duration"		"30" } 
 			"04"{ "var_type"			"FIELD_FLOAT"		"fire_weakness_dmg_increase"	"0.2" }
@@ -97,7 +97,7 @@
 		{
 			"01"{ "var_type"			"FIELD_INTEGER"		"duration"				"15" }
 			"02"{ "var_type"			"FIELD_INTEGER"		"find_radius"			"100" }
-			"03"{ "var_type"			"FIELD_INTEGER"		"bubble_amount"			"250" }
+			"03"{ "var_type"			"FIELD_INTEGER"		"bubble_amount"			"150" }
 			"04"{ "var_type"			"FIELD_FLOAT"		"burn_tick"				"0.3" }
 			"05"{ "var_type"			"FIELD_INTEGER"		"burn_amount"			"20" }
 			"06"{ "var_type"			"FIELD_INTEGER"		"radius"				"200" }
@@ -137,7 +137,7 @@
 		"AbilitySpecial"
 		{
 			"01"{ "var_type"			"FIELD_INTEGER"		"hit_box"				"80" }
-			"02"{ "var_type"			"FIELD_INTEGER"		"dmg"					"120" }
+			"02"{ "var_type"			"FIELD_INTEGER"		"dmg"					"90" }
 			"03"{ "var_type"			"FIELD_INTEGER"		"speed"					"1000" }
 			"04"{ "var_type"			"FIELD_FLOAT"		"interval"				"0.2" }
 		}

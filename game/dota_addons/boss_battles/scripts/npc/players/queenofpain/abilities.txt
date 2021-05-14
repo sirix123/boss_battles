@@ -143,10 +143,13 @@
         
 		"AbilitySpecial"
 		{
-			"01"{ "var_type"			"FIELD_INTEGER"		"duration"				"15" }
-			"02"{ "var_type"			"FIELD_INTEGER"		"base_bubble"			"100 200 400" }
-			"03"{ "var_type"			"FIELD_FLOAT"		"dmg_multiplier"		"25 50 100" }
-			"04"{ "var_type"			"FIELD_INTEGER"		"enemy_cooldown"		"30" }
+			//"01"{ "var_type"			"FIELD_INTEGER"		"duration"				"15" }
+			"02"{ "var_type"			"FIELD_INTEGER"		"base_bubble"			"50 100 200 400" }
+			"03"{ "var_type"			"FIELD_FLOAT"		"dmg_multiplier"		"4 8 16 32" }
+			"04"{ "var_type"			"FIELD_INTEGER"		"enemy_cooldown"		"2" }
+			"05"{ "var_type"			"FIELD_INTEGER"		"ally_cooldown"			"1" }
+			"06"{ "var_type"			"FIELD_INTEGER"		"enemy_duration"		"1" }
+			"07"{ "var_type"			"FIELD_INTEGER"		"ally_duration"			"1" }
 		}
 
 		"precache"

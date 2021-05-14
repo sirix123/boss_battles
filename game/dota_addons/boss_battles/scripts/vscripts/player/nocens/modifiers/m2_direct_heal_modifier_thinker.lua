@@ -43,9 +43,15 @@ function m2_direct_heal_modifier_thinker:OnDestroy( kv )
 			false	-- bool, can grow cache
 		)
 
-		for _, friend in pairs(friendlies) do
-            friend:Heal(self:GetAbility():GetSpecialValueFor( "heal" ),self.caster)
-			--print("friend ",friend:GetUnitName())
+		if friendlies ~= nil and #friendlies ~= 0 then
+
+			if #friendlies == 1 then
+				friendlies[1]:Heal(self:GetAbility():GetSpecialValueFor( "heal" ),self.caster)
+			else
+				for _, friend in pairs(friendlies) do
+					friend:Heal( ( self:GetAbility():GetSpecialValueFor( "heal" ) / #friendlies ) ,self.caster)
+				end
+			end
 		end
 
 		-- remove thinker

@@ -61,6 +61,8 @@ function fire_cross_grenade_thinker:DetectPlayerTimer()
             if enemies ~= nil and #enemies ~= 0 then
                 for _,enemy in pairs(enemies) do
                     enemy:AddNewModifier( self:GetCaster(), self, "fire_cross_grenade_debuff", { duration = -1 } )
+                    ParticleManager:DestroyParticle(self.pfx_3,true)
+                    self.destroy_flag = true
                 end
             end
 

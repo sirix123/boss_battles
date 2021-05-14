@@ -50,25 +50,72 @@ function e_qop_shield:OnSpellStart()
         -- init
         self.caster = self:GetCaster()
 
-        local duration = self:GetSpecialValueFor( "duration" )
+        --local duration = self:GetSpecialValueFor( "duration" )
+        local ally_duration = self:GetSpecialValueFor( "ally_duration" )    --1
+        local enemy_duration = self:GetSpecialValueFor( "enemy_duration" )  --1
+
+        local ally_cooldown = self:GetSpecialValueFor( "ally_cooldown" )    --1
+        local enemy_cooldown = self:GetSpecialValueFor( "enemy_cooldown" )  --2
+
+        local modifier = "m2_qop_stacks"
+        local stacks = 0
+        if self.caster:HasModifier(modifier) then
+            stacks = self.caster:GetModifierStackCount(modifier, self.caster)
+        end
+
+        if stacks == 0 then
+
+            ally_duration = ally_duration
+            enemy_duration = enemy_duration
+
+            ally_cooldown = ally_cooldown
+            enemy_cooldown = enemy_cooldown
+
+        elseif stacks == 1 then
+
+            ally_duration = ally_duration       *   2
+            enemy_duration = enemy_duration     *   2
+
+            ally_cooldown = ally_cooldown       *   2
+            enemy_cooldown = enemy_cooldown     *   2
+
+        elseif stacks == 2 then
+
+            ally_duration = ally_duration       *   4
+            enemy_duration = enemy_duration     *   4
+
+            ally_cooldown = ally_cooldown       *   4
+            enemy_cooldown = enemy_cooldown     *   4
+
+        elseif stacks == 3 then
+
+            ally_duration = ally_duration       *   8
+            enemy_duration = enemy_duration     *   8
+
+            ally_cooldown = ally_cooldown       *   8
+            enemy_cooldown = enemy_cooldown     *   8
+
+        end
 
         if self.target:GetTeam() == DOTA_TEAM_GOODGUYS then
             self.target:AddNewModifier(
                 self.caster, -- player source
                 self, -- ability source
                 "e_qop_shield_modifier", -- modifier name
-                { duration = duration } -- kv
+                { duration = ally_duration } -- kv
             )
+
+            self:StartCooldown(ally_cooldown)
 
         elseif self.target:GetTeam() == DOTA_TEAM_BADGUYS then
             self.target:AddNewModifier(
                 self.caster, -- player source
                 self, -- ability source
                 "e_qop_shield_modifier_enemy", -- modifier name
-                { duration = duration } -- kv
+                { duration = enemy_duration } -- kv
             )
 
-            self:StartCooldown(self:GetSpecialValueFor( "enemy_cooldown" ))
+            self:StartCooldown(enemy_cooldown)
 
         end
 	end

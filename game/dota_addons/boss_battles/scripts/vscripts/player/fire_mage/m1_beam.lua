@@ -126,14 +126,14 @@ function m1_beam:OnSpellStart()
                     if units ~= nil and #units ~= 0 then
                         for _,unit in pairs(units) do
 
-                            if i <= 1 then
+                            if i <= 1 and i <= 3.5 then
                                 self.caster:ManaOnHit(self:GetSpecialValueFor( "mana_gain_percent") * self:GetSpecialValueFor( "mana_reduction_stage_1" ))
                                 if unit:HasModifier("m2_meteor_fire_weakness") then
                                     dmg = dmg_1_buff
                                 else
                                     dmg = dmg_1
                                 end
-                            elseif i <= 5 then
+                            elseif i <= 3.5 and i <= 5 then
                                 self.caster:ManaOnHit(self:GetSpecialValueFor( "mana_gain_percent") * self:GetSpecialValueFor( "mana_reduction_stage_2" ))
                                 if unit:HasModifier("m2_meteor_fire_weakness") then
                                     dmg = dmg_2_buff

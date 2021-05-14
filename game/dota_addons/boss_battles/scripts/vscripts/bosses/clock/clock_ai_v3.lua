@@ -757,9 +757,9 @@ function CheckFurnace()
 				thisEntity:AddNewModifier( nil, nil, "enrage", { duration = -1 } )
 			end)
 
-			return 100
+			return 80
 		else
-			return 100
+			return 80
 		end
 
 	end)

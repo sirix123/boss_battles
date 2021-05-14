@@ -12,7 +12,7 @@ function Filters:Activate(GameMode, this)
 
         --
 
-        print("direction casting ",point)
+        --print("direction casting ",point)
 
         if order_type == DOTA_UNIT_ORDER_CAST_POSITION then
             local ability = EntIndexToHScript(filter_table.entindex_ability)

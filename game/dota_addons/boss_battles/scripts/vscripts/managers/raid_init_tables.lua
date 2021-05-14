@@ -43,6 +43,14 @@ tRAID_INIT_TABLE = {
 	},
 
 	[4] = {
+		name = "Gyrocopter",
+		description = "gyrocopter boss description",
+		arena = "gyro_player_spawn",
+		spawnLocation = "gyro_boss_spawn",
+		boss = "npc_gyrocopter",
+	},
+
+	[5] = {
 		name = "Techies",
 		description = "MANY ANIMALS",
 		arena = "techies_player_spawn",
@@ -50,20 +58,12 @@ tRAID_INIT_TABLE = {
 		boss = "npc_techies",
 	},
 
-	[5] = {
+	[6] = {
 		name = "Clock",
 		description = "MANY ANIMALS",
 		arena = "clock_player_spawn",
 		spawnLocation = "clock_boss_spawn",
 		boss = "npc_clock",
-	},
-
-	[6] = {
-		name = "Gyrocopter",
-		description = "gyrocopter boss description",
-		arena = "gyro_player_spawn",
-		spawnLocation = "gyro_boss_spawn",
-		boss = "npc_gyrocopter",
 	},
 
 	[7] = {

@@ -41,12 +41,20 @@ function e_qop_shield_modifier_enemy:OnCreated( kv )
             self.caster:RemoveModifierByName(modifier)
         end
 
-        if stacks == 1 then
-            self.damage_factor = self.damage_factor * 2 -- 50%
+		if stacks == 0 then
+			self.damage_factor = self.damage_factor / 2
+        elseif stacks == 1 then
+            self.damage_factor = self.damage_factor
+			self.caster:RemoveModifierByName(modifier)
         elseif stacks == 2 then
-            self.damage_factor = self.damage_factor * 3 -- 75%
+            self.damage_factor = self.damage_factor * 2
+			self.caster:RemoveModifierByName(modifier)
+			self.caster:RemoveModifierByName(modifier)
         elseif stacks == 3 then
-            self.damage_factor = self.damage_factor * 4 -- 100%
+            self.damage_factor = self.damage_factor * 4
+			self.caster:RemoveModifierByName(modifier)
+			self.caster:RemoveModifierByName(modifier)
+			self.caster:RemoveModifierByName(modifier)
         end
 
         self.damage_taken_during_debuff = 0

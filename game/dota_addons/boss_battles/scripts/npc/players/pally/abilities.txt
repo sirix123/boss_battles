@@ -141,7 +141,7 @@
 		"AbilitySpecial"
 		{
 			"01"{ "var_type"			"FIELD_INTEGER"		"duration"							"10" }
-			"02"{ "var_type"			"FIELD_INTEGER"		"regen_plus"						"15" }
+			"02"{ "var_type"			"FIELD_INTEGER"		"regen_plus"						"20" }
 			"03"{ "var_type"			"FIELD_INTEGER"		"regen_minus"						"35" }
 		}
 

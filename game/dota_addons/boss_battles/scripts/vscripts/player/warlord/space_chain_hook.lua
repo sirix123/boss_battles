@@ -60,6 +60,13 @@ function space_chain_hook:OnAbilityPhaseInterrupted()
         -- remove casting modifier
         self:GetCaster():RemoveModifierByName("casting_modifier_thinker")
 
+        caster:FindAbilityByName("m1_sword_slash"):SetActivated(true)
+        caster:FindAbilityByName("m2_sword_slam"):SetActivated(true)
+        caster:FindAbilityByName("q_conq_shout"):SetActivated(true)
+        caster:FindAbilityByName("e_warlord_shout"):SetActivated(true)
+        caster:FindAbilityByName("r_blade_vortex"):SetActivated(true)
+        caster:FindAbilityByName("space_chain_hook"):SetActivated(true)
+
     end
 end
 ---------------------------------------------------------------------------

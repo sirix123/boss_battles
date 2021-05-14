@@ -66,7 +66,7 @@
 			"01"{ "var_type"			"FIELD_INTEGER"		"dmg"							"100" 	}
 			"02"{ "var_type"			"FIELD_INTEGER"		"hit_box"						"80" 	}
 			"03"{ "var_type"			"FIELD_INTEGER"		"proj_speed"					"1600" 	}
-			"04"{ "var_type"			"FIELD_FLOAT"		"dmg_dist_multi"             	"0.3" 	}
+			"04"{ "var_type"			"FIELD_FLOAT"		"dmg_dist_multi"             	"0.2" 	}
 			//"05"{ "var_type"			"FIELD_INTEGER"		"mana_gain_percent"             "30" 	}
 			
 		}
@@ -98,7 +98,7 @@
 			"01"{ "var_type"			"FIELD_INTEGER"		"hit_box"							"200" }
 			"02"{ "var_type"			"FIELD_INTEGER"		"proj_speed"						"1600" }
 			"03"{ "var_type"			"FIELD_INTEGER"		"heal"								"100" }
-			"04"{ "var_type"			"FIELD_FLOAT"		"heal_dist_multi"					"0.08" }
+			"04"{ "var_type"			"FIELD_FLOAT"		"heal_dist_multi"					"0.04" }
 			"05"{ "var_type"			"FIELD_INTEGER"		"mana_gain_per_hit"             	"3" }
 		}
 
@@ -156,7 +156,7 @@
 		"AbilityUnitDamageType"			"DAMAGE_TYPE_PHYSICAL"
         "AbilityBehavior"				"DOTA_ABILITY_BEHAVIOR_POINT | DOTA_ABILITY_BEHAVIOR_AOE"
 		"AbilityCastRange" 				"3000"
-        "AbilityCooldown"				"12"
+        "AbilityCooldown"				"15"
         "AbilityCastPoint"              "0.2"
 		"AbilityManaCost"        		"50"
 		"AbilityDuration"				"1"

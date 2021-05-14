@@ -31,10 +31,20 @@ function e_qop_shield_modifier:OnCreated( kv )
             self.caster:RemoveModifierByName(modifier)
         end
 
-        if stacks == 2 then
+        if stacks == 0 then
+            self.max_shield = self.max_shield / 2
+        elseif stacks == 1 then
+            self.max_shield = self.max_shield
+            self.caster:RemoveModifierByName(modifier)
+        elseif stacks == 2 then
             self.max_shield = self.max_shield * 2
+            self.caster:RemoveModifierByName(modifier)
+            self.caster:RemoveModifierByName(modifier)
         elseif stacks == 3 then
             self.max_shield = self.max_shield * 4
+            self.caster:RemoveModifierByName(modifier)
+            self.caster:RemoveModifierByName(modifier)
+            self.caster:RemoveModifierByName(modifier)
         end
 
         self.shield_remaining = self.max_shield

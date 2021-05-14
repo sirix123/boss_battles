@@ -34,8 +34,8 @@
             "01"{ "var_type"			"FIELD_INTEGER"		"missile_radius"		"200" }
             "02"{ "var_type"			"FIELD_INTEGER"		"flTimeBetweenWaves"	"5 4 4 3" }
             "03"{ "var_type"			"FIELD_INTEGER"		"nMaxWaves"				"2 3 3 4" }
-            "04"{ "var_type"			"FIELD_INTEGER"		"dmg_hit"				"100" }
-            "05"{ "var_type"			"FIELD_INTEGER"		"dmg_dot"				"10" }
+            "04"{ "var_type"			"FIELD_INTEGER"		"dmg_hit"				"150" }
+            "05"{ "var_type"			"FIELD_INTEGER"		"dmg_dot"				"50" }
             "06"{ "var_type"			"FIELD_INTEGER"		"dmg_interval"			"1" }
             "07"{ "var_type"			"FIELD_INTEGER"		"duration"			    "2" }
 		}
@@ -284,7 +284,7 @@
 		"AbilitySpecial"
 		{
             "01"{ "var_type"			"FIELD_INTEGER"		"speed"		            "500" }
-            "02"{ "var_type"			"FIELD_INTEGER"		"dmg"		            "100" }
+            "02"{ "var_type"			"FIELD_INTEGER"		"dmg"		            "250" }
             "03"{ "var_type"			"FIELD_INTEGER"		"hit_box"		        "200" }
 		}
 
@@ -351,7 +351,7 @@
 		"AbilitySpecial"
 		{
             "01"{ "var_type"			"FIELD_INTEGER"		"speed"		            "500" }
-            "02"{ "var_type"			"FIELD_INTEGER"		"dmg"		            "100" }
+            "02"{ "var_type"			"FIELD_INTEGER"		"dmg"		            "130" }
             "03"{ "var_type"			"FIELD_INTEGER"		"hit_box"		        "200" }
             "04"{ "var_type"			"FIELD_INTEGER"		"angleIncrement"		"12"  }
             "05"{ "var_type"			"FIELD_FLOAT"		"delay_between_shots"	"1.5" }
