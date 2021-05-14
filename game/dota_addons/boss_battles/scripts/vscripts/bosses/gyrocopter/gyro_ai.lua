@@ -475,22 +475,6 @@ function CastFireGrenade()
 end
 --------------------------------------------------------------------------------
 
-function CastFleeIntermission( vLocation )
-
-	ExecuteOrderFromTable({
-		UnitIndex = thisEntity:entindex(),
-		OrderType = DOTA_UNIT_ORDER_CAST_POSITION,
-		AbilityIndex = thisEntity.intermission_flee:entindex(),
-		Position = vLocation,
-		Queue = false,
-	})
-
-	thisEntity.PHASE = 6
-
-	return thisEntity.intermission_flee_return_value + 2
-end
---------------------------------------------------------------------------------
-
 function FindFurthestPlayer()
 
 	-- find random player
@@ -571,7 +555,7 @@ end
 function CricleTimer()
     thisEntity.circle_timer_running = true
 	local count = 0
-	local max_duration = 40
+	local max_duration = 35
 
 	-- start countdown
 	if thisEntity.particle ~= nil then
@@ -605,7 +589,7 @@ function CricleTimer()
     end)
 
 	-- particle timer count
-	thisEntity.particle_count = 40
+	thisEntity.particle_count = 35
 	thisEntity.particle_timer = ParticleManager:CreateParticle("particles/gyrocopter/gyro_wisp_relocate_timer_custom.vpcf", PATTACH_OVERHEAD_FOLLOW, thisEntity)
 	Timers:CreateTimer(function()
         if IsValidEntity(thisEntity) == false then return false end

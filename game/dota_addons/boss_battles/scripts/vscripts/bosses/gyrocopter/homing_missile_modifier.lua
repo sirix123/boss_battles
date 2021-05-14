@@ -120,7 +120,7 @@ function homing_missile_modifier:OnIntervalThink()
                     stacks = self:GetCaster():GetModifierStackCount("gyro_homing_missile_stun_check", self:GetCaster())
                 end
 
-                if stacks >= 2 then
+                if stacks >= 3 then
 
                     if self:GetCaster().particle_timer ~= nil then
                         ParticleManager:DestroyParticle(self:GetCaster().particle_timer,true)
@@ -139,7 +139,7 @@ function homing_missile_modifier:OnIntervalThink()
                         self, -- ability source
                         "modifier_stunned", -- modifier name
                         {
-                            duration = 20,
+                            duration = 10,
                     })
 
                     self.target:AddNewModifier(
@@ -147,7 +147,7 @@ function homing_missile_modifier:OnIntervalThink()
                         self, -- ability source
                         "purple_crystal_modifier", -- modifier name
                         {
-                            duration = 20,
+                            duration = 10,
                     })
                 end
             else

@@ -222,7 +222,7 @@
             "04"
             {
                 "var_type"              "FIELD_FLOAT"
-                "damage"     	        "15"
+                "damage"     	        "30"
             }
             "05"
             {

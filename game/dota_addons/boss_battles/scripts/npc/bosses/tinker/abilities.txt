@@ -251,7 +251,7 @@
 		"AbilitySpecial"
 		{
             "01"{ "var_type"			"FIELD_INTEGER"		"speed"		        "700" }
-            "02"{ "var_type"			"FIELD_INTEGER"		"dmg"		        "10" }
+            "02"{ "var_type"			"FIELD_INTEGER"		"dmg"		        "15" }
             "03"{ "var_type"			"FIELD_INTEGER"		"radius"		    "100" }
             "04"{ "var_type"			"FIELD_INTEGER"		"interval"		    "2" }
             "05"{ "var_type"			"FIELD_INTEGER"		"duration"		    "50" }
@@ -875,7 +875,7 @@
         // Casting
         //-------------------------------------------------------------------------------------------------------------
         "AbilityCastPoint"              "4 4 4 4"
-        "AbilityCooldown"               "8 19 19 19"
+        "AbilityCooldown"               "7 7 7 7"
         "AbilityManaCost"               "0"
         "AbilityCastRange" 				"5000"
 
@@ -909,7 +909,7 @@
         // Casting
         //-------------------------------------------------------------------------------------------------------------
         "AbilityCastPoint"              "1 1 1 1"
-        "AbilityCooldown"               "16 30 30 30"
+        "AbilityCooldown"               "12 12 12 12"
         "AbilityManaCost"               "0"
         "AbilityCastRange" 				"600"
 
@@ -1168,7 +1168,7 @@
         // Casting
         //-------------------------------------------------------------------------------------------------------------
         "AbilityCastPoint"              "1.5 1.5 1.5 1.5"
-        "AbilityCooldown"               "35 35 35 35"
+        "AbilityCooldown"               "25 25 25 25"
         "AbilityManaCost"               "0"
         "AbilityCastRange" 				"5000"
 

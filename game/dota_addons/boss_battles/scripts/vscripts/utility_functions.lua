@@ -295,10 +295,10 @@ function PrintTable(t, indent, done)
 	end
 end
 
-function FindEnemyUnitsInRing(position, maxRadius, minRadius, team)
+function FindEnemyUnitsInRing(position, maxRadius, minRadius, team, flags)
 		local iTeam = DOTA_UNIT_TARGET_TEAM_ENEMY
 		local iType = DOTA_UNIT_TARGET_ALL
-		local iFlag = DOTA_UNIT_TARGET_FLAG_NONE
+		local iFlag = flags --DOTA_UNIT_TARGET_FLAG_INVULNERABLE
 		local iOrder = FIND_ANY_ORDER
 
 		local innerRing = FindUnitsInRadius(team, position, nil, minRadius, iTeam, iType, iFlag, iOrder, false)

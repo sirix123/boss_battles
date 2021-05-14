@@ -59,13 +59,6 @@ function cogs:OnSpellStart()
             -- create cog
             local cog = CreateUnitByName("npc_cog", vCogSpawn, true, caster, caster, caster:GetTeamNumber())
 
-            local units = FindUnitsInRadius(caster:GetTeamNumber(), vCogSpawn, nil, nCogRadius + 50, DOTA_UNIT_TARGET_TEAM_ENEMY, DOTA_UNIT_TARGET_HERO, DOTA_UNIT_TARGET_FLAG_MAGIC_IMMUNE_ENEMIES + DOTA_UNIT_TARGET_FLAG_INVULNERABLE, FIND_ANY_ORDER, false)
-            for _, unit in pairs(units) do
-                if units ~= nil and #units ~= 0 then
-                    FindClearSpaceForUnit(unit, unit:GetAbsOrigin(), false)
-                end
-            end
-
             -- set cog hull radius
             cog:SetHullRadius(150)
 
@@ -77,6 +70,15 @@ function cogs:OnSpellStart()
 
             -- emit sound
             cog:EmitSound("Hero_Rattletrap.Power_Cogs")
+
+            local units = FindEnemyUnitsInRing(vCaster, nCogRadius + 120, nCogRadius - 120, caster:GetTeamNumber(), DOTA_UNIT_TARGET_FLAG_INVULNERABLE)
+            if units ~= nil and #units ~= 0 then
+                for _, unit in pairs(units) do
+                    print("unit found ",unit:GetUnitName())
+                    local direction = ( unit:GetAbsOrigin() - caster:GetAbsOrigin() ):Normalized()
+                    FindClearSpaceForUnit(unit, unit:GetAbsOrigin() + direction * 50, true)
+                end
+            end
 
             -- rotate cog vector to spawn next one
             vCogSpawn = RotatePosition(vCaster, QAngle(0, 360 / nCogs, 0), vCogSpawn)

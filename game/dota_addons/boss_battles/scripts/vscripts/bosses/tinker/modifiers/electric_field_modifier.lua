@@ -27,7 +27,7 @@ function electric_field_modifier:OnCreated(keys)
 
     local enemyHit = {}
 
-    FindEnemyUnitsInRing(caster:GetAbsOrigin(), maxRadius, currentRadius, self:GetCaster():GetTeamNumber())
+    FindEnemyUnitsInRing(caster:GetAbsOrigin(), maxRadius, currentRadius, self:GetCaster():GetTeamNumber(), DOTA_UNIT_TARGET_FLAG_NONE)
 
     -- flag for returning
     local return_field = false

@@ -84,6 +84,7 @@ function modifier_flak_cannon:OnIntervalThink()
 
 		if self:GetParent() == nil then self:Destroy() end
 
+        -- for close units
 		local units = FindUnitsInRadius(
 			self:GetParent():GetTeamNumber(),	-- int, your team number
 			self:GetParent():GetOrigin(),	-- point, center point
@@ -96,38 +97,74 @@ function modifier_flak_cannon:OnIntervalThink()
 			false	-- bool, can grow cache
 		)
 
-		for _,unit in pairs(units) do
+        if units ~= nil and #units ~= 0 then
+            for _,unit in pairs(units) do
 
-            EmitSoundOn( "Hero_Gyrocopter.FlackCannon", self:GetCaster() )
+                EmitSoundOn( "Hero_Gyrocopter.FlackCannon", self:GetCaster() )
 
-            local info = {
-                EffectName = "particles/econ/items/gyrocopter/hero_gyrocopter_gyrotechnics/gyro_base_attack.vpcf",
-                Ability = self,
-                iMoveSpeed = 1500,
-                Source = self:GetCaster(),
-                Target = unit,
-                bDodgeable = false,
-                iSourceAttachment = DOTA_PROJECTILE_ATTACHMENT_ATTACK_1,
-                bProvidesVision = true,
-                iVisionTeamNumber = self:GetCaster():GetTeamNumber(),
-                iVisionRadius = 300,
-            }
+                local info = {
+                    EffectName = "particles/econ/items/gyrocopter/hero_gyrocopter_gyrotechnics/gyro_base_attack.vpcf",
+                    Ability = self,
+                    iMoveSpeed = 1500,
+                    Source = self:GetCaster(),
+                    Target = unit,
+                    bDodgeable = false,
+                    iSourceAttachment = DOTA_PROJECTILE_ATTACHMENT_ATTACK_1,
+                    bProvidesVision = true,
+                    iVisionTeamNumber = self:GetCaster():GetTeamNumber(),
+                    iVisionRadius = 300,
+                }
 
-            -- shoot proj
-            ProjectileManager:CreateTrackingProjectile( info )
+                -- shoot proj
+                ProjectileManager:CreateTrackingProjectile( info )
 
-            local dmgTable =
-            {
-                victim = unit,
-                attacker = self:GetCaster(),
-                damage = 15,
-                damage_type = DAMAGE_TYPE_PHYSICAL,
-            }
+                local dmgTable =
+                {
+                    victim = unit,
+                    attacker = self:GetCaster(),
+                    damage = 15,
+                    damage_type = DAMAGE_TYPE_PHYSICAL,
+                }
 
-            ApplyDamage(dmgTable)
+                ApplyDamage(dmgTable)
+            end
+        end
 
+        local units_larger_radius = FindEnemyUnitsInRing(self:GetParent():GetOrigin(), self.radius * 3, self.radius, self:GetParent():GetTeamNumber(), DOTA_UNIT_TARGET_FLAG_NONE)
 
-		end
+        -- for units further away (outside of the flak radius)
+        if units_larger_radius ~= nil and #units_larger_radius ~= 0 then
+            for _,unit in pairs(units_larger_radius) do
+
+                EmitSoundOn( "Hero_Gyrocopter.FlackCannon", self:GetCaster() )
+
+                local info = {
+                    EffectName = "particles/units/heroes/hero_phoenix/phoenix_base_attack.vpcf",
+                    Ability = self,
+                    iMoveSpeed = 800,
+                    Source = self:GetCaster(),
+                    Target = unit,
+                    bDodgeable = false,
+                    iSourceAttachment = DOTA_PROJECTILE_ATTACHMENT_ATTACK_1,
+                    bProvidesVision = true,
+                    iVisionTeamNumber = self:GetCaster():GetTeamNumber(),
+                    iVisionRadius = 300,
+                }
+
+                -- shoot proj
+                ProjectileManager:CreateTrackingProjectile( info )
+
+                local dmgTable =
+                {
+                    victim = unit,
+                    attacker = self:GetCaster(),
+                    damage = 100,
+                    damage_type = DAMAGE_TYPE_PHYSICAL,
+                }
+
+                ApplyDamage(dmgTable)
+            end
+        end
 	end
 end
 

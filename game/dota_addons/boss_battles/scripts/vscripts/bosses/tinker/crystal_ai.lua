@@ -80,7 +80,7 @@ function Spawn( entityKeyValues )
             return false
         end)
 
-        return 50
+        return 40
     end)
 
     thisEntity:SetContextThink( "CrystalThinker", CrystalThinker, 0.1 )

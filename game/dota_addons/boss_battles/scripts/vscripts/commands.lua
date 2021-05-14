@@ -98,19 +98,19 @@ function Commands:OnPlayerChat(keys)
                 end
                 if bossName == "techies" then
                     print("TODO: start boss ", bossName)
-                    BOSS_BATTLES_ENCOUNTER_COUNTER = 4
+                    BOSS_BATTLES_ENCOUNTER_COUNTER = 5
                     --GameSetup:ReadyupCheck()
                     --self:StartBoss(4)
                 end
                 if bossName == "clock" then
                     print("TODO: start boss ", bossName)
-                    BOSS_BATTLES_ENCOUNTER_COUNTER = 5
+                    BOSS_BATTLES_ENCOUNTER_COUNTER = 6
                     --GameSetup:ReadyupCheck()
                     --self:StartBoss(5)
                 end
                 if bossName == "gyro" then
                     print("TODO: start boss ", bossName)
-                    BOSS_BATTLES_ENCOUNTER_COUNTER = 6
+                    BOSS_BATTLES_ENCOUNTER_COUNTER = 4
                     --GameSetup:ReadyupCheck()
                     --self:StartBoss(6)
                 end
