@@ -30,7 +30,7 @@
 		"Ability8"					"intermission_flee"
 		"Ability9"					"spawn_cleaning_bot"
 		"Ability10"					"gyro_intermission_homing_missile"
-		"Ability11"					""
+		"Ability11"					"tornado_intermission_phase"
 		"Ability12"					""
 		"Ability13"					""
 		"Ability14"					""
@@ -458,7 +458,7 @@
 		// Movement
 		//----------------------------------------------------------------
 		"MovementCapabilities"		"DOTA_UNIT_CAP_MOVE_GROUND" // or DOTA_UNIT_CAP_MOVE_FLY
-		"MovementSpeed"				"350"				
+		"MovementSpeed"				"400"				
 		"MovementTurnRate"          "2.0"        // Turning rate. 	
 
 		// Status

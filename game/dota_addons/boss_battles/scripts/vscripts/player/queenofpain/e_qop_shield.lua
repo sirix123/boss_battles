@@ -5,8 +5,6 @@ LinkLuaModifier("e_qop_shield_modifier_enemy", "player/queenofpain/modifiers/e_q
 function e_qop_shield:OnAbilityPhaseStart()
     if IsServer() then
 
-        
-
         local units = FindUnitsInRadius(
             self:GetCaster():GetTeamNumber(),
             Clamp(self:GetCaster():GetOrigin(), Vector(self:GetCaster().mouse.x, self:GetCaster().mouse.y, self:GetCaster().mouse.z), self:GetCastRange(Vector(0,0,0), nil), 0),

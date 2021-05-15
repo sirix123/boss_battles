@@ -81,6 +81,10 @@ function cannon_ball:OnSpellStart()
 		self:GetCaster():SetForwardVector(self.vTargetPos)
 		self:GetCaster():FaceTowards(self.vTargetPos)
 
+		self:OilSpawner()
+
+		self.tProjs = {}
+
 		--self.stop_timer = true
 
         -- remove casting animation
@@ -153,8 +157,46 @@ function cannon_ball:OnSpellStart()
 			}
 
 			-- Cast projectile
-			Projectiles:CreateProjectile(projectile)
+			local projectile_data = Projectiles:CreateProjectile(projectile)
+			table.insert(self.tProjs,projectile_data)
 		end
 	end
 end
 ---------------------------------------------------------------------------
+
+
+function cannon_ball:OilSpawner()
+	if IsServer() then
+		Timers:CreateTimer(function()
+			if IsValidEntity(self:GetCaster()) == false then
+				return false
+			end
+
+			if self:GetCaster():IsAlive() == false then
+                return false
+            end
+
+			for _, proj in pairs(self.tProjs) do
+				if proj then
+					local puddle = CreateModifierThinker(
+						self:GetCaster(),
+							self,
+							"oil_drop_thinker",
+							{
+								target_x = proj:GetPosition().x,
+								target_y = proj:GetPosition().y,
+								target_z = proj:GetPosition().z,
+							},
+							proj:GetPosition(),
+							self:GetCaster():GetTeamNumber(),
+							false
+						)
+	
+					table.insert(_G.Oil_Puddles, puddle)
+				end
+				return 0.8
+			end
+			return 0.8
+		end)
+	end
+end

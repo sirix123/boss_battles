@@ -12,7 +12,8 @@ function Filters:Activate(GameMode, this)
 
         --
 
-        --print("direction casting ",point)
+        --print("direction casting ",filter_table.position_z)
+        --print("caster z location ",caster:GetAbsOrigin().z)
 
         if order_type == DOTA_UNIT_ORDER_CAST_POSITION then
             local ability = EntIndexToHScript(filter_table.entindex_ability)
@@ -63,7 +64,6 @@ function Filters:Activate(GameMode, this)
             end
 
             if current_range > max_range then
-                print("out of range")
                 return false
             end
             return true

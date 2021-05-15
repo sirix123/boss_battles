@@ -12,7 +12,7 @@
         "Ability4"              "e_qop_shield"
         "Ability5"              "r_delayed_aoe_heal"
         "Ability6"              "space_leap_of_grip"
-        "Ability7"              ""
+        "Ability7"              "qop_passive"
         "Ability8"              ""
         "Ability9"              ""
         "Ability10"             ""
@@ -22,7 +22,7 @@
         "Ability14"             ""
         "Ability15"             ""
         "Ability16"             ""
-        "Ability17"             "qop_passive"
+        "Ability17"             ""
 
         "ArmorPhysical"             "0"
         "MagicalResistance"         "0"

@@ -122,7 +122,7 @@ function modifier_flak_cannon:OnIntervalThink()
                 {
                     victim = unit,
                     attacker = self:GetCaster(),
-                    damage = 15,
+                    damage = 5,
                     damage_type = DAMAGE_TYPE_PHYSICAL,
                 }
 
@@ -158,7 +158,7 @@ function modifier_flak_cannon:OnIntervalThink()
                 {
                     victim = unit,
                     attacker = self:GetCaster(),
-                    damage = 100,
+                    damage = 20,
                     damage_type = DAMAGE_TYPE_PHYSICAL,
                 }
 

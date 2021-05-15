@@ -14,7 +14,7 @@ function modifier_generic_npc_reduce_turnrate:OnCreated( kv )
 
         if kv.target == 1 then
             self.target = global_hTarget
-            self.turn_rate = 25
+            self.turn_rate = kv.turn_rate
             local vec = self.target:GetAbsOrigin()
             self:SetDirection( vec )
             self.current_dir = self.target_dir
@@ -40,7 +40,7 @@ function modifier_generic_npc_reduce_turnrate:OnCreated( kv )
                 self:Destroy()
             else
                 self.target = enemies[RandomInt(1,#enemies)]
-                self.turn_rate = 25
+                self.turn_rate = kv.turn_rate
                 local vec = self.target:GetAbsOrigin()
                 self:SetDirection( vec )
                 self.current_dir = self.target_dir

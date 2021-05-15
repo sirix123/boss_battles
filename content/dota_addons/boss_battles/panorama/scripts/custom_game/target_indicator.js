@@ -29,6 +29,12 @@ function UpdateTargetIndicator(){
     for(var i = 0; i < 5; i++){
         var abilityIndex = Entities.GetAbility(heroIndex, i);
         //var abilityBehavior = Abilities.GetBehavior(abilityIndex)
+
+        if(abilityIndex == null){
+            $.Schedule(1/144, UpdateTargetIndicator);
+            return
+        }
+
         if( Abilities.IsInAbilityPhase(abilityIndex) ){
             //$.Msg("abiltiy?")
             active = abilityIndex;
@@ -228,11 +234,11 @@ function SubscribeToNetTableKey(table, key, loadNow, callback){
 // init called by hero selection
 function Init(){
 
-    $.Msg("ehllo target indciators")
+    //$.Msg("ehllo target indciators")
 
     SubscribeToNetTableKey("main", "targetingIndicators", true, function(data){
         targetingIndicators = data;
-        //$.Msg(targetingIndicators)
+        //$.Msg("targetingIndicators ",targetingIndicators)
     });
 
     UpdateTargetIndicator();

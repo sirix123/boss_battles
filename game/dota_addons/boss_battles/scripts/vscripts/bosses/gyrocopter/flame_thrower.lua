@@ -29,6 +29,7 @@ function flame_thrower:OnAbilityPhaseStart()
             {
                 duration = -1,
                 target = true,
+                turn_rate = 50,
             })
 
             self.nfx_indicator = ParticleManager:CreateParticle( "particles/gyrocopter/gyro_flame_debuff.vpcf", PATTACH_OVERHEAD_FOLLOW, global_hTarget )
@@ -91,6 +92,10 @@ function flame_thrower:OnSpellStart( )
     self:GetCaster():FadeGesture(ACT_DOTA_CAST_ABILITY_1)
     self.caster = self:GetCaster()
 
+    if self.nfx_indicator_cone ~= nil  then
+        ParticleManager:DestroyParticle(self.nfx_indicator_cone,true)
+    end
+
     local radius = 280
 
     if self.create_particle == true then
@@ -112,9 +117,6 @@ function flame_thrower:OnSpellStart( )
             if self.timer_cone ~= nil then
                 Timers:RemoveTimer(self.timer_cone)
             end
-            if self.nfx_indicator_cone ~= nil  then
-                ParticleManager:DestroyParticle(self.nfx_indicator_cone,true)
-            end
             i = 0
             return false
         end
@@ -133,9 +135,6 @@ function flame_thrower:OnSpellStart( )
             end
             if self.timer_cone ~= nil then
                 Timers:RemoveTimer(self.timer_cone)
-            end
-            if self.nfx_indicator_cone ~= nil  then
-                ParticleManager:DestroyParticle(self.nfx_indicator_cone,true)
             end
             i = 0
             return false

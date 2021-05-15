@@ -73,7 +73,6 @@ function Spawn( entityKeyValues )
 	thisEntity.fire_gren:StartCooldown(2)
 
 	thisEntity.spawn_cleaning_bot = thisEntity:FindAbilityByName( "spawn_cleaning_bot" )
-	thisEntity.spawn_cleaning_bot:StartCooldown(2)
 
 	thisEntity.intermission_flee = thisEntity:FindAbilityByName( "intermission_flee" )
 	thisEntity.intermission_flee_return_value = thisEntity.intermission_flee:GetLevelSpecialValueFor("return_value", thisEntity.intermission_flee:GetLevel())
@@ -82,6 +81,10 @@ function Spawn( entityKeyValues )
 
 	thisEntity.homing_missile = thisEntity:FindAbilityByName( "gyro_intermission_homing_missile" )
 	thisEntity.unexploded_rockets = {}
+
+	thisEntity.tornado = thisEntity:FindAbilityByName( "tornado_intermission_phase" )
+
+	BossHpMonitorCleaningBotSpawner()
 
 
 	-- flee point calculations
@@ -305,12 +308,12 @@ function GyroThink()
 			thisEntity.circle_timer_running = false
 		end
 
-		if thisEntity.fire_gren:IsFullyCastable() and thisEntity.fire_gren:IsCooldownReady() and thisEntity.fire_gren:IsInAbilityPhase() == false then
-			return CastFireGrenade()
+		if thisEntity.tornado:IsFullyCastable() and thisEntity.tornado:IsCooldownReady() and thisEntity.tornado:IsInAbilityPhase() == false then
+			return CastTornado()
 		end
 
-		if thisEntity.spawn_cleaning_bot:IsFullyCastable() and thisEntity.spawn_cleaning_bot:IsCooldownReady() and thisEntity.spawn_cleaning_bot:IsInAbilityPhase() == false then
-			return CastCleaner()
+		if thisEntity.fire_gren:IsFullyCastable() and thisEntity.fire_gren:IsCooldownReady() and thisEntity.fire_gren:IsInAbilityPhase() == false then
+			return CastFireGrenade()
 		end
 
 	end
@@ -326,10 +329,6 @@ function GyroThink()
 
 		if thisEntity.fire_gren:IsFullyCastable() and thisEntity.fire_gren:IsCooldownReady() and thisEntity.fire_gren:IsInAbilityPhase() == false then
 			return CastFireGrenade()
-		end
-
-		if thisEntity.spawn_cleaning_bot:IsFullyCastable() and thisEntity.spawn_cleaning_bot:IsCooldownReady() and thisEntity.spawn_cleaning_bot:IsInAbilityPhase() == false then
-			return CastCleaner()
 		end
 
 		if thisEntity.swoop:IsFullyCastable() and thisEntity.swoop:IsCooldownReady() and thisEntity.swoop:IsInAbilityPhase() == false then
@@ -445,6 +444,20 @@ function CastMissile()
 		Queue = false,
 	})
 
+	return 1
+end
+--------------------------------------------------------------------------------
+
+function CastTornado()
+
+	ExecuteOrderFromTable({
+		UnitIndex = thisEntity:entindex(),
+		OrderType = DOTA_UNIT_ORDER_CAST_NO_TARGET,
+		AbilityIndex = thisEntity.tornado:entindex(),
+		Queue = false,
+	})
+
+	return 1
 end
 --------------------------------------------------------------------------------
 
@@ -657,5 +670,49 @@ function RandomiseCoolDowns( )
 	thisEntity.cannon_ball:StartCooldown(RandomInt(5,10))
 	thisEntity.flame_thrower:StartCooldown(RandomInt(10,20))
 	thisEntity.flee:StartCooldown(RandomInt(20,30))
+end
+------------------------------------------------------------------------------------------------------------------------------
+
+function BossHpMonitorCleaningBotSpawner()
+
+	local count = 0
+	local bot_counter = 0
+	local percent_hp_missing_to_summon = 0.05
+	local hp_amount_to_summon = thisEntity:GetMaxHealth() * percent_hp_missing_to_summon
+
+	-- this timer checks the boss hp very freq and increments a count everytime %5 of the health missing
+	Timers:CreateTimer(function()
+		if IsValidEntity(thisEntity) ==  false then
+			return false
+		end
+
+		--print("thisEntity:GetHealth(): ",thisEntity:GetHealth(),"( hp_amount_to_summon * bot_counter ) - thisEntity:GetMaxHealth(): ",( hp_amount_to_summon * bot_counter ) - thisEntity:GetMaxHealth())
+
+		if thisEntity:GetHealth() < ( thisEntity:GetMaxHealth() - ( hp_amount_to_summon * bot_counter )  ) then
+			print("incrmeenting bot counters")
+			bot_counter = bot_counter + 1
+			count = count + 1
+		end
+
+		return 0.01
+	end)
+
+	-- this timer handles summoning the cleaning bots, decrements the count every time one is summoned
+	Timers:CreateTimer(function()
+		if IsValidEntity(thisEntity) ==  false then
+			return false
+		end
+
+		if count > 0 then
+			print("summoning bot")
+			if thisEntity.spawn_cleaning_bot:IsFullyCastable() and thisEntity.spawn_cleaning_bot:IsCooldownReady() and thisEntity.spawn_cleaning_bot:IsInAbilityPhase() == false then
+				return CastCleaner()
+			end
+
+			count = count - 1
+		end
+
+		return 2.0
+	end)
 end
 ------------------------------------------------------------------------------------------------------------------------------
