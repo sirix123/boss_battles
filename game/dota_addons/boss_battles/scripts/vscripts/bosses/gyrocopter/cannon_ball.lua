@@ -81,6 +81,14 @@ function cannon_ball:OnSpellStart()
 		self:GetCaster():SetForwardVector(self.vTargetPos)
 		self:GetCaster():FaceTowards(self.vTargetPos)
 
+		if self.height_timer then
+			Timers:RemoveTimer(self.height_timer)
+		end
+
+		if self.oil_spawner_timer then
+			Timers:RemoveTimer(self.oil_spawner_timer)
+		end
+
 		self:OilSpawner()
 
 		self.tProjs = {}
@@ -101,6 +109,8 @@ function cannon_ball:OnSpellStart()
 		local origin = caster:GetAbsOrigin()
 		local offset = 150
 
+		self.time_limit = self:GetSpecialValueFor("distance") / projectile_speed
+
 		for _, value in ipairs(self.balls) do
 			local projectile_direction = value["direction"]
 
@@ -116,10 +126,12 @@ function cannon_ball:OnSpellStart()
 				bMultipleHits = true,
 				TreeBehavior = PROJECTILES_NOTHING,
 				WallBehavior = PROJECTILES_BOUNCE,
-				GroundBehavior = PROJECTILES_FOLLOW,
-				fGroundOffset = 80,
+				GroundBehavior = PROJECTILES_NOTHING,
+				fGroundOffset = 1,
 				nChangeMax = 99,
+				bGroundLock = true,
 				draw = false,
+				--bZCheck = false,
 				UnitTest = function(_self, unit)
 
 					if unit:GetUnitName() == "npc_dota_thinker" or CheckGlobalUnitTableForUnitName(unit) == true or unit:GetTeamNumber() == caster:GetTeamNumber() then
@@ -167,7 +179,56 @@ end
 
 function cannon_ball:OilSpawner()
 	if IsServer() then
-		Timers:CreateTimer(function()
+		self.oil_spawner_timer = Timers:CreateTimer(function()
+			if IsValidEntity(self:GetCaster()) == false then
+				return false
+			end
+
+			if self:GetCaster():IsAlive() == false then
+                return false
+            end
+
+			--print("#self.tProjs ",#self.tProjs)
+
+			for index, proj in pairs(self.tProjs) do
+				if proj then
+
+					--print("cure time = ",GameRules:GetGameTime(), "end time = ",proj:GetCreationTime() + self.time_limit)
+					if ( GameRules:GetGameTime() ) > ( proj:GetCreationTime() + self.time_limit )  then
+						--print("do not create")
+						proj:Destroy()
+						return 1.4
+					end
+
+					--print("ball creating oil")
+					local puddle = CreateModifierThinker(
+						self:GetCaster(),
+							self,
+							"oil_drop_thinker",
+							{
+								target_x = proj:GetPosition().x,
+								target_y = proj:GetPosition().y,
+								target_z = GetGroundPosition( proj:GetPosition(), nil ).z,
+							},
+							GetGroundPosition( proj:GetPosition(), nil ),
+							self:GetCaster():GetTeamNumber(),
+							false
+						)
+
+					table.insert(_G.Oil_Puddles, puddle)
+				else
+					table.remove(self.tProjs,index)
+				end
+			end
+
+			return 1.4
+		end)
+	end
+end
+
+function cannon_ball:HeightChecker()
+	if IsServer() then
+		self.height_timer = Timers:CreateTimer(function()
 			if IsValidEntity(self:GetCaster()) == false then
 				return false
 			end
@@ -178,25 +239,13 @@ function cannon_ball:OilSpawner()
 
 			for _, proj in pairs(self.tProjs) do
 				if proj then
-					local puddle = CreateModifierThinker(
-						self:GetCaster(),
-							self,
-							"oil_drop_thinker",
-							{
-								target_x = proj:GetPosition().x,
-								target_y = proj:GetPosition().y,
-								target_z = proj:GetPosition().z,
-							},
-							proj:GetPosition(),
-							self:GetCaster():GetTeamNumber(),
-							false
-						)
-
-					table.insert(_G.Oil_Puddles, puddle)
+					if proj:GetPosition().z > 134 then
+						proj:Destroy()
+					end
 				end
 			end
 
-			return 0.8
+			return FrameTime()
 		end)
 	end
 end

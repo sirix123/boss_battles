@@ -508,7 +508,11 @@ function Projectiles:CreateProjectile(projectile)
               -- remove z
               normal.z = 0
               normal = normal:Normalized()
+              --print("bare bones normal: ",normal.z)
+              --print("bare bones ((-2 * vel:Dot(normal) * normal) + vel): ",((-2 * vel:Dot(normal) * normal) + vel))
+              --print("bare bones subpos: ",subpos)
               --DebugDrawLine_vCol(subpos, subpos + normal * 200, Vector(0,255,0), true, 1)
+              --print(" barebones veloity after bounce: ",)
               projectile:SetVelocity(((-2 * vel:Dot(normal) * normal) + vel) * 30, subpos)
               break
             end

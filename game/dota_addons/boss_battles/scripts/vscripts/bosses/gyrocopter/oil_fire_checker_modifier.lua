@@ -22,12 +22,18 @@ function oil_fire_checker_modifier:OnCreated( kv )
         self.count = self:GetStackCount()
 
         if self.count >= 10 then
-            print("self.count ",self.count)
+            --print("self.count ",self.count)
 
             -- start the count down
             self.timer = Timers:CreateTimer(function()
                 if self.particle ~= nil then
                     ParticleManager:DestroyParticle(self.particle,true)
+                end
+
+                if self.count <= 0 then
+                    print("destroying modifier oil_fire_checker_modifier")
+                    self:Destroy()
+                    return false
                 end
 
                 self.particle = ParticleManager:CreateParticle("particles/techies/wisp_relocate_timer_custom.vpcf", PATTACH_OVERHEAD_FOLLOW, self:GetParent())
@@ -83,6 +89,9 @@ end
 
 function oil_fire_checker_modifier:OnDestroy( kv )
     if IsServer() then
+        if self.particle ~= nil then
+            ParticleManager:DestroyParticle(self.particle,true)
+        end
         Timers:RemoveTimer(self.timer)
 	end
 end

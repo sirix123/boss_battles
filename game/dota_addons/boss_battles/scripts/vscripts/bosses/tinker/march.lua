@@ -58,7 +58,7 @@ function march:OnSpellStart()
         local left_fill_direction = Vector(0,1,0)
         local left_proj_direction = Vector(1,0,0)
 
-        local num_lines = 1
+        local num_lines = 2
         local previous_index = 0
         local tStartSpawns = { }
         local spawnInfo = { }

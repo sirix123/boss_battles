@@ -677,7 +677,7 @@ function BossHpMonitorCleaningBotSpawner()
 
 	local count = 0
 	local bot_counter = 0
-	local percent_hp_missing_to_summon = 0.05
+	local percent_hp_missing_to_summon = 0.15
 	local hp_amount_to_summon = thisEntity:GetMaxHealth() * percent_hp_missing_to_summon
 
 	-- this timer checks the boss hp very freq and increments a count everytime %5 of the health missing
@@ -689,7 +689,7 @@ function BossHpMonitorCleaningBotSpawner()
 		--print("thisEntity:GetHealth(): ",thisEntity:GetHealth(),"( hp_amount_to_summon * bot_counter ) - thisEntity:GetMaxHealth(): ",( hp_amount_to_summon * bot_counter ) - thisEntity:GetMaxHealth())
 
 		if thisEntity:GetHealth() < ( thisEntity:GetMaxHealth() - ( hp_amount_to_summon * bot_counter )  ) then
-			print("incrmeenting bot counters")
+			--print("bot_counter ",bot_counter)
 			bot_counter = bot_counter + 1
 			count = count + 1
 		end

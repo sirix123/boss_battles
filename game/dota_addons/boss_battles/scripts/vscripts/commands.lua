@@ -50,11 +50,13 @@ function Commands:OnPlayerChat(keys)
 
             if string.find(text, "reset damage") then
                 _G.DamageTable = {}
+                return
             end
 
             if string.find(text, "dps meter") then
                 --send event to hPlayer to show dps meter
                 CustomGameEventManager:Send_ServerToPlayer( hPlayer, "showDpsMeterUIEvent", {} )
+                return
             end
 
             if string.find(text, "reset") then
@@ -68,10 +70,12 @@ function Commands:OnPlayerChat(keys)
                         hero.direction.z = 0
                     end
                 end
+                return
             end
 
             if string.find(text, "admin-panel") then
                 print("TODO: call function to show admin-panel")
+                return
             end
 
         if STORY_MODE == true and NORMAL_MODE == false and PLAYERS_FIGHTING_BOSS == false and bGAME_COMPLETE == false then --or IsInToolsMode()

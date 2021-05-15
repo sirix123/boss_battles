@@ -20,10 +20,10 @@ function flame_thrower:OnAbilityPhaseStart()
             false )
 
         if #enemies == 0 or enemies == nil then
-            print("no enemy found for flame")
+            --print("no enemy found for flame")
             return false
         else
-            print("enemy found for flame thwoers")
+            --print("enemy found for flame thwoers")
             _G.global_hTarget = enemies[RandomInt(1,#enemies)]
             self:GetCaster():AddNewModifier( self:GetCaster(), self, "modifier_generic_npc_reduce_turnrate",
             {

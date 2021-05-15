@@ -53,7 +53,7 @@ function oil_drop_thinker:OnIntervalThink()
 			end
 		end
 
-		if areAllHeroesDead then
+		if areAllHeroesDead or IsValidEntity(self:GetCaster()) == false then
 			--Timers:CreateTimer(1.0, function()
 				self:Destroy()
 			--end)

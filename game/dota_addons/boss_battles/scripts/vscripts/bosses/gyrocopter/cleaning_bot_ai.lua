@@ -34,6 +34,8 @@ function CleaningThinker()
 		return 0.5
 	end
 
+    --print("thisEntity.STATE: ",thisEntity.STATE)
+
     -- state checker for klat state
     if thisEntity:HasModifier("oil_fire_checker_modifier") then
         thisEntity.stack_count = thisEntity:GetModifierStackCount("oil_fire_checker_modifier", nil)
@@ -54,21 +56,29 @@ function CleaningThinker()
                 thisEntity.puddle = _G.Oil_Puddles[randomIndex]
                 if IsValidEntity(thisEntity.puddle) then
                     thisEntity.puddle_location = _G.Oil_Puddles[randomIndex]:GetAbsOrigin()
-                    thisEntity.STATE = 2
+                    if GridNav:IsTraversable(thisEntity.puddle_location) then
+                        thisEntity.STATE = 2
+                    else
+                        return 0.2
+                    end
                 end
             elseif #_G.Fire_Puddles ~= 0 then
                 local randomIndex = RandomInt(1,#_G.Fire_Puddles)
                 thisEntity.puddle = _G.Fire_Puddles[randomIndex]
                 if IsValidEntity(thisEntity.puddle) then
                     thisEntity.puddle_location = _G.Fire_Puddles[randomIndex]:GetAbsOrigin()
-                    thisEntity.STATE = 2
+                    if GridNav:IsTraversable(thisEntity.puddle_location) then
+                        thisEntity.STATE = 2
+                    else
+                        return 0.2
+                    end
                 end
             else
-                return 1
+                return 0.2
             end
         end
 
-        return 1
+        return 0.2
     end
 
     -- state 2
@@ -80,7 +90,7 @@ function CleaningThinker()
         end
 
         local distance = ( thisEntity:GetAbsOrigin() - thisEntity.puddle_location ):Length2D()
-        if distance < 10 then
+        if distance < 150 then
             thisEntity.moving = true
             thisEntity.STATE = 3
         end
@@ -118,7 +128,7 @@ function CleaningThinker()
     if thisEntity.STATE == 4 then
         --print("phase 4")
 
-        thisEntity.nPreviewFXIndex = ParticleManager:CreateParticle( "particles/custom/markercircle/darkmoon_calldown_marker.vpcf", PATTACH_CUSTOMORIGIN, nil )
+        thisEntity.nPreviewFXIndex = ParticleManager:CreateParticle( "particles/econ/events/darkmoon_2017/darkmoon_calldown_marker.vpcf", PATTACH_CUSTOMORIGIN, nil )
         ParticleManager:SetParticleControl( thisEntity.nPreviewFXIndex, 0, thisEntity:GetAbsOrigin() )
         ParticleManager:SetParticleControl( thisEntity.nPreviewFXIndex, 1, Vector( 250, -250, -250 ) )
         ParticleManager:SetParticleControl( thisEntity.nPreviewFXIndex, 2, Vector( 15, 0, 0 ) );
@@ -168,16 +178,22 @@ function CleaningThinker()
 
             if enemies == nil or #enemies == 0 then
                 if thisEntity.cleaning_bot_explode:IsFullyCastable() and thisEntity.cleaning_bot_explode:IsCooldownReady() and thisEntity.cleaning_bot_explode:IsInAbilityPhase() == false then
-                    return CastExplode()
+                    CastExplode()
                 end
             end
 
-            thisEntity:ForceKill(false)
+            if thisEntity:HasModifier("oil_fire_checker_modifier") then
+                --print("we removing ti here? or fucking what")
+                thisEntity:RemoveModifier("oil_fire_checker_modifier")
+            end
+
+            thisEntity.stack_count = 0
+            thisEntity.STATE = 1
 
             return false
         end)
 
-        return 16
+        return 15
     end
 
 	return 0.5
