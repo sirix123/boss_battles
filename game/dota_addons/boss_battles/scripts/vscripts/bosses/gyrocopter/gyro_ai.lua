@@ -703,10 +703,12 @@ function BossHpMonitorCleaningBotSpawner()
 			return false
 		end
 
+		--print("count ", count)
+
 		if count > 0 then
-			print("summoning bot")
+			--print("summoning bot")
 			if thisEntity.spawn_cleaning_bot:IsFullyCastable() and thisEntity.spawn_cleaning_bot:IsCooldownReady() and thisEntity.spawn_cleaning_bot:IsInAbilityPhase() == false then
-				return CastCleaner()
+				CastCleaner()
 			end
 
 			count = count - 1

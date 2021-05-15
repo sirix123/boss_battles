@@ -191,11 +191,11 @@ function cannon_ball:OilSpawner()
 							self:GetCaster():GetTeamNumber(),
 							false
 						)
-	
+
 					table.insert(_G.Oil_Puddles, puddle)
 				end
-				return 0.8
 			end
+
 			return 0.8
 		end)
 	end
