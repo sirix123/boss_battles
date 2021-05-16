@@ -39,7 +39,7 @@ end
 function beastmaster_net:OnAbilityPhaseStart()
     if IsServer() then
 
-		self:GetCaster():StartGestureWithPlaybackRate(ACT_DOTA_CAST_ABILITY_1, 0.5)
+		self:GetCaster():StartGestureWithPlaybackRate(ACT_DOTA_CAST_ABILITY_1, 0.2)
 
 		EmitSoundOn( "beastmaster_beas_ability_axes_03", self:GetCaster() )
 

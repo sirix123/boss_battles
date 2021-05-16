@@ -14,7 +14,7 @@ function Spawn( entityKeyValues )
 	boss_frame_manager:SendBossName()
 	boss_frame_manager:UpdateManaHealthFrame( thisEntity )
 	boss_frame_manager:ShowBossHpFrame()
-	boss_frame_manager:HideBossManaFrame()
+	boss_frame_manager:ShowBossManaFrame()
 
 	thisEntity:AddNewModifier( nil, nil, "modifier_remove_healthbar", { duration = -1 } )
 
@@ -23,6 +23,8 @@ function Spawn( entityKeyValues )
 	-- max bears
 	thisEntity.BEAST_MASTER_SUMMONED_BEARS = {  }
 	thisEntity.MAX_BEARS = 1
+
+	thisEntity:SetMana(0)
 
 	-- abilities this boss has
 	thisEntity.beastmaster_mark = thisEntity:FindAbilityByName( "beastmaster_mark" )
@@ -268,7 +270,7 @@ function BeastmasterNet()
 		return 0.5
 	else
 		for _, unit in pairs(units) do
-			if (thisEntity:GetAbsOrigin() - unit:GetAbsOrigin() ):Length2D() > 400 and unit:HasModifier("grab_player_modifier") == false and unit:HasModifier("modifier_stunned") == false then
+			if (thisEntity:GetAbsOrigin() - unit:GetAbsOrigin() ):Length2D() > 550 and unit:HasModifier("grab_player_modifier") == false and unit:HasModifier("modifier_stunned") == false then
 				table.insert(tFarTargets,unit)
 			end
 		end

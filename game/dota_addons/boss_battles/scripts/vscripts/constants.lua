@@ -68,6 +68,7 @@ _G.tCORE_MODIFIERS =
     "admin_god_mode",
     "modifier_grace_period",
     "modifier_hero_movement",
+    "qop_passive_modifier",
 }
 
 _G.PLAYERS_HANDSHAKE_READY = 0

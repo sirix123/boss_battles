@@ -79,7 +79,7 @@ function e_icefall_modifier_thinker:StartApplyDamageLoop()
                     attacker = self.caster,
                     damage = self.dmg,
                     damage_type = self:GetAbility():GetAbilityDamageType(),
-                    ability = self,
+                    ability = self:GetAbility(),
                 }
 
                 ApplyDamage(self.dmgTable)
@@ -89,7 +89,7 @@ function e_icefall_modifier_thinker:StartApplyDamageLoop()
                     attacker = self.caster,
                     damage = self.dmg,
                     damage_type = self:GetAbility():GetAbilityDamageType(),
-                    ability = self,
+                    ability = self:GetAbility(),
                 }
 
                 ApplyDamage(self.dmgTable)

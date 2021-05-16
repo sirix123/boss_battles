@@ -65,7 +65,15 @@ function BearThink()
 		false)
 
 	if thisEntity.hBloodlust ~= nil and thisEntity.hBloodlust:IsCooldownReady() and thisEntity.hBloodlust:IsFullyCastable() then
-		return CastBloodlust()
+		local stacks = 0
+		if thisEntity:HasModifier("bear_bloodlust_modifier") then
+			stacks = thisEntity:GetModifierStackCount("bear_bloodlust_modifier", thisEntity)
+		end
+		if stacks < 9 then
+			return CastBloodlust()
+		else
+			return 1
+		end
 	end
 
 	if thisEntity.bear_charge ~= nil and thisEntity.bear_charge:IsFullyCastable() and thisEntity.bear_charge:IsCooldownReady() and #enemies >= 1 then
@@ -121,6 +129,6 @@ function TargetingTimer()
 			thisEntity:MoveToTargetToAttack(thisEntity.bear_target)
 		end
 
-		return 45
+		return 30
 	end)
 end

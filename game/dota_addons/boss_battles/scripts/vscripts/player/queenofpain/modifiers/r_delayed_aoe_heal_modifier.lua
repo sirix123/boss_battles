@@ -43,6 +43,8 @@ function r_delayed_aoe_heal_modifier:StartApplyDamageLoop()
 		    return false
         end
 
+        self.caster:ManaOnHit(self:GetAbility():GetSpecialValueFor( "mana" ))
+
         local enemies = FindUnitsInRadius(
             self:GetCaster():GetTeamNumber(),	-- int, your team number
             self.currentTarget,	-- point, center point
@@ -88,7 +90,7 @@ function r_delayed_aoe_heal_modifier:OnDestroy( kv )
         -- pop the thing
         ParticleManager:DestroyParticle(self.bloodriteFX,false)
 
-        local enemies = FindUnitsInRadius(
+        --[[local enemies = FindUnitsInRadius(
             self:GetCaster():GetTeamNumber(),	-- int, your team number
             self.currentTarget,	-- point, center point
             nil,	-- handle, cacheUnit. (not known)
@@ -101,8 +103,8 @@ function r_delayed_aoe_heal_modifier:OnDestroy( kv )
         )
 
         if enemies ~= nil and #enemies ~= 0 then
-            self.caster:ManaOnHit(self:GetAbility():GetSpecialValueFor( "mana" ))
-        end
+            
+        end]]
 
         EmitSoundOnLocationWithCaster(self.currentTarget, "hero_bloodseeker.rupture", self.caster)
 

@@ -49,15 +49,12 @@ end
 function bear_bloodlust_modifier:OnStackCountChanged( param )
     if IsServer() then
 
-        if self.effect ~= nil then
+        if self.effect ~= nil and param < 9 then
             ParticleManager:DestroyParticle(self.effect, true)
         end
 
-        if param ~= nil then
-            param = self:GetStackCount() + 1
-        end
-
-		if param ~= 9 then
+		if param < 9 and param ~= nil then
+			param = self:GetStackCount() + 1
 			--print("prevstackcount ",param)
 			--print("self:GetStackCount() ",self:GetStackCount())
 			--print("self.bloodlust_speed ",self.bloodlust_speed)

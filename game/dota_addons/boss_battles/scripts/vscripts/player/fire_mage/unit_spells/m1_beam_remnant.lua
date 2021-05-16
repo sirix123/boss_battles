@@ -72,6 +72,10 @@ end
 function m1_beam_remnant:OnChannelThink( flinterval )
 	if IsServer() then
 
+        if IsValidEntity(self:GetCaster()) == false then
+            self:GetCaster():InterruptChannel()
+        end
+
         self:GetCaster():StartGestureWithPlaybackRate(ACT_DOTA_GENERIC_CHANNEL_1, 1.2)
 
         -- init

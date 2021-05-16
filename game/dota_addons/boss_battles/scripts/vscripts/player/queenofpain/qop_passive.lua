@@ -26,7 +26,7 @@ function qop_passive_modifier:OnTakeDamage( params )
     if IsServer() then
         --print("params.attacker.name ",params.attacker:GetUnitName())
         if params.attacker:GetUnitName() == "npc_dota_hero_queenofpain" then
-            --print("healing")
+            print("healing")
             local damage = params.damage
             local heal_value = damage * self:GetAbility():GetSpecialValueFor( "dmg_to_heal_reduction" )
 

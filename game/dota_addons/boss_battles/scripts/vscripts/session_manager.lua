@@ -113,7 +113,7 @@ function SessionManager:SendSessionData()
 
     self.session_data["player_data"] = self.player_data
 
-    if GameRules:State_Get() == DOTA_GAMERULES_STATE_POST_GAME or GameRules:State_Get() == DOTA_GAMERULES_STATE_DISCONNECT then
+    if ( GameRules:State_Get() == DOTA_GAMERULES_STATE_POST_GAME or GameRules:State_Get() == DOTA_GAMERULES_STATE_DISCONNECT ) and BOSS_BATTLES_ENCOUNTER_COUNTER ~= 8 then
         self.session_data["sentFrom"] = "disconnect"
     else
         self.session_data["sentFrom"] = "gameComplete"

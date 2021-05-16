@@ -59,7 +59,7 @@
 		"AbilityCastRange" 				"1300"
         "AbilityCooldown"				"0"
         "AbilityCastPoint"              "0.4"
-		"AbilityManaCost"        		"10"
+		"AbilityManaCost"        		"5.0"
 
 		"TargetingIndicator"
 		{
@@ -69,8 +69,8 @@
         
 		"AbilitySpecial"
 		{
-			"01"{ "var_type"			"FIELD_INTEGER"		"duration_main_buff"		"12" }
-			"02"{ "var_type"			"FIELD_INTEGER"		"duration_debuff"			"3" }
+			"01"{ "var_type"			"FIELD_INTEGER"		"duration_main_buff"		"15" }
+			"02"{ "var_type"			"FIELD_INTEGER"		"duration_debuff"			"7" }
 			"03"{ "var_type"			"FIELD_INTEGER"		"base_heal"					"60" }
 		}
 
@@ -182,11 +182,11 @@
 		"AbilitySpecial"
 		{
 			"01"{ "var_type"			"FIELD_INTEGER"		"radius"			"400" }
-			"02"{ "var_type"			"FIELD_INTEGER"		"duration"			"2" }
-			"03"{ "var_type"			"FIELD_INTEGER"		"dmg"				"100" }
+			"02"{ "var_type"			"FIELD_INTEGER"		"duration"			"15" }
+			"03"{ "var_type"			"FIELD_INTEGER"		"dmg"				"50" }
 			"04"{ "var_type"			"FIELD_INTEGER"		"radius"			"400" }
 			"05"{ "var_type"			"FIELD_FLOAT"		"damage_interval"	"0.5" }
-			"06"{ "var_type"			"FIELD_INTEGER"		"mana"				"50" }
+			"06"{ "var_type"			"FIELD_INTEGER"		"mana"				"2" }
 		}
 
 		"precache"

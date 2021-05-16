@@ -8,6 +8,10 @@ function m1_beam:OnAbilityPhaseStart()
         -- the 1 below is imporant if set incorrectly the animation will stutter (second variable in startgesture is the playback override)
         self:GetCaster():StartGestureWithPlaybackRate(ACT_DOTA_GENERIC_CHANNEL_1, 1.2)
 
+        if self.pfx then
+            ParticleManager:DestroyParticle(self.pfx,true)
+        end
+        
         self:GetCaster():FindAbilityByName("m2_meteor"):SetActivated(false)
         self:GetCaster():FindAbilityByName("q_fire_bubble"):SetActivated(false)
         self:GetCaster():FindAbilityByName("r_remnant"):SetActivated(false)
@@ -28,6 +32,10 @@ end
 
 function m1_beam:OnAbilityPhaseInterrupted()
     if IsServer() then
+
+        if self.pfx then
+            ParticleManager:DestroyParticle(self.pfx,true)
+        end
 
         -- remove casting animation
         self:GetCaster():FadeGesture(ACT_DOTA_GENERIC_CHANNEL_1)

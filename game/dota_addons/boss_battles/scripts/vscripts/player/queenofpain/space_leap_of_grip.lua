@@ -52,7 +52,7 @@ function space_leap_of_grip:OnSpellStart()
         local duration = (distance/speed) *2
 
         local info = {
-            EffectName = "particles/econ/items/necrolyte/necrophos_sullen/necro_sullen_pulse_enemy.vpcf",
+            EffectName = "particles/qop/qop_necro_sullen_pulse_enemy.vpcf",
             Ability = self,
             iMoveSpeed = 1200,
             Source = self.target,
