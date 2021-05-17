@@ -82,9 +82,9 @@
 		"SpellImmunityType"				"SPELL_IMMUNITY_ENEMIES_YES"
         "AbilityBehavior"				"DOTA_ABILITY_BEHAVIOR_NO_TARGET"
 		"AbilityCastRange" 				"600"
-        "AbilityCooldown"				"15.0"
+        "AbilityCooldown"				"5.0"
         "AbilityCastPoint"              "0.2"
-		"AbilityManaCost"        		"5"
+		"AbilityManaCost"        		"0"
 
 		"TargetingIndicator"
 		{
@@ -94,9 +94,9 @@
         
 		"AbilitySpecial"
 		{
-			"01"{ "var_type"			"FIELD_INTEGER"		"duration"					"10" }
+			"01"{ "var_type"			"FIELD_INTEGER"		"duration"					"5" }
 			"02"{ "var_type"			"FIELD_INTEGER"		"radius"					"500" }
-			"03"{ "var_type"			"FIELD_FLOAT"		"vortex_dmg_inc"			"0.4" }
+			"03"{ "var_type"			"FIELD_FLOAT"		"vortex_dmg_inc"			"0.5" }
 		}
 
         "precache"
@@ -130,9 +130,9 @@
         
 		"AbilitySpecial"
 		{
-			"01"{ "var_type"			"FIELD_INTEGER"		"duration"					"25" }
+			"01"{ "var_type"			"FIELD_INTEGER"		"duration"					"30" }
 			"02"{ "var_type"			"FIELD_INTEGER"		"radius"					"500" }
-			"03"{ "var_type"			"FIELD_FLOAT"		"bubble_amount"				"200" }
+			"03"{ "var_type"			"FIELD_FLOAT"		"bubble_amount"				"250" }
 			"04"{ "var_type"			"FIELD_INTEGER"		"health_regen"				"2" }
 			"05"{ "var_type"			"FIELD_INTEGER"		"mana_regen"				"2" }
 		}

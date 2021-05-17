@@ -21,8 +21,7 @@ function Filters:Activate(GameMode, this)
             local point = Vector(
                 filter_table.position_x,
                 filter_table.position_y,
-                --filter_table.position_z
-                caster:GetForwardVector().z
+                filter_table.position_z
            )
             local current_range = (point - caster:GetAbsOrigin()):Length2D()
             local direction = (point - caster:GetAbsOrigin()):Normalized()

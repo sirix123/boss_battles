@@ -122,15 +122,28 @@ function showScoreboardUI( table_data )
 	var bossDurationContainer = bsb_bossInfoContainer.FindChildInLayoutFile("bsb_header_boss_duration_container")
 	var bossAttemptContainer = bsb_bossInfoContainer.FindChildInLayoutFile("bsb_header_boss_attempt_container")
 
-	if ( table_data.boss_data.bossKilled == 1 ){
-		bossNameContainer.AddClass("victory")
-		bossDurationContainer.AddClass("victory")
-		bossAttemptContainer.AddClass("victory")
-	}
-	else{
-		bossNameContainer.AddClass("defeat")
-		bossDurationContainer.AddClass("defeat")
-		bossAttemptContainer.AddClass("defeat")
+	if( table_data.boss_data !== undefined ){
+		if ( table_data.boss_data.bossKilled == 1 ){
+			bossNameContainer.AddClass("victory")
+			bossDurationContainer.AddClass("victory")
+			bossAttemptContainer.AddClass("victory")
+		}
+		else{
+			bossNameContainer.AddClass("defeat")
+			bossDurationContainer.AddClass("defeat")
+			bossAttemptContainer.AddClass("defeat")
+		}
+	
+
+		bossName.text = table_data.boss_data.bossName
+
+		// format the duration into a nice 99min:99sec format
+		var data_duration = Math.round(table_data.boss_data.duration)
+		bossDuration.text = formatIntMMSS(data_duration)
+
+		//$.Msg("table_data.boss_data.attemptNumber ",table_data.boss_data.attemptNumber)
+		bossAttemptNumber.text = table_data.boss_data.attemptNumber
+
 	}
 
 	// close button handler
@@ -139,15 +152,6 @@ function showScoreboardUI( table_data )
 		$.Msg("closeButton-activate")
 		hideScoreboardUI()
 	});
-
-	bossName.text = table_data.boss_data.bossName
-
-	// format the duration into a nice 99min:99sec format
-	var data_duration = Math.round(table_data.boss_data.duration)
-	bossDuration.text = formatIntMMSS(data_duration)
-
-	//$.Msg("table_data.boss_data.attemptNumber ",table_data.boss_data.attemptNumber)
-	bossAttemptNumber.text = table_data.boss_data.attemptNumber
 
 	var bsbTableContainer = $("#bsb_table_rows");
 

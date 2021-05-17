@@ -12,7 +12,7 @@ function SessionManager:Init()
 
     -- insert some stuff into the session ata
     self.session_data["releaseNumber"] = sRELEASE_NUMBER
-    self.session_data["timeStamp"] = GetSystemDate() .. " " .. GetSystemTime()
+    self.session_data["timeStampStart"] = GetSystemDate() .. " " .. GetSystemTime()
     if IsInToolsMode() == true then
         self.session_data["testingMode"] = true
     else
@@ -112,12 +112,15 @@ function SessionManager:SendSessionData()
     end
 
     self.session_data["player_data"] = self.player_data
+    self.session_data["timeStampEnd"] = GetSystemDate() .. " " .. GetSystemTime()
 
-    if ( GameRules:State_Get() == DOTA_GAMERULES_STATE_POST_GAME or GameRules:State_Get() == DOTA_GAMERULES_STATE_DISCONNECT ) and BOSS_BATTLES_ENCOUNTER_COUNTER ~= 8 then
-        self.session_data["sentFrom"] = "disconnect"
+    if bGAME_COMPLETE == false and BOSS_BATTLES_ENCOUNTER_COUNTER ~= 8 then
+        self.session_data["sentFrom"] = "gameIncomplete"
     else
         self.session_data["sentFrom"] = "gameComplete"
     end
+
+    print("sending session data")
 
     WebApi:SaveSessionData( self.session_data )
 end

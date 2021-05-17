@@ -37,6 +37,9 @@ function GameSetup:init()
     -- timer for updating player frames
     player_frame_manager:UpdatePlayer()
 
+    -- init dc manager
+    disconnect_manager:Init()
+
     --listen to game state event
     -- events here: https://developer.valvesoftware.com/wiki/Dota_2_Workshop_Tools/Scripting/Built-In_Engine_Events
     ListenToGameEvent("game_rules_state_change", Dynamic_Wrap(self, "OnStateChange"), self) -- valve engine event
@@ -90,7 +93,6 @@ function GameSetup:OnStateChange()
     end
 
     if GameRules:State_Get() == DOTA_GAMERULES_STATE_POST_GAME or GameRules:State_Get() == DOTA_GAMERULES_STATE_DISCONNECT then
-        SessionManager:SendSessionData( )
     end
 end
 --------------------------------------------------------------------------------------------------
@@ -98,8 +100,36 @@ end
 function GameSetup:OnPlayerDisconnected(keys)
     print("GameSetup:OnPlayerDisconnected(keys) ",keys)
 
-    for key, v in pairs(keys) do
-        print("key, ",key,"v, ",v)
+    --[[
+        for key, v in pairs(keys) do
+            print("key, ",key,"v, ",v)
+        end
+
+        key, 	PlayerID	v, 	1
+        key, 	xuid	v, 	76561198088786586
+        key, 	game_event_name	v, 	player_disconnect
+        key, 	game_event_listener	v, 	100663304
+        key, 	splitscreenplayer	v, 	-1
+        key, 	name	v, 	lonely are the insomniacs
+        key, 	networkid	v, 	[U:1:128520858]
+        key, 	userid	v, 	4 -- this increases per disconnect
+        key, 	reason	v, 	2
+    ]]
+
+    -- i think based on this information above we can add a flag to each player if they're disconnected
+    -- if they reconnect we can change the flag...
+    -- create a timer at game start that polls/checks each player for the flag and if all players are DC
+    -- we can send the session data
+
+    if GameRules:State_Get() == DOTA_GAMERULES_STATE_GAME_IN_PROGRESS and PICKING_DONE == true then
+
+        local pID = keys.PlayerID
+        local hPlayer = PlayerResource:GetPlayer(pID)
+        local hPlayerHero = hPlayer:GetAssignedHero()
+
+        print("reconnecting hero name, ",hPlayerHero:GetUnitName())
+
+        hPlayerHero.isConnected = false
     end
 
 end
@@ -114,15 +144,23 @@ function GameSetup:OnPlayerReconnected(keys)
 
     -- not sure if we need to makesure the client is ready before we sent this event..
 
-    local pID = keys.PlayerID
-    local hPlayer = PlayerResource:GetPlayer( pID )
-    local entToH = EntIndexToHScript(keys.entindex)
-
     for key, v in pairs(keys) do
         print("key, ",key,"v, ",v)
     end
 
-    print("ent index ",entToH)
+    --[[
+        key, 	game_event_listener	v, 	1602224135
+        key, 	game_event_name	v, 	player_reconnected
+        key, 	PlayerID	v, 	1
+        key, 	splitscreenplayer	v, 	-1
+    ]]
+
+    local pID = keys.PlayerID
+    local hPlayer = PlayerResource:GetPlayer(pID)
+    local hPlayerHero = hPlayer:GetAssignedHero()
+    hPlayerHero.isConnected = true
+
+    print("hPlayer ",hPlayer)
 
     Timers:CreateTimer(1,function()
         if RECONNECTING_PLAYER_ID ~= nil then
@@ -492,6 +530,11 @@ end
 --------------------------------------------------------------------------------------------------
 
 function GameSetup:HeroKilled( keys )
+
+    if keys.entindex_killed == nil then
+        return
+    end
+
     local killedHero = EntIndexToHScript( keys.entindex_killed )
     local killedHeroOrigin = killedHero:GetAbsOrigin()
     local killedPlayerID = killedHero:GetPlayerOwnerID()

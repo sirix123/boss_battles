@@ -43,6 +43,8 @@ function e_whirling_winds:OnSpellStart()
     local point = nil
     point = Clamp(self.caster:GetOrigin(), Vector(self.caster.mouse.x, self.caster.mouse.y, self.caster.mouse.z), self:GetCastRange(Vector(0,0,0), nil), 0)
 
+    self:GetCaster():AddNewModifier(self:GetCaster(), self, "e_whirling_winds_modifier", { duration = self:GetSpecialValueFor( "duration" ) })
+
     self.modifier = CreateModifierThinker(
         self.caster,
         self,

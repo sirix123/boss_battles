@@ -19,7 +19,7 @@ entryPanel.BLoadLayoutSnippet("ScoreboardRow"); -->
             <Panel class="bsb_header_bossFight_info" hittest="false"  >
             		<Panel id="bsb_header_boss_name_container" class="bsb_header_container">
                   <Label text="Boss"  class="boss_header_bossFight_infoText_heading" id="bsb_header_boss_name_heading"/>
-                  <Label text="BOSS_NAME"  class="boss_header_bossFight_infoText" id="bsb_header_boss_name"/>
+                  <Label text="No bosses killed yet"  class="boss_header_bossFight_infoText" id="bsb_header_boss_name"/>
 					      </Panel>
                 <Panel id="bsb_header_boss_duration_container" class="bsb_header_container">
                   <Label text="Attempt Duration"  class="boss_header_bossFight_infoText_heading" id="bsb_header_boss_duration_heading"/>

@@ -6,27 +6,30 @@ function disconnect_manager:Init()
 
     print("disconnect_manager:Init()")
 
-    Timers:CreateTimer(1.0, function()
-        if self.nHeroConnectionState == #HERO_LIST then
-            -- send the session data
-            SessionManager:SendSessionData()
-            return false
-        end
+    local count = 0
 
-        self.nHeroConnectionState = 0
-        local hero_state = 0
+    Timers:CreateTimer(function()
 
-        if HERO_LIST then
+        if GameRules:State_Get() == DOTA_GAMERULES_STATE_GAME_IN_PROGRESS and PICKING_DONE == true then
+
             for _, hero in pairs(HERO_LIST) do
-                hero_state = PlayerResource:GetConnectionState(hero.playerId)
-                print("hero_state ",hero_state)
-                if hero_state == 1 then -- still need to figure out what state is disconnected
-                    self.nHeroConnectionState = self.nHeroConnectionState + 1
+                if hero.isConnected == false then
+                    count = count + 1
                 end
             end
+
+            if count == #HERO_LIST then
+                bGAME_COMPLETE = false
+                SessionManager:SendSessionData( )
+            end
+
+            --print("#HERO_LIST ",#HERO_LIST)
+            --print("count ",count)
+
+            count = 0
         end
 
-        return 1.0
+        return 0.5
     end)
 
 end

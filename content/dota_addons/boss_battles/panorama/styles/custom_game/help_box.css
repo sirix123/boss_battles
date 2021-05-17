@@ -1,0 +1,127 @@
+/* root
+=================================================================*/
+.parent
+{
+  width:100%;
+  height:100%;
+}
+
+#HelpPanel
+{
+    width: 500px;
+    height: 500px;
+    horizontal-align: left;
+    vertical-align: bottom;
+}
+
+#HelpButton
+{
+    width: 500px;
+    height: 500px;
+    horizontal-align: left;
+    vertical-align: bottom;
+}
+
+#HelpToolTip
+{
+    width: 500px;
+    height: 500px;
+    horizontal-align: left;
+    vertical-align: bottom;
+}
+
+
+/* button
+=================================================================*/
+.HelpButtonContainer {
+    width: 100px;
+    height: 50px;
+    horizontal-align: left;
+    vertical-align: bottom;
+    background-color: #151515;
+	background-size: 100% 100%;
+	border-radius: 0px 12px 12px 0px;
+}
+
+.HelpButtonBtn{
+    height: 100%;
+	width: 100%;
+	box-shadow: fill #00000066 -4px -4px 8px 8px;
+	background-color: gradient( linear, 0% 0%, 0% 100%, from( #5AA15E ), to( #87d69533 ) );
+	background-image: url("file://panorama/images/backgrounds/background_play_button_large_2x_png.png");
+}
+
+.HelpButtonLabel{
+	horizontal-align: center;
+	vertical-align: center;
+	color: #fff;
+	font-size: 22px;
+	font-family: defaultFont;
+}
+
+/* menu/tooltip
+=================================================================*/
+.HelpButtonToolTip {
+    width: 100%;
+    height: 100%;
+    horizontal-align: left;
+    vertical-align: bottom;
+    background-color: #151515;
+	background-size: 100% 100%;
+	border-radius: 0px 12px 12px 0px;
+    flow-children: down;
+}
+
+/* top heading bar contains heading text and button to close */
+.HelpButtonToolTipHeading{
+    width: 100%;
+    height: 10%;
+    background-color: #292626cc; /* rgba */
+    border-bottom: 3px solid rgb(0, 0, 0);
+    flow-children: right;
+    horizontal-align: left;
+}
+
+.HelpButtonToolTipTextContainer{
+    width: 90%;
+    height: 100%;
+    horizontal-align: left;
+}
+
+.HelpButtonToolTipTextContainerText{
+    horizontal-align: center;
+	vertical-align: center;
+	color: #fff;
+	font-size: 22px;
+	font-family: defaultFont;
+}
+
+.HelpButtonToolTipCloseButton{
+    width: 10%;
+    height: 100%;
+    horizontal-align: right;
+    background-color: gradient( linear, 0% 0%, 0% 100%, from( #fa3535 ), to( #d6878733 ) );
+    border: 3px solid black;
+    border-radius: 0px 12px 0px 0px;
+}
+
+.HelpButtonToolTipCloseButtonLabel{
+    horizontal-align: center;
+	vertical-align: center;
+	color: #fff;
+	font-size: 22px;
+	font-family: defaultFont;
+}
+
+.HelpButtonToolTipMenu{
+    width: 100%;
+    height: 90%;
+}
+
+.HelpButtonToolTipMenuText{
+    horizontal-align: center;
+	vertical-align: center;
+	color: #fff;
+	font-size: 17px;
+	font-family: defaultFont;
+}

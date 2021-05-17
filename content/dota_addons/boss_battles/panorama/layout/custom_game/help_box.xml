@@ -1,0 +1,50 @@
+<root>
+	<styles>
+		<include src="file://{resources}/styles/custom_game/help_box.css" />
+	</styles>
+
+	<scripts>
+		<include src="file://{resources}/scripts/custom_game/help_box.js" />
+	</scripts>
+
+    <!-- snippets --> 
+	<snippets>
+
+		<!-- help button --> 
+        <snippet name="HelpButtonContainer">
+            <Panel class="HelpButtonContainer" >
+                <Button id="HelpButtonBtn" class="HelpButtonBtn" onactivate="OnHelpButtonPressed()">
+                    <Label id="HelpButtonLabel" class="HelpButtonLabel" text="Help" />
+                </Button>
+            </Panel>
+        </snippet>
+
+        <!-- menu/list of things --> 
+        <snippet name="HelpButtonToolTip">
+            <Panel class="HelpButtonToolTip" >
+                <Panel id="HelpButtonToolTipHeading" class="HelpButtonToolTipHeading">
+                    <Panel id="HelpButtonToolTipTextContainer" class="HelpButtonToolTipTextContainer">
+                        <Label id="HelpButtonToolTipTextContainerText" class="HelpButtonToolTipTextContainerText" text="Help Menu" />
+                    </Panel>
+                    <Button id="HelpButtonToolTipCloseButton" class="HelpButtonToolTipCloseButton" onactivate="OnToolTipCloseButtonPressed()">
+                        <Label id="HelpButtonToolTipCloseButtonLabel" class="HelpButtonToolTipCloseButtonLabel" text="X" />
+                    </Button>
+                </Panel>
+                <Panel id="HelpButtonToolTipMenu" class="HelpButtonToolTipMenu">
+                    <Label id="HelpButtonToolTipMenuText" class="HelpButtonToolTipMenuText" text="" />
+                </Panel>
+            </Panel>
+        </snippet>
+
+	</snippets>
+
+    <Panel hittest="false" class="parent">
+        <Panel id="HelpPanel" hittest="true" >
+            <Panel id="HelpButton" >
+            </Panel>
+            <Panel id="HelpToolTip" >
+            </Panel>
+        </Panel>
+    </Panel>
+
+</root>

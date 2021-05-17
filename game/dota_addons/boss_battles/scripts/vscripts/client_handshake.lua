@@ -19,7 +19,7 @@ function client_handshake:Init()
         print("got event from the client event (reconnect)",event)
 
         -- what player is sending the reconnect handshake
-        RECONNECTING_PLAYER_ID = event.PlayerID
+        RECONNECTING_PLAYER_ID = event
 
     end) -- end of MoveUnit listener
 

@@ -73,7 +73,7 @@ function m1_combo_hit_3:OnSpellStart()
 			ability = self,
 		}
 
-        --EmitSoundOn( "phantom_assassin_phass_attack_02", self:GetCaster() )
+        EmitSoundOn( "Hero_PhantomAssassin.Attack", self:GetCaster() )
 
         -- add bleed
         enemy:AddNewModifier(caster, self, "m2_combo_hit_3_bleed", { duration = self:GetSpecialValueFor( "bleed_duration") })
