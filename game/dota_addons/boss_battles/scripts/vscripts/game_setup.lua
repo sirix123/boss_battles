@@ -127,7 +127,7 @@ function GameSetup:OnPlayerDisconnected(keys)
         local hPlayer = PlayerResource:GetPlayer(pID)
         local hPlayerHero = hPlayer:GetAssignedHero()
 
-        print("reconnecting hero name, ",hPlayerHero:GetUnitName())
+        print("disconnecting hero name, ",hPlayerHero:GetUnitName())
 
         hPlayerHero.isConnected = false
     end

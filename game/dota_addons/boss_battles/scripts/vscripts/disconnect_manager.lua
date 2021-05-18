@@ -10,7 +10,10 @@ function disconnect_manager:Init()
 
     Timers:CreateTimer(function()
 
-        if GameRules:State_Get() == DOTA_GAMERULES_STATE_GAME_IN_PROGRESS and PICKING_DONE == true then
+        if GameRules:State_Get() == DOTA_GAMERULES_STATE_GAME_IN_PROGRESS   and PICKING_DONE == true or
+           GameRules:State_Get() == DOTA_GAMERULES_STATE_DISCONNECT         and PICKING_DONE == true or
+           GameRules:State_Get() == DOTA_GAMERULES_STATE_POST_GAME          and PICKING_DONE == true
+        then
 
             for _, hero in pairs(HERO_LIST) do
                 if hero.isConnected == false then
@@ -21,6 +24,7 @@ function disconnect_manager:Init()
             if count == #HERO_LIST then
                 bGAME_COMPLETE = false
                 SessionManager:SendSessionData( )
+                return false
             end
 
             --print("#HERO_LIST ",#HERO_LIST)
