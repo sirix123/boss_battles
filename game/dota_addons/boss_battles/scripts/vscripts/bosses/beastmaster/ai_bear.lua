@@ -25,6 +25,9 @@ function Spawn( entityKeyValues )
 	thisEntity.bear_charge = thisEntity:FindAbilityByName( "bear_charge" )
 	--thisEntity.bear_charge:StartCooldown(thisEntity.bear_charge:GetCooldown(thisEntity.bear_charge:GetLevel()))
 
+	thisEntity.bear_claw = thisEntity:FindAbilityByName( "bear_claw" )
+	thisEntity.cast_claw = false
+
 	thisEntity:AddNewModifier( nil, nil, "modifier_phased", { duration = -1 } )
 
 	TargetingTimer()
@@ -64,20 +67,24 @@ function BearThink()
 		FIND_ANY_ORDER,
 		false)
 
-	if thisEntity.hBloodlust ~= nil and thisEntity.hBloodlust:IsCooldownReady() and thisEntity.hBloodlust:IsFullyCastable() then
-		local stacks = 0
-		if thisEntity:HasModifier("bear_bloodlust_modifier") then
-			stacks = thisEntity:GetModifierStackCount("bear_bloodlust_modifier", thisEntity)
+	local stacks = 0
+	if thisEntity:HasModifier("bear_bloodlust_modifier") then
+		stacks = thisEntity:GetModifierStackCount("bear_bloodlust_modifier", thisEntity)
+		if stacks >= 10 then
+			thisEntity.cast_claw = true
 		end
-		if stacks < 9 then
-			return CastBloodlust()
-		else
-			return 1
-		end
+	end
+
+	if thisEntity.hBloodlust ~= nil and thisEntity.hBloodlust:IsCooldownReady() and thisEntity.hBloodlust:IsFullyCastable() and stacks < 20 then
+		return CastBloodlust()
 	end
 
 	if thisEntity.bear_charge ~= nil and thisEntity.bear_charge:IsFullyCastable() and thisEntity.bear_charge:IsCooldownReady() and #enemies >= 1 then
 		return CastCharge()
+	end
+
+	if thisEntity.bear_claw ~= nil and thisEntity.bear_claw:IsFullyCastable() and thisEntity.bear_claw:IsCooldownReady() and thisEntity.cast_claw == true then
+		return CastClaw()
 	end
 
 	return 0.1
@@ -107,9 +114,22 @@ function CastBloodlust()
 	return 0.5
 end
 
+function CastClaw()
+	ExecuteOrderFromTable({
+		UnitIndex = thisEntity:entindex(),
+		OrderType = DOTA_UNIT_ORDER_CAST_TARGET,
+		TargetIndex = thisEntity.bear_target:entindex(),
+		AbilityIndex = thisEntity.bear_claw:entindex(),
+		Queue = false,
+	})
+	return 0.5
+end
+
+
+
 function TargetingTimer()
 	Timers:CreateTimer(3.0,function()
-		if IsValidEntity(boss) ==  false then
+		if IsValidEntity(thisEntity) ==  false then
 			return false
 		end
 
@@ -119,7 +139,7 @@ function TargetingTimer()
 			nil,
 			5000,
 			DOTA_UNIT_TARGET_TEAM_ENEMY,
-			DOTA_UNIT_TARGET_ALL,
+			DOTA_UNIT_TARGET_HERO,
 			DOTA_UNIT_TARGET_FLAG_INVULNERABLE,
 			FIND_FARTHEST,
 			false)
@@ -129,6 +149,6 @@ function TargetingTimer()
 			thisEntity:MoveToTargetToAttack(thisEntity.bear_target)
 		end
 
-		return 30
+		return RandomInt(12,22)
 	end)
 end

@@ -9,16 +9,16 @@ end
 
 -----------------------------------------------------------------------------
 
-function beastmaster_bloodlust_modifier:GetHeroEffectName()
+--[[function beastmaster_bloodlust_modifier:GetHeroEffectName()
 	return "particles/beastmaster/ursa_enrage_buff_beastmaster.vpcf"
-end
+end]]
 -----------------------------------------------------------------------------
 
 function beastmaster_bloodlust_modifier:OnCreated( kv )
 	if IsServer() then
-		self.bloodlust_speed = 150
-		self.bloodlust_as_speed = 50
-		self.dmg_bonus = 300
+		self.bloodlust_speed = 70
+		self.bloodlust_as_speed = 25
+		self.dmg_bonus = 150
 		self.bat = 1.0
 
 		-- takes more dmg?

@@ -21,7 +21,7 @@ end
 function puddle_slow_modifier:OnCreated( kv )
 	--if IsServer() then
 
-		self.ms_slow = -50
+		self.ms_slow = -80
 
 		--print(self.ms_slow)
 		--print(self.as_slow)

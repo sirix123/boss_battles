@@ -72,7 +72,7 @@ function BirdThinker()
 
     --print("thisEntity.grab_player:cd ", thisEntity.grab_player:GetCooldownTimeRemaining())
 
-    -- fly in a circle, slowly, shoot a random player (bloodlust affects this normal attack)
+    -- fly in a circle, slowly, 
     -- setup a timer to change target every 15 seconds
     if thisEntity.PHASE == 1 then
         thisEntity.target = nil
@@ -137,6 +137,22 @@ function BirdThinker()
 
     -- keep updating the pos of the player location and fly towards him
     if thisEntity.PHASE == 3 then
+
+        local hBeastmaster = FindBeastMaster()
+        if hBeastmaster ~= nil then
+            if hBeastmaster:HasModifier("modifier_rooted") then
+                thisEntity.PHASE = 1
+                thisEntity.grab_player:StartCooldown(RandomInt(15,20))
+                if thisEntity.target:HasModifier("bird_mark_modifier") ~= nil then
+                    thisEntity.target:RemoveModifierByName("bird_mark_modifier")
+                end
+                thisEntity.target = nil
+                thisEntity.vTarget = nil
+                return 1
+            end
+        end
+
+
         local units = FindUnitsInRadius(
             thisEntity:GetTeamNumber(),	-- int, your team number
             thisEntity:GetAbsOrigin(),	-- point, center point
@@ -265,5 +281,28 @@ function CastGrab( target )
     })
 
     return 0.5
+end
+
+function FindBeastMaster()
+    local units = FindUnitsInRadius(
+        thisEntity:GetTeamNumber(),	-- int, your team number
+        thisEntity:GetAbsOrigin(),	-- point, center point
+        nil,	-- handle, cacheUnit. (not known)
+        5000,	-- float, radius. or use FIND_UNITS_EVERYWHERE
+        DOTA_UNIT_TARGET_TEAM_FRIENDLY,	-- int, team filter
+        DOTA_UNIT_TARGET_HERO + DOTA_UNIT_TARGET_BASIC,	-- int, type filter
+        DOTA_UNIT_TARGET_FLAG_INVULNERABLE,	-- int, flag filter
+        FIND_ANY_ORDER,	-- int, order filter
+        false	-- bool, can grow cache
+    )
+
+    if units ~= nil and #units ~= 0 then
+        for _, unit in pairs(units) do
+            if unit:GetUnitName() == "npc_beastmaster" then
+                return unit
+            end
+        end
+    end
+    return nil
 end
 

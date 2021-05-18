@@ -87,7 +87,7 @@ function m1_beam:OnSpellStart()
                 return false
             end
 
-            if self.caster.left_mouse_up_down == 1 or self.caster:IsStunned() then
+            if self.caster.left_mouse_up_down == 1 or self.caster:IsStunned() or self.caster:IsSilenced() then
                 self:CleanUp()
                 return false
             end
@@ -114,7 +114,7 @@ function m1_beam:OnSpellStart()
                 return false
             end
 
-            if self.caster.left_mouse_up_down == 1 or self.caster:IsStunned() or self.caster:HasModifier("modifier_stomp_push") or self.caster:IsAlive() == false then
+            if self.caster.left_mouse_up_down == 1 or self.caster:IsStunned() or self.caster:HasModifier("modifier_stomp_push") or self.caster:IsAlive() == false or self.caster:IsSilenced() then
                 self:CleanUp()
                 j = 0
                 i = 0

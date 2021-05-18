@@ -13,7 +13,7 @@
         "AbilityCastAnimation"          "ACT_DOTA_CAST_ABILITY_3"
         "AbilityBehavior"               "DOTA_ABILITY_BEHAVIOR_UNIT_TARGET"
         "AbilityUnitTargetTeam"         "DOTA_UNIT_TARGET_TEAM_ENEMY"
-        "AbilityUnitTargetType"         "DOTA_UNIT_TARGET_HERO | DOTA_UNIT_TARGET_BASIC"
+        "AbilityUnitTargetType"         "DOTA_UNIT_TARGET_HERO"
         "AbilityUnitDamageType"         "DAMAGE_TYPE_PHYSICAL"   
         "SpellImmunityType"             "SPELL_IMMUNITY_ENEMIES_NO"
         "SpellDispellableType"          "SPELL_DISPELLABLE_NO"
@@ -21,12 +21,12 @@
 
         // Casting
         //-------------------------------------------------------------------------------------------------------------
-        "AbilityCastRange"              "50"
+        "AbilityCastRange"              "250"
         "AbilityCastPoint"              "0"
         
         // Time     
         //-------------------------------------------------------------------------------------------------------------
-        "AbilityCooldown"               "5"
+        "AbilityCooldown"               "20"
 
         // Cost
         //-------------------------------------------------------------------------------------------------------------
@@ -39,22 +39,7 @@
         // Special
         //-------------------------------------------------------------------------------------------------------------
         "AbilitySpecial"
-        {
-            "01"
-            {
-                "var_type"          "FIELD_FLOAT"
-                "base_damage"     	"200"
-            }
-            "02"
-            {
-                "var_type"          "FIELD_INTEGER"
-                "slow_percent"    	"110"
-            }     
-			"03"
-            {
-                "var_type"          "FIELD_INTEGER"
-                "slow_duration"     "5"
-            }                      
+        {                   
         }
 
         "precache"
@@ -97,17 +82,17 @@
             "01"
             {
                 "var_type"              "FIELD_INTEGER"
-                "bloodlust_speed"       "30"
+                "bloodlust_speed"       "10"
             }
 			"02"
             {
                 "var_type"          	"FIELD_INTEGER"
-                "bloodlust_as_speed"    "5"
+                "bloodlust_as_speed"    "2"
             }      
             "03"
             {
                 "var_type"          	"FIELD_INTEGER"
-                "bloodlust_damage_bonus"    "50"
+                "bloodlust_damage_bonus"    "10"
             }      
 
                              
@@ -723,6 +708,49 @@
         {
                
         }
+    }
+
+    //=================================================================================================================
+    // beastmaster puddle proj
+    //=================================================================================================================
+    "puddle_projectile_spell"
+    { 
+        "BaseClass"                     "ability_lua"
+        "ScriptFile"                    "bosses/beastmaster/puddle_projectile_spell"
+        "MaxLevel"						"4"
+
+        // General
+        //-------------------------------------------------------------------------------------------------------------
+        "AbilityBehavior"				"DOTA_ABILITY_BEHAVIOR_NO_TARGET | DOTA_ABILITY_BEHAVIOR_CHANNELLED"
+        "AbilityUnitDamageType"         "DAMAGE_TYPE_PHYSICAL"
+        "AbilityTextureName"            "venomancer_poison_sting"
+        "AbilityChannelTime"			"15"  
+
+        // Casting
+        //-------------------------------------------------------------------------------------------------------------
+        "AbilityCastPoint"              "2.0 2.0 2.0 2.0"
+
+        // Time     
+        //-------------------------------------------------------------------------------------------------------------
+        "AbilityCooldown"               "60 60 60 60"
+
+        // Cost
+        //-------------------------------------------------------------------------------------------------------------
+        "AbilityManaCost"               "0"
+
+        // Special
+        //-------------------------------------------------------------------------------------------------------------
+		"AbilitySpecial"
+		{
+            "01"{ "var_type"			"FIELD_INTEGER"		"puddle_proj_dot_dmg"		                            "30" }
+            "02"{ "var_type"			"FIELD_INTEGER"		"puddle_proj_dot_interval"		                        "1" }
+		}
+
+        "precache"
+		{
+            "soundfile" "soundevents/game_sounds_heroes/game_sounds_centaur.vsndevts"
+	        "particle" "particles/units/heroes/hero_centaur/centaur_warstomp.vpcf"
+		}
     }
 }
 

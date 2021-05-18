@@ -15,9 +15,9 @@ function bear_claw:OnSpellStart()
 		--print("bear has started casting claw")
 
 		-- get bear claw ability stats from npc abilities custom text file
-		self.base_damage = self:GetSpecialValueFor("base_damage")
-		self.slow_percent = self:GetSpecialValueFor("slow_percent")
-		self.slow_duration = self:GetSpecialValueFor("slow_duration")
+		self.base_damage = 150
+		self.slow_percent = -30
+		self.slow_duration = 3
 
 		-- gets target for ability
 		local aggroTarget = self:GetCursorTarget()

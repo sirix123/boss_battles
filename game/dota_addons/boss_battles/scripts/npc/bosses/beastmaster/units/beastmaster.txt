@@ -57,7 +57,7 @@
 
 		// Status
 		//----------------------------------------------------------------
-		"StatusHealth"				"5000"//"4000"//"5000"		// Base health.
+		"StatusHealth"				"50000"//"4000"//"5000"		// Base health.
 		"StatusHealthRegen"			"1"			// Health regeneration rate.
 		"StatusMana"				"0"			// Base mana.
 		"StatusManaRegen"			"0.0"		// Mana regeneration rate.		 
@@ -95,7 +95,7 @@
 	"npc_beastmaster"	
 	{
 		// script
-		"vscripts"					"bosses/beastmaster/ai_beastmaster_v3.lua"
+		"vscripts"					"bosses/beastmaster/ai_beastmaster_v4.lua"
 
 		// General
 		//----------------------------------------------------------------
@@ -113,8 +113,10 @@
 		"Ability3"					"summon_quillboar"			// Ability 3
 		"Ability4"					"beastmaster_net"			// Ability 4
 		"Ability5"					"beastmaster_break"			// Ability 5
-		"Ability6"					"summon_bird"			// Ability 5
-		"Ability7"					"roar"			// Ability 5
+		"Ability6"					"summon_bird"				// Ability 5
+		"Ability7"					"roar"						// Ability 5
+		"Ability8"					"puddle_projectile_spell"	// Ability 5
+		
 		
 		// Armor
 		//----------------------------------------------------------------

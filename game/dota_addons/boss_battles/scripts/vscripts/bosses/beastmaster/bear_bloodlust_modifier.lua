@@ -32,11 +32,24 @@ function bear_bloodlust_modifier:OnCreated( kv )
 	--print("self:GetStackCount() ",self:GetStackCount())
 	--print("self.bloodlust_speed ",self.bloodlust_speed)
 	--print("self.bloodlust_as_speed ",self.bloodlust_as_speed)
+	--[[if self.effect ~= nil then
+		ParticleManager:DestroyParticle(self.effect, true)
+	end
 
-	self.effect = ParticleManager:CreateParticle( "particles/clock/beast_abaddon_curse_counter_stack.vpcf", PATTACH_OVERHEAD_FOLLOW, self:GetParent() )
-	ParticleManager:SetParticleControl( self.effect, 0, self:GetParent():GetAbsOrigin() )
-	ParticleManager:SetParticleControl( self.effect, 1, Vector(1, self:GetStackCount(), 0) )
-	ParticleManager:SetParticleControl( self.effect, 3, self:GetParent():GetAbsOrigin() )
+	local stacks = self:GetStackCount()
+	self.effect = ParticleManager:CreateParticle( "particles/beastmaster/beast_abaddon_curse_counter_stack.vpcf", PATTACH_OVERHEAD_FOLLOW, self:GetParent() )
+	if stacks >= 10 and stacks < 20 then
+		digitX = 1
+	elseif stacks >= 20 then
+		digitX = 2
+	else 
+		digitX = 0
+	end
+
+	local digitY = stacks % 10
+	--print("digitX: ",digitX,"digitY: ",digitY)
+	ParticleManager:SetParticleControl(self.effect, 0, self:GetParent():GetAbsOrigin())
+	ParticleManager:SetParticleControl(self.effect, 1, Vector( digitX, digitY, 0 ))]]
 
 end
 
@@ -49,25 +62,27 @@ end
 function bear_bloodlust_modifier:OnStackCountChanged( param )
     if IsServer() then
 
-        if self.effect ~= nil and param < 9 then
+        if self.effect ~= nil and param < 20 then
             ParticleManager:DestroyParticle(self.effect, true)
         end
 
-		if param < 9 and param ~= nil then
+		if param < 20 and param ~= nil then
 			param = self:GetStackCount() + 1
-			--print("prevstackcount ",param)
-			--print("self:GetStackCount() ",self:GetStackCount())
-			--print("self.bloodlust_speed ",self.bloodlust_speed)
-			--print("self.bloodlust_as_speed ",self.bloodlust_as_speed)
-			--print("total as ",self:GetParent():GetAttackSpeed())
-			--print("total ms ",self:GetParent():GetMoveSpeedModifier(200,true))
-			--print("total base dmg ",self:GetParent():GetBaseDamageMax())
-			--print("--------------------------------------")
 
+			local stacks = self:GetStackCount()
 			self.effect = ParticleManager:CreateParticle( "particles/beastmaster/beast_abaddon_curse_counter_stack.vpcf", PATTACH_OVERHEAD_FOLLOW, self:GetParent() )
-			ParticleManager:SetParticleControl( self.effect, 0, self:GetParent():GetAbsOrigin() )
-			ParticleManager:SetParticleControl( self.effect, 1, Vector(1, param - 1, 0) )
-			ParticleManager:SetParticleControl( self.effect, 3, self:GetParent():GetAbsOrigin() )
+			if stacks >= 10 and stacks < 20 then
+				digitX = 1
+			elseif stacks >= 20 then
+				digitX = 2
+			else 
+				digitX = 0
+			end
+		
+			local digitY = stacks % 10
+			--print("digitX: ",digitX,"digitY: ",digitY)
+			ParticleManager:SetParticleControl(self.effect, 0, self:GetParent():GetAbsOrigin())
+			ParticleManager:SetParticleControl(self.effect, 1, Vector( digitX, digitY, 0 ))
 		end
 
         if self:GetStackCount() == 0 then
@@ -85,6 +100,7 @@ function bear_bloodlust_modifier:DeclareFunctions()
 		MODIFIER_PROPERTY_MOVESPEED_BONUS_PERCENTAGE,
 		MODIFIER_PROPERTY_ATTACKSPEED_BONUS_CONSTANT,
 		MODIFIER_PROPERTY_BASEDAMAGEOUTGOING_PERCENTAGE,
+		MODIFIER_PROPERTY_MODEL_SCALE,
 	}
 	return funcs
 end
@@ -110,4 +126,11 @@ function bear_bloodlust_modifier:GetModifierBaseDamageOutgoing_Percentage( param
 		return self.bloodlust_damage_bonus * self:GetStackCount()
 	end
 end
+
+function bear_bloodlust_modifier:GetModifierModelScale()
+	if self:GetStackCount() ~= nil then
+		return 2 * self:GetStackCount()
+	end
+end
+-----------------------------------------------------------------------------
 

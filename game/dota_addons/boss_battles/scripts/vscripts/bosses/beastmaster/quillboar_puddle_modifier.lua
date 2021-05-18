@@ -61,7 +61,7 @@ function quillboar_puddle_modifier:OnIntervalThink()
 
 			if unit:GetUnitName() ~= "npc_beastmaster" then
 
-				unit:AddNewModifier(self:GetCaster(), self:GetAbility(), "puddle_slow_modifier", {duration = 1})
+				unit:AddNewModifier(self:GetCaster(), self:GetAbility(), "puddle_slow_modifier", {duration = 5})
 
 			end
 

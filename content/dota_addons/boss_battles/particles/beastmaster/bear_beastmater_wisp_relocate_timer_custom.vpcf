@@ -2,9 +2,8 @@
 {
 	_class = "CParticleSystemDefinition"
 	m_bShouldHitboxesFallbackToRenderBounds = false
-	m_nMaxParticles = 1
-	m_flConstantRadius = 60.0
-	m_ConstantColor = [ 255, 167, 167, 255 ]
+	m_nMaxParticles = 16
+	m_flConstantRadius = 12.0
 	m_nBehaviorVersion = 11
 	m_controlPointConfigurations = 
 	[
@@ -14,6 +13,12 @@
 			[
 				{
 					m_iAttachType = "PATTACH_WORLDORIGIN"
+					m_entityName = "self"
+				},
+				{
+					m_iControlPoint = 1
+					m_iAttachType = "PATTACH_WORLDORIGIN"
+					m_vecOffset = [ 1.0, 0.0, 0.0 ]
 					m_entityName = "self"
 				},
 			]
@@ -26,7 +31,7 @@
 			m_nParticlesToEmit = 
 			{
 				m_nType = "PF_TYPE_LITERAL"
-				m_flLiteralValue = 1.0
+				m_flLiteralValue = 2.0
 			}
 		},
 	]
@@ -35,56 +40,60 @@
 		{
 			_class = "C_INIT_CreateWithinSphere"
 		},
+		{
+			_class = "C_INIT_RandomLifeTime"
+			m_fLifetimeMin = 1.0
+			m_fLifetimeMax = 1.0
+		},
 	]
 	m_Operators = 
 	[
 		{
-			_class = "C_OP_ColorInterpolate"
-			m_ColorFade = [ 250, 1, 1 ]
+			_class = "C_OP_Decay"
+			m_nOpEndCapState = "PARTICLE_ENDCAP_ENDCAP_ON"
+		},
+		{
+			_class = "C_OP_BasicMovement"
+			m_fDrag = 0.15
+			m_Gravity = [ 0.0, 0.0, -200.0 ]
 		},
 		{
 			_class = "C_OP_SetToCP"
-			m_vecOffset = [ 0.0, 0.0, 200.0 ]
+			m_vecOffset = [ -20.0, 0.0, 200.0 ]
 		},
 		{
-			_class = "C_OP_LerpEndCapScalar"
-			m_flLerpTime = 0.25
+			_class = "C_OP_RemapCPtoScalar"
+			m_nCPInput = 1
+			m_nFieldOutput = 9
+			m_flOutputMin = 10.0
+			m_flOutputMax = 19.0
+			m_flInputMax = 9.0
+		},
+		{
+			_class = "C_OP_RemapCPtoScalar"
+			m_nCPInput = 1
 			m_nFieldOutput = 7
-			m_flOutput = 0.0
-		},
-		{
-			_class = "C_OP_EndCapTimedDecay"
-			m_flDecayTime = 0.25
-		},
-		{
-			_class = "C_OP_LerpEndCapScalar"
-			m_flOutput = 0.0
-			m_flLerpTime = 0.25
-		},
-		{
-			_class = "C_OP_Spin"
-			m_nSpinRateDegrees = 8
-		},
-		{
-			_class = "C_OP_InterpolateRadius"
-			m_flStartScale = 1.8
-			m_flEndScale = 1.8
 		},
 	]
 	m_Renderers = 
 	[
 		{
 			_class = "C_OP_RenderSprites"
-			VisibilityInputs = 
-			{
-				m_flCameraBias = -5.0
-			}
-			m_flDepthBias = -10.0
+			m_bDisableZBuffering = true
+			m_flAddSelfAmount = 1.0
+			m_bSaturateColorPreAlphaBlend = false
+			m_vecTexturesInput = 
+			[
+				{
+					m_hTexture = resource:"materials/particle/msg/msg_01.vtex"
+				},
+			]
+			m_OutlineColor = [ 255, 255, 255 ]
 			m_flRadiusScale = 
 			{
 				m_nType = "PF_TYPE_LITERAL"
 				m_nMapType = "PF_MAP_TYPE_DIRECT"
-				m_flLiteralValue = 0.75
+				m_flLiteralValue = 3.0
 				m_nControlPoint = 0
 				m_nScalarAttribute = 3
 				m_nVectorAttribute = 6
@@ -125,28 +134,12 @@
 					m_vDomainMaxs = [ 0.0, 0.0 ]
 				}
 			}
-			m_vecTexturesInput = 
-			[
-				{
-					m_hTexture = resource:"materials/particle/particle_ring_wave_12.vtex"
-				},
-			]
-			m_OutlineColor = [ 255, 255, 255 ]
 		},
 	]
 	m_Children = 
 	[
 		{
-			m_ChildRef = resource:"particles/units/heroes/hero_abaddon/abaddon_curse_counter_debuff_start.vpcf"
-			m_bDisableChild = true
-		},
-		{
-			m_ChildRef = resource:"particles\\beastmaster\\beast_abaddon_curse_counter_debuff_flash.vpcf"
-		},
-		{
-			m_ChildRef = resource:"particles/units/heroes/hero_abaddon/abaddon_curse_counter_debuff_end.vpcf"
-			m_bEndCap = true
-			m_bDisableChild = true
+			m_ChildRef = resource:"particles/beastmaster/bearbeastmaster_wisp_relocate_timer_b_custom.vpcf"
 		},
 	]
 }

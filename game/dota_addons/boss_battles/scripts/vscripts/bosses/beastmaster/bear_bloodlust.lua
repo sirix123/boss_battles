@@ -24,7 +24,7 @@ function bear_bloodlust:OnSpellStart()
 			stacks = self:GetCaster():GetModifierStackCount("bear_bloodlust_modifier", self:GetCaster())
 		end
 
-		if stacks < 9 then
+		if stacks < 20 then
 			self:GetCaster():AddNewModifier( self:GetCaster(), self, "bear_bloodlust_modifier", { duration = -1, ms_bonus = ms_bonus, as_bonus = as_bonus, damage_bonus = damage_bonus } )
 			local hBuff = self:GetCaster():FindModifierByName( "bear_bloodlust_modifier" )
 			hBuff:IncrementStackCount()

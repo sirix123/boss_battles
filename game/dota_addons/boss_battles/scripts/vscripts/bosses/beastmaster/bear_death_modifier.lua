@@ -48,14 +48,14 @@ function bear_death_modifier:OnDestroy()
     for _, unit in pairs(units) do
         if unit:GetUnitName() == "npc_beastmaster" then
             -- adds modifier to bear that increases as and ms
-            unit:AddNewModifier( self:GetCaster(), self, "beastmaster_bloodlust_modifier", { duration = 15 } )
+            unit:AddNewModifier( self:GetCaster(), self, "beastmaster_bloodlust_modifier", { duration = -1 } )
 
             local nFXIndex = ParticleManager:CreateParticle( "particles/beastmaster/bear_lust_ogre_magi_bloodlust_buff.vpcf", PATTACH_CUSTOMORIGIN, nil )
             ParticleManager:SetParticleControlEnt( nFXIndex, 0, unit, PATTACH_OVERHEAD_FOLLOW, "attach_hitloc", unit:GetAbsOrigin(), true )
             ParticleManager:ReleaseParticleIndex( nFXIndex )
 
             -- start cast bear cooldown
-            unit:GetAbilityByIndex(1):StartCooldown(  unit:GetAbilityByIndex(1):GetCooldown(1) )
+            --unit:GetAbilityByIndex(1):StartCooldown(  unit:GetAbilityByIndex(1):GetCooldown(1) )
 
             -- voiceline for beastmasters
             EmitGlobalSound("beastmaster_beas_death_14")
