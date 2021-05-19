@@ -40,9 +40,11 @@ function WebApi:SaveSessionData(data)
 	request:SetHTTPRequestRawPostBody("application/json", json.encode(data))
       request:Send(function(response) 
         if response.StatusCode == 200 then
-          print("POST request successfully sent")
+          	print("POST request successfully sent")
         else
-          print("POST request failed to send")
+         	print("POST request failed to send")
+			print("ERROR CODE: ",response.StatusCode)
+			print("ERROR CODE: ",print(dump(response)))
         end
       end)
 end

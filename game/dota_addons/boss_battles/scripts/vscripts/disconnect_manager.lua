@@ -16,12 +16,15 @@ function disconnect_manager:Init()
         then
 
             for _, hero in pairs(HERO_LIST) do
+                --print("is hero connected to the game: ",hero.isConnected)
                 if hero.isConnected == false then
                     count = count + 1
                 end
             end
 
-            if count == #HERO_LIST then
+            --print("count: ",count)
+
+            if count == #HERO_LIST then --#HERO_LIST
                 bGAME_COMPLETE = false
                 SessionManager:SendSessionData( )
                 return false

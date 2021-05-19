@@ -383,7 +383,7 @@ function GameSetup:OnEntityKilled(keys)
             end
 
             -- move alive players to intermission area
-            Timers:CreateTimer(2.5, function()
+            Timers:CreateTimer(4.5, function()
                 heroes = HERO_LIST --HeroList:GetAllHeroes()
                 for _,hero in pairs(heroes) do
 
@@ -401,7 +401,7 @@ function GameSetup:OnEntityKilled(keys)
 
             end)
 
-            Timers:CreateTimer(4.5, function()
+            Timers:CreateTimer(6.5, function()
                 -- clean up enounter
                 self:EncounterCleanUp( self.boss_spawn )
             end)
@@ -478,8 +478,6 @@ end
 
 -- handles tping players to the boss arena and spawning the boss
 function GameSetup:ReadyupCheck() -- called from trigger lua file for activators (ready_up)
-    local heroes = HERO_LIST--HeroList:GetAllHeroes()
-
     self.bSessionManager_wipe = true -- reest the wipe tracker flag
     self.playerDeaths = 0
 

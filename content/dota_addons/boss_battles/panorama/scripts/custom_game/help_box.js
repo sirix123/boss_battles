@@ -2,6 +2,7 @@
 
 // events
 GameEvents.Subscribe( "picking_done", OnPickingDone );
+GameEvents.Subscribe( "player_reconnect", OnPickingDone );
 
 /* Event Handlers
 =========================================================================*/
