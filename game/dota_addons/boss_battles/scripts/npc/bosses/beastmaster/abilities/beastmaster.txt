@@ -82,17 +82,17 @@
             "01"
             {
                 "var_type"              "FIELD_INTEGER"
-                "bloodlust_speed"       "10"
+                "bloodlust_speed"       "15"
             }
 			"02"
             {
                 "var_type"          	"FIELD_INTEGER"
-                "bloodlust_as_speed"    "2"
+                "bloodlust_as_speed"    "3"
             }      
             "03"
             {
                 "var_type"          	"FIELD_INTEGER"
-                "bloodlust_damage_bonus"    "10"
+                "bloodlust_damage_bonus"    "15"
             }      
 
                              

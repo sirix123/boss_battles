@@ -7,7 +7,7 @@ function Spawn( entityKeyValues )
     if thisEntity == nil then return end
 
     thisEntity.beam = thisEntity:FindAbilityByName( "m1_beam_remnant" )
-	thisEntity.beam:StartCooldown(2)
+	thisEntity.beam:StartCooldown(1)
 
 	thisEntity.e_fireball_remnant = thisEntity:FindAbilityByName( "e_fireball_remnant" )
 

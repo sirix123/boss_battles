@@ -194,6 +194,7 @@ function DinoThink()
 		end
 
 		if ( thisEntity:GetAbsOrigin() - thisEntity.vResetPos ):Length2D() < 50 then
+			thisEntity.charge_cooldown = RandomInt(20,50)
 			thisEntity.dino_charge:StartCooldown(thisEntity.charge_cooldown)
 			thisEntity.vResetPos = nil
 			thisEntity.charge_target = nil

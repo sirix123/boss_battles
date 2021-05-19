@@ -129,7 +129,7 @@ end
 
 function bear_bloodlust_modifier:GetModifierModelScale()
 	if self:GetStackCount() ~= nil then
-		return 2 * self:GetStackCount()
+		return 2.5 * self:GetStackCount()
 	end
 end
 -----------------------------------------------------------------------------

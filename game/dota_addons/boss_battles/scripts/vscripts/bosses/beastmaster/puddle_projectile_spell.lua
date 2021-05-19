@@ -52,7 +52,22 @@ function puddle_projectile_spell:OnSpellStart()
         for _, spawn_location in pairs(Beastmaster_Puddles_Locations) do
             if spawn_location then
 
-                local projectile_speed = RandomInt(200,600)
+                local info = {
+                    EffectName = "particles/units/heroes/hero_venomancer/venomancer_base_attack.vpcf",
+                    Ability = self,
+                    iMoveSpeed = 600,
+                    Source = spawn_location,
+                    Target = caster,
+                    bDodgeable = false,
+                    iSourceAttachment = DOTA_PROJECTILE_ATTACHMENT_HITLOCATION,
+                    bProvidesVision = true,
+                    iVisionTeamNumber = self:GetCaster():GetTeamNumber(),
+                    iVisionRadius = 300,
+                }
+
+                ProjectileManager:CreateTrackingProjectile( info )
+
+                --[[local projectile_speed = RandomInt(200,600)
                 local direction = (self:GetCaster():GetAbsOrigin() - spawn_location:GetAbsOrigin()):Normalized()
 
                 local projectile = {
@@ -111,10 +126,28 @@ function puddle_projectile_spell:OnSpellStart()
                     end,
                 }
 
-                Projectiles:CreateProjectile(projectile)
+                Projectiles:CreateProjectile(projectile)]]
             end
         end
 	end
 end
 
+---------------------------------------------------------------------------
+
+function puddle_projectile_spell:OnProjectileHit( hTarget, vLocation)
+    if IsServer() then
+
+        if hTarget then
+            if hTarget:GetUnitName() == "npc_beastmaster" then
+                hTarget:AddNewModifier(self:GetCaster(),self,"puddle_projectile_spell_beastmaster_buff",{duration = 30})
+            end
+
+            local particle_cast = "particles/units/heroes/hero_venomancer/venomancer_venomous_gale_impact.vpcf"
+            local effect_cast = ParticleManager:CreateParticle(particle_cast, PATTACH_ABSORIGIN, nil)
+            ParticleManager:SetParticleControl(effect_cast, 0, hTarget:GetAbsOrigin())
+            ParticleManager:ReleaseParticleIndex(effect_cast)
+            return true
+        end
+    end
+end
 ---------------------------------------------------------------------------

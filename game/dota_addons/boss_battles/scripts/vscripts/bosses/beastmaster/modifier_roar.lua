@@ -21,7 +21,7 @@ function modifier_roar:OnCreated()
 	self:GetParent():FaceTowards(self.angle * (-1))
 	self:GetParent():SetForwardVector((self:GetParent():GetAbsOrigin() - self.angle):Normalized())
 
-	self.distance =  110 --/ ( self:GetDuration() / FrameTime()) --self:GetAbility():GetSpecialValueFor("push_length")
+	self.distance =  130 --/ ( self:GetDuration() / FrameTime()) --self:GetAbility():GetSpecialValueFor("push_length")
 end
 
 function modifier_roar:OnDestroy()
@@ -42,7 +42,7 @@ function modifier_roar:HorizontalMotion(unit, time)
 
 
 	local distance = (unit:GetOrigin() - self.angle):Normalized()
-	unit:SetOrigin( unit:GetOrigin() + distance * 800 * time )
+	unit:SetOrigin( unit:GetOrigin() + distance * 900 * time )
 
 end
 

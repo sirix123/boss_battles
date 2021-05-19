@@ -61,7 +61,7 @@ function Spawn( entityKeyValues )
 
 	DinoSpawn()
 
-	PoisonSpellRootChecker()
+	--PoisonSpellRootChecker()
 
 	Timers:CreateTimer(5,function ()
 
