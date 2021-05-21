@@ -150,7 +150,7 @@
 
 		// Status
 		//----------------------------------------------------------------
-		"StatusHealth"				"150000"//""		// Base health.
+		"StatusHealth"				"170000"//""		// Base health. 150000
 		"StatusHealthRegen"			"0.0"		// Health regeneration rate.
 		"StatusMana"				"100"			// Base mana.
 		"StatusManaRegen"			"2"		// Mana regeneration rate.		 
@@ -387,12 +387,12 @@
 		// Movement
 		//----------------------------------------------------------------
 		"MovementCapabilities"		"DOTA_UNIT_CAP_MOVE_GROUND" // DOTA_UNIT_CAP_MOVE_GROUND DOTA_UNIT_CAP_MOVE_NONE
-		"MovementSpeed"				"500"		// Speed.			
+		"MovementSpeed"				"550"		// Speed.			
 
 		// Status
 		//----------------------------------------------------------------
-		"StatusHealth"				"4000"		// Base health. 3000 100
-		"StatusHealthRegen"			"5"		// Health regeneration rate.
+		"StatusHealth"				"5500"		// Base health. 4000 3000 100
+		"StatusHealthRegen"			"10"		// Health regeneration rate.
 		"StatusMana"				"0"			// Base mana.
 		"StatusManaRegen"			"0.0"		// Mana regeneration rate.		 
 		

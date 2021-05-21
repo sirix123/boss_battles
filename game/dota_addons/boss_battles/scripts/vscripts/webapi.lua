@@ -49,6 +49,34 @@ function WebApi:SaveSessionData(data)
       end)
 end
 
+-- send to amplitude test
+function WebApi:SaveSessionDataAmplitude()
+
+	local data = {}
+	data["api_key"] = "a8129adbbfe95ca9f4699b5bdb697d01"
+	data["events"] = {}
+	data["events"]["heroName"] = "Frost Mage"
+	data["events"]["deaths"] = "3"
+	data["events"]["timePlayed"] = "5 hours"
+	data["events"]["event_type"] = "game_complete"
+	data["events"]["user_id"] = "123123123123"
+
+	print(dump(json.encode(data)))
+
+	--local request = CreateHTTPRequestScriptVM("POST", firebaseUrl ..  "sessionData.json")
+	local request = CreateHTTPRequestScriptVM("POST","https://api.amplitude.com/2/httpapi")
+	request:SetHTTPRequestRawPostBody("application/json", json.encode(data))
+      request:Send(function(response)
+        if response.StatusCode == 200 then
+          	print("POST request successfully sent")
+        else
+         	print("POST request failed to send")
+			print("ERROR CODE: ",response.StatusCode)
+			print("ERROR CODE: ",print(dump(response)))
+        end
+      end)
+end
+
 
 --Get stefan to login to Firebase website, watch the Real Time database. Then run this method
 function WebApi:DemoForStefan()

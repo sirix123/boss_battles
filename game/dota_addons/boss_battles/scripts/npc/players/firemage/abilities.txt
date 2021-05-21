@@ -11,7 +11,7 @@
 		"AbilityUnitDamageType"			"DAMAGE_TYPE_PHYSICAL"	
         "AbilityBehavior"				"DOTA_ABILITY_BEHAVIOR_POINT"
 		"AbilityCastRange" 				"900"
-        "AbilityCooldown"				"0"
+        "AbilityCooldown"				"0.2"
         "AbilityCastPoint"              "0.0"
 
 
@@ -23,15 +23,11 @@
         
 		"AbilitySpecial"
 		{
-			"01"{ "var_type"			"FIELD_INTEGER"		"dmg"							"100" 	}
-			"02"{ "var_type"			"FIELD_FLOAT"		"dmg_reduction_stage_1"			"0.2" 	}
-			"03"{ "var_type"			"FIELD_FLOAT"		"dmg_reduction_stage_2"			"0.5" 	}
-			"04"{ "var_type"			"FIELD_FLOAT"		"mana_reduction_stage_1"		"0.3" 	} 
-			"05"{ "var_type"			"FIELD_FLOAT"		"mana_reduction_stage_2"		"0.6" 	}  
-			"06"{ "var_type"			"FIELD_INTEGER"		"mana_gain_percent"				"6" 	}
-			"07"{ "var_type"			"FIELD_INTEGER"		"buff_duration"					"20" 	} 
-			"08"{ "var_type"			"FIELD_INTEGER"		"beam_length"					"900" 	} 
-			"09"{ "var_type"			"FIELD_INTEGER"		"buff_channel_time"				"6" 	} // timer runs at 0.5
+			"01"{ "var_type"			"FIELD_INTEGER"		"dmg"							"100" 	} 
+			"02"{ "var_type"			"FIELD_INTEGER"		"mana_gain_percent"				"6" 	}
+			"03"{ "var_type"			"FIELD_INTEGER"		"buff_duration"					"3" 	} 
+			"04"{ "var_type"			"FIELD_INTEGER"		"beam_length"					"900" 	} 
+			"05"{ "var_type"			"FIELD_INTEGER"		"buff_channel_time"				"6" 	} // timer runs at 0.5
 
 		}
 	}

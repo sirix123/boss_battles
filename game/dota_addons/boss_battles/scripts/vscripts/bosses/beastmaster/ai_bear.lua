@@ -30,6 +30,8 @@ function Spawn( entityKeyValues )
 
 	thisEntity:AddNewModifier( nil, nil, "modifier_phased", { duration = -1 } )
 
+	thisEntity.level_up = true
+
 	TargetingTimer()
 
 	thisEntity:SetContextThink( "BearThink", BearThink, 0.5 )
@@ -70,8 +72,12 @@ function BearThink()
 	local stacks = 0
 	if thisEntity:HasModifier("bear_bloodlust_modifier") then
 		stacks = thisEntity:GetModifierStackCount("bear_bloodlust_modifier", thisEntity)
-		if stacks >= 10 then
+		if stacks >= 7 then
 			thisEntity.cast_claw = true
+		end
+		if stacks >= 12 and thisEntity.level_up == true then
+			thisEntity.level_up = false
+			thisEntity.bear_charge:SetLevel(2)
 		end
 	end
 

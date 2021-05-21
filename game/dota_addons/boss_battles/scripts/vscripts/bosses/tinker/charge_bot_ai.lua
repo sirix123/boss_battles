@@ -174,6 +174,12 @@ function NewQuickStrikeTarget()
             thisEntity.target = enemies[RandomInt(1,#enemies)]
         end
 
+        if thisEntity.target:IsAlive() == false then
+            if enemies ~= nil and #enemies ~= 0 then
+                thisEntity.target = enemies[RandomInt(1,#enemies)]
+            end  
+        end
+
         return 30
     end)
 end

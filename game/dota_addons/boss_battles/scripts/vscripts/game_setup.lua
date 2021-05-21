@@ -411,7 +411,7 @@ function GameSetup:OnEntityKilled(keys)
             Scoreboard:DisplayScoreBoard(forceOpen)
 
             -- raid counter will go to 8 if tinkers is killed
-            if BOSS_BATTLES_ENCOUNTER_COUNTER == 8 then --2
+            if BOSS_BATTLES_ENCOUNTER_COUNTER == 8 then -- 8
                 bGAME_COMPLETE = true
                 SessionManager:SendSessionData()
             end
@@ -447,6 +447,7 @@ function GameSetup:OnEntityHurt(keys)
         --DPS METER:
         Scoreboard:UpdateDamageMeter()
 
+        -- damage numbers on victim from player
         if keys.entindex_attacker ~= nil and keys.entindex_killed ~= nil and keys.entindex_inflictor ~= nil then
             if EntIndexToHScript(keys.entindex_inflictor):GetTeam() == DOTA_TEAM_GOODGUYS then
                 local entVictim = EntIndexToHScript(keys.entindex_killed)
@@ -691,6 +692,15 @@ function GameSetup:HeroCheck()
             end
             if hero:HasModifier("shatter_modifier") then
                 hero:RemoveModifierByName("shatter_modifier")
+            end
+        end
+
+        -- fire mage clean
+        if hero:GetUnitName() == "npc_dota_hero_lina" then
+            if hero:HasModifier("m1_beam_fire_rage") then
+                local modifier = hero:FindModifierByNameAndCaster("m1_beam_fire_rage",hero)
+                modifier:SetStackCount(0)
+                hero:RemoveModifierByName("m1_beam_fire_rage")
             end
         end
 

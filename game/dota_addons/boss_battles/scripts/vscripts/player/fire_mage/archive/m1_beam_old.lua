@@ -61,7 +61,16 @@ function m1_beam:OnSpellStart()
         self.origin = self.caster:GetAbsOrigin()
         self.beam_width = 100
         local dmg = self:GetSpecialValueFor( "dmg" )
-        local dmg_buff = self.caster:FindAbilityByName("m2_meteor"):GetSpecialValueFor( "fire_weakness_dmg_increase" )
+
+        local dmg_1 = dmg * self:GetSpecialValueFor( "dmg_reduction_stage_1" )
+        local dmg_2 = dmg * self:GetSpecialValueFor( "dmg_reduction_stage_2" )
+        local dmg_3 = dmg
+
+        local dmg_1_buff = ( dmg * self:GetSpecialValueFor( "dmg_reduction_stage_1" ) )   + ( ( dmg * self:GetSpecialValueFor( "dmg_reduction_stage_1" ) ) * self.caster:FindAbilityByName("m2_meteor"):GetSpecialValueFor( "fire_weakness_dmg_increase" )  )
+        local dmg_2_buff = ( dmg * self:GetSpecialValueFor( "dmg_reduction_stage_2" ) )   + ( ( dmg * self:GetSpecialValueFor( "dmg_reduction_stage_2" ) ) * self.caster:FindAbilityByName("m2_meteor"):GetSpecialValueFor( "fire_weakness_dmg_increase" )  )
+        local dmg_3_buff = dmg   + ( dmg           * self.caster:FindAbilityByName("m2_meteor"):GetSpecialValueFor( "fire_weakness_dmg_increase" )  )
+
+        local channel_time_buff = self:GetSpecialValueFor( "buff_channel_time" ) --timer runs at 0.5
 
         local beam_length = self:GetSpecialValueFor( "beam_length" )
         local caster_forward = self.caster:GetForwardVector()
@@ -70,11 +79,6 @@ function m1_beam:OnSpellStart()
         --self.beam_point = Vector(0,0,0)
         local particleName = "particles/fire_mage/lina_phoenix_sunray_solar_forge.vpcf"
         self.pfx = ParticleManager:CreateParticle( particleName, PATTACH_ABSORIGIN, self.caster )
-
-        if self.caster:HasModifier("m1_beam_fire_rage") then
-            local modifier = self.caster:FindModifierByNameAndCaster("m1_beam_fire_rage",self.caster)
-            modifier:SetDuration(self:GetSpecialValueFor( "buff_duration" ),true)
-        end
 
         -- particle effect timer
         Timers:CreateTimer(function()
@@ -102,6 +106,7 @@ function m1_beam:OnSpellStart()
         end)
 
         -- dmg timer
+        local j = 0
         local i = 0
         self.timer = Timers:CreateTimer(function()
             if IsValidEntity(self.caster) == false then
@@ -111,6 +116,7 @@ function m1_beam:OnSpellStart()
 
             if self.caster.left_mouse_up_down == 1 or self.caster:IsStunned() or self.caster:HasModifier("modifier_stomp_push") or self.caster:IsAlive() == false or self.caster:IsSilenced() then
                 self:CleanUp()
+                j = 0
                 i = 0
                 return false
             end
@@ -128,36 +134,26 @@ function m1_beam:OnSpellStart()
                     if units ~= nil and #units ~= 0 then
                         for _,unit in pairs(units) do
 
-                            if i >= 2.0 then
-                                self.caster:AddNewModifier(self.caster,self,"m1_beam_fire_rage", { duration = self:GetSpecialValueFor( "buff_duration" ) })
-                                i = 0
-                            end
-
-                            local stacks = 0
-                            if self.caster:HasModifier("m1_beam_fire_rage") then
-                                stacks = self.caster:GetModifierStackCount("m1_beam_fire_rage", self.caster)
-                            end
-
-                            if stacks == 1 or stacks == 0 then
-                                self.caster:ManaOnHit(self:GetSpecialValueFor( "mana_gain_percent") / 3)
+                            if i <= 1 and i <= 3.5 then
+                                self.caster:ManaOnHit(self:GetSpecialValueFor( "mana_gain_percent") * self:GetSpecialValueFor( "mana_reduction_stage_1" ))
                                 if unit:HasModifier("m2_meteor_fire_weakness") then
-                                    dmg = ( dmg + ( dmg  * dmg_buff ) ) / 3
+                                    dmg = dmg_1_buff
                                 else
-                                    dmg = dmg / 3
+                                    dmg = dmg_1
                                 end
-                            elseif stacks == 2 then
-                                self.caster:ManaOnHit(self:GetSpecialValueFor( "mana_gain_percent") / 2)
+                            elseif i <= 3.5 and i <= 5 then
+                                self.caster:ManaOnHit(self:GetSpecialValueFor( "mana_gain_percent") * self:GetSpecialValueFor( "mana_reduction_stage_2" ))
                                 if unit:HasModifier("m2_meteor_fire_weakness") then
-                                    dmg = ( dmg + ( dmg  * dmg_buff ) ) / 2
+                                    dmg = dmg_2_buff
                                 else
-                                    dmg = dmg / 2
+                                    dmg = dmg_2
                                 end
-                            elseif stacks == 3 then
+                            elseif i >= 5 then
                                 self.caster:ManaOnHit(self:GetSpecialValueFor( "mana_gain_percent"))
                                 if unit:HasModifier("m2_meteor_fire_weakness") then
-                                    dmg = ( dmg + ( dmg  * dmg_buff ) )
+                                    dmg = dmg_3_buff
                                 else
-                                    dmg = dmg
+                                    dmg = dmg_3
                                 end
                             end
 
@@ -169,12 +165,16 @@ function m1_beam:OnSpellStart()
                                 ability = self
                             }
                             ApplyDamage( damage )
-
-                            dmg = self:GetSpecialValueFor( "dmg" )
                         end
                     end
 
+                    if j == channel_time_buff then
+                        j = 0
+                        --self.caster:AddNewModifier(self.caster,self,"m1_beam_fire_rage", { duration = self:GetSpecialValueFor( "buff_duration" ) })
+                    end
+
             i = i + 0.5
+            j = j + 0.5
             return 0.5
         end)
 
