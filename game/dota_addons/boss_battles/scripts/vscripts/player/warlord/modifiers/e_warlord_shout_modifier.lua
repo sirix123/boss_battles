@@ -23,17 +23,10 @@ end
 function e_warlord_shout_modifier:OnCreated( kv )
     if IsServer() then
 
-        if self:GetStackCount() < 3 then
-            self:IncrementStackCount()
-        end
-
         self.parent = self:GetParent()
         self.parent_origin = self.parent:GetAbsOrigin()
 
         self.max_shield = self:GetAbility():GetSpecialValueFor( "bubble_amount" )
-
-        self.health_regen = self:GetAbility():GetSpecialValueFor( "health_regen" )
-        self.mana_regen = self:GetAbility():GetSpecialValueFor( "mana_regen" )
 
         self.shield_remaining = self.max_shield
 
@@ -51,16 +44,10 @@ function e_warlord_shout_modifier:OnCreated( kv )
 		self:AddParticle(self.particle, false, false, -1, false, false)
     end
 
-    self.health_regen = self:GetAbility():GetSpecialValueFor( "health_regen" )
-    self.mana_regen = self:GetAbility():GetSpecialValueFor( "mana_regen" )
-
 end
 
 function e_warlord_shout_modifier:OnRefresh( kv )
     if IsServer() then
-        if self:GetStackCount() < 3 then
-            self:IncrementStackCount()
-        end
     end
 end
 
@@ -114,32 +101,3 @@ function e_warlord_shout_modifier:DeclareFunctions(params)
     }
     return funcs
 end
-
-function e_warlord_shout_modifier:DeclareFunctions()
-	local funcs =
-	{
-        MODIFIER_PROPERTY_MANA_REGEN_CONSTANT,
-        MODIFIER_PROPERTY_HEALTH_REGEN_CONSTANT,
-	}
-	return funcs
-end
------------------------------------------------------------------------------
-
-function e_warlord_shout_modifier:GetModifierConstantHealthRegen( params )
-    if self:GetStackCount() == nil or self:GetStackCount() == 0 then
-        return self.health_regen
-    else
-        return self.health_regen * self:GetStackCount()
-    end
-end
---------------------------------------------------------------------------------
-
-function e_warlord_shout_modifier:GetModifierConstantManaRegen( params )
-
-    if self:GetStackCount() == nil or self:GetStackCount() == 0 then
-        return self.mana_regen
-    else
-        return self.mana_regen * self:GetStackCount()
-    end
-end
---------------------------------------------------------------------------------

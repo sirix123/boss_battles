@@ -74,6 +74,8 @@ function GameSetup:OnStateChange()
 
     if GameRules:State_Get() == DOTA_GAMERULES_STATE_GAME_IN_PROGRESS then
 
+        print("does this run on reconnect? (GameRules:State_Get() == DOTA_GAMERULES_STATE_GAME_IN_PROGRESS) ")
+
         -- might to need check all clients are ready with a timer ehre and dont move past until theyre
         Timers:CreateTimer(1.0, function()
             if PLAYERS_HANDSHAKE_READY == PlayerResource:GetPlayerCount() then
@@ -127,9 +129,11 @@ function GameSetup:OnPlayerDisconnected(keys)
         local hPlayer = PlayerResource:GetPlayer(pID)
         local hPlayerHero = hPlayer:GetAssignedHero()
 
+        disconnect_manager:PlayerDisconnect( keys.PlayerID )
+
         print("disconnecting hero name, ",hPlayerHero:GetUnitName())
 
-        hPlayerHero.isConnected = false
+        --hPlayerHero.isConnected = false
     end
 
 end
@@ -144,9 +148,9 @@ function GameSetup:OnPlayerReconnected(keys)
 
     -- not sure if we need to makesure the client is ready before we sent this event..
 
-    for key, v in pairs(keys) do
+    --[[for key, v in pairs(keys) do
         print("key, ",key,"v, ",v)
-    end
+    end]]
 
     --[[
         key, 	game_event_listener	v, 	1602224135
@@ -155,24 +159,24 @@ function GameSetup:OnPlayerReconnected(keys)
         key, 	splitscreenplayer	v, 	-1
     ]]
 
+    -- adding comment anotheirn one
+
+    print("running reconnect code")
+
+    disconnect_manager:PlayerReconnect()
+
     local pID = keys.PlayerID
     local hPlayer = PlayerResource:GetPlayer(pID)
-    local hPlayerHero = hPlayer:GetAssignedHero()
-    hPlayerHero.isConnected = true
+    --local hPlayerHero = hPlayer:GetAssignedHero()
 
-    print("hPlayer ",hPlayer)
+    Timers:CreateTimer(3, function()
+        CustomGameEventManager:Send_ServerToPlayer( hPlayer, "player_reconnect", {} )
 
-    Timers:CreateTimer(1,function()
-        if RECONNECTING_PLAYER_ID ~= nil then
-
-            print("sending reconnect message")
-
-            CustomGameEventManager:Send_ServerToPlayer( hPlayer, "player_reconnect", nil )
-            RECONNECTING_PLAYER_ID = nil
-
-            return false
+        -- redraw the player frames
+        for _, hero in pairs(HERO_LIST) do
+            player_frame_manager:CreatePlayerFrameReconnect( hero, hPlayer )
         end
-        return 1
+        return false
     end)
 end
 --------------------------------------------------------------------------------------------------
@@ -217,7 +221,12 @@ function GameSetup:OnNPCSpawned(keys)
     if npc:IsRealHero() and npc:GetUnitName() ~= "npc_dota_hero_wisp" and npc.bFirstSpawned == nil then
         -- npc.bFirstSpawned is set to true during initlize()
 
-        CustomGameEventManager:Send_ServerToPlayer( npc, "player_hero_spawned", {} )
+        Timers:CreateTimer(2, function()
+            local playerID = npc:GetPlayerID()
+            local hPlayer = PlayerResource:GetPlayer(playerID)
+            CustomGameEventManager:Send_ServerToPlayer( hPlayer, "player_hero_spawned", {} )
+            return false
+        end)
 
         -- create our own hero list because of the custom hero select screen
         table.insert(HERO_LIST,npc)

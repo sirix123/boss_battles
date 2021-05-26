@@ -3,7 +3,7 @@ q_conq_shout_modifier = class({})
 --------------------------------------------------------------------------------
 -- Classifications
 function q_conq_shout_modifier:IsHidden()
-	return false
+	return true
 end
 
 function q_conq_shout_modifier:IsDebuff()

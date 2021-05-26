@@ -10,6 +10,8 @@ GameEvents.Subscribe( "player_reconnect", OnPickingDone );
 function OnPickingDone( data ) {
 
 	//$.Msg("create help button")
+    var rootPanel = $("#HelpPanel");
+	rootPanel.RemoveClass("hidden");
 
     $('#HelpPanel').style.visibility = 'visible';
 
@@ -41,3 +43,8 @@ function OnToolTipCloseButtonPressed(){
     let helpButtonPanel = $.CreatePanel("Panel", helpButtonRoot, 0);
     helpButtonPanel.BLoadLayoutSnippet("HelpButtonContainer");
 }
+
+(function () {
+	var rootPanel = $("#HelpPanel");
+	rootPanel.SetHasClass("hidden", true);
+})();

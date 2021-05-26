@@ -1,4 +1,4 @@
-GameEvents.Subscribe( "picking_done", Init );
+//GameEvents.Subscribe( "picking_done", Init );
 GameEvents.Subscribe( "player_reconnect", Init );
 GameEvents.Subscribe( "player_hero_spawned", Init );
 
@@ -243,5 +243,3 @@ function Init(){
 
     UpdateTargetIndicator();
 }
-
-

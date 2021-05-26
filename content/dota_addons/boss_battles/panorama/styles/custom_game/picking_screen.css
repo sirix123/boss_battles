@@ -7,6 +7,13 @@
 	/*background-color: #000000;*/
 }
 
+.hidden {
+	visibility: collapse;
+	opacity: 0;
+	width: 0%;
+	height: 0%;
+  }
+
 /* hero select general layout and container
 =================================================================*/
 #PickingScreenScene

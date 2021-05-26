@@ -33,7 +33,6 @@ function CDOTA_BaseNPC:Initialize(data)
   self.previousType = nil
   self.previousCommand = nil
   self.playerLagging = false
-  self.isConnected = true -- used for sending session data, if all players are disconnected we send the data
 
   self.playerName = PlayerResource:GetPlayerName(self.playerId)
   self.steamId = PlayerResource:GetSteamID(self.playerId)

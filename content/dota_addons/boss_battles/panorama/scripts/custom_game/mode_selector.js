@@ -12,6 +12,9 @@ function OnPickingDone( ) {
 //(function () {
 function StartModeSelect(){
 
+	var rootPanel = $("#HeroModeSelectorContainer");
+	rootPanel.RemoveClass("hidden");
+
 	let modeSelectorContainer = $("#HeroModeSelectorContainer"); // mode selector handler
 	let normalModeButton = modeSelectorContainer.FindChildInLayoutFile("NormalModeButton") // nomral mode button
 	let storyModeButton = modeSelectorContainer.FindChildInLayoutFile("StoryModeButton") // story mode button
@@ -117,3 +120,9 @@ function StartModeSelect(){
 	}
 }
 //})();
+
+// by default set the root panel as hidden
+(function () {
+	var rootPanel = $("#HeroModeSelectorContainer");
+	rootPanel.SetHasClass("hidden", true);
+})();

@@ -91,7 +91,7 @@ function roar:OnSpellStart()
         if self.units ~= nil and #self.units ~= 0 then
             for _, unit in pairs(self.units) do
                 unit:AddNewModifier(self:GetCaster(), self, "modifier_roar", {duration = 0.3})
-                unit:AddNewModifier(self:GetCaster(), self, "modifier_generic_silenced", {duration = 1})
+                --unit:AddNewModifier(self:GetCaster(), self, "modifier_generic_silenced", {duration = 2})
             end
         end
 

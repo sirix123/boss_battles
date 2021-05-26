@@ -16,7 +16,7 @@ function space_leap_of_grip:OnAbilityPhaseStart()
             false)
 
         if units == nil or #units == 0 then
-            FireGameEvent("dota_hud_error_message", { reason = 80, message = "Out of range or no target" })
+            --FireGameEvent("dota_hud_error_message", { reason = 80, message = "Out of range or no target" })
             return false
         else
             self:GetCaster():StartGestureWithPlaybackRate(ACT_DOTA_CAST_ABILITY_3, 1.0)

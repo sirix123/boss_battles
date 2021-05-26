@@ -24,14 +24,19 @@ function GenerateLocalizationData() {
         description: "Increases the damage of your Sword Slams.",
     });
     Modifiers.push({
+        modifier_classname: "warlord_modifier_shouts",
+        name: "Generic Shout Power",
+        description: "Blademaster shouts give you increased health and mana regen.",
+    });
+    Modifiers.push({
         modifier_classname: "e_warlord_shout_modifier",
         name: "Warlord Shout",
-        description: "Provides a shield that will abosrbs damage. Also increasing health and mana regen based on stack count.",
+        description: "Provides a shield that will abosrbs damage.",
     });
     Modifiers.push({
         modifier_classname: "q_conq_shout_modifier",
         name: "Conquerer Shout",
-        description: "Your vortexes are generating you energy and have increased damage.",
+        description: "Your vortex is generating you energy and have increased damage.",
     });
     Abilities.push({
         ability_classname: "m1_sword_slash",
@@ -92,7 +97,7 @@ function GenerateLocalizationData() {
     Abilities.push({
         ability_classname: "q_conq_shout",
         name: "Conquerer Shout",
-        description: "Your vortex(s) are generating you energy and have increased damage",
+        description: "Your vortex is generating you energy and has increased damage. Also increases health and mana regen per stack.",
         notes: [],
         ability_specials: [
             {
@@ -132,7 +137,7 @@ function GenerateLocalizationData() {
     Abilities.push({
         ability_classname: "r_blade_vortex",
         name: "Blade Vortex",
-        description: "Place a Blade Vortex on the ground that deals damage and channels your shouts.",
+        description: "Attach a Blade Vortex to an enemy unit that deals damage.",
         ability_specials: [
             {
                 ability_special: "duration",

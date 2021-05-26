@@ -2,11 +2,15 @@ if player_frame_manager == nil then
     player_frame_manager = class({})
 end
 
-function player_frame_manager:CreatePlayerFrame( hero )
+function player_frame_manager:CreatePlayerFrame( hero, player )
 
-    --print("player in player manager ", player)
+    print("player in player manager ", player)
 
     CustomGameEventManager:Send_ServerToAllClients( "create_player_frame", { PlayerID = hero.playerId , HeroData = hero } )
+end
+
+function player_frame_manager:CreatePlayerFrameReconnect( hero, player )
+    CustomGameEventManager:Send_ServerToPlayer( player, "create_player_frame", { PlayerID = hero.playerId , HeroData = hero } )
 end
 
 

@@ -36,7 +36,9 @@ function m2_qop_stacks:OnRemoved()
 
 	if self:GetStackCount() > 1 then
 		local modifier = self:GetCaster():AddNewModifier( self:GetCaster(), self:GetAbility(), "m2_qop_stacks", { duration = 3 } )
-		modifier:SetStackCount( self:GetStackCount() - 1 )
+		if modifier then
+			modifier:SetStackCount( self:GetStackCount() - 1 )
+		end
 	end
 
 end

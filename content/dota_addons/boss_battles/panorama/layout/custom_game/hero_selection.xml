@@ -39,6 +39,23 @@
 			</Panel>
 		</snippet>
 
+		<!-- pedestal frames style="border: 1px solid blue;" HERO NAME PLAYER NAME  
+		<snippet name="MainScreen">
+			<Panel class="PickingScreen">
+				<Panel id="wasdcontainer" class="wasdcontainer" >
+					<Panel id="wasdcontainerLabelContainer" class="wasdcontainerLabelContainer">
+						<Label id="wasdLabel" class="wasdLabel" text="This game uses WASD controls." />
+						<Label id="ToolTipInfo" class="ToolTipInfo" text="i" />
+					</Panel>
+				</Panel>
+
+				<Panel id="ToolTip" class="ToolTip"> 
+					<Label id="ToolTipTxt" text="ToolTipText" />
+				</Panel>
+			</Panel>
+		</snippet>
+		-->
+
 	</snippets>
 
 	<Panel hittest="false" style="width: 100%; height: 100%;">

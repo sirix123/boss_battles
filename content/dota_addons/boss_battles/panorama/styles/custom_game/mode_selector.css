@@ -4,6 +4,13 @@
   height:100%;
 }
 
+.hidden {
+	visibility: collapse;
+	opacity: 0;
+	width: 0%;
+	height: 0%;
+  }
+
 /* 'Mode Select' button
 =================================================================*/
 

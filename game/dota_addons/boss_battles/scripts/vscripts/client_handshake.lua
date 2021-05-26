@@ -12,16 +12,6 @@ function client_handshake:Init()
 
         PLAYERS_HANDSHAKE_READY = PLAYERS_HANDSHAKE_READY + 1
 
-    end) -- end of MoveUnit listener
-
-    -- start listening for clients (reconnect)
-    CustomGameEventManager:RegisterListener('client_handshake_reconnect', function(event )
-        print("got event from the client event (reconnect)",event)
-
-        -- what player is sending the reconnect handshake
-        RECONNECTING_PLAYER_ID = event
-
-    end) -- end of MoveUnit listener
-
+    end)
 end
 --------------------------------------------------------------------------------------------------

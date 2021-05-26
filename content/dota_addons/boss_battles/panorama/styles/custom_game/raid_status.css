@@ -202,7 +202,7 @@
   margin-bottom: 4px;
   box-shadow: fill #00000066 2px 2px 2px 1px; 
   background-color: #333333ff;
-  border-radius: 0px 12px 12px 0px;
+  border-radius: 0px 5px 5px 0px;
   border: 1px solid #222222;
   margin-left: -5px;
 }
@@ -244,14 +244,14 @@
   text-align: left;
   horizontal-align: left;
   vertical-align: center;
-  color: white;
+  color: #fff;
   text-shadow: 1px 1px 0px 2.0 #000000;
   overflow: noclip;
   font-size: 18px;
-  font-weight: bold;
+  font-weight: semi-bold;
   font-family: monospaceNumbersFont;
   z-index: 100;
-  margin-left: 20px;
+  margin-left: 5px;
 }
 
 #PlayerLivesLabel
@@ -263,10 +263,10 @@
   text-shadow: 1px 1px 0px 2.0 #000000;
   overflow: noclip;
   font-size: 18px;
-  font-weight: bold;
+  font-weight: semi-bold;
   font-family: monospaceNumbersFont;
   z-index: 100;
-  margin-right: 20px;
+  margin-right: 5px;
 }
 
 #PlayerHealthLabel
@@ -275,9 +275,9 @@
   horizontal-align: center;
   vertical-align: center;
   color: white;
-  text-shadow: 1px 1px 0px 2.0 #000000;
+  text-shadow: 0px 0px 4px 3 black;
   overflow: noclip;
-  font-size: 18px;
+  font-size: 15px;
   font-weight: bold;
   font-family: monospaceNumbersFont;
   z-index: 100;
@@ -320,9 +320,9 @@
   horizontal-align: center;
   vertical-align: center;
   color: white;
-  text-shadow: 1px 1px 0px 2.0 #000000;
+  text-shadow: 0px 0px 4px 3 black;
   overflow: noclip;
-  font-size: 18px;
+  font-size: 15px;
   font-weight: bold;
   font-family: monospaceNumbersFont;
   z-index: 100;

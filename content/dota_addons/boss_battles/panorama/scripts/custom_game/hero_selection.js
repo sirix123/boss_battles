@@ -242,9 +242,9 @@ function DisplayHeroSelect(){
 		}
 	}
 
-	// spawn the parent panel
-
 	//Set panel visibility
+	var rootPanel = $("#PickingScreen");
+	rootPanel.RemoveClass("hidden");
 	$('#PickListRowOne').style.visibility = 'visible';
 
 	// 4 = total number of players, create a ped for each one
@@ -306,3 +306,9 @@ function DisplayWASDToolTip(){
 	});
 
 }
+
+// by default set the root panel as hidden
+(function () {
+	var rootPanel = $("#PickingScreen");
+	rootPanel.SetHasClass("hidden", true);
+})();

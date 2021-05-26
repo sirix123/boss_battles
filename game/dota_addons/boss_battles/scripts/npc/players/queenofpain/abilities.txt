@@ -169,7 +169,7 @@
 		"AbilityUnitDamageType"			"DAMAGE_TYPE_PHYSICAL"	
         "AbilityBehavior"				"DOTA_ABILITY_BEHAVIOR_POINT | DOTA_ABILITY_BEHAVIOR_AOE"
 		"AbilityCastRange" 				"1300"
-        "AbilityCooldown"				"20"
+        "AbilityCooldown"				"30"
         "AbilityCastPoint"              "0.2"
 		"AbilityManaCost"        		"0"
 

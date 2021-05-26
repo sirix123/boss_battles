@@ -118,11 +118,11 @@ function BeastmasterThink()
 	end
 
 	if thisEntity.roar:IsFullyCastable() and thisEntity.roar:IsCooldownReady() and thisEntity.roar:IsInAbilityPhase() == false then
-		--return CastRoar()
+		return CastRoar()
 	end
 
 	if thisEntity.summon_bird:IsFullyCastable() and thisEntity.summon_bird:IsCooldownReady() and thisEntity:GetHealthPercent() < 95 and thisEntity.summon_bird:IsInAbilityPhase() == false then
-		--return SummonBird()
+		return SummonBird()
 	end
 
 	if thisEntity.summon_quillboar:IsFullyCastable() and thisEntity.summon_quillboar:IsCooldownReady() and thisEntity.summon_quillboar:IsInAbilityPhase() == false then
@@ -130,7 +130,7 @@ function BeastmasterThink()
 	end
 
 	if thisEntity.beastmaster_net:IsFullyCastable() and thisEntity.beastmaster_net:IsCooldownReady() and thisEntity.beastmaster_net:IsInAbilityPhase() == false then
-		--return BeastmasterNet_v2()
+		return BeastmasterNet_v2()
 	end
 
 	if thisEntity.enraged == true then

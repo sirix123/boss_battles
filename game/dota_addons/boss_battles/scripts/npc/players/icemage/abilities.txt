@@ -203,7 +203,7 @@
         
 		"AbilitySpecial"
 		{
-			"01"{ "var_type"			"FIELD_INTEGER"		"delay"							"2" }
+			"01"{ "var_type"			"FIELD_FLOAT"		"delay"							"1.5" }
 			"02"{ "var_type"			"FIELD_INTEGER"		"radius"						"250" }
 			"03"{ "var_type"			"FIELD_FLOAT"		"damage_interval"				"1" }
 			"04"{ "var_type"			"FIELD_INTEGER"		"fb_bse_dmg"					"200" }

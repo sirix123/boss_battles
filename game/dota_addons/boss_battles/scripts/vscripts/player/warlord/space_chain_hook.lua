@@ -1,5 +1,6 @@
 space_chain_hook = class({})
 LinkLuaModifier("space_chain_hook_modifier", "player/warlord/modifiers/space_chain_hook_modifier", LUA_MODIFIER_MOTION_HORIZONTAL)
+LinkLuaModifier( "q_conq_shout_modifier", "player/warlord/modifiers/q_conq_shout_modifier", LUA_MODIFIER_MOTION_NONE )
 
 function space_chain_hook:OnAbilityPhaseStart()
     if IsServer() then

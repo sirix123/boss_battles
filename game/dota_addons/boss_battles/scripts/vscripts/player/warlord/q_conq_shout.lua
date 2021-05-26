@@ -1,5 +1,6 @@
 q_conq_shout = class({})
 LinkLuaModifier( "q_conq_shout_modifier", "player/warlord/modifiers/q_conq_shout_modifier", LUA_MODIFIER_MOTION_NONE )
+LinkLuaModifier( "warlord_modifier_shouts", "player/warlord/modifiers/warlord_modifier_shouts", LUA_MODIFIER_MOTION_NONE )
 ---------------------------------------------------------------------------
 
 function q_conq_shout:OnAbilityPhaseStart()
@@ -19,11 +20,38 @@ function q_conq_shout:OnSpellStart()
 
         local caster = self:GetCaster()
         self.radius = self:GetSpecialValueFor("radius")
+        local generic_shout_duration = caster:FindAbilityByName("e_warlord_shout"):GetSpecialValueFor( "generic_shout_duration" )
 
         caster:AddNewModifier(caster, self, "q_conq_shout_modifier",
         {
-            duration = 0.1, --self:GetSpecialValueFor( "duration" ) 0.1
+            duration = 0.1,
         })
+
+        local friends = FindUnitsInRadius(
+            self:GetCaster():GetTeamNumber(),	-- int, your team number
+            caster:GetAbsOrigin(),	-- point, center point
+            nil,	-- handle, cacheUnit. (not known)
+            self.radius,	-- float, radius. or use FIND_UNITS_EVERYWHERE
+            DOTA_UNIT_TARGET_TEAM_FRIENDLY,	-- int, team filter
+            DOTA_UNIT_TARGET_HERO + DOTA_UNIT_TARGET_BASIC,	-- int, type filter
+            DOTA_UNIT_TARGET_FLAG_INVULNERABLE,	-- int, flag filter
+            0,	-- int, order filter
+            false	-- bool, can grow cache
+	    )
+
+        -- for friendly in the table add the modifier
+        if friends ~= nil and #friends ~= 0 then
+            for _,friend in pairs(friends) do
+
+                friend:AddNewModifier(
+                    caster, -- player source
+                    self, -- ability source
+                    "warlord_modifier_shouts", -- modifier name
+                    { duration = generic_shout_duration} -- kv
+                )
+
+            end
+        end
 
         -- Create Sound
         EmitSoundOn( "Hero_Axe.Berserkers_Call", caster )
@@ -36,87 +64,6 @@ function q_conq_shout:OnSpellStart()
         ParticleManager:SetParticleControl(particle_stomp_fx, 1, Vector(self.radius, 1, 1))
         ParticleManager:SetParticleControl(particle_stomp_fx, 2, Vector(250,0,0))
         ParticleManager:ReleaseParticleIndex(particle_stomp_fx)
-
-        -- find the vortex thinkers on the map, then add its location to the table
-        --local i = 0
-        --[[local previous_result = nil
-        local result = nil
-        while i < 2 do
-
-            if previous_result == nil then
-                result = Entities:FindByClassname(nil, "npc_dota_thinker")
-            else
-                result = Entities:FindByClassname(previous_result, "npc_dota_thinker")
-            end
-
-            print("result ",result)
-
-            if result ~= nil then
-                previous_result = result
-                local modifier = result:FindModifierByName("r_blade_vortex_thinker")
-                if modifier then
-                    print("modifier ",modifier)
-                    if modifier:GetCaster() == self:GetCaster() then
-                        table.insert(self.tLocations,modifier.currentTarget)
-                        table.insert(self.tHandleVortex,modifier)
-                    end
-                end
-            end
-
-            if result == nil then break end
-
-            i = i + 1
-        end
-
-        -- add caster location t0 the table
-        table.insert(self.tLocations,caster:GetAbsOrigin())
-
-        -- for each location find friendlies around it
-        if self.tLocations ~= nil and #self.tLocations ~= 0 then
-            for _, location in pairs(self.tLocations) do
-                self:FindFriends( location )
-
-                --DebugDrawCircle(location,Vector(255,0,0),128,self.radius,true,60)
-
-                -- particle
-                local particle = 'particles/units/heroes/hero_elder_titan/elder_titan_echo_stomp.vpcf'
-
-                local particle_stomp_fx = ParticleManager:CreateParticle(particle, PATTACH_ABSORIGIN, caster)
-                ParticleManager:SetParticleControl(particle_stomp_fx, 0, location)
-                ParticleManager:SetParticleControl(particle_stomp_fx, 1, Vector(self.radius, 1, 1))
-                ParticleManager:SetParticleControl(particle_stomp_fx, 2, Vector(250,0,0))
-                ParticleManager:ReleaseParticleIndex(particle_stomp_fx)
-
-            end
-        end
-
-        -- increase duration of the vortex(s)
-        if self.tHandleVortex ~= nil and #self.tHandleVortex ~= 0 then
-            for _, vortex in pairs(self.tHandleVortex) do
-
-                -- inc their tick damage
-                vortex.dmg = caster:FindAbilityByName("r_blade_vortex"):GetSpecialValueFor( "base_dmg" ) + ( self:GetSpecialValueFor( "vortex_dmg_inc" ) * caster:FindAbilityByName("r_blade_vortex"):GetSpecialValueFor( "base_dmg" ) )
-
-                --PrintTable(vortex)
-                Timers:CreateTimer(caster:FindAbilityByName("q_conq_shout"):GetSpecialValueFor( "duration" ), function()
-                    vortex.dmg = caster:FindAbilityByName("r_blade_vortex"):GetSpecialValueFor( "base_dmg" )
-                    return false
-                end)
-
-                -- inc duration
-                local remaining_time = vortex:GetRemainingTime()
-                local vortex_ability_shout_duration_increase = caster:FindAbilityByName("r_blade_vortex"):GetSpecialValueFor( "shout_duration_increase" )
-                local extended_duration = remaining_time + vortex_ability_shout_duration_increase
-                vortex:SetDuration(extended_duration, true)
-
-                -- set their obsorigin to caster origin
-                vortex.currentTarget = self:GetCaster():GetAbsOrigin()
-
-                print("moving vortex")
-                print("--------------")
-
-            end
-        end]]
 
     end
 end

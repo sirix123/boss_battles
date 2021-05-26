@@ -38,13 +38,13 @@ function Commands:OnPlayerChat(keys)
     --print("userID = ", userID)
     local commandChar = "!"
     local firstChar = string.sub(text,1,1)
-    --PrintTable(keys)
+    PrintTable(keys)
 
     if not keys.userid then return end
 
     --Parse Player Chat only if it's an command, only if the text starts with commandChar:
     if commandChar == firstChar then
-        local hPlayer = PlayerInstanceFromIndex( keys.userid )
+        local hPlayer = PlayerResource:GetPlayer(keys.playerid)
         if not hPlayer then return end
         --local hHero = hPlayer:GetAssignedHero()
 

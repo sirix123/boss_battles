@@ -75,10 +75,10 @@ function BearThink()
 		if stacks >= 7 then
 			thisEntity.cast_claw = true
 		end
-		if stacks >= 12 and thisEntity.level_up == true then
+		--[[if stacks >= 12 and thisEntity.level_up == true then
 			thisEntity.level_up = false
 			thisEntity.bear_charge:SetLevel(2)
-		end
+		end]]
 	end
 
 	if thisEntity.hBloodlust ~= nil and thisEntity.hBloodlust:IsCooldownReady() and thisEntity.hBloodlust:IsFullyCastable() and stacks < 20 then

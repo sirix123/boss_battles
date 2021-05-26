@@ -87,7 +87,7 @@
 		"AbilitySpecial"
 		{
 			"01"{ "var_type"			"FIELD_INTEGER"		"radius"					"250"   }	 
-			"02"{ "var_type"			"FIELD_INTEGER"		"damage"					"200"   }
+			"02"{ "var_type"			"FIELD_INTEGER"		"damage"					"250"   }
 			"03"{ "var_type"			"FIELD_INTEGER"		"duration"					"10"   }
 			"04"{ "var_type"			"FIELD_INTEGER"		"energy_regen_bonus"		"10"   }
 			"05"{ "var_type"			"FIELD_INTEGER"		"bleed_pop_dmg_reduction"	"2"   }

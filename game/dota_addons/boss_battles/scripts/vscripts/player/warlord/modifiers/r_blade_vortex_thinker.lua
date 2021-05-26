@@ -25,7 +25,7 @@ function r_blade_vortex_thinker:OnCreated( kv )
         self.base_mana = self:GetAbility():GetSpecialValueFor( "mana_gain_percent_bonus" )
 
         -- ref from spell
-        self.currentTarget = Vector( kv.target_x, kv.target_y, kv.target_z )
+        self.currentTarget = self.parent:GetAbsOrigin()                -- Vector( kv.target_x, kv.target_y, kv.target_z )
         self.previous_location = nil
         self.base_mana = self.caster:FindAbilityByName("m1_sword_slash"):GetSpecialValueFor( "mana_gain_percent" )
         self.bonus_mana = self.caster:FindAbilityByName("m1_sword_slash"):GetSpecialValueFor( "mana_gain_percent_bonus" )
@@ -34,9 +34,21 @@ function r_blade_vortex_thinker:OnCreated( kv )
         self:PlayEffectsOnCreated()
 
         self.timer_find_caster = Timers:CreateTimer(function()
+                if IsValidEntity(self.parent) == false then
+                    return false
+                end
+
+                if self.caster:IsAlive() == false then
+                    return false
+                end
+
+                if self.parent:IsAlive() == false then
+                    return false
+                end
+
                 if self.caster:HasModifier("q_conq_shout_modifier") then
                     -- move vortex to caster location
-                    self.currentTarget = self.caster:GetAbsOrigin()
+                    -- self.currentTarget = self.caster:GetAbsOrigin()
 
                     -- play effects
                     local particle = 'particles/units/heroes/hero_elder_titan/elder_titan_echo_stomp.vpcf'
@@ -67,19 +79,19 @@ function r_blade_vortex_thinker:OnIntervalThink()
     if IsServer() then
 
         -- destroy conditions
-        if self.caster:IsAlive() == false or ( self.caster:GetAbsOrigin() - self.currentTarget ):Length2D() > 5000 then
+        --[[if self.caster:IsAlive() == false or ( self.caster:GetAbsOrigin() - self.currentTarget ):Length2D() > 5000 then
             self:Destroy()
             print("destryoing case far away from caster or caster is dead")
-        end
+        end]]
 
         -- play effects
-        if self.previous_location ~= self.currentTarget or self.previous_location == nil then
+        --[[if self.previous_location ~= self.currentTarget or self.previous_location == nil then
             self.previous_location = self.currentTarget
             if self.nfx ~= nil then
                 ParticleManager:DestroyParticle(self.nfx,true)
             end
             self:PlayEffectsOnCreated()
-        end
+        end]]
 
         -- find enemies
         local enemies = FindUnitsInRadius(
@@ -103,7 +115,7 @@ function r_blade_vortex_thinker:OnIntervalThink()
 
                 self.dmgTable = {
                     victim = enemy,
-                    attacker = self.parent,
+                    attacker = self.caster,
                     damage = self.dmg,
                     damage_type = self:GetAbility():GetAbilityDamageType(),
                     ability = self:GetAbility(),
