@@ -131,7 +131,7 @@ function GameSetup:OnPlayerDisconnected(keys)
 
         disconnect_manager:PlayerDisconnect( keys.PlayerID )
 
-        print("disconnecting hero name, ",hPlayerHero:GetUnitName())
+        --print("disconnecting hero name, ",hPlayerHero:GetUnitName())
 
         --hPlayerHero.isConnected = false
     end
@@ -140,7 +140,7 @@ end
 --------------------------------------------------------------------------------------------------
 
 function GameSetup:OnPlayerReconnected(keys)
-    print("GameSetup:OnPlayerReconnected(keys) ",keys)
+    --print("GameSetup:OnPlayerReconnected(keys) ",keys)
 
     --CustomGameEventManager:Send_ServerToPlayer( player, "display_scoreboard", data )
 
@@ -161,7 +161,7 @@ function GameSetup:OnPlayerReconnected(keys)
 
     -- adding comment anotheirn one
 
-    print("running reconnect code")
+    --print("running reconnect code")
 
     disconnect_manager:PlayerReconnect()
 
@@ -357,6 +357,7 @@ function GameSetup:OnEntityKilled(keys)
         if npc:GetUnitName() == RAID_TABLES[BOSS_BATTLES_ENCOUNTER_COUNTER].boss then
 
             self.bBossKilled = true
+            RAID_TABLES[BOSS_BATTLES_ENCOUNTER_COUNTER].bossKilled = true
             nBOSS_HP_ATTEMPT = 0.0
             SessionManager:StopRecordingAttempt( self.bBossKilled )
 
@@ -419,10 +420,21 @@ function GameSetup:OnEntityKilled(keys)
             local forceOpen = true
             Scoreboard:DisplayScoreBoard(forceOpen)
 
-            -- raid counter will go to 8 if tinkers is killed
-            if BOSS_BATTLES_ENCOUNTER_COUNTER == 8 then -- 8
+            -- if the 6 bosses are killed send session data
+            for _, boss in pairs(RAID_TABLES) do
+                if boss.bossKilled == true then
+                    nBOSSES_KILLED = nBOSSES_KILLED + 1
+                end
+            end
+
+            print("nBOSSES_KILLED: ",nBOSSES_KILLED)
+
+            if nBOSSES_KILLED == 7 then --7
                 bGAME_COMPLETE = true
                 SessionManager:SendSessionData()
+                EndGameScreenManager:OpenPostGameScreen()
+            else
+                nBOSSES_KILLED = 0
             end
 
         end
@@ -492,11 +504,11 @@ function GameSetup:ReadyupCheck() -- called from trigger lua file for activators
     self.playerDeaths = 0
 
     -- look at raid tables and move players to boss encounter based on counter
-    print("game_setup: Start boss counter: ", BOSS_BATTLES_ENCOUNTER_COUNTER," ", RAID_TABLES[BOSS_BATTLES_ENCOUNTER_COUNTER].boss )
+    --print("game_setup: Start boss counter: ", BOSS_BATTLES_ENCOUNTER_COUNTER," ", RAID_TABLES[BOSS_BATTLES_ENCOUNTER_COUNTER].boss )
 
     for _,hero in pairs(HERO_LIST) do
         hero.dmgDoneTotal = hero.dmgDoneTotal + hero.dmgDoneAttempt
-        print("hero total dmg done, ", hero.dmgDoneTotal)
+        --print("hero total dmg done, ", hero.dmgDoneTotal)
         hero.dmgDoneAttempt = 0  -- reset damage done
     end
 

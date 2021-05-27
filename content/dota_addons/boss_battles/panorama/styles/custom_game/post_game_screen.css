@@ -1,0 +1,77 @@
+.parent
+{
+  width:100%;
+  height:100%;
+}
+
+.hidden {
+	visibility: collapse;
+	opacity: 0;
+	width: 0%;
+	height: 0%;
+}
+
+#PostPanelContainer
+{
+    width: 800px;
+    height: 800px;
+	horizontal-align: center;
+	vertical-align: center;
+    background-color: #151515;
+	background-size: 100% 100%;
+	border-radius: 5px 5px 5px 5px;
+    flow-children: down;
+}
+
+.PostPanelContainerHeading{
+    width: 100%;
+    height: 10%;
+    background-color: #292626cc; /* rgba */
+    border-bottom: 3px solid rgb(0, 0, 0);
+    flow-children: right;
+    horizontal-align: left;
+}
+
+.PostPanelContainerHeadingTextContainer{
+    width: 90%;
+    height: 100%;
+    horizontal-align: left;
+}
+
+.PostPanelContainerHeadingTextContainerText{
+    horizontal-align: center;
+	vertical-align: center;
+	color: #fff;
+	font-size: 22px;
+	font-family: defaultFont;
+}
+
+.PostPanelCloseButton{
+    width: 10%;
+    height: 100%;
+    horizontal-align: right;
+    background-color: gradient( linear, 0% 0%, 0% 100%, from( #fa3535 ), to( #d6878733 ) );
+    border: 3px solid black;
+    border-radius: 0px 12px 0px 0px;
+}
+
+.PostPanelCloseButtonLabel{
+    horizontal-align: center;
+	vertical-align: center;
+	color: #fff;
+	font-size: 22px;
+	font-family: defaultFont;
+}
+
+.PostPanelContainerBody{
+    width: 100%;
+    height: 90%;
+}
+
+.PostPanelContainerBodyText{
+    horizontal-align: center;
+	vertical-align: center;
+	color: #fff;
+	font-size: 17px;
+	font-family: defaultFont;
+}

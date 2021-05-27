@@ -24,6 +24,7 @@ tRAID_INIT_TABLE = {
 		arena = "intermission_player_spawn",
 		spawnLocation = "something_boss_spawn",
 		boss = "npc_dota_creature_dummy_target_boss",
+		bossKilled = true,
 	},
 
 	[2] = {
@@ -32,6 +33,7 @@ tRAID_INIT_TABLE = {
 		arena = "beastmaster_playerspawn",
 		spawnLocation = "beastmaster_bossspawn",
 		boss ="npc_beastmaster",
+		bossKilled = false,
 	},
 
 	[3] = {
@@ -40,6 +42,7 @@ tRAID_INIT_TABLE = {
 		arena = "timber_player_spawn",
 		spawnLocation = "timber_boss_spawn",
 		boss = "npc_timber",
+		bossKilled = false,
 	},
 
 	[4] = {
@@ -48,6 +51,7 @@ tRAID_INIT_TABLE = {
 		arena = "gyro_player_spawn",
 		spawnLocation = "gyro_boss_spawn",
 		boss = "npc_gyrocopter",
+		bossKilled = false,
 	},
 
 	[5] = {
@@ -56,6 +60,7 @@ tRAID_INIT_TABLE = {
 		arena = "techies_player_spawn",
 		spawnLocation = "techies_boss_spawn",
 		boss = "npc_techies",
+		bossKilled = false,
 	},
 
 	[6] = {
@@ -64,6 +69,7 @@ tRAID_INIT_TABLE = {
 		arena = "clock_player_spawn",
 		spawnLocation = "clock_boss_spawn",
 		boss = "npc_clock",
+		bossKilled = false,
 	},
 
 	[7] = {
@@ -72,6 +78,7 @@ tRAID_INIT_TABLE = {
 		arena = "tinker_player_spawn",
 		spawnLocation = "tinker_boss_spawn",
 		boss = "npc_tinker",
+		bossKilled = false,
 	},
 
 }

@@ -20,8 +20,8 @@ function disconnect_manager:Init()
                 return false
             end
 
-            print("#HERO_LIST ",#HERO_LIST)
-            print("self.disconnected_players_count ",self.disconnected_players_count)
+            --print("#HERO_LIST ",#HERO_LIST)
+            --print("self.disconnected_players_count ",self.disconnected_players_count)
         end
 
         return 1

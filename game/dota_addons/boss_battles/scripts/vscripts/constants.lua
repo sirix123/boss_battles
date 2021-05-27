@@ -12,6 +12,8 @@ _G.BOSS_BATTLES_RESPAWN_TIME = 5
 _G.TotalDamageDone = {}
 _G.DamageTable = {}
 
+_G.nBOSSES_KILLED = 0
+
 _G.PLAYERS_CLIENTS_READY = {}
 
 -- any unit in this table will not be hit by projectiles (if using barebones proj lib)

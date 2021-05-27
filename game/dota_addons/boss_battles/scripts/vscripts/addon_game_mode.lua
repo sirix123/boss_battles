@@ -160,6 +160,7 @@ function Activate()
 
     require('session_manager')
     require('webapi')
+    require('endgame_screen')
 
     GameRules.AddonTemplate = BossBattles()
     GameRules.AddonTemplate:InitGameMode()

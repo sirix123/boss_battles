@@ -47,7 +47,7 @@
     vertical-align: bottom;
     background-color: #151515;
 	background-size: 100% 100%;
-	border-radius: 0px 12px 12px 0px;
+	border-radius: 0px 5px 5px 0px;
 }
 
 .HelpButtonBtn{
@@ -75,7 +75,7 @@
     vertical-align: bottom;
     background-color: #151515;
 	background-size: 100% 100%;
-	border-radius: 0px 12px 12px 0px;
+	border-radius: 0px 5px 5px 0px;
     flow-children: down;
 }
 

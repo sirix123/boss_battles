@@ -1,0 +1,30 @@
+<root>
+	<styles>
+		<include src="file://{resources}/styles/custom_game/post_game_screen.css" />
+	</styles>
+
+	<scripts>
+		<include src="file://{resources}/scripts/custom_game/post_game_screen.js" />
+	</scripts>
+
+    <!-- snippets --> 
+	<snippets>
+	</snippets>
+
+    <Panel hittest="false" class="parent">
+        <Panel id="PostPanelContainer" hittest="true" >
+            <Panel id="PostPanelContainerHeading" class="PostPanelContainerHeading">
+                <Panel id="PostPanelContainerHeadingTextContainer" class="PostPanelContainerHeadingTextContainer">
+                    <Label id="PostPanelContainerHeadingTextContainerText" class="PostPanelContainerHeadingTextContainerText" text="Post game screen" />
+                </Panel>
+                <Button id="PostPanelCloseButton" class="PostPanelCloseButton" onactivate="PostPanelCloseButtonPressed()">
+                    <Label id="PostPanelCloseButtonLabel" class="PostPanelCloseButtonLabel" text="X" />
+                </Button>
+            </Panel>
+            <Panel id="PostPanelContainerBody" class="PostPanelContainerBody">
+                <Label id="PostPanelContainerBodyText" class="PostPanelContainerBodyText" text="" />
+            </Panel>
+        </Panel>
+    </Panel>
+
+</root>

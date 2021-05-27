@@ -122,28 +122,30 @@ function showScoreboardUI( table_data )
 	var bossDurationContainer = bsb_bossInfoContainer.FindChildInLayoutFile("bsb_header_boss_duration_container")
 	var bossAttemptContainer = bsb_bossInfoContainer.FindChildInLayoutFile("bsb_header_boss_attempt_container")
 
-	if( table_data.boss_data !== undefined ){
-		if ( table_data.boss_data.bossKilled == 1 ){
-			bossNameContainer.AddClass("victory")
-			bossDurationContainer.AddClass("victory")
-			bossAttemptContainer.AddClass("victory")
+	if( table_data !== undefined ){
+		if( table_data.boss_data !== undefined ){
+			if ( table_data.boss_data.bossKilled == 1 ){
+				bossNameContainer.AddClass("victory")
+				bossDurationContainer.AddClass("victory")
+				bossAttemptContainer.AddClass("victory")
+			}
+			else{
+				bossNameContainer.AddClass("defeat")
+				bossDurationContainer.AddClass("defeat")
+				bossAttemptContainer.AddClass("defeat")
+			}
+		
+
+			bossName.text = table_data.boss_data.bossName
+
+			// format the duration into a nice 99min:99sec format
+			var data_duration = Math.round(table_data.boss_data.duration)
+			bossDuration.text = formatIntMMSS(data_duration)
+
+			//$.Msg("table_data.boss_data.attemptNumber ",table_data.boss_data.attemptNumber)
+			bossAttemptNumber.text = table_data.boss_data.attemptNumber
+
 		}
-		else{
-			bossNameContainer.AddClass("defeat")
-			bossDurationContainer.AddClass("defeat")
-			bossAttemptContainer.AddClass("defeat")
-		}
-	
-
-		bossName.text = table_data.boss_data.bossName
-
-		// format the duration into a nice 99min:99sec format
-		var data_duration = Math.round(table_data.boss_data.duration)
-		bossDuration.text = formatIntMMSS(data_duration)
-
-		//$.Msg("table_data.boss_data.attemptNumber ",table_data.boss_data.attemptNumber)
-		bossAttemptNumber.text = table_data.boss_data.attemptNumber
-
 	}
 
 	// close button handler
@@ -151,6 +153,10 @@ function showScoreboardUI( table_data )
 	closeButton.SetPanelEvent( 'onactivate', function () {
 		$.Msg("closeButton-activate")
 		hideScoreboardUI()
+		var rootPanel = $("#LeaderboardButtonContainer");
+		rootPanel.RemoveClass("hidden");
+	
+		$('#LeaderboardButtonContainer').style.visibility = 'visible';
 	});
 
 	var bsbTableContainer = $("#bsb_table_rows");
@@ -163,9 +169,11 @@ function showScoreboardUI( table_data )
 	}
 
 	//Player scoreboard rows section:
-	for(let i in table_data.player_data)
-	{
-		CreateBossScoreBoardRow(table_data.player_data[i], i)
+	if( table_data !== undefined ){
+		for(let i in table_data.player_data)
+		{
+			CreateBossScoreBoardRow(table_data.player_data[i], i)
+		}
 	}
 
 	/*Player scoreboard rows section:
@@ -229,9 +237,38 @@ function ModeChosen(event)
 	//$.Msg("mode = ",mode)
 }
 
+/* Button Event Handlers
+=========================================================================*/
+function OnLeaderBoardButtonPressed(){
+    //$.Msg("help button pressed")
+
+    $('#LeaderboardButtonContainer').style.visibility = 'collapse';
+	showScoreboardUI()
+}
+
 //Subscribe these events to these functions. 
 //These functions are called/triggered from lua via: CustomGameEventManager:Send_ServerToAllClients("showScoreboardUIEvent", {})
 GameEvents.Subscribe( "display_scoreboard", showScoreboardUI);
 GameEvents.Subscribe( "hideScoreboardUIEvent", hideScoreboardUI);
 GameEvents.Subscribe( "showDpsMeterUIEvent", showDpsMeterUI);
 GameEvents.Subscribe( "mode_chosen", ModeChosen);
+
+// events
+GameEvents.Subscribe( "picking_done", OnPickingDone );
+GameEvents.Subscribe( "player_reconnect", OnPickingDone );
+
+/* Event Handlers
+=========================================================================*/
+function OnPickingDone( data ) {
+
+    var rootPanel = $("#LeaderboardButtonContainer");
+	rootPanel.RemoveClass("hidden");
+
+    $('#LeaderboardButtonContainer').style.visibility = 'visible';
+
+}
+
+(function () {
+	var rootPanel = $("#LeaderboardButtonContainer");
+	rootPanel.SetHasClass("hidden", true);
+})();

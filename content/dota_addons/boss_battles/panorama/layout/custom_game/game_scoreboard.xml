@@ -40,6 +40,7 @@ entryPanel.BLoadLayoutSnippet("ScoreboardRow"); -->
                 <Label text="3" class="bsb_table_row_cell_small" id="bsb_table_row_livesRemaining"/>
             </Panel>
         </snippet>
+
     <!-- END BOSS SCOREBOARD SNIPPETS -->
 
     <!-- DPS METER SNIPPET -->
@@ -60,6 +61,12 @@ entryPanel.BLoadLayoutSnippet("ScoreboardRow"); -->
       <Panel class="dps_meter" id="dps_meter" hittest="false">
           <Label text="Dps Meter" class="" id="dps_meter_heading"/>
         <!-- snippet: dps_meter_row goes here -->
+      </Panel>
+
+      <Panel id="LeaderboardButtonContainer" hittest="true" >
+        <Button id="LeaderBoardButtonBtn" class="LeaderBoardButtonBtn" onactivate="OnLeaderBoardButtonPressed()">
+            <Label id="LeaderBoardButtonLabel" class="LeaderBoardButtonLabel" text="Scoreboard" />
+        </Button>
       </Panel>
 
       <!-- Boss ScoreBoard -->
