@@ -92,7 +92,7 @@ function showScoreboardUI( table_data )
 	//$.Msg("mode = ", mode)
 
 	var bsb = $("#bsb_parent");
-	if (bsb)
+	if (bsb) 
 		bsb.style.visibility = "visible";
 
 	//Boss info section:
@@ -151,7 +151,7 @@ function showScoreboardUI( table_data )
 	// close button handler
 	let closeButton = bsb.FindChildInLayoutFile("bsb_header_close_button") // close button
 	closeButton.SetPanelEvent( 'onactivate', function () {
-		$.Msg("closeButton-activate")
+		//$.Msg("closeButton-activate")
 		hideScoreboardUI()
 		var rootPanel = $("#LeaderboardButtonContainer");
 		rootPanel.RemoveClass("hidden");
@@ -240,10 +240,12 @@ function ModeChosen(event)
 /* Button Event Handlers
 =========================================================================*/
 function OnLeaderBoardButtonPressed(){
-    //$.Msg("help button pressed")
+	showScoreboardUI(data);
+}
 
-    $('#LeaderboardButtonContainer').style.visibility = 'collapse';
-	showScoreboardUI()
+let data = {};
+function LoadScoreboardData( table_data ){
+	data = table_data;
 }
 
 //Subscribe these events to these functions. 
@@ -252,6 +254,8 @@ GameEvents.Subscribe( "display_scoreboard", showScoreboardUI);
 GameEvents.Subscribe( "hideScoreboardUIEvent", hideScoreboardUI);
 GameEvents.Subscribe( "showDpsMeterUIEvent", showDpsMeterUI);
 GameEvents.Subscribe( "mode_chosen", ModeChosen);
+GameEvents.Subscribe( "sendScoreboardData", LoadScoreboardData);
+
 
 // events
 GameEvents.Subscribe( "picking_done", OnPickingDone );

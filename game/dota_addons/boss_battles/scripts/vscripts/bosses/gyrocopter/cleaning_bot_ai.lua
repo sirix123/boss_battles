@@ -134,6 +134,8 @@ function CleaningThinker()
         ParticleManager:SetParticleControl( thisEntity.nPreviewFXIndex, 2, Vector( 15, 0, 0 ) );
         ParticleManager:ReleaseParticleIndex(thisEntity.nPreviewFXIndex)
 
+        EmitSoundOn("tinker_tink_ability_heatseekingmissile_03", thisEntity)
+
         Timers:CreateTimer(10, function()
             if IsValidEntity(thisEntity) == false then
                 return false
@@ -186,6 +188,8 @@ function CleaningThinker()
                 --print("we removing ti here? or fucking what")
                 thisEntity:RemoveModifier("oil_fire_checker_modifier")
             end
+
+            EmitSoundOn("Hero_ObsidianDestroyer.SanityEclipse", thisEntity)
 
             thisEntity.stack_count = 0
             thisEntity.STATE = 1

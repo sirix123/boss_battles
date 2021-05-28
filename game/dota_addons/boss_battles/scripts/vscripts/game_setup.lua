@@ -318,7 +318,9 @@ function GameSetup:RegisterRaidWipe( )
                         self.player_deaths = {}
 
                         -- dispaly scoreboard
-                        Scoreboard:DisplayScoreBoard(true)
+                        --Scoreboard:DisplayScoreBoard(true)
+                        local data = SessionManager:GetAttemptData()
+                        CustomGameEventManager:Send_ServerToAllClients( "sendScoreboardData", data )
 
                         return false
 
@@ -417,8 +419,10 @@ function GameSetup:OnEntityKilled(keys)
             end)
 
             -- dispaly scoreboard and send attempt data to UI
-            local forceOpen = true
-            Scoreboard:DisplayScoreBoard(forceOpen)
+            --local forceOpen = true
+            --Scoreboard:DisplayScoreBoard(forceOpen)
+            local data = SessionManager:GetAttemptData()
+            CustomGameEventManager:Send_ServerToAllClients( "sendScoreboardData", data )
 
             -- if the 6 bosses are killed send session data
             for _, boss in pairs(RAID_TABLES) do

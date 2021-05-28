@@ -14,7 +14,7 @@
         <snippet name="HelpButtonContainer">
             <Panel class="HelpButtonContainer" >
                 <Button id="HelpButtonBtn" class="HelpButtonBtn" onactivate="OnHelpButtonPressed()">
-                    <Label id="HelpButtonLabel" class="HelpButtonLabel" text="Help" />
+                    <Label id="HelpButtonLabel" class="HelpButtonLabel" text="Info" />
                 </Button>
             </Panel>
         </snippet>
@@ -24,14 +24,25 @@
             <Panel class="HelpButtonToolTip" >
                 <Panel id="HelpButtonToolTipHeading" class="HelpButtonToolTipHeading">
                     <Panel id="HelpButtonToolTipTextContainer" class="HelpButtonToolTipTextContainer">
-                        <Label id="HelpButtonToolTipTextContainerText" class="HelpButtonToolTipTextContainerText" text="Help Menu" />
+                        <Label id="HelpButtonToolTipTextContainerText" class="HelpButtonToolTipTextContainerText" text="Info" />
                     </Panel>
                     <Button id="HelpButtonToolTipCloseButton" class="HelpButtonToolTipCloseButton" onactivate="OnToolTipCloseButtonPressed()">
                         <Label id="HelpButtonToolTipCloseButtonLabel" class="HelpButtonToolTipCloseButtonLabel" text="X" />
                     </Button>
                 </Panel>
                 <Panel id="HelpButtonToolTipMenu" class="HelpButtonToolTipMenu">
-                    <Label id="HelpButtonToolTipMenuText" class="HelpButtonToolTipMenuText" text="" />
+                    <Panel id="HelpButtonToolTipMenuItem_1" class="HelpButtonToolTipMenuItem">
+                        <Label id="HelpButtonToolTipMenuText_1" class="HelpButtonToolTipMenuText" text="Type !reset if your hero is automatically moving in a direction." />
+                    </Panel>
+                    <Panel id="HelpButtonToolTipMenuItem_2" class="HelpButtonToolTipMenuItem">
+                        <Label id="HelpButtonToolTipMenuText_2" class="HelpButtonToolTipMenuText" text="If you're in Normal mode type !start boss beastmaster to change bosses the next time you stand on the ready up area (beastmaster, timber, gyro, techies, clock, tinker)."/>
+                    </Panel>
+                    <Panel id="HelpButtonToolTipMenuItem_3" class="HelpButtonToolTipMenuItem">
+                        <Label id="HelpButtonToolTipMenuText_3" class="HelpButtonToolTipMenuText" text="If you complete all of the bosses your game session will be uploaded to the Leaderboard."/>
+                    </Panel>
+                    <Panel id="HelpButtonToolTipMenuItem_4" class="HelpButtonToolTipMenuItem">
+                        <Label id="HelpButtonToolTipMenuText_4" class="HelpButtonToolTipMenuText" text="At the end of the season the top 3 teams of Hardmode will be added to the Hall of Fame."/>
+                    </Panel>
                 </Panel>
             </Panel>
         </snippet>

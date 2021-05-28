@@ -424,8 +424,8 @@
 
         "precache"
 		{
-			//"soundfile"  "sounds/weapons/hero/techies/land_mine_plant.vsnd"
-            //"soundfile"  "soundevents/game_sounds_heroes/game_sounds_obsidian_destroyer.vsndevts"
+			"soundfile"  "sounds/vo/tinker/tink_ability_heatseekingmissile_03.vsnd"
+            "soundfile"  "soundevents/game_sounds_heroes/game_sounds_obsidian_destroyer.vsndevts"
 		}
     }
 

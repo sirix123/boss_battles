@@ -46,6 +46,8 @@ function r_blade_vortex_thinker:OnCreated( kv )
                     return false
                 end
 
+                ParticleManager:SetParticleControl(self.nfx , 0, self.parent:GetAbsOrigin())
+
                 if self.caster:HasModifier("q_conq_shout_modifier") then
                     -- move vortex to caster location
                     -- self.currentTarget = self.caster:GetAbsOrigin()
@@ -53,7 +55,7 @@ function r_blade_vortex_thinker:OnCreated( kv )
                     -- play effects
                     local particle = 'particles/units/heroes/hero_elder_titan/elder_titan_echo_stomp.vpcf'
                     local particle_stomp_fx = ParticleManager:CreateParticle(particle, PATTACH_ABSORIGIN, self.caster)
-                    ParticleManager:SetParticleControl(particle_stomp_fx, 0, self.currentTarget)
+                    ParticleManager:SetParticleControl(particle_stomp_fx, 0, self.parent:GetAbsOrigin())
                     ParticleManager:SetParticleControl(particle_stomp_fx, 1, Vector(self.radius, 1, 1))
                     ParticleManager:SetParticleControl(particle_stomp_fx, 2, Vector(250,0,0))
                     ParticleManager:ReleaseParticleIndex(particle_stomp_fx)
@@ -161,7 +163,7 @@ function r_blade_vortex_thinker:OnDestroy( kv )
         ParticleManager:DestroyParticle(self.nfx,false)
 
         self:StartIntervalThink( -1 )
-        UTIL_Remove( self.parent )
+        --UTIL_Remove( self.parent )
 	end
 end
 ---------------------------------------------------------------------------
@@ -171,7 +173,7 @@ function r_blade_vortex_thinker:PlayEffectsOnCreated()
 
         local particle = "particles/econ/items/juggernaut/jugg_ti8_sword/juggernaut_crimson_blade_fury_abyssal.vpcf"
         self.nfx = ParticleManager:CreateParticle(particle, PATTACH_ABSORIGIN, self.parent)
-        ParticleManager:SetParticleControl(self.nfx , 0, self.currentTarget)
+        ParticleManager:SetParticleControl(self.nfx , 0, self.parent:GetAbsOrigin())
         ParticleManager:SetParticleControl(self.nfx , 2, Vector(self.radius,1,1))
 
 	end

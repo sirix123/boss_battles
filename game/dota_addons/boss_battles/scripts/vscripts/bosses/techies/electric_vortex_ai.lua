@@ -24,37 +24,6 @@ function Spawn( entityKeyValues )
 end
 --------------------------------------------------------------------------------
 
-function ElectricTurretThink()
-	if not IsServer() then return end
-
-	if ( not thisEntity:IsAlive() ) then
-		Timers:RemoveTimer(thisEntity.timer)
-		return -1
-	end
-
-	if GameRules:IsGamePaused() == true then
-		return 0.5
-	end
-
-    if thisEntity.electric_vortex:IsFullyCastable() then
-        ExecuteOrderFromTable({
-            UnitIndex = thisEntity:entindex(),
-            OrderType = DOTA_UNIT_ORDER_CAST_NO_TARGET,
-            AbilityIndex = thisEntity.electric_vortex:entindex(),
-            Queue = false,
-        })
-	end
-	
-	--thisEntity.random_start = RandomInt(5,25)
-	--thisEntity.count = thisEntity.random_start
-	--StartTimer()
-	--thisEntity.electric_vortex:EndCooldown()
-
-	return 99--thisEntity.random_start
-end
-
---------------------------------------------------------------------------------
-
 function ElectricTurretThink_v2()
 	if not IsServer() then return end
 
@@ -96,7 +65,7 @@ function ElectricTurretThink_v2()
 			thisEntity:GetTeamNumber(),	-- int, your team number
 			thisEntity:GetAbsOrigin(),	-- point, center point
 			nil,	-- handle, cacheUnit. (not known)
-			4000,	-- float, radius. or use FIND_UNITS_EVERYWHERE
+			3000,	-- float, radius. or use FIND_UNITS_EVERYWHERE
 			DOTA_UNIT_TARGET_TEAM_ENEMY,
 			DOTA_UNIT_TARGET_ALL,
 			DOTA_UNIT_TARGET_FLAG_NONE,	-- int, flag filter
@@ -104,37 +73,42 @@ function ElectricTurretThink_v2()
 			false	-- bool, can grow cache
 		)
 
+		local filtered_targets = {}
+
 		if targets ~= nil and #targets ~= 0 then
 
-			thisEntity.randomTarget = targets[RandomInt(1, #targets)]
-
-			--while (thisEntity.randomTarget:GetUnitName() == "npc_rock_techies") do
-			local attempts_to_find_target = 10
-			local count = 0
-			while ( CheckGlobalUnitTableForUnitName(thisEntity.randomTarget) == true ) do
-				thisEntity.randomTarget = targets[RandomInt(1, #targets)]
-				if attempts_to_find_target >= count then
-					thisEntity.PHASE = 3
-					break
+			for i, target in pairs(targets) do
+				if CheckGlobalUnitTableForUnitName(target) ~= true then
+					--print("remoiving rocks as targets / all other units")
+					--print("target ",target:GetUnitName())
+					--table.remove(targets,i)
+					table.insert(filtered_targets,target)
 				end
-				count = count + 1
 			end
 
-			EmitSoundOn("techies_tech_trapgoesoff_01", thisEntity)
+			if filtered_targets ~= nil and #filtered_targets ~= 0 then
+				--[[for _, target in pairs(filtered_targets) do
+					print("target: ",target:GetUnitName())
+				end]]
+				thisEntity.randomTarget = filtered_targets[RandomInt(1, #filtered_targets)]
+				--print("thisEntity.randomTarget: ",thisEntity.randomTarget:GetUnitName())
 
-			thisEntity.randomTarget:AddNewModifier(
-				thisEntity, -- player source
-                    self, -- ability source
-                    "modifier_electric_vortex", -- modifier name
-                    {
-                        duration = -1,
-                        x = thisEntity:GetAbsOrigin().x,
-                        y = thisEntity:GetAbsOrigin().y,
-                    } -- kv
-                )
+				EmitSoundOn("techies_tech_trapgoesoff_01", thisEntity)
 
-			local sound_cast = "Hero_StormSpirit.ElectricVortexCast"
-			EmitGlobalSound( sound_cast )
+				thisEntity.randomTarget:AddNewModifier(
+					thisEntity, -- player source
+						self, -- ability source
+						"modifier_electric_vortex", -- modifier name
+						{
+							duration = -1,
+							x = thisEntity:GetAbsOrigin().x,
+							y = thisEntity:GetAbsOrigin().y,
+						} -- kv
+					)
+
+				local sound_cast = "Hero_StormSpirit.ElectricVortexCast"
+				EmitGlobalSound( sound_cast )
+			end
 
 			thisEntity.rock = nil
 
@@ -190,21 +164,23 @@ function ElectricTurretThink_v2()
 					end
 				end
 
-				if thisEntity.rock:HasModifier("modifier_electric_vortex") == nil or thisEntity.rock:HasModifier("modifier_electric_vortex") == false then
+				if IsValidEntity(thisEntity.rock) then
+					if thisEntity.rock:HasModifier("modifier_electric_vortex") == nil or thisEntity.rock:HasModifier("modifier_electric_vortex") == false then
 
-					--print("are we trying to apply this to the cube?")
+						--print("are we trying to apply this to the cube?")
 
-					thisEntity.rock:AddNewModifier(
-							thisEntity, -- player source
-							self, -- ability source
-							"modifier_electric_vortex", -- modifier name
-							{
-								duration = -1,
-								x = thisEntity:GetAbsOrigin().x,
-								y = thisEntity:GetAbsOrigin().y,
-							} -- kv
-						)
+						thisEntity.rock:AddNewModifier(
+								thisEntity, -- player source
+								self, -- ability source
+								"modifier_electric_vortex", -- modifier name
+								{
+									duration = -1,
+									x = thisEntity:GetAbsOrigin().x,
+									y = thisEntity:GetAbsOrigin().y,
+								} -- kv
+							)
 
+					end
 				end
 			else
 				--print("no rock found")
