@@ -21,7 +21,7 @@ end
 function oil_puddle_slow_modifier:OnCreated( kv )
 	--if IsServer() then
 
-		self.ms_slow = -50
+		self.ms_slow = -10
 
 		--print(self.ms_slow)
 		--print(self.as_slow)

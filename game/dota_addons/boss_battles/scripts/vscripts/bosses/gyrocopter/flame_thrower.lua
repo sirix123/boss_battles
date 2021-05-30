@@ -6,6 +6,8 @@ function flame_thrower:OnAbilityPhaseStart()
         self:GetCaster():StartGestureWithPlaybackRate(ACT_DOTA_CAST_ABILITY_1, 0.4)
         self.create_particle = true
 
+        self:GetCaster():AddNewModifier( nil, nil, "modifier_rooted", { duration = -1 })
+
         EmitSoundOn( "gyrocopter_gyro_homing_missile_fire_04", self:GetCaster() )
 
         local enemies = FindUnitsInRadius(
@@ -70,6 +72,8 @@ function flame_thrower:OnAbilityPhaseInterrupted()
 
         self:GetCaster():RemoveModifierByName("modifier_generic_npc_reduce_turnrate")
 
+        self:GetCaster():RemoveModifierByName("modifier_rooted")
+
         if self.nfx_indicator ~= nil then
             ParticleManager:DestroyParticle(self.nfx_indicator,true)
         end
@@ -117,6 +121,9 @@ function flame_thrower:OnSpellStart( )
             if self.timer_cone ~= nil then
                 Timers:RemoveTimer(self.timer_cone)
             end
+            if self:GetCaster():HasModifier("modifier_rooted") == true then
+                self:GetCaster():RemoveModifierByName("modifier_rooted")
+            end
             i = 0
             return false
         end
@@ -128,6 +135,9 @@ function flame_thrower:OnSpellStart( )
             self:StartCooldown(self:GetCooldown(self:GetLevel()))
             if self:GetCaster():HasModifier("modifier_generic_npc_reduce_turnrate") == true then
                 self:GetCaster():RemoveModifierByName("modifier_generic_npc_reduce_turnrate")
+            end
+            if self:GetCaster():HasModifier("modifier_rooted") == true then
+                self:GetCaster():RemoveModifierByName("modifier_rooted")
             end
 
             if self.nfx_indicator ~= nil then

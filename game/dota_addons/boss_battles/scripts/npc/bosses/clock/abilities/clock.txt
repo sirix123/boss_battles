@@ -309,7 +309,7 @@
         "AbilityUnitDamageType"         "DAMAGE_TYPE_PHYSICAL" 
         "MaxLevel"						"4"
         "AbilityCastRange" 				"10000"
-        "AbilityCooldown"				"45 45 40 30"
+        "AbilityCooldown"				"30 30 30 30"
         "AbilityCastPoint"              "0"
         "AbilityManaCost"               "0"
 
@@ -317,7 +317,7 @@
         //-------------------------------------------------------------------------------------------------------------
 		"AbilitySpecial"
 		{
-            "01"{ "var_type"			"FIELD_INTEGER"		"number_of_turrets_to_spawn"		"3 4 4 5" }
+            "01"{ "var_type"			"FIELD_INTEGER"		"number_of_turrets_to_spawn"		"1 1 1 2" }
 		}
 
 		"precache"
@@ -551,9 +551,11 @@
         //-------------------------------------------------------------------------------------------------------------
 		"AbilitySpecial"
 		{
-            "01"{ "var_type"			"FIELD_INTEGER"		"totalTicks"		           "30" }
-            "02"{ "var_type"			"FIELD_INTEGER"		"timerInterval"		           "1" }
-            "03"{ "var_type"			"FIELD_INTEGER"		"nCogs"		                    "8 16 24 24" }
+            "01"{ "var_type"			"FIELD_INTEGER"		"totalTicks"		           "30 30 30 30" }
+            "02"{ "var_type"			"FIELD_FLOAT"		"timerInterval"		           "1 0.7 0.6 0.5" }
+            "03"{ "var_type"			"FIELD_INTEGER"		"nCogs"		                   "8 16 24 24" }
+            "04"{ "var_type"			"FIELD_INTEGER"		"min_rand"		               "8 8 15 20" }
+            "05"{ "var_type"			"FIELD_INTEGER"		"max_rand"		               "19 19 25 30" }
 		}
 
         "precache"

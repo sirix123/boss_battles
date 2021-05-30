@@ -104,9 +104,9 @@ function Scoreboard:StoreDamageDone(keys)
     --PrintTable(keys)
 
     for _, hero in pairs(HERO_LIST) do
-       if EntIndexToHScript(keys.entindex_attacker) == hero then
-        hero.dmgDoneAttempt = keys.damage + hero.dmgDoneAttempt
-       end
+        if EntIndexToHScript(keys.entindex_attacker) == hero then
+            hero.dmgDoneAttempt = keys.damage + hero.dmgDoneAttempt
+        end
     end
 
     data["victimEntity"] = keys.entindex_killed

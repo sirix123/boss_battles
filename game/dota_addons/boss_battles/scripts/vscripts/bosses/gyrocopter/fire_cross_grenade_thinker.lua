@@ -38,6 +38,7 @@ function fire_cross_grenade_thinker:DetectPlayerTimer()
     if IsServer() then
         Timers:CreateTimer(self.start_delay, function()
             if IsValidEntity(self:GetParent()) == false then
+                self:OnDestroy()
                 return false
             end
 
@@ -167,6 +168,7 @@ end
 function fire_cross_grenade_thinker:OnDestroy()
     if IsServer() then
         ParticleManager:DestroyParticle(self.effect_cast,false)
+        ParticleManager:DestroyParticle(self.pfx_3,false)
         --UTIL_Remove( self:GetParent() )
     end
 end

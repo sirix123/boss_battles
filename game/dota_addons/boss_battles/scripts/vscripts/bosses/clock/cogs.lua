@@ -147,10 +147,12 @@ function cogs:OnSpellStart()
             -- remove previous link
             if cogIndex > 1 and changedDirections == false then
                 if tCogs[cogIndex-1]:HasModifier("cog_modifier") then
-                   tCogs[cogIndex-1]:RemoveModifierByName("cog_modifier")
+                    --print("removing previous link")
+                    tCogs[cogIndex-1]:RemoveModifierByName("cog_modifier")
                 end
             elseif cogIndex >= 0 and changedDirections == true then
                 if tCogs[cogIndex+1]:HasModifier("cog_modifier") then
+                    --print("removing previous link")
                     tCogs[cogIndex+1]:RemoveModifierByName("cog_modifier")
                 end
             end
@@ -178,7 +180,8 @@ function cogs:OnSpellStart()
                     changedDirections = false
                 end
 
-                randomNumber = RandomInt(8, 19)
+                randomNumber = RandomInt(self:GetSpecialValueFor( "min_rand" ), self:GetSpecialValueFor( "max_rand" ))
+                --randomNumber = RandomInt(8, 19)
                 randomDirectionCount = 0
             end
 
@@ -188,7 +191,7 @@ function cogs:OnSpellStart()
                 cogIndex = cogIndex - 1
             end
 
-            randomDirectionCount = randomDirectionCount + timerInterval
+            randomDirectionCount = randomDirectionCount + 1
             loopTick = loopTick + timerInterval
 
             return timerInterval

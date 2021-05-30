@@ -16,7 +16,7 @@ function armor_buff_modifier:OnCreated(  )
         self.bonus_armor = 15
         --self:SetStackCount(3)
 
-        print("self:GetStackCount() ",self:GetStackCount())
+        --print("self:GetStackCount() ",self:GetStackCount())
 
         self.effect = ParticleManager:CreateParticle( "particles/clock/clock_abaddon_curse_counter_stack.vpcf", PATTACH_OVERHEAD_FOLLOW, self:GetParent() )
         ParticleManager:SetParticleControl( self.effect, 0, self:GetParent():GetAbsOrigin() )

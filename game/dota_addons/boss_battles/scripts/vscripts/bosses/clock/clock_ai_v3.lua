@@ -160,14 +160,14 @@ function ClockThink()
 
 	if thisEntity:HasModifier("armor_buff_modifier") == true and thisEntity.nActiveFurnaces ~= 4 or thisEntity.nActiveFurnaces ~= 0.5 and thisEntity.hBuff:IsNull() == false then
 		thisEntity.nStacks = thisEntity.hBuff:GetStackCount()
-		print("thisEntity.nStacks ",thisEntity.nStacks)
+		--print("thisEntity.nStacks ",thisEntity.nStacks)
 	end
 
 	-- after using the cogs ability reapply the armor modifier with the correct stacks
 	if thisEntity.nActiveFurnaces ~= nil then
 		if thisEntity:HasModifier("armor_buff_modifier") == false and thisEntity.cast_cogs == true and thisEntity.nActiveFurnaces < 4 and thisEntity.nStacks ~= 0 then
-			print("nActiveFurnaces ",thisEntity.nActiveFurnaces)
-			print("----")
+			--print("nActiveFurnaces ",thisEntity.nActiveFurnaces)
+			--print("----")
 			thisEntity.hBuff = thisEntity:AddNewModifier( nil, nil, "armor_buff_modifier", { duration = -1 } )
 			thisEntity.hBuff:SetStackCount(thisEntity.nStacks)
 			thisEntity.cast_cogs = false
@@ -773,6 +773,8 @@ function ActivateFurnace()
 			print("end timer?")
 			return false
 		end
+
+		if thisEntity.cast_cogs == true then return 0.5 end
 
 		--print("ActivateFurnace timer running")
 

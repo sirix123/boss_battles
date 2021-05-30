@@ -30,7 +30,9 @@ function summon_flame_turret:OnSpellStart()
     self.left = 2
     self.bottom = 3
     self.right = 4
+    --print("self.numberOfTurretsToSpawn ",self.numberOfTurretsToSpawn)
     for i = 1, self.numberOfTurretsToSpawn, 1 do
+        --print("i ",i)
         self.nLine = RandomInt(1,4)
         if self.nLine == self.top then
             self.vNewPositionX = RandomInt(point_1.x, point_2.x)
@@ -63,7 +65,7 @@ function summon_flame_turret:OnSpellStart()
         table.insert(tPositions, tSpawnInfo)
     end
 
-    local j = 1
+    local j = 0
     for k, tSpawnInfo in pairs(tPositions) do
         --DebugDrawCircle(v, Vector(0,0,255), 128, 50, true, 60)
         Timers:CreateTimer(0.1, function()

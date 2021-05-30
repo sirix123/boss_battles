@@ -16,7 +16,7 @@ function homing_missile_modifier:OnCreated( params )
         if not IsServer() then return end
 
         self.damage						= 100
-        self.damage_type				= self:GetAbility():GetAbilityDamageType()
+        self.damage_type				= DAMAGE_TYPE_PHYSICAL
 
         self.target	= EntIndexToHScript(params.target)
 
@@ -75,7 +75,7 @@ function homing_missile_modifier:OnIntervalThink()
 
         -- if player is really close within 150 units or so to gyro, rocket changes target to gyro
         if self.find_gyro == true then
-            local nearby_targets = FindUnitsInRadius(self.target:GetTeamNumber(), self.target:GetAbsOrigin(), nil, 90, DOTA_UNIT_TARGET_TEAM_ENEMY, DOTA_UNIT_TARGET_HERO + DOTA_UNIT_TARGET_BASIC ,DOTA_UNIT_TARGET_FLAG_INVULNERABLE, FIND_CLOSEST, false) 
+            local nearby_targets = FindUnitsInRadius(self.target:GetTeamNumber(), self.target:GetAbsOrigin(), nil, 120, DOTA_UNIT_TARGET_TEAM_ENEMY, DOTA_UNIT_TARGET_HERO + DOTA_UNIT_TARGET_BASIC ,DOTA_UNIT_TARGET_FLAG_INVULNERABLE, FIND_CLOSEST, false) 
             for _, gyro_target in pairs(nearby_targets) do
                 if gyro_target:GetUnitName() == "npc_gyrocopter" then
                     self.target = gyro_target

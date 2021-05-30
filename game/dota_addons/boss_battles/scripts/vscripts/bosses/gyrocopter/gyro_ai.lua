@@ -376,6 +376,8 @@ function CastSwoop( hTarget )
     local velocity = thisEntity.swoop_speed
     local time = ( distance / velocity ) + thisEntity.barrage_duration + 1
 
+	thisEntity.cannon_ball:StartCooldown(RandomInt(10,15))
+
 	return time
 end
 --------------------------------------------------------------------------------

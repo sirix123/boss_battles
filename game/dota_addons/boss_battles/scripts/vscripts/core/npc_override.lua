@@ -42,6 +42,9 @@ function CDOTA_BaseNPC:Initialize(data)
   self.dmgDoneAttempt = 0
   self.dmgDoneTotal = 0
 
+  self.dmgTakenAttempt = 0
+  self.dmgTakenTotal = 0
+
   self.ready_up = false
 
   self:SetHullRadius(50)

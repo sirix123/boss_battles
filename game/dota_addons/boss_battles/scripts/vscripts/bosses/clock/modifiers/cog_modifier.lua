@@ -32,15 +32,15 @@ function cog_modifier:OnCreated( kv )
             true -- unknown, true
         )
 
-        -- buff particle
+        --[[ buff particle
         self:AddParticle(
             self.effect_cast,
-            false, -- bDestroyImmediately
+            true, -- bDestroyImmediately
             false, -- bStatusEffect
             -1, -- iPriority
             false, -- bHeroEffect
             false -- bOverheadEffect
-        )
+        )]]
 
         self:StartIntervalThink(0.5)
 
@@ -85,7 +85,7 @@ function cog_modifier:OnDestroy( kv )
         self:OnIntervalThink(-1)
 
         if self.effect_cast ~= nil then
-            ParticleManager:DestroyParticle(self.effect_cast,false)
+            ParticleManager:DestroyParticle(self.effect_cast,true)
         end
 
 	end

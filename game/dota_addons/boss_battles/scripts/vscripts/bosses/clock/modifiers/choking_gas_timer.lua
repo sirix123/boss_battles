@@ -81,7 +81,7 @@ function choking_gas_timer:StartLoop()
                     dmgType = self:GetAbility():GetAbilityDamageType()
                 },
                 self.caster:GetAbsOrigin(),
-                self.caster:GetTeam(),
+                self:GetCaster():GetTeamNumber(),
                 false
             )
 

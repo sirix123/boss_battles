@@ -54,7 +54,7 @@ function cleaning_bot_explode:OnProjectileHit( hTarget, vLocation)
             local dmgTable = {
                 victim = hTarget,
                 attacker = self:GetCaster(),
-                damage = 250,
+                damage = 200,
                 damage_type = DAMAGE_TYPE_PHYSICAL,
                 ability = self,
             }

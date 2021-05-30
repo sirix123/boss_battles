@@ -55,7 +55,7 @@ function puddle_projectile_spell:OnSpellStart()
                 local info = {
                     EffectName = "particles/units/heroes/hero_venomancer/venomancer_base_attack.vpcf",
                     Ability = self,
-                    iMoveSpeed = 600,
+                    iMoveSpeed = 1000,
                     Source = spawn_location,
                     Target = caster,
                     bDodgeable = false,

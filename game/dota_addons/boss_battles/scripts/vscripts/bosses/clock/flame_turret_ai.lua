@@ -7,9 +7,13 @@ LinkLuaModifier("electric_turret_minion_buff", "bosses/clock/modifiers/electric_
 function Spawn( entityKeyValues )
 	if not IsServer() then return end
 
+    thisEntity:AddNewModifier( nil, nil, "modifier_invulnerable", { duration = -1 } )
+
 	thisEntity.fire_turret_flame = thisEntity:FindAbilityByName( "fire_turret_flame" )
 
-	local friendlies = FindUnitsInRadius(
+    print("i have been summoned")
+
+	--[[local friendlies = FindUnitsInRadius(
         thisEntity:GetTeamNumber(),
         thisEntity:GetAbsOrigin(),
         nil,
@@ -27,7 +31,7 @@ function Spawn( entityKeyValues )
 				thisEntity:AddNewModifier( nil, nil, "electric_turret_minion_buff", { duration = -1 } )
 			end
         end
-    end
+    end]]
 
 	thisEntity:SetContextThink( "FlameTurretThink", FlameTurretThink, 1 )
 
@@ -51,6 +55,28 @@ function FlameTurretThink()
         AbilityIndex = thisEntity.fire_turret_flame:entindex(),
         Queue = false,
     })
+
+    if thisEntity:HasModifier("electric_turret_minion_buff") ~= true then
+        local friendlies = FindUnitsInRadius(
+            thisEntity:GetTeamNumber(),
+            thisEntity:GetAbsOrigin(),
+            nil,
+            5000,
+            DOTA_UNIT_TARGET_TEAM_FRIENDLY,
+            DOTA_UNIT_TARGET_ALL,
+            DOTA_UNIT_TARGET_FLAG_NONE,
+            FIND_CLOSEST,
+            false
+        )
+    
+        for _, friend in pairs(friendlies) do
+            if friend:GetUnitName() == "npc_clock"  then
+                if friend:HasModifier("furnace_modifier_1") then
+                    thisEntity:AddNewModifier( nil, nil, "electric_turret_minion_buff", { duration = -1 } )
+                end
+            end
+        end 
+    end
 
 	return 5
 end

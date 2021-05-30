@@ -448,7 +448,7 @@ end
 
 function GameSetup:OnEntityHurt(keys)
     -- print("GameSetup:OnEntityHurt(keys). Printing keys: ")
-    -- PrintTable(keys, indent, done)
+    --PrintTable(keys, indent, done)
 
     -- Store the dmg done in a table to maintain history. 
     -- StoreDamageDone(keys)
