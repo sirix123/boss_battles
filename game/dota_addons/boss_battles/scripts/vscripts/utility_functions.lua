@@ -445,3 +445,14 @@ function FindCloestUnitInALine( hCaster, vOrigin, vTarget, nWidth)
 
 	return close_target
 end
+
+function TableContains(tab, val)
+    for index, value in ipairs(tab) do
+		print("value: ",value,"inc val: ",val)
+        if value == val then
+            return true
+        end
+    end
+
+    return false
+end

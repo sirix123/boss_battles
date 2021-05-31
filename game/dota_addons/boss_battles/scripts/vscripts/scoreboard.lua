@@ -102,10 +102,161 @@ function Scoreboard:StoreDamageDone(keys)
     local data = {}
 
     --PrintTable(keys)
+    -- ability["damage"] = ability["damage"] + keys.damage
+
+    --print("EntIndexToHScript(keys.entindex_killed):GetUnitName(): ",EntIndexToHScript(keys.entindex_killed):GetUnitName())
 
     for _, hero in pairs(HERO_LIST) do
+        -- dmg done
         if EntIndexToHScript(keys.entindex_attacker) == hero then
+            -- dmg done for the scoreboard
             hero.dmgDoneAttempt = keys.damage + hero.dmgDoneAttempt
+
+            -- dmg done for analytics
+            if hero.dmgDetails == nil or #hero.dmgDetails == 0 then
+                print("init - dmgDetails table does not contain anything")
+                local targets = {}
+                targets["target_name"] = EntIndexToHScript(keys.entindex_killed):GetUnitName()
+                targets["abilities"] = {}
+
+                local ability = {}
+                ability["spell_name"] = ""
+                ability["damage"] = 0
+
+                ability["spell_name"] = EntIndexToHScript(keys.entindex_inflictor):GetName()
+                ability["damage"] = ability["damage"] + keys.damage
+                table.insert(targets["abilities"],ability)
+                table.insert(hero.dmgDetails,targets)
+                break
+            else
+
+                self.target_exists = false
+                for _, targetData in pairs(hero.dmgDetails) do
+                    if targetData.target_name == EntIndexToHScript(keys.entindex_killed):GetUnitName() == true then
+                        self.target_exists = true
+                    end
+                end
+
+                if self.target_exists == true then
+                    for _, targetData in pairs(hero.dmgDetails) do
+                        if targetData.target_name == EntIndexToHScript(keys.entindex_killed):GetUnitName() == true then
+
+                            self.spell_exists = false
+                            for _, abilityData in pairs(targetData.abilities) do
+                                if abilityData.spell_name == EntIndexToHScript(keys.entindex_inflictor):GetName() == true then
+                                    self.spell_exists = true
+                                    abilityData.damage = abilityData.damage + keys.damage
+                                end
+                            end
+
+                            if self.spell_exists == false then
+                                local ability = {}
+                                ability["spell_name"] = ""
+                                ability["damage"] = 0
+                                ability["spell_name"] = EntIndexToHScript(keys.entindex_inflictor):GetName()
+                                ability["damage"] = ability["damage"] + keys.damage
+                                table.insert(targetData.abilities,ability)
+                            end
+                            break
+                        end
+                    end
+                end
+
+                if self.target_exists == false then
+                    local targets = {}
+                    targets["target_name"] = EntIndexToHScript(keys.entindex_killed):GetUnitName()
+                    targets["abilities"] = {}
+
+                    local ability = {}
+                    ability["spell_name"] = ""
+                    ability["damage"] = 0
+
+                    ability["spell_name"] = EntIndexToHScript(keys.entindex_inflictor):GetName()
+                    ability["damage"] = ability["damage"] + keys.damage
+                    table.insert(targets["abilities"],ability)
+                    table.insert(hero.dmgDetails,targets)
+                end
+            end
+        end
+
+        -- dmg taken
+        if EntIndexToHScript(keys.entindex_killed) == hero then
+            -- dmg taken scoreboard
+            hero.dmgTakenAttempt = keys.damage + hero.dmgTakenAttempt
+
+            -- dmg taken analytics
+
+            self.inflictor = ""
+            if keys.entindex_inflictor == nil then
+                self.inflictor = "unknown_ability"
+            else
+                self.inflictor = EntIndexToHScript(keys.entindex_inflictor):GetName()
+            end
+
+            if hero.dmgTakenDetails == nil or #hero.dmgTakenDetails == 0 then
+                print("init - dmgTakenDetails table does not contain anything")
+                local targets = {}
+                targets["target_name"] = EntIndexToHScript(keys.entindex_killed):GetUnitName()
+                targets["abilities"] = {}
+
+                local ability = {}
+                ability["spell_name"] = ""
+                ability["damage"] = 0
+
+                ability["spell_name"] = self.inflictor
+                ability["damage"] = ability["damage"] + keys.damage
+                table.insert(targets["abilities"],ability)
+                table.insert(hero.dmgTakenDetails,targets)
+                break
+            else
+
+                self.target_exists = false
+                for _, targetData in pairs(hero.dmgTakenDetails) do
+                    if targetData.target_name == EntIndexToHScript(keys.entindex_killed):GetUnitName() == true then
+                        self.target_exists = true
+                    end
+                end
+
+                if self.target_exists == true then
+                    for _, targetData in pairs(hero.dmgTakenDetails) do
+                        if targetData.target_name == EntIndexToHScript(keys.entindex_killed):GetUnitName() == true then
+
+                            self.spell_exists = false
+                            for _, abilityData in pairs(targetData.abilities) do
+                                if abilityData.spell_name == self.inflictor == true then
+                                    self.spell_exists = true
+                                    abilityData.damage = abilityData.damage + keys.damage
+                                end
+                            end
+
+                            if self.spell_exists == false then
+                                local ability = {}
+                                ability["spell_name"] = ""
+                                ability["damage"] = 0
+                                ability["spell_name"] = self.inflictor
+                                ability["damage"] = ability["damage"] + keys.damage
+                                table.insert(targetData.abilities,ability)
+                            end
+                            break
+                        end
+                    end
+                end
+
+                if self.target_exists == false then
+                    local targets = {}
+                    targets["target_name"] = EntIndexToHScript(keys.entindex_killed):GetUnitName()
+                    targets["abilities"] = {}
+
+                    local ability = {}
+                    ability["spell_name"] = ""
+                    ability["damage"] = 0
+
+                    ability["spell_name"] = self.inflictor
+                    ability["damage"] = ability["damage"] + keys.damage
+                    table.insert(targets["abilities"],ability)
+                    table.insert(hero.dmgTakenDetails,targets)
+                end
+            end
         end
     end
 

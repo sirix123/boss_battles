@@ -511,9 +511,8 @@ function GameSetup:ReadyupCheck() -- called from trigger lua file for activators
     --print("game_setup: Start boss counter: ", BOSS_BATTLES_ENCOUNTER_COUNTER," ", RAID_TABLES[BOSS_BATTLES_ENCOUNTER_COUNTER].boss )
 
     for _,hero in pairs(HERO_LIST) do
-        hero.dmgDoneTotal = hero.dmgDoneTotal + hero.dmgDoneAttempt
-        --print("hero total dmg done, ", hero.dmgDoneTotal)
         hero.dmgDoneAttempt = 0  -- reset damage done
+        hero.dmgTakenAttempt = 0  -- reset dmg taken
     end
 
     self.boss_arena_name     = RAID_TABLES[BOSS_BATTLES_ENCOUNTER_COUNTER].spawnLocation
@@ -571,6 +570,87 @@ function GameSetup:HeroKilled( keys )
     --PrintTable(keys, indent, done)
     --print("entindex_inflictor ",EntIndexToHScript( keys.entindex_inflictor ):GetUnitName())
     --print("entindex_attacker ",EntIndexToHScript( keys.entindex_attacker ):GetUnitName())
+
+    --[[
+        damagebits: 0
+        entindex_attacker: 88
+        entindex_inflictor: 88
+        entindex_killed: 88
+        game_event_listener: 503316485
+        game_event_name: entity_killed
+        splitscreenplayer: -1
+    ]]
+
+    local hero = killedHero
+    self.inflictor = ""
+    if keys.entindex_inflictor == nil then
+        self.inflictor = "unknown_ability"
+    else
+        self.inflictor = EntIndexToHScript(keys.entindex_inflictor):GetName()
+    end
+
+    if hero.deathsDetails == nil or #hero.deathsDetails == 0 then
+        print("init - deathsDetails table does not contain anything")
+        local targets = {}
+        targets["attacker"] = EntIndexToHScript(keys.entindex_attacker):GetUnitName()
+        targets["abilities"] = {}
+
+        local ability = {}
+        ability["spell_name"] = ""
+        ability["death_count"] = 1
+
+        ability["spell_name"] = self.inflictor
+        table.insert(targets["abilities"],ability)
+        table.insert(hero.deathsDetails,targets)
+    else
+
+        self.target_exists = false
+        for _, targetData in pairs(hero.deathsDetails) do
+            if targetData.attacker == EntIndexToHScript(keys.entindex_attacker):GetUnitName() == true then
+                self.target_exists = true
+            end
+        end
+
+        if self.target_exists == true then
+            for _, targetData in pairs(hero.deathsDetails) do
+                if targetData.attacker == EntIndexToHScript(keys.entindex_attacker):GetUnitName() == true then
+
+                    self.spell_exists = false
+                    for _, abilityData in pairs(targetData.abilities) do
+                        if abilityData.spell_name == self.inflictor == true then
+                            self.spell_exists = true
+                            abilityData.death_count = abilityData.death_count + 1
+                        end
+                    end
+
+                    if self.spell_exists == false then
+                        local ability = {}
+                        ability["spell_name"] = ""
+                        ability["death_count"] = 1
+
+                        ability["spell_name"] = self.inflictor
+                        table.insert(targetData.abilities,ability)
+                    end
+                    break
+                end
+            end
+        end
+
+        if self.target_exists == false then
+            local targets = {}
+            targets["attacker"] = EntIndexToHScript(keys.entindex_attacker):GetUnitName()
+            targets["abilities"] = {}
+
+            local ability = {}
+            ability["spell_name"] = ""
+            ability["death_count"] = 1
+
+            ability["spell_name"] = self.inflictor
+            table.insert(targets["abilities"],ability)
+            table.insert(hero.hero.deathsDetails,targets)
+        end
+    end
+
 
     killedHero.playerLives = killedHero.playerLives - 1
     --print("OnEntityKilled lives ", killedHero.playerLives )

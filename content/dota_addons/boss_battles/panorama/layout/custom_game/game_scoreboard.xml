@@ -37,6 +37,7 @@ entryPanel.BLoadLayoutSnippet("ScoreboardRow"); -->
                 <DOTAHeroImage id="HeroImage" class="bsb_table_row_cell_small_hero_portrait" heroname="hero_name" heroimagestyle="portrait" scaling="stretch-to-fit-preserve-aspect" />
                 <Label text="playerName" class="bsb_table_row_cell" id="bsb_table_row_player"/>
                 <Label text="5,000" class="bsb_table_row_cell_small" id="bsb_table_row_dmgDone"/>
+                <Label text="0" class="bsb_table_row_cell_small" id="bsb_table_row_dmgTaken"/>
                 <Label text="3" class="bsb_table_row_cell_small" id="bsb_table_row_livesRemaining"/>
             </Panel>
         </snippet>
@@ -95,6 +96,7 @@ entryPanel.BLoadLayoutSnippet("ScoreboardRow"); -->
               <Label text=""  class="bsb_table_header_cell_small_hero_image" id="bsb_table_header_class"/>
               <Label text="Player"  class="bsb_table_header_cell" id="bsb_table_header_player"/>
               <Label text="Damage Done"  class="bsb_table_header_cell_small" id="bsb_table_header_dmgDone"/>
+              <Label text="Damage Taken"  class="bsb_table_header_cell_small" id="bsb_table_header_dmgTaken"/>
               <Label text="Lives Remaining"  class="bsb_table_header_cell_small" id="bsb_table_header_lives"/>
             </Panel>    
 

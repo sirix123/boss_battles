@@ -197,7 +197,7 @@ leaderboard - headers
 
 .header_container{
 	height: 100%;
-	width: 8.5%;
+	width: 8.3%;
 	flow-children: down;
 	vertical-align: middle;
 	background-color: #151515; /* rgba */
@@ -256,7 +256,7 @@ leaderboard - cells
 
 .leaderboard_row_info_cell{
 	height: 100%;
-	width: 8.5%;
+	width: 8.3%;
 	flow-children: down;
 	vertical-align: middle;
 	border-left-style: solid;
@@ -297,4 +297,14 @@ leaderboard - cells
 	font-size: 12px;
 	font-family: defaultFont;
 	margin-left: 5px;
+}
+
+.leaderboard_row_info_cell_text_rank{
+	horizontal-align: left;
+	vertical-align: center;
+	color: #fff;
+	font-size: 20px;
+	font-family: defaultFont;
+	margin-top: 8px;
+	margin-left: 8px;
 }

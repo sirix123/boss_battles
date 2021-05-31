@@ -114,6 +114,7 @@ function UpdateScoreboardRows( data )
     for (var index in data["games"]) {
         let leaderboardRow = top10panels[index];
         var rank = leaderboardRow.FindChildTraverse("leaderboard_row_info_rank").text = index
+        var totalTime = leaderboardRow.FindChildTraverse("leaderboard_row_info_total_time").text = data["games"][index]["total_time"]
 
         for(var bossTimeIndex in data["games"][index]["boss_times"])
         {
@@ -121,7 +122,7 @@ function UpdateScoreboardRows( data )
             //bossRow = {"boss_name":"Tinker","time_taken":"04:59:460"}
             leaderboardRow.FindChildTraverse("leaderboard_row_info_boss_"+bossTimeIndex+"_time").text = data["games"][index]["boss_times"][bossTimeIndex]["time_taken"]
         }
-         leaderboardRow.FindChildTraverse("leaderboard_row_info_boss_total_time").text = "TODO"
+        //leaderboardRow.FindChildTraverse("leaderboard_row_info_boss_total_time").text = "TODO"
 
         for(var playerIndex in data["games"][index]["players"])
         {

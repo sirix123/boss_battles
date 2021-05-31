@@ -16,8 +16,8 @@
             <Panel class="leaderboard_header_info" hittest="false" >
 
 				<!-- RANK -->
-				<Panel id="header_bossFight_rank_container" class="header_container_small">
-                  	<Label text="" class="header_bossFight_heading_text" id="header_bossFight_heading_text"/>
+				<Panel id="header_bossFight_rank_container" class="header_container_large">
+                  	<Label text="Rank" class="header_bossFight_heading_text" id="header_bossFight_heading_text"/>
 				</Panel>
 
 				<!-- PLAYERS -->
@@ -65,10 +65,11 @@
                   	<Label text="B6" class="header_bossFight_heading_text" id="header_bossFight_heading_text"/>
 				</Panel>
 
-				<!-- TOTAL -->
+				<!-- TOTAL 
 				<Panel id="header_bossFight_total_container" class="header_container">
                   	<Label text="Total" class="header_bossFight_heading_text" id="header_bossFight_heading_text"/>
 				</Panel>
+				-->
 
             </Panel>  
         </snippet> 
@@ -77,8 +78,9 @@
             <Panel hittest="false" class="leaderboard_row_info" >
 
 				<!-- RANK -->
-				<Panel id="leaderboard_row_info_cell_rank" class="leaderboard_row_info_cell_small">
-                	<Label text="" class="leaderboard_row_info_cell_text" id="leaderboard_row_info_rank"/>
+				<Panel id="leaderboard_row_info_cell_rank" class="leaderboard_row_info_cell_stack">
+                	<Label text="" class="leaderboard_row_info_cell_text_rank" id="leaderboard_row_info_rank"/>
+					<Label text="" class="leaderboard_row_info_cell_text_rank" id="leaderboard_row_info_total_time"/>
 				</Panel>
 
 				<!-- Players -->
@@ -135,10 +137,11 @@
                 	<Label text="" class="leaderboard_row_info_cell_text" id="leaderboard_row_info_boss_6_time"/>
 				</Panel>
 
-				<!-- Total time -->
+				<!-- Total time 
 				<Panel id="leaderboard_row_info_cell_boss_total" class="leaderboard_row_info_cell">
                 	<Label text="" class="leaderboard_row_info_cell_text" id="leaderboard_row_info_boss_total_time"/>
 				</Panel>
+				-->
             </Panel>
         </snippet>
 

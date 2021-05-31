@@ -218,6 +218,10 @@ function CreateBossScoreBoardRow(rowData, rowId)
 		if (!!dmgDone) //if not null, set text
 			dmgDone.text = numberWithCommas( Math.round(rowData.dmgDoneAttempt) )
 
+		var dmgTaken = containerPanel.FindChildInLayoutFile("bsb_table_row_dmgTaken")
+		if (!!dmgTaken) //if not null, set text
+			dmgTaken.text = numberWithCommas( Math.round(rowData.dmgTakenAttempt) )
+
 		var lives = containerPanel.FindChildInLayoutFile("bsb_table_row_livesRemaining")
 		if (!!lives)
 			lives.text = rowData.playerLives

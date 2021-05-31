@@ -16,7 +16,7 @@ function SessionManager:Init()
     if IsInToolsMode() == true then
         self.session_data["testingMode"] = true
     else
-        self.session_data["testingMode"] = bTESTING_MODE
+        self.session_data["testingMode"] = false
     end
 
     if STORY_MODE == true then
@@ -64,6 +64,7 @@ function SessionManager:StopRecordingAttempt( bBossKilled )
         player["playerDeaths"] = hero.playerDeaths
         player["heroName"] = hero.hero_name
         player["dmgDoneAttempt"] = hero.dmgDoneAttempt
+        player["dmgTakenAttempt"] = hero.dmgTakenAttempt
         table.insert(self.player_attempt_data,player)
     end
 
@@ -74,8 +75,38 @@ function SessionManager:StopRecordingAttempt( bBossKilled )
     self.boss_attempt["attemptNumber"] = self.attempt_tracker
     self.boss_attempt["bossHpPercent"] = nBOSS_HP_ATTEMPT
 
+    self.boss_attempt["damageDoneData"] = {}
+    for _, hero in pairs(HERO_LIST) do
+        local player = {}
+        player["className"] = tostring(hero.class_name)
+        player["dmgDetails"] = hero.dmgDetails
+
+        table.insert(self.boss_attempt["damageDoneData"],player)
+    end
+
+    self.boss_attempt["damageTakenData"] = {}
+    for _, hero in pairs(HERO_LIST) do
+        local player = {}
+        player["className"] = tostring(hero.class_name)
+        player["dmgTakenDetails"] = hero.dmgTakenDetails
+
+        table.insert(self.boss_attempt["damageTakenData"],player)
+    end
+
+    self.boss_attempt["deathsData"] = {}
+    for _, hero in pairs(HERO_LIST) do
+        local player = {}
+        player["className"] = tostring(hero.class_name)
+        player["deathsDetails"] = hero.deathsDetails
+
+        table.insert(self.boss_attempt["deathsData"],player)
+    end
+
     -- adds the boss attempt to the boss data collection
     table.insert(self.boss_data,self.boss_attempt)
+    table.insert(self.boss_data,self.damageDoneData)
+    table.insert(self.boss_data,self.damageTakenData)
+    table.insert(self.boss_data,self.deathsData)
 
     -- adds boss data and player data to the session data collection
     self.session_data["boss_data"] = self.boss_data
@@ -107,7 +138,6 @@ function SessionManager:SendSessionData()
         player["playerLives"] = hero.playerLives
         player["playerDeaths"] = hero.playerDeaths
         player["heroName"] = hero.hero_name
-        player["dmgDoneTotal"] = hero.dmgDoneTotal
         table.insert(self.player_data,player)
     end
 
@@ -120,7 +150,8 @@ function SessionManager:SendSessionData()
         self.session_data["sentFrom"] = "gameComplete"
     end
 
-    print("sending session data")
+    --print("sending session data")
+    print(dump(json.encode(self.session_data)))
 
     WebApi:SaveSessionData( self.session_data )
 end

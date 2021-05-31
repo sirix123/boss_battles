@@ -19,7 +19,7 @@ function OnGameComplete( data ) {
 
 /* Button handler
 =========================================================================*/
-function PostPanelCloseButton(){
+function PostPanelCloseButtonPressed(){
 	var rootPanel = $("#PostPanelContainer");
 	rootPanel.SetHasClass("hidden", true);
 }
