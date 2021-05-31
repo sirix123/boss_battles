@@ -114,6 +114,7 @@ function quick_strike:OnProjectileHit( hTarget, vLocation)
                 attacker = self.caster,
                 damage = 50,
                 damage_type = DAMAGE_TYPE_PHYSICAL,
+                ability = self,
             }
 
             ApplyDamage(dmgTable)

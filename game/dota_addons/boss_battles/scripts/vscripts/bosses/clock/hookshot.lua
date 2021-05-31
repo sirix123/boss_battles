@@ -161,6 +161,7 @@ function hookshot:OnProjectileHit(hTarget, vLocation)
                 attacker = self:GetCaster(),
                 damage = 150,
                 damage_type = DAMAGE_TYPE_PHYSICAL,
+                ability = self,
             }
 
             ApplyDamage(dmgTable)

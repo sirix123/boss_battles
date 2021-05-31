@@ -176,7 +176,7 @@
 		{
 			"01"{ "var_type"			"FIELD_INTEGER"		"radius"							"250" }	
 			"02"{ "var_type"			"FIELD_INTEGER"		"duration"							"25" }	
-			"03"{ "var_type"			"FIELD_INTEGER"		"base_dmg"							"120" }
+			"03"{ "var_type"			"FIELD_INTEGER"		"base_dmg"							"90" }
 			"04"{ "var_type"			"FIELD_FLOAT"		"tick_rate"							"1" }
 			"05"{ "var_type"			"FIELD_INTEGER"		"shout_duration_increase"			"5" }
 			"06"{ "var_type"			"FIELD_INTEGER"		"mana_gain_percent_bonus"			"5" }

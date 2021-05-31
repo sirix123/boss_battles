@@ -46,7 +46,7 @@ function oil_ignite_fire_puddle_thinker:OnIntervalThink()
 				attacker = self:GetParent(),
 				damage = self.dmg,
 				damage_type = DAMAGE_TYPE_PHYSICAL,
-				ability = self,
+				ability = self:GetAbility(),
 			}
 
 			ApplyDamage( self.damageTable )

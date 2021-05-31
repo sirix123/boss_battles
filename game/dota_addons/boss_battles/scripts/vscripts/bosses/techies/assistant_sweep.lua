@@ -96,7 +96,8 @@ function assistant_sweep:OnSpellStart()
                     victim = unit,
                     attacker = self:GetCaster(),
                     damage = 400,
-                    damage_type = DAMAGE_TYPE_PHYSICAL
+                    damage_type = DAMAGE_TYPE_PHYSICAL,
+                    ability = self,
                 })
 
                 -- play sound

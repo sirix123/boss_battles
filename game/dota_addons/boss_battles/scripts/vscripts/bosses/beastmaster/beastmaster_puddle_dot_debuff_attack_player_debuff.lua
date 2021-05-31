@@ -53,6 +53,7 @@ function beastmaster_puddle_dot_debuff_attack_player_debuff:StartApplyDamageLoop
             attacker = self:GetCaster(),
             damage = self.dmg,
             damage_type = DAMAGE_TYPE_PHYSICAL,
+            ability = self:GetAbility(),
         }
 
         ApplyDamage(dmgTable)

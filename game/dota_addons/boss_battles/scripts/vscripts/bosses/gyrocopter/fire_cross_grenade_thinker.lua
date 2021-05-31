@@ -139,7 +139,8 @@ function fire_cross_grenade_thinker:StartTimer(  )
                             victim = unit,
                             attacker = self:GetCaster(),
                             damage = 400,
-                            damage_type = DAMAGE_TYPE_PHYSICAL
+                            damage_type = DAMAGE_TYPE_PHYSICAL,
+                            ability = self:GetAbility(),
                         })
 
                         -- play sound

@@ -71,7 +71,7 @@ function r_frostbomb_modifier:StartApplyDamageLoop()
                 attacker = self.caster,
                 damage = self.dmg,
                 damage_type = self.damage_type,
-                ability = self:GetAbility(),
+                ability = self.caster:FindAbilityByName("r_frostbomb"),
             }
 
             ApplyDamage(self.dmgTable)

@@ -752,5 +752,35 @@
 	        "particle" "particles/units/heroes/hero_centaur/centaur_warstomp.vpcf"
 		}
     }
+
+    //=================================================================================================================
+    // beastmaster fish puddle
+    //=================================================================================================================
+    "fish_puddle"
+    { 
+        "BaseClass"                     "ability_lua"
+        //"ScriptFile"                    "bosses/beastmaster/puddle_projectile_spell"
+        "MaxLevel"						"4"
+
+        // General
+        //-------------------------------------------------------------------------------------------------------------
+        "AbilityBehavior"				"DOTA_ABILITY_BEHAVIOR_NO_TARGET | DOTA_ABILITY_BEHAVIOR_CHANNELLED"
+        "AbilityUnitDamageType"         "DAMAGE_TYPE_PHYSICAL"
+        "AbilityTextureName"            "venomancer_poison_sting"
+        "AbilityChannelTime"			"10"  
+
+        // Casting
+        //-------------------------------------------------------------------------------------------------------------
+        "AbilityCastPoint"              "2.0 2.0 2.0 2.0"
+
+        // Time     
+        //-------------------------------------------------------------------------------------------------------------
+        "AbilityCooldown"               "60 60 60 60"
+
+        // Cost
+        //-------------------------------------------------------------------------------------------------------------
+        "AbilityManaCost"               "0"
+
+    }
 }
 

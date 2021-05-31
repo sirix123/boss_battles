@@ -61,6 +61,7 @@ function chain_gun_shoot:OnSpellStart()
                         attacker = caster,
                         damage = self:GetSpecialValueFor( "dmg" ), -- 100
                         damage_type = self:GetAbilityDamageType(),
+                        ability = self,
                     }
 
                     ApplyDamage(dmgTable)

@@ -139,8 +139,8 @@ function Commands:OnPlayerChat(keys)
                 end
             end
 
-        else
-            GameRules:SendCustomMessage("This command cannot be used if you're in a boss fight or if you're in Hardmode.", 0, 0)
+        elseif NORMAL_MODE == true or PLAYERS_FIGHTING_BOSS == true or bGAME_COMPLETE == true then
+            GameRules:SendCustomMessage("This command cannot be used if you're in a boss fight, if you're in Hardmode or if the game is complete.", 0, 0)
         end
 
         --quick start gyro, control which AI function is used. 

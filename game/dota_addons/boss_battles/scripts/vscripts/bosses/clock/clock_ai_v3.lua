@@ -26,7 +26,7 @@ function Spawn( entityKeyValues )
 
 	boss_frame_manager:SendBossName()
 	boss_frame_manager:UpdateManaHealthFrame( thisEntity )
-	boss_frame_manager:HideBossManaFrame()
+	boss_frame_manager:ShowBossManaFrame()
 	boss_frame_manager:ShowBossHpFrame()
 
 	-- armor modifier
@@ -104,6 +104,7 @@ function Spawn( entityKeyValues )
 	thisEntity.interval = thisEntity.cogs:GetLevelSpecialValueFor("timerInterval", thisEntity.cogs:GetLevel())
 	thisEntity.cogs:StartCooldown(18)
 	thisEntity.cast_cogs = false
+	thisEntity.mana_regen = thisEntity:GetManaRegen()
 
 	-- start misile salvo cd so he doesn't cast it on spawn
 	thisEntity.missile_salvo:StartCooldown(thisEntity.missile_salvo:GetCooldown(thisEntity.missile_salvo:GetLevel()))
@@ -171,6 +172,7 @@ function ClockThink()
 			thisEntity.hBuff = thisEntity:AddNewModifier( nil, nil, "armor_buff_modifier", { duration = -1 } )
 			thisEntity.hBuff:SetStackCount(thisEntity.nStacks)
 			thisEntity.cast_cogs = false
+			thisEntity:SetBaseManaRegen(thisEntity.mana_regen)
 		end
 	end
 
@@ -384,6 +386,7 @@ end
 --------------------------------------------------------------------------------
 
 function CastCogs()
+	thisEntity:SetBaseManaRegen(0)
 
 	thisEntity.count = 5
 	Timers:CreateTimer(function()
@@ -426,7 +429,7 @@ function CastCogs()
 
 	end)
 
-	return ( thisEntity.loop * thisEntity.interval ) + 3
+	return ( thisEntity.loop * thisEntity.interval ) + 10
 end
 --------------------------------------------------------------------------------
 
@@ -482,7 +485,7 @@ function CastVortexGrenade()
 		AbilityIndex = thisEntity.vortex_grenade:entindex(),
 		Queue = 0,
 	})
-	return 1.0
+	return 0.5
 end
 --------------------------------------------------------------------------------
 
@@ -675,7 +678,7 @@ function CheckEnrage()
 			thisEntity:RemoveModifierByName("enrage")
 		end
 
-		return 0.5
+		return 0.1
 	end)
 end
 --------------------------------------------------------------------------------
@@ -691,6 +694,8 @@ function CheckFurnace()
 			--print("end timer?")
 			return false
 		end
+
+		if thisEntity.cast_cogs == true then return 0.5 end
 
 		thisEntity.i = thisEntity.i + 1
 		--print("thisEntity.i ", thisEntity.i)

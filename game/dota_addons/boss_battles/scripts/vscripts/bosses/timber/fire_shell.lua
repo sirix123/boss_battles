@@ -140,6 +140,7 @@ function fire_shell:OnSpellStart()
 							attacker = caster,
 							damage = damage,
 							damage_type = DAMAGE_TYPE_PHYSICAL,
+							ability = self,
 						}
 
 						ApplyDamage( damageTable )

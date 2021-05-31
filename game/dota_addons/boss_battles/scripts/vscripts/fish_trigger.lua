@@ -12,6 +12,26 @@ function fishtrigger(trigger)
 
         --ent:ForceKill(true)
 
+        local units = FindUnitsInRadius(
+        ent:GetTeamNumber(),	-- int, your team number
+        ent:GetAbsOrigin(),	-- point, center point
+        nil,	-- handle, cacheUnit. (not known)
+        FIND_UNITS_EVERYWHERE,	-- float, radius. or use FIND_UNITS_EVERYWHERE
+        DOTA_UNIT_TARGET_TEAM_BOTH,	-- int, team filter
+        DOTA_UNIT_TARGET_ALL,	-- int, type filter
+        DOTA_UNIT_TARGET_FLAG_NONE,	-- int, flag filter
+        FIND_ANY_ORDER,	-- int, order filter
+        false	-- bool, can grow cache
+        )
+
+        for _, unit in pairs(units) do
+            if unit:GetUnitName() == "npc_beastmaster" then
+                thisEntity.ability = unit:FindAbilityByName("fish_puddle")
+                thisEntity.unit = unit
+            end
+        end
+
+
         ent:AddNewModifier( thisEntity, nil, "modifier_stunned", { duration = -1 } )
 
         local bubbles = "particles/units/heroes/hero_kunkka/kunkka_spell_torrent_bubbles.vpcf"
@@ -37,8 +57,12 @@ function fishtrigger(trigger)
             }
 
             ApplyDamage(damageTable)]]
+            -- Kill(ability: CDOTABaseAbility | nil, attacker: CDOTA_BaseNPC | nil): nil
+            if thisEntity.ability and thisEntity.unit then
+                ent:Kill(thisEntity.ability,thisEntity.unit)
+            end
 
-            ent:ForceKill(true)
+            --ent:ForceKill(true)
             return false
         end)
 

@@ -287,7 +287,7 @@ function GyroThink()
 						end
 
 						thisEntity.unexploded_rockets = {}
-						enemy:ForceKill(false)
+						--enemy:ForceKill(false)
 					end
 				end
 			end

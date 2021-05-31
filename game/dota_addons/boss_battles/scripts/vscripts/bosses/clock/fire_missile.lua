@@ -104,6 +104,7 @@ function fire_missile:OnProjectileHit( hTarget, vLocation)
                 attacker = self.caster,
                 damage = self.damage,
                 damage_type = DAMAGE_TYPE_PHYSICAL,
+                ability = self,
             }
 
             ApplyDamage(dmgTable)

@@ -83,6 +83,7 @@ function biting_frost_modifier_debuff:StartApplyDamageLoop()
                 attacker = self:GetCaster(),
                 damage = self.dmg * self:GetStackCount(),
                 damage_type = DAMAGE_TYPE_PHYSICAL,
+                ability = self:GetAbility(),
             }
 
             ApplyDamage(dmgTable)

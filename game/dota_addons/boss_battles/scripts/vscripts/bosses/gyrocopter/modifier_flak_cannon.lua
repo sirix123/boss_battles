@@ -124,13 +124,14 @@ function modifier_flak_cannon:OnIntervalThink()
                     attacker = self:GetCaster(),
                     damage = 15,
                     damage_type = DAMAGE_TYPE_PHYSICAL,
+                    ability = self:GetAbility(),
                 }
 
                 ApplyDamage(dmgTable)
             end
         end
 
-        local units_larger_radius = FindEnemyUnitsInRing(self:GetParent():GetOrigin(), self.radius * 3, self.radius, self:GetParent():GetTeamNumber(), DOTA_UNIT_TARGET_FLAG_NONE)
+        --local units_larger_radius = FindEnemyUnitsInRing(self:GetParent():GetOrigin(), self.radius * 3, self.radius, self:GetParent():GetTeamNumber(), DOTA_UNIT_TARGET_FLAG_NONE)
 
         --[[ for units further away (outside of the flak radius)
         if units_larger_radius ~= nil and #units_larger_radius ~= 0 then

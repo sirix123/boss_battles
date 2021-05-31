@@ -36,7 +36,7 @@ function Spawn( entityKeyValues )
 	thisEntity.summon_bird:StartCooldown(10)
 
 	thisEntity.summon_quillboar = thisEntity:FindAbilityByName( "summon_quillboar" )
-	thisEntity.summon_quillboar:StartCooldown(thisEntity.summon_quillboar:GetCooldown(thisEntity.summon_quillboar:GetLevel()))
+	thisEntity.summon_quillboar:StartCooldown(15)
 
 	thisEntity.beastmaster_net = thisEntity:FindAbilityByName( "beastmaster_net" )
 	thisEntity.beastmaster_net:StartCooldown(thisEntity.beastmaster_net:GetCooldown(thisEntity.beastmaster_net:GetLevel()))

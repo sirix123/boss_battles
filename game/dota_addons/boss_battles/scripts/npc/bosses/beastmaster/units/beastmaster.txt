@@ -116,6 +116,7 @@
 		"Ability6"					"summon_bird"				// Ability 5
 		"Ability7"					"roar"						// Ability 5
 		"Ability8"					"puddle_projectile_spell"	// Ability 5
+		"Ability9"					"fish_puddle"	// Ability 5
 		
 		
 		// Armor

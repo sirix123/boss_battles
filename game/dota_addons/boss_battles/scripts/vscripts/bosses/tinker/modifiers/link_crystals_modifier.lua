@@ -128,6 +128,7 @@ function link_crystals_modifier:StartApplyDamageLoopLink()
                     attacker = self.caster,
                     damage = self.dmg_link,
                     damage_type = DAMAGE_TYPE_PHYSICAL,
+                    ability = self:GetAbility(),
                 }
 
                 ApplyDamage(self.dmgTable)

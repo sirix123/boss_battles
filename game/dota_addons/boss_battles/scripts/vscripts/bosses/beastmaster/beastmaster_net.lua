@@ -169,6 +169,7 @@ function beastmaster_net:OnSpellStart()
 					attacker = caster,
 					damage = self:GetSpecialValueFor( "damage_bear" ),
 					damage_type = self:GetAbilityDamageType(),
+					ability = self,
 				}
 
 				ApplyDamage(dmgTable)

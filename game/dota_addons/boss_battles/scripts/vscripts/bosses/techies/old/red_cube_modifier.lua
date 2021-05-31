@@ -91,6 +91,7 @@ function red_cube_modifier:OnDestroy()
                 attacker = self:GetCaster(),
                 damage = 50,
                 damage_type = DAMAGE_TYPE_PHYSICAL,
+                ability = self:GetAbility(),
             }
 
             ApplyDamage( damageInfo )

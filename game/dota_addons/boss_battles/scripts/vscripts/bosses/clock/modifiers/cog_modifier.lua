@@ -68,6 +68,7 @@ function cog_modifier:OnIntervalThink()
                 attacker = self.parent,
                 damage = 200,
                 damage_type = DAMAGE_TYPE_PHYSICAL,
+                ability = self:GetAbility(),
             }
 
             ApplyDamage(self.damageTable)

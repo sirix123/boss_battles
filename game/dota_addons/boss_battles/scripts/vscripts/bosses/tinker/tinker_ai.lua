@@ -438,10 +438,14 @@ function KillUnits( pos )
 		false	-- bool, can grow cache
 	)
 
+	thisEntity.ability = thisEntity:FindAbilityByName("spawn_rocks")
+
 	-- apply modifier
 	if units ~= nil and #units ~= 0 then
 		for _, unit in pairs(units) do
-			unit:ForceKill(false)
+			if thisEntity.ability and thisEntity then
+                unit:Kill(thisEntity.ability,thisEntity)
+            end
 		end
 	end
 

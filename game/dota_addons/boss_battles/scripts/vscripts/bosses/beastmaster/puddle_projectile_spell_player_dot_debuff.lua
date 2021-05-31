@@ -53,6 +53,7 @@ function puddle_projectile_spell_player_dot_debuff:StartApplyDamageLoop()
             attacker = self:GetCaster(),
             damage = self.dmg,
             damage_type = DAMAGE_TYPE_PHYSICAL,
+            ability = self:GetAbility(),
         }
 
         ApplyDamage(dmgTable)
