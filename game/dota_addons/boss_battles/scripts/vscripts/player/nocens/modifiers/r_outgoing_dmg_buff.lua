@@ -44,8 +44,10 @@ function r_outgoing_dmg_buff:OnDestroy()
         --[[self.caster:FindAbilityByName("q_armor_aura"):SetActivated(true)
         self.caster:FindAbilityByName("e_regen_aura"):SetActivated(true)
         self.caster:FindAbilityByName("r_outgoing_dmg"):SetActivated(true)]]
-        self.caster:FindAbilityByName("e_regen_aura"):SetActivated(true)
-		self.caster:FindAbilityByName("q_armor_aura"):SetActivated(true)
+        if self.parent == self.caster then
+            self.caster:FindAbilityByName("e_regen_aura"):SetActivated(true)
+            self.caster:FindAbilityByName("q_armor_aura"):SetActivated(true)
+        end
     end
 end
 -----------------------------------------------------------------------------
