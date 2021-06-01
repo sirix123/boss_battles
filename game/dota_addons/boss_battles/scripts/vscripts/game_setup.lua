@@ -108,12 +108,12 @@ function GameSetup:OnPlayerDisconnected(keys)
         end
 
         key, 	PlayerID	v, 	1
-        key, 	xuid	v, 	76561198088786586
+        key, 	xuid	v, 	STEAM ID
         key, 	game_event_name	v, 	player_disconnect
         key, 	game_event_listener	v, 	100663304
         key, 	splitscreenplayer	v, 	-1
-        key, 	name	v, 	lonely are the insomniacs
-        key, 	networkid	v, 	[U:1:128520858]
+        key, 	name	v, 	PLAYER NAME
+        key, 	networkid	v, 	NET WORK ID
         key, 	userid	v, 	4 -- this increases per disconnect
         key, 	reason	v, 	2
     ]]
