@@ -4,8 +4,37 @@ function Filters:Activate(GameMode, this)
     function GameMode:ExecuteOrderFilter(filter_table)
         local order_type = filter_table["order_type"]
 
-        -- if caster is dead dont do any of this
+        -- need to validate the event coming in
+        -- if the caster has that ability, if they have mana, if its off cooldown
         local caster = EntIndexToHScript(filter_table.units["0"])
+        local ability = EntIndexToHScript(filter_table.entindex_ability)
+
+        if caster:HasAbility(ability:GetName()) == false then
+            return false
+        end
+
+        if ability:IsFullyCastable() == false or ability:IsCooldownReady() == false or ability:GetLevel() < 1 then
+            return false
+        end
+
+        --PrintTable(filter_table)
+        --[[
+            entindex_ability: 274
+            entindex_target: 273
+            issuer_player_id_const: 0
+            order_type: 5
+            position_x: -12310.60546875
+            position_y: -10201.342773438
+            position_z: 256.80773925781
+            queue: 0
+            sequence_number_const: 57
+            shop_item_name:
+            units:
+                    0: 273
+        ]]
+
+        -- if caster is dead dont do any of this
+
         if caster:IsAlive() == false or caster:IsStunned() == true then
             return false
         end
