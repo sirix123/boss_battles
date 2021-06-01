@@ -292,9 +292,7 @@ GameUI.SetMouseCallback( function( eventName, arg ){
 		if ( nMouseButton === 0 )
 		{
             OnLeftButtonPressed();
-            var heroIndex = Players.GetPlayerHeroEntityIndex(Players.GetLocalPlayer());
-            var playerId = Players.GetLocalPlayer()
-            GameEvents.SendCustomGameEventToServer("left_mouse_release", {heroIndex: heroIndex, playerId: playerId, pos: false});
+            GameEvents.SendCustomGameEventToServer("left_mouse_release", {  pos: false});
 
             return true;
 		}
@@ -308,9 +306,7 @@ GameUI.SetMouseCallback( function( eventName, arg ){
     if (eventName === "released"){
         if ( nMouseButton === 0 )
 		{
-            var heroIndex = Players.GetPlayerHeroEntityIndex(Players.GetLocalPlayer());
-            var playerId = Players.GetLocalPlayer()
-			GameEvents.SendCustomGameEventToServer("left_mouse_release", {heroIndex: heroIndex, playerId: playerId, pos: true});
+			GameEvents.SendCustomGameEventToServer("left_mouse_release", {  pos: true}); 
 			return true;
         }
 
@@ -353,11 +349,9 @@ function GetMouseCastPosition(  )
     var heroIndex = Players.GetPlayerHeroEntityIndex(Players.GetLocalPlayer());
 
 	GameEvents.SendCustomGameEventToServer("MousePosition", {
-        playerID: Players.GetLocalPlayer(), 
         x: mouse_position[0], 
         y: mouse_position[1],
         z: mouse_position[2],
-        entityIndex: heroIndex,
     });
 }
 
@@ -418,19 +412,14 @@ function EmptyCallBack(){
 // SCOREBOARD
 function ShowScoreboard()
 {
-    var heroIndex = Players.GetPlayerHeroEntityIndex(Players.GetLocalPlayer());
-    var playerId = Players.GetLocalPlayer()
-
     //Call test_scoreboard.js function: showScoreboardUI() by going to lua then back to js.
     //Send even back to lua. Which should have registered a listener for showScoreboardUIEvent
-    GameEvents.SendCustomGameEventToServer("showScoreboardUIEvent", {heroIndex: heroIndex, playerId: playerId});
+    GameEvents.SendCustomGameEventToServer("showScoreboardUIEvent", {});
     //GameEvents.SendCustomGameEventToServer("getScoreboardDataEvent", {});
 }
 
 function HideScoreboard()
 {
-    var heroIndex = Players.GetPlayerHeroEntityIndex(Players.GetLocalPlayer());
-    var playerId = Players.GetLocalPlayer()
     //Send even back to lua. Which should have registered a listener for hideScoreboardUIEvent
-    GameEvents.SendCustomGameEventToServer("hideScoreboardUIEvent", {heroIndex: heroIndex, playerId: playerId});
+    GameEvents.SendCustomGameEventToServer("hideScoreboardUIEvent", {});
 }

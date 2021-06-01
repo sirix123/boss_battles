@@ -19,21 +19,6 @@ function PlayerManager:SetUpMovement()
     CustomGameEventManager:RegisterListener('MoveUnit', function(eventSourceIndex, args)
         --print("GameMode:SetUpMovement(): MoveUnit event caught")
 
-        if args == nil then return end
-        if args.command == nil then return end
-        if args.heroEnt == nil then return end
-        if args.type == nil then return end
-
-        local unit = EntIndexToHScript(args.heroEnt)
-        if unit == nil then return end
-
-        -- make sure direction has some value (NPC has initialised)
-        if unit.direction == nil then return end
-        local playerId = EntIndexToHScript(args.heroEnt):GetPlayerID()
-        local player = PlayerResource:GetPlayer(playerId)
-
-        -- need to create a 'buffer' for each player that comes in
-
         --[[print("args", args)
         print("args", args.command)
         print("args.heroEnt", args.heroEnt)
@@ -42,48 +27,57 @@ function PlayerManager:SetUpMovement()
         print("player ",player)
         print("---------")]]
 
-        unit.currentType = args.type
-        unit.currentCommand = args.command
+        if args.PlayerID == nil then return end
+        local pID = args.PlayerID
 
-        if unit.playerLagging == true then
-            unit.direction.x = 0
-            unit.direction.y = 0
+        local hPlayer = PlayerResource:GetPlayer(pID)
+        if hPlayer == nil then return end
+
+        local hPlayerHero = hPlayer:GetAssignedHero()
+        if hPlayerHero == nil then return end
+
+        hPlayerHero.currentType = args.type
+        hPlayerHero.currentCommand = args.command
+
+        if hPlayerHero.playerLagging == true then
+            hPlayerHero.direction.x = 0
+            hPlayerHero.direction.y = 0
             return
         end
 
-        if unit.currentType == unit.previousType and unit.currentCommand == unit.previousCommand then
-            unit.playerLagging = true
+        if hPlayerHero.currentType == hPlayerHero.previousType and hPlayerHero.currentCommand == hPlayerHero.previousCommand then
+            hPlayerHero.playerLagging = true
             print("network lag detected - movement controller")
             CustomGameEventManager:Send_ServerToPlayer( player, "display_lag_message", nil )
-        elseif unit.playerLagging == false then
+        elseif hPlayerHero.playerLagging == false then
             if args.command == "W" then
                 if args.type == "+" then
-                    unit.direction.y = unit.direction.y + 1
+                    hPlayerHero.direction.y = hPlayerHero.direction.y + 1
                 elseif args.type == "-" then
-                    unit.direction.y = unit.direction.y - 1
+                    hPlayerHero.direction.y = hPlayerHero.direction.y - 1
                 end
             elseif args.command == "A" then
                 if args.type == "+" then
-                    unit.direction.x = unit.direction.x - 1
+                    hPlayerHero.direction.x = hPlayerHero.direction.x - 1
                 elseif args.type == "-" then
-                    unit.direction.x = unit.direction.x + 1
+                    hPlayerHero.direction.x = hPlayerHero.direction.x + 1
                 end
             elseif args.command == "S"  then
                 if args.type == "+" then
-                    unit.direction.y = unit.direction.y - 1
+                    hPlayerHero.direction.y = hPlayerHero.direction.y - 1
                 elseif args.type == "-" then
-                    unit.direction.y = unit.direction.y + 1
+                    hPlayerHero.direction.y = hPlayerHero.direction.y + 1
                 end
             elseif args.command == "D"  then
                 if args.type == "+" then
-                    unit.direction.x = unit.direction.x + 1
+                    hPlayerHero.direction.x = hPlayerHero.direction.x + 1
                 elseif args.type == "-" then
-                    unit.direction.x = unit.direction.x - 1
+                    hPlayerHero.direction.x = hPlayerHero.direction.x - 1
                 end
             end
 
-            unit.previousType = unit.currentType
-            unit.previousCommand = unit.currentCommand
+            hPlayerHero.previousType = hPlayerHero.currentType
+            hPlayerHero.previousCommand = hPlayerHero.currentCommand
         end
 
     end) -- end of MoveUnit listener
@@ -95,31 +89,45 @@ function PlayerManager:SetUpMouseUpdater()
     -- get mouse postions constantly
     self.mouse_positions = {}
     CustomGameEventManager:RegisterListener('MousePosition', function(eventSourceIndex, args)
-        local unit = EntIndexToHScript(args.entityIndex)
-        if unit == nil then return end
+        if args.PlayerID == nil then return end
+
+        local pID = args.PlayerID
+        local hPlayer = PlayerResource:GetPlayer(pID)
+
+        if hPlayer == nil then return end
+        local hPlayerHero = hPlayer:GetAssignedHero()
 
         --print("MousePosition for playerID: ", args.playerID) -- test player ID
         local mouse_position = Vector(args.x, args.y, args.z)
-        self.mouse_positions[args.playerID] = mouse_position
+        self.mouse_positions[pID] = mouse_position
         --print("MousePosition for playerID: ", mouse_position)
 
-        if unit.mouse == nil then return end
+        if hPlayerHero == nil then return end
+        if hPlayerHero.mouse == nil then return end
 
         -- testing new code
-        unit.mouse.x = args.x
-        unit.mouse.y = args.y
-        unit.mouse.z = args.z
+        hPlayerHero.mouse.x = args.x
+        hPlayerHero.mouse.y = args.y
+        hPlayerHero.mouse.z = args.z
 
     end) -- end of SetupMouseUpdater listener
 
     -- catch mouse release
     CustomGameEventManager:RegisterListener('left_mouse_release', function(eventSourceIndex, args)
-        local unit = EntIndexToHScript(args.heroIndex)
-        if unit == nil then return end
+        if args.PlayerID == nil then return end
+
+        local pID = args.PlayerID
+        local hPlayer = PlayerResource:GetPlayer(pID)
+
+        if hPlayer == nil then return end
+        local hPlayerHero = hPlayer:GetAssignedHero()
+
+        --PrintTable(args)
 
         -- release/up = 1
         -- press/down = 0
-        unit.left_mouse_up_down = args.pos
+        if hPlayerHero == nil then return end
+        hPlayerHero.left_mouse_up_down = args.pos
 
     end)
 end

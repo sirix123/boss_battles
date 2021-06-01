@@ -26,7 +26,7 @@ function Scoreboard:Init()
 
     --Listen for showScoreboardUIEvent from JS, then send showScoreboardUIEvent event back to JS
     CustomGameEventManager:RegisterListener('showScoreboardUIEvent', function(eventSourceIndex, args)
-        Scoreboard:DisplayScoreBoard( false, PlayerResource:GetPlayer(args.playerId) )
+        Scoreboard:DisplayScoreBoard( false, PlayerResource:GetPlayer(args.PlayerID) )
 
         ------------- OLD WAY ----------------
         --[[
@@ -81,7 +81,7 @@ function Scoreboard:Init()
     CustomGameEventManager:RegisterListener('hideScoreboardUIEvent', function(eventSourceIndex, args)
         --local luaPlayer = EntIndexToHScript(args.heroIndex):GetPlayerOwner()
         --local convarClient = Convars:GetCommandClient()
-        local player = PlayerResource:GetPlayer(args.playerId)
+        local player = PlayerResource:GetPlayer(args.PlayerID)
 
         --CustomGameEventManager:Send_ServerToPlayer( luaPlayer, "hideScoreboardUIEvent", {} )
         --CustomGameEventManager:Send_ServerToPlayer( convarClient, "hideScoreboardUIEvent", {} )

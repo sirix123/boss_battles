@@ -4,6 +4,6 @@
 
     $.Msg("client handshake started")
 
-    GameEvents.SendCustomGameEventToServer( "client_handshake", { PlayerID: Players.GetLocalPlayer() } );	
+    GameEvents.SendCustomGameEventToServer( "client_handshake", { } );	
 
 })();

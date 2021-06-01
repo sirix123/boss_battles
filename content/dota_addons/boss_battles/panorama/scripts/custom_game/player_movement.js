@@ -46,7 +46,6 @@ let hotkeys = [
 
 function OnHotkeyDownEvent( key ) {
     var query_data = {
-        'heroEnt': Players.GetPlayerHeroEntityIndex(Players.GetLocalPlayer()),
         'command': key,
         'type': '+',
     }
@@ -56,7 +55,6 @@ function OnHotkeyDownEvent( key ) {
 
 function OnHotkeyUpEvent( key ) {
     var query_data = {
-        'heroEnt': Players.GetPlayerHeroEntityIndex(Players.GetLocalPlayer()),
         'command': key,
         'type': '-',
     }
