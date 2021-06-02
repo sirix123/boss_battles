@@ -113,16 +113,16 @@ function UpdateScoreboardRows( data )
     //for each row in the leaderboard
     for (var index in data["games"]) {
         let leaderboardRow = top10panels[index];
-        var rank = leaderboardRow.FindChildTraverse("leaderboard_row_info_rank").text = index
+        var rank = leaderboardRow.FindChildTraverse("leaderboard_row_info_rank").text = index+ToOrdinal(index)
+
         var totalTime = leaderboardRow.FindChildTraverse("leaderboard_row_info_total_time").text = data["games"][index]["total_time"]
 
         for(var bossTimeIndex in data["games"][index]["boss_times"])
         {
             //$.Msg("bossRow = ", data["games"][index]["boss_times"][bossTimeIndex])
-            //bossRow = {"boss_name":"Tinker","time_taken":"04:59:460"}
+            //bossRow = {"boss_name":"Tinker","time_taken":"4:59"}
             leaderboardRow.FindChildTraverse("leaderboard_row_info_boss_"+bossTimeIndex+"_time").text = data["games"][index]["boss_times"][bossTimeIndex]["time_taken"]
         }
-        //leaderboardRow.FindChildTraverse("leaderboard_row_info_boss_total_time").text = "TODO"
 
         for(var playerIndex in data["games"][index]["players"])
         {
@@ -134,6 +134,33 @@ function UpdateScoreboardRows( data )
         }
     }
 }
+
+function ToOrdinal(number)
+{
+    // Start with the most common extension.
+    let extension = "th";
+    // Examine the last 2 digits.
+    let last_digits = number % 100;
+    if (last_digits < 11 || last_digits > 13)
+    {
+        // Check the last digit.
+        switch (last_digits % 10)
+        {
+            case 1:
+                extension = "st";
+                break;
+            case 2:
+                extension = "nd";
+                break;
+            case 3:
+                extension = "rd";
+                break;
+        }
+    }
+    return extension;
+
+}
+
 
 // get data
 GameEvents.Subscribe( "loading_screen_data", CreateLeaderBoard );

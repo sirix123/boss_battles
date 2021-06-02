@@ -15,6 +15,9 @@ function loading_screen_data:SendLeaderBoardData()
 end
 
 
+-- TODO: implement version with parametized mode
+-- function loading_screen_data:GetLeaderBoardDataFromApi(mode)
+    -- local request = CreateHTTPRequestScriptVM("GET", "http://143.198.224.131/api/leaderboard?mode="..mode)
 function loading_screen_data:GetLeaderBoardDataFromApi()
     if IsServer() then
         local request = CreateHTTPRequestScriptVM("GET", "http://143.198.224.131/api/leaderboard?mode=normalMode")

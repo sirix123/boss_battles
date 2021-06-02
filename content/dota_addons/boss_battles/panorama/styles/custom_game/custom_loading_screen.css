@@ -135,6 +135,16 @@ leaderboard - buttons
 	background-color: gradient( linear, 0% 0%, 0% 100%, from( #884f4f ), to( #9e313133 ) );
 }
 
+
+#leaderboard_row_info_rank {
+	horizontal-align: center;
+	vertical-align: center;	
+}
+#leaderboard_row_info_total_time {
+	horizontal-align: center;
+	vertical-align: center;	
+}
+
 .leaderboard_buttons_text{
 	horizontal-align: center;
 	vertical-align: center;
@@ -294,7 +304,7 @@ leaderboard - cells
 	horizontal-align: left;
 	vertical-align: center;
 	color: #fff;
-	font-size: 12px;
+	font-size: 16px;
 	font-family: defaultFont;
 	margin-left: 5px;
 }
