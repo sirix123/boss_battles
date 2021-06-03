@@ -33,12 +33,12 @@ function GenerateLocalizationData() {
     Modifiers.push({
         modifier_classname: "bonechill_modifier",
         name: "Bonechill",
-        description: "Regenerating {" + "MODIFIER_PROPERTY_MANA_REGEN_CONSTANT" /* MANA_REGEN_CONSTANT */ + "} per second."
+        description: "Regenerates {" + "MODIFIER_PROPERTY_MANA_REGEN_CONSTANT" /* MANA_REGEN_CONSTANT */ + "} per second."
     });
     Modifiers.push({
         modifier_classname: "q_iceblock_modifier",
         name: "Ice Block",
-        description: "Regenerating {" + "MODIFIER_PROPERTY_HEALTH_REGEN_PERCENTAGE" /* HEALTH_REGEN_PERCENTAGE */ + "}% of max health per second."
+        description: "Regenerates {" + "MODIFIER_PROPERTY_HEALTH_REGEN_PERCENTAGE" /* HEALTH_REGEN_PERCENTAGE */ + "}% of max health per second."
     });
     // abilities
     Abilities.push({

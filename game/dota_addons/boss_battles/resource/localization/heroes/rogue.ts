@@ -30,7 +30,7 @@ export function GenerateLocalizationData(): LocalizationData
     Modifiers.push({
         modifier_classname: "m2_energy_buff",
         name: "Adrenaline",
-        description: `Regenerating %dMODIFIER_PROPERTY_MANA_REGEN_CONSTANT% energy per second.`,
+        description: `Regenerates %dMODIFIER_PROPERTY_MANA_REGEN_CONSTANT% energy per second.`,
     });
     Modifiers.push({
         modifier_classname: "space_shadowstep_caster_modifier",
@@ -85,7 +85,7 @@ export function GenerateLocalizationData(): LocalizationData
     Abilities.push({
         ability_classname: "m2_combo_breaker",
         name: "Assassinate",
-        description: `Rogue assinates the targets with a strike that consumes the bleeds from <font color=\"#9af9e0\">Lacerate</font> and <font color=\"#9af9e0\">Rupture</font>, dealing damage based on their remaing duration. Additionally it will consume 3 stacks of <font color=\"#9af9e0\">Envenom</font> and grants <font color=\"#6f92fc\">Adrenaline</font>.`,
+        description: `Rogue assassinates the targets with a strike that consumes the bleeds from <font color=\"#9af9e0\">Lacerate</font> and <font color=\"#9af9e0\">Rupture</font>, dealing damage based on their remaing duration. Additionally it will consume 3 stacks of <font color=\"#9af9e0\">Envenom</font> and grants <font color=\"#6f92fc\">Adrenaline</font>.`,
         notes:
         [
             `Assassinate consumes the bleeds dealing damage based on the duration remaining times the damage per instance.`,

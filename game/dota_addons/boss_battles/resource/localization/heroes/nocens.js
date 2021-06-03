@@ -22,7 +22,7 @@ function GenerateLocalizationData() {
     Modifiers.push({
         modifier_classname: "e_regen_aura_buff",
         name: "Divine Light",
-        description: "Regenerating {" + "MODIFIER_PROPERTY_HEALTH_REGEN_CONSTANT" /* HEALTH_REGEN_CONSTANT */ + "} health per second."
+        description: "Regenerates {" + "MODIFIER_PROPERTY_HEALTH_REGEN_CONSTANT" /* HEALTH_REGEN_CONSTANT */ + "} health per second."
     });
     Modifiers.push({
         modifier_classname: "q_armor_aura_buff",

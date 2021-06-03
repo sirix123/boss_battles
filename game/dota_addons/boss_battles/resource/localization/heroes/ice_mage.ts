@@ -38,13 +38,13 @@ export function GenerateLocalizationData(): LocalizationData
     Modifiers.push({
         modifier_classname: "bonechill_modifier",
         name: "Bonechill",
-        description: `Regenerating {${LocalizationModifierProperty.MANA_REGEN_CONSTANT}} per second.`
+        description: `Regenerates {${LocalizationModifierProperty.MANA_REGEN_CONSTANT}} per second.`
     });
 
     Modifiers.push({
         modifier_classname: "q_iceblock_modifier",
         name: "Ice Block",
-        description: `Regenerating {${LocalizationModifierProperty.HEALTH_REGEN_PERCENTAGE}}% of max health per second.`
+        description: `Regenerates {${LocalizationModifierProperty.HEALTH_REGEN_PERCENTAGE}}% of max health per second.`
     });
 
     // abilities

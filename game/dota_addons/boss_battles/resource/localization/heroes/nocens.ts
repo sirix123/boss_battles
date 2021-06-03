@@ -26,7 +26,7 @@ export function GenerateLocalizationData(): LocalizationData
     Modifiers.push({
         modifier_classname: "e_regen_aura_buff",
         name: "Divine Light",
-        description: `Regenerating {${LocalizationModifierProperty.HEALTH_REGEN_CONSTANT}} health per second.`
+        description: `Regenerates {${LocalizationModifierProperty.HEALTH_REGEN_CONSTANT}} health per second.`
     });
 ​
     Modifiers.push({
