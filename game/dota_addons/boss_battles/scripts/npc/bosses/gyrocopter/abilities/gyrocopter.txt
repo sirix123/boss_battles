@@ -36,7 +36,7 @@
 		{
             "01"{ "var_type"			"FIELD_INTEGER"		"barrage_duration"		            "5" }
             "02"{ "var_type"			"FIELD_INTEGER"		"charge_speed"		                "1500" }
-            "03"{ "var_type"			"FIELD_FLOAT"		"oil_drop_freq"		                "0.2" }
+            "03"{ "var_type"			"FIELD_FLOAT"		"oil_drop_freq"		                "0.5" }
             "04"{ "var_type"			"FIELD_INTEGER"		"barrage_dmg"                       "15" }
             "05"{ "var_type"			"FIELD_FLOAT"		"barrage_tick_rate"                 "0.1" }
 		}
@@ -81,7 +81,7 @@
 		"AbilitySpecial"
 		{
             "01"{ "var_type"			"FIELD_INTEGER"		"speed"		                        "1500" }
-            "02"{ "var_type"			"FIELD_FLOAT"		"oil_drop_freq"		                "0.2" }
+            "02"{ "var_type"			"FIELD_FLOAT"		"oil_drop_freq"		                "0.6" }
 		}
 
         "precache"

@@ -51,6 +51,8 @@ function Spawn( entityKeyValues )
 	thisEntity.enraged = false
 	thisEntity.poison_on = false
 
+	thisEntity.mana_regen = thisEntity:GetManaRegen()
+
 	-- summon dino
 	thisEntity.dino_spawns = {
 		Vector(-3049.123779,-11183.102539,261.128906),
@@ -92,6 +94,8 @@ function BeastmasterThink()
 		return 0.5
 	end
 
+	thisEntity:SetBaseManaRegen(thisEntity.mana_regen)
+
 	if thisEntity:HasModifier("beastmaster_bloodlust_modifier") and thisEntity.enraged == false then
 		DinoSpawn()
 		thisEntity.puddle_projectile_spell:StartCooldown(RandomInt(5,15))
@@ -112,7 +116,7 @@ function BeastmasterThink()
 		end
 
 		if stacks ~= 0 then
-			thisEntity:AddNewModifier( thisEntity,thisEntity.puddle_projectile_spell, "beastmaster_puddle_dot_debuff_attack", { duration = 25, stacks = stacks } )
+			thisEntity:AddNewModifier( thisEntity,thisEntity.puddle_projectile_spell, "beastmaster_puddle_dot_debuff_attack", { duration = 15, stacks = stacks } )
 			PoisonTimer()
 		end
 	end
@@ -158,6 +162,8 @@ function CastRoar()
 	if spell_puddle_cd <= 5 then
 		thisEntity.puddle_projectile_spell:StartCooldown(RandomInt(15,25))
 	end
+
+	thisEntity:SetBaseManaRegen(0)
 
 	return thisEntity.roar:GetSpecialValueFor( "duration" ) + thisEntity.beastmaster_net:GetCastPoint() + 1
 end

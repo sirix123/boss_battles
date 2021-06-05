@@ -11,7 +11,7 @@ function disconnect_manager:Init()
         if (    GameRules:State_Get() == DOTA_GAMERULES_STATE_GAME_IN_PROGRESS   and PICKING_DONE == true   or
                 GameRules:State_Get() == DOTA_GAMERULES_STATE_DISCONNECT         and PICKING_DONE == true   or
                 GameRules:State_Get() == DOTA_GAMERULES_STATE_POST_GAME          and PICKING_DONE == true ) and
-                BOSS_BATTLES_ENCOUNTER_COUNTER ~= 8
+                nBOSSES_KILLED ~= 7
         then
 
             if self.disconnected_players_count == #HERO_LIST then
@@ -24,15 +24,15 @@ function disconnect_manager:Init()
             --print("self.disconnected_players_count ",self.disconnected_players_count)
         end
 
-        return 1
+        return 0.2
     end)
 
 
 end
 --------------------------------------------------------------------------------------------------
 
-function disconnect_manager:PlayerDisconnect( DisconHeroId )
-    table.insert(self.disconnected_players,DisconHeroId)
+function disconnect_manager:PlayerDisconnect( )
+    --table.insert(self.disconnected_players,DisconHeroId)
     self.disconnected_players_count = self.disconnected_players_count + 1
 end
 --------------------------------------------------------------------------------------------------

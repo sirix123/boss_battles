@@ -159,6 +159,16 @@ function beastmaster_net:OnSpellStart()
 			OnUnitHit = function(_self, unit)
 
 				if unit:GetUnitName() == "npc_beastmaster_bear" then
+
+					local modifier = "bear_bloodlust_modifier"
+					local base_duration = duration_bear
+				
+					local stacks = 0
+					if unit:HasModifier(modifier) then
+						stacks = unit:GetModifierStackCount(modifier, unit)
+						duration_bear = ( base_duration - ( base_duration * ( 0.05 * stacks  ) ) ) + 1
+					end
+
 					unit:AddNewModifier( self:GetCaster(), self, "modifier_beastmaster_net", { duration = duration_bear } )
 				else
 					unit:AddNewModifier( self:GetCaster(), self, "modifier_beastmaster_net", { duration = duration } )

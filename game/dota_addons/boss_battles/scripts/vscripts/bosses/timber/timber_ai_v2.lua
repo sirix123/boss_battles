@@ -42,6 +42,8 @@ function Spawn( entityKeyValues )
 	thisEntity.chain_edge_speed = thisEntity.chain_map_edge:GetLevelSpecialValueFor("speed", thisEntity.chain_map_edge:GetLevel())
 	thisEntity.createParticleOnce = true
 
+	thisEntity.mana_regen = thisEntity:GetManaRegen()
+
 	thisEntity.vertical_saw_blade = thisEntity:FindAbilityByName( "vertical_saw_blade" )
 
 	-- fire shell references and init
@@ -83,6 +85,7 @@ function TimberThink()
 	-- state change handler
 	if thisEntity:GetHealthPercent() < 85 and thisEntity.chain_map_edge:IsCooldownReady() == true then
 		thisEntity.createParticleOnce = true
+		thisEntity:SetBaseManaRegen(0)
 		thisEntity.state = 2
 	elseif thisEntity.state == 2 and FindUnitsCloseAndBubbleGone() == true then
 
@@ -141,6 +144,7 @@ function TimberThink()
 			end
 		end)
 
+		thisEntity:SetBaseManaRegen(thisEntity.mana_regen)
 		thisEntity:RemoveModifierByName("modifier_rooted")
 		thisEntity.state = 1
 	end

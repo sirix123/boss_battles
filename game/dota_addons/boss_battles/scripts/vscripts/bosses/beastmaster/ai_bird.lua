@@ -247,6 +247,9 @@ function BirdThinker()
 
         --print( "distance ", ( thisEntity:GetAbsOrigin() - thisEntity.vWaterPos ):Length2D())
         if ( thisEntity:GetAbsOrigin() - thisEntity.vWaterPos ):Length2D() < 50 then
+
+            FindClearSpaceForUnit(thisEntity.target, thisEntity:GetAbsOrigin(), true)
+
             -- drop the player
             if thisEntity.target:HasModifier("grab_player_modifier") == true then
                 thisEntity.target:RemoveModifierByName("grab_player_modifier")

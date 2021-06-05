@@ -6,6 +6,10 @@ function modifier_beastmaster_net:IsHidden()
 	return false
 end
 
+function modifier_beastmaster_net:IsDebuff()
+	return true
+end
+
 ---------------------------------------------------------------------
 
 function modifier_beastmaster_net:OnCreated( kv )
@@ -13,6 +17,8 @@ function modifier_beastmaster_net:OnCreated( kv )
 		-- create particle effect on target
 		self.nFXIndex = ParticleManager:CreateParticle( "particles/units/heroes/hero_meepo/meepo_earthbind.vpcf", PATTACH_ABSORIGIN_FOLLOW, self:GetParent() )
 		ParticleManager:SetParticleControl( self.nFXIndex, 0, self:GetParent():GetOrigin() + Vector( 0, 0, 40 ) )
+
+		print("duration ",self:GetRemainingTime())
 
 	end
 end

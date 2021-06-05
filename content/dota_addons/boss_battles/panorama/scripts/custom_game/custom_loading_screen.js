@@ -4,16 +4,19 @@
 function OnSocialButtonOnePressed(){
     $.Msg("click social button 1 website");
 
+    //$.DispatchEvent("ExternalBrowserGoToURL", "your_url");
+    $.DispatchEvent("ExternalBrowserGoToURL", "https://www.bossbattles.co");
+
 }
 
 function OnSocialButtonTwoPressed(){
     $.Msg("click social button 2 discord ");
-
+    $.DispatchEvent("ExternalBrowserGoToURL", "https://discord.gg/ba82ZtATmH");
 }
 
 function OnSocialButtonThreePressed(){
     $.Msg("click social button 3 pateron");
-
+    $.DispatchEvent("ExternalBrowserGoToURL", "https://www.patreon.com"); 
 }
 
 

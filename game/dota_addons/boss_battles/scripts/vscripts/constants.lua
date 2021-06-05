@@ -16,6 +16,8 @@ _G.nBOSSES_KILLED = 0
 
 _G.PLAYERS_CLIENTS_READY = {}
 
+_G.TRACK_DATA = true
+
 -- any unit in this table will not be hit by projectiles (if using barebones proj lib)
 _G.tUNIT_TABLE =
 {

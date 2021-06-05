@@ -51,7 +51,7 @@ function timber_blast_thinker:OnDestroy( kv )
 				attacker = self:GetParent(),
 				damage = 500,
 				damage_type = DAMAGE_TYPE_PHYSICAL,
-				ability = self,
+				ability = self:GetAbility(),
 			}
 
 			ApplyDamage( self.damageTable )

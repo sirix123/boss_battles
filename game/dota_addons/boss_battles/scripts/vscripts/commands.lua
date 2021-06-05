@@ -66,6 +66,16 @@ function Commands:OnPlayerChat(keys)
                 return
             end
 
+            if string.find(text, "stop track data") then
+                TRACK_DATA = false
+                return
+            end
+
+            if string.find(text, "start track data") then
+                TRACK_DATA = true
+                return
+            end
+
             if string.find(text, "dps meter") then
                 --send event to hPlayer to show dps meter
                 CustomGameEventManager:Send_ServerToPlayer( hPlayer, "showDpsMeterUIEvent", {} )

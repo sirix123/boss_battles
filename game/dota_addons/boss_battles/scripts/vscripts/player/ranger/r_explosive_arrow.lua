@@ -11,8 +11,7 @@ function r_explosive_arrow:OnAbilityPhaseStart()
         -- add casting modifier
         self:GetCaster():AddNewModifier(self:GetCaster(), self, "casting_modifier_thinker",
         {
-            duration = self:GetDuration(),
-            bMovementLock = true,
+            duration = self:GetCastPoint(), --self:GetDuration()
         })
 
         return true

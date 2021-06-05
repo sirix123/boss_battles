@@ -4,12 +4,13 @@
 ---String mapping functions to translate dota terms into our game terms
 function GetClassName(unitName)
 	local unitNameClassNameMap = {}
-	unitNameClassNameMap["npc_dota_hero_crystal_maiden"] = "Frost Mage"
+	unitNameClassNameMap["npc_dota_hero_crystal_maiden"] = "Rylai"
 	unitNameClassNameMap["npc_dota_hero_medusa"] = "Medusa"
-	unitNameClassNameMap["npc_dota_hero_phantom_assassin"] = "Cenzuo"
+	unitNameClassNameMap["npc_dota_hero_phantom_assassin"] = "Nightblade"
 	unitNameClassNameMap["npc_dota_hero_lina"] = "Lina"
 	unitNameClassNameMap["npc_dota_hero_omniknight"] = "Nocens"
 	unitNameClassNameMap["npc_dota_hero_queenofpain"] = "Akasha"
+	unitNameClassNameMap["npc_dota_hero_juggernaut"] = "Blademaster"
 
 	if unitNameClassNameMap[unitName] ~= nil then
 		return unitNameClassNameMap[unitName] 
@@ -456,3 +457,8 @@ function TableContains(tab, val)
 
     return false
 end
+
+function Round(num, numDecimalPlaces)
+	local mult = 10^(numDecimalPlaces or 0)
+	return math.floor(num * mult + 0.5) / mult
+  end

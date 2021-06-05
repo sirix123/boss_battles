@@ -8,7 +8,7 @@ function q_armor_aura_buff:IsHidden()
 end
 
 function q_armor_aura_buff:RemoveOnDeath()
-    return false
+    return true
 end
 
 -----------------------------------------------------------------------------
@@ -30,6 +30,7 @@ function q_armor_aura_buff:OnCreated( kv )
 
 	if IsServer() then
 		self.caster = self:GetCaster()
+		self.parent = self:GetParent()
 		--[[self.caster:FindAbilityByName("q_armor_aura"):SetActivated(false)
 		self.caster:FindAbilityByName("e_regen_aura"):SetActivated(false)
 		self.caster:FindAbilityByName("r_outgoing_dmg"):SetActivated(false)]]
@@ -40,7 +41,7 @@ end
 function q_armor_aura_buff:OnDestroy()
 	if IsServer() then
 		--self.caster:FindAbilityByName("q_armor_aura"):StartCooldown(self.caster:FindAbilityByName("q_armor_aura"):GetCooldown(1))
-		if self.parent == self.caster then
+		if self.parent:GetUnitName() == self.caster:GetUnitName() then
 			self.caster:FindAbilityByName("r_outgoing_dmg"):SetActivated(true)
 			self.caster:FindAbilityByName("e_regen_aura"):SetActivated(true)
 		end

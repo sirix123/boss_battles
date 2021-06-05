@@ -8,7 +8,7 @@ function r_outgoing_dmg_buff:IsHidden()
 end
 
 function r_outgoing_dmg_buff:RemoveOnDeath()
-    return false
+    return true
 end
 
 -----------------------------------------------------------------------------
@@ -30,6 +30,7 @@ function r_outgoing_dmg_buff:OnCreated( kv )
 	    self.outgoing_plus = self:GetAbility():GetSpecialValueFor( "outgoing_plus" )
         if IsServer() then
             self.caster = self:GetCaster()
+            self.parent = self:GetParent()
             --[[self.caster = self:GetCaster()
             self.caster:FindAbilityByName("q_armor_aura"):SetActivated(false)
             self.caster:FindAbilityByName("e_regen_aura"):SetActivated(false)
@@ -44,7 +45,7 @@ function r_outgoing_dmg_buff:OnDestroy()
         --[[self.caster:FindAbilityByName("q_armor_aura"):SetActivated(true)
         self.caster:FindAbilityByName("e_regen_aura"):SetActivated(true)
         self.caster:FindAbilityByName("r_outgoing_dmg"):SetActivated(true)]]
-        if self.parent == self.caster then
+        if self.parent:GetUnitName() == self.caster:GetUnitName() then
             self.caster:FindAbilityByName("e_regen_aura"):SetActivated(true)
             self.caster:FindAbilityByName("q_armor_aura"):SetActivated(true)
         end

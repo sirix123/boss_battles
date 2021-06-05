@@ -26,6 +26,10 @@ function bear_charge:OnAbilityPhaseStart()
 
             local randomEnemy = units[RandomInt(1, #units)]
 
+            if randomEnemy:HasModifier("grab_player_modifier") then
+                return false
+            end
+
             self.vTargetPos = randomEnemy:GetAbsOrigin()
 
             self:GetCaster():SetForwardVector(self.vTargetPos)

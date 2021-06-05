@@ -9,7 +9,7 @@ LinkLuaModifier( "remove_attack_modifier", "player/generic/remove_attack_modifie
 LinkLuaModifier( "modifier_grace_period", "player/generic/modifier_grace_period", LUA_MODIFIER_MOTION_NONE )
 LinkLuaModifier( "modifier_hide_hero", "player/generic/modifier_hide_hero", LUA_MODIFIER_MOTION_NONE )
 LinkLuaModifier( "admin_god_mode", "player/generic/admin_god_mode", LUA_MODIFIER_MOTION_NONE )
-
+LinkLuaModifier( "blademaster_death_enable_spells", "player/warlord/modifiers/blademaster_death_enable_spells", LUA_MODIFIER_MOTION_NONE )
 
 function GameSetup:init()
 
@@ -125,11 +125,11 @@ function GameSetup:OnPlayerDisconnected(keys)
 
     if GameRules:State_Get() == DOTA_GAMERULES_STATE_GAME_IN_PROGRESS and PICKING_DONE == true then
 
-        local pID = keys.PlayerID
-        local hPlayer = PlayerResource:GetPlayer(pID)
-        local hPlayerHero = hPlayer:GetAssignedHero()
+        --local pID = keys.PlayerID
+        --local hPlayer = PlayerResource:GetPlayer(pID)
+        --local hPlayerHero = hPlayer:GetAssignedHero()
 
-        disconnect_manager:PlayerDisconnect( keys.PlayerID )
+        disconnect_manager:PlayerDisconnect( )
 
         --print("disconnecting hero name, ",hPlayerHero:GetUnitName())
 
@@ -513,6 +513,9 @@ function GameSetup:ReadyupCheck() -- called from trigger lua file for activators
     for _,hero in pairs(HERO_LIST) do
         hero.dmgDoneAttempt = 0  -- reset damage done
         hero.dmgTakenAttempt = 0  -- reset dmg taken
+        hero.dmgDetails = {}
+        hero.dmgTakenDetails = {}
+        hero.deathsDetails = {}
     end
 
     self.boss_arena_name     = RAID_TABLES[BOSS_BATTLES_ENCOUNTER_COUNTER].spawnLocation
@@ -581,73 +584,67 @@ function GameSetup:HeroKilled( keys )
         splitscreenplayer: -1
     ]]
 
-    local hero = killedHero
-    self.inflictor = ""
-    if keys.entindex_inflictor == nil then
-        self.inflictor = "unknown_ability"
-    else
-        self.inflictor = EntIndexToHScript(keys.entindex_inflictor):GetName()
-    end
+    if TRACK_DATA == true then
 
-    if hero.deathsDetails == nil or #hero.deathsDetails == 0 then
-        print("init - deathsDetails table does not contain anything")
-        local targets = {}
-        targets["attacker"] = EntIndexToHScript(keys.entindex_attacker):GetUnitName()
-        targets["abilities"] = {}
-
-        local ability = {}
-        ability["spell_name"] = ""
-        ability["death_count"] = 1
-
-        ability["spell_name"] = self.inflictor
-        table.insert(targets["abilities"],ability)
-        table.insert(hero.deathsDetails,targets)
-    else
-
-        self.target_exists = false
-        for _, targetData in pairs(hero.deathsDetails) do
-            if targetData.attacker == EntIndexToHScript(keys.entindex_attacker):GetUnitName() == true then
-                self.target_exists = true
-            end
+        local hero = killedHero
+        self.inflictor = ""
+        if keys.entindex_inflictor == nil then
+            self.inflictor = "unknown_ability"
+        else
+            self.inflictor = EntIndexToHScript(keys.entindex_inflictor):GetName()
         end
 
-        if self.target_exists == true then
-            for _, targetData in pairs(hero.deathsDetails) do
-                if targetData.attacker == EntIndexToHScript(keys.entindex_attacker):GetUnitName() == true then
-
-                    self.spell_exists = false
-                    for _, abilityData in pairs(targetData.abilities) do
-                        if abilityData.spell_name == self.inflictor == true then
-                            self.spell_exists = true
-                            abilityData.death_count = abilityData.death_count + 1
-                        end
-                    end
-
-                    if self.spell_exists == false then
-                        local ability = {}
-                        ability["spell_name"] = ""
-                        ability["death_count"] = 1
-
-                        ability["spell_name"] = self.inflictor
-                        table.insert(targetData.abilities,ability)
-                    end
-                    break
-                end
-            end
-        end
-
-        if self.target_exists == false then
+        -- GameRules:GetGameTime()
+        if hero.deathsDetails == nil or #hero.deathsDetails == 0 then
+            print("init - deathsDetails table does not contain anything")
             local targets = {}
             targets["attacker"] = EntIndexToHScript(keys.entindex_attacker):GetUnitName()
             targets["abilities"] = {}
 
             local ability = {}
             ability["spell_name"] = ""
-            ability["death_count"] = 1
+            ability["time"] = GameRules:GetGameTime()
 
             ability["spell_name"] = self.inflictor
             table.insert(targets["abilities"],ability)
-            table.insert(hero.hero.deathsDetails,targets)
+            table.insert(hero.deathsDetails,targets)
+        else
+
+            self.target_exists = false
+            for _, targetData in pairs(hero.deathsDetails) do
+                if targetData.attacker == EntIndexToHScript(keys.entindex_attacker):GetUnitName() == true then
+                    self.target_exists = true
+                end
+            end
+
+            if self.target_exists == true then
+                for _, targetData in pairs(hero.deathsDetails) do
+                    if targetData.attacker == EntIndexToHScript(keys.entindex_attacker):GetUnitName() == true then
+
+                        local ability = {}
+                        ability["spell_name"] = ""
+                        ability["time"] = GameRules:GetGameTime()
+
+                        ability["spell_name"] = self.inflictor
+                        table.insert(targetData.abilities,ability)
+                        break
+                    end
+                end
+            end
+
+            if self.target_exists == false then
+                local targets = {}
+                targets["attacker"] = EntIndexToHScript(keys.entindex_attacker):GetUnitName()
+                targets["abilities"] = {}
+
+                local ability = {}
+                ability["spell_name"] = ""
+                ability["time"] = GameRules:GetGameTime()
+
+                ability["spell_name"] = self.inflictor
+                table.insert(targets["abilities"],ability)
+                table.insert(hero.deathsDetails,targets)
+            end
         end
     end
 
@@ -798,6 +795,11 @@ function GameSetup:HeroCheck()
             if hero:HasModifier("shatter_modifier") then
                 hero:RemoveModifierByName("shatter_modifier")
             end
+        end
+
+        -- blademaster clean
+        if hero:GetUnitName() == "npc_dota_hero_juggernaut" then
+            hero:AddNewModifier(hero,nil,"blademaster_death_enable_spells",{duration = -1})
         end
 
         -- fire mage clean

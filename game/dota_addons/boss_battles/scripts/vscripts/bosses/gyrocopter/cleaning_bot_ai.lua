@@ -51,30 +51,39 @@ function CleaningThinker()
         --print("phase 1")
 
         if #_G.Oil_Puddles ~= 0 or #_G.Fire_Puddles ~= 0 then
-            if #_G.Oil_Puddles ~= 0 then
-                local randomIndex = RandomInt(1,#_G.Oil_Puddles)
-                thisEntity.puddle = _G.Oil_Puddles[randomIndex]
-                if IsValidEntity(thisEntity.puddle) then
-                    thisEntity.puddle_location = _G.Oil_Puddles[randomIndex]:GetAbsOrigin()
-                    if GridNav:IsTraversable(thisEntity.puddle_location) then
-                        thisEntity.STATE = 2
+            local oil_or_fire = RandomInt(1,2)
+
+            if oil_or_fire == 1 then
+                if #_G.Oil_Puddles ~= 0 then
+                    local randomIndex = RandomInt(1,#_G.Oil_Puddles)
+                    thisEntity.puddle = _G.Oil_Puddles[randomIndex]
+                    if IsValidEntity(thisEntity.puddle) then
+                        thisEntity.puddle_location = _G.Oil_Puddles[randomIndex]:GetAbsOrigin()
+                        if GridNav:IsTraversable(thisEntity.puddle_location) then
+                            thisEntity.STATE = 2
+                        else
+                            return 0.2
+                        end
                     else
                         return 0.2
                     end
                 end
-            elseif #_G.Fire_Puddles ~= 0 then
-                local randomIndex = RandomInt(1,#_G.Fire_Puddles)
-                thisEntity.puddle = _G.Fire_Puddles[randomIndex]
-                if IsValidEntity(thisEntity.puddle) then
-                    thisEntity.puddle_location = _G.Fire_Puddles[randomIndex]:GetAbsOrigin()
-                    if GridNav:IsTraversable(thisEntity.puddle_location) then
-                        thisEntity.STATE = 2
-                    else
-                        return 0.2
+
+            elseif oil_or_fire == 2 then
+                if #_G.Fire_Puddles ~= 0 then
+                    local randomIndex = RandomInt(1,#_G.Fire_Puddles)
+                    thisEntity.puddle = _G.Fire_Puddles[randomIndex]
+                    if IsValidEntity(thisEntity.puddle) then
+                        thisEntity.puddle_location = _G.Fire_Puddles[randomIndex]:GetAbsOrigin()
+                        if GridNav:IsTraversable(thisEntity.puddle_location) then
+                            thisEntity.STATE = 2
+                        else
+                            return 0.2
+                        end
                     end
+                else
+                    return 0.2
                 end
-            else
-                return 0.2
             end
         end
 

@@ -4,12 +4,17 @@ function Filters:Activate(GameMode, this)
     function GameMode:ExecuteOrderFilter(filter_table)
         local order_type = filter_table["order_type"]
 
+        --PrintTable(filter_table)
+
         -- need to validate the event coming in
         -- if the caster has that ability, if they have mana, if its off cooldown
         local caster = EntIndexToHScript(filter_table.units["0"])
         local ability = EntIndexToHScript(filter_table.entindex_ability)
 
-        if caster:HasAbility(ability:GetName()) == false then
+        --print("caster:HasItemInInventory(ability:GetName()): ",caster:HasItemInInventory(ability:GetName()))
+        --print("----------------------------------------")
+
+        if caster:HasAbility(ability:GetName()) == false and caster:HasItemInInventory(ability:GetName()) == false then
             return false
         end
 
@@ -31,6 +36,20 @@ function Filters:Activate(GameMode, this)
             shop_item_name:
             units:
                     0: 273
+
+                techies rock
+            entindex_ability: 182
+            entindex_target: 0
+            issuer_player_id_const: 0
+            order_type: 5
+            position_x: 10174.032226563
+            position_y: 637.04125976563
+            position_z: 130.12109375
+            queue: 0
+            sequence_number_const: 7
+            shop_item_name: 
+            units:
+                    0: 281
         ]]
 
         -- if caster is dead dont do any of this

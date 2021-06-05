@@ -160,6 +160,9 @@ function DinoThink()
 
 			if ( thisEntity:GetAbsOrigin() - thisEntity.vWaterPos ):Length2D() < 100 then
 				print("i am moving to the water")
+
+				FindClearSpaceForUnit(thisEntity.charge_target, thisEntity:GetAbsOrigin(), true)
+
 				if thisEntity.charge_target:HasModifier("grab_player_modifier_dino") == true then
 					thisEntity.charge_target:RemoveModifierByName("grab_player_modifier_dino")
 				end
@@ -176,6 +179,9 @@ function DinoThink()
 	-- stage 3
 	-- handles resetting back to the corner
 	if thisEntity.STATE == 3 then
+		if thisEntity.charge_target:HasModifier("grab_player_modifier_dino") then
+			thisEntity.STATE = 2
+		end
 
 		if thisEntity.vResetPos == nil then
 

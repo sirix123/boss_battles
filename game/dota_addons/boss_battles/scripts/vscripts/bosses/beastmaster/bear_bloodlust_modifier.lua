@@ -28,6 +28,11 @@ function bear_bloodlust_modifier:OnCreated( kv )
 	self.bloodlust_speed = kv.ms_bonus
 	self.bloodlust_as_speed = kv.as_bonus
 	self.bloodlust_damage_bonus = kv.damage_bonus
+	self.bloodlust_status_res_per_stack = 2.5
+
+	if IsServer() then
+		self.bloodlust_status_res_per_stack = 2.5
+	end
 
 	--print("self:GetStackCount() ",self:GetStackCount())
 	--print("self.bloodlust_speed ",self.bloodlust_speed)
@@ -101,6 +106,7 @@ function bear_bloodlust_modifier:DeclareFunctions()
 		MODIFIER_PROPERTY_ATTACKSPEED_BONUS_CONSTANT,
 		MODIFIER_PROPERTY_BASEDAMAGEOUTGOING_PERCENTAGE,
 		MODIFIER_PROPERTY_MODEL_SCALE,
+		MODIFIER_PROPERTY_STATUS_RESISTANCE,
 	}
 	return funcs
 end
@@ -129,7 +135,14 @@ end
 
 function bear_bloodlust_modifier:GetModifierModelScale()
 	if self:GetStackCount() ~= nil then
-		return 2.5 * self:GetStackCount()
+		return 2.6 * self:GetStackCount()
+	end
+end
+
+function bear_bloodlust_modifier:GetModifierStatusResistance()
+	if ( self.bloodlust_status_res_per_stack * self:GetStackCount() ) ~= nil then
+		print("self.bloodlust_status_res_per_stack * self:GetStackCount() ",self.bloodlust_status_res_per_stack * self:GetStackCount())
+		return self.bloodlust_status_res_per_stack * self:GetStackCount()
 	end
 end
 -----------------------------------------------------------------------------

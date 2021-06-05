@@ -60,7 +60,7 @@ function assistant_sweep:OnSpellStart()
     local tSpawn =
     {
         self.start_pos + ( self.caster:GetRightVector()       *100),
-        self.start_pos + self.caster:GetForwardVector()         ,
+        self.start_pos + self.caster:GetForwardVector()        ,
         self.start_pos - (self.caster:GetRightVector()       *100),
     }
 
@@ -79,6 +79,7 @@ function assistant_sweep:OnSpellStart()
             TreeBehavior = PROJECTILES_DESTROY,
             WallBehavior = PROJECTILES_DESTROY,
             GroundBehavior = PROJECTILES_NOTHING,
+            --draw = true,
             fGroundOffset = 80,
             UnitTest = function(_self, unit)
                 return unit:GetTeamNumber() ~= self.caster:GetTeamNumber() and unit:GetModelName() ~= "models/development/invisiblebox.vmdl"
@@ -95,7 +96,7 @@ function assistant_sweep:OnSpellStart()
                 ApplyDamage({
                     victim = unit,
                     attacker = self:GetCaster(),
-                    damage = 400,
+                    damage = 150,
                     damage_type = DAMAGE_TYPE_PHYSICAL,
                     ability = self,
                 })

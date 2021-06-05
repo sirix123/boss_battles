@@ -19,7 +19,7 @@ function grab_player_modifier:OnCreated(params)
     
     self.caster = self:GetCaster()
 	
-	self.drag_distance			= 70
+	self.drag_distance			= 250
 
 	self.interval			= FrameTime()
 	

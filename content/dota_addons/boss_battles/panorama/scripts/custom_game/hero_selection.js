@@ -98,8 +98,8 @@ function PlayerSelected( player, hero ) {
 	pedHeroPlayerText.AddClass( "PlayerNamePedTxt" );
 
 	// match dota hero name to boss battles hero name
-	if ( hero == "npc_dota_hero_crystal_maiden" 	) 	{ hero = "Ice Mage"; }
-	if ( hero == "npc_dota_hero_phantom_assassin" 	) 	{ hero = "Cenzuo, the Nightblade"; }
+	if ( hero == "npc_dota_hero_crystal_maiden" 	) 	{ hero = "Rylai"; }
+	if ( hero == "npc_dota_hero_phantom_assassin" 	) 	{ hero = "Nightblade"; }
 	if ( hero == "npc_dota_hero_juggernaut" 		) 	{ hero = "Blademaster"; }
 	if ( hero == "npc_dota_hero_medusa" 			) 	{ hero = "Medusa"; }
 	if ( hero == "npc_dota_hero_lina" 				) 	{ hero = "Lina"; }

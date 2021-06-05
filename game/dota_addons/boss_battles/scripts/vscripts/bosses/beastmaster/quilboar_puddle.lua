@@ -74,8 +74,8 @@ function quilboar_puddle:OnProjectileHit( hTarget, vLocation)
 			ParticleManager:DestroyParticle(self.particle_1,true)
 		end
 
-		if vLocation then
-			local hPuddle = CreateModifierThinker( self:GetCaster(), self, "quillboar_puddle_modifier", { duration = -1 }, vLocation, self:GetCaster():GetTeamNumber(), false )
+		if hTarget:GetAbsOrigin() then
+			local hPuddle = CreateModifierThinker( self:GetCaster(), self, "quillboar_puddle_modifier", { duration = -1 }, hTarget:GetAbsOrigin(), self:GetCaster():GetTeamNumber(), false )
 			table.insert(Beastmaster_Puddles_Locations,hPuddle)
 			self:PlayEffects(vLocation)
 			return true

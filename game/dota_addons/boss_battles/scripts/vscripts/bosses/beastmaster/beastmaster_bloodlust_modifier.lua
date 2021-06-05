@@ -16,9 +16,9 @@ end]]
 
 function beastmaster_bloodlust_modifier:OnCreated( kv )
 	if IsServer() then
-		self.bloodlust_speed = 80
-		self.bloodlust_as_speed = 25
-		self.dmg_bonus = 160
+		self.bloodlust_speed = 60
+		self.bloodlust_as_speed = 20
+		self.dmg_bonus = 100
 		self.bat = 1.0
 
 		-- takes more dmg?
@@ -51,7 +51,7 @@ end
 -----------------------------------------------------------------------------
 
 function beastmaster_bloodlust_modifier:GetModifierModelScale()
-	return 50
+	return 60
 end
 -----------------------------------------------------------------------------
 

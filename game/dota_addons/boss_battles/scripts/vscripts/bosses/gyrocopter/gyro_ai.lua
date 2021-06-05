@@ -244,51 +244,7 @@ function GyroThink()
 				--print("unit name = ",rocket:GetUnitName())
 				if rocket:GetUnitName() == "npc_dota_gyrocopter_homing_missile" then
 
-					--print("adding rocket to the table")
-
-					table.insert(thisEntity.unexploded_rockets,rocket)
-				end
-			end
-
-			if #thisEntity.unexploded_rockets ~= 0 then
-				--print("found rockets killing hurting players")
-
-				local enemies = FindUnitsInRadius(
-					thisEntity:GetTeamNumber(),
-					thisEntity:GetAbsOrigin(),
-					nil,
-					5000,
-					DOTA_UNIT_TARGET_TEAM_ENEMY,
-					DOTA_UNIT_TARGET_HERO,
-					DOTA_UNIT_TARGET_FLAG_INVULNERABLE,
-					FIND_CLOSEST,
-					false )
-
-				if #enemies ~= 0 then
-					for _, enemy in pairs(enemies) do
-
-						-- particle effect on each player
-						for _, rocket in pairs(thisEntity.unexploded_rockets) do
-							rocket:StopSound("Hero_Gyrocopter.HomingMissile")
-							rocket:StopSound("Hero_Gyrocopter.HomingMissile.Enemy")
-
-							local explode_particle = "particles/econ/courier/courier_snapjaw/courier_snapjaw_ambient_rocket_explosion.vpcf"
-							local explode_particle_index = ParticleManager:CreateParticle(explode_particle, PATTACH_ABSORIGIN, rocket)
-							ParticleManager:SetParticleControl(explode_particle_index, 0, rocket:GetAbsOrigin())
-							ParticleManager:SetParticleControl(explode_particle_index, 3, rocket:GetAbsOrigin())
-							ParticleManager:ReleaseParticleIndex(explode_particle_index)
-		
-							rocket:ForceKill(false)
-
-							-- add explode particle
-							local explosion_particle = ParticleManager:CreateParticle("particles/units/heroes/hero_gyrocopter/gyro_guided_missile_explosion.vpcf", PATTACH_WORLDORIGIN, rocket)
-							ParticleManager:SetParticleControl(explosion_particle, 0, rocket:GetAbsOrigin())
-							ParticleManager:ReleaseParticleIndex(explosion_particle)
-						end
-
-						thisEntity.unexploded_rockets = {}
-						--enemy:ForceKill(false)
-					end
+					rocket:ForceKill(false)
 				end
 			end
 		end
@@ -304,7 +260,7 @@ function GyroThink()
 			stacks = thisEntity:GetModifierStackCount("gyro_homing_missile_stun_check", thisEntity)
 		end
 
-		if stacks >= 2 then
+		if stacks >= 3 then
 			thisEntity.circle_timer_running = false
 		end
 
