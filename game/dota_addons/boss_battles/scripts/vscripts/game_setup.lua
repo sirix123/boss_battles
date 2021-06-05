@@ -167,7 +167,7 @@ function GameSetup:OnPlayerReconnected(keys)
 
     local pID = keys.PlayerID
     local hPlayer = PlayerResource:GetPlayer(pID)
-    --local hPlayerHero = hPlayer:GetAssignedHero()
+    local hPlayerHero = hPlayer:GetAssignedHero()
 
     Timers:CreateTimer(3, function()
         CustomGameEventManager:Send_ServerToPlayer( hPlayer, "player_reconnect", {} )
@@ -176,6 +176,13 @@ function GameSetup:OnPlayerReconnected(keys)
         for _, hero in pairs(HERO_LIST) do
             player_frame_manager:CreatePlayerFrameReconnect( hero, hPlayer )
         end
+
+        -- if players are in a boss fight (fighting a boss move the reconnected hero to the arena)
+        if PLAYERS_FIGHTING_BOSS == true then
+            self.player_spawn = Entities:FindByName(nil, RAID_TABLES[BOSS_BATTLES_ENCOUNTER_COUNTER].arena):GetAbsOrigin()
+            FindClearSpaceForUnit(hPlayerHero, self.player_spawn, true)
+        end
+
         return false
     end)
 end
