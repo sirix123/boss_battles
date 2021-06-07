@@ -295,7 +295,7 @@ function GameSetup:RegisterRaidWipe( )
                             if STORY_MODE == true then -- infinte lives and stay on wiped encounter
                                 killedHero.playerLives = BOSS_BATTLES_PLAYER_LIVES
 
-                            elseif NORMAL_MODE == true or HARD_MODE == true then -- 3 lives, one earned for each player after a boss kill, if players all die to a boss reset back to the first boss
+                            elseif NORMAL_MODE == true or HARD_MODE == true then -- 3 lives total
                                 killedHero.playerLives = BOSS_BATTLES_PLAYER_LIVES
                                 self.previous_encounter = BOSS_BATTLES_ENCOUNTER_COUNTER
                                 BOSS_BATTLES_ENCOUNTER_COUNTER = 2
@@ -386,10 +386,8 @@ function GameSetup:OnEntityKilled(keys)
                 if STORY_MODE == true then -- infinte lives and stay on wiped encounter
                     hero.playerLives = BOSS_BATTLES_PLAYER_LIVES
 
-                elseif NORMAL_MODE == true or HARD_MODE == true then -- 3 lives, one earned for each player after a boss kill, if players all die to a boss reset back to the first boss
-                    if hero.playerLives < 3 then
-                        hero.playerLives = hero.playerLives + 1
-                    end
+                elseif NORMAL_MODE == true or HARD_MODE == true then -- 3 lives total
+
                 end
 
                 if hero:IsAlive() == true then
