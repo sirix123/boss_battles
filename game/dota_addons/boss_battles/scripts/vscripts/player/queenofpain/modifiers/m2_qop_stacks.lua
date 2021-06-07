@@ -18,10 +18,19 @@ end
 function m2_qop_stacks:OnCreated( kv )
 	if not IsServer() then return end
 
-	if self:GetStackCount() < 3 then
-		self:IncrementStackCount()
+	if self.particle then
+		ParticleManager:DestroyParticle(self.particle, true)
 	end
 
+	if self:GetStackCount() < 3 then
+		self:IncrementStackCount()
+
+		--[[local particleName = "particles/qop/qop_player_generic_stack_numbers.vpcf"
+		self.particle = ParticleManager:CreateParticleForPlayer(particleName, PATTACH_OVERHEAD_FOLLOW, self:GetParent(), self:GetCaster():GetPlayerOwner())
+		ParticleManager:SetParticleControl(self.particle, 0, self:GetParent():GetAbsOrigin())
+		print("self:GetStackCount() ",self:GetStackCount())
+		ParticleManager:SetParticleControl(self.particle, 1, Vector(0, self:GetStackCount(), 0))]]
+	end
 end
 
 function m2_qop_stacks:OnRefresh( kv )
@@ -33,6 +42,10 @@ end
 
 function m2_qop_stacks:OnRemoved()
     if not IsServer() then return end
+
+	if self.particle then
+		ParticleManager:DestroyParticle(self.particle, true)
+	end
 
 	if self:GetStackCount() > 1 then
 		local modifier = self:GetCaster():AddNewModifier( self:GetCaster(), self:GetAbility(), "m2_qop_stacks", { duration = 3 } )

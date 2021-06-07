@@ -28,7 +28,7 @@ function Spawn( entityKeyValues )
 
 	thisEntity.stomp_push = thisEntity:FindAbilityByName( "stomp_push" )
 	thisEntity.stomp_push:SetLevel(1)
-	thisEntity.stomp_push:StartCooldown(15)
+	thisEntity.stomp_push:StartCooldown(8)
 
 	--CreateUnitByName( "npc_techies", Vector(10126,1776,0), true, thisEntity, thisEntity, DOTA_TEAM_BADGUYS)
 
@@ -87,6 +87,7 @@ function CastStompPush(  )
         Queue = false,
     })
 
+	thisEntity.assistant_sweep:StartCooldown( thisEntity.stomp_push:GetCastPoint() + 5 )
     return thisEntity.stomp_push:GetCastPoint() + 1
 end
 

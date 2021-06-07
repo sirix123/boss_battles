@@ -219,6 +219,11 @@ function BirdThinker()
     -- if the taken attk dmg modifier is removed during this phase then drop player where bird is and return to phase 1
     if thisEntity.PHASE == 4 then
 
+        if thisEntity.target == nil or thisEntity.target:IsAlive() == false then
+            thisEntity.grab_player:StartCooldown(25)
+            thisEntity.PHASE = 1
+        end
+
         if thisEntity:HasModifier("modifier_invulnerable") then
             thisEntity:RemoveModifierByName("modifier_invulnerable")
         end

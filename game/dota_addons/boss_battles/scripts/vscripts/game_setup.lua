@@ -461,20 +461,22 @@ function GameSetup:OnEntityHurt(keys)
     -- StoreDamageDone(keys)
     if PICKING_DONE == true then
 
-        --DEBUG:    
+        --DEBUG:
         local inflictor = keys.entindex_inflictor and EntIndexToHScript(keys.entindex_inflictor):GetName()
         if inflictor == nil then inflictor = "unknown_ability" end
         --print("" ..EntIndexToHScript(keys.entindex_attacker):GetUnitName().. " attacked " ..EntIndexToHScript(keys.entindex_killed):GetUnitName().. " with " ..inflictor.. " dealing " ..keys.damage)
 
         -- Only process dmg if from or too a player Hero.
-        local heroes = HERO_LIST--HeroList:GetAllHeroes()
-        for _, hero in pairs(heroes) do
+        --local heroes = HERO_LIST--HeroList:GetAllHeroes()
+        --for _, hero in pairs(heroes) do
             -- Store damage done or received to hero
-            if (hero:GetEntityIndex() == keys.entindex_killed) or (hero:GetEntityIndex() == keys.entindex_attacker) then
-                Scoreboard:StoreDamageDone(keys)
-                break
-            end
-        end
+            --if (hero:GetEntityIndex() == keys.entindex_killed) or (hero:GetEntityIndex() == keys.entindex_attacker) then
+                --Scoreboard:StoreDamageDone(keys)
+                --break
+            --end
+        --end
+
+        Scoreboard:StoreDamageDone(keys)
 
         --DPS METER:
         Scoreboard:UpdateDamageMeter()
@@ -702,6 +704,25 @@ function GameSetup:EncounterCleanUp( origin )
     DestroyItems( origin )
 
     GridNav:RegrowAllTrees()
+
+    -- find all thinkers and destroy them (dota thinkers)
+    local previous_result = nil
+    local result = Entities:FindByClassname(nil, "npc_dota_thinker")
+    while result ~= nil do
+
+        -- atm just hardcode the puddle string thinker later.. we will need a list fo these thinkers to reset..
+        local modifier = result:FindModifierByName("quillboar_puddle_modifier")
+        if modifier then
+            --print("modifier ",modifier:GetName())
+            modifier:Destroy()
+        end
+
+        if previous_result == nil then
+            result = Entities:FindByClassname(nil, "npc_dota_thinker")
+        else
+            result = Entities:FindByClassname(previous_result, "npc_dota_thinker")
+        end
+    end
 
     --[[local trees = GridNav:GetAllTreesAroundPoint( origin, 9000, false )
     for _,tree in pairs(trees) do

@@ -84,7 +84,12 @@ function m1_trackingshot:OnSpellStart()
 
                     local distanceFromHero = (unit:GetAbsOrigin() - origin ):Length2D()
 
-                    dmg = dmg + ( distanceFromHero * dmg_dist_multi )
+                    if self.caster:HasModifier("e_whirling_winds_modifier") then
+                        distanceFromHero = self:GetCastRange(Vector(0,0,0), nil)
+                        dmg = ( dmg + ( distanceFromHero * dmg_dist_multi ) ) * 0.9
+                    else
+                        dmg = dmg + ( distanceFromHero * dmg_dist_multi )
+                    end
 
                     local dmgTable = {
                         victim = unit,

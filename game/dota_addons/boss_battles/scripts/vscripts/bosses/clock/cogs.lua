@@ -76,7 +76,7 @@ function cogs:OnSpellStart()
                 for _, unit in pairs(units) do
                     print("unit found ",unit:GetUnitName())
                     local direction = ( unit:GetAbsOrigin() - caster:GetAbsOrigin() ):Normalized()
-                    FindClearSpaceForUnit(unit, unit:GetAbsOrigin() + direction * 50, true)
+                    FindClearSpaceForUnit(unit, unit:GetAbsOrigin() + direction * 200, true)
                 end
             end
 

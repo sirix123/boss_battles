@@ -5,6 +5,7 @@
 		<include src="file://{resources}/scripts/custom_game/camera.js" />
 		<include src="file://{resources}/scripts/custom_game/ui_modify.js" />
 		<include src="file://{resources}/scripts/custom_game/player_movement.js" />
+		<include src="file://{resources}/scripts/custom_game/commands.js" />
 	</scripts>
 
 	<styles>

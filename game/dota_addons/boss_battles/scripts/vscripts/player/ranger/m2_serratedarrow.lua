@@ -95,7 +95,12 @@ function m2_serratedarrow:OnSpellStart()
                 -- reduce dmg based on number of units hit
                 units_hit = units_hit  + 1
 
-                dmg = ( dmg + ( distanceFromHero * dmg_dist_multi ) ) / units_hit
+                if self.caster:HasModifier("e_whirling_winds_modifier") then
+                    distanceFromHero = self:GetCastRange(Vector(0,0,0), nil)
+                    dmg = ( ( dmg + ( distanceFromHero * dmg_dist_multi ) ) / units_hit ) * 0.9
+                else
+                    dmg = ( dmg + ( distanceFromHero * dmg_dist_multi ) ) / units_hit
+                end
 
                 local dmgTable = {
                     victim = unit,

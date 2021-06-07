@@ -122,7 +122,7 @@ function DinoThink()
 				--print("are we close to the player")
 				thisEntity.STATE = 2
 				return 3
-			else
+			elseif ( distance > 150 ) and thisEntity.charge_target:HasModifier("grab_player_modifier_dino") == false then
 				thisEntity.STATE = 3
 				return 3
 			end
@@ -132,7 +132,7 @@ function DinoThink()
 
 	-- state 2
 	if thisEntity.STATE == 2 then
-		if thisEntity.charge_target:HasModifier("grab_player_modifier_dino") then
+		if thisEntity.charge_target:HasModifier("grab_player_modifier_dino") and thisEntity.charge_target:IsAlive() == true then
 			print("i have grabbed the player")
 			if thisEntity.vWaterPos == nil then
 				
@@ -167,12 +167,12 @@ function DinoThink()
 					thisEntity.charge_target:RemoveModifierByName("grab_player_modifier_dino")
 				end
 				thisEntity.STATE = 3
-				return 1
+				return 3
 			end
 
 		else
 			thisEntity.STATE = 3
-			return 1
+			return 3
 		end
 	end
 
@@ -199,7 +199,7 @@ function DinoThink()
 			return 1
 		end
 
-		if ( thisEntity:GetAbsOrigin() - thisEntity.vResetPos ):Length2D() < 50 then
+		if ( thisEntity:GetAbsOrigin() - thisEntity.vResetPos ):Length2D() < 100 then
 			thisEntity.charge_cooldown = RandomInt(20,50)
 			thisEntity.dino_charge:StartCooldown(thisEntity.charge_cooldown)
 			thisEntity.vResetPos = nil

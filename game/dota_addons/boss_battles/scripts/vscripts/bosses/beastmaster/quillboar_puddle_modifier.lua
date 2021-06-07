@@ -16,6 +16,10 @@ function quillboar_puddle_modifier:OnCreated(kv)
 		self.dmg = self:GetAbility():GetSpecialValueFor("damage")
 		self.tick_rate = self:GetAbility():GetSpecialValueFor("tick_rate")
 
+		self.currentTarget = Vector( kv.target_x, kv.target_y, kv.target_z )
+
+		self.stopDamageLoop = false
+
 		self:PlayEffects()
 		self.timer_1 = Timers:CreateTimer(1.5, function()
 			self:StartIntervalThink(self.tick_rate)
@@ -24,9 +28,13 @@ function quillboar_puddle_modifier:OnCreated(kv)
 
 		self.timer = Timers:CreateTimer(function()
 
+			if self.stopDamageLoop == true then
+				return false
+			end
+
 			local units = FindUnitsInRadius(
-				self:GetParent():GetTeamNumber(),	-- int, your team number
-				self:GetParent():GetOrigin(),	-- point, center point
+				DOTA_TEAM_BADGUYS,	-- int, your team number
+				self.currentTarget,	-- point, center point
 				nil,	-- handle, cacheUnit. (not known)
 				self.radius,	-- float, radius. or use FIND_UNITS_EVERYWHERE
 				DOTA_UNIT_TARGET_TEAM_FRIENDLY,	-- int, team filter
@@ -97,32 +105,43 @@ end
 
 --------------------------------------------------------------------------------
 function quillboar_puddle_modifier:PlayEffects()
+	if IsServer() then
+		--  raidus that affects players is not linked to particel radisu need to change that as well in particle manager
+		local ground_pos = GetGroundPosition(self:GetParent():GetAbsOrigin(), nil)
 
-	--  raidus that affects players is not linked to particel radisu need to change that as well in particle manager
-	local ground_pos = GetGroundPosition(self:GetParent():GetAbsOrigin(), nil)
+		local particle_cast = "particles/beastmaster/viper_poison_crimson_debuff_ti7_puddle.vpcf"
+		self.nFXIndex_1 = ParticleManager:CreateParticle( particle_cast, PATTACH_WORLDORIGIN , self:GetParent()  )
+		ParticleManager:SetParticleControl( self.nFXIndex_1, 0, ground_pos )
+		--ParticleManager:ReleaseParticleIndex( self.nFXIndex_1 )
 
-	local particle_cast = "particles/beastmaster/viper_poison_crimson_debuff_ti7_puddle.vpcf"
-	self.nFXIndex_1 = ParticleManager:CreateParticle( particle_cast, PATTACH_WORLDORIGIN , self:GetParent()  )
-	ParticleManager:SetParticleControl( self.nFXIndex_1, 0, ground_pos )
-	--ParticleManager:ReleaseParticleIndex( self.nFXIndex_1 )
+		local particle_cast = "particles/beastmaster/viper_poison_crimson_debuff_ti7_puddle_bubble.vpcf"
+		self.nFXIndex_2 = ParticleManager:CreateParticle( particle_cast, PATTACH_WORLDORIGIN , self:GetParent()  )
+		ParticleManager:SetParticleControl( self.nFXIndex_2, 0, ground_pos )
+		--ParticleManager:ReleaseParticleIndex( self.nFXIndex_2 )
 
-	local particle_cast = "particles/beastmaster/viper_poison_crimson_debuff_ti7_puddle_bubble.vpcf"
-	self.nFXIndex_2 = ParticleManager:CreateParticle( particle_cast, PATTACH_WORLDORIGIN , self:GetParent()  )
-	ParticleManager:SetParticleControl( self.nFXIndex_2, 0, ground_pos )
-	--ParticleManager:ReleaseParticleIndex( self.nFXIndex_2 )
-
-	local particle_cast = "particles/beastmaster/boar_viper_immortal_ti8_nethertoxin_bubbles.vpcf"
-	self.nFXIndex_3 = ParticleManager:CreateParticle( particle_cast, PATTACH_WORLDORIGIN , self:GetParent()  )
-	ParticleManager:SetParticleControl( self.nFXIndex_3, 0, ground_pos )
-	--ParticleManager:ReleaseParticleIndex( self.nFXIndex_3 )
-
+		local particle_cast = "particles/beastmaster/boar_viper_immortal_ti8_nethertoxin_bubbles.vpcf"
+		self.nFXIndex_3 = ParticleManager:CreateParticle( particle_cast, PATTACH_WORLDORIGIN , self:GetParent()  )
+		ParticleManager:SetParticleControl( self.nFXIndex_3, 0, ground_pos )
+		--ParticleManager:ReleaseParticleIndex( self.nFXIndex_3 )
+	end
 end
 
 function quillboar_puddle_modifier:OnDestroy( kv )
 	if IsServer() then
-		ParticleManager:DestroyParticle(self.nFXIndex_1,true)
-		ParticleManager:DestroyParticle(self.nFXIndex_2,true)
-		ParticleManager:DestroyParticle(self.nFXIndex_3,true)
+		print("puddle on destroy")
+
+		self.stopDamageLoop = true
+		if self.nFXIndex_1 then
+			ParticleManager:DestroyParticle(self.nFXIndex_1,true)
+		end
+
+		if self.nFXIndex_2 then
+			ParticleManager:DestroyParticle(self.nFXIndex_2,true)
+		end
+
+		if self.nFXIndex_3 then
+			ParticleManager:DestroyParticle(self.nFXIndex_3,true)
+		end
 		self:StartIntervalThink(-1)
 		Timers:RemoveTimer(self.timer)
 		Timers:RemoveTimer(self.timer_1)

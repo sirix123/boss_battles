@@ -27,7 +27,7 @@ function Spawn( entityKeyValues )
     thisEntity.explode_proxy_mines = thisEntity:FindAbilityByName( "explode_proxy_mines" )
 
     thisEntity.summon_electric_vortex_turret = thisEntity:FindAbilityByName( "summon_electric_vortex_turret" )
-    thisEntity.summon_electric_vortex_turret:StartCooldown(60)
+    thisEntity.summon_electric_vortex_turret:StartCooldown(30)
 
     thisEntity.choking_gas = thisEntity:FindAbilityByName( "choking_gas" )
     thisEntity.choking_gas:StartCooldown(30)

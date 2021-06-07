@@ -31,7 +31,7 @@
 #HelpToolTip
 {
     width: 500px;
-    height: 500px;
+    height: 700px;
     horizontal-align: left;
     vertical-align: bottom;
 }
@@ -127,11 +127,11 @@
 
 .HelpButtonToolTipMenuItem{
     width: 100%;
-    height: 20%;
+    height: 18%;
     horizontal-align: center;
 	vertical-align: top;
     margin-left: 20px;
-    margin-top: 20px;
+    margin-top: 10px;
     flow-children: down;
 }
 

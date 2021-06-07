@@ -28,11 +28,11 @@ tRAID_INIT_TABLE = {
 	},
 
 	[2] = {
-		name = "Beastmaster",
-		description = "MANY ANIMALS",
-		arena = "beastmaster_playerspawn",
-		spawnLocation = "beastmaster_bossspawn",
-		boss ="npc_beastmaster",
+		name = "Gyrocopter",
+		description = "gyrocopter boss description",
+		arena = "gyro_player_spawn",
+		spawnLocation = "gyro_boss_spawn",
+		boss = "npc_gyrocopter",
 		bossKilled = false,
 	},
 
@@ -46,11 +46,11 @@ tRAID_INIT_TABLE = {
 	},
 
 	[4] = {
-		name = "Gyrocopter",
-		description = "gyrocopter boss description",
-		arena = "gyro_player_spawn",
-		spawnLocation = "gyro_boss_spawn",
-		boss = "npc_gyrocopter",
+		name = "Beastmaster",
+		description = "MANY ANIMALS",
+		arena = "beastmaster_playerspawn",
+		spawnLocation = "beastmaster_bossspawn",
+		boss ="npc_beastmaster",
 		bossKilled = false,
 	},
 

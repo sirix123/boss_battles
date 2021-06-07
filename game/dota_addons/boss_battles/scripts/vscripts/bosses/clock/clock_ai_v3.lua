@@ -159,6 +159,8 @@ function ClockThink()
 		thisEntity.nActiveFurnaces = FindFurnacesWithActivatedBuff()
 	end
 
+	print("thisEntity.cast_cogs ",thisEntity.cast_cogs)
+
 	if thisEntity:HasModifier("armor_buff_modifier") == true and thisEntity.nActiveFurnaces ~= 4 or thisEntity.nActiveFurnaces ~= 0.5 and thisEntity.hBuff:IsNull() == false then
 		thisEntity.nStacks = thisEntity.hBuff:GetStackCount()
 		--print("thisEntity.nStacks ",thisEntity.nStacks)

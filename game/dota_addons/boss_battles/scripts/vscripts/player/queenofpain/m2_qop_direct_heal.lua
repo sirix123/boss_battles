@@ -45,6 +45,7 @@ function m2_qop_direct_heal:OnAbilityPhaseInterrupted()
 
     end
 end
+
 ---------------------------------------------------------------------------
 
 function m2_qop_direct_heal:GetManaCost(level)

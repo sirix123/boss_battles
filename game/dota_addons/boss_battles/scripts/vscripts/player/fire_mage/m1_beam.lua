@@ -128,7 +128,7 @@ function m1_beam:OnSpellStart()
                     if units ~= nil and #units ~= 0 then
                         for _,unit in pairs(units) do
 
-                            if i >= 2.0 then
+                            if i >= 1.5 then
                                 self.caster:AddNewModifier(self.caster,self,"m1_beam_fire_rage", { duration = self:GetSpecialValueFor( "buff_duration" ) })
                                 i = 0
                             end

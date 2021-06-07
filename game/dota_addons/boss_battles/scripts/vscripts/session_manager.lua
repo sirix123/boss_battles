@@ -5,12 +5,14 @@ end
 
 -- create a table
 function SessionManager:Init()
+
     self.attempt_tracker = 0
     self.session_data = {} -- made up of attempt data and...?
     self.boss_data = {} -- made up of boss attemps
     self.player_data = {} -- made up of players,
 
     -- insert some stuff into the session ata
+    self.session_data["guid"] = GenerateGUID()
     self.session_data["releaseNumber"] = sRELEASE_NUMBER
     self.session_data["timeStampStart"] = GetSystemDate() .. " " .. GetSystemTime()
     if IsInToolsMode() == true then
@@ -124,6 +126,11 @@ function SessionManager:GetAttemptData()
 end
 ----------------------------------------
 
+function SessionManager:GetGameID()
+    return self.session_data["guid"]
+end
+----------------------------------------
+
 -- send session data (leaderboard/databse)
 function SessionManager:SendSessionData()
 
@@ -151,7 +158,7 @@ function SessionManager:SendSessionData()
     end
 
     --print("sending session data")
-    print(dump(json.encode(self.session_data)))
+    --print(dump(json.encode(self.session_data)))
 
     WebApi:SaveSessionData( self.session_data )
 end

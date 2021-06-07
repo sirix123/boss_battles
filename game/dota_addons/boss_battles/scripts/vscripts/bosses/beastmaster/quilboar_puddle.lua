@@ -75,7 +75,16 @@ function quilboar_puddle:OnProjectileHit( hTarget, vLocation)
 		end
 
 		if hTarget:GetAbsOrigin() then
-			local hPuddle = CreateModifierThinker( self:GetCaster(), self, "quillboar_puddle_modifier", { duration = -1 }, hTarget:GetAbsOrigin(), self:GetCaster():GetTeamNumber(), false )
+
+			local hPuddle = CreateModifierThinker( self:GetCaster(), self, "quillboar_puddle_modifier", 
+			{
+				duration = -1,
+				target_x = hTarget:GetAbsOrigin().x,
+				target_y = hTarget:GetAbsOrigin().y,
+				target_z = hTarget:GetAbsOrigin().z,
+			
+			}, hTarget:GetAbsOrigin(), self:GetCaster():GetTeamNumber(), false )
+
 			table.insert(Beastmaster_Puddles_Locations,hPuddle)
 			self:PlayEffects(vLocation)
 			return true

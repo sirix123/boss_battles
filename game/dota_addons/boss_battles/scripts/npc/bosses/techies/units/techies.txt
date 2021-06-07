@@ -51,7 +51,7 @@
 		// Movement
 		//----------------------------------------------------------------
 		"MovementCapabilities"		"DOTA_UNIT_CAP_MOVE_GROUND"//"DOTA_UNIT_CAP_MOVE_NONE"
-		"MovementSpeed"				"280"					
+		"MovementSpeed"				"300"					
 
 		// Status
 		//----------------------------------------------------------------
@@ -193,7 +193,7 @@
 		// Attack
 		//----------------------------------------------------------------
 		"AttackCapabilities"		"DOTA_UNIT_CAP_MELEE_ATTACK" //DOTA_UNIT_CAP_NO_ATTACK DOTA_UNIT_CAP_MELEE_ATTACK
-		"AttackDamageMin"			"35"		
+		"AttackDamageMin"			"50"		
 		"AttackDamageMax"			"55"		
 		"AttackRate"				"1.2"		// Speed of attack.
 		"AttackAnimationPoint"		"0.2"		// Normalized time in animation cycle to attack.
@@ -212,7 +212,7 @@
 
 		// Status
 		//----------------------------------------------------------------
-		"StatusHealth"				"200000"//"100000"		// Base health.
+		"StatusHealth"				"220000"//"100000"		// Base health.
 		"StatusHealthRegen"			"0.0"		// Health regeneration rate.
 		"StatusMana"				"100"		// Base mana.
 		"StatusManaRegen"			"0.0"		// Mana regeneration rate.		 

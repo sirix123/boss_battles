@@ -37,6 +37,10 @@ function assistant_sweep:OnAbilityPhaseInterrupted()
         -- remove casting animation
         self:GetCaster():RemoveGesture(ACT_DOTA_CAST_ABILITY_1)
 
+        if self.particleNfx then
+            ParticleManager:DestroyParticle(self.particleNfx,true)
+        end
+
     end
 end
 ---------------------------------------------------------------------------
@@ -50,7 +54,9 @@ function assistant_sweep:OnSpellStart()
     EmitSoundOnLocationWithCaster(self.start_pos, "Hero_EarthShaker.Fissure", self.caster)
 
     -- indicator
-    ParticleManager:DestroyParticle(self.particleNfx,true)
+    if self.particleNfx then
+        ParticleManager:DestroyParticle(self.particleNfx,true)
+    end
 
     -- spell
     local effect = "particles/techies/techies_lion_spell_impale.vpcf"

@@ -170,7 +170,7 @@
 		"AbilitySpecial"
 		{
 			"01"{ "var_type"			"FIELD_INTEGER"		"radius"			"400" }
-			"02"{ "var_type"			"FIELD_INTEGER"		"dmg"				"100" }
+			"02"{ "var_type"			"FIELD_INTEGER"		"dmg"				"50" }
 			"03"{ "var_type"			"FIELD_INTEGER"		"duration"			"6" }
 			"04"{ "var_type"			"FIELD_FLOAT"		"dmg_interval"		"0.5" }
 			"05"{ "var_type"			"FIELD_INTEGER"		"chill_duration"	"5" }
@@ -206,7 +206,7 @@
 			"01"{ "var_type"			"FIELD_FLOAT"		"delay"							"1.5" }
 			"02"{ "var_type"			"FIELD_INTEGER"		"radius"						"250" }
 			"03"{ "var_type"			"FIELD_FLOAT"		"damage_interval"				"1" }
-			"04"{ "var_type"			"FIELD_INTEGER"		"fb_bse_dmg"					"200" }
+			"04"{ "var_type"			"FIELD_INTEGER"		"fb_bse_dmg"					"150" }
 			"05"{ "var_type"			"FIELD_INTEGER"		"fb_base_duration"				"4" }
 			"06"{ "var_type"			"FIELD_INTEGER"		"fb_bonechill_extra_duration"	"6" }
 			"07"{ "var_type"			"FIELD_INTEGER"		"fb_dmg_per_shatter_stack"		"50" }

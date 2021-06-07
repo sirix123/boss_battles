@@ -2,6 +2,7 @@ stomp_push = class({})
 
 LinkLuaModifier( "modifier_stomp_push", "bosses/techies/modifiers/modifier_stomp_push", LUA_MODIFIER_MOTION_NONE )
 LinkLuaModifier( "modifier_stomp_pull", "bosses/techies/modifiers/modifier_stomp_pull", LUA_MODIFIER_MOTION_NONE )
+LinkLuaModifier( "assistant_enchant_totem", "bosses/techies/modifiers/assistant_enchant_totem", LUA_MODIFIER_MOTION_NONE )
 
 function stomp_push:OnAbilityPhaseStart()
     if IsServer() then
@@ -73,4 +74,7 @@ function stomp_push:OnSpellStart()
             --unit:AddNewModifier(self:GetCaster(), ability, "modifier_stomp_pull", {duration = 1})
         end
     end
+
+    self:GetCaster():AddNewModifier(self:GetCaster(), ability, "assistant_enchant_totem", {duration = 30})
+
 end

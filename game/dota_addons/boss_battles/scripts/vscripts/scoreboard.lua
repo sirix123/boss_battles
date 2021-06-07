@@ -101,6 +101,19 @@ end
 function Scoreboard:StoreDamageDone(keys)
     local data = {}
 
+    -- just scoreboard
+    for _, hero in pairs(HERO_LIST) do
+        if EntIndexToHScript(keys.entindex_killed) == hero then
+            hero.dmgTakenAttempt = keys.damage + hero.dmgTakenAttempt
+            break
+        end
+
+        if EntIndexToHScript(keys.entindex_attacker) == hero then
+            hero.dmgDoneAttempt = keys.damage + hero.dmgDoneAttempt
+            break
+        end
+    end
+
     --PrintTable(keys)
     -- ability["damage"] = ability["damage"] + keys.damage
 
@@ -115,8 +128,6 @@ function Scoreboard:StoreDamageDone(keys)
         for _, hero in pairs(HERO_LIST) do
             -- dmg done
             if EntIndexToHScript(keys.entindex_attacker) == hero then
-                -- dmg done for the scoreboard
-                hero.dmgDoneAttempt = keys.damage + hero.dmgDoneAttempt
 
                 -- dmg done for analytics
                 if hero.dmgDetails == nil or #hero.dmgDetails == 0 then
@@ -187,11 +198,8 @@ function Scoreboard:StoreDamageDone(keys)
 
             -- dmg taken
             if EntIndexToHScript(keys.entindex_killed) == hero then
-                -- dmg taken scoreboard
-                hero.dmgTakenAttempt = keys.damage + hero.dmgTakenAttempt
 
                 -- dmg taken analytics
-
                 self.inflictor = ""
                 if keys.entindex_inflictor == nil then
                     self.inflictor = "unknown_ability"

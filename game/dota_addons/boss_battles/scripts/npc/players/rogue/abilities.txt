@@ -90,7 +90,7 @@
 			"02"{ "var_type"			"FIELD_INTEGER"		"damage"					"250"   }
 			"03"{ "var_type"			"FIELD_INTEGER"		"duration"					"10"   }
 			"04"{ "var_type"			"FIELD_INTEGER"		"energy_regen_bonus"		"10"   }
-			"05"{ "var_type"			"FIELD_INTEGER"		"bleed_pop_dmg_reduction"	"2"   }
+			"05"{ "var_type"			"FIELD_FLOAT"		"bleed_pop_dmg_reduction"	"1.3"   }
 		} 
 	}
 
@@ -177,7 +177,7 @@
 		"AbilitySpecial"
 		{
 			"01"{ "var_type"			"FIELD_INTEGER"		"dmg"							"220" 	}
-			"02"{ "var_type"			"FIELD_INTEGER"		"hit_box"						"150" 	}
+			"02"{ "var_type"			"FIELD_INTEGER"		"hit_box"						"200" 	}
 			"03"{ "var_type"			"FIELD_INTEGER"		"proj_speed"					"1200" 	}
 			"04"{ "var_type"			"FIELD_INTEGER"		"duration"						"12" 	}
 			"05"{ "var_type"			"FIELD_INTEGER"		"dmg_dot_base"		    		"90"    }	

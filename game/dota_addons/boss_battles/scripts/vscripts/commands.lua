@@ -45,6 +45,7 @@ function Commands:OnPlayerChat(keys)
     --Parse Player Chat only if it's an command, only if the text starts with commandChar:
     if commandChar == firstChar then
         local hPlayer = PlayerResource:GetPlayer(keys.playerid)
+
         if not hPlayer then return end
         --local hHero = hPlayer:GetAssignedHero()
 
@@ -66,13 +67,33 @@ function Commands:OnPlayerChat(keys)
                 return
             end
 
+            if string.find(text, "gameid") then
+                local gameid = SessionManager:GetGameID()
+                CustomGameEventManager:Send_ServerToPlayer( hPlayer, "send_game_id", { gameid } )
+                return
+            end
+
             if string.find(text, "stop track data") then
                 TRACK_DATA = false
+                for _,hero in pairs(HERO_LIST) do
+                    hero.dmgDoneAttempt = 0  -- reset damage done
+                    hero.dmgTakenAttempt = 0  -- reset dmg taken
+                    hero.dmgDetails = {}
+                    hero.dmgTakenDetails = {}
+                    hero.deathsDetails = {}
+                end
                 return
             end
 
             if string.find(text, "start track data") then
                 TRACK_DATA = true
+                for _,hero in pairs(HERO_LIST) do
+                    hero.dmgDoneAttempt = 0  -- reset damage done
+                    hero.dmgTakenAttempt = 0  -- reset dmg taken
+                    hero.dmgDetails = {}
+                    hero.dmgTakenDetails = {}
+                    hero.deathsDetails = {}
+                end
                 return
             end
 
@@ -149,11 +170,15 @@ function Commands:OnPlayerChat(keys)
                 end
             end
 
-        elseif NORMAL_MODE == true or PLAYERS_FIGHTING_BOSS == true or bGAME_COMPLETE == true then
-            GameRules:SendCustomMessage("This command cannot be used if you're in a boss fight, if you're in Hardmode or if the game is complete.", 0, 0)
+        elseif PLAYERS_FIGHTING_BOSS == true then
+            GameRules:SendCustomMessage("Commands cannot be used if you're in a boss fight.", 0, 0)
+        elseif NORMAL_MODE == false then
+            GameRules:SendCustomMessage("Commands cannot be used if you're in Hardmode", 0, 0)
+        elseif bGAME_COMPLETE == true then
+            GameRules:SendCustomMessage("Commands cannot be used if you've killed the last boss.", 0, 0)
         end
 
-        --quick start gyro, control which AI function is used. 
+        --[[quick start gyro, control which AI function is used.
         if string.find(text, "sbg") then
             BOSS_BATTLES_ENCOUNTER_COUNTER = 6
             _G.GyroAI = "Main"
@@ -164,7 +189,7 @@ function Commands:OnPlayerChat(keys)
                 _G.GyroAI = "Test"
             end
             GameSetup:ReadyupCheck()
-        end
+        end]]
 
     end --end if, commandChar == firstChar
 end
