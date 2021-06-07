@@ -159,7 +159,7 @@ function ClockThink()
 		thisEntity.nActiveFurnaces = FindFurnacesWithActivatedBuff()
 	end
 
-	print("thisEntity.cast_cogs ",thisEntity.cast_cogs)
+	--print("thisEntity.cast_cogs ",thisEntity.cast_cogs)
 
 	if thisEntity:HasModifier("armor_buff_modifier") == true and thisEntity.nActiveFurnaces ~= 4 or thisEntity.nActiveFurnaces ~= 0.5 and thisEntity.hBuff:IsNull() == false then
 		thisEntity.nStacks = thisEntity.hBuff:GetStackCount()
@@ -776,6 +776,10 @@ end
 function ActivateFurnace()
 
 	Timers:CreateTimer(function()
+		if IsValidEntity(thisEntity) == false then
+			return false
+		end
+
 		if ( not thisEntity:IsAlive() ) then
 			print("end timer?")
 			return false

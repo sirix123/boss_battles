@@ -97,7 +97,7 @@ function link_crystals_modifier:StartApplyDamageLoopLink()
 
     self.dmg_timer = Timers:CreateTimer(self.damage_interval, function()
         if self:IsNull() == true then
-            print("IsValidEntity(self) == false")
+            --print("IsValidEntity(self) == false")
             return false
         end
 

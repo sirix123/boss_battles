@@ -115,6 +115,10 @@ function march:OnSpellStart()
         local numWaves = 0
 
         Timers:CreateTimer(0.5, function()
+            if IsValidEntity(self:GetCaster()) == false then
+                return false
+            end
+
             if numWaves == maxWaves then
                 return false
             end

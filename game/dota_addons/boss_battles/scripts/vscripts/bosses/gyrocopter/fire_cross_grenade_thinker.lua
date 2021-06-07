@@ -37,6 +37,11 @@ end
 function fire_cross_grenade_thinker:DetectPlayerTimer()
     if IsServer() then
         Timers:CreateTimer(self.start_delay, function()
+            if self:IsNull() == true then
+                self:OnDestroy()
+                return false
+            end
+
             if IsValidEntity(self:GetParent()) == false then
                 self:OnDestroy()
                 return false

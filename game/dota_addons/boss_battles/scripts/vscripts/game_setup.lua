@@ -363,7 +363,7 @@ function GameSetup:OnEntityKilled(keys)
         end
 
         -- handles encounter/boss dying
-        if npc:GetUnitName() == RAID_TABLES[BOSS_BATTLES_ENCOUNTER_COUNTER].boss then
+        if npc:GetUnitName() == RAID_TABLES[BOSS_BATTLES_ENCOUNTER_COUNTER].boss or npc:GetUnitName() == "npc_tinker" then
 
             self.bBossKilled = true
             RAID_TABLES[BOSS_BATTLES_ENCOUNTER_COUNTER].bossKilled = true
@@ -671,9 +671,9 @@ function GameSetup:HeroKilled( keys )
         self.respawn_time = BOSS_BATTLES_RESPAWN_TIME
 
         -- if in the beastmaster fight and the player dies to the bird (being dragged into the water) spawn them in the centre of the map
-        if BOSS_BATTLES_ENCOUNTER_COUNTER == 2 then
+        if BOSS_BATTLES_ENCOUNTER_COUNTER == 4 then
             --and EntIndexToHScript( keys.entindex_inflictor ):GetUnitName() == "fish_trigger"
-            killedHero:SetRespawnPosition( Entities:FindByName(nil, RAID_TABLES[2].spawnLocation):GetAbsOrigin() )
+            killedHero:SetRespawnPosition( Entities:FindByName(nil, RAID_TABLES[4].spawnLocation):GetAbsOrigin() )
         else
             killedHero:SetRespawnPosition( killedHeroOrigin )
         end
@@ -706,13 +706,11 @@ function GameSetup:EncounterCleanUp( origin )
     -- find all thinkers and destroy them (dota thinkers)
     local previous_result = nil
     local result = Entities:FindByClassname(nil, "npc_dota_thinker")
-    while result ~= nil do
+    local count = 0
+    while result ~= nil and count < 300 do
 
-        -- atm just hardcode the puddle string thinker later.. we will need a list fo these thinkers to reset..
-        local modifier = result:FindModifierByName("quillboar_puddle_modifier")
-        if modifier then
-            --print("modifier ",modifier:GetName())
-            modifier:Destroy()
+        if result then
+            result:ForceKill(false)
         end
 
         if previous_result == nil then
@@ -720,6 +718,8 @@ function GameSetup:EncounterCleanUp( origin )
         else
             result = Entities:FindByClassname(previous_result, "npc_dota_thinker")
         end
+
+        count = count + 1
     end
 
     --[[local trees = GridNav:GetAllTreesAroundPoint( origin, 9000, false )

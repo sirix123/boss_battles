@@ -87,6 +87,13 @@ function BeastmasterThink()
 	end
 
 	if ( not thisEntity:IsAlive() ) then
+		--[[for _, puddle in pairs(Beastmaster_Puddles_Locations) do
+			if puddle then
+				print("puddle")
+				--puddle:Destroy()
+				puddle:ForceKill(false)
+			end
+		end]]
 		return -1
 	end
 

@@ -134,7 +134,7 @@ function Commands:OnPlayerChat(keys)
 
                 if bossName == "beastmaster" then
                     print("TODO: start boss ", bossName)
-                    BOSS_BATTLES_ENCOUNTER_COUNTER = 2
+                    BOSS_BATTLES_ENCOUNTER_COUNTER = 4
                     --GameSetup:ReadyupCheck()
                     --self:StartBoss(2)
                 end
@@ -158,7 +158,7 @@ function Commands:OnPlayerChat(keys)
                 end
                 if bossName == "gyro" then
                     print("TODO: start boss ", bossName)
-                    BOSS_BATTLES_ENCOUNTER_COUNTER = 4
+                    BOSS_BATTLES_ENCOUNTER_COUNTER = 2
                     --GameSetup:ReadyupCheck()
                     --self:StartBoss(6)
                 end
@@ -172,7 +172,7 @@ function Commands:OnPlayerChat(keys)
 
         elseif PLAYERS_FIGHTING_BOSS == true then
             GameRules:SendCustomMessage("Commands cannot be used if you're in a boss fight.", 0, 0)
-        elseif NORMAL_MODE == false then
+        elseif NORMAL_MODE == true then
             GameRules:SendCustomMessage("Commands cannot be used if you're in Hardmode", 0, 0)
         elseif bGAME_COMPLETE == true then
             GameRules:SendCustomMessage("Commands cannot be used if you've killed the last boss.", 0, 0)
