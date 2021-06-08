@@ -4,6 +4,18 @@ LinkLuaModifier( "icefall_freeze_modifier", "player/icemage/modifiers/icefall_fr
 
 function e_icefall:OnAbilityPhaseStart()
     if IsServer() then
+
+        self.point = nil
+        --self.point = Clamp(self:GetCaster():GetOrigin(), Vector(self:GetCaster().mouse.x, self:GetCaster().mouse.y, self:GetCaster().mouse.z), self:GetCastRange(Vector(0,0,0), nil), 0)
+        self.point = Vector(self:GetCaster().mouse.x, self:GetCaster().mouse.y, self:GetCaster().mouse.z)
+
+        if ( (self:GetCaster():GetAbsOrigin() - self.point):Length2D() ) > self:GetCastRange(Vector(0,0,0), nil) then
+            local playerID = self:GetCaster():GetPlayerID()
+            local player = PlayerResource:GetPlayer(playerID)
+            CustomGameEventManager:Send_ServerToPlayer( player, "out_of_range", { } )
+            return false
+        end
+
         self:GetCaster():StartGestureWithPlaybackRate(ACT_DOTA_CAST_ABILITY_1, 1.0)
         -- add casting modifier
         self:GetCaster():AddNewModifier(self:GetCaster(), self, "casting_modifier_thinker",
@@ -39,18 +51,15 @@ function e_icefall:OnSpellStart()
 
     self.caster = self:GetCaster()
 
-    local point = nil
-    point = Clamp(self.caster:GetOrigin(), Vector(self.caster.mouse.x, self.caster.mouse.y, self.caster.mouse.z), self:GetCastRange(Vector(0,0,0), nil), 0)
-
     self.modifier = CreateModifierThinker(
         self.caster,
         self,
         "e_icefall_modifier_thinker",
         {
             duration = self:GetSpecialValueFor( "duration" ),
-            target_x = point.x,
-            target_y = point.y,
-            target_z = point.z,
+            target_x = self.point.x,
+            target_y = self.point.y,
+            target_z = self.point.z,
         },
         self.caster:GetOrigin(),
         self.caster:GetTeamNumber(),

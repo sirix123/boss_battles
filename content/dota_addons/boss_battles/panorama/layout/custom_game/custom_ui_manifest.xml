@@ -6,6 +6,7 @@
 		<include src="file://{resources}/scripts/custom_game/ui_modify.js" />
 		<include src="file://{resources}/scripts/custom_game/player_movement.js" />
 		<include src="file://{resources}/scripts/custom_game/commands.js" />
+		<include src="file://{resources}/scripts/custom_game/custom_hud_messages.js" />
 	</scripts>
 
 	<styles>

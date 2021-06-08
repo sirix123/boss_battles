@@ -4,6 +4,17 @@ LinkLuaModifier("r_delayed_aoe_heal_modifier", "player/queenofpain/modifiers/r_d
 function r_delayed_aoe_heal:OnAbilityPhaseStart()
     if IsServer() then
 
+        self.point = nil
+        --self.point = Clamp(self:GetCaster():GetOrigin(), Vector(self:GetCaster().mouse.x, self:GetCaster().mouse.y, self:GetCaster().mouse.z), self:GetCastRange(Vector(0,0,0), nil), 0)
+        self.point = Vector(self:GetCaster().mouse.x, self:GetCaster().mouse.y, self:GetCaster().mouse.z)
+
+        if ( (self:GetCaster():GetAbsOrigin() - self.point):Length2D() ) > self:GetCastRange(Vector(0,0,0), nil) then
+            local playerID = self:GetCaster():GetPlayerID()
+            local player = PlayerResource:GetPlayer(playerID)
+            CustomGameEventManager:Send_ServerToPlayer( player, "out_of_range", { } )
+            return false
+        end
+
         self:GetCaster():StartGestureWithPlaybackRate(ACT_DOTA_CAST_ABILITY_3, 1.0)
 
         return true
@@ -34,25 +45,22 @@ function r_delayed_aoe_heal:OnSpellStart()
         -- init
         self.caster = self:GetCaster()
 
-        local point = nil
-        point = Clamp(self.caster:GetOrigin(), Vector(self.caster.mouse.x, self.caster.mouse.y, self.caster.mouse.z), self:GetCastRange(Vector(0,0,0), nil), 0)
-
         self.modifier = CreateModifierThinker(
             self.caster,
             self,
             "r_delayed_aoe_heal_modifier",
             {
                 duration = self:GetSpecialValueFor( "duration" ),
-                target_x = point.x,
-                target_y = point.y,
-                target_z = point.z,
+                target_x = self.point.x,
+                target_y = self.point.y,
+                target_z = self.point.z,
             },
-            point,
+            self.point,
             self.caster:GetTeamNumber(),
             false
         )
 
-        EmitSoundOnLocationWithCaster(point, "Hero_Bloodseeker.BloodRite.Cast", self.caster)
+        EmitSoundOnLocationWithCaster(self.point, "Hero_Bloodseeker.BloodRite.Cast", self.caster)
 
 	end
 end

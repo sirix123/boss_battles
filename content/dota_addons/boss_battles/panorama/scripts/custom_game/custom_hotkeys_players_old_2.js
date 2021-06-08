@@ -1,5 +1,60 @@
 "use strict";
 
+//Globals:
+var nextAbility = null;
+var currentAbility = null;
+
+//Try to add to currentAbility or nextAbility, if both are taken then return false.
+function TryAddAbilityToQueue(abilityIndex)
+{
+    if (currentAbility === null) {
+        currentAbility = abilityIndex;
+        return true;
+    }
+    else if (nextAbility === null) {
+        nextAbility = abilityIndex;
+        return true;
+    }
+    return false;
+}
+
+function ForceAddAbilityToQueue(abilityIndex) {
+    //Either add this ability as the currentAbility, or force it to be the next ability
+
+    //$.Msg("we trtying to cast spells?")
+    
+    if (currentAbility === null) {
+        currentAbility = abilityIndex;
+        return;
+    }
+    nextAbility = abilityIndex;
+}
+
+//Call this function to start the ability queue. Ability queue
+function ProcessAbilityQueue()
+{
+    var delay = 0.08;
+    $.Schedule(delay, function abilityQueueTick(){
+        if (currentAbility != null) {
+            CastAbility(currentAbility);
+            currentAbility = null;
+        }
+        if (nextAbility != null) {
+            currentAbility = nextAbility;
+            nextAbility = null;
+        }   
+        // end of mini game loop. Restart this function. 
+        $.Schedule(delay, abilityQueueTick);
+    })
+}
+
+function CastAbility(currentAbility)
+{
+    //CAST IT:
+    AbilityToCast(currentAbility, true);
+}
+
+
 //soon to be Previous ability casting methods:
 function AbilityToCast(abilityNumber, showEffects){
     var playerId = Players.GetLocalPlayer();
@@ -23,22 +78,6 @@ function AbilityToCast(abilityNumber, showEffects){
         return
     }
 
-    //$.Msg("Abilities.GetAbilityName(abilityNumber ) ", Abilities.GetAbilityName(abilityIndex ))
-
-    if ( abilityNumber !== 0 ){
-        if (GameUI.IsMouseDown(0) ){
-            var order = 
-            {
-                OrderType : dotaunitorder_t.DOTA_UNIT_ORDER_STOP,
-                TargetIndex : playerHero,
-                Position : mouse_position,
-                QueueBehavior : OrderQueueBehavior_t.DOTA_ORDER_QUEUE_NEVER,
-                ShowEffects : showEffects,
-                AbilityIndex : abilityIndex,
-            };
-            Game.PrepareUnitOrders(order);
-        }
-    }
 
     //Abilities.ExecuteAbility( abilityIndex, playerHero, quickCast );
     if(!Abilities.IsInAbilityPhase(abilityIndex) && Abilities.IsActivated(abilityIndex))
@@ -60,7 +99,7 @@ function AbilityToCast(abilityNumber, showEffects){
                     OrderType : dotaunitorder_t.DOTA_UNIT_ORDER_CAST_POSITION,
                     TargetIndex : playerHero,
                     Position : mouse_position,
-                    QueueBehavior : OrderQueueBehavior_t.DOTA_ORDER_QUEUE_NEVER,
+                    QueueBehavior : OrderQueueBehavior_t.DOTA_ORDER_QUEUE_ALWAYS,
                     ShowEffects : showEffects,
                     AbilityIndex : abilityIndex,
                 };
@@ -182,6 +221,19 @@ function EmptyCallBack(){
 
 }
 
+function ExecuteAbilityNamed(abilityName) {
+    var heroIndex = Players.GetPlayerHeroEntityIndex(Players.GetLocalPlayer());
+    var ability = Entities.GetAbilityByName( heroIndex, abilityName);
+
+    if (!ability) {
+        $.Msg("custom_hotkeys_players.js cannot find abilityName = " + abilityName);
+    }
+    else {
+        $.Msg("custom_hotkeys_players.js found abilityName = " + abilityName) ;  
+    }
+    Abilities.ExecuteAbility( ability, heroIndex, true );
+}
+
 // ITEM CONTROLLER
 function UseItem(itemSlot)
 {
@@ -207,16 +259,16 @@ function UseItem(itemSlot)
 // MOUSE CONTROLLER
 function OnLeftButtonPressed()
 {
-    AbilityToCast(0);
+    TryAddAbilityToQueue(0);
 
     var playerEntity = Players.GetLocalPlayer();
 
     if ( Players.GetPlayerSelectedHero( playerEntity ) != "npc_dota_hero_lina" ){
         $.Schedule(0.3, function tic(){
             //only continue timer if mouse still down
-            if ( GameUI.IsMouseDown(0) )
+            if (GameUI.IsMouseDown(0))
             {
-                AbilityToCast(0);
+                TryAddAbilityToQueue(0);
                 $.Schedule(0.3, tic);
             }
         })
@@ -225,7 +277,7 @@ function OnLeftButtonPressed()
 
 function OnRightButtonPressed()
 {
-    AbilityToCast(1);
+    ForceAddAbilityToQueue(1);
 }
 
 
@@ -326,18 +378,20 @@ let hotkeys = [
 
     MouseInit()
 
+    ProcessAbilityQueue();
+
     for(var i in hotkeys) {
         $.Msg("hotkey = ", hotkeys[i])
         Game.CreateCustomKeyBind(hotkeys[i], "+" + hotkeys[i]);
     }
 
-    Game.AddCommand( "+Q", function(){ AbilityToCast(2) }, "", 0 );
+    Game.AddCommand( "+Q", function(){ ForceAddAbilityToQueue(2) }, "", 0 );
     Game.AddCommand( "-Q", EmptyCallBack, "", 0 );   
 
-    Game.AddCommand( "+E", function(){ AbilityToCast(3) }, "", 0 );
+    Game.AddCommand( "+E", function(){ ForceAddAbilityToQueue(3) }, "", 0 );
     Game.AddCommand( "-E", EmptyCallBack, "", 0 );   
 
-    Game.AddCommand( "+R", function(){ AbilityToCast(4) }, "", 0 );
+    Game.AddCommand( "+R", function(){ ForceAddAbilityToQueue(4) }, "", 0 );
     Game.AddCommand( "-R", EmptyCallBack, "", 0 );   
 
     Game.AddCommand( "+1", function(){ UseItem(0) }, "", 0 );

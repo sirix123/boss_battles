@@ -117,7 +117,7 @@
 		"AbilityTextureName"			"hoodwink_sharpshooter"
 		"AbilityUnitDamageType"			"DAMAGE_TYPE_PHYSICAL"	
 		"SpellImmunityType"				"SPELL_IMMUNITY_ENEMIES_YES"
-        "AbilityBehavior"				"DOTA_ABILITY_BEHAVIOR_POINT | DOTA_ABILITY_BEHAVIOR_AOE"
+        "AbilityBehavior"				"DOTA_ABILITY_BEHAVIOR_POINT" //| DOTA_ABILITY_BEHAVIOR_AOE
 		"AbilityCastRange" 				"1500"
         "AbilityCooldown"				"45"//"50"
         "AbilityCastPoint"              "0.2"
@@ -154,7 +154,7 @@
 		"AbilityTextureName"			"huskar_burning_spear"
 		"SpellImmunityType"				"SPELL_IMMUNITY_ENEMIES_YES"
 		"AbilityUnitDamageType"			"DAMAGE_TYPE_PHYSICAL"
-        "AbilityBehavior"				"DOTA_ABILITY_BEHAVIOR_POINT | DOTA_ABILITY_BEHAVIOR_AOE"
+        "AbilityBehavior"				"DOTA_ABILITY_BEHAVIOR_POINT" //| DOTA_ABILITY_BEHAVIOR_AOE
 		"AbilityCastRange" 				"3000"
         "AbilityCooldown"				"15"
         "AbilityCastPoint"              "0.2"

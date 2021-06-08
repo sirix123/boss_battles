@@ -16,7 +16,9 @@ function q_fire_bubble:OnAbilityPhaseStart()
             false)
 
         if units == nil or #units == 0 then
-            --FireGameEvent("dota_hud_error_message", { reason = 80, message = "Out of range or no target" })
+            local playerID = self:GetCaster():GetPlayerID()
+            local player = PlayerResource:GetPlayer(playerID)
+            CustomGameEventManager:Send_ServerToPlayer( player, "no_target", { } )
             return false
         else
 

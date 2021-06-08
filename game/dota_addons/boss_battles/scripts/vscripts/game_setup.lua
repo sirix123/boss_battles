@@ -363,7 +363,8 @@ function GameSetup:OnEntityKilled(keys)
         end
 
         -- handles encounter/boss dying
-        if npc:GetUnitName() == RAID_TABLES[BOSS_BATTLES_ENCOUNTER_COUNTER].boss or npc:GetUnitName() == "npc_tinker" then
+        --print("BOSS_BATTLES_ENCOUNTER_COUNTER ",BOSS_BATTLES_ENCOUNTER_COUNTER)
+        if npc:GetUnitName() == RAID_TABLES[BOSS_BATTLES_ENCOUNTER_COUNTER].boss then
 
             self.bBossKilled = true
             RAID_TABLES[BOSS_BATTLES_ENCOUNTER_COUNTER].bossKilled = true
@@ -436,7 +437,7 @@ function GameSetup:OnEntityKilled(keys)
                 end
             end
 
-            print("nBOSSES_KILLED: ",nBOSSES_KILLED)
+            --print("nBOSSES_KILLED: ",nBOSSES_KILLED)
 
             if nBOSSES_KILLED == 7 then --7
                 bGAME_COMPLETE = true

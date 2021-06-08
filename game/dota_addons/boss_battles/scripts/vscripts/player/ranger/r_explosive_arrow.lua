@@ -6,6 +6,17 @@ LinkLuaModifier( "r_explosive_arrow_thinker_indicator", "player/ranger/modifiers
 function r_explosive_arrow:OnAbilityPhaseStart()
     if IsServer() then
 
+		self.point = nil
+        --self.point = Clamp(self:GetCaster():GetOrigin(), Vector(self:GetCaster().mouse.x, self:GetCaster().mouse.y, self:GetCaster().mouse.z), self:GetCastRange(Vector(0,0,0), nil), 0)
+        self.point = Vector(self:GetCaster().mouse.x, self:GetCaster().mouse.y, self:GetCaster().mouse.z)
+
+        if ( (self:GetCaster():GetAbsOrigin() - self.point):Length2D() ) > self:GetCastRange(Vector(0,0,0), nil) then
+            local playerID = self:GetCaster():GetPlayerID()
+            local player = PlayerResource:GetPlayer(playerID)
+            CustomGameEventManager:Send_ServerToPlayer( player, "out_of_range", { } )
+            return false
+        end
+
         self:GetCaster():StartGestureWithPlaybackRate(ACT_DOTA_ATTACK, 0.8)
 
         -- add casting modifier
@@ -44,7 +55,6 @@ function r_explosive_arrow:OnSpellStart()
         self:GetCaster():FadeGesture(ACT_DOTA_ATTACK)
 
         local caster = self:GetCaster()
-		local point = Vector(caster.mouse.x, caster.mouse.y, caster.mouse.z)
 
 		caster:FindAbilityByName("m1_trackingshot"):SetActivated(false)
         caster:FindAbilityByName("m2_serratedarrow"):SetActivated(false)
@@ -62,8 +72,8 @@ function r_explosive_arrow:OnSpellStart()
             "r_explosive_arrow_modifier", -- modifier name
             {
                 duration = duration,
-                pos_x = point.x,
-                pos_y = point.y,
+                pos_x = self.point.x,
+                pos_y = self.point.y,
             } -- kv
         )
 
