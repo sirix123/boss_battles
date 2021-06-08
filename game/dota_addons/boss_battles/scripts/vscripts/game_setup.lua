@@ -396,7 +396,24 @@ function GameSetup:OnEntityKilled(keys)
                 end
             end
 
-            if isHeroAlive == true then
+            -- if the 6 bosses are killed send session data
+            for _, boss in pairs(RAID_TABLES) do
+                if boss.bossKilled == true then
+                    nBOSSES_KILLED = nBOSSES_KILLED + 1
+                end
+            end
+
+            --print("nBOSSES_KILLED: ",nBOSSES_KILLED)
+
+            if nBOSSES_KILLED == 7 then --7
+                bGAME_COMPLETE = true
+                SessionManager:SendSessionData()
+                EndGameScreenManager:OpenPostGameScreen()
+            else
+                nBOSSES_KILLED = 0
+            end
+
+            if isHeroAlive == true and bGAME_COMPLETE == false then
                 BOSS_BATTLES_ENCOUNTER_COUNTER = BOSS_BATTLES_ENCOUNTER_COUNTER + 1
             end
 
@@ -429,23 +446,6 @@ function GameSetup:OnEntityKilled(keys)
             --Scoreboard:DisplayScoreBoard(forceOpen)
             local data = SessionManager:GetAttemptData()
             CustomGameEventManager:Send_ServerToAllClients( "sendScoreboardData", data )
-
-            -- if the 6 bosses are killed send session data
-            for _, boss in pairs(RAID_TABLES) do
-                if boss.bossKilled == true then
-                    nBOSSES_KILLED = nBOSSES_KILLED + 1
-                end
-            end
-
-            --print("nBOSSES_KILLED: ",nBOSSES_KILLED)
-
-            if nBOSSES_KILLED == 7 then --7
-                bGAME_COMPLETE = true
-                SessionManager:SendSessionData()
-                EndGameScreenManager:OpenPostGameScreen()
-            else
-                nBOSSES_KILLED = 0
-            end
 
         end
     end
