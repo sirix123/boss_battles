@@ -214,6 +214,8 @@ end
 
 function CastGreenBeam(  )
 
+    
+
     ExecuteOrderFromTable({
         UnitIndex = thisEntity:entindex(),
         OrderType = DOTA_UNIT_ORDER_CAST_NO_TARGET,

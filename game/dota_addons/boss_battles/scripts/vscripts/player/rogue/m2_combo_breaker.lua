@@ -95,7 +95,7 @@ function m2_combo_breaker:OnSpellStart()
                 bleedTickDmg = m1_bleed_tick + ( m1_bleed_tick * env_bonus )
             end
 
-            local dmgPop = ( flBuffDuration * bleedTickDmg ) / self:GetSpecialValueFor("bleed_pop_dmg_reduction")
+            local dmgPop = ( flBuffDuration * bleedTickDmg ) --/ self:GetSpecialValueFor("bleed_pop_dmg_reduction")
             damage = damage + dmgPop
             enemy:RemoveModifierByName("m2_combo_hit_3_bleed")
         end
@@ -109,7 +109,7 @@ function m2_combo_breaker:OnSpellStart()
                 bleedTickDmg = rupture_bleed_tick + ( rupture_bleed_tick * env_bonus )
             end
 
-            local dmgPop = ( flBuffDuration * bleedTickDmg ) / self:GetSpecialValueFor("bleed_pop_dmg_reduction")
+            local dmgPop = ( flBuffDuration * bleedTickDmg ) --/ self:GetSpecialValueFor("bleed_pop_dmg_reduction")
             damage = damage + dmgPop
 
             enemy:RemoveModifierByName("r_rupture_modifier")

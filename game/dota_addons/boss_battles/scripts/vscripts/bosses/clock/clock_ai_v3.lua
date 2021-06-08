@@ -58,7 +58,7 @@ function Spawn( entityKeyValues )
 
 	thisEntity.t_activated_furnaces = {thisEntity.furnace_1_unit, thisEntity.furnace_2_unit, thisEntity.furnace_3_unit, thisEntity.furnace_4_unit}
 
-	thisEntity.cool_down_between_furnaces = 35
+	thisEntity.cool_down_between_furnaces = 20
 
 	-- spawn arrows in furnace location
 	thisEntity.spawn_arrows = true
@@ -689,7 +689,7 @@ function CheckFurnace()
 
 	-- check if furnace count is increasing every 2mins
 	-- 120
-	Timers:CreateTimer(60,function()
+	Timers:CreateTimer(40,function()
 		if IsValidEntity(thisEntity) == false then return false end
 		if ( not thisEntity:IsAlive() ) then
 			thisEntity.i = 0
@@ -764,9 +764,9 @@ function CheckFurnace()
 				thisEntity:AddNewModifier( nil, nil, "enrage", { duration = -1 } )
 			end)
 
-			return 80
+			return 75
 		else
-			return 80
+			return 75
 		end
 
 	end)

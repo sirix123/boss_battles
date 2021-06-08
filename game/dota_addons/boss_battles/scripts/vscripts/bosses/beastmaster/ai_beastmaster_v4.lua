@@ -319,7 +319,7 @@ function PoisonSpellRootChecker()
 			thisEntity:RemoveModifierByName("modifier_rooted")
 		end
 
-		return thisEntity.puddle_projectile_spell:GetChannelTime() + 5
+		return thisEntity.puddle_projectile_spell:GetChannelTime() + 4
 	end)
 end
 

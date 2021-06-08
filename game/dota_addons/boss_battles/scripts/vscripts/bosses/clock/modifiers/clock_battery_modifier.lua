@@ -14,7 +14,7 @@ function clock_battery_modifier:OnCreated()
 
 	if not IsServer() then return end
 
-	self.damage				= 70
+	self.damage				= 40
 
 	self:GetParent():EmitSound("Hero_Rattletrap.Battery_Assault")
 

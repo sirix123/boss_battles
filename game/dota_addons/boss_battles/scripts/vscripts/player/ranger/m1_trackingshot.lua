@@ -86,7 +86,7 @@ function m1_trackingshot:OnSpellStart()
 
                     if self.caster:HasModifier("e_whirling_winds_modifier") then
                         distanceFromHero = self:GetCastRange(Vector(0,0,0), nil)
-                        dmg = ( dmg + ( distanceFromHero * dmg_dist_multi ) ) * 0.9
+                        dmg = dmg + ( distanceFromHero * dmg_dist_multi )
                     else
                         dmg = dmg + ( distanceFromHero * dmg_dist_multi )
                     end

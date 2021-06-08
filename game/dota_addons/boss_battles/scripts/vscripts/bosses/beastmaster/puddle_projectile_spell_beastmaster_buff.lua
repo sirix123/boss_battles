@@ -18,6 +18,7 @@ function puddle_projectile_spell_beastmaster_buff:OnCreated( kv )
         self.parent = self:GetParent()
         self.caster = self:GetCaster()
         self:IncrementStackCount()
+        local digitX = nil
 
         -- increase stacks above his head
         local stacks = self:GetStackCount()
@@ -27,9 +28,17 @@ function puddle_projectile_spell_beastmaster_buff:OnCreated( kv )
         --local digitX = thisEntity.count >= 10 and 1 or 0
         if stacks >= 10 and stacks < 20 then
             digitX = 1
-        elseif stacks >= 20 then
+        elseif stacks >= 20 and stacks < 30 then
             digitX = 2
-        else 
+        elseif stacks >= 30 and stacks < 40 then
+            digitX = 3
+        elseif stacks >= 40 and stacks < 50 then
+            digitX = 4
+        elseif stacks >= 50 and stacks < 60 then
+            digitX = 5
+        elseif stacks >= 60 and stacks < 70 then
+            digitX = 6
+        else
             digitX = 0
         end
 

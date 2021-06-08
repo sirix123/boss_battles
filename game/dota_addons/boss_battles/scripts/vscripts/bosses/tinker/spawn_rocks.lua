@@ -40,11 +40,20 @@ function spawn_rocks:OnSpellStart()
             end_pos_direction = point:Normalized()
 
             -- calculate the rock spots along the line
+            local rock_not_spawn_count = 0
             for i = 1, fit_rocks, 1 do
                 local offset = i * rock_size
-                local vRock = Vector( caster:GetAbsOrigin().x + ( offset * end_pos_direction.x ), caster:GetAbsOrigin().y + ( offset * end_pos_direction.y ), 132)
-                --DebugDrawCircle(vRock, Vector(0,155,0),128,50,true,60)
-                table.insert(tRocks, vRock)
+
+                local random_generate_rock = RandomInt(1,4)
+                if random_generate_rock > 2 or rock_not_spawn_count > 3 then
+                    rock_not_spawn_count = 0
+                    local vRock = Vector( caster:GetAbsOrigin().x + ( offset * end_pos_direction.x ), caster:GetAbsOrigin().y + ( offset * end_pos_direction.y ), 132)
+                    --DebugDrawCircle(vRock, Vector(0,155,0),128,50,true,60)
+                    table.insert(tRocks, vRock)
+                else
+                    -- rock not created
+                    rock_not_spawn_count = rock_not_spawn_count + 1
+                end
             end
 
             table.insert(cRocks,tRocks)
@@ -52,7 +61,7 @@ function spawn_rocks:OnSpellStart()
             --DebugDrawLine_vCol(caster:GetAbsOrigin(), caster:GetAbsOrigin() + ( end_pos_direction * beam_length ) , Vector(255,0,0), true, 8)
         end
 
-        -- remove random amount of rocks
+        --[[ remove random amount of rocks
         for _, v in ipairs(cRocks) do
 
             --print("k ",k,"v ",v)
@@ -65,7 +74,7 @@ function spawn_rocks:OnSpellStart()
                 v[i] = nil
                 remove_rocks = remove_rocks - 1
             end
-        end
+        end]]
 
         -- encase this in a timer... (spawning the rocks, then before this comment rumble the ground) this is wrok around... 
         -- kill the player if they stand on the rocks spawning...

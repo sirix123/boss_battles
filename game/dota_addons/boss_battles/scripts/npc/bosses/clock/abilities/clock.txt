@@ -67,7 +67,7 @@
         // Casting
         //-------------------------------------------------------------------------------------------------------------
         "AbilityCastPoint"              "1.5 1.5 1.5 1.5"
-        "AbilityCooldown"               "30 20 15 15"
+        "AbilityCooldown"               "30 25 23 22"
         "AbilityManaCost"               "0"
         "AbilityCastRange" 				"9000"
 
@@ -146,7 +146,7 @@
         // Casting
         //-------------------------------------------------------------------------------------------------------------
         "AbilityCastPoint"              "0.0 0.0 0.0 0.0"
-        "AbilityCooldown"               "40 40 30 25"
+        "AbilityCooldown"               "40 40 30 30"
         "AbilityManaCost"               "0"
         "AbilityCastRange" 				"9000"
 
@@ -155,11 +155,11 @@
 		"AbilitySpecial"
 		{
             "01"{ "var_type"			"FIELD_FLOAT"		"cloud_spawn_interval"		            "0.5 0.5 0.5 0.5" }
-            "02"{ "var_type"			"FIELD_INTEGER"		"duration_cloud"		                "60 60 50 50" }
+            "02"{ "var_type"			"FIELD_INTEGER"		"duration_cloud"		                "40 40 50 50" }
             "03"{ "var_type"			"FIELD_INTEGER"		"radius"		                        "150 150 150 150" }
             "04"{ "var_type"			"FIELD_INTEGER"		"dmg"		                            "100 100 100 100" }
             "05"{ "var_type"			"FIELD_INTEGER"		"dmg_interval"		                    "1 1 1 1" }
-            "06"{ "var_type"			"FIELD_INTEGER"		"duration_debuff"		                "8 8 10 12" }
+            "06"{ "var_type"			"FIELD_INTEGER"		"duration_debuff"		                "7 8 9 10" }
 		}
 
         "precache"
@@ -305,11 +305,11 @@
 
         // General
         //-------------------------------------------------------------------------------------------------------------
-        "AbilityBehavior"               "DOTA_ABILITY_BEHAVIOR_NO_TARGET"
+        "AbilityBehavior"               "DOTA_ABILITY_BEHAVIOR_NO_TARGET | DOTA_ABILITY_BEHAVIOR_IMMEDIATE | DOTA_ABILITY_BEHAVIOR_IGNORE_BACKSWING"
         "AbilityUnitDamageType"         "DAMAGE_TYPE_PHYSICAL" 
         "MaxLevel"						"4"
         "AbilityCastRange" 				"10000"
-        "AbilityCooldown"				"45 45 45 45"
+        "AbilityCooldown"				"35 30 35 40"
         "AbilityCastPoint"              "0"
         "AbilityManaCost"               "0"
 
@@ -317,7 +317,7 @@
         //-------------------------------------------------------------------------------------------------------------
 		"AbilitySpecial"
 		{
-            "01"{ "var_type"			"FIELD_INTEGER"		"number_of_turrets_to_spawn"		"1 1 1 2" }
+            "01"{ "var_type"			"FIELD_INTEGER"		"number_of_turrets_to_spawn"		"2 1 1 1" }
 		}
 
 		"precache"
@@ -375,11 +375,11 @@
 
         // General
         //-------------------------------------------------------------------------------------------------------------
-        "AbilityBehavior"               "DOTA_ABILITY_BEHAVIOR_NO_TARGET"
+        "AbilityBehavior"               "DOTA_ABILITY_BEHAVIOR_NO_TARGET | DOTA_ABILITY_BEHAVIOR_IMMEDIATE | DOTA_ABILITY_BEHAVIOR_IGNORE_BACKSWING"
         "AbilityUnitDamageType"         "DAMAGE_TYPE_PHYSICAL" 
         "MaxLevel"						"4"
         "AbilityCastRange" 				"10000"
-        "AbilityCooldown"				"45 40 35 30"
+        "AbilityCooldown"				"30 35 35 35"
         "AbilityCastPoint"              "0"
         "AbilityManaCost"               "0"
 
@@ -387,7 +387,7 @@
         //-------------------------------------------------------------------------------------------------------------
 		"AbilitySpecial"
 		{
-            "01"{ "var_type"			"FIELD_INTEGER"		"number_of_turrets_to_spawn"		    "2 3 3 4" }
+            "01"{ "var_type"			"FIELD_INTEGER"		"number_of_turrets_to_spawn"		    "3 3 4 4" }
             "02"{ "var_type"			"FIELD_INTEGER"		"delay_between_turrets_spawning"		"1" } //obvs need more than one turret to spawn for this
 		}
 
@@ -551,11 +551,11 @@
         //-------------------------------------------------------------------------------------------------------------
 		"AbilitySpecial"
 		{
-            "01"{ "var_type"			"FIELD_INTEGER"		"totalTicks"		           "30 30 30 30" }
+            "01"{ "var_type"			"FIELD_INTEGER"		"totalTicks"		           "25 25 25 25" }
             "02"{ "var_type"			"FIELD_FLOAT"		"timerInterval"		           "1 0.7 0.6 0.5" }
             "03"{ "var_type"			"FIELD_INTEGER"		"nCogs"		                   "8 16 24 24" }
             "04"{ "var_type"			"FIELD_INTEGER"		"min_rand"		               "8 8 15 20" }
-            "05"{ "var_type"			"FIELD_INTEGER"		"max_rand"		               "19 19 25 30" }
+            "05"{ "var_type"			"FIELD_INTEGER"		"max_rand"		               "19 19 25 25" }
 		}
 
         "precache"
@@ -580,7 +580,7 @@
 
         // Casting
         //-------------------------------------------------------------------------------------------------------------
-        "AbilityCastPoint"              "2.0 1.5 1.0 0.5"
+        "AbilityCastPoint"              "2.0 1.5 1.5 1.0"
         "AbilityCooldown"               "30 25 20 18"
         "AbilityManaCost"               "0"
         "AbilityCastRange" 				"5000"
