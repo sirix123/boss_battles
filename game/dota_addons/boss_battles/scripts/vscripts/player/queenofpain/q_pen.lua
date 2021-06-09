@@ -123,7 +123,7 @@ function q_pen:OnProjectileHit( hTarget, vLocation)
     if IsServer() then
         if hTarget == nil then return end
 
-        self.caster:Heal(self.heal_amount, self.caster)
+        --self.caster:Heal(self.heal_amount, self.caster)
 
         if hTarget:GetTeam() == DOTA_TEAM_GOODGUYS then
 

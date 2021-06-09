@@ -40,8 +40,6 @@ function GameSetup:init()
     -- init dc manager
     disconnect_manager:Init()
 
-    self.all_players_dead = false
-
     --listen to game state event
     -- events here: https://developer.valvesoftware.com/wiki/Dota_2_Workshop_Tools/Scripting/Built-In_Engine_Events
     ListenToGameEvent("game_rules_state_change", Dynamic_Wrap(self, "OnStateChange"), self) -- valve engine event
@@ -83,6 +81,9 @@ function GameSetup:OnStateChange()
             if PLAYERS_HANDSHAKE_READY == PlayerResource:GetPlayerCount() then
                 ModeSelector:Start()
                 HeroSelection:Start()
+
+                -- register the raid wipe timer
+                self:RegisterRaidWipe()
 
                 -- spawn testing stuff
                 intermission_manager:SpawnTestingStuff()
@@ -249,7 +250,7 @@ function GameSetup:OnNPCSpawned(keys)
         --print("on spanwed lives ", npc.playerLives )
 
         if IsInToolsMode() == true then
-            npc:AddNewModifier( npc,  nil, "admin_god_mode", { } )
+            --npc:AddNewModifier( npc,  nil, "admin_god_mode", { } )
         end
 
         -- level up abilities for all heroes to level 1
@@ -267,67 +268,77 @@ end
 --------------------------------------------------------------------------------------------------
 
 function GameSetup:RegisterRaidWipe( )
-    if self.bSessionManager_wipe == true then
-        self.bSessionManager_wipe = false
-        self.bBossKilled = false
-        nBOSS_HP_ATTEMPT = self.boss:GetHealthPercent()
-        SessionManager:StopRecordingAttempt( self.bBossKilled )
+    Timers:CreateTimer(function()
 
-        nATTEMPT_TRACKER = nATTEMPT_TRACKER + 1
+        --print("#HERO_LIST ",#HERO_LIST)
+        if #HERO_LIST > 0 then
+            if #self.player_deaths == #HERO_LIST then
+                --print("RegisterRaidWipe ", RAID_TABLES[BOSS_BATTLES_ENCOUNTER_COUNTER].name)
 
-        Timers:CreateTimer(8.0, function()
+                if self.bSessionManager_wipe == true then
+                    self.bSessionManager_wipe = false
+                    self.bBossKilled = false
+                    nBOSS_HP_ATTEMPT = self.boss:GetHealthPercent()
+                    SessionManager:StopRecordingAttempt( self.bBossKilled )
 
-            -- revive and move dead heroes
-            for _, killedHero in pairs(self.player_deaths) do
-                killedHero:SetRespawnPosition( BOSS_BATTLES_INTERMISSION_SPAWN_LOCATION )
-                self.respawn_time = BOSS_BATTLES_RESPAWN_TIME
-                killedHero:SetTimeUntilRespawn(self.respawn_time)
+                    nATTEMPT_TRACKER = nATTEMPT_TRACKER + 1
 
-                -- depending on the mode... figure out the lives players should have and what encounter they will do next
-                if STORY_MODE == true then -- infinte lives and stay on wiped encounter
-                    killedHero.playerLives = BOSS_BATTLES_PLAYER_LIVES
+                    Timers:CreateTimer(8.0, function()
 
-                elseif NORMAL_MODE == true or HARD_MODE == true then -- 3 lives total
-                    killedHero.playerLives = BOSS_BATTLES_PLAYER_LIVES
-                    self.previous_encounter = BOSS_BATTLES_ENCOUNTER_COUNTER
-                    BOSS_BATTLES_ENCOUNTER_COUNTER = 2
+                        -- revive and move dead heroes
+                        for _, killedHero in pairs(self.player_deaths) do
+                            killedHero:SetRespawnPosition( BOSS_BATTLES_INTERMISSION_SPAWN_LOCATION )
+                            self.respawn_time = BOSS_BATTLES_RESPAWN_TIME
+                            killedHero:SetTimeUntilRespawn(self.respawn_time)
 
-                elseif DEBUG_MODE == true then -- not sure yet
+                            -- depending on the mode... figure out the lives players should have and what encounter they will do next
+                            if STORY_MODE == true then -- infinte lives and stay on wiped encounter
+                                killedHero.playerLives = BOSS_BATTLES_PLAYER_LIVES
 
+                            elseif NORMAL_MODE == true or HARD_MODE == true then -- 3 lives total
+                                killedHero.playerLives = BOSS_BATTLES_PLAYER_LIVES
+                                self.previous_encounter = BOSS_BATTLES_ENCOUNTER_COUNTER
+                                BOSS_BATTLES_ENCOUNTER_COUNTER = 2
+
+                            elseif DEBUG_MODE == true then -- not sure yet
+
+                            end
+
+                            -- remove items from their inventory (items used in techies fight atm)
+                            for i=0,8 do
+                                local item = killedHero:GetItemInSlot(i)
+                                if item ~= nil then -- add item name here if we just want to remove specific items
+                                    item:RemoveSelf()
+                                end
+                            end
+
+                        end
+
+                        -- call boss cleanup function
+                        if STORY_MODE == true then
+                            self:EncounterCleanUp( Entities:FindByName(nil, RAID_TABLES[BOSS_BATTLES_ENCOUNTER_COUNTER].arena):GetAbsOrigin() )
+                        elseif NORMAL_MODE == true or HARD_MODE == true then
+                            self:EncounterCleanUp( Entities:FindByName(nil, RAID_TABLES[self.previous_encounter].arena):GetAbsOrigin() )
+                        end
+
+                        -- reset death counter
+                        self.player_deaths = {}
+
+                        -- dispaly scoreboard
+                        --Scoreboard:DisplayScoreBoard(true)
+                        local data = SessionManager:GetAttemptData()
+                        CustomGameEventManager:Send_ServerToAllClients( "sendScoreboardData", data )
+
+                        return false
+
+                    end)
                 end
-
-                -- remove items from their inventory (items used in techies fight atm)
-                for i=0,8 do
-                    local item = killedHero:GetItemInSlot(i)
-                    if item ~= nil then -- add item name here if we just want to remove specific items
-                        item:RemoveSelf()
-                    end
-                end
-
             end
 
-            -- call boss cleanup function
-            if STORY_MODE == true then
-                self:EncounterCleanUp( Entities:FindByName(nil, RAID_TABLES[BOSS_BATTLES_ENCOUNTER_COUNTER].arena):GetAbsOrigin() )
-            elseif NORMAL_MODE == true or HARD_MODE == true then
-                self:EncounterCleanUp( Entities:FindByName(nil, RAID_TABLES[self.previous_encounter].arena):GetAbsOrigin() )
-            end
-
-            -- reset death counter
-            self.player_deaths = {}
-
-            self.all_players_dead = false
-
-            -- dispaly scoreboard
-            --Scoreboard:DisplayScoreBoard(true)
-            local data = SessionManager:GetAttemptData()
-            CustomGameEventManager:Send_ServerToAllClients( "sendScoreboardData", data )
-
-            return false
-
-        end)
-    end
-
+            return 0.5
+        end
+        return 0.5
+    end)
 end
 
 --------------------------------------------------------------------------------------------------
@@ -521,7 +532,7 @@ function GameSetup:ReadyupCheck() -- called from trigger lua file for activators
     self.boss_arena_name     = RAID_TABLES[BOSS_BATTLES_ENCOUNTER_COUNTER].spawnLocation
     self.player_arena_name   = RAID_TABLES[BOSS_BATTLES_ENCOUNTER_COUNTER].arena
 
-    --self:EncounterCleanUp( Entities:FindByName(nil, self.boss_arena_name):GetAbsOrigin() )
+    self:EncounterCleanUp( Entities:FindByName(nil, self.boss_arena_name):GetAbsOrigin() )
 
     PLAYERS_FIGHTING_BOSS = true
 
@@ -649,6 +660,7 @@ function GameSetup:HeroKilled( keys )
         end
     end
 
+
     killedHero.playerLives = killedHero.playerLives - 1
     killedHero.playerDeaths = killedHero.playerDeaths + 1
 
@@ -675,18 +687,7 @@ function GameSetup:HeroKilled( keys )
 
     killedHero:SetTimeUntilRespawn(self.respawn_time)
 
-    for _, hero in pairs(HERO_LIST) do
-        if hero.playerLives == 0 then
-            self.players_killed = self.players_killed + 1
-        end
-    end
-
-    if self.players_killed == #HERO_LIST and self.all_players_dead == false then
-        self.all_players_dead = true
-        self:RegisterRaidWipe()
-    else
-        self.players_killed = 0
-    end
+    
 
 end
 --------------------------------------------------------------------------------------------------

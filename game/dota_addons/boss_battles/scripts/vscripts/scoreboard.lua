@@ -151,6 +151,7 @@ function Scoreboard:StoreDamageDone(keys)
                     for _, targetData in pairs(hero.dmgDetails) do
                         if targetData.target_name == EntIndexToHScript(keys.entindex_killed):GetUnitName() == true then
                             self.target_exists = true
+                            break
                         end
                     end
 
@@ -163,6 +164,7 @@ function Scoreboard:StoreDamageDone(keys)
                                     if abilityData.spell_name == EntIndexToHScript(keys.entindex_inflictor):GetName() == true then
                                         self.spell_exists = true
                                         abilityData.damage = Round(abilityData.damage + keys.damage)
+                                        break
                                     end
                                 end
 
@@ -228,6 +230,7 @@ function Scoreboard:StoreDamageDone(keys)
                     for _, targetData in pairs(hero.dmgTakenDetails) do
                         if targetData.attacker == EntIndexToHScript(keys.entindex_attacker):GetUnitName() == true then
                             self.target_exists = true
+                            break
                         end
                     end
 
@@ -240,6 +243,7 @@ function Scoreboard:StoreDamageDone(keys)
                                     if abilityData.spell_name == self.inflictor == true then
                                         self.spell_exists = true
                                         abilityData.damage = Round(abilityData.damage + keys.damage)
+                                        break
                                     end
                                 end
 

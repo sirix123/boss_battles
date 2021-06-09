@@ -11,7 +11,7 @@ function m1_beam:OnAbilityPhaseStart()
         if self.pfx then
             ParticleManager:DestroyParticle(self.pfx,true)
         end
-        
+
         self:GetCaster():FindAbilityByName("m2_meteor"):SetActivated(false)
         self:GetCaster():FindAbilityByName("q_fire_bubble"):SetActivated(false)
         self:GetCaster():FindAbilityByName("r_remnant"):SetActivated(false)

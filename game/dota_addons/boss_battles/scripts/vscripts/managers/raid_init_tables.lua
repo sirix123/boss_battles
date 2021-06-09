@@ -37,7 +37,7 @@ tRAID_INIT_TABLE = {
 	},
 
 	[3] = {
-		name = "Timber",
+		name = "Timbersaw",
 		description = "MANY ANIMALS",
 		arena = "timber_player_spawn",
 		spawnLocation = "timber_boss_spawn",
@@ -64,7 +64,7 @@ tRAID_INIT_TABLE = {
 	},
 
 	[6] = {
-		name = "Clock",
+		name = "Clockwerk",
 		description = "MANY ANIMALS",
 		arena = "clock_player_spawn",
 		spawnLocation = "clock_boss_spawn",

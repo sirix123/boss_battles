@@ -461,7 +461,7 @@ function FindFurthestPlayer()
 		false )
 
 	if #enemies ~= 0 and enemies ~= nil then
-		return enemies[#enemies]
+		return 	enemies[RandomInt(1,#enemies)]			--enemies[#enemies]
 	else
 		return nil
 	end

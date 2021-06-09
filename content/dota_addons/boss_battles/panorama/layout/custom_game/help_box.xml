@@ -34,8 +34,11 @@
                     <Panel id="HelpButtonToolTipMenuItem_1" class="HelpButtonToolTipMenuItem">
                         <Label id="HelpButtonToolTipMenuText_1" class="HelpButtonToolTipMenuText" text="Type !reset if your hero is automatically moving in a direction." />
                     </Panel>
+                    <Panel id="HelpButtonToolTipMenuItem_6" class="HelpButtonToolTipMenuItem">
+                        <Label id="HelpButtonToolTipMenuText_6" class="HelpButtonToolTipMenuText" text="How casting works. If you hold M1 down and cast other spells, the other spells will override M1 and cast then your hero will return to casting M1 if you kept the button held down. All spells are smart cast." />
+                    </Panel>
                     <Panel id="HelpButtonToolTipMenuItem_2" class="HelpButtonToolTipMenuItem">
-                        <Label id="HelpButtonToolTipMenuText_2" class="HelpButtonToolTipMenuText" text="If you're in Normal mode type !start boss beastmaster to change bosses the next time you stand on the ready up area (beastmaster, timber, gyro, techies, clock, tinker)."/>
+                        <Label id="HelpButtonToolTipMenuText_2" class="HelpButtonToolTipMenuText" text="If you're in Normal mode type !start boss Beastmaster to change bosses the next time you stand on the ready up area (Gyrocopter, Timbersaw, Beastmaster, Techies, Clockwerk, Tinker)."/>
                     </Panel>
                     <Panel id="HelpButtonToolTipMenuItem_3" class="HelpButtonToolTipMenuItem">
                         <Label id="HelpButtonToolTipMenuText_3" class="HelpButtonToolTipMenuText" text="If you complete all of the bosses your game session will be uploaded to the Leaderboard."/>

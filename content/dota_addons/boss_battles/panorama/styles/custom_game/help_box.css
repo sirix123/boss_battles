@@ -15,8 +15,8 @@
 
 #HelpPanel
 {
-    width: 500px;
-    height: 500px;
+    width: 600px;
+    height: 800px;
 }
 
 #HelpButton
@@ -30,8 +30,8 @@
 
 #HelpToolTip
 {
-    width: 500px;
-    height: 700px;
+    width: 600px;
+    height: 800px;
     horizontal-align: left;
     vertical-align: bottom;
 }
@@ -127,7 +127,7 @@
 
 .HelpButtonToolTipMenuItem{
     width: 100%;
-    height: 18%;
+    height: 13%;
     horizontal-align: center;
 	vertical-align: top;
     margin-left: 20px;
