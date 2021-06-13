@@ -30,9 +30,9 @@
                   	<Label text="Heroes" class="header_bossFight_heading_text" id="header_bossFight_heading_text"/>
 				</Panel>
 
-				<!-- LIVES -->
+				<!-- DEATHS -->
 				<Panel id="header_bossFight_lives_container" class="header_container_small">
-                  	<Label text="L" class="header_bossFight_heading_text" id="header_bossFight_heading_text"/>
+                  	<Label text="D" class="header_bossFight_heading_text" id="header_bossFight_heading_text"/>
 				</Panel>
 
 				<!-- BOSS1 -->
