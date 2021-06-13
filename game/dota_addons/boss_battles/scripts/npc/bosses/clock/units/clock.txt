@@ -30,6 +30,8 @@
 		"Ability8"					"cogs"			// Ability 7
 		"Ability9"					"fire_missile"			// Ability 7
 		"Ability10"					"choking_gas"			// Ability 7
+		"Ability11"					"fire_missile_tracking"			// Ability 7
+		
 		
 		// Armor
 		//----------------------------------------------------------------

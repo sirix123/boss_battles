@@ -28,10 +28,10 @@ function bear_bloodlust_modifier:OnCreated( kv )
 	self.bloodlust_speed = kv.ms_bonus
 	self.bloodlust_as_speed = kv.as_bonus
 	self.bloodlust_damage_bonus = kv.damage_bonus
-	self.bloodlust_status_res_per_stack = 2.5
+	--self.bloodlust_status_res_per_stack = 2.5
 
 	if IsServer() then
-		self.bloodlust_status_res_per_stack = 2.5
+		--self.bloodlust_status_res_per_stack = 2.5
 	end
 
 	--print("self:GetStackCount() ",self:GetStackCount())
@@ -70,6 +70,12 @@ function bear_bloodlust_modifier:OnStackCountChanged( param )
         if self.effect ~= nil and param < 20 then
             ParticleManager:DestroyParticle(self.effect, true)
         end
+
+		if param < 10 then
+			self.bloodlust_status_res_per_stack = 2.5
+		elseif param > 10 then
+			self.bloodlust_status_res_per_stack = 10
+		end
 
 		if param < 20 and param ~= nil then
 			param = self:GetStackCount() + 1
@@ -135,7 +141,7 @@ end
 
 function bear_bloodlust_modifier:GetModifierModelScale()
 	if self:GetStackCount() ~= nil then
-		return 2.6 * self:GetStackCount()
+		return 2.8 * self:GetStackCount()
 	end
 end
 

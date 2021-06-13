@@ -18,16 +18,48 @@ function vortex_grenade_thinker:OnCreated( kv )
         self.parent = self:GetParent()
         self.caster = self:GetCaster()
 
+        self.interval = 0.01
+        self.starting_size = 300
+        self.end_size = 900
+        self.current_size = self.starting_size
+        self.max_size_reached = false
+        self.end_timer = false
+
         self.vLocation = Vector(kv.target_x,kv.target_y,kv.target_z)
 
-        local particle = ParticleManager:CreateParticle("particles/units/heroes/hero_rubick/rubick_faceless_void_chronosphere.vpcf", PATTACH_WORLDORIGIN, self.parent)
-		ParticleManager:SetParticleControl(particle, 0, self.vLocation)
-		ParticleManager:SetParticleControl(particle, 1, Vector(500, 500, 500))
-        self:AddParticle(particle, false, false, -1, false, false)
+        self.particle = ParticleManager:CreateParticle("particles/clock/clock_v2_rubick_faceless_void_chronosphere.vpcf", PATTACH_WORLDORIGIN, self.parent)
+		ParticleManager:SetParticleControl(self.particle, 0, self.vLocation)
+		ParticleManager:SetParticleControl(self.particle, 1, Vector(self.starting_size, self.starting_size, self.starting_size))
+        --self:AddParticle(self.particle, false, false, -1, false, false)
 
         EmitSoundOn( "Hero_FacelessVoid.Chronosphere", self.parent )
 
-        self:StartIntervalThink(0.01)
+        self:StartIntervalThink(self.interval)
+
+        Timers:CreateTimer(1,function()
+            if self.end_timer == true then return false end
+
+            if self.particle and self.max_size_reached == false then
+                ParticleManager:DestroyParticle(self.particle,true)
+            end
+
+            if self.current_size <= self.end_size then
+
+                self.current_size = ( self.current_size / 4 ) + self.current_size
+
+                self.particle = ParticleManager:CreateParticle("particles/clock/clock_v2_rubick_faceless_void_chronosphere.vpcf", PATTACH_WORLDORIGIN, self.parent)
+                ParticleManager:SetParticleControl(self.particle, 0, self.vLocation)
+                ParticleManager:SetParticleControl(self.particle, 1, Vector(self.current_size, self.current_size, self.current_size))
+
+            elseif self.current_size >= self.end_size and self.max_size_reached == false then
+                self.max_size_reached = true
+                self.particle = ParticleManager:CreateParticle("particles/clock/clock_v2_rubick_faceless_void_chronosphere.vpcf", PATTACH_WORLDORIGIN, self.parent)
+                ParticleManager:SetParticleControl(self.particle, 0, self.vLocation)
+                ParticleManager:SetParticleControl(self.particle, 1, Vector(self.end_size, self.end_size, self.end_size))
+            end
+
+            return 1
+        end)
 
 	end
 end
@@ -37,11 +69,12 @@ function vortex_grenade_thinker:OnIntervalThink()
     if IsServer() then
 
 
+
         local units = FindUnitsInRadius(
             self.parent:GetTeamNumber(),
             self.vLocation,
             nil,
-            400,
+            self.current_size - 80,
             DOTA_UNIT_TARGET_TEAM_BOTH,
             DOTA_UNIT_TARGET_ALL,
             DOTA_UNIT_TARGET_FLAG_INVULNERABLE,
@@ -69,8 +102,10 @@ function vortex_grenade_thinker:OnDestroy( kv )
 
         self:OnIntervalThink(-1)
 
-        if self.effect_cast ~= nil then
-            ParticleManager:DestroyParticle(self.effect_cast,false)
+        self.end_timer = true
+
+        if self.particle ~= nil then
+            ParticleManager:DestroyParticle(self.particle,false)
         end
 
 	end

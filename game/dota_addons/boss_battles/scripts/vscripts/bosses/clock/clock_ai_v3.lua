@@ -117,7 +117,7 @@ function Spawn( entityKeyValues )
 	thisEntity.vortex_grenade = thisEntity:FindAbilityByName( "vortex_grenade" )
 
 	-- missile single
-	thisEntity.fire_missile = thisEntity:FindAbilityByName( "fire_missile" )
+	thisEntity.fire_missile = thisEntity:FindAbilityByName( "fire_missile_tracking" )
 
 	-- handle level up
 	thisEntity.levelTracker = 1
@@ -199,10 +199,9 @@ function ClockThink()
 		LevelUpAbilities() -- forces all abilities to be level 4
 	end
 
-	--[[if thisEntity.fire_missile:IsFullyCastable() and thisEntity.fire_missile:IsCooldownReady() and thisEntity.main_target ~= nil then
-		return CastFireMissile( thisEntity.main_target )
-		--return ChaseTargetFireMissile()
-	end]]
+	if thisEntity.fire_missile:IsFullyCastable() and thisEntity.fire_missile:IsCooldownReady() and thisEntity.fire_missile:IsInAbilityPhase() == false then
+		return CastFireMissile()
+	end
 
 	if thisEntity.choking_gas:IsFullyCastable() and thisEntity.choking_gas:IsCooldownReady() and thisEntity:HasModifier("furnace_modifier_2") and thisEntity.choking_gas:IsInAbilityPhase() == false then
 		return CastChokingGas()
@@ -294,37 +293,14 @@ function FindNewTarget()
 end
 --------------------------------------------------------------------------------
 
-function ChaseTargetFireMissile()
-
-	if thisEntity.main_target ~= nil then
-		--local distance_from_target = ( thisEntity:GetAbsOrigin() - thisEntity.main_target:GetAbsOrigin() ):Length2D()
-		--local cast_range = thisEntity.fire_missile:GetCastRange(thisEntity:GetAbsOrigin(), thisEntity.main_target)
-		--print("dist from target ",distance_from_target)
-		--print("cast_range ", cast_range)
-
-		--if distance_from_target >= cast_range then
-			--thisEntity:MoveToPosition( thisEntity.main_target:GetAbsOrigin() )
-			--print("chasing target")
-		--elseif distance_from_target <= cast_range then
-			return CastFireMissile( thisEntity.main_target:GetAbsOrigin() )
-			--print("firing missile")
-		--end
-	end
-
-	return 0.5
-end
---------------------------------------------------------------------------------
-
-function CastFireMissile( vTarget )
+function CastFireMissile( )
 	ExecuteOrderFromTable({
         UnitIndex = thisEntity:entindex(),
-        OrderType = DOTA_UNIT_ORDER_CAST_POSITION,
+        OrderType = DOTA_UNIT_ORDER_CAST_NO_TARGET,
         AbilityIndex = thisEntity.fire_missile:entindex(),
-        Position = vTarget,
         Queue = false,
 	})
-
-	return 0.7
+	return 0.1
 end
 --------------------------------------------------------------------------------
 

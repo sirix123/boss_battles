@@ -18,11 +18,18 @@ function r_blade_vortex:OnAbilityPhaseStart()
             find_radius,
             DOTA_UNIT_TARGET_TEAM_ENEMY,
             DOTA_UNIT_TARGET_ALL,
-            DOTA_UNIT_TARGET_FLAG_MAGIC_IMMUNE_ENEMIES + DOTA_UNIT_TARGET_FLAG_INVULNERABLE,
+            DOTA_UNIT_TARGET_FLAG_NONE,
             FIND_CLOSEST,
             false)
 
         if #units == 0 or units == nil then
+            local playerID = self:GetCaster():GetPlayerID()
+            local player = PlayerResource:GetPlayer(playerID)
+            CustomGameEventManager:Send_ServerToPlayer( player, "no_target", { } )
+            return false
+        end
+
+        if CheckGlobalUnitTableForUnitName(units[1]) == true then
             local playerID = self:GetCaster():GetPlayerID()
             local player = PlayerResource:GetPlayer(playerID)
             CustomGameEventManager:Send_ServerToPlayer( player, "no_target", { } )

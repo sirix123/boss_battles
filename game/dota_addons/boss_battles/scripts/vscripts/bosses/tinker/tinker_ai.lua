@@ -16,7 +16,7 @@ function Spawn( entityKeyValues )
 	thisEntity:AddNewModifier( nil, nil, "modifier_phased", { duration = -1 } )
 
 	thisEntity.PHASE = 1
-	thisEntity.stack_count = 0
+	thisEntity.stack_count = 0 --0
 	thisEntity.max_beam_stacks = 3 --3
 
 	thisEntity.rearm = true

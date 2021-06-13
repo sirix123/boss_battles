@@ -115,7 +115,7 @@ function march:OnSpellStart()
         local numWaves = 0
 
         Timers:CreateTimer(0.5, function()
-            if IsValidEntity(self:GetCaster()) == false then
+            if IsValidEntity(self) == false then
                 return false
             end
 
@@ -208,7 +208,7 @@ function march:OnProjectileHit(hTarget, vLocation)
                 local damageTable = {
                     victim = hTarget,
                     attacker = self:GetCaster(),
-                    damage = 100,
+                    damage = 50,
                     damage_type = DAMAGE_TYPE_PHYSICAL,
                     ability = self,
                 }

@@ -1,4 +1,5 @@
 oil_ignite_fire_puddle_thinker = class({})
+LinkLuaModifier( "fire_puddle_modifier", "bosses/gyrocopter/fire_puddle_modifier", LUA_MODIFIER_MOTION_NONE )
 
 --------------------------------------------------------------------------------
 function oil_ignite_fire_puddle_thinker:IsHidden()
@@ -39,18 +40,12 @@ function oil_ignite_fire_puddle_thinker:OnIntervalThink()
 			false	-- bool, can grow cache
 		)
 
-		for _,unit in pairs(units) do
-            -- hurt em
-			self.damageTable = {
-				victim = unit,
-				attacker = self:GetParent(),
-				damage = self.dmg,
-				damage_type = DAMAGE_TYPE_PHYSICAL,
-				ability = self:GetAbility(),
-			}
-
-			ApplyDamage( self.damageTable )
+		if units ~= nil and #units ~= 0 then
+			for _,unit in pairs(units) do
+				unit:AddNewModifier( self:GetCaster(), self:GetAbility(), "fire_puddle_modifier", { duration = 3 } )
+			end
 		end
+
 
 		local areAllHeroesDead = true --start on true, then set to false if you find one hero alive.
 		local heroes = HERO_LIST--HeroList:GetAllHeroes()

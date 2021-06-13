@@ -127,11 +127,13 @@ function Scoreboard:StoreDamageDone(keys)
 
         for _, hero in pairs(HERO_LIST) do
             -- dmg done
+            --print("dmg done hero ",hero:GetUnitName())
             if EntIndexToHScript(keys.entindex_attacker) == hero then
+                --print("hero doing dmg")
 
                 -- dmg done for analytics
                 if hero.dmgDetails == nil or #hero.dmgDetails == 0 then
-                    print("init - dmgDetails table does not contain anything")
+                    --print("init - dmgDetails table does not contain anything")
                     local targets = {}
                     targets["target_name"] = EntIndexToHScript(keys.entindex_killed):GetUnitName()
                     targets["abilities"] = {}

@@ -63,7 +63,7 @@ function Filters:Activate(GameMode, this)
         --print("direction casting ",filter_table.position_z)
         --print("caster z location ",caster:GetAbsOrigin().z)
 
-        if order_type == DOTA_UNIT_ORDER_CAST_POSITION then
+        if order_type == DOTA_UNIT_ORDER_CAST_POSITION or order_type == DOTA_UNIT_ORDER_CAST_NO_TARGET  then
             local ability = EntIndexToHScript(filter_table.entindex_ability)
             local caster = EntIndexToHScript(filter_table.units["0"])
             local point = Vector(
@@ -128,7 +128,7 @@ function Filters:Activate(GameMode, this)
         end
 
         --
-        if order_type == DOTA_UNIT_ORDER_MOVE_TO_POSITION or order_type == DOTA_UNIT_ORDER_MOVE_TO_TARGET then
+        if order_type == DOTA_UNIT_ORDER_MOVE_TO_POSITION or order_type == DOTA_UNIT_ORDER_MOVE_TO_TARGET or order_type == DOTA_UNIT_ORDER_MOVE_TO_DIRECTION then
             return false
         end
 

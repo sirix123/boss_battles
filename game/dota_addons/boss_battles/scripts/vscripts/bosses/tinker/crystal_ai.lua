@@ -310,7 +310,7 @@ function ElementalPhaseTimer()
             elseif thisEntity.beam_stack_count == 1 then
                 thisEntity.ice_phase = true
                 thisEntity.fire_phase = true
-                thisEntity.elec_phase = false
+                thisEntity.elec_phase = true
             elseif thisEntity.beam_stack_count >= 2 then
 
                 thisEntity.ice_phase = true

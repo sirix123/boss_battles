@@ -81,7 +81,7 @@
 		"AbilitySpecial"
 		{
             "01"{ "var_type"			"FIELD_INTEGER"		"speed"		                        "1500" }
-            "02"{ "var_type"			"FIELD_FLOAT"		"oil_drop_freq"		                "0.6" }
+            "02"{ "var_type"			"FIELD_FLOAT"		"oil_drop_freq"		                "0.2" }
 		}
 
         "precache"
@@ -210,8 +210,8 @@
             "01"{ "var_type"			"FIELD_INTEGER"		"distance"		                "15000 18000 20000 25000" }
             "02"{ "var_type"			"FIELD_INTEGER"		"radius"		                "180" }
             "03"{ "var_type"			"FIELD_INTEGER"		"ball_speed"		            "1000 1100 1200 1300" }
-            "04"{ "var_type"			"FIELD_INTEGER"		"damage"		                "500" }
-            "05"{ "var_type"			"FIELD_INTEGER"		"balls_to_summon"		        "1 2 3 3" }
+            "04"{ "var_type"			"FIELD_INTEGER"		"damage"		                "400" }
+            "05"{ "var_type"			"FIELD_INTEGER"		"balls_to_summon"		        "1 2 3 4" }
 		}
 
         "precache"

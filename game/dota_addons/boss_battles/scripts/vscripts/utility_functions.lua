@@ -399,8 +399,12 @@ end
 
 function DestroyItems( location )
 	local objs = Entities:FindAllByClassnameWithin("dota_item_drop", location, 10000)
-	for _, obj in pairs(objs) do
-		UTIL_Remove(obj)
+	if objs ~= nil and #objs ~= 0 then
+		for _, obj in pairs(objs) do
+			if obj then
+				UTIL_Remove(obj)
+			end
+		end
 	end
 end
 

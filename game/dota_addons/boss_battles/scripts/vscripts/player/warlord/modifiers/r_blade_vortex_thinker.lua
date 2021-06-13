@@ -35,14 +35,17 @@ function r_blade_vortex_thinker:OnCreated( kv )
 
         self.timer_find_caster = Timers:CreateTimer(function()
                 if IsValidEntity(self.parent) == false then
+                    self:Destroy()
                     return false
                 end
 
                 if self.caster:IsAlive() == false then
+                    self:Destroy()
                     return false
                 end
 
                 if self.parent:IsAlive() == false then
+                    self:Destroy()
                     return false
                 end
 
@@ -160,7 +163,9 @@ function r_blade_vortex_thinker:OnDestroy( kv )
             Timers:RemoveTimer(self.timer_damage_boost)
         end
 
-        ParticleManager:DestroyParticle(self.nfx,false)
+        if self.nfx then
+            ParticleManager:DestroyParticle(self.nfx,false)
+        end
 
         self:StartIntervalThink( -1 )
         --UTIL_Remove( self.parent )

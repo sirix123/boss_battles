@@ -77,6 +77,8 @@ function fire_shell:OnSpellStart()
 		local nMinProjPerWave = self:GetSpecialValueFor( "nMinProjPerWave" )
 		local nMaxProjPerWave = self:GetSpecialValueFor( "nMaxProjPerWave" )
 
+		local nProjPerWave = self:GetSpecialValueFor( "nProjPerWave" )
+
 		caster:AddNewModifier( caster, self, "fire_shell_modifier", { duration = 1 + (nMaxWaves * fTimeBetweenWaves) } )
 
 		-- play sound on spell start
@@ -103,7 +105,7 @@ function fire_shell:OnSpellStart()
 			nWaves = nWaves + 1
 
 			-- generate random directions, fill table with them
-			local nProjectilesPerWave = RandomInt(nMinProjPerWave, nMaxProjPerWave)
+			local nProjectilesPerWave = nProjPerWave --RandomInt(nMinProjPerWave, nMaxProjPerWave)
 
 			for i = 1, nProjectilesPerWave, 1 do
 				local vRandomDirection = Vector(	RandomFloat( -1 	, 1 ), RandomFloat( -1 , 1 ), 0 ):Normalized()

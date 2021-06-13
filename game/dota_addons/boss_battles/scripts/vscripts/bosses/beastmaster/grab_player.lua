@@ -46,6 +46,10 @@ function grab_player:OnSpellStart()
         self.vTargetPos:RemoveModifierByName("q_iceblock_modifier")
     end
 
+    if self.vTargetPos:HasModifier("q_smoke_bomb_modifier") then
+        self.vTargetPos:RemoveModifierByName("q_smoke_bomb_modifier")
+    end
+
 	-- sound
     self:GetCaster():EmitSound("Hero_Batrider.FlamingLasso.Cast")
 

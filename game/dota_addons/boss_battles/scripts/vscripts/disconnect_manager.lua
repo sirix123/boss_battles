@@ -24,7 +24,7 @@ function disconnect_manager:Init()
             --print("self.disconnected_players_count ",self.disconnected_players_count)
         end
 
-        return 0.05
+        return 0.01
     end)
 
 

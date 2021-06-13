@@ -82,6 +82,7 @@ function Commands:OnPlayerChat(keys)
                     hero.dmgTakenDetails = {}
                     hero.deathsDetails = {}
                 end
+                --print("stopping data track")
                 return
             end
 
@@ -94,6 +95,7 @@ function Commands:OnPlayerChat(keys)
                     hero.dmgTakenDetails = {}
                     hero.deathsDetails = {}
                 end
+                --print("starting data track")
                 return
             end
 

@@ -49,7 +49,7 @@ function modifier_flak_cannon:OnCreated(  )
 
                 table.insert(_G.Oil_Puddles, puddle)
 
-                return 1
+                return 0.7
             end)
 
             self.nPreviewFXIndex = ParticleManager:CreateParticle( "particles/gyrocopter/no_arrows_gyro_darkmoon_calldown_marker.vpcf", PATTACH_ABSORIGIN_FOLLOW, self:GetParent() )

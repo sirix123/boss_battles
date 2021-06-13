@@ -30,7 +30,7 @@ function vortex_grenade:OnAbilityPhaseStart()
 
             self.vTargetPos = randomEnemy:GetAbsOrigin()
 
-            local radius = 500
+            local radius = 300
             self.nPreviewFXIndex = ParticleManager:CreateParticle( "particles/econ/events/darkmoon_2017/darkmoon_calldown_marker.vpcf", PATTACH_CUSTOMORIGIN, nil )
             ParticleManager:SetParticleControl( self.nPreviewFXIndex, 0, self.vTargetPos )
             ParticleManager:SetParticleControl( self.nPreviewFXIndex, 1, Vector( radius, -radius, -radius ) )

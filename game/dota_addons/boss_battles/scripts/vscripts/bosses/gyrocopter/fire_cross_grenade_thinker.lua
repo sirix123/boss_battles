@@ -18,7 +18,7 @@ function fire_cross_grenade_thinker:OnCreated( kv )
         ParticleManager:SetParticleControl(self.effect_cast, 0, self:GetParent():GetAbsOrigin())
 
         local particleName_3 = "particles/clock/green_clock_npx_moveto_arrow.vpcf"
-        self.pfx_3 = ParticleManager:CreateParticle( particleName_3, PATTACH_WORLDORIGIN, self:GetParent() )
+        self.pfx_3 = ParticleManager:CreateParticle( particleName_3, PATTACH_WORLDORIGIN, nil )
         ParticleManager:SetParticleControl( self.pfx_3, 0, self:GetParent():GetAbsOrigin() )
 
         self.max_waves = 6
@@ -36,16 +36,11 @@ end
 
 function fire_cross_grenade_thinker:DetectPlayerTimer()
     if IsServer() then
-        Timers:CreateTimer(self.start_delay, function()
-            if self:IsNull() == true then
+        self.detect_player_timer = Timers:CreateTimer(self.start_delay, function()
+            --[[if IsValidEntity(self:GetParent()) == false then
                 self:OnDestroy()
                 return false
-            end
-
-            if IsValidEntity(self:GetParent()) == false then
-                self:OnDestroy()
-                return false
-            end
+            end]]
 
             if self.destroy_flag == true then
                 self:OnDestroy()
@@ -98,11 +93,7 @@ function fire_cross_grenade_thinker:StartTimer(  )
             Vector(-1,0,0),
         }
 
-        Timers:CreateTimer(self.start_delay, function()
-            if IsValidEntity(self:GetParent()) == false then
-                return false
-            end
-
+        self.proj_timer = Timers:CreateTimer(self.start_delay, function()
             if self.destroy_flag == true then
                 self:OnDestroy()
                 return false
@@ -173,9 +164,17 @@ end
 
 function fire_cross_grenade_thinker:OnDestroy()
     if IsServer() then
-        ParticleManager:DestroyParticle(self.effect_cast,false)
-        ParticleManager:DestroyParticle(self.pfx_3,false)
-        --UTIL_Remove( self:GetParent() )
+
+        --self.detect_player_timer =
+        -- self.proj_timer =
+
+        if self.effect_cast then
+            ParticleManager:DestroyParticle(self.effect_cast,true)
+        end
+
+        if self.pfx_3 then
+            ParticleManager:DestroyParticle(self.pfx_3,true)
+        end
     end
 end
 

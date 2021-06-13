@@ -33,6 +33,7 @@ function fishtrigger(trigger)
 
 
         ent:AddNewModifier( thisEntity, nil, "modifier_stunned", { duration = -1 } )
+        ent:AddNewModifier( ent, nil, "modifier_invulnerable", { duration = -1 } )
 
         local bubbles = "particles/units/heroes/hero_kunkka/kunkka_spell_torrent_bubbles.vpcf"
         thisEntity.bubbles = ParticleManager:CreateParticle(bubbles, PATTACH_WORLDORIGIN, nil)

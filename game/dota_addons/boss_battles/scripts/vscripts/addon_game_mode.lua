@@ -161,6 +161,8 @@ function Activate()
     require('session_manager')
     require('webapi')
     require('endgame_screen')
+    require('cosmetics')
+    require('wearables')
 
     GameRules.AddonTemplate = BossBattles()
     GameRules.AddonTemplate:InitGameMode()

@@ -83,7 +83,7 @@ function TimberThink()
 	end
 
 	-- state change handler
-	if thisEntity:GetHealthPercent() < 85 and thisEntity.chain_map_edge:IsCooldownReady() == true then
+	if thisEntity:GetHealthPercent() < 90 and thisEntity.chain_map_edge:IsCooldownReady() == true then
 		thisEntity.createParticleOnce = true
 		thisEntity:SetBaseManaRegen(0)
 		thisEntity.state = 2

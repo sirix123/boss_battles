@@ -130,12 +130,12 @@
         
 		"AbilitySpecial"
 		{
-			"01"{ "var_type"			"FIELD_INTEGER"		"duration"					"30" }
+			"01"{ "var_type"			"FIELD_INTEGER"		"duration"					"15" }
 			"02"{ "var_type"			"FIELD_INTEGER"		"radius"					"500" }
-			"03"{ "var_type"			"FIELD_FLOAT"		"bubble_amount"				"300" }
-			"04"{ "var_type"			"FIELD_INTEGER"		"health_regen"				"3" }
-			"05"{ "var_type"			"FIELD_INTEGER"		"mana_regen"				"4" }
-			"06"{ "var_type"			"FIELD_INTEGER"		"generic_shout_duration"	"20" }
+			"03"{ "var_type"			"FIELD_FLOAT"		"bubble_amount"				"200" }
+			"04"{ "var_type"			"FIELD_FLOAT"		"health_regen"				"5" }
+			"05"{ "var_type"			"FIELD_FLOAT"		"mana_regen"				"2" }
+			"06"{ "var_type"			"FIELD_INTEGER"		"generic_shout_duration"	"22" }
 		}
 
         "precache"
