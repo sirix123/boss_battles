@@ -25,6 +25,7 @@
 		<CustomUIElement type="Hud" 		layoutfile="file://{resources}/layout/custom_game/lag_message.xml" />
 		<CustomUIElement type="Hud" 		layoutfile="file://{resources}/layout/custom_game/help_box.xml" />
 		<CustomUIElement type="Hud" 		layoutfile="file://{resources}/layout/custom_game/post_game_screen.xml" />
+		<CustomUIElement type="Hud" 		layoutfile="file://{resources}/layout/custom_game/shop.xml" />
 	</Panel>
 </root>
 

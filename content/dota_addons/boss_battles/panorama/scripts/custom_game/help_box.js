@@ -26,7 +26,7 @@ function OnPickingDone( data ) {
 function OnHelpButtonPressed(){
     //$.Msg("help button pressed")
 
-    $('#HelpButtonBtn').style.visibility = 'collapse';
+    //$('#HelpButtonBtn').style.visibility = 'collapse';
     $('#HelpToolTip').style.visibility = 'visible';
 
     let helpButtonRoot = $("#HelpToolTip");

@@ -15,7 +15,7 @@
 
 #HelpPanel
 {
-    width: 600px;
+    width: 2000px;
     height: 800px;
 }
 
@@ -34,6 +34,7 @@
     height: 800px;
     horizontal-align: left;
     vertical-align: bottom;
+    margin-left: 200px;
 }
 
 

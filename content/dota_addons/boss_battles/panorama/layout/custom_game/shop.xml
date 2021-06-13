@@ -1,0 +1,32 @@
+<root>
+	<styles>
+		<include src="file://{resources}/styles/custom_game/shop.css" />
+	</styles>
+
+	<scripts>
+		<include src="file://{resources}/scripts/custom_game/shop.js" />
+	</scripts>
+
+	<snippets>
+
+        <!--
+        <snippet name="ProductList">
+        </snippet>
+        -->
+
+	</snippets>
+
+    <Panel hittest="false" class="parent">
+
+        <Panel id="ShopButtonPanel" hittest="true" >
+            <Button id="ShopButton" class="ShopButton" onactivate="OnShopButtonPressed()">
+                <Label id="ShopButtonLabel" class="ShopButtonLabel" text="Shop" />
+            </Button>
+        </Panel>
+
+        <Panel id="ParentShopPanel" hittest="true" >
+            <!-- SNIPPET HERE-->
+        </Panel>
+
+    </Panel>
+</root>

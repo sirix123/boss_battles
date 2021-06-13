@@ -133,7 +133,7 @@ function UpdateScoreboardRows( data )
             //playerRow = {"lives":1,"player_name":"Moomoo","hero":"ranger"}
             leaderboardRow.FindChildTraverse("leaderboard_row_info_player_"+playerIndex).text = data["games"][index]["players"][playerIndex]["player_name"]
             leaderboardRow.FindChildTraverse("leaderboard_row_info_hero_"+playerIndex).text = data["games"][index]["players"][playerIndex]["hero"]
-            leaderboardRow.FindChildTraverse("leaderboard_row_info_live_"+playerIndex).text = data["games"][index]["players"][playerIndex]["lives"]
+            leaderboardRow.FindChildTraverse("leaderboard_row_info_live_"+playerIndex).text = data["games"][index]["players"][playerIndex]["deaths"]
         }
     }
 }
