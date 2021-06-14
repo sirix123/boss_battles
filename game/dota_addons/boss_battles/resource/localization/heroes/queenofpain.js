@@ -19,6 +19,7 @@ function GenerateLocalizationData() {
     // variables
     var bloodPactColour = "<b><font color=\"#60f6ce\">Blood Pact</font></b>";
     var bloodMagicColour = "<b><font color=\"#f33939\">Blood Magic</font></b>";
+    var bloodWardColour = "<b><font color=\"#ffffff\">Blood Ward</font></b>";
     // modifiers
     Modifiers.push({
         modifier_classname: "m2_qop_stacks",
@@ -98,7 +99,7 @@ function GenerateLocalizationData() {
     Abilities.push({
         ability_classname: "e_qop_shield",
         name: "Blood Ward",
-        description: "Akasha casts a Blood Ward on the target and consumes all stacks of " + bloodMagicColour + ", empowering it. If cast on an ally, Blood Ward absorbs incoming damage. If cast on an enemy, Blood Ward stores incoming damage for a duration, dealing a portion of that damage on expiration.",
+        description: "Akasha casts a " + bloodWardColour + " on the target and consumes all stacks of " + bloodMagicColour + ", empowering it. If cast on an ally, " + bloodWardColour + " absorbs incoming damage. If cast on an enemy, " + bloodWardColour + " stores incoming damage for a duration, dealing a portion of that damage on expiration.",
         lore: "A simple spell first used to protect Akasha and her allies, it has since found use in tormenting her enemies.",
         notes: [
             "The base cooldown for Blood Ward on allies is one second.",
