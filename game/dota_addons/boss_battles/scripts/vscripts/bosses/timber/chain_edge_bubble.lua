@@ -29,7 +29,7 @@ end]]
 function chain_edge_bubble:OnCreated( kv )
 	if IsServer() then
 
-		self.max_shield = 2000
+		self.max_shield = 2500
         self.shield_remaining = self.max_shield
 
 		self.caster = self:GetCaster()

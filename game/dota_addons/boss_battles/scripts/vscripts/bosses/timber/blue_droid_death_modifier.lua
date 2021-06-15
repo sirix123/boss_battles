@@ -82,7 +82,7 @@ function blue_droid_death_modifier:OnDestroy()
 
     for _, unit in pairs(units) do
         if unit:GetUnitName() == "npc_timber" then
-            unit:ReduceMana(35)
+            unit:ReduceMana(5)
 
             --print("inside the death modifier")
 

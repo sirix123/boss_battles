@@ -18,6 +18,15 @@ function summon_flame_turret:OnSpellStart()
     local point_3 = Vector(-3717,212,256)
     local point_4 = Vector(-810,212,256)
 
+    --[[
+
+    DEBUG VECTOR LOCATION: 	Vector 00000000002FA200 [-2197.503174 3053.851807 162.568359] top
+    DEBUG VECTOR LOCATION: 	Vector 00000000003ACF80 [-835.743347 1772.583740 162.568359] right
+    DEBUG VECTOR LOCATION: 	Vector 00000000004350F8 [-2080.256348 272.832611 162.568359] bottom
+    DEBUG VECTOR LOCATION: 	Vector 00000000003D2CF0 [-3708.305908 1663.500366 162.568359] left
+
+    ]]
+
     self.vNewPositionX = 0
     self.vNewPositionY = 0
     self.direction_x = 0

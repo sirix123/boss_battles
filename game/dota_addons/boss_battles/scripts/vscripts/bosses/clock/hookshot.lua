@@ -159,7 +159,7 @@ function hookshot:OnProjectileHit(hTarget, vLocation)
             {
                 victim = target,
                 attacker = self:GetCaster(),
-                damage = 150,
+                damage = 100,
                 damage_type = DAMAGE_TYPE_PHYSICAL,
                 ability = self,
             }

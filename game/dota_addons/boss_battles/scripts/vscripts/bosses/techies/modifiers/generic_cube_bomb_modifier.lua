@@ -15,7 +15,7 @@ function generic_cube_bomb_modifier:IsPurgable()
 end
 
 function generic_cube_bomb_modifier:RemoveOnDeath()
-	return false
+	return true
 end
 
 --------------------------------------------------------------------------------
@@ -86,9 +86,17 @@ function generic_cube_bomb_modifier:OnDestroy()
     --print("remove flag = ",self.removed_flag)
     --print("-------")
 
-    ParticleManager:DestroyParticle(self.nFXIndex_2,true)
-    ParticleManager:DestroyParticle(self.particleNfx,true)
-    ParticleManager:DestroyParticle(self.pfx_3,true)
+    if self.nFXIndex_2 then
+        ParticleManager:DestroyParticle(self.nFXIndex_2,true)
+    end
+
+    if self.particleNfx then
+        ParticleManager:DestroyParticle(self.particleNfx,true)
+    end
+
+    if self.pfx_3 then
+        ParticleManager:DestroyParticle(self.pfx_3,true)
+    end
 
     if self.removed_flag == true then
         local particle = "particles/techies/techies_remote_mine_detonate_embers_fizzle.vpcf"
@@ -115,29 +123,70 @@ function generic_cube_bomb_modifier:OnDestroy()
             nil,	-- handle, cacheUnit. (not known)
             8000,	-- float, radius. or use FIND_UNITS_EVERYWHERE
             DOTA_UNIT_TARGET_TEAM_FRIENDLY,
-            DOTA_UNIT_TARGET_ALL,
-            DOTA_UNIT_TARGET_FLAG_INVULNERABLE,	-- int, flag filter
+            DOTA_UNIT_TARGET_HERO,
+            DOTA_UNIT_TARGET_FLAG_NONE,	-- int, flag filter
             0,	-- int, order filter
             false	-- bool, can grow cache
         )
 
-        for _, unit in pairs(units) do
-            if unit:HasModifier("generic_cube_bomb_modifier") ~= true then
-                local damageInfo =
-                {
-                    victim = unit,
-                    attacker = self:GetCaster(),
-                    damage = 200,
-                    damage_type = DAMAGE_TYPE_PHYSICAL,
-                    ability = self:GetAbility(),
-                }
+        if units ~= nil and #units ~= 0 then
+            for _, unit in pairs(units) do
+                if unit:GetUnitName() ~= self:GetParent():GetUnitName() then
+                    self.speed = 600
+                    local info = {
+                        EffectName = "particles/econ/items/wraith_king/wraith_king_ti6_bracer/wraith_king_ti6_hellfireblast.vpcf",
+                        Ability = self:GetAbility(),
+                        iMoveSpeed = self.speed,
+                        Source = self:GetParent(),
+                        Target = unit,
+                        bDodgeable = false,
+                        iSourceAttachment = DOTA_PROJECTILE_ATTACHMENT_HITLOCATION,
+                        bProvidesVision = true,
+                        iVisionTeamNumber = self:GetParent():GetTeamNumber(),
+                        iVisionRadius = 300,
+                    }
 
-                ApplyDamage( damageInfo )
-            end
+                    ProjectileManager:CreateTrackingProjectile( info )
+                end
+            end 
         end
+
     end
 end
 --------------------------------------------------------------------------------
+
+function generic_cube_bomb_modifier:OnProjectileHit( hTarget, vLocation)
+    if IsServer() then
+
+        if hTarget then
+            local particle_cast = "particles/econ/items/wraith_king/wraith_king_ti6_bracer/wraith_king_ti6_hellfireblast_explosion.vpcf"
+            --local sound_target = "Ability.FrostNova"
+
+            -- Create Particle
+            local effect_cast = ParticleManager:CreateParticle( particle_cast, PATTACH_ABSORIGIN_FOLLOW, hTarget )
+            ParticleManager:SetParticleControl( effect_cast, 0, hTarget:GetAbsOrigin() )
+            ParticleManager:SetParticleControl( effect_cast, 1, Vector( 150, 150, 150 ) )
+            ParticleManager:SetParticleControl( effect_cast, 3, hTarget:GetAbsOrigin() )
+            ParticleManager:ReleaseParticleIndex( effect_cast )
+
+            -- Create Sound
+            --EmitSoundOn( sound_target, hTarget )
+
+            local damageInfo =
+            {
+                victim = hTarget,
+                attacker = self:GetCaster(),
+                damage = 200,
+                damage_type = DAMAGE_TYPE_PHYSICAL,
+            }
+
+            ApplyDamage( damageInfo )
+
+            return true
+        end
+    end
+end
+------------------------------------------------------------------------------------------------
 
 function generic_cube_bomb_modifier:OnIntervalThink()
     if not IsServer() then return end

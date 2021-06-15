@@ -530,26 +530,21 @@
 
         // General
         //-------------------------------------------------------------------------------------------------------------
-        "AbilityBehavior"               "DOTA_ABILITY_BEHAVIOR_NO_TARGET"
+        "AbilityBehavior"               "DOTA_ABILITY_BEHAVIOR_NO_TARGET | DOTA_ABILITY_BEHAVIOR_CHANNELLED"
         "AbilityUnitDamageType"         "DAMAGE_TYPE_PHYSICAL"  
+		"AbilityCooldown"               "1 1 1 1"
+        "AbilityManaCost"               "0"
+        "AbilityCastRange" 				"5000"
+        "AbilityChannelTime"            "999 999 999 999"
+        "AbilityDuration"               "999 999 999 999"
+		"AbilityCastPoint"              "0.1 0.1 0.1 0.1"
+        "AbilityCastAnimation"          "ACT_DOTA_GENERIC_CHANNEL_1"
  
 		"precache"
 		{
 			//"soundfile"	"soundevents/voscripts/game_sounds_vo_shredder.vsndevts"
 			//"particle"	"particles/timber/napalm_wave_basedtidehuntergushupgrade.vpcf"
 		}
-
-        // Casting
-        //-------------------------------------------------------------------------------------------------------------
-        "AbilityCastPoint"              "0.1 0.1 0.1 0.1"
-
-        // Time     
-        //-------------------------------------------------------------------------------------------------------------
-        "AbilityCooldown"               "2 2 2 2"
-
-        // Cost
-        //-------------------------------------------------------------------------------------------------------------
-        "AbilityManaCost"               "0"
 
         // Special
         //-------------------------------------------------------------------------------------------------------------

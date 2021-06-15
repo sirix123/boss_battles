@@ -41,7 +41,7 @@ function GameSetup:init()
     disconnect_manager:Init()
 
     -- stripe init
-    CosmeticManager:GetProductList()
+    CosmeticManager:Init()
 
     --listen to game state event
     -- events here: https://developer.valvesoftware.com/wiki/Dota_2_Workshop_Tools/Scripting/Built-In_Engine_Events
@@ -253,7 +253,6 @@ function GameSetup:OnNPCSpawned(keys)
         --print("on spanwed lives ", npc.playerLives )
 
         if IsInToolsMode() == true then
-            CosmeticManager:GetProductList()
             npc:AddNewModifier( npc,  nil, "admin_god_mode", { } )
         end
 

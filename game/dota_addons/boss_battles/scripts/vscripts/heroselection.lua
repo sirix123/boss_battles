@@ -112,6 +112,8 @@ function HeroSelection:EndPicking()
 		--Signal the picking screen to disappear 9also calls other front end things)
 		CustomGameEventManager:Send_ServerToAllClients( "picking_done", { } )
 
+		CustomGameEventManager:Send_ServerToAllClients( "send_product_list", CosmeticManager:GetProductListTest())
+
 		-- use in lua in gamesetup to control other things
 		PICKING_DONE = true
 

@@ -146,15 +146,30 @@ function TechiesThinker()
         local bomb_duration = 12
 
         -- copy the hero list
-        local techies_hero_list = HERO_LIST
+        -- local techies_hero_list = HERO_LIST
+
+        local techies_hero_list = FindUnitsInRadius(
+            thisEntity:GetTeamNumber(),	-- int, your team number
+            thisEntity:GetAbsOrigin(),	-- point, center point
+            nil,	-- handle, cacheUnit. (not known)
+            FIND_UNITS_EVERYWHERE,	-- float, radius. or use FIND_UNITS_EVERYWHERE
+            DOTA_UNIT_TARGET_TEAM_ENEMY,
+            DOTA_UNIT_TARGET_HERO,
+            DOTA_UNIT_TARGET_FLAG_NONE,	-- int, flag filter
+            0,	-- int, order filter
+            false	-- bool, can grow cache
+        )
 
         local debug = false
 
-        if #techies_hero_list == 4 then
-            for _, player in pairs(techies_hero_list) do
-                player:AddNewModifier(thisEntity, nil,  "generic_cube_bomb_modifier", {duration = bomb_duration})
+        if techies_hero_list ~= nil then
+            if #techies_hero_list == 4 then
+                for _, player in pairs(techies_hero_list) do
+                    player:AddNewModifier(thisEntity, nil,  "generic_cube_bomb_modifier", {duration = bomb_duration})
+                end
             end
         end
+
 
         if debug == true then
             thisEntity.units = FindUnitsInRadius(

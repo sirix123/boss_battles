@@ -20,6 +20,9 @@
     horizontal-align: left;
     vertical-align: top;
     margin-top: 180px;
+    background-color: #151515;
+	background-size: 100% 100%;
+	border-radius: 0px 5px 5px 0px;
 }
 
 /* button
@@ -38,4 +41,125 @@
 	color: #fff;
     font-size: 16px;
     font-family: defaultFont;
+}
+
+/* main shop panel
+=================================================================*/
+#ParentShopPanel
+{
+    width: 1600px;
+    height: 900px;
+    horizontal-align: center;
+    vertical-align: center;
+    background-color: #151515;
+	background-size: 100% 100%;
+	border-radius: 5px 5px 5px 5px;
+	flow-children: down;
+}
+
+/* snippet shop list
+=================================================================*/
+.ProductListContainer{
+	width: 100%;
+	height: 90%;
+	flow-children: right-wrap;
+}
+
+/* header
+=================================================================*/
+.ProductListHeader{
+	width: 100%;
+	height: 5%;
+	vertical-align: top;
+	flow-children: right;
+}
+
+.ProductListTitle{
+	width: 90%;
+	height: 100%;
+	horizontal-align: left;
+}
+
+.ProductListTitleTxt{
+	color: #fff;
+	font-size: 24px;
+	background-color: #151515;
+	background-size: 100% 100%;
+	font-family: defaultFont;
+	horizontal-align: center;
+	vertical-align: center;
+}
+
+.ProductListCloseButtonContainer{
+	width: 10%;
+	height: 100%;
+	horizontal-align: right;
+}
+
+.ProductListCloseButton{
+	width: 100%;
+	height: 100%;
+}
+
+.ProductListCloseButtonTxt{
+	color: #fff;
+	font-size: 24px;
+	background-color: #151515;
+	background-size: 100% 100%;
+	font-family: defaultFont;
+	horizontal-align: center;
+	vertical-align: center;
+}
+
+/* footer
+=================================================================*/
+.ProductListFooter{
+	width: 100%;
+	height: 5%;
+	vertical-align: bottom;
+}
+
+.ProductListFooterTitle{
+	width: 100%;
+	height: 100%;
+}
+
+/* body
+=================================================================*/
+.ProductList{
+	width: 20%;
+	height: 40%;
+}
+
+.ProductDisplay{
+	width: 100%;
+	height: 100%;
+	vertical-align: top;
+	horizontal-align: left;
+	flow-children: down;
+	margin: 50px;
+}
+
+.ProductDisplayPictureContainer{
+	width: 100%;
+	height: 80%;
+	vertical-align: top;
+}
+
+.ProductPurchaseButton{
+	width: 100%;
+	height: 20%;
+	vertical-align: bottom;
+}
+
+.ProductPurchaseButtonTxt{
+	color: #fff;
+	font-size: 24px;
+	font-family: defaultFont;
+	horizontal-align: center;
+	vertical-align: center;
+}
+
+.disabled {
+	background-color: gradient( linear, 0% 0%, 0% 100%, from( #9C9C9C ), to( #D1D1D133 ) );
 }

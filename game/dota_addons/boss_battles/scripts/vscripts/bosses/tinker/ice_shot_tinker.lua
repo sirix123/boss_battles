@@ -156,8 +156,8 @@ function ice_shot_tinker:HitCrystal( crystal )
                 crystal:GetAbsOrigin(),	-- point, center point
                 nil,	-- handle, cacheUnit. (not known)
                 3000,	-- float, radius. or use FIND_UNITS_EVERYWHERE
-                DOTA_UNIT_TARGET_TEAM_BOTH,
-                DOTA_UNIT_TARGET_ALL,
+                DOTA_UNIT_TARGET_TEAM_ENEMY,
+                DOTA_UNIT_TARGET_HERO,
                 DOTA_UNIT_TARGET_FLAG_INVULNERABLE,	-- int, flag filter
                 0,	-- int, order filter
                 false	-- bool, can grow cache
@@ -165,37 +165,13 @@ function ice_shot_tinker:HitCrystal( crystal )
 
             if units ~= nil and #units ~= 0 then
                 for _, unit in pairs(units) do
-                    if unit ~= self
-                        and unit:GetUnitName() ~= ""
-                        and unit:GetUnitName() ~= "npc_rock"
-                        and unit:GetUnitName() ~= "npc_tinker"
-                        and unit:GetUnitName() ~= "npc_bird"
-                        and unit:GetUnitName() ~= "npc_green_bird"
-                        and unit:GetUnitName() ~= "npc_crystal"
-                        and CheckGlobalUnitTableForUnitName(unit) ~= false then
-
-                            -- this will still hit birds that aren't flying.. bit hard to work around.. so we will work it into the game :D
-
-
-                        self:OnHit( unit )
-
-                        local particle_cast = "particles/units/heroes/hero_lich/lich_frost_nova.vpcf"
-                        local sound_target = "Ability.FrostNova"
-
-                        -- Create Particle
-                        local effect_cast = ParticleManager:CreateParticle( particle_cast, PATTACH_ABSORIGIN_FOLLOW, unit )
-                        ParticleManager:SetParticleControl( effect_cast, 1, Vector( 150, 150, 150 ) )
-                        ParticleManager:ReleaseParticleIndex( effect_cast )
-
-                        -- Create Sound
-                        EmitSoundOn( sound_target, unit )
 
                         -- references
-                        --[[self.speed = 500 -- special value
+                        self.speed = 900 -- special value
                         --print("unit:GetUnitName() ", unit:GetUnitName())
                         -- create projectile
                         local info = {
-                            EffectName = "particles/tinker/green_iceshot__invoker_chaos_meteor.vpcf",
+                            EffectName = "particles/tinker/tracking_blue_tinker_missile.vpcf",
                             Ability = self,
                             iMoveSpeed = self.speed,
                             Source = crystal,
@@ -208,8 +184,7 @@ function ice_shot_tinker:HitCrystal( crystal )
                         }
 
                         -- shoot proj
-                        ProjectileManager:CreateTrackingProjectile( info )]]
-                    end
+                        ProjectileManager:CreateTrackingProjectile( info )
                 end
             end
 
@@ -221,97 +196,32 @@ function ice_shot_tinker:HitCrystal( crystal )
     end
 end
 
-function ice_shot_tinker:OnHit( hTarget)
+
+function ice_shot_tinker:OnProjectileHit( hTarget, vLocation)
     if IsServer() then
-        if hTarget == nil then return end
-        if not hTarget:IsAlive() then return end
 
-        EmitSoundOn( "Hero_Rubick.ProjectileImpact", hTarget )
+        if hTarget then
+            local particle_cast = "particles/units/heroes/hero_lich/lich_frost_nova.vpcf"
+            local sound_target = "Ability.FrostNova"
 
-        if hTarget:GetTeam() == DOTA_TEAM_GOODGUYS then
-            -- apply debuff
+            -- Create Particle
+            local effect_cast = ParticleManager:CreateParticle( particle_cast, PATTACH_ABSORIGIN_FOLLOW, hTarget )
+            ParticleManager:SetParticleControl( effect_cast, 1, Vector( 150, 150, 150 ) )
+            ParticleManager:ReleaseParticleIndex( effect_cast )
+
+            -- Create Sound
+            EmitSoundOn( sound_target, hTarget )
+
             hTarget:AddNewModifier(self:GetCaster(), self, "biting_frost_modifier_debuff",
-            {
-                duration = self.duration,
-                dmg = self.dmg,
-                radius = self.radius,
-                interval = self.dmg_interval,
-            })
-            --hBuff:IncrementStackCount()
+                {
+                    duration = self.duration,
+                    dmg = self.dmg,
+                    radius = self.radius,
+                    interval = self.dmg_interval,
+                })
+
+            return true
         end
-
-        -- apply buff
-        if hTarget:GetTeam() == DOTA_TEAM_BADGUYS then
-            --print("hit fire ele")
-            -- apply debuff
-            self:HitEle(hTarget)
-        end
-
-        -- remove encased debuff if they have it and destroy rock
-        if hTarget:HasModifier("fire_ele_encase_rocks_debuff") then
-            hTarget:RemoveModifierByName("modifier_rooted")
-            hTarget:RemoveModifierByName("fire_ele_encase_rocks_debuff")
-
-            local rocks = FindUnitsInRadius(
-                self:GetCaster():GetTeamNumber(),	-- int, your team number
-                hTarget:GetAbsOrigin(),	-- point, center point
-                nil,	-- handle, cacheUnit. (not known)
-                100,	-- float, radius. or use FIND_UNITS_EVERYWHERE
-                DOTA_UNIT_TARGET_TEAM_BOTH,
-                DOTA_UNIT_TARGET_ALL,
-                DOTA_UNIT_TARGET_FLAG_INVULNERABLE,	-- int, flag filter
-                0,	-- int, order filter
-                false	-- bool, can grow cache
-            )
-
-            if rocks ~= nil and #rocks ~= 0 then
-                for _, rock in pairs(rocks) do
-                    if rock:GetUnitName() == "npc_encase_rocks" then
-                        local particle_destroy = "particles/tinker/tinker_tiny_prestige_lvl4_death_rocks.vpcf"
-                        local particle_effect = ParticleManager:CreateParticle( particle_destroy, PATTACH_WORLDORIGIN, nil )
-                        ParticleManager:SetParticleControl(particle_effect, 0, rock:GetAbsOrigin() )
-                        ParticleManager:ReleaseParticleIndex(particle_effect)
-
-                        rock:RemoveSelf()
-                    end
-                end
-            end
-        end
-
-    end
-end
-------------------------------------------------------------------------------------------------
-
-function ice_shot_tinker:HitPlayer(unit)
-    if IsServer() then
-        unit:AddNewModifier(self:GetCaster(), self, "biting_frost_modifier_debuff",
-            {
-                duration = self.duration,
-                dmg = self.dmg,
-                radius = self.radius,
-                interval = self.dmg_interval,
-            })
-        --hBuff:IncrementStackCount()
-    end
-end
-------------------------------------------------------------------------------------------------
-
-function ice_shot_tinker:HitEle(unit)
-    if IsServer() then
-
-        -- if it hits any element add do what it needs to do
-        if unit:GetUnitName() == "npc_ice_ele" then
-            unit:AddNewModifier(self:GetCaster(), self, "biting_frost_modifier_buff", {duration = -1})
-        elseif unit:GetUnitName() == "npc_fire_ele" then
-            unit:AddNewModifier(self:GetCaster(), self, "biting_frost_modifier_buff_fire", {duration = -1})
-        elseif unit:GetUnitName() == "npc_elec_ele" then
-            unit:AddNewModifier(self:GetCaster(), self, "biting_frost_modifier_buff_elec", {duration = -1})
-        elseif unit:GetUnitName() == "npc_bird" or unit:GetUnitName() == "npc_green_bird" then
-            return
-        else
-            unit:AddNewModifier(self:GetCaster(), self, "biting_frost_modifier_buff_elec", {duration = -1})
-        end
-
     end
 end
 ------------------------------------------------------------------------------------------------

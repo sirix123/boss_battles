@@ -214,7 +214,7 @@ function TimberThink()
 			return CastChainMapEdge()
 		end
 
-		if thisEntity.vertical_saw_blade ~= nil and thisEntity.vertical_saw_blade:IsFullyCastable() and thisEntity.vertical_saw_blade:IsCooldownReady() and thisEntity.vertical_saw_blade:IsInAbilityPhase() == false then
+		if thisEntity.vertical_saw_blade ~= nil and thisEntity.vertical_saw_blade:IsFullyCastable() and thisEntity.vertical_saw_blade:IsCooldownReady() and thisEntity.vertical_saw_blade:IsInAbilityPhase() == false and thisEntity.vertical_saw_blade:IsChanneling() == false then
 			return CastVerticalSawBlade()
 		end
 	end

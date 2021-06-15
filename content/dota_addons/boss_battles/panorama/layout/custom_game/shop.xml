@@ -9,10 +9,18 @@
 
 	<snippets>
 
-        <!--
         <snippet name="ProductList">
+            <Panel class="ProductList" >
+                <Panel id="ProductDisplay" class="ProductDisplay" style="border: 1px solid blue;" >
+					<Panel id="ProductDisplayPictureContainer" class="ProductDisplayPictureContainer" style="border: 1px solid blue;">
+                        <!--<DOTAHeroImage id="HeroImage" heroname="hero_name" heroimagestyle="portrait" scaling="none"/>-->
+                    </Panel>
+					<Button id="ProductPurchaseButton" class="ProductPurchaseButton" style="border: 1px solid blue;" >
+						<Label id="ProductPurchaseButtonTxt" class="ProductPurchaseButtonTxt" text="Buy Now!" />
+					</Button>
+				</Panel>
+            </Panel>
         </snippet>
-        -->
 
 	</snippets>
 
@@ -25,8 +33,29 @@
         </Panel>
 
         <Panel id="ParentShopPanel" hittest="true" >
-            <!-- SNIPPET HERE-->
-        </Panel>
 
+            <Panel id="ProductListHeader" class="ProductListHeader" style="border: 1px solid blue;" >
+                <Panel id="ProductListTitle" class="ProductListTitle" style="border: 1px solid blue;" >
+                    <Label id="ProductListTitleTxt" class="ProductListTitleTxt" text="Shop" />
+                </Panel>
+                <Panel id="ProductListCloseButtonContainer" class="ProductListCloseButtonContainer" style="border: 1px solid blue;" >
+                    <Button id="ProductListCloseButton" class="ProductListCloseButton" onactivate="OnShopCloseButtonPressed()" style="border: 1px solid blue;" >
+                        <Label id="ProductListCloseButtonTxt" class="ProductListCloseButtonTxt" text="X" />
+                    </Button>
+                </Panel>
+            </Panel>
+            
+            <Panel id="ProductListContainer" class="ProductListContainer" style="border: 1px solid red;" >
+                <!-- SNIPPET HERE-->
+            </Panel>
+            
+
+            <Panel id="ProductListFooter" class="ProductListFooter" style="border: 1px solid blue;" >
+                <Panel id="ProductListFooterTitle" class="ProductListFooterTitle" style="border: 1px solid blue;" >
+                    <Label id="ProductListTitleFooterTxt" class="ProductListTitleTxt" text="Purchases can take up to 2minutes to process." />
+                </Panel>
+            </Panel>
+
+        </Panel>
     </Panel>
 </root>

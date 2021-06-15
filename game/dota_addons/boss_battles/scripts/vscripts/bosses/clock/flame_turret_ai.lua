@@ -11,8 +11,6 @@ function Spawn( entityKeyValues )
 
 	thisEntity.fire_turret_flame = thisEntity:FindAbilityByName( "fire_turret_flame" )
 
-    print("i have been summoned")
-
 	--[[local friendlies = FindUnitsInRadius(
         thisEntity:GetTeamNumber(),
         thisEntity:GetAbsOrigin(),

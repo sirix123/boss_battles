@@ -88,7 +88,7 @@
 		"SoundSet"					"Hero_Tinker"
 		"GameSoundsFile"			"soundevents/game_sounds_heroes/game_sounds_tinker.vsndevts"
 		"Level"						"1"
-		"ModelScale" 				"1.2"
+		"ModelScale" 				"1.4"
 
 		// Abilities
 		//----------------------------------------------------------------
@@ -116,7 +116,7 @@
 		"AttackRate"				"1.5"		// Speed of attack.
 		"AttackAnimationPoint"		"0.3"		// Normalized time in animation cycle to attack.
 		"AttackAcquisitionRange"	"10000"		// Range within a target can be acquired.
-		"AttackRange"				"500"
+		"AttackRange"				"800"
 		"ProjectileModel" 			"particles/units/heroes/hero_tinker/tinker_base_attack.vpcf"
 		"ProjectileSpeed" 			"900"	
 
