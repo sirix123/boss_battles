@@ -132,7 +132,7 @@ function generic_cube_bomb_modifier:OnDestroy()
         if units ~= nil and #units ~= 0 then
             for _, unit in pairs(units) do
                 if unit:GetUnitName() ~= self:GetParent():GetUnitName() then
-                    self.speed = 600
+                    self.speed = 1200
                     local info = {
                         EffectName = "particles/econ/items/wraith_king/wraith_king_ti6_bracer/wraith_king_ti6_hellfireblast.vpcf",
                         Ability = self:GetAbility(),
@@ -147,46 +147,40 @@ function generic_cube_bomb_modifier:OnDestroy()
                     }
 
                     ProjectileManager:CreateTrackingProjectile( info )
+
+                    local distance = (self:GetParent():GetAbsOrigin() - unit:GetAbsOrigin()):Length2D()
+                    local time = distance / self.speed
+                    local caster = self:GetCaster()
+                    Timers:CreateTimer(time,function()
+
+                        local particle_cast = "particles/econ/items/wraith_king/wraith_king_ti6_bracer/wraith_king_ti6_hellfireblast_explosion.vpcf"
+
+                        local effect_cast = ParticleManager:CreateParticle( particle_cast, PATTACH_ABSORIGIN_FOLLOW, unit )
+                        ParticleManager:SetParticleControl( effect_cast, 0, unit:GetAbsOrigin() )
+                        ParticleManager:SetParticleControl( effect_cast, 1, Vector( 150, 150, 150 ) )
+                        ParticleManager:SetParticleControl( effect_cast, 3, unit:GetAbsOrigin() )
+                        ParticleManager:ReleaseParticleIndex( effect_cast )
+
+                        local damageInfo =
+                        {
+                            victim = unit,
+                            attacker = caster,
+                            damage = 200,
+                            damage_type = DAMAGE_TYPE_PHYSICAL,
+                        }
+
+                        ApplyDamage( damageInfo )
+
+                        return false
+                    end)
+
                 end
-            end 
+            end
         end
 
     end
 end
 --------------------------------------------------------------------------------
-
-function generic_cube_bomb_modifier:OnProjectileHit( hTarget, vLocation)
-    if IsServer() then
-
-        if hTarget then
-            local particle_cast = "particles/econ/items/wraith_king/wraith_king_ti6_bracer/wraith_king_ti6_hellfireblast_explosion.vpcf"
-            --local sound_target = "Ability.FrostNova"
-
-            -- Create Particle
-            local effect_cast = ParticleManager:CreateParticle( particle_cast, PATTACH_ABSORIGIN_FOLLOW, hTarget )
-            ParticleManager:SetParticleControl( effect_cast, 0, hTarget:GetAbsOrigin() )
-            ParticleManager:SetParticleControl( effect_cast, 1, Vector( 150, 150, 150 ) )
-            ParticleManager:SetParticleControl( effect_cast, 3, hTarget:GetAbsOrigin() )
-            ParticleManager:ReleaseParticleIndex( effect_cast )
-
-            -- Create Sound
-            --EmitSoundOn( sound_target, hTarget )
-
-            local damageInfo =
-            {
-                victim = hTarget,
-                attacker = self:GetCaster(),
-                damage = 200,
-                damage_type = DAMAGE_TYPE_PHYSICAL,
-            }
-
-            ApplyDamage( damageInfo )
-
-            return true
-        end
-    end
-end
-------------------------------------------------------------------------------------------------
 
 function generic_cube_bomb_modifier:OnIntervalThink()
     if not IsServer() then return end

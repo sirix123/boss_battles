@@ -26,8 +26,10 @@ function blast_off:OnAbilityPhaseStart()
 
             local randomEnemy = units[RandomInt(1, #units)]
 
-            while (randomEnemy:GetUnitName() == "npc_rock_techies") do
+            local count = 0
+            while (randomEnemy:GetUnitName() == "npc_rock_techies") and count < 50 do
                 randomEnemy = units[RandomInt(1, #units)]
+                count = count + 1
             end
 
             self.vTargetPos = randomEnemy:GetAbsOrigin()

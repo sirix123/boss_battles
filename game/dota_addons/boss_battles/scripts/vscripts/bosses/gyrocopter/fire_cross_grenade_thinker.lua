@@ -84,6 +84,10 @@ function fire_cross_grenade_thinker:StartTimer(  )
         local effect = "particles/gyrocopter/gyro_invoker_chaos_meteor.vpcf"-- "particles/techies/techies_lion_spell_impale.vpcf"
 
         local distance = 2000
+        local parent_origin = self:GetParent():GetAbsOrigin()
+        local parent = self:GetParent()
+        local caster = self:GetCaster()
+        local ability = self:GetAbility()
 
         local tDirection =
         {
@@ -108,10 +112,10 @@ function fire_cross_grenade_thinker:StartTimer(  )
             for i = 1, #tDirection, 1 do
                 local projectile = {
                     EffectName = effect,
-                    vSpawnOrigin = self:GetParent():GetAbsOrigin() + tDirection[i] * 210 ,
+                    vSpawnOrigin = parent_origin + tDirection[i] * 210 ,
                     fDistance = distance,
                     fUniqueRadius = 100,
-                    Source = self:GetParent(),
+                    Source = parent,
                     vVelocity = tDirection[i] * 600,
                     UnitBehavior = PROJECTILES_NOTHING,
                     TreeBehavior = PROJECTILES_DESTROY,
@@ -120,7 +124,7 @@ function fire_cross_grenade_thinker:StartTimer(  )
                     fGroundOffset = 80,
                     --draw = true,
                     UnitTest = function(_self, unit)
-                        return unit:GetTeamNumber() ~= self:GetCaster():GetTeamNumber() and unit:GetModelName() ~= "models/development/invisiblebox.vmdl"
+                        return unit:GetTeamNumber() ~= caster:GetTeamNumber() and unit:GetModelName() ~= "models/development/invisiblebox.vmdl"
                     end,
                     OnUnitHit = function(_self, unit)
 
@@ -133,14 +137,14 @@ function fire_cross_grenade_thinker:StartTimer(  )
 
                         ApplyDamage({
                             victim = unit,
-                            attacker = self:GetCaster(),
+                            attacker = caster,
                             damage = 400,
                             damage_type = DAMAGE_TYPE_PHYSICAL,
-                            ability = self:GetAbility(),
+                            ability = ability,
                         })
 
                         -- play sound
-                        EmitSoundOnLocationWithCaster(unit:GetAbsOrigin(), "Hero_Lion.ImpaleHitTarget", self:GetParent())
+                        EmitSoundOnLocationWithCaster(unit:GetAbsOrigin(), "Hero_Lion.ImpaleHitTarget", parent)
 
                     end,
                     OnFinish = function(_self, pos)

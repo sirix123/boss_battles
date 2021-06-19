@@ -200,7 +200,30 @@ function DinoThink()
 		end
 
 		if ( thisEntity:GetAbsOrigin() - thisEntity.vResetPos ):Length2D() < 100 then
-			thisEntity.charge_cooldown = RandomInt(20,50)
+
+			-- find heroes on the map and if they have the grab remove the modifier
+			local units = FindUnitsInRadius(
+                thisEntity:GetTeamNumber(),	-- int, your team number
+                thisEntity:GetAbsOrigin(),	-- point, center point self:GetCaster():GetAbsOrigin()
+                nil,	-- handle, cacheUnit. (not known)
+                FIND_UNITS_EVERYWHERE,	-- float, radius. or use FIND_UNITS_EVERYWHERE
+                DOTA_UNIT_TARGET_TEAM_ENEMY,
+                DOTA_UNIT_TARGET_HERO,
+                DOTA_UNIT_TARGET_FLAG_INVULNERABLE,	-- int, flag filter
+                0,	-- int, order filter
+                false	-- bool, can grow cache
+            )
+
+            if units ~= nil and #units ~= 0 then
+				for _, unit in pairs(units) do
+					if unit:HasModifier("grab_player_modifier_dino") == true then
+						unit:RemoveModifierByName("grab_player_modifier_dino")
+					end
+				end
+            end
+
+
+			thisEntity.charge_cooldown = RandomInt(25,40)
 			thisEntity.dino_charge:StartCooldown(thisEntity.charge_cooldown)
 			thisEntity.vResetPos = nil
 			thisEntity.charge_target = nil

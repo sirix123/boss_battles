@@ -11,7 +11,7 @@ function vertical_saw_blade:OnAbilityPhaseStart()
 
         self.caster = self:GetCaster()
         self.origin = self.caster:GetAbsOrigin()
-        self.projectile_speed = 400--self:GetSpecialValueFor("projectile_speed")
+        self.projectile_speed = 350--self:GetSpecialValueFor("projectile_speed")
         self.radius = 180--self:GetSpecialValueFor( "radius" )
         self.damage = 250--self:GetSpecialValueFor( "damage" )
 

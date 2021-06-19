@@ -296,10 +296,11 @@ function GyroThink()
 		end
 
 		if thisEntity.cannon_ball:IsFullyCastable() and thisEntity.cannon_ball:IsCooldownReady() and thisEntity.cannon_ball:IsInAbilityPhase() == false then
-			if FindRandomPlayer():GetAbsOrigin() == nil then
+			local randomplayer = FindRandomPlayer()
+			if randomplayer == nil then
 				return 1
 			else
-				return CastCannonBall( FindRandomPlayer():GetAbsOrigin() )
+				return CastCannonBall( randomplayer:GetAbsOrigin() )
 			end
 		end
 

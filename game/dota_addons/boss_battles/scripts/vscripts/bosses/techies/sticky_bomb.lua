@@ -11,7 +11,7 @@ function sticky_bomb:OnAbilityPhaseStart()
             nil,	-- handle, cacheUnit. (not known)
             5000,	-- float, radius. or use FIND_UNITS_EVERYWHERE
             DOTA_UNIT_TARGET_TEAM_ENEMY,
-            DOTA_UNIT_TARGET_ALL,
+            DOTA_UNIT_TARGET_HERO,
             DOTA_UNIT_TARGET_FLAG_NONE,	-- int, flag filter
             0,	-- int, order filter
             false	-- bool, can grow cache
@@ -23,8 +23,11 @@ function sticky_bomb:OnAbilityPhaseStart()
 
             self.target = units[RandomInt(1, #units)]
 
-            while (self.target:GetUnitName() == "npc_rock_techies") do
+            local count = 0
+            while (self.target:GetUnitName() == "npc_rock_techies") and count < 50 do
                 self.target = units[RandomInt(1, #units)]
+
+                count = count + 1
             end
 
             self:GetCaster():SetForwardVector(self.target:GetAbsOrigin())

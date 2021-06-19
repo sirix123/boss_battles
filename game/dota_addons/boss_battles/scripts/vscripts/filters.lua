@@ -6,13 +6,8 @@ function Filters:Activate(GameMode, this)
 
         --PrintTable(filter_table)
 
-        -- need to validate the event coming in
-        -- if the caster has that ability, if they have mana, if its off cooldown
         local caster = EntIndexToHScript(filter_table.units["0"])
         local ability = EntIndexToHScript(filter_table.entindex_ability)
-
-        --print("caster:HasItemInInventory(ability:GetName()): ",caster:HasItemInInventory(ability:GetName()))
-        --print("----------------------------------------")
 
         if caster:HasAbility(ability:GetName()) == false and caster:HasItemInInventory(ability:GetName()) == false then
             return false
@@ -52,18 +47,11 @@ function Filters:Activate(GameMode, this)
                     0: 281
         ]]
 
-        -- if caster is dead dont do any of this
-
         if caster:IsAlive() == false or caster:IsStunned() == true then
             return false
         end
 
-        --
-
-        --print("direction casting ",filter_table.position_z)
-        --print("caster z location ",caster:GetAbsOrigin().z)
-
-        if order_type == DOTA_UNIT_ORDER_CAST_POSITION then --or order_type == DOTA_UNIT_ORDER_CAST_NO_TARGET
+        if order_type == DOTA_UNIT_ORDER_CAST_POSITION then
             local ability = EntIndexToHScript(filter_table.entindex_ability)
             local caster = EntIndexToHScript(filter_table.units["0"])
             local point = Vector(
@@ -75,9 +63,7 @@ function Filters:Activate(GameMode, this)
             local direction = (point - caster:GetAbsOrigin()):Normalized()
             local max_range = ability:GetCastRange(Vector(0,0,0), nil)
 
-            --
             if ability:GetBehavior() ~= DOTA_ABILITY_BEHAVIOR_IMMEDIATE then
-                --print("order filter direction, ",direction)
                 caster:FaceTowards(direction)
                 caster:SetForwardVector(direction)
             end
@@ -101,11 +87,6 @@ function Filters:Activate(GameMode, this)
             local max_range = ability:GetCastRange(Vector(0,0,0), nil)
             local current_range = (target:GetAbsOrigin() - caster:GetAbsOrigin()):Length2D()
 
-            --[[for k, v in pairs(filter_table) do
-                print("key = ",k,"value = ",v)
-            end
-            print("target = ",target:GetAbsOrigin())]]
-
             if ability:GetBehavior() ~= DOTA_ABILITY_BEHAVIOR_IMMEDIATE then
                 caster:FaceTowards(direction)
                 caster:SetForwardVector(direction)
@@ -114,6 +95,7 @@ function Filters:Activate(GameMode, this)
             if current_range > max_range then
                 return false
             end
+
             return true
         end
 

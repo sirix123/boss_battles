@@ -205,7 +205,7 @@
 
 		"AbilityTextureName"			"shadow_demon_shadow_poison"
 		"AbilityUnitTargetTeam"			"DOTA_UNIT_TARGET_TEAM_FRIENDLY"
-        "AbilityBehavior"				"DOTA_ABILITY_BEHAVIOR_UNIT_TARGET"
+        "AbilityBehavior"				"DOTA_ABILITY_BEHAVIOR_POINT" //
 		"AbilityUnitTargetType"			"DOTA_UNIT_TARGET_HERO | DOTA_UNIT_TARGET_BASIC"
 		"AbilityCastRange" 				"1300"
         "AbilityCastPoint"              "0.0"

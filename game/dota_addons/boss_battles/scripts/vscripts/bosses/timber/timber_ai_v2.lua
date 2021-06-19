@@ -378,7 +378,7 @@ function CastChainMapEdge()
 		Queue = false,
 	})
 
-	return 3
+	return 2
 
 	--return 2.5
 end

@@ -15,7 +15,7 @@ function Spawn( entityKeyValues )
 	thisEntity:SetHullRadius(60)
 	
 	-- random start time 
-	thisEntity.random_start = RandomInt(10,29) -- dont make this higher then 29
+	thisEntity.random_start = RandomInt(5,15) -- dont make this higher then 29
 	thisEntity.count = thisEntity.random_start
 	StartTimer()
 
@@ -199,7 +199,7 @@ function ElectricTurretThink_v2()
 		end
 
 		Timers:RemoveTimer(thisEntity.timer) -- remove the old timer for the count down
-		thisEntity.random_start = RandomInt(5,29) -- generate a new start time
+		thisEntity.random_start = RandomInt(5,15) -- generate a new start time
 		thisEntity.count = thisEntity.random_start -- use this start time for timer
 		StartTimer() -- start the timer again
 		thisEntity.randomTarget = nil -- remove the target so we reenter phase 1
