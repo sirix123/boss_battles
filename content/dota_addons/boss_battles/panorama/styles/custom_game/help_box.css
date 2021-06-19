@@ -73,8 +73,10 @@
     height: 100%;
     horizontal-align: left;
     vertical-align: bottom;
-    background-color: #151515;
-	background-size: 100% 100%;
+    background-image: url("s2r://panorama/images/hud/reborn/bg_scoreboard_psd.vtex");
+    background-size: cover;
+    background-color: #000000da;
+    box-shadow: #000000f5 0px 0px 8px 0px;
 	border-radius: 0px 5px 5px 0px;
     flow-children: down;
 }

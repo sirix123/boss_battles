@@ -217,6 +217,11 @@
   height: 100%;
   horizontal-align: left;
   /*border: 1px solid black;*/
+
+}
+.PlayerPictureContainer{
+  width: 100%;
+  height: 100%;
 }
 
 /* Container for player_name, hp and mana bars */
@@ -360,12 +365,18 @@
   margin: 0;
 }
 
+.hero_image{
+	width: 100%;
+	height: 100%;
+}
 
+.hero_image.backgroundImage {
+	background-color: #151515;
+}
 
-
-
-
-
+.hero_image.backgroundSize {
+	background-size: 100% 100%;
+}
 
 
 

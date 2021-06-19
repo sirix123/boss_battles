@@ -110,6 +110,10 @@ function Precache( context ) -- this needs to be in a seperate file
   PrecacheUnitByNameSync("npc_fire_ele", context)
   PrecacheUnitByNameSync("npc_elec_ele", context)
 
+  -- qop
+  PrecacheResource( "model", "models/items/queenofpain/queenofpain_arcana/queenofpain_arcana.vmdl", context )
+  PrecacheResource( "particle", "particles/econ/items/queen_of_pain/qop_arcana/qop_arcana_whip_ambient.vpcf", context )
+
   local npcs = LoadKeyValues("scripts/npc/npc_units_custom.txt")
 
   for k, _ in pairs(npcs) do

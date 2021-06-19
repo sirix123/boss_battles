@@ -35,6 +35,10 @@
 	background-image: url("file://panorama/images/backgrounds/background_play_button_large_2x_png.png");
 }
 
+.ShopButton.disabled, .PickHeroBtn.ShopButton:Hover {
+	background-color: gradient( linear, 0% 0%, 0% 100%, from( #9C9C9C ), to( #D1D1D133 ) );
+}
+
 .ShopButtonLabel{
 	horizontal-align: center;
 	vertical-align: center;
@@ -51,8 +55,10 @@
     height: 900px;
     horizontal-align: center;
     vertical-align: center;
-    background-color: #151515;
-	background-size: 100% 100%;
+    background-image: url("s2r://panorama/images/hud/reborn/bg_scoreboard_psd.vtex");
+    background-size: cover;
+    background-color: #000000da;
+    box-shadow: #000000f5 0px 0px 8px 0px;
 	border-radius: 5px 5px 5px 5px;
 	flow-children: down;
 }
@@ -162,4 +168,17 @@
 
 .disabled {
 	background-color: gradient( linear, 0% 0%, 0% 100%, from( #9C9C9C ), to( #D1D1D133 ) );
+}
+
+.hero_image{
+	width: 100%;
+	height: 100%;
+}
+
+.hero_image.backgroundImage {
+	background-color: #151515;
+}
+
+.hero_image.backgroundSize {
+	background-size: 100% 100%;
 }

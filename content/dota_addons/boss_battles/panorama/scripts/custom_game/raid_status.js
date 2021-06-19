@@ -135,8 +135,12 @@ function createPlayerFrames(data)
     let playerFrame = $.CreatePanel("Panel", playersFrameContainer, data["PlayerID"]);
     playerFrame.BLoadLayoutSnippet("PlayerFrame");
 
-    var heroImage = playerFrame.FindChildTraverse("HeroImage")
+    var heroImage = playerFrame.FindChildInLayoutFile('HeroImage');
     heroImage.heroname = data["HeroData"].hero_name 
+
+    heroImage.SetImage('file://{images}/heroes/selection/' + data["HeroData"].hero_name  + '.png');
+    heroImage.style.backgroundImage = 'url("file://{images}/heroes/' + data["HeroData"].hero_name  + '.png")';
+    heroImage.style.backgroundSize = "100% 100%";
 
     var pNameLabel = playerFrame.FindChildTraverse("PlayerNameLabel")
     pNameLabel.text = data["HeroData"].playerName
@@ -199,7 +203,27 @@ function updatePlayerFrames(data)
     }
 }
 
+//this isnt used because the hero portaits dont exist for portraits
+function changePortraits( data ){
+    let playersFrameContainer = $("#PlayersFrameContainer")
+
+    for (let i=0; i < playersFrameContainer.GetChildCount(); i++)
+    {
+        var playerFrame = playerFramePanels[i]
+
+        if ( data.player_id == playerFrame.id ) 
+        {
+            var heroImage = playerFrame.FindChildInLayoutFile('HeroImage');
+            heroImage.heroname = data.hero_portrait
+            
+            heroImage.SetImage('file://{images}/heroes/selection/' + data.hero_portrait + '.png');
+            heroImage.style.backgroundImage = 'url("file://{images}/heroes/' + data.hero_portrait + '.png")';
+            heroImage.style.backgroundSize = "100% 100%";
+        }
+    }
+}
+
 GameEvents.Subscribe( "create_player_frame", createPlayerFrames );
 GameEvents.Subscribe( "update_player_frame", updatePlayerFrames );
-
+GameEvents.Subscribe( "update_player_frame_cosmetic_equipped", changePortraits );
 

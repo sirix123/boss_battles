@@ -16,6 +16,8 @@ function CDOTA_BaseNPC:Initialize(data)
 
   self.playerId = self:GetPlayerID()
 
+  self.arcana_equipped = false
+
   self.playerLives = BOSS_BATTLES_PLAYER_LIVES
   self.playerDeaths = 0
   self.playerHP = 0

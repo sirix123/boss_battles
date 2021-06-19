@@ -11,11 +11,14 @@
 
         <snippet name="ProductList">
             <Panel class="ProductList" >
-                <Panel id="ProductDisplay" class="ProductDisplay" style="border: 1px solid blue;" >
+                <Panel id="ProductDisplay" class="ProductDisplay" >
 					<Panel id="ProductDisplayPictureContainer" class="ProductDisplayPictureContainer" style="border: 1px solid blue;">
-                        <!--<DOTAHeroImage id="HeroImage" heroname="hero_name" heroimagestyle="portrait" scaling="none"/>-->
+                        <!--<DOTAHeroImage id="HeroImage" heroname="hero_name" heroimagestyle="portrait" scaling="none" class="hero_image"/>-->
+                        <!--<DOTAScenePanel id="HeroImage" antialias='true' particleonly='false' unit="" always-cache-composition-layer='true' class="hero_image"/> -->
+                        <!--<MoviePanel class="HeroImage" id="HeroImage" src="file://{resources}/videos/heroes/npc_dota_hero_sven.webm" repeat="true" autoplay="onload"  />-->
+                        
                     </Panel>
-					<Button id="ProductPurchaseButton" class="ProductPurchaseButton" style="border: 1px solid blue;" >
+					<Button id="ProductPurchaseButton" class="ProductPurchaseButton" >
 						<Label id="ProductPurchaseButtonTxt" class="ProductPurchaseButtonTxt" text="Buy Now!" />
 					</Button>
 				</Panel>
@@ -34,24 +37,24 @@
 
         <Panel id="ParentShopPanel" hittest="true" >
 
-            <Panel id="ProductListHeader" class="ProductListHeader" style="border: 1px solid blue;" >
-                <Panel id="ProductListTitle" class="ProductListTitle" style="border: 1px solid blue;" >
+            <Panel id="ProductListHeader" class="ProductListHeader" >
+                <Panel id="ProductListTitle" class="ProductListTitle" >
                     <Label id="ProductListTitleTxt" class="ProductListTitleTxt" text="Shop" />
                 </Panel>
-                <Panel id="ProductListCloseButtonContainer" class="ProductListCloseButtonContainer" style="border: 1px solid blue;" >
-                    <Button id="ProductListCloseButton" class="ProductListCloseButton" onactivate="OnShopCloseButtonPressed()" style="border: 1px solid blue;" >
+                <Panel id="ProductListCloseButtonContainer" class="ProductListCloseButtonContainer" >
+                    <Button id="ProductListCloseButton" class="ProductListCloseButton" onactivate="OnShopCloseButtonPressed()" >
                         <Label id="ProductListCloseButtonTxt" class="ProductListCloseButtonTxt" text="X" />
                     </Button>
                 </Panel>
             </Panel>
             
-            <Panel id="ProductListContainer" class="ProductListContainer" style="border: 1px solid red;" >
+            <Panel id="ProductListContainer" class="ProductListContainer" >
                 <!-- SNIPPET HERE-->
             </Panel>
             
 
-            <Panel id="ProductListFooter" class="ProductListFooter" style="border: 1px solid blue;" >
-                <Panel id="ProductListFooterTitle" class="ProductListFooterTitle" style="border: 1px solid blue;" >
+            <Panel id="ProductListFooter" class="ProductListFooter" >
+                <Panel id="ProductListFooterTitle" class="ProductListFooterTitle" >
                     <Label id="ProductListTitleFooterTxt" class="ProductListTitleTxt" text="Purchases can take up to 2minutes to process." />
                 </Panel>
             </Panel>

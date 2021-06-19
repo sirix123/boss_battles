@@ -56,8 +56,8 @@
                     <!-- TODO: image -->
 
                     <!-- Trying to do animation from valve -->
-                    <Panel id="PlayerPictureContainer">
-                        <DOTAHeroImage id="HeroImage" heroname="hero_name" heroimagestyle="portrait" scaling="stretch-to-fit-preserve-aspect"/>
+                    <Panel id="PlayerPictureContainer" class="PlayerPictureContainer">
+                        <DOTAHeroImage id="HeroImage" heroname="hero_name" heroimagestyle="portrait" scaling="stretch-to-fit-preserve-aspect" class="hero_image"/> 
                     </Panel>
                     <!-- <DOTAParticleScenePanel id="PortraitStreakParticle" class="SceneLoaded PlayerFrameHeroAnimTest" hittest="false" map="scenes/dota_ui_particle_scene_panel_empty" camera="default_camera" /> -->
                 </Panel>
