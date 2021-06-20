@@ -1,7 +1,7 @@
 e_whirling_winds_modifier_thinker = class({})
 
 function e_whirling_winds_modifier_thinker:IsHidden()
-	return false
+	return true
 end
 
 function e_whirling_winds_modifier_thinker:IsDebuff()
@@ -48,7 +48,12 @@ function e_whirling_winds_modifier_thinker:OnIntervalThink()
 
         if friendlies ~= nil and #friendlies ~= 0 then
             for _, friend in pairs(friendlies) do
-                friend:AddNewModifier(self.parent, self, "e_whirling_winds_modifier", { duration = 2.0 })
+                friend:AddNewModifier(self.parent, self:GetAbility(), "e_whirling_winds_modifier", 
+                {
+                    duration = 2.0,
+                    dmg_boost_percent =  self:GetAbility():GetSpecialValueFor("dmg_increase"),
+                    ms_boost = self:GetAbility():GetSpecialValueFor("ms_increase"),
+                })
             end
         end
 

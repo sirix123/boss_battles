@@ -59,7 +59,7 @@ function m2_serratedarrow:OnSpellStart()
         local origin = self.caster:GetAbsOrigin()
         local projectile_speed = self:GetSpecialValueFor( "proj_speed" )
         local dmg = self:GetSpecialValueFor( "dmg" )
-        local dmg_dist_multi = self:GetSpecialValueFor( "dmg_dist_multi" )
+        local dmg_dist_multi = self:GetSpecialValueFor( "dmg_dist_multi" ) / 100
 
         -- play sound
         EmitSoundOn("Ability.Powershot", self.caster)
@@ -92,14 +92,11 @@ function m2_serratedarrow:OnSpellStart()
 
                 local distanceFromHero = (unit:GetAbsOrigin() - origin ):Length2D()
 
-                -- reduce dmg based on number of units hit
-                units_hit = units_hit  + 1
-
                 if self.caster:HasModifier("e_whirling_winds_modifier") then
                     distanceFromHero = self:GetCastRange(Vector(0,0,0), nil)
-                    dmg = ( dmg + ( distanceFromHero * dmg_dist_multi ) ) / units_hit
+                    dmg = ( dmg + ( distanceFromHero * dmg_dist_multi ) )
                 else
-                    dmg = ( dmg + ( distanceFromHero * dmg_dist_multi ) ) / units_hit
+                    dmg = ( dmg + ( distanceFromHero * dmg_dist_multi ) )
                 end
 
                 local dmgTable = {

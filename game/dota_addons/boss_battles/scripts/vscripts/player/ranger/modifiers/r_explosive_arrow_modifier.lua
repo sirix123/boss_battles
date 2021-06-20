@@ -3,7 +3,7 @@ r_explosive_arrow_modifier = class({})
 --------------------------------------------------------------------------------
 -- Classifications
 function r_explosive_arrow_modifier:IsHidden()
-	return false
+	return true
 end
 
 function r_explosive_arrow_modifier:IsDebuff()

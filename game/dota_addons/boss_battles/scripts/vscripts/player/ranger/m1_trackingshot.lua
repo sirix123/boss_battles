@@ -53,7 +53,7 @@ function m1_trackingshot:OnSpellStart()
         local projectile_direction = (Vector( vTargetPos.x - origin.x, vTargetPos.y - origin.y, 0 )):Normalized()
 
         local dmg = self:GetSpecialValueFor( "base_dmg" )
-        local dmg_dist_multi = self:GetSpecialValueFor( "dmg_dist_multi" )
+        local dmg_dist_multi = self:GetSpecialValueFor( "dmg_dist_multi" ) / 100
 
         -- init effect
         local enEffect = "particles/ranger/m1_ranger_windrunner_base_attack.vpcf"

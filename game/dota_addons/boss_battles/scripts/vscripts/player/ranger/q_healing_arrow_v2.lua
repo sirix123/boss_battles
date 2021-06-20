@@ -58,7 +58,7 @@ function q_healing_arrow_v2:OnSpellStart()
         local origin = self.caster:GetAbsOrigin()
         local projectile_speed = self:GetSpecialValueFor( "proj_speed" )
         local heal = self:GetSpecialValueFor( "heal" )
-        local heal_dist_multi = self:GetSpecialValueFor( "heal_dist_multi" )
+        local heal_dist_multi = self:GetSpecialValueFor( "heal_dist_multi" ) / 100
 
         -- play sound
         EmitSoundOn("Ability.Powershot", self.caster)

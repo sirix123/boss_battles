@@ -17,12 +17,16 @@ end
 -----------------------------------------------------------------------------
 
 function e_whirling_winds_modifier:OnCreated( kv )
-    --if IsServer() then
+    if IsServer() then
 
-        self.ms_boost = 30
-        self.dmg_boost_percent = 30
+        self.ms_boost = kv.ms_boost
+        self.dmg_boost_percent = kv.dmg_boost_percent
 
-    --end
+    end
+
+	self.ms_boost = self:GetCaster():FindAbilityByName("e_whirling_winds"):GetSpecialValueFor( "dmg_increase" )
+    self.dmg_boost_percent = self:GetCaster():FindAbilityByName("e_whirling_winds"):GetSpecialValueFor( "ms_increase" )
+
 end
 ----------------------------------------------------------------------------
 
