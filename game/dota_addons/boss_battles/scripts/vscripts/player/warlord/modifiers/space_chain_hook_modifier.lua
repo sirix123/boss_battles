@@ -23,7 +23,7 @@ function space_chain_hook_modifier:DeclareFunctions()
 end
 
 function space_chain_hook_modifier:GetOverrideAnimation()
-	return ACT_DOTA_OVERRIDE_ABILITY_4
+	return 61--ACT_DOTA_FLAIL
 end
 function space_chain_hook_modifier:GetOverrideAnimationRate()
 	return 1.0

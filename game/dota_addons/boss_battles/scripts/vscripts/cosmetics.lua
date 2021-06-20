@@ -153,17 +153,37 @@ function CosmeticManager:GetProductListTest()
     local product_list = {}
     local hero = {}
     hero["hero"] = "npc_dota_hero_crystal_maiden"
-    hero["products"] = {"ed05d5ae-8383-47e1-9723-a8daa17c8695","ead33daf-8779-4b26-9a61-4841a7587302","39607c1c-7ed0-4377-a1f8-0d7d5ca980cf"}
+    hero["products"] = {"prod_JeM6EdQsCCvQbB"}
     table.insert(product_list,hero)
 
     hero = {}
-    hero["hero"] = "npc_dota_hero_juggernaut"
-    hero["products"] = {"698c6222-4043-4dd0-8c2e-1b1c8c4c65cb"}
+    hero["hero"] = "npc_dota_hero_legion_commander"
+    hero["products"] = {"prod_JhhDluCT1T5SWR"}
     table.insert(product_list,hero)
 
     hero = {}
     hero["hero"] = "npc_dota_hero_queenofpain"
-    hero["products"] = {"1111111-4043-4dd0-8c2e-1b1c8c4c65cb"}
+    hero["products"] = {"prod_JhhDzGDJJb9t1z"}
+    table.insert(product_list,hero)
+
+    hero = {}
+    hero["hero"] = "npc_dota_hero_omniknight"
+    hero["products"] = {"prod_JhhDN4uB5R7qT4"}
+    table.insert(product_list,hero)
+
+    hero = {}
+    hero["hero"] = "npc_dota_hero_medusa"
+    hero["products"] = {"prod_JhhK4ZwCbpMAXe"}
+    table.insert(product_list,hero)
+
+    hero = {}
+    hero["hero"] = "npc_dota_hero_phantom_assassin"
+    hero["products"] = {"prod_JhhDjvKw86l9bm"}
+    table.insert(product_list,hero)
+
+    hero = {}
+    hero["hero"] = "npc_dota_hero_lina"
+    hero["products"] = {"prod_JhhDnkjfU31G0U"}
     table.insert(product_list,hero)
 
     --print(dump(json.encode(product_list)))
@@ -200,12 +220,12 @@ function CosmeticManager:GetPlayerPurchaseListTest()
 
     local player = {}
     player["steam_id"] = "76561197972850274"
-    player["purchases"] = {"ed05d5ae-8383-47e1-9723-a8daa17c8695","ead33daf-8779-4b26-9a61-4841a7587302","698c6222-4043-4dd0-8c2e-1b1c8c4c65cb","1111111-4043-4dd0-8c2e-1b1c8c4c65cb"}
+    player["purchases"] = {"prod_JhhDjvKw86l9bm","prod_JhhDnkjfU31G0U","prod_JhhK4ZwCbpMAXe","prod_JhhDN4uB5R7qT4","prod_JhhDzGDJJb9t1z","prod_JhhDluCT1T5SWR","prod_JeM6EdQsCCvQbB"}
     table.insert(product_player_list,player)
 
     player = {}
-    player["steam_id"] = "11111111111111111"
-    player["purchases"] = {"39607c1c-7ed0-4377-a1f8-0d7d5ca980cf","698c6222-4043-4dd0-8c2e-1b1c8c4c65cb"}
+    player["steam_id"] = "76561198054593305"
+    player["purchases"] = {"39607c1c-7ed0-4377-a1f8-0d7d5ca980cf"}
     table.insert(product_player_list,player)
 
     --print(dump(json.encode(product_player_list)))

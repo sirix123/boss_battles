@@ -100,7 +100,7 @@ function PlayerSelected( player, hero ) {
 	// match dota hero name to boss battles hero name
 	if ( hero == "npc_dota_hero_crystal_maiden" 	) 	{ hero = "Rylai"; }
 	if ( hero == "npc_dota_hero_phantom_assassin" 	) 	{ hero = "Nightblade"; }
-	if ( hero == "npc_dota_hero_juggernaut" 		) 	{ hero = "Blademaster"; }
+	if ( hero == "npc_dota_hero_legion_commander" 		) 	{ hero = "Blademaster"; }
 	if ( hero == "npc_dota_hero_medusa" 			) 	{ hero = "Medusa"; }
 	if ( hero == "npc_dota_hero_lina" 				) 	{ hero = "Lina"; }
 	if ( hero == "npc_dota_hero_omniknight" 		) 	{ hero = "Nocens"; }
@@ -205,7 +205,7 @@ let heroes =
 	"npc_dota_hero_kunkka",
 	"npc_dota_hero_crystal_maiden",
 	"npc_dota_hero_phantom_assassin",
-	"npc_dota_hero_juggernaut",
+	"npc_dota_hero_legion_commander",
 	"npc_dota_hero_medusa",
 	"npc_dota_hero_lina",
 	"npc_dota_hero_omniknight",

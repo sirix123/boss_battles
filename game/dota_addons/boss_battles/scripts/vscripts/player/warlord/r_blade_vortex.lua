@@ -5,7 +5,7 @@ function r_blade_vortex:OnAbilityPhaseStart()
     if IsServer() then
 
         -- start casting animation
-        self:GetCaster():StartGestureWithPlaybackRate(ACT_DOTA_CAST_ABILITY_2, 1.0)
+        self:GetCaster():StartGestureWithPlaybackRate(ACT_DOTA_CAST_ABILITY_1, 1.0)
 
         self.caster = self:GetCaster()
         local find_radius = 150
@@ -39,7 +39,7 @@ function r_blade_vortex:OnAbilityPhaseStart()
         if #units ~= 0 and units ~= nil then
 
             -- start casting animation
-            self:GetCaster():StartGestureWithPlaybackRate(ACT_DOTA_ATTACK, 1.5)
+            self:GetCaster():StartGestureWithPlaybackRate(ACT_DOTA_CAST_ABILITY_1, 1.5)
 
             self.target = units[1]
 
@@ -59,7 +59,7 @@ function r_blade_vortex:OnAbilityPhaseInterrupted()
     if IsServer() then
 
         -- remove casting animation
-        self:GetCaster():FadeGesture(ACT_DOTA_CAST_ABILITY_2)
+        self:GetCaster():FadeGesture(ACT_DOTA_CAST_ABILITY_1)
 
         -- remove casting modifier
         self:GetCaster():RemoveModifierByName("casting_modifier_thinker")
@@ -71,7 +71,7 @@ end
 function r_blade_vortex:OnSpellStart()
     if IsServer() then
 
-        self:GetCaster():FadeGesture(ACT_DOTA_CAST_ABILITY_2)
+        self:GetCaster():FadeGesture(ACT_DOTA_CAST_ABILITY_1)
 
         local caster = self:GetCaster()
         self.radius = self:GetSpecialValueFor("radius")
@@ -80,7 +80,7 @@ function r_blade_vortex:OnSpellStart()
         --vTargetPos = Clamp(caster:GetOrigin(), Vector(caster.mouse.x, caster.mouse.y, caster.mouse.z), self:GetCastRange(Vector(0,0,0), nil), 0)
 
         -- sound effect
-        caster:EmitSound("Hero_Juggernaut.HealingWard.Cast")
+        caster:EmitSound("Hero_LegionCommander.Overwhelming.Location")
 
         self.target:AddNewModifier(
             caster, -- player source

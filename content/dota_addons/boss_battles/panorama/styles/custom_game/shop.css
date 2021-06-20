@@ -51,8 +51,8 @@
 =================================================================*/
 #ParentShopPanel
 {
-    width: 1600px;
-    height: 900px;
+    width: 1300px;
+    height: 400px;
     horizontal-align: center;
     vertical-align: center;
     background-image: url("s2r://panorama/images/hud/reborn/bg_scoreboard_psd.vtex");
@@ -67,7 +67,7 @@
 =================================================================*/
 .ProductListContainer{
 	width: 100%;
-	height: 90%;
+	height: 80%;
 	flow-children: right-wrap;
 }
 
@@ -75,9 +75,10 @@
 =================================================================*/
 .ProductListHeader{
 	width: 100%;
-	height: 5%;
+	height: 10%;
 	vertical-align: top;
 	flow-children: right;
+	margin-top: 2px;
 }
 
 .ProductListTitle{
@@ -89,8 +90,6 @@
 .ProductListTitleTxt{
 	color: #fff;
 	font-size: 24px;
-	background-color: #151515;
-	background-size: 100% 100%;
 	font-family: defaultFont;
 	horizontal-align: center;
 	vertical-align: center;
@@ -110,8 +109,6 @@
 .ProductListCloseButtonTxt{
 	color: #fff;
 	font-size: 24px;
-	background-color: #151515;
-	background-size: 100% 100%;
 	font-family: defaultFont;
 	horizontal-align: center;
 	vertical-align: center;
@@ -121,7 +118,7 @@
 =================================================================*/
 .ProductListFooter{
 	width: 100%;
-	height: 5%;
+	height: 10%;
 	vertical-align: bottom;
 }
 
@@ -133,34 +130,47 @@
 /* body
 =================================================================*/
 .ProductList{
-	width: 20%;
-	height: 40%;
+	width: 15%;
+	height: 50%;
 }
 
 .ProductDisplay{
-	width: 100%;
-	height: 100%;
+	width: 150px;
+	height: 200px;
 	vertical-align: top;
 	horizontal-align: left;
 	flow-children: down;
-	margin: 50px;
+	margin: 8px;
+	box-shadow: fill #00000066 -2px -2px 4px 4px;
+}
+
+.ProductDisplayTitle{
+	width: 100%;
+	height: 15%;
+	vertical-align: top;
+	flow-children: down;
 }
 
 .ProductDisplayPictureContainer{
 	width: 100%;
-	height: 80%;
-	vertical-align: top;
+	height: 60%;
+	vertical-align: center;
+	flow-children: down;
 }
 
 .ProductPurchaseButton{
 	width: 100%;
 	height: 20%;
 	vertical-align: bottom;
+	background-color: gradient( linear, 0% 0%, 0% 100%, from( #5AA15E ), to( #71d183c0 ) );
+	background-image: url("file://panorama/images/backgrounds/background_play_button_large_2x_png.png");
+	background-size: 100px 50px;
+	flow-children: down;
 }
 
 .ProductPurchaseButtonTxt{
 	color: #fff;
-	font-size: 24px;
+	font-size: 18px;
 	font-family: defaultFont;
 	horizontal-align: center;
 	vertical-align: center;
@@ -173,12 +183,4 @@
 .hero_image{
 	width: 100%;
 	height: 100%;
-}
-
-.hero_image.backgroundImage {
-	background-color: #151515;
-}
-
-.hero_image.backgroundSize {
-	background-size: 100% 100%;
 }

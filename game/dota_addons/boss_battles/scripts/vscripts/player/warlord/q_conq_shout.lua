@@ -54,7 +54,7 @@ function q_conq_shout:OnSpellStart()
         end
 
         -- Create Sound
-        EmitSoundOn( "Hero_Axe.Berserkers_Call", caster )
+        EmitSoundOn( "Hero_Axe.Berserkers_Call", caster ) --Hero_LegionCommander.Overwhelming.Buff
 
         -- particle
         local particle = 'particles/units/heroes/hero_elder_titan/elder_titan_echo_stomp.vpcf'

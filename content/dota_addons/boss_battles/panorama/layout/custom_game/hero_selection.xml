@@ -66,6 +66,8 @@
 			<DOTAScenePanel id="PickingScreenScene" camera="dashboard_cam" map="scenes/backgrounds/hero_frontpage_dawnbreaker" hittest="false" particleonly="false"/>
 			<DOTAScenePanel id="PickingScreenScene" camera="dashboard_cam" map="maps/backgrounds/hero_frontpage_dawnbreaker"/>
 			-->
+
+			<DOTAScenePanel id="BGScene" class="selection_background" map="maps/backgrounds/pregame_phase.vmap"/>
 			
 			<!--
 			<DOTAScenePanel id="PickingScreenScene" camera="dashboard_cam" map="maps/backgrounds/dueling_fates_main_bg" hittest="true" particleonly="false"/>

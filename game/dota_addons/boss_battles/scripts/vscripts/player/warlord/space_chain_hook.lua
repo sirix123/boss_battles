@@ -108,7 +108,7 @@ function space_chain_hook:OnSpellStart()
         local particle = "particles/warlord/warlord_rattletrap_hookshot.vpcf"
         local nfx = ParticleManager:CreateParticle(particle, PATTACH_CUSTOMORIGIN, caster)
         -- CP0 starting point
-        ParticleManager:SetParticleControlEnt(nfx, 0, caster, PATTACH_POINT_FOLLOW, "attach_sword", origin, true)
+        ParticleManager:SetParticleControlEnt(nfx, 0, caster, PATTACH_POINT_FOLLOW, "attach_attack1", origin, true)
         -- for clock attach_weapon attach_attack2 (for TA)
         -- CP1 point the hook will travel to
         ParticleManager:SetParticleControl(nfx, 1, position)

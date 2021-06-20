@@ -6,7 +6,7 @@ function m2_sword_slam:OnAbilityPhaseStart()
     if IsServer() then
 
         -- start casting animation
-        self:GetCaster():StartGestureWithPlaybackRate(ACT_DOTA_ATTACK_EVENT, 1.0)
+        self:GetCaster():StartGestureWithPlaybackRate(ACT_DOTA_ATTACK, 1.0)
 
         self.mana = self:GetCaster():GetMana()
 
@@ -19,8 +19,8 @@ function m2_sword_slam:OnAbilityPhaseStart()
         --- particle effect on cast
         local nfx = ParticleManager:CreateParticle("particles/units/heroes/hero_monkey_king/monkey_king_strike_cast.vpcf", PATTACH_POINT_FOLLOW, self:GetCaster())
         ParticleManager:SetParticleControl(nfx, 0, self:GetCaster():GetAbsOrigin())
-        ParticleManager:SetParticleControlEnt(nfx, 1, self:GetCaster(), PATTACH_POINT_FOLLOW, "attach_sword", self:GetCaster():GetAbsOrigin(), true)
-        ParticleManager:SetParticleControlEnt(nfx, 2, self:GetCaster(), PATTACH_POINT_FOLLOW, "blade_attachment", self:GetCaster():GetAbsOrigin(), true)
+        ParticleManager:SetParticleControlEnt(nfx, 1, self:GetCaster(), PATTACH_POINT_FOLLOW, "attach_attack1", self:GetCaster():GetAbsOrigin(), true)
+        ParticleManager:SetParticleControlEnt(nfx, 2, self:GetCaster(), PATTACH_POINT_FOLLOW, "attach_attack1", self:GetCaster():GetAbsOrigin(), true)
         ParticleManager:ReleaseParticleIndex(nfx)
 
         -- emit sound
@@ -35,7 +35,7 @@ function m2_sword_slam:OnAbilityPhaseInterrupted()
     if IsServer() then
 
         -- remove casting animation
-        self:GetCaster():FadeGesture(ACT_DOTA_ATTACK_EVENT)
+        self:GetCaster():FadeGesture(ACT_DOTA_ATTACK)
 
         -- remove casting modifier
         self:GetCaster():RemoveModifierByName("casting_modifier_thinker")
@@ -48,7 +48,7 @@ function m2_sword_slam:OnSpellStart()
 	local origin = self.caster:GetOrigin()
 
 	-- remove casting animation
-    self:GetCaster():FadeGesture(ACT_DOTA_ATTACK_EVENT)
+    self:GetCaster():FadeGesture(ACT_DOTA_ATTACK)
 
 	-- function in utility_functions
 	--local point = Clamp(origin, self:GetCursorPosition(), self:GetCastRange(Vector(0,0,0), nil), self:GetCastRange(Vector(0,0,0), nil))

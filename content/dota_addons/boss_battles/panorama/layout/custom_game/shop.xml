@@ -12,11 +12,12 @@
         <snippet name="ProductList">
             <Panel class="ProductList" >
                 <Panel id="ProductDisplay" class="ProductDisplay" >
-					<Panel id="ProductDisplayPictureContainer" class="ProductDisplayPictureContainer" style="border: 1px solid blue;">
-                        <!--<DOTAHeroImage id="HeroImage" heroname="hero_name" heroimagestyle="portrait" scaling="none" class="hero_image"/>-->
-                        <!--<DOTAScenePanel id="HeroImage" antialias='true' particleonly='false' unit="" always-cache-composition-layer='true' class="hero_image"/> -->
-                        <!--<MoviePanel class="HeroImage" id="HeroImage" src="file://{resources}/videos/heroes/npc_dota_hero_sven.webm" repeat="true" autoplay="onload"  />-->
-                        
+                    <Panel id="ProductDisplayTitle" class="ProductDisplayTitle" >
+                        <Label id="ProductDisplayTitleTxt" class="ProductPurchaseButtonTxt" text="" />
+                    </Panel>
+					<Panel id="ProductDisplayPictureContainer" class="ProductDisplayPictureContainer">
+                        <DOTAHeroImage id="HeroImage" heroname="hero_name" heroimagestyle="portrait" scaling="stretch-to-fit-preserve-aspect" class="hero_image"/> 
+                        <!-- <DOTAHeroImage id="HeroImage" heroname="hero_name" heroimagestyle="portrait" scaling="none"/>-->
                     </Panel>
 					<Button id="ProductPurchaseButton" class="ProductPurchaseButton" >
 						<Label id="ProductPurchaseButtonTxt" class="ProductPurchaseButtonTxt" text="Buy Now!" />

@@ -176,10 +176,15 @@ end
 function r_blade_vortex_thinker:PlayEffectsOnCreated()
     if IsServer() then
 
-        local particle = "particles/econ/items/juggernaut/jugg_ti8_sword/juggernaut_crimson_blade_fury_abyssal.vpcf"
+        -- for the arcana
+        --[[local particle = "particles/econ/items/juggernaut/jugg_ti8_sword/juggernaut_crimson_blade_fury_abyssal.vpcf"
         self.nfx = ParticleManager:CreateParticle(particle, PATTACH_ABSORIGIN, self.parent)
         ParticleManager:SetParticleControl(self.nfx , 0, self.parent:GetAbsOrigin())
-        ParticleManager:SetParticleControl(self.nfx , 2, Vector(self.radius,1,1))
+        ParticleManager:SetParticleControl(self.nfx , 2, Vector(self.radius,1,1))]]
+
+        local particle = "particles/units/heroes/hero_juggernaut/juggernaut_blade_fury.vpcf"
+        self.nfx = ParticleManager:CreateParticle(particle, PATTACH_ABSORIGIN, self.parent)
+        ParticleManager:SetParticleControl(self.nfx , 5, Vector(self.radius,1,1))
 
 	end
 end

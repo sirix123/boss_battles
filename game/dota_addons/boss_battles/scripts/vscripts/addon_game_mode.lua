@@ -61,6 +61,7 @@ function Precache( context ) -- this needs to be in a seperate file
 
   -- warlord preachce
   PrecacheUnitByNameSync("npc_ward", context)
+  PrecacheResource("soundfile", "soundevents/game_sounds_heroes/game_sounds_juggernaut.vsndevts", context)
 
   -- rogue preachce
   PrecacheUnitByNameSync("npc_shadow", context)
@@ -113,6 +114,11 @@ function Precache( context ) -- this needs to be in a seperate file
   -- qop
   PrecacheResource( "model", "models/items/queenofpain/queenofpain_arcana/queenofpain_arcana.vmdl", context )
   PrecacheResource( "particle", "particles/econ/items/queen_of_pain/qop_arcana/qop_arcana_whip_ambient.vpcf", context )
+
+  -- pa arcana
+  PrecacheResource( "model", "models/heroes/phantom_assassin/pa_arcana.vmdl", context )
+  PrecacheResource( "model", "models/heroes/phantom_assassin/pa_arcana_weapons.vmdl", context )
+  PrecacheResource( "particle", "particles/econ/items/phantom_assassin/phantom_assassin_arcana_elder_smith/pa_arcana_blade.vpcf", context )
 
   local npcs = LoadKeyValues("scripts/npc/npc_units_custom.txt")
 

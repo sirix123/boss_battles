@@ -10,7 +10,7 @@ function Wearables:MapWearablesToProductlist( product_list )
         for _, product_id in pairs(product.products) do
             local wearable = {}
 
-            if product_id == "ed05d5ae-8383-47e1-9723-a8daa17c8695" then
+            if product_id == "prod_JeM6EdQsCCvQbB" then
                 wearable["product_id"] = product_id
 
                 self.model = "models/heroes/crystal_maiden/crystal_maiden_arcana.vmdl"
@@ -19,6 +19,8 @@ function Wearables:MapWearablesToProductlist( product_list )
                 wearable["equipment"] = {}
                 wearable["equipment"]["weapon"] = "models/items/crystal_maiden/cm_ti9_immortal_weapon/cm_ti9_immortal_weapon.vmdl"
                 --wearable["equipment"]["bracer"] = "bracer"
+
+                wearable["portrait"] = "npc_dota_hero_crystal_maiden_alt1"
 
                 --wearable["particles"] = {}
                 --wearable["particles"]["1"] = ...
@@ -29,7 +31,7 @@ function Wearables:MapWearablesToProductlist( product_list )
                 table.insert(self.wearable_table,wearable)
             end
 
-            if product_id == "1111111-4043-4dd0-8c2e-1b1c8c4c65cb" then
+            if product_id == "prod_JhhDzGDJJb9t1z" then
                 wearable["product_id"] = product_id
 
                 self.model = "models/items/queenofpain/queenofpain_arcana/queenofpain_arcana.vmdl"
@@ -46,6 +48,28 @@ function Wearables:MapWearablesToProductlist( product_list )
                 wearable["particle_weapon"] = {}
                 wearable["particle_weapon"]["particle_settings"] = {}
                 wearable["particle_weapon"]["particle_settings"]["particle_string"] = "particles/econ/items/queen_of_pain/qop_arcana/qop_arcana_blade_ambient.vpcf"
+                wearable["particle_weapon"]["particle_settings"]["particle_attach_loc"] = "attach_attack1"
+
+                table.insert(self.wearable_table,wearable)
+            end
+
+            if product_id == "prod_JhhDjvKw86l9bm" then
+                wearable["product_id"] = product_id
+
+                --self.model = "models/heroes/phantom_assassin/pa_arcana.vmdl"
+                --wearable["model"] = self.model
+
+                wearable["equipment"] = {}
+                wearable["equipment"]["head"] = "models/items/phantom_assassin/pa_ti8_immortal_head/pa_ti8_immortal_head.vmdl"
+                wearable["equipment"]["weapon"] = "models/items/phantom_assassin/scythe_of_sacrifice/scythe_of_sacrifice.vmdl"
+                wearable["equipment"]["shoulders"] = "models/items/phantom_assassin/pa_fall20_immortal_shoulders/pa_fall20_immortal_shoulders.vmdl"
+                wearable["equipment"]["belt"] = "models/items/phantom_assassin/carreau_belt/carreau_belt.vmdl"
+
+                wearable["portrait"] = "npc_dota_hero_phantom_assassin_alt1"
+
+                wearable["particle_weapon"] = {}
+                wearable["particle_weapon"]["particle_settings"] = {}
+                wearable["particle_weapon"]["particle_settings"]["particle_string"] = "particles/econ/items/phantom_assassin/phantom_assassin_weapon_death_scythe/phantom_assassin_ambient_blade_death_scythe.vpcf"
                 wearable["particle_weapon"]["particle_settings"]["particle_attach_loc"] = "attach_attack1"
 
                 table.insert(self.wearable_table,wearable)

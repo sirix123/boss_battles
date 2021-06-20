@@ -123,20 +123,19 @@ function OnShopButtonPressed(){
 
             // get appropriate image for the product id provided
             let image_name = GetProductImage(value["products"][i]);
-            let heroImage = productPanel.FindChildInLayoutFile('HeroImage');
+            let heroImage = productPanel.FindChildInLayoutFile("HeroImage");
 
+            let product_name = GetProductTitle(value["products"][i]);
+            if( product_name ){
+                let nameTxt = productPanel.FindChildInLayoutFile("ProductDisplayTitleTxt");
+                nameTxt.text = product_name;
+            }
 
-            var new_portrait = '<MoviePanel id="portrait_'+image_name+'" class="ProductDisplayPictureContainer" src="file://{resources}/videos/heroes/'+image_name+'.webm" repeat="true" autoplay="onload"/>'
-            productPanel.BCreateChildren(new_portrait) 
-
-            //file://{resources}/videos/heroes/npc_dota_hero_sven.webm
-            //heroImage.src('file://{images}/heroes/selection/' + image_name + '.webm');
-
-            /*if( image_name ){
+            if( image_name ){
                 heroImage.SetImage('file://{images}/heroes/selection/' + image_name + '.png');
                 heroImage.style.backgroundImage = 'url("file://{images}/heroes/' + image_name + '.png")';
                 heroImage.style.backgroundSize = "100% 100%";
-            }*/
+            }
            
             let playerId = Players.GetLocalPlayer()
             let player_hero = Players.GetPlayerSelectedHero( playerId )
@@ -154,7 +153,7 @@ function OnShopButtonPressed(){
                             buyButtonTxt.text = "Equip";
                             buyButton.product = value2["products_purchased"][j];
                             buyButton.SetPanelEvent( 'onactivate', function () {
-                                OnEquipButtonPressed( buyButton.product );
+                                OnEquipButtonPressed( buyButton.product, image_name, buyButton, buyButtonTxt );
                             });
 
                             //$.Msg("setting button to equip enabled")
@@ -197,13 +196,30 @@ function OnBuyButtonPressed( buyButton, buyButtonTxt ){
     buyButton.AddClass( "disabled" );
     buyButtonTxt.text = "Processing...";
     buyButtonTxt.AddClass( "disabled" );
-    buyButton.ClearPanelEvent( 'onactivate' )
+    buyButton.ClearPanelEvent( 'onactivate' );
 
     GameEvents.SendCustomGameEventToServer( "player_pressed_buy_button", { } );
 
 }
 
-function OnEquipButtonPressed( product_id ){
+function OnEquipButtonPressed( product_id, image_name, buyButton, buyButtonTxt ){
+
+    // fix portrait (reset it)
+    let top_panel = $.GetContextPanel();
+    if(top_panel.GetParent() != null){
+        top_panel = top_panel.GetParent();
+        let portraitPanel = top_panel.FindChildTraverse("portraitHUD");
+        $.Msg("portraitPanel ", portraitPanel)
+        //portraitPanel.unit = image_name;
+    }
+
+    // disable the equip button
+    buyButton.AddClass( "disabled" );
+    buyButtonTxt.text = "Set equipped";
+    buyButton.ClearPanelEvent( 'onactivate' )
+
+    // how re-enable the other ones?
+    // check purchased list against hero similar to when we create tehs hop and reset classes, dont really need to do this until we have more then 1 set per hero
 
     let playerId = Players.GetLocalPlayer()
     let player_hero = Players.GetPlayerSelectedHero( playerId )
@@ -227,12 +243,64 @@ function OnShopCloseButtonPressed(){
 /*
 =========================================================================*/
 function GetProductImage( product_id ){
-    if( product_id == "ed05d5ae-8383-47e1-9723-a8daa17c8695"){
+    if( product_id == "prod_JeM6EdQsCCvQbB"){
         return "npc_dota_hero_crystal_maiden_alt1";
     }
 
-    if( product_id == "1111111-4043-4dd0-8c2e-1b1c8c4c65cb"){
+    if( product_id == "prod_JhhDzGDJJb9t1z"){
         return "npc_dota_hero_queenofpain_alt1";
+    }
+
+    if( product_id == "prod_JhhDnkjfU31G0U"){
+        return "npc_dota_hero_lina_alt1";
+    }
+
+    if( product_id == "prod_JhhDjvKw86l9bm"){
+        return "npc_dota_hero_phantom_assassin_alt1";
+    }
+
+    if( product_id == "prod_JhhDluCT1T5SWR"){
+        return "npc_dota_hero_legion_commander_alt1";
+    }
+
+    if( product_id == "prod_JhhK4ZwCbpMAXe"){
+        return "npc_dota_hero_windrunner_alt1";
+    }
+
+    if( product_id == "prod_JhhDN4uB5R7qT4"){
+        return "npc_dota_hero_omniknight";
+    }
+}
+
+/*
+=========================================================================*/
+function GetProductTitle( product_id ){
+    if( product_id == "prod_JeM6EdQsCCvQbB"){
+        return "Rylai";
+    }
+
+    if( product_id == "prod_JhhDzGDJJb9t1z"){
+        return "Akasha";
+    }
+
+    if( product_id == "prod_JhhDnkjfU31G0U"){
+        return "Lina";
+    }
+
+    if( product_id == "prod_JhhDjvKw86l9bm"){
+        return "Nightblade";
+    }
+
+    if( product_id == "prod_JhhDluCT1T5SWR"){
+        return "Blademaster";
+    }
+
+    if( product_id == "prod_JhhK4ZwCbpMAXe"){
+        return "Medusa";
+    }
+
+    if( product_id == "prod_JhhDN4uB5R7qT4"){
+        return "Nocens";
     }
 }
 

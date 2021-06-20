@@ -136,7 +136,7 @@ function createPlayerFrames(data)
     playerFrame.BLoadLayoutSnippet("PlayerFrame");
 
     var heroImage = playerFrame.FindChildInLayoutFile('HeroImage');
-    heroImage.heroname = data["HeroData"].hero_name 
+    //heroImage.heroname = data["HeroData"].hero_name 
 
     heroImage.SetImage('file://{images}/heroes/selection/' + data["HeroData"].hero_name  + '.png');
     heroImage.style.backgroundImage = 'url("file://{images}/heroes/' + data["HeroData"].hero_name  + '.png")';
@@ -214,7 +214,7 @@ function changePortraits( data ){
         if ( data.player_id == playerFrame.id ) 
         {
             var heroImage = playerFrame.FindChildInLayoutFile('HeroImage');
-            heroImage.heroname = data.hero_portrait
+            //heroImage.heroname = data.hero_portrait
             
             heroImage.SetImage('file://{images}/heroes/selection/' + data.hero_portrait + '.png');
             heroImage.style.backgroundImage = 'url("file://{images}/heroes/' + data.hero_portrait + '.png")';
