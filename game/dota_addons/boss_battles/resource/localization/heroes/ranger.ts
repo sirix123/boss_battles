@@ -25,15 +25,20 @@ export function GenerateLocalizationData(): LocalizationData
     Modifiers.push({
         modifier_classname: "modifier_sprint",
         name: "Sprint",
-        description: `Sprinting.`,
+        description: `Increased movespeed.`,
     });
 
+    Modifiers.push({
+        modifier_classname: "e_whirling_winds_modifier",
+        name: "Tailwind",
+        description: `Increased damage, movement and projectile speed. Cast points reduced.`,
+    });
 
     // abilities
     Abilities.push({
         ability_classname: "m1_trackingshot",
-        name: "Tracking shot",
-        description: `Shoot an arrow, damaging them for a base amount. Arrow does more damage if you're further away from the target.`,
+        name: "Farsight shot",
+        description: `Medusa shoots an enchanted arrow from her bow dealing damage to the target. Farsight shot does more damage with distance travelled.`,
         ability_specials:
         [
             {
@@ -43,7 +48,9 @@ export function GenerateLocalizationData(): LocalizationData
     
             {
                 ability_special: "dmg_dist_multi",
-                text: "DISTANCE MULTIPLIER:"
+                text: "DISTANCE MULTIPLIER:",
+                percentage: true,
+
             },
 
             {
@@ -61,7 +68,7 @@ export function GenerateLocalizationData(): LocalizationData
     Abilities.push({
         ability_classname: "m2_serratedarrow",
         name: "Power shot",
-        description: `Shoot an arrow, damaging them for a base amount. Arrow does more damage if you're further away from the target. Each enemy Power shot hits decreases the damage to the next target.`,
+        description: `Medusa charges her energy into a powerful shot, dealing damage to all enemies it pierces. Power Shot does more damage with distance travelled.`,
         ability_specials:
         [
             {
@@ -71,7 +78,8 @@ export function GenerateLocalizationData(): LocalizationData
     
             {
                 ability_special: "dmg_dist_multi",
-                text: "DISTANCE MULTIPLIER:"
+                text: "DISTANCE MULTIPLIER:",
+                percentage: true,
             },
 
             {
@@ -88,8 +96,8 @@ export function GenerateLocalizationData(): LocalizationData
 
     Abilities.push({
         ability_classname: "q_healing_arrow_v2",
-        name: "Healing arrow",
-        description: `Fire an arrow at an ally. If the projectile hits it heals them. The further you are away when the arrow is cast the more healing it will do.`,
+        name: "Mending arrow",
+        description: `Medusa fires an arrow that heals all allies it hits. Mending arrow does more healing with distance travelled.`,
         ability_specials:
         [
             {
@@ -99,7 +107,8 @@ export function GenerateLocalizationData(): LocalizationData
     
             {
                 ability_special: "heal_dist_multi",
-                text: "DISTANCE MULTIPLIER:"
+                text: "DISTANCE MULTIPLIER:",
+                percentage: true,
             },
 
             {
@@ -116,18 +125,32 @@ export function GenerateLocalizationData(): LocalizationData
 
     Abilities.push({
         ability_classname: "e_whirling_winds",
-        name: "Whirling winds",
-        description: `Place a tornado on the ground decreases the cast point and increasing projectile speed of basic attacks for all allies in the area.`,
+        name: "Whirling Winds",
+        description: `Medusa summons a tailwind in an area that increases the damage, projectile and movement speed of all allies, as well as reducing the cast point of abilities. Medusa benefits from the tailwind at all times.`,
         ability_specials:
         [
             {
                 ability_special: "cast_point_reduction",
-                text: "CAST POINT REDUCTION:"
+                text: "CAST POINT REDUCTION:",
+                percentage: true,
             },
     
             {
                 ability_special: "proj_speed_increase",
-                text: "PROJ SPEED INCREASE:"
+                text: "PROJECTILE SPEED:",
+                percentage: true,
+            },
+
+            {
+                ability_special: "dmg_increase",
+                text: "DAMAGE:",
+                percentage: true,
+            },
+
+            {
+                ability_special: "ms_increase",
+                text: "MOVEMENT SPEED:",
+                percentage: true,
             },
 
             {
@@ -140,7 +163,7 @@ export function GenerateLocalizationData(): LocalizationData
     Abilities.push({
         ability_classname: "r_explosive_arrow",
         name: "Explosive Arrow",
-        description: `Fire an arrow which explodes for high damage.`,
+        description: `Medusa launches a long distance arrow that explodes on impact, dealing damage to all enemies in range.`,
         ability_specials:
         [
             {
@@ -152,8 +175,8 @@ export function GenerateLocalizationData(): LocalizationData
 
     Abilities.push({
         ability_classname: "space_sprint",
-        name: "Sprint",
-        description: `Run fast.`,
+        name: "Haste",
+        description: `Medusa channels the wind around her to temporarily increase her movespeed.`,
         ability_specials:
         [
             {
@@ -163,7 +186,8 @@ export function GenerateLocalizationData(): LocalizationData
 
             {
                 ability_special: "movespeed_bonus_pct",
-                text: "BONUS MOVESPEED:" + "%"
+                text: "BONUS MOVESPEED:",
+                percentage: true,
             },
         ]
     });
