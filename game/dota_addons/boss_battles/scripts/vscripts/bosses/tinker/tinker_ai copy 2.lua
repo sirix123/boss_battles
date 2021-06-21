@@ -395,7 +395,7 @@ function KillUnits( pos )
 		nil,	-- handle, cacheUnit. (not known)
 		105,	-- float, radius. or use FIND_UNITS_EVERYWHERE
 		DOTA_UNIT_TARGET_TEAM_ENEMY,
-		DOTA_UNIT_TARGET_ALL,
+		DOTA_UNIT_TARGET_HERO,
 		DOTA_UNIT_TARGET_FLAG_NONE,	-- int, flag filter
 		0,	-- int, order filter
 		false	-- bool, can grow cache

@@ -43,13 +43,18 @@ function m1_qop_basic_attack:OnSpellStart()
         local origin = self.caster:GetAbsOrigin()
         local projectile_speed = self:GetSpecialValueFor( "proj_speed" )
 
+        local particle = "particles/qop/linear_queen_base_attack.vpcf"
+        if self.caster.arcana_equipped == true then
+            particle = "particles/qop/cosmetic_linear_queen_base_attack.vpcf"
+        end
+
         -- set proj direction to mouse location
         local vTargetPos = nil
         vTargetPos = Vector(self.caster.mouse.x, self.caster.mouse.y, self.caster.mouse.z)
         local projectile_direction = (Vector( vTargetPos.x - origin.x, vTargetPos.y - origin.y, 0 )):Normalized()
 
         local projectile = {
-            EffectName = "particles/qop/linear_queen_base_attack.vpcf",
+            EffectName = particle,
             vSpawnOrigin = origin + Vector(0, 0, 100),
             fDistance = self:GetCastRange(Vector(0,0,0), nil),
             fUniqueRadius = self:GetSpecialValueFor( "hit_box" ),

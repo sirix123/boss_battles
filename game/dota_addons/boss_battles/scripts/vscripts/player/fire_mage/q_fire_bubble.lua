@@ -10,7 +10,7 @@ function q_fire_bubble:OnAbilityPhaseStart()
             nil,
             200,
             DOTA_UNIT_TARGET_TEAM_FRIENDLY,
-            DOTA_UNIT_TARGET_ALL,
+            DOTA_UNIT_TARGET_HERO,
             DOTA_UNIT_TARGET_FLAG_MAGIC_IMMUNE_ENEMIES + DOTA_UNIT_TARGET_FLAG_INVULNERABLE,
             FIND_CLOSEST,
             false)

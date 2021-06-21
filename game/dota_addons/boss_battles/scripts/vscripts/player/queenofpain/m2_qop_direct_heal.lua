@@ -11,7 +11,7 @@ function m2_qop_direct_heal:OnAbilityPhaseStart()
             nil,
             200,
             DOTA_UNIT_TARGET_TEAM_FRIENDLY,
-            DOTA_UNIT_TARGET_ALL,
+            DOTA_UNIT_TARGET_HERO,
             DOTA_UNIT_TARGET_FLAG_MAGIC_IMMUNE_ENEMIES + DOTA_UNIT_TARGET_FLAG_INVULNERABLE,
             FIND_CLOSEST,
             false)
@@ -114,12 +114,21 @@ function m2_qop_direct_heal:OnSpellStart()
             { duration = duration_debuff } -- kv
         )
 
-        -- local particle
-        local particle_aoe = "particles/qop/qop_omniknight_purification.vpcf"
-        local particle_aoe_fx = ParticleManager:CreateParticle(particle_aoe, PATTACH_ABSORIGIN_FOLLOW, self.target)
-        ParticleManager:SetParticleControl(particle_aoe_fx, 0, self.target:GetAbsOrigin())
-        ParticleManager:SetParticleControl(particle_aoe_fx, 1, Vector(80, 1, 1))
-        ParticleManager:ReleaseParticleIndex(particle_aoe_fx)
+        if self.caster.arcana_equipped == true then
+            local particle = "particles/econ/items/queen_of_pain/qop_arcana/qop_arcana_blink_end.vpcf"
+            local particle_aoe_fx = ParticleManager:CreateParticle(particle, PATTACH_ABSORIGIN_FOLLOW, self.target)
+            ParticleManager:SetParticleControl(particle_aoe_fx, 0, self.target:GetAbsOrigin())
+            ParticleManager:ReleaseParticleIndex(particle_aoe_fx)
+        else
+            -- local particle
+            local particle_aoe = "particles/qop/qop_omniknight_purification.vpcf"
+            local particle_aoe_fx = ParticleManager:CreateParticle(particle_aoe, PATTACH_ABSORIGIN_FOLLOW, self.target)
+            ParticleManager:SetParticleControl(particle_aoe_fx, 0, self.target:GetAbsOrigin())
+            ParticleManager:SetParticleControl(particle_aoe_fx, 1, Vector(80, 1, 1))
+            ParticleManager:ReleaseParticleIndex(particle_aoe_fx)
+        end
+
+
 
         -- sound
         EmitSoundOnLocationWithCaster(self.target:GetAbsOrigin(), "Hero_QueenOfPain.Blink_in", self.caster)

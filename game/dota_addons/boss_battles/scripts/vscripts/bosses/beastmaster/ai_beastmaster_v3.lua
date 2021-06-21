@@ -142,7 +142,7 @@ function BreakArmor()
 		nil,
 		2500,
 		DOTA_UNIT_TARGET_TEAM_ENEMY,
-		DOTA_UNIT_TARGET_ALL,
+		DOTA_UNIT_TARGET_HERO,
 		DOTA_UNIT_TARGET_FLAG_NONE,
 		FIND_ANY_ORDER,
 		false )
@@ -228,7 +228,7 @@ function BeastmasterMark()
 		nil, 
 		4000,
 		DOTA_UNIT_TARGET_TEAM_ENEMY,
-		DOTA_UNIT_TARGET_ALL,
+		DOTA_UNIT_TARGET_HERO,
 		DOTA_UNIT_TARGET_FLAG_NONE,
 		FIND_ANY_ORDER,
 		false )
@@ -260,7 +260,7 @@ function BeastmasterNet()
 		nil,	-- handle, cacheUnit. (not known)
 		5000,	-- float, radius. or use FIND_UNITS_EVERYWHERE
 		DOTA_UNIT_TARGET_TEAM_ENEMY,
-		DOTA_UNIT_TARGET_ALL,
+		DOTA_UNIT_TARGET_HERO,
 		DOTA_UNIT_TARGET_FLAG_INVULNERABLE,	-- int, flag filter
 		0,	-- int, order filter
 		false	-- bool, can grow cache
@@ -299,7 +299,7 @@ function BeastmasterNet_v2()
 		nil,	-- handle, cacheUnit. (not known)
 		5000,	-- float, radius. or use FIND_UNITS_EVERYWHERE
 		DOTA_UNIT_TARGET_TEAM_ENEMY,
-		DOTA_UNIT_TARGET_ALL,
+		DOTA_UNIT_TARGET_HERO,
 		DOTA_UNIT_TARGET_FLAG_INVULNERABLE,	-- int, flag filter
 		0,	-- int, order filter
 		false	-- bool, can grow cache

@@ -31,7 +31,6 @@ function fishtrigger(trigger)
             end
         end
 
-
         ent:AddNewModifier( thisEntity, nil, "modifier_stunned", { duration = -1 } )
         ent:AddNewModifier( ent, nil, "modifier_invulnerable", { duration = -1 } )
 

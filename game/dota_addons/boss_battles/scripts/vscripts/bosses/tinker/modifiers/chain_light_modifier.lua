@@ -59,7 +59,7 @@ function chain_light_modifier:OnIntervalThink()
         nil,
         self.radius,
         DOTA_UNIT_TARGET_TEAM_BOTH,
-		DOTA_UNIT_TARGET_ALL,
+		DOTA_UNIT_TARGET_HERO,
 		DOTA_UNIT_TARGET_FLAG_INVULNERABLE,	-- int, flag filter
 		0,	-- int, order filter
 		false	-- bool, can grow cache
