@@ -84,7 +84,7 @@ function CosmeticManager:Init()
                 end
 
                 -- if both pass from above then equip the cosmetic on the hero
-                if self.product_check == true and self.product_to_equip ~= nil then
+                if self.product_check == true and self.product_to_equip ~= nil and hero.arcana_equipped == false then
                     Wearables:EquipWearables( self.product_to_equip , hero )
                 end
 

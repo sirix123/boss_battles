@@ -31,6 +31,7 @@ _G.tUNIT_TABLE =
     "npc_beastmaster_dino",
     "npc_rock_techies",
     "npc_flame_turret",
+    "npc_cm_cosmetic_pet",
 }
 
 _G.UNQIUE_INT = 0
