@@ -212,7 +212,7 @@ function GameMode:OnHeroInGame(hero)
   hero:AddNewModifier( hero,  nil, "remove_attack_modifier", { } )
 
   -- level up abilities for all heroes to level 1
-  if hero:GetUnitName() == "npc_dota_hero_crystal_maiden" or hero:GetUnitName() == "npc_dota_hero_medusa" then
+  if hero:GetUnitName() == "npc_dota_hero_crystal_maiden" or hero:GetUnitName() == "npc_dota_hero_windrunner" then
     local index = 0
     while (hero:GetAbilityByIndex(index) ~= nil) do
       hero:GetAbilityByIndex(index):SetLevel(1)

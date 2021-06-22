@@ -137,7 +137,14 @@ function m2_combo_breaker:OnSpellStart()
         ApplyDamage(dmgTable)
 
         -- particle effect
-        local nFXIndex = ParticleManager:CreateParticle( "particles/units/heroes/hero_phantom_assassin/phantom_assassin_crit_impact.vpcf", PATTACH_CUSTOMORIGIN, nil )
+        local particle = nil
+        if caster.arcana_equipped == true then
+            particle = "particles/econ/items/phantom_assassin/phantom_assassin_arcana_elder_smith/phantom_assassin_crit_impact_dagger_arcana.vpcf"
+        else
+            particle = "particles/units/heroes/hero_phantom_assassin/phantom_assassin_crit_impact.vpcf"
+        end
+
+        local nFXIndex = ParticleManager:CreateParticle( particle, PATTACH_CUSTOMORIGIN, nil )
         ParticleManager:SetParticleControlEnt( nFXIndex, 0, enemy, PATTACH_POINT_FOLLOW, "attach_hitloc", enemy:GetOrigin(), true )
         ParticleManager:SetParticleControl( nFXIndex, 1, enemy:GetOrigin() )
         ParticleManager:SetParticleControlForward( nFXIndex, 1, -caster:GetForwardVector() )

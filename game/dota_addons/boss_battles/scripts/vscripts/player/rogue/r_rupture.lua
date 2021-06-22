@@ -54,8 +54,15 @@ function r_rupture:OnSpellStart()
         vTargetPos = Vector(self.caster.mouse.x, self.caster.mouse.y, self.caster.mouse.z)
         local projectile_direction = (Vector( vTargetPos.x - origin.x, vTargetPos.y - origin.y, 0 )):Normalized()
 
+        local particle = nil
+        if self.caster.arcana_equipped == true then
+            particle = "particles/rogue/cosmetic_phantom_assassin_stifling_dagger_arcana.vpcf"
+        else
+            particle = "particles/rogue/rogue_phantom_assassin_stifling_dagger.vpcf"
+        end
+
         local projectile = {
-            EffectName = "particles/rogue/rogue_phantom_assassin_stifling_dagger.vpcf",
+            EffectName = particle,
             vSpawnOrigin = origin + Vector(0, 0, 100),
             fDistance = self:GetCastRange(Vector(0,0,0), nil),
             fStartRadius = self:GetSpecialValueFor( "hit_box" ),

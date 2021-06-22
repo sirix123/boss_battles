@@ -22,6 +22,7 @@ function space_shadowstep_unit_modifier:OnCreated( kv )
 		--self.ms_bonus = self:GetAbility():GetSpecialValueFor( "movespeed_bonus_pct" )
 		self.parent = self:GetParent()
 		self.caster = self:GetCaster()
+
     end
 end
 

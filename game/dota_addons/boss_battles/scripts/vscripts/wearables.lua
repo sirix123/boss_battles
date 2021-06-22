@@ -33,6 +33,8 @@ function Wearables:MapWearablesToProductlist( product_list )
                 self.pet = "npc_cm_cosmetic_pet"
                 wearable["pet"] = self.pet
 
+                wearable["modifier_arcana"] = "modifier_arcana_cosmetics"
+
                 table.insert(self.wearable_table,wearable)
             end
 
@@ -59,6 +61,8 @@ function Wearables:MapWearablesToProductlist( product_list )
                 wearable["particle_weapon_2"]["particle_settings"] = {}
                 wearable["particle_weapon_2"]["particle_settings"]["particle_string"] = "particles/econ/items/queen_of_pain/qop_arcana/qop_arcana_whip_ambient.vpcf"
                 wearable["particle_weapon_2"]["particle_settings"]["particle_attach_loc"] = "attach_whip_end"
+
+                wearable["modifier_arcana"] = "modifier_arcana_cosmetics"
 
                 table.insert(self.wearable_table,wearable)
             end
@@ -193,7 +197,7 @@ function Wearables:EquipWearables( product_id , hero )
         end
 
         -- general stuff that takes too long to put into tables..
-        if hero:GetUnitName() == "npc_dota_hero_phantom_assassin" then
+        if hero:GetUnitName() == "npc_dota_hero_phantom_assassin" and product_id == "prod_JhhDjvKw86l9bm" then
             local pfx = ParticleManager:CreateParticle("particles/econ/items/phantom_assassin/phantom_assassin_arcana_elder_smith/pa_arcana_elder_ambient.vpcf", PATTACH_ABSORIGIN_FOLLOW, hero)
             ParticleManager:SetParticleControlEnt(pfx, 0, hero, PATTACH_POINT_FOLLOW, "attach_leg_r", hero:GetAbsOrigin(), true)
             ParticleManager:SetParticleControlEnt(pfx, 1, hero, PATTACH_POINT_FOLLOW, "attach_leg_l", hero:GetAbsOrigin(), true)
@@ -202,12 +206,12 @@ function Wearables:EquipWearables( product_id , hero )
             ParticleManager:ReleaseParticleIndex(pfx)
         end
 
-        if hero:GetUnitName() == "npc_dota_hero_crystal_maiden" then
+        if hero:GetUnitName() == "npc_dota_hero_crystal_maiden" and product_id == "prod_JeM6EdQsCCvQbB" then
             local particle = ParticleManager:CreateParticle("particles/econ/items/crystal_maiden/crystal_maiden_maiden_of_icewrack/maiden_arcana_base_ambient.vpcf", PATTACH_ABSORIGIN_FOLLOW, hero)
             ParticleManager:ReleaseParticleIndex(particle)
         end
 
-        if hero:GetUnitName() == "npc_dota_hero_queenofpain" then
+        if hero:GetUnitName() == "npc_dota_hero_queenofpain" and product_id == "prod_JhhDzGDJJb9t1z" then
             local particle = ParticleManager:CreateParticle("particles/econ/items/queen_of_pain/qop_arcana/qop_arcana_feet_ambient.vpcf", PATTACH_ABSORIGIN_FOLLOW, hero)
             ParticleManager:ReleaseParticleIndex(particle)
 

@@ -16,18 +16,19 @@ end
 function space_chain_hook_modifier:DeclareFunctions()
 	local funcs =
 	{
-		MODIFIER_PROPERTY_OVERRIDE_ANIMATION,
-		MODIFIER_PROPERTY_OVERRIDE_ANIMATION_RATE,
+		--MODIFIER_PROPERTY_OVERRIDE_ANIMATION,
+		--MODIFIER_PROPERTY_OVERRIDE_ANIMATION_RATE,
+        MODIFIER_PROPERTY_TRANSLATE_ACTIVITY_MODIFIERS,
 	}
 	return funcs
 end
 
-function space_chain_hook_modifier:GetOverrideAnimation()
-	return 61--ACT_DOTA_FLAIL
+function space_chain_hook_modifier:GetActivityTranslationModifiers()
+	return "forcestaff_friendly"
 end
-function space_chain_hook_modifier:GetOverrideAnimationRate()
+--[[function space_chain_hook_modifier:GetOverrideAnimationRate()
 	return 1.0
-end
+end]]
 
 function space_chain_hook_modifier:CheckState()
 	local state = {
@@ -43,6 +44,8 @@ function space_chain_hook_modifier:OnCreated( kv )
     if IsServer() then
         self.parent = self:GetParent()
         self.caster = self:GetCaster()
+
+        self.parent:StartGestureWithPlaybackRate(ACT_DOTA_FLAIL, 1.5)
 
         self.duration = kv.duration
         self.location = Vector( kv.target_x, kv.target_y, kv.target_z )
@@ -77,6 +80,8 @@ end
 
 function space_chain_hook_modifier:OnDestroy( kv )
     if IsServer() then
+
+        self.parent:FadeGesture(ACT_DOTA_FLAIL)
 
         --if self.caster:HasModifier("r_whirlwind_modifier") == false then
             self.caster:FindAbilityByName("m1_sword_slash"):SetActivated(true)

@@ -14,6 +14,7 @@ function m2_sword_slam:OnAbilityPhaseStart()
         self:GetCaster():AddNewModifier(self:GetCaster(), self, "casting_modifier_thinker",
         {
             duration = self:GetCastPoint(),
+            animation_sequence = "duel_kill",
         })
 
         --- particle effect on cast

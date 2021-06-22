@@ -5,13 +5,14 @@ function m1_qop_basic_attack:OnAbilityPhaseStart()
 
         -- start casting animation
         -- the 1 below is imporant if set incorrectly the animation will stutter (second variable in startgesture is the playback override)
-        self:GetCaster():StartGestureWithPlaybackRate(ACT_DOTA_ATTACK, 1.2)
+        self:GetCaster():StartGestureWithPlaybackRate(ACT_DOTA_ATTACK, 2.0)
 
         -- add casting modifier
         self:GetCaster():AddNewModifier(self:GetCaster(), self, "casting_modifier_thinker",
         {
             duration = self:GetCastPoint(),
             bMovementLock = true,
+            animation_sequence = "far",
         })
 
         return true

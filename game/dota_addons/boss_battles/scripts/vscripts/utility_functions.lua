@@ -5,7 +5,7 @@
 function GetClassName(unitName)
 	local unitNameClassNameMap = {}
 	unitNameClassNameMap["npc_dota_hero_crystal_maiden"] = "Rylai"
-	unitNameClassNameMap["npc_dota_hero_medusa"] = "Medusa"
+	unitNameClassNameMap["npc_dota_hero_windrunner"] = "Windrunner"
 	unitNameClassNameMap["npc_dota_hero_phantom_assassin"] = "Nightblade"
 	unitNameClassNameMap["npc_dota_hero_lina"] = "Lina"
 	unitNameClassNameMap["npc_dota_hero_omniknight"] = "Nocens"

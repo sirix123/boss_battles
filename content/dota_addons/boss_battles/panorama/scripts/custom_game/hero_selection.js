@@ -101,7 +101,7 @@ function PlayerSelected( player, hero ) {
 	if ( hero == "npc_dota_hero_crystal_maiden" 	) 	{ hero = "Rylai"; }
 	if ( hero == "npc_dota_hero_phantom_assassin" 	) 	{ hero = "Nightblade"; }
 	if ( hero == "npc_dota_hero_legion_commander" 		) 	{ hero = "Blademaster"; }
-	if ( hero == "npc_dota_hero_medusa" 			) 	{ hero = "Medusa"; }
+	if ( hero == "npc_dota_hero_windrunner" 			) 	{ hero = "Windrunner"; }
 	if ( hero == "npc_dota_hero_lina" 				) 	{ hero = "Lina"; }
 	if ( hero == "npc_dota_hero_omniknight" 		) 	{ hero = "Nocens"; }
 	if ( hero == "npc_dota_hero_grimstroke" 		) 	{ hero = "Zeeke"; }
@@ -206,7 +206,7 @@ let heroes =
 	"npc_dota_hero_crystal_maiden",
 	"npc_dota_hero_phantom_assassin",
 	"npc_dota_hero_legion_commander",
-	"npc_dota_hero_medusa",
+	"npc_dota_hero_windrunner",
 	"npc_dota_hero_lina",
 	"npc_dota_hero_omniknight",
 	"npc_dota_hero_grimstroke",

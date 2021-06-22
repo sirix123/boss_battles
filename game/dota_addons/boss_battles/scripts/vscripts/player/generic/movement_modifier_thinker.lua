@@ -97,6 +97,16 @@ function movement_modifier_thinker:OnIntervalThink()
 			self.parent:FaceTowards(self.parent:GetAbsOrigin() + Vector(direction.x, direction.y, self.parent:GetForwardVector().z ))
 		end
 
+		if self.parent:GetUnitName() ~= "npc_dota_hero_windrunner" then
+			if self.parent:HasModifier("casting_modifier_thinker") == true then
+				if self.parent:HasModifier("modifier_hero_movement") then
+					self.parent:RemoveModifierByName("modifier_hero_movement")
+					self:GetCaster():RemoveGesture(ACT_DOTA_RUN)
+				end
+			end
+		end
+
+
 	-- not moving
 	else
 		self.parent:RemoveModifierByName("modifier_hero_movement")

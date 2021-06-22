@@ -3098,9 +3098,9 @@
 		{
 			"default"
 			{
-				"PortraitPosition"		"118.36 -17.22 152.62"
-				"PortraitAngles"		"5.26 167.61 2.11"
-				"PortraitFOV"		"21"
+				"PortraitPosition"		"240.47 11.47 178.03"
+				"PortraitAngles"		"8.07 182.09 0.00"
+				"PortraitFOV"		"9"
 			}
 		}
 	}

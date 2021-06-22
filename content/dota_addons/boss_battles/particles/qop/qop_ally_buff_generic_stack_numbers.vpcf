@@ -72,9 +72,8 @@
 		},
 		{
 			_class = "C_OP_OscillateScalarSimple"
-			m_Rate = 10.0
+			m_Rate = 3.0
 			m_nField = 3
-			m_bDisableOperator = true
 		},
 		{
 			_class = "C_OP_InterpolateRadius"
@@ -141,7 +140,7 @@
 			m_vecTexturesInput = 
 			[
 				{
-					m_hTexture = resource:"materials/particle/particle_sphere_mod.vtex"
+					m_hTexture = resource:"materials/particle/queen_of_pain/queen_of_pain_arcana_runes.vtex"
 				},
 			]
 			m_OutlineColor = [ 255, 255, 255 ]

@@ -17,7 +17,7 @@
                     </Panel>
 					<Panel id="ProductDisplayPictureContainer" class="ProductDisplayPictureContainer">
                         <DOTAHeroImage id="HeroImage" heroname="hero_name" heroimagestyle="portrait" scaling="stretch-to-fit-preserve-aspect" class="hero_image"/> 
-                        <!-- <DOTAHeroImage id="HeroImage" heroname="hero_name" heroimagestyle="portrait" scaling="none"/>-->
+                        <!-- <DOTAHeroMovie id="HeroImage" heroname="npc_dota_hero_axe"/> />-->
                     </Panel>
 					<Button id="ProductPurchaseButton" class="ProductPurchaseButton" >
 						<Label id="ProductPurchaseButtonTxt" class="ProductPurchaseButtonTxt" text="Buy Now!" />

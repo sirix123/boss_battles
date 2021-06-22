@@ -9,19 +9,28 @@ function m2_serratedarrow:OnAbilityPhaseStart()
         EmitSoundOnLocationForAllies(self:GetCaster():GetAbsOrigin(), "Ability.PowershotPull", self:GetCaster())
 
         self.nfx = ParticleManager:CreateParticle("particles/ranger/ranger_windrunner_spell_powershot_channel_ti6.vpcf", PATTACH_POINT, self.caster)
-        ParticleManager:SetParticleControlEnt(self.nfx, 0, self.caster, PATTACH_POINT_FOLLOW, "attach_bow_mid", self.caster:GetAbsOrigin(), true)
+        ParticleManager:SetParticleControlEnt(self.nfx, 0, self.caster, PATTACH_POINT_FOLLOW, "bow_mid1", self.caster:GetAbsOrigin(), true)
         ParticleManager:SetParticleControl(self.nfx, 1, self.caster:GetAbsOrigin())
         ParticleManager:SetParticleControlForward(self.nfx, 1, self.caster:GetForwardVector())
 
-        -- start casting animation
-        -- the 1 below is imporant if set incorrectly the animation will stutter (second variable in startgesture is the playback override)
-        self:GetCaster():StartGestureWithPlaybackRate(ACT_DOTA_ATTACK, 1.3)
+        local animation_sequence = nil
+        if self:GetCaster():HasModifier("modifier_hero_movement") == true then
+            animation_sequence = "focusfire"
+
+            self:GetCaster():AddNewModifier(self:GetCaster(), self, "casting_modifier_thinker_windrunner_focusfire",
+            {
+                duration = self:GetCastPoint(),
+            })
+        else
+            self:GetCaster():StartGestureWithPlaybackRate(ACT_DOTA_ATTACK, 1.3)
+        end
 
         -- add casting modifier
         self:GetCaster():AddNewModifier(self:GetCaster(), self, "casting_modifier_thinker",
         {
             duration = self:GetCastPoint(),
             pMovespeedReduction = -50,
+            animation_sequence = animation_sequence,
         })
 
         return true
@@ -32,8 +41,8 @@ end
 function m2_serratedarrow:OnAbilityPhaseInterrupted()
     if IsServer() then
 
-        -- remove casting animation
-        self:GetCaster():FadeGesture(ACT_DOTA_ATTACK)
+
+        self:GetCaster():RemoveGesture(ACT_DOTA_ATTACK)
 
         -- remove casting modifier
         self:GetCaster():RemoveModifierByName("casting_modifier_thinker")
@@ -52,7 +61,7 @@ function m2_serratedarrow:OnSpellStart()
         ParticleManager:DestroyParticle( self.nfx, true )
 
         -- remove casting animation
-        self:GetCaster():FadeGesture(ACT_DOTA_ATTACK)
+        self:GetCaster():RemoveGesture(ACT_DOTA_ATTACK)
 
         -- init
 		self.caster = self:GetCaster()

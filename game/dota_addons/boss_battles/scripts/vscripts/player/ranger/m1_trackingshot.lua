@@ -1,18 +1,29 @@
 m1_trackingshot = class({})
 LinkLuaModifier("r_explosive_tip_modifier_target", "player/ranger/modifiers/r_explosive_tip_modifier_target", LUA_MODIFIER_MOTION_NONE)
+LinkLuaModifier("casting_modifier_thinker_windrunner_focusfire", "player/ranger/modifiers/casting_modifier_thinker_windrunner_focusfire", LUA_MODIFIER_MOTION_NONE)
 
 function m1_trackingshot:OnAbilityPhaseStart()
     if IsServer() then
 
-        self:GetCaster():StartGestureWithPlaybackRate(ACT_DOTA_ATTACK, 0.8)
+        local animation_sequence = nil
+        if self:GetCaster():HasModifier("modifier_hero_movement") == true then
+            animation_sequence = "focusfire"
+            self:GetCaster():StartGestureWithPlaybackRate(ACT_DOTA_RUN, 1.0)
 
-        --print("cast point = ",CustomGetCastPoint(self:GetCaster(),self))
+            self:GetCaster():AddNewModifier(self:GetCaster(), self, "casting_modifier_thinker_windrunner_focusfire",
+            {
+                duration = self:GetCastPoint(),
+            })
+        else
+            self:GetCaster():StartGestureWithPlaybackRate(ACT_DOTA_ATTACK, 1.3)
+        end
 
         -- add casting modifier
         self:GetCaster():AddNewModifier(self:GetCaster(), self, "casting_modifier_thinker",
         {
-            duration = CustomGetCastPoint(self:GetCaster(),self),
+            duration = self:GetCastPoint(),
             pMovespeedReduction = -50,
+            animation_sequence = animation_sequence,
         })
 
         -- sound effect
@@ -27,7 +38,8 @@ function m1_trackingshot:OnAbilityPhaseInterrupted()
     if IsServer() then
 
         -- remove casting animation
-        self:GetCaster():RemoveGesture(ACT_DOTA_ATTACK)
+        self:GetCaster():FadeGesture(ACT_DOTA_ATTACK)
+
 
         -- remove casting modifier
         self:GetCaster():RemoveModifierByName("casting_modifier_thinker")

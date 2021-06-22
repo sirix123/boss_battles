@@ -19,6 +19,12 @@ function casting_modifier_thinker:OnCreated(params)
             self.MoveSpeedReduction = -50
         end
 
+        if params.animation_sequence then
+            self.animation_sequence = params.animation_sequence
+        else
+            self.animation_sequence = nil
+        end
+
         if params.bTurnRateLimit == 1 then
             self.bTurnRateLimit = true
 
@@ -118,4 +124,15 @@ end
 function casting_modifier_thinker:SetDirection( vec )
 	self.target_dir = ((vec-self.parent:GetAbsOrigin())*Vector(1,1,0)):Normalized()
 	self.face_target = false
+end
+
+-----------------------------------------------------------------
+function casting_modifier_thinker:DeclareFunctions()
+    return {MODIFIER_PROPERTY_TRANSLATE_ACTIVITY_MODIFIERS}
+end
+
+function casting_modifier_thinker:GetActivityTranslationModifiers()
+    if self.animation_sequence then
+        return self.animation_sequence
+    end
 end

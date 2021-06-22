@@ -11,7 +11,13 @@ end
 function modifier_hero_movement:OnRefresh(params)
 end
 
-function modifier_hero_movement:DeclareFunctions() 
+function modifier_hero_movement:OnDestroy(params)
+    if IsServer() then
+        self:GetParent():FadeGesture(ACT_DOTA_RUN)
+    end
+end
+
+function modifier_hero_movement:DeclareFunctions()
     return {
         MODIFIER_PROPERTY_OVERRIDE_ANIMATION,
         MODIFIER_PROPERTY_OVERRIDE_ANIMATION_RATE,

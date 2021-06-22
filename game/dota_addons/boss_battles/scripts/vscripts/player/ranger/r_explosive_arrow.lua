@@ -17,12 +17,25 @@ function r_explosive_arrow:OnAbilityPhaseStart()
             return false
         end
 
-        self:GetCaster():StartGestureWithPlaybackRate(ACT_DOTA_ATTACK, 0.8)
+        local animation_sequence = nil
+        if self:GetCaster():HasModifier("modifier_hero_movement") == true then
+            animation_sequence = "focusfire"
+            self:GetCaster():StartGestureWithPlaybackRate(ACT_DOTA_RUN, 1.0)
+
+            self:GetCaster():AddNewModifier(self:GetCaster(), self, "casting_modifier_thinker_windrunner_focusfire",
+            {
+                duration = self:GetCastPoint(),
+            })
+        else
+            self:GetCaster():StartGestureWithPlaybackRate(ACT_DOTA_ATTACK, 1.3)
+        end
 
         -- add casting modifier
         self:GetCaster():AddNewModifier(self:GetCaster(), self, "casting_modifier_thinker",
         {
-            duration = self:GetCastPoint(), --self:GetDuration()
+            duration = self:GetCastPoint(),
+            pMovespeedReduction = -50,
+            animation_sequence = animation_sequence,
         })
 
         return true
