@@ -225,7 +225,7 @@ function CosmeticManager:GetPlayerPurchaseListTest()
 
     player = {}
     player["steam_id"] = "76561198054593305"
-    player["purchases"] = {"39607c1c-7ed0-4377-a1f8-0d7d5ca980cf"}
+    player["purchases"] = {"prod_JhhDjvKw86l9bm","prod_JhhDnkjfU31G0U","prod_JhhK4ZwCbpMAXe","prod_JhhDN4uB5R7qT4","prod_JhhDzGDJJb9t1z","prod_JhhDluCT1T5SWR","prod_JeM6EdQsCCvQbB"}
     table.insert(product_player_list,player)
 
     --print(dump(json.encode(product_player_list)))
