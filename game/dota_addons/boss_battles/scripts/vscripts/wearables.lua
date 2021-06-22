@@ -74,9 +74,11 @@ function Wearables:MapWearablesToProductlist( product_list )
                 wearable["model"] = self.model
 
                 wearable["equipment"] = {}
-                wearable["equipment"]["head"] = "models/items/phantom_assassin/pa_ti8_immortal_head/pa_ti8_immortal_head.vmdl"
+                wearable["equipment"]["head"] = "models/heroes/phantom_assassin/phantom_assassin_helmet.vmdl"
                 wearable["equipment"]["weapon"] = "models/heroes/phantom_assassin/pa_arcana_weapons.vmdl"
-                wearable["equipment"]["shoulders"] = "models/items/phantom_assassin/pa_fall20_immortal_shoulders/pa_fall20_immortal_shoulders.vmdl"
+                wearable["equipment"]["shoulders"] = "models/heroes/phantom_assassin/phantom_assassin_shoulders.vmdl"
+                wearable["equipment"]["cape"] =  "models/heroes/phantom_assassin/phantom_assassin_cape.vmdl"
+                wearable["equipment"]["daggers"] =  "models/heroes/phantom_assassin/phantom_assassin_daggers.vmdl"
 
                 wearable["portrait"] = "npc_dota_hero_phantom_assassin_alt1"
 
@@ -155,8 +157,8 @@ function Wearables:EquipWearables( product_id , hero )
                 )
 
                 if string.find(particle.particle_string, "phantom_assassin" ) then
-                    ParticleManager:SetParticleControl(effect_cast, 9, Vector(-100, 0, 0))
-                    ParticleManager:SetParticleControl(effect_cast, 26, Vector(100, 0, 0))
+                    ParticleManager:SetParticleControl(effect_cast, 9, Vector(0, 0, 0))
+                    ParticleManager:SetParticleControl(effect_cast, 26, Vector(0, 0, 0))
                 end
 
             end
@@ -178,8 +180,8 @@ function Wearables:EquipWearables( product_id , hero )
                 )
 
                 if string.find(particle.particle_string, "phantom_assassin" ) then
-                    ParticleManager:SetParticleControl(effect_cast, 9, Vector(-100, 0, 0))
-                    ParticleManager:SetParticleControl(effect_cast, 26, Vector(100, 0, 0))
+                    ParticleManager:SetParticleControl(effect_cast, 9, Vector(0, 0, 0))
+                    ParticleManager:SetParticleControl(effect_cast, 26, Vector(0, 0, 0))
                 end
 
             end

@@ -116,6 +116,8 @@ function m2_serratedarrow:OnSpellStart()
                     ability = self,
                 }
 
+                dmg = self:GetSpecialValueFor( "dmg" )
+
                 -- play hit sound
                 StartSoundEvent( "Hero_Windrunner.PowershotDamage", unit )
 
