@@ -75,18 +75,18 @@ function m1_sword_slash:OnSpellStart()
 	-- add more rage generation more mobs but dimishing returns
 	if #enemies == 1 then
 		caster:ManaOnHit( base_mana )
-		EmitSoundOn( "Hero_LegionCommander.Attack", self:GetCaster() )
+		EmitSoundOn( "Hero_Juggernaut.Attack", self:GetCaster() )
 	elseif #enemies == 2 then
 		caster:ManaOnHit( base_mana + ( math.fmod(#enemies,bonus_mana) ))
-		EmitSoundOn( "Hero_LegionCommander.Attack", self:GetCaster() )
+		EmitSoundOn( "Hero_Juggernaut.Attack", self:GetCaster() )
 	elseif #enemies == 3 then
 		caster:ManaOnHit( base_mana + ( math.fmod(#enemies,bonus_mana) ))
-		EmitSoundOn( "Hero_LegionCommander.Attack", self:GetCaster() )
+		EmitSoundOn( "Hero_Juggernaut.Attack", self:GetCaster() )
 	elseif #enemies == 0 then
 		return
 	else
 		caster:ManaOnHit( base_mana + bonus_mana )
-		EmitSoundOn( "Hero_LegionCommander.Attack", self:GetCaster() )
+		EmitSoundOn( "Hero_Juggernaut.Attack", self:GetCaster() )
 	end
 end
 --------------------------------------------------------------------------------

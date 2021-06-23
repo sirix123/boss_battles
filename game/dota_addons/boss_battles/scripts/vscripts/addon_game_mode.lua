@@ -120,6 +120,13 @@ function Precache( context ) -- this needs to be in a seperate file
   PrecacheResource( "model", "models/heroes/phantom_assassin/pa_arcana_weapons.vmdl", context )
   PrecacheResource( "particle", "particles/econ/items/phantom_assassin/phantom_assassin_arcana_elder_smith/pa_arcana_blade.vpcf", context )
 
+  -- wr
+  PrecacheResource( "model", "models/items/windrunner/windrunner_arcana/wr_arcana_base.vmdl", context )
+
+  -- jugg
+  PrecacheResource( "model", "models/heroes/juggernaut/juggernaut_arcana.vmdl", context )
+
+
   local npcs = LoadKeyValues("scripts/npc/npc_units_custom.txt")
 
   for k, _ in pairs(npcs) do

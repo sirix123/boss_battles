@@ -59,7 +59,7 @@ _G.flWHIRLING_WINDS_PROJ_SPEED_BONUS = 0.25
 _G.HERO_NAME_LIST =
 {
     "npc_dota_hero_crystal_maiden",
-    "npc_dota_hero_legion_commander",
+    "npc_dota_hero_juggernaut",
     "npc_dota_hero_phantom_assassin",
     "npc_dota_hero_grimstroke",
     "npc_dota_hero_lina",
@@ -77,6 +77,7 @@ _G.tCORE_MODIFIERS =
     "modifier_hero_movement",
     "qop_passive_modifier",
     "blademaster_death_enable_spells",
+    "modifier_arcana_cosmetics",
 }
 
 _G.PLAYERS_HANDSHAKE_READY = 0

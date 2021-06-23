@@ -31,7 +31,7 @@ function modifier_generic_disable_movement_abilities:OnCreated( kv )
         if self:GetParent():GetUnitName() == "npc_dota_hero_crystal_maiden" then
             self:GetParent():FindAbilityByName("space_frostblink"):SetActivated(false)
         end
-        if self:GetParent():GetUnitName() == "npc_dota_hero_legion_commander" then
+        if self:GetParent():GetUnitName() == "npc_dota_hero_juggernaut" then
             self:GetParent():FindAbilityByName("space_chain_hook"):SetActivated(false)
         end
         if self:GetParent():GetUnitName() == "npc_dota_hero_phantom_assassin" then
@@ -50,7 +50,7 @@ function modifier_generic_disable_movement_abilities:OnDestroy( kv )
         if self:GetParent():GetUnitName() == "npc_dota_hero_crystal_maiden" then
             self:GetParent():FindAbilityByName("space_frostblink"):SetActivated(true)
         end
-        if self:GetParent():GetUnitName() == "npc_dota_hero_legion_commander" then
+        if self:GetParent():GetUnitName() == "npc_dota_hero_juggernaut" then
             self:GetParent():FindAbilityByName("space_chain_hook"):SetActivated(true)
         end
         if self:GetParent():GetUnitName() == "npc_dota_hero_phantom_assassin" then

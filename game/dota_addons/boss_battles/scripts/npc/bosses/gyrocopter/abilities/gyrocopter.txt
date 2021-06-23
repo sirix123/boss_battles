@@ -122,8 +122,8 @@
         //-------------------------------------------------------------------------------------------------------------
 		"AbilitySpecial"
 		{
-            "01"{ "var_type"			"FIELD_INTEGER"		"duration"		                        "15 16 17 18" }
-            "02"{ "var_type"			"FIELD_INTEGER"		"dmg"		                            "25 30 35 40" }
+            "01"{ "var_type"			"FIELD_INTEGER"		"duration"		                        "10 12 13 14" }
+            "02"{ "var_type"			"FIELD_INTEGER"		"dmg"		                            "25 25 25 25" }
 		}
 
         "precache"

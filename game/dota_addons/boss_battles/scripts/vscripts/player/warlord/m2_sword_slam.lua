@@ -6,7 +6,7 @@ function m2_sword_slam:OnAbilityPhaseStart()
     if IsServer() then
 
         -- start casting animation
-        self:GetCaster():StartGestureWithPlaybackRate(ACT_DOTA_ATTACK, 1.0)
+        self:GetCaster():StartGestureWithPlaybackRate(ACT_DOTA_ATTACK_EVENT, 1.0)
 
         self.mana = self:GetCaster():GetMana()
 
@@ -14,14 +14,20 @@ function m2_sword_slam:OnAbilityPhaseStart()
         self:GetCaster():AddNewModifier(self:GetCaster(), self, "casting_modifier_thinker",
         {
             duration = self:GetCastPoint(),
-            animation_sequence = "duel_kill",
         })
 
+        local particle = nil
+        if self:GetCaster().arcana_equipped == true then
+            particle = "particles/warlord/jugg_mk_ti7_immortal_strike_cast.vpcf"
+        else
+            particle = "particles/units/heroes/hero_monkey_king/monkey_king_strike_cast.vpcf"
+        end
+
         --- particle effect on cast
-        local nfx = ParticleManager:CreateParticle("particles/units/heroes/hero_monkey_king/monkey_king_strike_cast.vpcf", PATTACH_POINT_FOLLOW, self:GetCaster())
+        local nfx = ParticleManager:CreateParticle(particle, PATTACH_POINT_FOLLOW, self:GetCaster())
         ParticleManager:SetParticleControl(nfx, 0, self:GetCaster():GetAbsOrigin())
-        ParticleManager:SetParticleControlEnt(nfx, 1, self:GetCaster(), PATTACH_POINT_FOLLOW, "attach_attack1", self:GetCaster():GetAbsOrigin(), true)
-        ParticleManager:SetParticleControlEnt(nfx, 2, self:GetCaster(), PATTACH_POINT_FOLLOW, "attach_attack1", self:GetCaster():GetAbsOrigin(), true)
+        ParticleManager:SetParticleControlEnt(nfx, 1, self:GetCaster(), PATTACH_POINT_FOLLOW, "attach_sword", self:GetCaster():GetAbsOrigin(), true)
+        ParticleManager:SetParticleControlEnt(nfx, 2, self:GetCaster(), PATTACH_POINT_FOLLOW, "blade_attachment", self:GetCaster():GetAbsOrigin(), true)
         ParticleManager:ReleaseParticleIndex(nfx)
 
         -- emit sound
@@ -36,7 +42,7 @@ function m2_sword_slam:OnAbilityPhaseInterrupted()
     if IsServer() then
 
         -- remove casting animation
-        self:GetCaster():FadeGesture(ACT_DOTA_ATTACK)
+        self:GetCaster():FadeGesture(ACT_DOTA_ATTACK_EVENT)
 
         -- remove casting modifier
         self:GetCaster():RemoveModifierByName("casting_modifier_thinker")
@@ -49,7 +55,7 @@ function m2_sword_slam:OnSpellStart()
 	local origin = self.caster:GetOrigin()
 
 	-- remove casting animation
-    self:GetCaster():FadeGesture(ACT_DOTA_ATTACK)
+    self:GetCaster():FadeGesture(ACT_DOTA_ATTACK_EVENT)
 
 	-- function in utility_functions
 	--local point = Clamp(origin, self:GetCursorPosition(), self:GetCastRange(Vector(0,0,0), nil), self:GetCastRange(Vector(0,0,0), nil))
@@ -93,22 +99,38 @@ function m2_sword_slam:OnSpellStart()
     -- add mana
     damage = damage + ( self.mana * dmgPerManaPoint )
 
-    for _,unit in pairs(units) do
+    if units ~= nil and #units ~= 0 then
+        for _,unit in pairs(units) do
 
-        local dmgTable = {
-            victim = unit,
-            attacker = self.caster,
-            damage = damage,
-            damage_type = self:GetAbilityDamageType(),
-            ability = self,
-        }
+            local dmgTable = {
+                victim = unit,
+                attacker = self.caster,
+                damage = damage,
+                damage_type = self:GetAbilityDamageType(),
+                ability = self,
+            }
 
-        ApplyDamage(dmgTable)
+            ApplyDamage(dmgTable)
 
+            if self.caster.arcana_equipped == true and units ~= 0 then
+                local nfx = ParticleManager:CreateParticle("particles/econ/items/juggernaut/jugg_arcana/juggernaut_arcana_crit_tgt.vpcf", PATTACH_ABSORIGIN, unit)
+                ParticleManager:SetParticleControl(nfx, 1, unit:GetAbsOrigin())
+                ParticleManager:ReleaseParticleIndex(nfx)
+            end
+
+        end
     end
 
     -- slam effect
-    local nfx = ParticleManager:CreateParticle("particles/warlord/sword_slam_monkey_king_strike.vpcf", PATTACH_POINT, self.caster)
+
+    local particle = nil
+    if self.caster.arcana_equipped == true then
+        particle = "particles/warlord/juggmk_ti7_immortal_strike.vpcf"
+    else
+        particle = "particles/warlord/sword_slam_monkey_king_strike.vpcf"
+    end
+
+    local nfx = ParticleManager:CreateParticle(particle, PATTACH_POINT, self.caster)
     ParticleManager:SetParticleControlForward(nfx, 0, projectile_direction)
     ParticleManager:SetParticleControl(nfx, 1, vEndPos)
     ParticleManager:ReleaseParticleIndex(nfx)

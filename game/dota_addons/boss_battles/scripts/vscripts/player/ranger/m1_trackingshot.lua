@@ -68,7 +68,12 @@ function m1_trackingshot:OnSpellStart()
         local dmg_dist_multi = self:GetSpecialValueFor( "dmg_dist_multi" ) / 100
 
         -- init effect
-        local enEffect = "particles/ranger/m1_ranger_windrunner_base_attack.vpcf"
+        local enEffect = nil
+        if self.caster.arcana_equipped == true then
+            enEffect = "particles/ranger/cosmetic_windranger_arcana_base_attack.vpcf"
+        else
+            enEffect = "particles/ranger/m1_ranger_windrunner_base_attack.vpcf"
+        end
 
         -- check if caster has rain of arrows moidifier
         if self.caster:HasModifier("e_whirling_winds_modifier") then

@@ -22,8 +22,17 @@ end
 function modifier_arcana_cosmetics:OnCreated( kv )
 	if IsServer() then
 
+        if self:GetParent():GetUnitName() == "npc_dota_hero_juggernaut" then
+            self.status_effect = "particles/status_fx/status_effect_omnislash.vpcf"
+        else
+            self.status_effect = ""
+        end
+
     end
 end
+
+function modifier_arcana_cosmetics:GetStatusEffectName() return self.status_effect end
+function modifier_arcana_cosmetics:StatusEffectPriority() return 1000 end
 
 
 

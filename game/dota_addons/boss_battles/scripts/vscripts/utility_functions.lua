@@ -10,7 +10,7 @@ function GetClassName(unitName)
 	unitNameClassNameMap["npc_dota_hero_lina"] = "Lina"
 	unitNameClassNameMap["npc_dota_hero_omniknight"] = "Nocens"
 	unitNameClassNameMap["npc_dota_hero_queenofpain"] = "Akasha"
-	unitNameClassNameMap["npc_dota_hero_legion_commander"] = "Blademaster"
+	unitNameClassNameMap["npc_dota_hero_juggernaut"] = "Blademaster"
 
 	if unitNameClassNameMap[unitName] ~= nil then
 		return unitNameClassNameMap[unitName] 
@@ -502,5 +502,22 @@ function GenerateGUID()
 		else
 			--print('Duplicated a Previously Created GUID.');
 		end
+	end
+end
+
+--[[Author: Noya
+  Date: 09.08.2015.
+  Hides all dem hats
+]]
+function HideWearables( unit )
+	local model = unit:FirstMoveChild()
+	print("model ",model)
+	while model ~= nil do
+	print("hello123")
+		if model:GetClassname() == "dota_item_wearable" then
+			model:AddEffects(EF_NODRAW)
+			print(" this runing?")
+		end
+		model = model:NextMovePeer()
 	end
 end

@@ -8,7 +8,14 @@ function m2_serratedarrow:OnAbilityPhaseStart()
 
         EmitSoundOnLocationForAllies(self:GetCaster():GetAbsOrigin(), "Ability.PowershotPull", self:GetCaster())
 
-        self.nfx = ParticleManager:CreateParticle("particles/ranger/ranger_windrunner_spell_powershot_channel_ti6.vpcf", PATTACH_POINT, self.caster)
+        local enEffect = nil
+        if self.caster.arcana_equipped == true then
+            enEffect = "particles/econ/items/windrunner/windranger_arcana/windranger_arcana_powershot_channel.vpcf"
+        else
+            enEffect = "particles/econ/items/windrunner/windrunner_ti6/windrunner_spell_powershot_channel_ti6.vpcf"
+        end
+
+        self.nfx = ParticleManager:CreateParticle(enEffect, PATTACH_ABSORIGIN_FOLLOW, self.caster)
         ParticleManager:SetParticleControlEnt(self.nfx, 0, self.caster, PATTACH_POINT_FOLLOW, "bow_mid1", self.caster:GetAbsOrigin(), true)
         ParticleManager:SetParticleControl(self.nfx, 1, self.caster:GetAbsOrigin())
         ParticleManager:SetParticleControlForward(self.nfx, 1, self.caster:GetForwardVector())
@@ -78,7 +85,13 @@ function m2_serratedarrow:OnSpellStart()
         vTargetPos = Vector(self.caster.mouse.x, self.caster.mouse.y, self.caster.mouse.z)
         local projectile_direction = (Vector( vTargetPos.x - origin.x, vTargetPos.y - origin.y, 0 )):Normalized()
         -- init effect
-        local enEffect = "particles/units/heroes/hero_windrunner/windrunner_spell_powershot.vpcf"
+
+        local enEffect = nil
+        if self.caster.arcana_equipped == true then
+            enEffect = "particles/econ/items/windrunner/windranger_arcana/windranger_arcana_spell_powershot.vpcf"
+        else
+            enEffect = "particles/units/heroes/hero_windrunner/windrunner_spell_powershot.vpcf"
+        end
 
         local units_hit = 0
 

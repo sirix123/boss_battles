@@ -21,7 +21,7 @@ function link_crystals_modifier:OnCreated( kv )
         self.radius = 200
         self.dmg_link = 150
         self.stopDamageLoop = false
-        self.damage_interval = 0.3
+        self.damage_interval = 1
         self.tCrystals = {}
 
         self.previous_crystal_link = EntIndexToHScript(kv.target)
@@ -75,10 +75,12 @@ function link_crystals_modifier:OnCreated( kv )
                 self.close_target:AddNewModifier( self.close_target, self, "link_crystals_modifier", { duration = duration, target = self.close_target:GetEntityIndex() } )
 
                 -- link particle
+                --[[
                 local particleName = "particles/tinker/crystals_green_phoenix_sunray.vpcf"
                 self.effect_cast_link = ParticleManager:CreateParticle( particleName, PATTACH_ABSORIGIN, self:GetParent() )
                 ParticleManager:SetParticleControl( self.effect_cast_link, 0, Vector( self:GetParent():GetAbsOrigin().x,self:GetParent():GetAbsOrigin().y, self:GetParent():GetAbsOrigin().z + 100 ))
                 ParticleManager:SetParticleControl( self.effect_cast_link, 1, Vector( self.close_target:GetAbsOrigin().x,self.close_target:GetAbsOrigin().y, self.close_target:GetAbsOrigin().z + 100 ) )
+                ]]
 
                 self.close_target_location = self.close_target:GetAbsOrigin()
                 self.caster_location = self:GetParent():GetAbsOrigin()
@@ -106,9 +108,47 @@ function link_crystals_modifier:StartApplyDamageLoopLink()
 		    return false
         end
 
+        local speed = 500
+        local direction = ( self.close_target_location - self.parent:GetAbsOrigin() ):Normalized()
+        local distance = (self.close_target_location - self.parent:GetAbsOrigin()):Length2D()
+
+        local particleEffect = "particles/clock/clocknon_speed_flame_turret_invoker_chaos_meteor.vpcf"
+
+        local projectile = {
+            EffectName = particleEffect,
+            vSpawnOrigin = origin,
+            fDistance = distance,
+            fUniqueRadius = 100,--200
+            Source = self.parent,
+            vVelocity = direction * speed,
+            UnitBehavior = PROJECTILES_DESTROY,
+            TreeBehavior = PROJECTILES_NOTHING,
+            WallBehavior = PROJECTILES_DESTROY,
+            GroundBehavior = PROJECTILES_NOTHING,
+            fGroundOffset = 80,
+            UnitTest = function(_self, unit)
+                return unit:GetTeamNumber() ~= casterTeamNumber and unit:GetModelName() ~= "models/development/invisiblebox.vmdl" and CheckGlobalUnitTableForUnitName(unit) ~= true
+            end,
+            OnUnitHit = function(_self, unit)
+                self.dmgTable = {
+                    victim = unit,
+                    attacker = self.caster,
+                    damage = self.dmg_link,
+                    damage_type = DAMAGE_TYPE_PHYSICAL,
+                    ability = self:GetAbility(),
+                }
+
+                ApplyDamage(self.dmgTable)
+            end,
+            OnFinish = function(_self, pos)
+            end,
+        }
+
+        Projectiles:CreateProjectile(projectile)
+
         --print("this timer running?")
 
-        local enemies = FindUnitsInLine(
+        --[[local enemies = FindUnitsInLine(
             self:GetCaster():GetTeamNumber(),
             self.caster_location,
             self.close_target_location,
@@ -133,7 +173,7 @@ function link_crystals_modifier:StartApplyDamageLoopLink()
 
                 ApplyDamage(self.dmgTable)
             end
-        end
+        end]]
 
 
 		return self.damage_interval

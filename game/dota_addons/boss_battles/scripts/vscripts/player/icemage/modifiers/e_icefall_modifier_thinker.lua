@@ -183,7 +183,13 @@ function e_icefall_modifier_thinker:PlayEffects()
         --ParticleManager:SetParticleControl( self.effect_cast_1, 2, self.currentTarget )
 
         -- effect 2
-        local particle_cast_2 = "particles/units/heroes/hero_crystalmaiden/maiden_freezing_field_explosion.vpcf"
+        local enEffect = nil
+        if self.caster.arcana_equipped == true then
+            enEffect = "particles/econ/items/crystal_maiden/crystal_maiden_maiden_of_icewrack/maiden_freezing_field_explosion_arcana1.vpcf"
+        else
+            enEffect = "particles/units/heroes/hero_crystalmaiden/maiden_freezing_field_explosion.vpcf"
+        end
+        local particle_cast_2 = enEffect
 
         --[[ Set explosion quartal
         self.quartal = self.quartal+1

@@ -17,6 +17,7 @@ function m1_combo_hit_3:OnAbilityPhaseStart()
         self:GetCaster():AddNewModifier(self:GetCaster(), self, "casting_modifier_thinker",
         {
             duration = CustomGetCastPoint(self:GetCaster(),self),
+			animation_sequence = "fast",
         })
 
         return true

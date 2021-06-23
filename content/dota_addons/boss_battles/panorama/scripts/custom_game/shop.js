@@ -260,7 +260,7 @@ function GetProductImage( product_id ){
     }
 
     if( product_id == "prod_JhhDluCT1T5SWR"){
-        return "npc_dota_hero_legion_commander_alt1";
+        return "npc_dota_hero_juggernaut_alt1";
     }
 
     if( product_id == "prod_JhhK4ZwCbpMAXe"){
@@ -296,7 +296,7 @@ function GetProductTitle( product_id ){
     }
 
     if( product_id == "prod_JhhK4ZwCbpMAXe"){
-        return "Medusa";
+        return "Windrunner";
     }
 
     if( product_id == "prod_JhhDN4uB5R7qT4"){

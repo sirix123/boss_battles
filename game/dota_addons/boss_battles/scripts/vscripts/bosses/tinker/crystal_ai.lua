@@ -47,7 +47,7 @@ function Spawn( entityKeyValues )
 
     thisEntity.beam_phase = false
 
-    thisEntity.beam_stack_count = 0
+    thisEntity.beam_stack_count = 0 -- 0
     thisEntity.total_beams = 3 -- 3
 
     thisEntity:SetMana(0)

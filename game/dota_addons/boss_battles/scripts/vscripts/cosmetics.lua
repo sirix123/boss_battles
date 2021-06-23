@@ -157,7 +157,7 @@ function CosmeticManager:GetProductListTest()
     table.insert(product_list,hero)
 
     hero = {}
-    hero["hero"] = "npc_dota_hero_legion_commander"
+    hero["hero"] = "npc_dota_hero_juggernaut"
     hero["products"] = {"prod_JhhDluCT1T5SWR"}
     table.insert(product_list,hero)
 

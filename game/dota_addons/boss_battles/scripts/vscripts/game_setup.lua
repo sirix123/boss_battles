@@ -209,7 +209,7 @@ function GameSetup:OnNPCSpawned(keys)
             if npc:GetUnitName() == "npc_dota_hero_crystal_maiden" then npc:SetMana(0) end
             if npc:GetUnitName() == "npc_dota_hero_windrunner" then npc:SetMana(0) end
             if npc:GetUnitName() == "npc_dota_hero_lina" then npc:SetMana(0) end
-            if npc:GetUnitName() == "npc_dota_hero_legion_commander" then npc:SetMana(0) end
+            if npc:GetUnitName() == "npc_dota_hero_juggernaut" then npc:SetMana(0) end
             if npc:GetUnitName() == "npc_dota_hero_grimstroke" then npc:SetMana(0) end
             if npc:GetUnitName() == "npc_dota_hero_queenofpain" then npc:SetMana(0) end
             return false
@@ -833,7 +833,7 @@ function GameSetup:HeroCheck()
         end
 
         -- blademaster clean
-        if hero:GetUnitName() == "npc_dota_hero_legion_commander" then
+        if hero:GetUnitName() == "npc_dota_hero_juggernaut" then
             hero:AddNewModifier(hero,nil,"blademaster_death_enable_spells",{duration = -1})
             if hero:HasModifier("warlord_modifier_shouts") then
                 hero:RemoveModifierByName("warlord_modifier_shouts")
