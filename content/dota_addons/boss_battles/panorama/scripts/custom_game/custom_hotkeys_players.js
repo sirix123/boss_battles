@@ -38,6 +38,7 @@ function AbilityToCast(abilityNumber, showEffects){
     {
         if ( Abilities.IsInAbilityPhase(i) == true || Abilities.IsActivated(i))
         {
+            var abilityIndexToInterupt = Entities.GetAbility( playerHero, i )
             var order = 
             {
                 OrderType : dotaunitorder_t.DOTA_UNIT_ORDER_STOP,
@@ -45,7 +46,7 @@ function AbilityToCast(abilityNumber, showEffects){
                 Position : mouse_position,
                 QueueBehavior : OrderQueueBehavior_t.DOTA_ORDER_QUEUE_NEVER,
                 ShowEffects : showEffects,
-                AbilityIndex : abilityIndex,
+                AbilityIndex : abilityIndexToInterupt,
             };
             Game.PrepareUnitOrders(order);
         }else if ( i == abilityNumber ){
@@ -58,6 +59,7 @@ function AbilityToCast(abilityNumber, showEffects){
 
     if ( abilityNumber !== 0 ){
         if (GameUI.IsMouseDown(0) ){
+            var abilityIndexToInterupt = Entities.GetAbility( playerHero, abilityNumber )
             var order = 
             {
                 OrderType : dotaunitorder_t.DOTA_UNIT_ORDER_STOP,
@@ -65,7 +67,7 @@ function AbilityToCast(abilityNumber, showEffects){
                 Position : mouse_position,
                 QueueBehavior : OrderQueueBehavior_t.DOTA_ORDER_QUEUE_NEVER,
                 ShowEffects : showEffects,
-                AbilityIndex : abilityIndex,
+                AbilityIndex : abilityIndexToInterupt,
             };
             Game.PrepareUnitOrders(order);
         }
