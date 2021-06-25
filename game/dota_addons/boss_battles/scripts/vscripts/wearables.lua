@@ -156,25 +156,6 @@ function Wearables:MapWearablesToProductlist( product_list )
             if product_id == "prod_JhhDN4uB5R7qT4" then
                 wearable["product_id"] = product_id
 
-                self.model = "models/heroes/omniknight/omniknight.vmdl"
-                wearable["model"] = self.model
-
-                --wearable["equipment"] = {}
-                --wearable["equipment"]["dragon"] = "models/items/juggernaut/arcana/jugg_dragon.vmdl"
-                --wearable["equipment"]["mask"] = "models/items/juggernaut/arcana/juggernaut_arcana_mask.vmdl"
-                --[[wearable["equipment"]["head"] = "models/items/legion_commander/bloody_battle_angel_the_international_2019_head/bloody_battle_angel_the_international_2019_head.vmdl"
-                wearable["equipment"]["legs"] = "models/items/legion_commander/bloody_battle_angel_the_international_2019_legs/bloody_battle_angel_the_international_2019_legs.vmdl"
-                wearable["equipment"]["legs"] = "models/items/legion_commander/bloody_battle_angel_the_international_2019_weapon/bloody_battle_angel_the_international_2019_weapon.vmdl"
-
-                wearable["particle_weapon_1"] = {}
-                wearable["particle_weapon_1"]["particle_settings"] = {}
-                wearable["particle_weapon_1"]["particle_settings"]["particle_string"] = "particles/econ/items/legion/legion_overwhelming_odds_ti7/legion_commander_odds_ti7_ambient_eyes.vpcf"
-                wearable["particle_weapon_1"]["particle_settings"]["particle_attach_loc"] = "attach_head"]]
-
-                --wearable["modifier_arcana"] = "modifier_arcana_cosmetics"
-
-                --wearable["portrait"] = "npc_dota_hero_juggernaut_alt1"
-
                 table.insert(self.wearable_table,wearable)
             end
 
@@ -383,6 +364,20 @@ function Wearables:EquipWearables( product_id , hero )
             ParticleManager:ReleaseParticleIndex(particle_1)
         end
 
+        if hero:GetUnitName() == "npc_dota_hero_omniknight" and product_id == "prod_JhhDN4uB5R7qT4" then
+            local particle_1 = ParticleManager:CreateParticle("particles/units/heroes/hero_omniknight/omniknight_shoulder_ambient.vpcf", PATTACH_OVERHEAD_FOLLOW, hero)
+            ParticleManager:SetParticleControlEnt(particle_1, 0, hero, PATTACH_POINT_FOLLOW, "attach_hitloc", hero:GetAbsOrigin(), true)
+            ParticleManager:ReleaseParticleIndex(particle_1)
+
+            local particle_2 = ParticleManager:CreateParticle("particles/units/heroes/hero_omniknight/omniknight_shoulder_ambient.vpcf", PATTACH_ABSORIGIN_FOLLOW, hero)
+            ParticleManager:SetParticleControl(particle_2, 0, hero:GetAbsOrigin())
+            ParticleManager:SetParticleControlEnt(particle_2, 5, hero, PATTACH_POINT_FOLLOW, "attach_hitloc", hero:GetAbsOrigin(), true)
+            ParticleManager:ReleaseParticleIndex(particle_2)
+
+            local particle_3 = ParticleManager:CreateParticle("particles/units/heroes/hero_omniknight/omniknight_guardian_angel_halo_buff.vpcf", PATTACH_OVERHEAD_FOLLOW, hero)
+            ParticleManager:SetParticleControlEnt(particle_3, 0, hero, PATTACH_POINT_FOLLOW, "attach_hitloc", hero:GetAbsOrigin(), true)
+            ParticleManager:ReleaseParticleIndex(particle_3)
+        end
     end
 end
 

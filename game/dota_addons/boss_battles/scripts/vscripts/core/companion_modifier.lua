@@ -70,7 +70,7 @@ function companion_modifier:OnIntervalThink()
 
 		local hero_origin = hero:GetAbsOrigin()
 		local hero_distance = (hero_origin - companion:GetAbsOrigin()):Length()
-		local min_distance = 250
+		local min_distance = 300
 		local blink_distance = 750
 
 		if companion:GetIdealSpeed() ~= hero:GetIdealSpeed() - 70 then
