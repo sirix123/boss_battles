@@ -25,6 +25,37 @@ function AbilityToCast(abilityNumber, showEffects){
 
     //$.Msg("Abilities.GetAbilityName(abilityNumber ) ", Abilities.GetAbilityName(abilityIndex ))
 
+    
+
+    //do some soort of while aiblity reutnred ~= nil... if any abiltiy is in phase... issue stop command
+    // doesnt crash ut needs loads of work
+    // if the aability coming in is teh same of the abilty in this list then ignore the stop command
+    // keep the m1 override cause schuedle is fater then player
+
+    //let abilityNumberCheck = 0
+    for (let i = 0; i < 12; i++  ) 
+    //while ( Entities.GetAbility( playerHero, abilityNumberCheck ) !== -1 ) // abilityNumberCheck abilityIndex
+    {
+        if ( Abilities.IsInAbilityPhase(i) == true || Abilities.IsActivated(i))
+        {
+            var order = 
+            {
+                OrderType : dotaunitorder_t.DOTA_UNIT_ORDER_STOP,
+                TargetIndex : playerHero,
+                Position : mouse_position,
+                QueueBehavior : OrderQueueBehavior_t.DOTA_ORDER_QUEUE_NEVER,
+                ShowEffects : showEffects,
+                AbilityIndex : abilityIndex,
+            };
+            Game.PrepareUnitOrders(order);
+        }else if ( i == abilityNumber ){
+            break
+        }else if ( abilityNumber == 0 ){
+            break
+        }
+        //abilityNumberCheck = abilityNumberCheck + 1;
+    }
+
     if ( abilityNumber !== 0 ){
         if (GameUI.IsMouseDown(0) ){
             var order = 
