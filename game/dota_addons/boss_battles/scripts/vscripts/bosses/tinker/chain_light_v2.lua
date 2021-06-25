@@ -158,7 +158,7 @@ function chain_light_v2:OnProjectileHit( hTarget, vLocation)
 				nil,
 				self.bounce_range,
 				DOTA_UNIT_TARGET_TEAM_ENEMY,
-				DOTA_UNIT_TARGET_HERO + DOTA_UNIT_TARGET_CREEP,
+				DOTA_UNIT_TARGET_HERO,
 				DOTA_UNIT_TARGET_FLAG_INVULNERABLE,	-- int, flag filter
 				FIND_CLOSEST,	-- int, order filter
 				false	-- bool, can grow cache

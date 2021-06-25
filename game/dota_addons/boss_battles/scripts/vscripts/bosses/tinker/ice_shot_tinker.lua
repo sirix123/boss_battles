@@ -98,7 +98,24 @@ function ice_shot_tinker:OnSpellStart()
                     end
                     self:HitCrystal( unit )
                 elseif unit:GetTeamNumber() == DOTA_UNIT_TARGET_TEAM_ENEMY then
-                    self:HitPlayer(unit)
+                    local particle_cast = "particles/units/heroes/hero_lich/lich_frost_nova.vpcf"
+                    local sound_target = "Ability.FrostNova"
+        
+                    -- Create Particle
+                    local effect_cast = ParticleManager:CreateParticle( particle_cast, PATTACH_ABSORIGIN_FOLLOW, unit )
+                    ParticleManager:SetParticleControl( effect_cast, 1, Vector( 150, 150, 150 ) )
+                    ParticleManager:ReleaseParticleIndex( effect_cast )
+        
+                    -- Create Sound
+                    EmitSoundOn( sound_target, unit )
+        
+                    unit:AddNewModifier(self:GetCaster(), self, "biting_frost_modifier_debuff",
+                        {
+                            duration = self.duration,
+                            dmg = self.dmg,
+                            radius = self.radius,
+                            interval = self.dmg_interval,
+                        })
                 elseif unit:GetUnitName() == "npc_ice_ele" then
                     self:HitEle(unit)
                 elseif unit:GetUnitName() == "npc_fire_ele" then

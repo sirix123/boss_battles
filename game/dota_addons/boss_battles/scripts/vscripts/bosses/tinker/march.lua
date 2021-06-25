@@ -58,7 +58,7 @@ function march:OnSpellStart()
         local left_fill_direction = Vector(0,1,0)
         local left_proj_direction = Vector(1,0,0)
 
-        local num_lines = 2
+        local num_lines = 1
         local previous_index = 0
         local tStartSpawns = { }
         local spawnInfo = { }
@@ -111,7 +111,7 @@ function march:OnSpellStart()
         self.proj_radius = 80
         local length = 4400
         local nProj = length / self.proj_radius
-        local maxWaves = 4
+        local maxWaves = 2
         local numWaves = 0
 
         Timers:CreateTimer(0.5, function()

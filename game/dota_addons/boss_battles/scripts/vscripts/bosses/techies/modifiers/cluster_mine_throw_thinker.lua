@@ -24,7 +24,7 @@ function cluster_mine_throw_thinker:OnCreated( kv )
     self.invul = true
 
     -- get current pos from kv
-    self.currentPosition = Vector( kv.target_x, kv.target_y, kv.target_z)
+    self.currentPosition = self.parent:GetAbsOrigin() --Vector( kv.target_x, kv.target_y, kv.target_z)
 
     -- init dmg table
 	self.damageTable = {
@@ -53,6 +53,11 @@ function cluster_mine_throw_thinker:OnIntervalThink()
     if not IsServer() then return end
 
     local parent = self.parent
+    self.currentPosition = self.parent:GetAbsOrigin()
+
+    if self:GetParent():HasModifier("modifier_generic_arc_lua") == true then
+        return
+    end
 
     local enemies = FindUnitsInRadius(
         self.parent:GetTeamNumber(),	-- int, your team number

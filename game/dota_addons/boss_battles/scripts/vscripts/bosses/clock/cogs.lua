@@ -1,5 +1,7 @@
 cogs = class({})
 LinkLuaModifier( "cog_modifier", "bosses/clock/modifiers/cog_modifier", LUA_MODIFIER_MOTION_NONE )
+LinkLuaModifier( "root_thinker_modifier", "bosses/clock/modifiers/root_thinker_modifier", LUA_MODIFIER_MOTION_NONE )
+LinkLuaModifier( "modifier_rooted_clock", "bosses/clock/modifiers/modifier_rooted_clock", LUA_MODIFIER_MOTION_NONE )
 LinkLuaModifier( "modifier_generic_disable_auto_attack", "core/modifier_generic_disable_auto_attack", LUA_MODIFIER_MOTION_NONE )
 
 function cogs:OnAbilityPhaseStart()
@@ -189,6 +191,30 @@ function cogs:OnSpellStart()
                 cogIndex = cogIndex + 1
             elseif changedDirections == true then
                 cogIndex = cogIndex - 1
+            end
+
+            -- spawn root thinker
+            local nRootThinkers = RandomInt(self:GetSpecialValueFor( "min_rand_root" ),self:GetSpecialValueFor( "max_rand_root" ))
+            for i = 1, nRootThinkers, 1 do
+
+                local mid_point = caster:GetAbsOrigin()
+                local radius = 800
+                local randomX = RandomInt(mid_point.x - radius, mid_point.x + radius)
+                local randomY = RandomInt(mid_point.y - radius, mid_point.y + radius)
+
+                CreateModifierThinker(
+                    caster,
+                    self,
+                    "root_thinker_modifier",
+                    {
+                        duration = 2,
+                        pos_x = randomX,
+                        pos_y = randomY,
+                    },
+                    Vector(randomX,randomY,caster:GetAbsOrigin().z),
+                    caster:GetTeamNumber(),
+                    false
+                )
             end
 
             randomDirectionCount = randomDirectionCount + 1

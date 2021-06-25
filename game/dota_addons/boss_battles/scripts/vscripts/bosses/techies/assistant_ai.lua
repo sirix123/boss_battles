@@ -30,6 +30,9 @@ function Spawn( entityKeyValues )
 	thisEntity.stomp_push:SetLevel(1)
 	thisEntity.stomp_push:StartCooldown(8)
 
+	thisEntity.magnetic_totem = thisEntity:FindAbilityByName( "magnetic_totem" )
+	thisEntity.magnetic_totem:StartCooldown(15)
+
 	--CreateUnitByName( "npc_techies", Vector(10126,1776,0), true, thisEntity, thisEntity, DOTA_TEAM_BADGUYS)
 
 	thisEntity:SetHullRadius(80)
@@ -73,6 +76,11 @@ function AssistantThink()
 		return CastStompPush()
 	end
 
+	if thisEntity.magnetic_totem ~= nil and thisEntity.magnetic_totem:IsFullyCastable() and thisEntity.magnetic_totem:IsCooldownReady() and thisEntity.magnetic_totem:IsInAbilityPhase() == false then
+		--print("stomp push")
+		return CastMagneticTotem()
+	end
+
 	return 0.5
 end
 
@@ -101,4 +109,16 @@ function CastSweep( vTargetPos )
 	})
 
 	return thisEntity.assistant_sweep:GetCastPoint() + 0.3
+end
+
+function CastMagneticTotem(  )
+
+    ExecuteOrderFromTable({
+        UnitIndex = thisEntity:entindex(),
+        OrderType = DOTA_UNIT_ORDER_CAST_NO_TARGET,
+        AbilityIndex = thisEntity.magnetic_totem:entindex(),
+        Queue = false,
+    })
+
+    return 1
 end

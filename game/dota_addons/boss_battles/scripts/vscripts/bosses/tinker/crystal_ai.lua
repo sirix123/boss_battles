@@ -301,7 +301,7 @@ function ElementalPhaseTimer()
         thisEntity.fire_phase = true
         thisEntity.elec_phase = true
         ]]
-        EmitSoundOn( "tinker_tink_ability_marchofthemachines_01", thisEntity )
+        --EmitSoundOn( "tinker_tink_ability_marchofthemachines_01", thisEntity )
 
             if thisEntity.beam_stack_count == 0 then
                 thisEntity.ice_phase = true

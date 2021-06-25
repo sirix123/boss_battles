@@ -310,7 +310,7 @@
 
         // Time     
         //-------------------------------------------------------------------------------------------------------------
-        "AbilityCooldown"               "20 20 20 20"
+        "AbilityCooldown"               "30 30 30 30"
 
         // Cost
         //-------------------------------------------------------------------------------------------------------------
@@ -352,7 +352,7 @@
 
         // Time     
         //-------------------------------------------------------------------------------------------------------------
-        "AbilityCooldown"               "3 3 3 3"
+        "AbilityCooldown"               "4 4 4 4"
 
         // Cost
         //-------------------------------------------------------------------------------------------------------------
@@ -371,6 +371,47 @@
             "soundfile" "soundevents/game_sounds_heroes/game_sounds_earthshaker.vsndevts"
             "soundfile" "soundevents/game_sounds_heroes/game_sounds_lion.vsndevts"
             "soundfile" "sounds/vo/warlock_golem/game_sounds_vo_warlock_golem.vsndevts"
+		}
+    }
+
+    //=================================================================================================================
+    // Techies: magnetic_totem
+    //=================================================================================================================
+    "magnetic_totem"
+    { 
+        "BaseClass"                     "ability_lua"
+        "ScriptFile"                    "bosses/techies/magnetic_totem"
+        "MaxLevel"						"4"
+
+        // General
+        //-------------------------------------------------------------------------------------------------------------
+        "AbilityBehavior"               "DOTA_ABILITY_BEHAVIOR_NO_TARGET"
+        "AbilityUnitDamageType"         "DAMAGE_TYPE_PHYSICAL"  
+
+        // Casting
+        //-------------------------------------------------------------------------------------------------------------
+        "AbilityCastPoint"              "2.2 2.2 2.2 2.2"
+
+        // Time     
+        //-------------------------------------------------------------------------------------------------------------
+        "AbilityCooldown"               "22 20 20 20"
+
+        // Cost
+        //-------------------------------------------------------------------------------------------------------------
+        "AbilityManaCost"               "0"
+
+        // Special
+        //-------------------------------------------------------------------------------------------------------------
+		"AbilitySpecial"
+		{
+            //"01"{ "var_type"			"FIELD_INTEGER"		"duration"		                            "15" }
+		}
+
+        "precache"
+		{
+            "soundfile" "soundevents/game_sounds_heroes/game_sounds_keeper_of_the_light.vsndevts"
+            "soundfile" "sounds/vo/warlock_golem/game_sounds_vo_warlock_golem.vsndevts"
+
 		}
     }
 }

@@ -2,6 +2,7 @@ tinker_ai = class({})
 
 LinkLuaModifier("shield_effect", "bosses/tinker/modifiers/shield_effect", LUA_MODIFIER_MOTION_NONE)
 LinkLuaModifier("phase_1_fog", "bosses/tinker/modifiers/phase_1_fog", LUA_MODIFIER_MOTION_NONE)
+LinkLuaModifier("summon_lava_puddle", "bosses/tinker/modifiers/summon_lava_puddle", LUA_MODIFIER_MOTION_NONE)
 
 --------------------------------------------------------------------------------
 
@@ -35,6 +36,9 @@ function Spawn( entityKeyValues )
 	thisEntity.red_missile = thisEntity:FindAbilityByName( "red_missile" )
 	thisEntity.red_missile:StartCooldown(thisEntity.red_missile:GetCooldown(thisEntity.red_missile:GetLevel()))
 
+	thisEntity.summon_lava_mobs_once = false
+	thisEntity.channel_tinker_buff_lava_mob = thisEntity:FindAbilityByName( "channel_tinker_buff_lava_mob" )
+
 	thisEntity.tinker_teleport = thisEntity:FindAbilityByName( "tinker_teleport" )
 	thisEntity.tinker_teleport:StartCooldown(thisEntity.tinker_teleport:GetCooldown(thisEntity.tinker_teleport:GetLevel()))
 
@@ -43,6 +47,8 @@ function Spawn( entityKeyValues )
 	thisEntity.missile = thisEntity:FindAbilityByName( "missile" )
 
 	thisEntity.laser = thisEntity:FindAbilityByName( "laser" )
+
+	thisEntity.lava_bolt = thisEntity:FindAbilityByName( "lava_bolt" )
 
 	thisEntity.link_crystals_tinker = thisEntity:FindAbilityByName( "link_crystals_tinker" )
 
@@ -77,8 +83,9 @@ function TinkerThinker()
 	--print("tinker thisEntity.PHASE ", thisEntity.PHASE)
 
 	-- handles the phase changes etc
+	--thisEntity.stack_count = 1 for testing
 	if thisEntity:HasModifier("beam_counter") then
-		thisEntity.stack_count = thisEntity:FindModifierByName("beam_counter"):GetStackCount()
+		thisEntity.stack_count = thisEntity:FindModifierByName("beam_counter"):GetStackCount()  -- + 2 for testing
 		--print("stack_count ", thisEntity.stack_count)
 	end
 
@@ -167,6 +174,11 @@ function TinkerThinker()
 		boss_frame_manager:ShowBossHpFrame( )
 		boss_frame_manager:HideBossManaFrame()
 
+		if thisEntity.summon_lava_mobs_once == false then
+			thisEntity.summon_lava_mobs_once = true
+			thisEntity:AddNewModifier(thisEntity,nil,"summon_lava_puddle",{duration = thisEntity.channel_tinker_buff_lava_mob:GetChannelTime() } )
+		end
+
 		if thisEntity.march ~= nil and thisEntity.march:IsFullyCastable() and thisEntity.march:IsCooldownReady() and thisEntity.march:IsInAbilityPhase() == false then
 			return CastMarch()
 		end
@@ -181,6 +193,10 @@ function TinkerThinker()
 
 		if thisEntity.tinker_teleport_phase2 ~= nil and thisEntity.tinker_teleport_phase2:IsFullyCastable() and thisEntity.tinker_teleport_phase2:IsCooldownReady() and thisEntity.tinker_teleport_phase2:IsInAbilityPhase() == false then
 			return CastTeleportPhase2()
+		end
+
+		if thisEntity.lava_bolt ~= nil and thisEntity.lava_bolt:IsFullyCastable() and thisEntity.lava_bolt:IsCooldownReady() and thisEntity.lava_bolt:IsInAbilityPhase() == false and thisEntity.summon_lava_mobs_once == true and thisEntity:HasModifier("lava_bolt_modifier_stacks") == true then
+			return CastLavaBolt()
 		end
 
 	end
@@ -264,7 +280,9 @@ function Transition(  )
 	-- expldoe crystal
 	local particle_explode = "particles/tinker/rubick_invoker_emp.vpcf"
 	thisEntity.particle_explode_nfx = ParticleManager:CreateParticle( particle_explode, PATTACH_WORLDORIGIN, thisEntity )
-	ParticleManager:SetParticleControl(thisEntity.particle_explode_nfx, 0, FindCrystal():GetAbsOrigin() )
+	if FindCrystal():GetAbsOrigin() then
+		ParticleManager:SetParticleControl(thisEntity.particle_explode_nfx, 0, FindCrystal():GetAbsOrigin() )
+	end
 
 	EmitSoundOn( "Hero_Invoker.EMP.Cast", FindCrystal() )
 	EmitSoundOn( "Hero_Invoker.EMP.Charge", FindCrystal() )
@@ -623,5 +641,18 @@ function CastHealthDrain( )
 
 		return 4
 	end
+end
+--------------------------------------------------------------------------------
+
+function CastLavaBolt()
+
+	ExecuteOrderFromTable({
+        UnitIndex = thisEntity:entindex(),
+        OrderType = DOTA_UNIT_ORDER_CAST_NO_TARGET,
+        AbilityIndex = thisEntity.lava_bolt:entindex(),
+        Queue = false,
+	})
+
+	return 1
 end
 --------------------------------------------------------------------------------

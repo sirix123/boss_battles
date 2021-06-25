@@ -20,12 +20,13 @@ function bird_puddle_thinker:OnCreated( kv )
         self.parent = self:GetParent()
         self.caster = self:GetCaster()
         self.radius = 200
-        self.dmg_dot = 100
+        self.dmg_dot = 50
         self.stopDamageLoop = false
         self.damage_interval = 1
 
         -- ref from spell 
         self.currentTarget = Vector( kv.target_x, kv.target_y, kv.target_z )
+        self.summoned_lava_npc = false
 
         --DebugDrawCircle(self.parent:GetAbsOrigin(), Vector(0,0,255), 128, self.radius, true, 60)
 
@@ -50,6 +51,41 @@ function bird_puddle_thinker:StartApplyDamageLoop()
 		    return false
         end
 
+        local friendlies_tinker = FindUnitsInRadius(
+            self.parent:GetTeamNumber(),	-- int, your team number
+            self.currentTarget,	-- point, center point
+            nil,	-- handle, cacheUnit. (not known)
+            FIND_UNITS_EVERYWHERE,	-- float, radius. or use FIND_UNITS_EVERYWHERE
+            DOTA_UNIT_TARGET_TEAM_FRIENDLY,	-- int, team filter
+            DOTA_UNIT_TARGET_HERO + DOTA_UNIT_TARGET_BASIC,	-- int, type filter
+            DOTA_UNIT_TARGET_FLAG_INVULNERABLE,	-- int, flag filter
+            0,	-- int, order filter
+            false	-- bool, can grow cache
+        )
+
+        if self.summoned_lava_npc == false then
+            if friendlies_tinker ~= nil and #friendlies_tinker ~= 0 then
+                for _, friend in pairs(friendlies_tinker) do
+                    if friend:GetUnitName() == "npc_tinker" then
+                        if friend:HasModifier("summon_lava_puddle") then
+                            self.summoned_lava_npc = true
+
+                            local particle = "particles/units/heroes/hero_invoker_kid/invoker_kid_forge_spirit_death.vpcf"
+                            self.effect_cast_1 = ParticleManager:CreateParticle(particle, PATTACH_WORLDORIGIN, self.parent)
+                            ParticleManager:SetParticleControl(self.effect_cast_1, 0, self.currentTarget)
+                            ParticleManager:ReleaseParticleIndex(self.effect_cast_1)
+
+                            Timers:CreateTimer(2, function()
+                                CreateUnitByName( "npc_fire_puddle_summon", self.currentTarget, true, nil, nil, DOTA_TEAM_BADGUYS)
+
+                                return false
+                            end)
+                        end
+                    end
+                end
+            end
+        end
+
         local enemies = FindUnitsInRadius(
             self.parent:GetTeamNumber(),	-- int, your team number
             self.currentTarget,	-- point, center point
@@ -69,7 +105,7 @@ function bird_puddle_thinker:StartApplyDamageLoop()
             self.radius,	-- float, radius. or use FIND_UNITS_EVERYWHERE
             DOTA_UNIT_TARGET_TEAM_FRIENDLY,	-- int, team filter
             DOTA_UNIT_TARGET_HERO + DOTA_UNIT_TARGET_BASIC,	-- int, type filter
-            0,	-- int, flag filter
+            DOTA_UNIT_TARGET_FLAG_INVULNERABLE,	-- int, flag filter
             0,	-- int, order filter
             false	-- bool, can grow cache
         )
@@ -106,6 +142,7 @@ function bird_puddle_thinker:StartApplyDamageLoop()
                 ApplyDamage(self.dmgTable)
             end
         end
+
 
         local areAllHeroesDead = true --start on true, then set to false if you find one hero alive.
 		local heroes = HERO_LIST--HeroList:GetAllHeroes()

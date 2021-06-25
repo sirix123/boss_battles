@@ -108,17 +108,17 @@ function link_crystals_modifier:StartApplyDamageLoopLink()
 		    return false
         end
 
-        local speed = 500
+        local speed = 600
         local direction = ( self.close_target_location - self.parent:GetAbsOrigin() ):Normalized()
         local distance = (self.close_target_location - self.parent:GetAbsOrigin()):Length2D()
 
-        local particleEffect = "particles/clock/clocknon_speed_flame_turret_invoker_chaos_meteor.vpcf"
+        local particleEffect = "particles/tinker/tinker_arc_warden_base_attack.vpcf"
 
         local projectile = {
             EffectName = particleEffect,
-            vSpawnOrigin = origin,
+            vSpawnOrigin = self.parent:GetAbsOrigin(),
             fDistance = distance,
-            fUniqueRadius = 100,--200
+            fUniqueRadius = 80,--200
             Source = self.parent,
             vVelocity = direction * speed,
             UnitBehavior = PROJECTILES_DESTROY,
@@ -135,7 +135,7 @@ function link_crystals_modifier:StartApplyDamageLoopLink()
                     attacker = self.caster,
                     damage = self.dmg_link,
                     damage_type = DAMAGE_TYPE_PHYSICAL,
-                    ability = self:GetAbility(),
+                    --ability = self:GetAbility(),
                 }
 
                 ApplyDamage(self.dmgTable)

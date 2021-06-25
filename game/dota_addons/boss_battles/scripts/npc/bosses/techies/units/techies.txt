@@ -180,7 +180,7 @@
 		//----------------------------------------------------------------
 		"Ability1"					"stomp_push"					// Ability 1
 		"Ability2"					"assistant_sweep"					// Ability 2
-		"Ability3"					""					// Ability 3
+		"Ability3"					"magnetic_totem"					// Ability 3
 		"Ability4"					""					// Ability 4
 		"Ability5"					""					// Ability 5
 		"Ability6"					""					// Ability 6
