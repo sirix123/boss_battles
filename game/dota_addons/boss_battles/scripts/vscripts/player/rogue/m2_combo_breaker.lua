@@ -48,7 +48,7 @@ function m2_combo_breaker:OnSpellStart()
 
     local damage = self:GetSpecialValueFor("damage")
 
-    self.m1_bleed = caster:FindAbilityByName("m1_combo_hit_3")
+    self.m1_bleed = caster:FindAbilityByName("m1_combo_hit_1_2")
     local m1_bleed_tick = self.m1_bleed:GetSpecialValueFor("dmg_dot_base")
 
     self.ruptureAbility = caster:FindAbilityByName("r_rupture")

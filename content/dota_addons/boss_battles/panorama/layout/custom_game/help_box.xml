@@ -35,7 +35,7 @@
                         <Label id="HelpButtonToolTipMenuText_1" class="HelpButtonToolTipMenuText" text="Type !reset if your hero is automatically moving in a direction." />
                     </Panel>
                     <Panel id="HelpButtonToolTipMenuItem_6" class="HelpButtonToolTipMenuItem">
-                        <Label id="HelpButtonToolTipMenuText_6" class="HelpButtonToolTipMenuText" text="How casting works. If you hold M1 down and cast other spells, the other spells will override M1 and cast then your hero will return to casting M1 if you kept the button held down. All spells are smart cast." />
+                        <Label id="HelpButtonToolTipMenuText_6" class="HelpButtonToolTipMenuText" text="There are 2 different casting systems: Default and Spell interrupt. By default Spell interrupt is disabled you can change to Spell interrupt by typing !spell interrupt on to turn Spell interrupt off again type !spell interrupt off. Note by default in both systems all spells interupt m1 if you're holding down m1." />
                     </Panel>
                     <Panel id="HelpButtonToolTipMenuItem_2" class="HelpButtonToolTipMenuItem">
                         <Label id="HelpButtonToolTipMenuText_2" class="HelpButtonToolTipMenuText" text="If you're in Normal mode type !start boss Beastmaster to change bosses the next time you stand on the ready up area (Gyrocopter, Timbersaw, Beastmaster, Techies, Clockwerk, Tinker)."/>

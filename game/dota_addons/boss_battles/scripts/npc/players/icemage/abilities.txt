@@ -234,7 +234,7 @@
 		//"AbilityCastAnimation"          "ACT_DOTA_CAST_ABILITY_1"
 		"AbilityCastRange" 				"1000"
         "AbilityCooldown"				"20"//"20" 0
-        "AbilityCastPoint"              "0.4"
+        "AbilityCastPoint"              "0.4" // 0.4
 
 		"TargetingIndicator"
 		{

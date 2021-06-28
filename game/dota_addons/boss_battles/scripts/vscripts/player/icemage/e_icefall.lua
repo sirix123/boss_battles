@@ -47,7 +47,7 @@ end
 
 function e_icefall:OnSpellStart()
 
-    self:GetCaster():RemoveGesture(ACT_DOTA_CAST_ABILITY_1)
+    self:GetCaster():FadeGesture(ACT_DOTA_CAST_ABILITY_1)
 
     self.caster = self:GetCaster()
 

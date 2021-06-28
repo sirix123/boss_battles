@@ -44,6 +44,8 @@ function CDOTA_BaseNPC:Initialize(data)
   self.dmgDoneAttempt = 0
   self.dmgTakenAttempt = 0
 
+  self.spell_interupt = false
+
   self.dmgDetails = {}
   self.dmgTakenDetails = {}
   self.deathsDetails = {}

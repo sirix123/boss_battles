@@ -1,5 +1,5 @@
 m1_combo_hit_1_2 = class({})
-LinkLuaModifier("m2_combo_hit_3_bleed", "player/rogue/modifiers/m2_combo_hit_3_bleed", LUA_MODIFIER_MOTION_NONE)
+
 --------------------------------------------------------------------------------
 local nAttackCount = 0
 
@@ -76,35 +76,21 @@ function m1_combo_hit_1_2:OnSpellStart()
 		FIND_ANY_ORDER,
 		false)
 
-	if enemies ~= nil and #enemies ~= 0 then
+	for _, enemy in pairs(enemies) do
 
-		nAttackCount = nAttackCount + 1
+		local dmgTable = {
+			victim = enemy,
+			attacker = caster,
+			damage = damage,
+			damage_type = self:GetAbilityDamageType(),
+			ability = self,
+		}
 
-		for _, enemy in pairs(enemies) do
+		EmitSoundOn( "Hero_PhantomAssassin.Attack", self:GetCaster() )
 
-			local dmgTable = {
-				victim = enemy,
-				attacker = caster,
-				damage = damage,
-				damage_type = self:GetAbilityDamageType(),
-				ability = self,
-			}
+        ApplyDamage(dmgTable)
 
-			EmitSoundOn( "Hero_PhantomAssassin.Attack", self:GetCaster() )
-
-			if nAttackCount == 2 then
-				enemy:AddNewModifier(caster, self, "m2_combo_hit_3_bleed", { duration = self:GetSpecialValueFor( "bleed_duration") })
-			end
-
-			ApplyDamage(dmgTable)
-
-		end
-
-		if nAttackCount == 2 then
-			nAttackCount = 0
-		end
-
-	end
+    end
 
 	-- on attack end particle effect
 	local offset = radius - 80
@@ -116,6 +102,12 @@ function m1_combo_hit_1_2:OnSpellStart()
 	ParticleManager:SetParticleControl(effect_cast, 0, final_position)
 	ParticleManager:SetParticleControlForward(effect_cast, 0, direction)
 	ParticleManager:ReleaseParticleIndex(effect_cast)
+
+	nAttackCount = nAttackCount + 1
+	if nAttackCount == 2 then
+        nAttackCount = 0
+        caster:SwapAbilities("m1_combo_hit_1_2", "m1_combo_hit_3", false, true)
+	end
 
 end
 --------------------------------------------------------------------------------

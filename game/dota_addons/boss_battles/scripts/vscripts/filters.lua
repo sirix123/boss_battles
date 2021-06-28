@@ -4,48 +4,27 @@ function Filters:Activate(GameMode, this)
     function GameMode:ExecuteOrderFilter(filter_table)
         local order_type = filter_table["order_type"]
 
-        --PrintTable(filter_table)
-
         local caster = EntIndexToHScript(filter_table.units["0"])
-        local ability = EntIndexToHScript(filter_table.entindex_ability)
 
-        if caster:HasAbility(ability:GetName()) == false and caster:HasItemInInventory(ability:GetName()) == false then
-            return false
+        if caster.spell_interupt == true then
+            if order_type ~= DOTA_UNIT_ORDER_STOP and order_type ~= DOTA_UNIT_ORDER_HOLD_POSITION then
+                if caster:GetCurrentActiveAbility() ~= nil then -- if we are currently casting something
+                    if filter_table.entindex_ability ~= nil then -- and we are trying to cast an ability
+                        if EntIndexToHScript(filter_table.entindex_ability) then
+                            if  ( EntIndexToHScript(filter_table.entindex_ability):GetAbilityIndex() ~= 0 ) and -- if the new ability isn't a basic attack m0
+                                ( EntIndexToHScript(filter_table.entindex_ability):GetAbilityIndex() ~= caster:GetCurrentActiveAbility():GetAbilityIndex() ) -- and its not the ability we are currently casting
+                                then
+
+                                print("interrupt")
+
+                                caster:Interrupt()
+                            end
+                        end
+                    end
+                end
+                print("casting... ",EntIndexToHScript(filter_table.entindex_ability):GetAbilityName())
+            end
         end
-
-        if ability:IsFullyCastable() == false or ability:IsCooldownReady() == false or ability:GetLevel() < 1 then
-            return false
-        end
-
-        --PrintTable(filter_table)
-        --[[
-            entindex_ability: 274
-            entindex_target: 273
-            issuer_player_id_const: 0
-            order_type: 5
-            position_x: -12310.60546875
-            position_y: -10201.342773438
-            position_z: 256.80773925781
-            queue: 0
-            sequence_number_const: 57
-            shop_item_name:
-            units:
-                    0: 273
-
-                techies rock
-            entindex_ability: 182
-            entindex_target: 0
-            issuer_player_id_const: 0
-            order_type: 5
-            position_x: 10174.032226563
-            position_y: 637.04125976563
-            position_z: 130.12109375
-            queue: 0
-            sequence_number_const: 7
-            shop_item_name: 
-            units:
-                    0: 281
-        ]]
 
         if caster:IsAlive() == false or caster:IsStunned() == true then
             return false
@@ -74,6 +53,9 @@ function Filters:Activate(GameMode, this)
                 filter_table.position_x = new_point.x
                 filter_table.position_y = new_point.y
             end
+
+            print("returning true.....")
+            print("-------------------------")
 
             return true
         end
@@ -104,14 +86,14 @@ function Filters:Activate(GameMode, this)
             local caster = EntIndexToHScript(filter_table.units["0"])
             local ability = caster:GetCurrentActiveAbility()
             if ability then
-                if ability:GetAbilityType() == 1 then
-                    return false
-                end
+                caster:Interrupt()
+                return false
             end
         end
 
         --
         if order_type == DOTA_UNIT_ORDER_MOVE_TO_POSITION or order_type == DOTA_UNIT_ORDER_MOVE_TO_TARGET or order_type == DOTA_UNIT_ORDER_MOVE_TO_DIRECTION then
+            caster:Interrupt()
             return false
         end
 

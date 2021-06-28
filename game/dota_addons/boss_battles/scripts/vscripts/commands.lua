@@ -82,6 +82,8 @@ function Commands:OnPlayerChat(keys)
                     hero.dmgTakenDetails = {}
                     hero.deathsDetails = {}
                 end
+
+                GameRules:SendCustomMessage("Stopping data track.", 0, 0)
                 --print("stopping data track")
                 return
             end
@@ -95,6 +97,8 @@ function Commands:OnPlayerChat(keys)
                     hero.dmgTakenDetails = {}
                     hero.deathsDetails = {}
                 end
+
+                GameRules:SendCustomMessage("Starting data track.", 0, 0)
                 --print("starting data track")
                 return
             end
@@ -102,6 +106,18 @@ function Commands:OnPlayerChat(keys)
             if string.find(text, "dps meter") then
                 --send event to hPlayer to show dps meter
                 CustomGameEventManager:Send_ServerToPlayer( hPlayer, "showDpsMeterUIEvent", {} )
+                return
+            end
+
+            if string.find(text, "spell interupt off") then
+                GameRules:SendCustomMessage("Spell interupt off.", 0, 0)
+                hPlayer:GetAssignedHero().spell_interupt = false
+                return
+            end
+
+            if string.find(text, "spell interupt on") then
+                GameRules:SendCustomMessage("Spell interupt on.", 0, 0)
+                hPlayer:GetAssignedHero().spell_interupt = true
                 return
             end
 

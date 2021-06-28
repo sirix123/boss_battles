@@ -26,39 +26,10 @@
 		{
 			"01"{ "var_type"			"FIELD_INTEGER"		"radius"				"250" }	 
 			"02"{ "var_type"			"FIELD_INTEGER"		"damage"				"60" }
-		}
-	}
-
-    "m1_combo_hit_3"
-    {
-		"BaseClass"						"ability_lua"
-		"ScriptFile"					"player/rogue/m1_combo_hit_3"
-		"MaxLevel"						"1"
-
-		"AbilityTextureName"			"phantom_assassin_phantom_strike"
-		"AbilityUnitTargetTeam"			"DOTA_UNIT_TARGET_TEAM_ENEMY"
-		"AbilityUnitDamageType"			"DAMAGE_TYPE_PHYSICAL"	
-		//"SpellImmunityType"				"SPELL_IMMUNITY_ENEMIES_YES"
-        "AbilityBehavior"				"DOTA_ABILITY_BEHAVIOR_POINT | DOTA_ABILITY_BEHAVIOR_HIDDEN"
-		"AbilityCastRange" 				"350"
-        "AbilityCooldown"				"0"
-        "AbilityCastPoint"              "0.3"
-		"AbilityManaCost"        		"0"
-
-		"TargetingIndicator"
-		{
-			"Type"						"TARGETING_INDICATOR_CONE"
-			"Fixed"						"1"
-		}
-        
-		"AbilitySpecial"
-		{
-			"01"{ "var_type"			"FIELD_INTEGER"		"radius"				"250"   }	 
-			"02"{ "var_type"			"FIELD_INTEGER"		"damage"				"80"   }
-            "03"{ "var_type"			"FIELD_INTEGER"		"bleed_duration"		"5"    	}	
-            "04"{ "var_type"			"FIELD_INTEGER"		"dmg_dot_base"		    "60"    }	
+			"03"{ "var_type"			"FIELD_INTEGER"		"bleed_duration"		"5"    	}	
+			"04"{ "var_type"			"FIELD_INTEGER"		"dmg_dot_base"		    "60"    }	
             "05"{ "var_type"			"FIELD_FLOAT"		"damage_interval"		"1"   	}	
-			"06"{ "var_type"			"FIELD_FLOAT"		"bonus_bleed_percent"	"30"   }	
+			"06"{ "var_type"			"FIELD_FLOAT"		"bonus_bleed_percent"	"30"   }
 		}
 	}
 
