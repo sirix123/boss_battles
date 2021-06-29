@@ -108,6 +108,12 @@ function OnServerShopStatus( data ) {
 =========================================================================*/
 function OnShopButtonPressed(){
 
+    // disable the shot button
+    let shopButtonContainer = $("#ShopButtonPanel");
+    let shopButton = shopButtonContainer.FindChildInLayoutFile("ShopButton");
+    shopButton.AddClass( "disabled" );
+    shopButton.ClearPanelEvent( 'onactivate' )
+
     var rootPanelMainShop = $("#ParentShopPanel");
     rootPanelMainShop.RemoveClass("hidden");
 
@@ -238,6 +244,13 @@ function OnShopCloseButtonPressed(){
 
     var rootPanelMainShop = $("#ParentShopPanel");
 	rootPanelMainShop.SetHasClass("hidden", true);
+
+    let shopButtonContainer = $("#ShopButtonPanel");
+    let shopButton = shopButtonContainer.FindChildInLayoutFile("ShopButton");
+    shopButton.RemoveClass( "disabled" );
+    shopButton.SetPanelEvent( 'onactivate', function () {
+        OnShopButtonPressed();
+    });
 }
 
 /*

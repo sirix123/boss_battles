@@ -78,8 +78,6 @@ function m1_combo_hit_1_2:OnSpellStart()
 
 	if enemies ~= nil and #enemies ~= 0 then
 
-		nAttackCount = nAttackCount + 1
-
 		for _, enemy in pairs(enemies) do
 
 			local dmgTable = {
@@ -92,18 +90,11 @@ function m1_combo_hit_1_2:OnSpellStart()
 
 			EmitSoundOn( "Hero_PhantomAssassin.Attack", self:GetCaster() )
 
-			if nAttackCount == 2 then
-				enemy:AddNewModifier(caster, self, "m2_combo_hit_3_bleed", { duration = self:GetSpecialValueFor( "bleed_duration") })
-			end
+			enemy:AddNewModifier(caster, self, "m2_combo_hit_3_bleed", { duration = self:GetSpecialValueFor( "bleed_duration") })
 
 			ApplyDamage(dmgTable)
 
 		end
-
-		if nAttackCount == 2 then
-			nAttackCount = 0
-		end
-
 	end
 
 	-- on attack end particle effect

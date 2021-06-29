@@ -118,6 +118,12 @@
 			m_flFadeOutTime = 0.1
 			m_bDisableOperator = true
 		},
+		{
+			_class = "C_OP_ColorInterpolateRandom"
+			m_ColorFadeMin = [ 255, 0, 0 ]
+			m_ColorFadeMax = [ 255, 0, 0 ]
+			m_flFadeEndTime = 2.5
+		},
 	]
 	m_Renderers = 
 	[

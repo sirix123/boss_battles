@@ -15,14 +15,14 @@ function Filters:Activate(GameMode, this)
                                 ( EntIndexToHScript(filter_table.entindex_ability):GetAbilityIndex() ~= caster:GetCurrentActiveAbility():GetAbilityIndex() ) -- and its not the ability we are currently casting
                                 then
 
-                                print("interrupt")
+                                --print("interrupt")
 
                                 caster:Interrupt()
                             end
                         end
                     end
                 end
-                print("casting... ",EntIndexToHScript(filter_table.entindex_ability):GetAbilityName())
+                --print("casting... ",EntIndexToHScript(filter_table.entindex_ability):GetAbilityName())
             end
         end
 
@@ -54,8 +54,8 @@ function Filters:Activate(GameMode, this)
                 filter_table.position_y = new_point.y
             end
 
-            print("returning true.....")
-            print("-------------------------")
+            --print("returning true.....")
+            --print("-------------------------")
 
             return true
         end

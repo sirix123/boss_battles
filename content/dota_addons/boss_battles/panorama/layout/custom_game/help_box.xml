@@ -49,6 +49,9 @@
                     <Panel id="HelpButtonToolTipMenuItem_5" class="HelpButtonToolTipMenuItem">
                         <Label id="HelpButtonToolTipMenuText_5" class="HelpButtonToolTipMenuText" text="Type !gameid to get the game id this will print the game_id to console. If you encounter a bug and want to report it this id helps alot."/>
                     </Panel>
+                    <Panel id="HelpButtonToolTipMenuItem_6" class="HelpButtonToolTipMenuItem">
+                        <Label id="HelpButtonToolTipMenuText_6" class="HelpButtonToolTipMenuText" text="There is a bar above your spells, this bar shows modifiers your hero currently has if you mouse over the icon of the modifier it tells you what it does."/>
+                    </Panel>
                 </Panel>
             </Panel>
         </snippet>

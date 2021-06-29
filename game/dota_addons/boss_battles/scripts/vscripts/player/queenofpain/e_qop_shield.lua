@@ -12,7 +12,7 @@ function e_qop_shield:OnAbilityPhaseStart()
             200,
             DOTA_UNIT_TARGET_TEAM_BOTH,
             DOTA_UNIT_TARGET_ALL,
-            DOTA_UNIT_TARGET_FLAG_MAGIC_IMMUNE_ENEMIES + DOTA_UNIT_TARGET_FLAG_INVULNERABLE,
+            DOTA_UNIT_TARGET_FLAG_NONE,
             FIND_CLOSEST,
             false)
 

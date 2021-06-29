@@ -227,7 +227,7 @@ function blast_off:SpawnCubes()
 
         -- cubes and decide how many and where
         local tCubes = {}
-        local nCubesToSpawn = 4
+        local nCubesToSpawn = 3
 
         for i = 1, nCubesToSpawn, 1 do
             local mid_point = Vector(10126,1776,131)

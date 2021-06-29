@@ -196,7 +196,7 @@
 
 .PlayerFrameContainer
 {
-  width: 70%;
+  width: 65%;
   flow-children: right;  
   /* padding between next playerFrame */  
   margin-bottom: 4px;
@@ -213,7 +213,7 @@
 
 .PlayerFrameHeroImageContainer
 {
-  width: 30%;
+  width: 35%;
   height: 100%;
   horizontal-align: left;
   /*border: 1px solid black;*/
@@ -229,7 +229,7 @@
 {
   horizontal-align: left;
   flow-children: down;
-  width: 75%;
+  width: 65%;
   /*round the edges, and move the frame offscreen to hide the rounded edges on the left. */
 
   /* Drop shadow? */

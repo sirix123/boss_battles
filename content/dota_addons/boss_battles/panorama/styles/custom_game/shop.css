@@ -104,6 +104,10 @@
 .ProductListCloseButton{
 	width: 100%;
 	height: 100%;
+	background-color: gradient( linear, 0% 0%, 0% 100%, from( #fa3535 ), to( #d6878733 ) );
+	border: 3px solid black;
+	border-radius: 5px 0px 0px 5px;
+	align: right top;
 }
 
 .ProductListCloseButtonTxt{

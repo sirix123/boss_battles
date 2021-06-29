@@ -10,7 +10,7 @@
 		"AbilityUnitTargetTeam"			"DOTA_UNIT_TARGET_TEAM_ENEMY"
 		"AbilityUnitDamageType"			"DAMAGE_TYPE_PHYSICAL"	
         "AbilityBehavior"				"DOTA_ABILITY_BEHAVIOR_POINT"
-		"AbilityCastRange" 				"900"
+		"AbilityCastRange" 				"750"
         "AbilityCooldown"				"0.5"
         "AbilityCastPoint"              "0.0"
 
@@ -26,7 +26,7 @@
 			"01"{ "var_type"			"FIELD_INTEGER"		"dmg"							"100" 	} 
 			"02"{ "var_type"			"FIELD_INTEGER"		"mana_gain_percent"				"5" 	}
 			"03"{ "var_type"			"FIELD_INTEGER"		"buff_duration"					"3" 	} 
-			"04"{ "var_type"			"FIELD_INTEGER"		"beam_length"					"900" 	} 
+			"04"{ "var_type"			"FIELD_INTEGER"		"beam_length"					"750" 	} 
 			"05"{ "var_type"			"FIELD_INTEGER"		"buff_channel_time"				"6" 	} // timer runs at 0.5
 
 		}

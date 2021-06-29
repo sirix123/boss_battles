@@ -350,13 +350,21 @@ function Wearables:EquipWearables( product_id , hero )
             ParticleManager:CreateParticle("particles/econ/items/lina/lina_blazing_cosmos/lina_blazing_cosmos_neck.vpcf", PATTACH_ABSORIGIN_FOLLOW, hero)
 
             local index = ParticleManager:CreateParticle("particles/econ/items/lina/lina_head_headflame/lina_headflame.vpcf", PATTACH_POINT_FOLLOW, hero)
-            ParticleManager:SetParticleControlEnt(index, 0, hero, PATTACH_POINT_FOLLOW, "attach_head", hero:GetOrigin(), true)
+            ParticleManager:SetParticleControlEnt(index, 0, hero, PATTACH_POINT_FOLLOW, "attach_head", hero:GetAbsOrigin(), true)
             ParticleManager:ReleaseParticleIndex(index)
 
-            local index_1 = ParticleManager:CreateParticle("particles/econ/items/lina/lina_head_headflame/lina_flame_hand_dual_headflame.vpcf", PATTACH_ABSORIGIN_FOLLOW, hero)
-            ParticleManager:SetParticleControlEnt(index, 0, hero, PATTACH_POINT_FOLLOW, "attach_attack1", hero:GetOrigin(), true)
-            ParticleManager:SetParticleControlEnt(index, 1, hero, PATTACH_POINT_FOLLOW, "attach_attack2", hero:GetOrigin(), true)
-            ParticleManager:ReleaseParticleIndex(index_1)
+            local index_2 = ParticleManager:CreateParticle("particles/econ/items/lina/lina_head_headflame/lina_headflame.vpcf", PATTACH_POINT_FOLLOW, hero)
+            ParticleManager:SetParticleControlEnt(index_2, 0, hero, PATTACH_POINT_FOLLOW, "attach_attack1", hero:GetAbsOrigin(), true)
+            ParticleManager:ReleaseParticleIndex(index_2)
+
+            local index_3 = ParticleManager:CreateParticle("particles/econ/items/lina/lina_head_headflame/lina_headflame.vpcf", PATTACH_POINT_FOLLOW, hero)
+            ParticleManager:SetParticleControlEnt(index_3, 0, hero, PATTACH_POINT_FOLLOW, "attach_attack2", hero:GetAbsOrigin(), true)
+            ParticleManager:ReleaseParticleIndex(index_3)
+
+            --[[local index_1 = ParticleManager:CreateParticle("particles/econ/items/lina/lina_head_headflame/lina_flame_hand_dual_headflame.vpcf", PATTACH_POINT_FOLLOW, hero)
+            ParticleManager:SetParticleControlEnt(index, 0, hero, PATTACH_POINT_FOLLOW, "attach_attack1", hero:GetAbsOrigin(), true)
+            ParticleManager:SetParticleControlEnt(index, 1, hero, PATTACH_POINT_FOLLOW, "attach_attack2", hero:GetAbsOrigin(), true)
+            ParticleManager:ReleaseParticleIndex(index_1)]]
         end
 
         if hero:GetUnitName() == "npc_dota_hero_juggernaut" and product_id == "prod_JhhDluCT1T5SWR" then

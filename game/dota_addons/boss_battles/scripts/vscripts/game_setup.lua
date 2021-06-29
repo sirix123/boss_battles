@@ -220,6 +220,11 @@ function GameSetup:OnNPCSpawned(keys)
 
         npc:GetPlayerOwner():SetMusicStatus(2,1) -- battle music
 
+        -- remove wearables
+        if npc:HasModifier("modifier_arcana_cosmetics") then
+            Wearables:HideWearables(npc)
+        end
+
     end
 
     -- runs when the player loads in as wisp automatically

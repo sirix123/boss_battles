@@ -195,9 +195,6 @@
 				<Button id="socials_button_2" class="social_buttons" onactivate="OnSocialButtonTwoPressed()" >
 					<Label id="socials_button_1_text" class="social_buttons_text" text="Discord" />
 				</Button>
-				<Button id="socials_button_3" class="social_buttons" onactivate="OnSocialButtonThreePressed()" >
-					<Label id="socials_button_1_text" class="social_buttons_text" text="Patreon" />
-				</Button>
 			</Panel>
 		</Panel>
 	</Panel>

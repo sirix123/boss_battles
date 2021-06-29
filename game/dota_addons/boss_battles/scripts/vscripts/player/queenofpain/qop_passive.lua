@@ -27,7 +27,10 @@ function qop_passive_modifier:OnTakeDamage( params )
         --print("params.attacker.name ",params.attacker:GetUnitName())
         if params.attacker:GetUnitName() == "npc_dota_hero_queenofpain" then
             --print("healing")
-            local damage = params.damage
+            --print("original_damage ",params.original_damage)
+            --print("damage ",params.damage)
+
+            local damage = params.original_damage
             local heal_value = damage * self:GetAbility():GetSpecialValueFor( "dmg_to_heal_reduction" )
 
             local friendlies = FindUnitsInRadius(
