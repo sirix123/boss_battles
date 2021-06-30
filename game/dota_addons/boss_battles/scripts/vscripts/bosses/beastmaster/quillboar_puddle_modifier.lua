@@ -38,8 +38,8 @@ function quillboar_puddle_modifier:OnCreated(kv)
 				nil,	-- handle, cacheUnit. (not known)
 				self.radius,	-- float, radius. or use FIND_UNITS_EVERYWHERE
 				DOTA_UNIT_TARGET_TEAM_FRIENDLY,	-- int, team filter
-				DOTA_UNIT_TARGET_HERO,	-- int, type filter
-				DOTA_UNIT_TARGET_FLAG_NONE,	-- int, flag filter
+				DOTA_UNIT_TARGET_ALL,	-- int, type filter
+				DOTA_UNIT_TARGET_FLAG_INVULNERABLE,	-- int, flag filter
 				FIND_ANY_ORDER,	-- int, order filter
 				false	-- bool, can grow cache
 			)
@@ -79,7 +79,7 @@ function quillboar_puddle_modifier:OnIntervalThink()
 			nil,	-- handle, cacheUnit. (not known)
 			self.radius,	-- float, radius. or use FIND_UNITS_EVERYWHERE
 			DOTA_UNIT_TARGET_TEAM_ENEMY,	-- int, team filter
-			DOTA_UNIT_TARGET_ALL,	-- int, type filter
+			DOTA_UNIT_TARGET_HERO,	-- int, type filter
 			DOTA_UNIT_TARGET_FLAG_NONE,	-- int, flag filter
 			FIND_ANY_ORDER,	-- int, order filter
 			false	-- bool, can grow cache

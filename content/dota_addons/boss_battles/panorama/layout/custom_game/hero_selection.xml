@@ -14,11 +14,11 @@
 	<!-- snippets --> 
 	<snippets>
 
-		<!-- portraits  onactivate="PickHero('hero_name')" style="border: 1px solid blue;"--> 
+		<!-- portraits  onactivate="PickHero('hero_name')" style="border: 1px solid blue;" --> 
         <snippet name="HeroOptions">
             <Panel class="HeroOptions">
 				<Panel id="HeroPortrait" class="HeroOption" >
-					<DOTAHeroImage id="HeroImage" heroname="hero_name" heroimagestyle="portrait" scaling="none"/>
+					<DOTAHeroImage id="HeroImage" heroname="hero_name" heroimagestyle="portrait" scaling="none"/> 
 					<Button id="HeroPickHeroBtn" >
 						<Label id="HeroPickHeroBtnTxt" text="" />
 					</Button>

@@ -31,6 +31,14 @@ function lava_bolt:OnSpellStart()
         end
 
         --self.num_balls = 50
+        --tinker_tink_attack_15
+
+        local sound_random = math.random(1,15)
+        if sound_random <= 9 then
+            self:GetCaster():EmitSound("tinker_tink_attack_0"..sound_random)
+        else
+            self:GetCaster():EmitSound("tinker_tink_attack_"..sound_random)
+        end
 
 		self.balls = {}
 		local direction = Vector(0,0,GetGroundPosition(self:GetCaster():GetAbsOrigin(),self:GetCaster()).z )
@@ -86,72 +94,78 @@ function lava_bolt:OnSpellStart()
             local radius = self:GetSpecialValueFor("radius")
             local projectile_speed = self:GetSpecialValueFor("ball_speed")
             local caster = self:GetCaster()
-            local origin = caster:GetAbsOrigin()
             local offset = 150
 
-            for _, value in pairs(self.balls) do
+            local i = 1
+            Timers:CreateTimer(function()
 
-                Timers:CreateTimer(0.1, function()
+                if i == #self.balls then
+                    return false
+                end
 
-                    local projectile_direction = value["direction"]
-                    local projectile = {
-                        EffectName = "particles/tinker/tinker_invoker_forged_spirit_projectile.vpcf",
-                        vSpawnOrigin = origin + projectile_direction * offset,
-                        fDistance = self:GetSpecialValueFor("distance"),
-                        fStartRadius = radius,
-                        fEndRadius = radius,
-                        Source = caster,
-                        vVelocity = projectile_direction * projectile_speed,
-                        UnitBehavior = PROJECTILES_DESTROY,
-                        bMultipleHits = false,
-                        TreeBehavior = PROJECTILES_NOTHING,
-                        WallBehavior = PROJECTILES_DESTROY,
-                        GroundBehavior = PROJECTILES_NOTHING,
-                        fGroundOffset = 80,
-                        draw = false,
-                        --bZCheck = false,
-                        UnitTest = function(_self, unit)
+                local origin = caster:GetAbsOrigin()
 
-                            if unit:GetUnitName() == "npc_dota_thinker" or CheckGlobalUnitTableForUnitName(unit) == true or unit:GetTeamNumber() == caster:GetTeamNumber() then
-                                return false
-                            else
-                                return true
-                            end
+                local projectile_direction = self.balls[i].direction
+                local projectile = {
+                    EffectName = "particles/tinker/tinker_invoker_forged_spirit_projectile.vpcf",
+                    vSpawnOrigin = origin + projectile_direction * offset,
+                    fDistance = self:GetSpecialValueFor("distance"),
+                    fStartRadius = radius,
+                    fEndRadius = radius,
+                    Source = caster,
+                    vVelocity = projectile_direction * projectile_speed,
+                    UnitBehavior = PROJECTILES_DESTROY,
+                    bMultipleHits = false,
+                    TreeBehavior = PROJECTILES_NOTHING,
+                    WallBehavior = PROJECTILES_DESTROY,
+                    GroundBehavior = PROJECTILES_NOTHING,
+                    fGroundOffset = 80,
+                    draw = false,
+                    --bZCheck = false,
+                    UnitTest = function(_self, unit)
 
-                        end,
-                        OnUnitHit = function(_self, unit)
+                        if unit:GetUnitName() == "npc_dota_thinker" or CheckGlobalUnitTableForUnitName(unit) == true or unit:GetTeamNumber() == caster:GetTeamNumber() then
+                            return false
+                        else
+                            return true
+                        end
 
-                            local dmgTable = {
-                                victim = unit,
-                                attacker = caster,
-                                damage = self:GetSpecialValueFor("damage"),
-                                damage_type = self:GetAbilityDamageType(),
-                                ability = self,
-                            }
+                    end,
+                    OnUnitHit = function(_self, unit)
 
-                            ApplyDamage(dmgTable)
+                        local dmgTable = {
+                            victim = unit,
+                            attacker = caster,
+                            damage = self:GetSpecialValueFor("damage"),
+                            damage_type = self:GetAbilityDamageType(),
+                            ability = self,
+                        }
 
-                            EmitSoundOnLocationWithCaster(unit:GetAbsOrigin(), "hero_Crystal.projectileImpact", self.caster)
-                        end,
-                        OnWallHit = function(_self, gnvPos)
+                        ApplyDamage(dmgTable)
 
-                        end,
-                        OnFinish = function(_self, pos)
+                        EmitSoundOnLocationWithCaster(unit:GetAbsOrigin(), "hero_Crystal.projectileImpact", self.caster)
+                    end,
+                    OnWallHit = function(_self, gnvPos)
 
-                            local particle_cast = "particles/units/heroes/hero_invoker/invoker_forged_spirit_projectile_explosion.vpcf"
-                            local effect_cast = ParticleManager:CreateParticle(particle_cast, PATTACH_WORLDORIGIN, nil)
-                            ParticleManager:SetParticleControl(effect_cast, 3, pos)
-                            ParticleManager:ReleaseParticleIndex(effect_cast)
+                    end,
+                    OnFinish = function(_self, pos)
 
-                            EmitSoundOnLocationWithCaster(pos, "hero_Crystal.projectileImpact", self.caster)
+                        local particle_cast = "particles/units/heroes/hero_invoker/invoker_forged_spirit_projectile_explosion.vpcf"
+                        local effect_cast = ParticleManager:CreateParticle(particle_cast, PATTACH_WORLDORIGIN, nil)
+                        ParticleManager:SetParticleControl(effect_cast, 3, pos)
+                        ParticleManager:ReleaseParticleIndex(effect_cast)
 
-                        end,
-                    }
+                        EmitSoundOnLocationWithCaster(pos, "hero_Crystal.projectileImpact", self.caster)
 
-                    Projectiles:CreateProjectile(projectile)
+                    end,
+                }
 
-                end)
-            end
+                Projectiles:CreateProjectile(projectile)
+
+                i = i + 1
+                return 0.05
+            end)
+
             return false
         end)
 	end

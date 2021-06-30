@@ -11,6 +11,7 @@ function GetClassName(unitName)
 	unitNameClassNameMap["npc_dota_hero_omniknight"] = "Nocens"
 	unitNameClassNameMap["npc_dota_hero_queenofpain"] = "Akasha"
 	unitNameClassNameMap["npc_dota_hero_juggernaut"] = "Blademaster"
+	unitNameClassNameMap["npc_dota_hero_hoodwink"] = "Rat"
 
 	if unitNameClassNameMap[unitName] ~= nil then
 		return unitNameClassNameMap[unitName] 

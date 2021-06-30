@@ -14,6 +14,7 @@ function companion_modifier:CheckState()
 		[MODIFIER_STATE_NO_UNIT_COLLISION] = true,
 		[MODIFIER_STATE_UNSELECTABLE] = true,
 		[MODIFIER_STATE_INVULNERABLE] = true,
+		[MODIFIER_STATE_UNTARGETABLE] = true,
 	}
 
 	if self.is_flying == 1 then

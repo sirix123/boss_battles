@@ -66,6 +66,7 @@ _G.HERO_NAME_LIST =
     "npc_dota_hero_omniknight",
     "npc_dota_hero_queenofpain",
     "npc_dota_hero_windrunner",
+    "npc_dota_hero_hoodwink",
 }
 
 _G.tCORE_MODIFIERS =

@@ -7,6 +7,7 @@
 #base "players\firemage\firemage.txt"
 #base "players\pally\pally.txt"
 #base "players\queenofpain\queenofpain.txt"
+#base "players\rat\rat.txt"
 
 "DOTAHeroes"
 {
