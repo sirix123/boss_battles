@@ -126,6 +126,11 @@ function Precache( context ) -- this needs to be in a seperate file
   -- jugg
   PrecacheResource( "model", "models/heroes/juggernaut/juggernaut_arcana.vmdl", context )
 
+  -- rat
+  PrecacheResource("soundfile", "soundevents/game_sounds_heroes/game_sounds_nyx_assassin.vsndevts", context)
+  PrecacheResource("soundfile", "soundevents/game_sounds_heroes/game_sounds_bristleback.vsndevts", context)
+  PrecacheResource("soundfile", "soundevents/game_sounds_items.vsndevts", context)
+
 
   local npcs = LoadKeyValues("scripts/npc/npc_units_custom.txt")
 

@@ -388,13 +388,26 @@ function isPointInsidePolygon(point, polygon)
     return oddNodes
 end
 
-function CustomGetCastPoint(caster,ability)
+function CustomGetCastPoint(caster,flCastPoint)
 	--print("caster ",caster,"ability ",ability)
 
-	if caster:HasModifier("e_whirling_winds_modifier") == true and ability:GetAbilityIndex() == 0 then
-        return ability:GetCastPoint() - ( ability:GetCastPoint() * flWHIRLING_WINDS_CAST_POINT_REDUCTION )
+	-- and ability:GetAbilityIndex() == 0
+	if caster:HasModifier("e_whirling_winds_modifier") == true and caster:GetUnitName() ~= "npc_dota_hero_hoodwink" then
+        return flCastPoint - ( flCastPoint * flWHIRLING_WINDS_CAST_POINT_REDUCTION )
+	elseif caster:GetUnitName() == "npc_dota_hero_hoodwink" then
+		local mana = caster:GetMana()
+		local new_cast_point = 0
+
+		if mana > 0 then
+            new_cast_point = flCastPoint - ( flCastPoint / ( 1.5 * mana ) )
+        end
+
+		print("new_cast_point ",new_cast_point)
+
+		return new_cast_point
+
 	else
-		return ability:GetCastPoint()
+		return flCastPoint
 	end
 end
 

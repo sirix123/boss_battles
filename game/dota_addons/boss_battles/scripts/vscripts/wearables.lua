@@ -372,29 +372,27 @@ function Wearables:EquipWearables( product_id , hero )
             ParticleManager:ReleaseParticleIndex(particle_1)
         end
 
-        if hero:GetUnitName() == "npc_dota_hero_omniknight" and product_id == "prod_JhhDN4uB5R7qT4" then
-            local particle_1 = ParticleManager:CreateParticle("particles/units/heroes/hero_omniknight/omniknight_shoulder_ambient.vpcf", PATTACH_OVERHEAD_FOLLOW, hero)
-            ParticleManager:SetParticleControlEnt(particle_1, 0, hero, PATTACH_POINT_FOLLOW, "attach_hitloc", hero:GetAbsOrigin(), true)
-            ParticleManager:ReleaseParticleIndex(particle_1)
-
-            local particle_2 = ParticleManager:CreateParticle("particles/units/heroes/hero_omniknight/omniknight_shoulder_ambient.vpcf", PATTACH_ABSORIGIN_FOLLOW, hero)
-            ParticleManager:SetParticleControl(particle_2, 0, hero:GetAbsOrigin())
-            ParticleManager:SetParticleControlEnt(particle_2, 5, hero, PATTACH_POINT_FOLLOW, "attach_hitloc", hero:GetAbsOrigin(), true)
-            ParticleManager:ReleaseParticleIndex(particle_2)
-
-            local particle_3 = ParticleManager:CreateParticle("particles/units/heroes/hero_omniknight/omniknight_guardian_angel_halo_buff.vpcf", PATTACH_OVERHEAD_FOLLOW, hero)
-            ParticleManager:SetParticleControlEnt(particle_3, 0, hero, PATTACH_POINT_FOLLOW, "attach_hitloc", hero:GetAbsOrigin(), true)
-            ParticleManager:ReleaseParticleIndex(particle_3)
-        end
     end
 end
 
-function Wearables:HideWearables( unit )
+--[[function Wearables:HideWearables( unit )
 	local model = unit:FirstMoveChild()
 	while model ~= nil do
 		if model:GetClassname() == "dota_item_wearable" then
 			model:AddEffects(EF_NODRAW)
+            --model:AddNoDraw()
+            --UTIL_Remove(model)
 		end
 		model = model:NextMovePeer()
 	end
+end]]
+
+function Wearables:HideWearables(hUnit)
+    for i, child in ipairs(hUnit:GetChildren()) do
+        if IsValidEntity(child) and child:GetClassname() == "dota_item_wearable" then
+            if child:GetModelName() ~= "" then
+                UTIL_Remove(child)
+            end
+        end
+    end
 end

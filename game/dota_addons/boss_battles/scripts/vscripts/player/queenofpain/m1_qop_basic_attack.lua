@@ -1,5 +1,16 @@
 m1_qop_basic_attack = class({})
 
+function m1_qop_basic_attack:GetCastPoint()
+	local caster = self:GetCaster()
+    local ability_cast_point = self.BaseClass.GetCastPoint(self)
+
+    if caster:HasModifier("e_whirling_winds_modifier") == true and caster:GetUnitName() ~= "npc_dota_hero_hoodwink" then
+        return ability_cast_point - ( ability_cast_point * 0.25 ) --flWHIRLING_WINDS_CAST_POINT_REDUCTION = 0.25 -- globals don't work here -- self:GetCastPoint()
+    else
+        return ability_cast_point
+    end
+end
+
 function m1_qop_basic_attack:OnAbilityPhaseStart()
     if IsServer() then
 

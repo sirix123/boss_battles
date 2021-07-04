@@ -210,13 +210,31 @@ function OnBuyButtonPressed( buyButton, buyButtonTxt ){
 
 function OnEquipButtonPressed( product_id, image_name, buyButton, buyButtonTxt ){
 
-    // fix portrait (reset it)
-    let top_panel = $.GetContextPanel();
-    if(top_panel.GetParent() != null){
-        top_panel = top_panel.GetParent();
-        let portraitPanel = top_panel.FindChildTraverse("portraitHUD");
-        $.Msg("portraitPanel ", portraitPanel)
-        //portraitPanel.unit = image_name;
+    // fix portrait (add a panel on top the existing portrait location)
+    var main = $.GetContextPanel().GetParent().GetParent().GetParent();
+    //$.Msg("main ", main);
+    var portraitContainer = main.FindChildTraverse('PortraitContainer');
+    //$.Msg("portraitContainer ", portraitContainer);
+    var portraitHUD = main.FindChildTraverse("portraitHUD");
+    //$.Msg("portraitHUD ", portraitHUD);
+    portraitHUD.style.opacity = 0;
+    //portraitHUD.style.width = '170px';
+    /*portraitContainer.BCreateChildren("<DOTAScenePanel id='cam' style='width:400px;height:400px;' particleonly='false' map='portraits' camera='camera"+1+"' />");
+    var custom_portrait = portraitContainer.FindChildTraverse("cam");
+    $.Msg("custom_portrait ", custom_portrait);
+    custom_portrait.MoveChildBefore(portraitHUD, portraitContainer);*/
+
+    let playerId = Players.GetLocalPlayer()
+    let player_hero = Players.GetPlayerSelectedHero( playerId )
+
+    // if player name not crystal maiden then... do this
+
+    if ( player_hero !== "npc_dota_hero_crystal_maiden"  ){
+        var MovieContainer = $.CreatePanel( "Panel", portraitContainer, "CustomHeroMoviePortrait" )
+        MovieContainer.BLoadLayoutFromString( '<root><Panel><MoviePanel src="s2r://panorama/videos/heroes/' + player_hero + '.webm" repeat="true" autoplay="onload" /></Panel></root>', false, false )
+        MovieContainer.style.width = "160px";
+        MovieContainer.style.height = "203px";
+        MovieContainer.style.boxShadow = "#000000aa 0px 0px 16px 0px";
     }
 
     // disable the equip button
@@ -224,11 +242,6 @@ function OnEquipButtonPressed( product_id, image_name, buyButton, buyButtonTxt )
     buyButtonTxt.text = "Set equipped";
     buyButton.ClearPanelEvent( 'onactivate' )
 
-    // how re-enable the other ones?
-    // check purchased list against hero similar to when we create tehs hop and reset classes, dont really need to do this until we have more then 1 set per hero
-
-    let playerId = Players.GetLocalPlayer()
-    let player_hero = Players.GetPlayerSelectedHero( playerId )
     GameEvents.SendCustomGameEventToServer( "player_pressed_equip_button", { player_hero, product_id } );
 }
 

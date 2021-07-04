@@ -6,24 +6,25 @@ function Filters:Activate(GameMode, this)
 
         local caster = EntIndexToHScript(filter_table.units["0"])
 
-        if caster.spell_interupt == true then
-            if order_type ~= DOTA_UNIT_ORDER_STOP and order_type ~= DOTA_UNIT_ORDER_HOLD_POSITION then
-                if caster:GetCurrentActiveAbility() ~= nil then -- if we are currently casting something
-                    if filter_table.entindex_ability ~= nil then -- and we are trying to cast an ability
-                        if EntIndexToHScript(filter_table.entindex_ability) then
-                            if  ( EntIndexToHScript(filter_table.entindex_ability):GetAbilityIndex() ~= 0 ) and -- if the new ability isn't a basic attack m0
-                                ( EntIndexToHScript(filter_table.entindex_ability):GetAbilityIndex() ~= caster:GetCurrentActiveAbility():GetAbilityIndex() ) -- and its not the ability we are currently casting
-                                then
+        if order_type ~= DOTA_UNIT_ORDER_STOP and order_type ~= DOTA_UNIT_ORDER_HOLD_POSITION then
+            if caster:GetCurrentActiveAbility() ~= nil then -- if we are currently casting something
+                if filter_table.entindex_ability ~= nil then -- and we are trying to cast an ability
+                    if EntIndexToHScript(filter_table.entindex_ability) then
 
-                                --print("interrupt")
+                        --print("casting ability... ",caster:GetCurrentActiveAbility():GetAbilityIndex(), " trying to cast this... ", EntIndexToHScript(filter_table.entindex_ability):GetAbilityIndex())
 
-                                caster:Interrupt()
-                            end
+                        if  ( EntIndexToHScript(filter_table.entindex_ability):GetAbilityIndex() ~= 0 ) and -- if the new ability isn't a basic attack m0
+                            ( EntIndexToHScript(filter_table.entindex_ability):GetAbilityIndex() ~= caster:GetCurrentActiveAbility():GetAbilityIndex() ) -- and its not the ability we are currently casting
+                            then
+
+                            --print("interrupt")
+
+                            caster:Interrupt()
                         end
                     end
                 end
-                --print("casting... ",EntIndexToHScript(filter_table.entindex_ability):GetAbilityName())
             end
+            --print("casting... ",EntIndexToHScript(filter_table.entindex_ability):GetAbilityName())
         end
 
         if caster:IsAlive() == false or caster:IsStunned() == true then

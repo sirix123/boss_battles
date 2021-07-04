@@ -165,7 +165,7 @@ function generic_cube_bomb_modifier:OnDestroy()
                         {
                             victim = unit,
                             attacker = caster,
-                            damage = 200,
+                            damage = 350,
                             damage_type = DAMAGE_TYPE_PHYSICAL,
                         }
 

@@ -109,18 +109,6 @@ function Commands:OnPlayerChat(keys)
                 return
             end
 
-            if string.find(text, "spell interupt off") then
-                GameRules:SendCustomMessage("Spell interupt off.", 0, 0)
-                hPlayer:GetAssignedHero().spell_interupt = false
-                return
-            end
-
-            if string.find(text, "spell interupt on") then
-                GameRules:SendCustomMessage("Spell interupt on.", 0, 0)
-                hPlayer:GetAssignedHero().spell_interupt = true
-                return
-            end
-
             if string.find(text, "reset") then
                 print("playerID = ", playerID)
                 if playerID then

@@ -1,6 +1,17 @@
 m1_sword_slash = class({})
 LinkLuaModifier("rage_stacks_warlord", "player/warlord/modifiers/rage_stacks_warlord", LUA_MODIFIER_MOTION_NONE)
 
+function m1_sword_slash:GetCastPoint()
+	local caster = self:GetCaster()
+    local ability_cast_point = self.BaseClass.GetCastPoint(self)
+
+    if caster:HasModifier("e_whirling_winds_modifier") == true and caster:GetUnitName() ~= "npc_dota_hero_hoodwink" then
+        return ability_cast_point - ( ability_cast_point * 0.25 ) --flWHIRLING_WINDS_CAST_POINT_REDUCTION = 0.25 -- globals don't work here -- self:GetCastPoint()
+    else
+        return ability_cast_point
+    end
+end
+
 --------------------------------------------------------------------------------
 
 function m1_sword_slash:OnAbilityPhaseStart()
@@ -12,7 +23,7 @@ function m1_sword_slash:OnAbilityPhaseStart()
         -- add casting modifier
         self:GetCaster():AddNewModifier(self:GetCaster(), self, "casting_modifier_thinker",
         {
-            duration = CustomGetCastPoint(self:GetCaster(),self),
+            duration = self:GetCastPoint(),
         })
 
         return true

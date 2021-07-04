@@ -2,6 +2,19 @@ m1_trackingshot = class({})
 LinkLuaModifier("r_explosive_tip_modifier_target", "player/ranger/modifiers/r_explosive_tip_modifier_target", LUA_MODIFIER_MOTION_NONE)
 LinkLuaModifier("casting_modifier_thinker_windrunner_focusfire", "player/ranger/modifiers/casting_modifier_thinker_windrunner_focusfire", LUA_MODIFIER_MOTION_NONE)
 
+function m1_trackingshot:GetCastPoint()
+	local caster = self:GetCaster()
+    local ability_cast_point = self.BaseClass.GetCastPoint(self)
+
+    if caster:HasModifier("e_whirling_winds_modifier") == true and caster:GetUnitName() ~= "npc_dota_hero_hoodwink" then
+        return ability_cast_point - ( ability_cast_point * 0.25 ) --flWHIRLING_WINDS_CAST_POINT_REDUCTION = 0.25 -- globals don't work here self:GetCastPoint()
+    else
+        return ability_cast_point
+    end
+end
+
+---------------------------------------------------------------------------
+
 function m1_trackingshot:OnAbilityPhaseStart()
     if IsServer() then
 
@@ -25,6 +38,8 @@ function m1_trackingshot:OnAbilityPhaseStart()
             pMovespeedReduction = -50,
             animation_sequence = animation_sequence,
         })
+
+        print("cast_point ",self:GetCastPoint())
 
         -- sound effect
         EmitSoundOn( "Hero_Windrunner.Attack", self:GetCaster() )

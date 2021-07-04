@@ -251,10 +251,10 @@
 		"AbilitySpecial"
 		{
             "01"{ "var_type"			"FIELD_INTEGER"		"speed"		        "700" }
-            "02"{ "var_type"			"FIELD_INTEGER"		"dmg"		        "15" }
+            "02"{ "var_type"			"FIELD_INTEGER"		"dmg"		        "20" }
             "03"{ "var_type"			"FIELD_INTEGER"		"radius"		    "100" }
             "04"{ "var_type"			"FIELD_INTEGER"		"interval"		    "2" }
-            "05"{ "var_type"			"FIELD_INTEGER"		"duration"		    "50" }
+            "05"{ "var_type"			"FIELD_INTEGER"		"duration"		    "60" }
 		}
 
         "precache"
@@ -1299,7 +1299,7 @@
             "01"{ "var_type"			"FIELD_INTEGER"		"distance"		                "15000 15000 15000 15000" }
             "02"{ "var_type"			"FIELD_INTEGER"		"radius"		                "50" }
             "03"{ "var_type"			"FIELD_INTEGER"		"ball_speed"		            "1500 1500 1500 1500" }
-            "04"{ "var_type"			"FIELD_INTEGER"		"damage"		                "70" }
+            "04"{ "var_type"			"FIELD_INTEGER"		"damage"		                "100" }
 		}
 
         "precache"

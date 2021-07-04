@@ -188,3 +188,11 @@
 	width: 100%;
 	height: 100%;
 }
+
+/* customportrait
+=================================================================*/
+.customportrait{
+	flow-children:down;
+	min-width: 200px;
+	max-width: 300px;
+}

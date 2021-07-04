@@ -43,6 +43,9 @@ function HideOther(top_panel){
 
     var kill_cam = top_panel.FindChildTraverse("KillCam");
     kill_cam.style.visibility = "collapse";
+
+    var LevelUpGlow = top_panel.FindChildTraverse("LevelUpGlow");
+    LevelUpGlow.style.visibility = "collapse";
 }
 
 function HideDefaults(){

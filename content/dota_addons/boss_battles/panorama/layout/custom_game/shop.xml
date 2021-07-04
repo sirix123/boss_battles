@@ -30,6 +30,9 @@
 
     <Panel hittest="false" class="parent">
 
+        <Panel id="customportrait" class="customportrait" >
+        </Panel>
+
         <Panel id="ShopButtonPanel" hittest="true" >
             <Button id="ShopButton" class="ShopButton" onactivate="OnShopButtonPressed()">
                 <Label id="ShopButtonLabel" class="ShopButtonLabel" text="Shop" />
