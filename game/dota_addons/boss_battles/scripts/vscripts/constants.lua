@@ -67,7 +67,7 @@ _G.HERO_NAME_LIST =
     "npc_dota_hero_queenofpain",
     "npc_dota_hero_windrunner",
     "npc_dota_hero_hoodwink",
-    "npc_dota_hero_mars",
+    "npc_dota_hero_huskar",
 }
 
 _G.tCORE_MODIFIERS =

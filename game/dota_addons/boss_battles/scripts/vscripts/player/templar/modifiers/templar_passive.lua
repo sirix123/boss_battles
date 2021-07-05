@@ -22,6 +22,22 @@ function templar_passive_modifier:DeclareFunctions()
 	return funcs
 end
 
+function templar_passive_modifier:GetStatusEffectName()
+	return "particles/templar/templar_status_effect_arc_warden_tempest.vpcf"
+end
+
+function templar_passive_modifier:GetEffectName()
+	return "particles/templar/templar_arc_warden_tempest_buff.vpcf"
+end
+
+function templar_passive_modifier:GetEffectAttachType()
+	return PATTACH_ABSORIGIN_FOLLOW
+end
+
+function templar_passive_modifier:StatusEffectPriority()
+	return MODIFIER_PRIORITY_HIGH
+end
+
 function templar_passive_modifier:GetModifierTotal_ConstantBlock( params )
     if IsServer() then
 

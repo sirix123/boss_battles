@@ -247,7 +247,7 @@ function BeastmasterNet_v2()
 		return 0.5
 	else
 		for _, unit in pairs(units) do
-			if ( thisEntity:GetAbsOrigin() - unit:GetAbsOrigin() ):Length2D() > 400 and unit:HasModifier("grab_player_modifier") == false and unit:HasModifier("modifier_stunned") == false then
+			if unit:HasModifier("grab_player_modifier") == false and unit:HasModifier("modifier_stunned") == false then
 				table.insert(tFarTargets,unit)
 			end
 		end

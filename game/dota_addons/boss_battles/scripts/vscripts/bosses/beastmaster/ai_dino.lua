@@ -51,6 +51,12 @@ function DinoThink()
 	end
 
 	if ( not thisEntity:IsAlive() ) then
+		local hBeastmaster = FindBeastMaster()
+        if hBeastmaster == nil then
+            if thisEntity.target ~= nil then
+                FindClearSpaceForUnit(thisEntity.target, BOSS_BATTLES_INTERMISSION_SPAWN_LOCATION, false)
+            end
+        end
 		return -1
 	end
 
@@ -256,3 +262,26 @@ function CastDinoCharge( hTarget )
 	return 1
 end
 --------------------------------------------------------------------------------
+
+function FindBeastMaster()
+    local units = FindUnitsInRadius(
+        thisEntity:GetTeamNumber(),	-- int, your team number
+        thisEntity:GetAbsOrigin(),	-- point, center point
+        nil,	-- handle, cacheUnit. (not known)
+        5000,	-- float, radius. or use FIND_UNITS_EVERYWHERE
+        DOTA_UNIT_TARGET_TEAM_FRIENDLY,	-- int, team filter
+        DOTA_UNIT_TARGET_HERO + DOTA_UNIT_TARGET_BASIC,	-- int, type filter
+        DOTA_UNIT_TARGET_FLAG_INVULNERABLE,	-- int, flag filter
+        FIND_ANY_ORDER,	-- int, order filter
+        false	-- bool, can grow cache
+    )
+
+    if units ~= nil and #units ~= 0 then
+        for _, unit in pairs(units) do
+            if unit:GetUnitName() == "npc_beastmaster" then
+                return unit
+            end
+        end
+    end
+    return nil
+end

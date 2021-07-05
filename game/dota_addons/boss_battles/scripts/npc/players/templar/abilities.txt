@@ -10,81 +10,89 @@
         
 		"AbilitySpecial"
 		{
-			"01"{ "var_type"			"FIELD_INTEGER"		"mind_over_matter"				"30" 	}
+			"01"{ "var_type"			"FIELD_INTEGER"		"mind_over_matter"									"30" 	}
+			"02"{ "var_type"			"FIELD_INTEGER"		"power_charge_m1_mana_cost_reduction_per_stack"		"5" 	}
+			"03"{ "var_type"			"FIELD_INTEGER"		"power_charge_ms_bonus_percent"						"5" 	}
+			"04"{ "var_type"			"FIELD_INTEGER"		"space_duration_reduction_per_power_charge"			"1" 	}
 		}
 	}
 
 
-	"rat_basic_attack"
+	"templar_basic"
 	{
 		"BaseClass"						"ability_lua"
-		"ScriptFile"					"player/rat/rat_basic_attack"
+		"ScriptFile"					"player/templar/templar_basic"
 		"MaxLevel"						"1"
 
-		"AbilityTextureName"			"hoodwink_bushwhack"
+		"AbilityTextureName"			"mars_spear"
 		"AbilityUnitTargetTeam"			"DOTA_UNIT_TARGET_TEAM_ENEMY"
 		"AbilityUnitDamageType"			"DAMAGE_TYPE_PHYSICAL"	
         "AbilityBehavior"				"DOTA_ABILITY_BEHAVIOR_POINT"
-		"AbilityCastRange" 				"1000"
+		"AbilityCastRange" 				"700"
         "AbilityCooldown"				"0.0"
-        "AbilityCastPoint"              "0.8"
+        "AbilityCastPoint"              "0.3"
+		"AbilityManaCost"        		"10"
 
 		"TargetingIndicator"
 		{
-			"Type"						"TARGETING_INDICATOR_LINE"
+			"Type"						"TARGETING_INDICATOR_CONE"
 			"Fixed"						"1"
 		}
         
 		"AbilitySpecial"
 		{
-			"01"{ "var_type"			"FIELD_INTEGER"		"dmg"							"30" } 
-			"02"{ "var_type"			"FIELD_INTEGER"		"hit_box"						"80" }
-			"03"{ "var_type"			"FIELD_INTEGER"		"proj_speed"					"1200" }
-			"04"{ "var_type"			"FIELD_INTEGER"		"mana_gain_percent"				"3" }
+			"01"{ "var_type"			"FIELD_INTEGER"		"radius"									"300" }	 
+			"02"{ "var_type"			"FIELD_INTEGER"		"damage"									"10" }
+			"03"{ "var_type"			"FIELD_INTEGER"		"mana_gain_percent"							"5" }
 		}
 	}
 
-	"rat_m2"
+	"templar_m2_leap"
 	{
 		"BaseClass"						"ability_lua"
-		"ScriptFile"					"player/rat/rat_m2"
+		"ScriptFile"					"player/templar/templar_m2_leap"
 		"MaxLevel"						"1"
 
-		"AbilityTextureName"			"hoodwink_hunters_boomerang"
-		"AbilityUnitTargetTeam"			"DOTA_UNIT_TARGET_TEAM_ENEMY"
+		"AbilityTextureName"			"mars_gods_rebuke"
 		"AbilityUnitDamageType"			"DAMAGE_TYPE_PHYSICAL"
-        "AbilityBehavior"				"DOTA_ABILITY_BEHAVIOR_POINT"
-		"AbilityCastRange" 				"1200"
-        "AbilityCooldown"				"0"
-        "AbilityCastPoint"              "1.0"
-		"AbilityManaCost"        		"20"
+        "AbilityBehavior"				"DOTA_ABILITY_BEHAVIOR_POINT | DOTA_ABILITY_BEHAVIOR_ROOT_DISABLES"
+		"AbilityCastRange" 				"700"
+        "AbilityCooldown"				"5"
+        "AbilityCastPoint"              "0.2"
+		"AbilityCharges"				"3"
+		"AbilityChargeRestoreTime"		"15"
 
 		"TargetingIndicator"
 		{
-			"Type"						"TARGETING_INDICATOR_LINE"
-			"Fixed"						"1"
+			"Type"						"TARGETING_INDICATOR_AOE"
+			//"Fixed"						"1"
 		}
         
 		"AbilitySpecial"
 		{
-			"01"{ "var_type"			"FIELD_INTEGER"		"dmg"							"400" 	}
-			"02"{ "var_type"			"FIELD_INTEGER"		"hit_box"						"110" 	}
-			"03"{ "var_type"			"FIELD_INTEGER"		"proj_speed"					"1200" 	}
+			"01"{ "var_type"			"FIELD_INTEGER"		"damage"						"350" 	}
+			"02"{ "var_type"			"FIELD_INTEGER"		"speed"							"800" 	}
+			"03"{ "var_type"			"FIELD_INTEGER"		"radius"						"400" 	}
+		}
+
+		"precache"
+		{
+			"soundfile"	"soundevents/game_sounds_heroes/game_sounds_zuus.vsndevts.vsndevts"
 		}
 	}
 
-	"q_eat_cheese"
+	"q_arcane_cage"
 	{
 		"BaseClass"						"ability_lua"
-		"ScriptFile"					"player/rat/q_eat_cheese"
+		"ScriptFile"					"player/templar/q_arcane_cage"
 		"MaxLevel"						"1"
 
-		"AbilityTextureName"			"hoodwink_decoy"
-        "AbilityBehavior"				"DOTA_ABILITY_BEHAVIOR_NO_TARGET | DOTA_ABILITY_BEHAVIOR_IMMEDIATE | DOTA_ABILITY_BEHAVIOR_IGNORE_BACKSWING | DOTA_ABILITY_BEHAVIOR_DONT_CANCEL_MOVEMENT"
-		"AbilityCastRange" 				"750" //750
-        "AbilityCooldown"				"0"
-        "AbilityCastPoint"              "0.0"
-		"AbilityManaCost"        		"20"
+		"AbilityTextureName"			"wisp_tether"
+        "AbilityBehavior"				"DOTA_ABILITY_BEHAVIOR_POINT"
+		"AbilityCastRange" 				"1000" //750
+        "AbilityCooldown"				"20"
+        "AbilityCastPoint"              "0.4"
+		"AbilityManaCost"        		"0"
 
 		"TargetingIndicator"
 		{
@@ -94,7 +102,9 @@
         
 		"AbilitySpecial"
 		{
-			"01"{ "var_type"			"FIELD_INTEGER"		"heal"				"100" }
+			"01"{ "var_type"			"FIELD_INTEGER"		"duration"					"10" }
+			"02"{ "var_type"			"FIELD_INTEGER"		"damage_sent_to_templar"	"50" }
+			"03"{ "var_type"			"FIELD_INTEGER"		"outgoing_damage_bonus"		"10" }
 		}
 
 		"precache"
@@ -104,16 +114,16 @@
 
 	}
 
-	"e_stim_pack"
+	"e_sigil_of_power"
 	{
 		"BaseClass"						"ability_lua"
-		"ScriptFile"					"player/rat/e_stim_pack"
+		"ScriptFile"					"player/templar/e_sigil_of_power"
 		"MaxLevel"						"1"
 
-		"AbilityTextureName"			"hoodwink_scurry"
-        "AbilityBehavior"				"DOTA_ABILITY_BEHAVIOR_NO_TARGET | DOTA_ABILITY_BEHAVIOR_IMMEDIATE | DOTA_ABILITY_BEHAVIOR_IGNORE_BACKSWING | DOTA_ABILITY_BEHAVIOR_DONT_CANCEL_MOVEMENT"
-		"AbilityCastRange" 				"750" //750
-        "AbilityCooldown"				"30"
+		"AbilityTextureName"			"huskar_inner_fire"
+        "AbilityBehavior"				"DOTA_ABILITY_BEHAVIOR_POINT"
+		"AbilityCastRange" 				"1000" //750
+        "AbilityCooldown"				"40"
         "AbilityCastPoint"              "0.0"
 		"AbilityManaCost"        		"20"
 
@@ -125,9 +135,9 @@
         
 		"AbilitySpecial"
 		{
-			"01"{ "var_type"			"FIELD_INTEGER"		"buff_duration"				"12" }
-			"02"{ "var_type"			"FIELD_INTEGER"		"duration_debuff"			"5" }
-			"03"{ "var_type"			"FIELD_INTEGER"		"ms_slow"					"50" }
+			"01"{ "var_type"			"FIELD_INTEGER"		"duration"					"10" }
+			"02"{ "var_type"			"FIELD_INTEGER"		"duration_buff"				"10" }
+			"03"{ "var_type"			"FIELD_INTEGER"		"radius"					"250" }
 		}
 
 		"precache"
@@ -137,19 +147,19 @@
 
 	}
 
-	"r_infest"
+	"r_arcane_surge"
 	{
 		"BaseClass"						"ability_lua"
-		"ScriptFile"					"player/rat/r_infest"
+		"ScriptFile"					"player/templar/r_arcane_surge"
 		"MaxLevel"						"1"
 
-		"AbilityTextureName"			"bristleback_viscous_nasal_goo"
+		"AbilityTextureName"			"disruptor_static_storm"
 		"AbilityUnitDamageType"			"DAMAGE_TYPE_PHYSICAL"	
         "AbilityBehavior"				"DOTA_ABILITY_BEHAVIOR_POINT" // | DOTA_ABILITY_BEHAVIOR_AOE
 		"AbilityCastRange" 				"1000"
-        "AbilityCooldown"				"45"
+        "AbilityCooldown"				"0"
         "AbilityCastPoint"              "0.4"
-		"AbilityManaCost"        		"20"
+		"AbilityManaCost"        		"50"
 
 		"TargetingIndicator"
 		{
@@ -170,13 +180,13 @@
 		}
 	}
 
-	"space_burrow"
+	"space_evocate"
 	{
 		"BaseClass"						"ability_lua"
-		"ScriptFile"					"player/rat/space_burrow"
+		"ScriptFile"					"player/templar/space_evocate"
 		"MaxLevel"						"1"
 
-		"AbilityTextureName"			"nyx_assassin_burrow"
+		"AbilityTextureName"			"dragon_knight_dragon_blood"
         "AbilityBehavior"				"DOTA_ABILITY_BEHAVIOR_NO_TARGET | DOTA_ABILITY_BEHAVIOR_IMMEDIATE | DOTA_ABILITY_BEHAVIOR_IGNORE_BACKSWING | DOTA_ABILITY_BEHAVIOR_DONT_CANCEL_MOVEMENT"
 		//"AbilityCastAnimation"          "ACT_DOTA_CAST_ABILITY_1"
 		"AbilityCastRange" 				"1000"
@@ -191,12 +201,8 @@
         
 		"AbilitySpecial"
 		{
-			"01"{ "var_type"			"FIELD_INTEGER"		"duration"	"4" }
+			"01"{ "var_type"			"FIELD_INTEGER"		"duration"	"5" }
 		}
 
-		"precache"
-		{
-			"soundfile"	"soundevents/game_sounds_heroes/game_sounds_nyx_assassin.vsndevts"
-		}
 	}
 }
