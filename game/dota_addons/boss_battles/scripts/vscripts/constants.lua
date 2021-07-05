@@ -67,6 +67,7 @@ _G.HERO_NAME_LIST =
     "npc_dota_hero_queenofpain",
     "npc_dota_hero_windrunner",
     "npc_dota_hero_hoodwink",
+    "npc_dota_hero_mars",
 }
 
 _G.tCORE_MODIFIERS =
@@ -79,6 +80,8 @@ _G.tCORE_MODIFIERS =
     "qop_passive_modifier",
     "blademaster_death_enable_spells",
     "modifier_arcana_cosmetics",
+    "rat_passive_modifier",
+    "templar_passive_modifier",
 }
 
 _G.PLAYERS_HANDSHAKE_READY = 0

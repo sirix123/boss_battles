@@ -37,6 +37,9 @@
 //rat
 #base "players/rat/abilities.txt"
 
+//mars
+#base "players/templar/abilities.txt"
+
 
 "DOTAAbilities"
 {

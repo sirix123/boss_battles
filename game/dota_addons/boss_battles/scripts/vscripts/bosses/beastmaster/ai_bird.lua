@@ -63,6 +63,13 @@ function BirdThinker()
         if thisEntity.head_particle ~= nil then
             ParticleManager:DestroyParticle(thisEntity.head_particle, true)
         end
+
+        local hBeastmaster = FindBeastMaster()
+        if hBeastmaster == nil then
+            if thisEntity.target ~= nil then
+                FindClearSpaceForUnit(thisEntity.target, BOSS_BATTLES_INTERMISSION_SPAWN_LOCATION, false)
+            end
+        end
 		return -1
 	end
 

@@ -101,12 +101,13 @@ function PlayerSelected( player, hero ) {
 	if ( hero == "npc_dota_hero_crystal_maiden" 	) 	{ hero = "Rylai"; }
 	if ( hero == "npc_dota_hero_phantom_assassin" 	) 	{ hero = "Nightblade"; }
 	if ( hero == "npc_dota_hero_juggernaut" 		) 	{ hero = "Blademaster"; }
-	if ( hero == "npc_dota_hero_windrunner" 			) 	{ hero = "Windrunner"; }
+	if ( hero == "npc_dota_hero_windrunner" 		) 	{ hero = "Windrunner"; }
 	if ( hero == "npc_dota_hero_lina" 				) 	{ hero = "Lina"; }
 	if ( hero == "npc_dota_hero_omniknight" 		) 	{ hero = "Nocens"; }
 	if ( hero == "npc_dota_hero_grimstroke" 		) 	{ hero = "Zeeke"; }
 	if ( hero == "npc_dota_hero_queenofpain" 		) 	{ hero = "Akasha"; }
 	if ( hero == "npc_dota_hero_hoodwink" 			) 	{ hero = "Rat"; }
+	if ( hero == "npc_dota_hero_mars" 				) 	{ hero = "Templar"; }
 
 	// add the players name to the bottom of the pedestal
 	var pedHeroHeroText = heroPedPanels[player].FindChildInLayoutFile("HeroNamePedTxt");
@@ -213,6 +214,7 @@ let heroes =
 	"npc_dota_hero_grimstroke",
 	"npc_dota_hero_queenofpain",
 	"npc_dota_hero_hoodwink",
+	"npc_dota_hero_mars",
 ];
 
 // container for the ped on the scene
@@ -238,10 +240,6 @@ function DisplayHeroSelect(){
 			}
 
 			if ( heroes[i] == "npc_dota_hero_grimstroke"  ) {
-				heroes.splice(i, 1);
-			}
-
-			if ( heroes[i] == "npc_dota_hero_hoodwink"  ) {
 				heroes.splice(i, 1);
 			}
 
@@ -279,6 +277,9 @@ function DisplayHeroSelect(){
 		// create hero portrait
 		var heroImage = containerPanel.FindChildInLayoutFile("HeroImage")
 		heroImage.heroname = heroes[i];
+		heroImage.SetImage('file://{images}/heroes/selection/' + heroes[i] + '.png');
+		heroImage.style.backgroundImage = 'url("file://{images}/heroes/' + heroes[i]  + '.png")';
+		heroImage.style.backgroundSize = "100% 100%";
 
 		// add an on activate (click) for the hero portrait
 		// need to store this as a variable using let for some js reason 

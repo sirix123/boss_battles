@@ -1,18 +1,16 @@
 "DOTAAbilities"
 {
-	"rat_passive"
+	"templar_passive"
 	{
 		"BaseClass"						"ability_lua"
-		"ScriptFile"					"player/rat/modifier/rat_passive"
+		"ScriptFile"					"player/templar/modifiers/templar_passive"
 		"MaxLevel"						"1"
-		"AbilityTextureName"			"hoodwink_acorn_shot"
+		"AbilityTextureName"			"mars_arena_of_blood"
         "AbilityBehavior"				"DOTA_ABILITY_BEHAVIOR_PASSIVE"
         
 		"AbilitySpecial"
 		{
-			"01"{ "var_type"			"FIELD_INTEGER"		"castpoint_reduction"			"20" 	}
-			"02"{ "var_type"			"FIELD_INTEGER"		"rat_stack_generate_time"		"2" 	}
-			"03"{ "var_type"			"FIELD_INTEGER"		"rat_stack_max"					"5" 	}
+			"01"{ "var_type"			"FIELD_INTEGER"		"mind_over_matter"				"30" 	}
 		}
 	}
 

@@ -25,7 +25,7 @@ end
 function rat_m2:OnAbilityPhaseStart()
     if IsServer() then
 
-        self.cast_twice = false
+        --[[self.cast_twice = false
         if self.stacks ~= nil then
             if self.stacks >= 5 then
                 self.randomNumber = RandomInt(1,2)
@@ -34,7 +34,7 @@ function rat_m2:OnAbilityPhaseStart()
                     --print("casitng twice")
                 end
             end
-        end
+        end]]
 
         -- start casting animation
         -- the 1 below is imporant if set incorrectly the animation will stutter (second variable in startgesture is the playback override)
@@ -128,7 +128,7 @@ function rat_m2:OnSpellStart()
 
                 EmitSoundOnLocationWithCaster(unit:GetAbsOrigin(), "Hero_Hoodwink.Boomerang.Target", self.caster)
 
-                if self.cast_twice == true then
+                --if self.cast_twice == true then
 
                     local units = FindUnitsInRadius(
                         self:GetCaster():GetTeamNumber(),
@@ -147,8 +147,8 @@ function rat_m2:OnSpellStart()
                             EffectName = "particles/units/heroes/hero_hoodwink/hoodwink_boomerang.vpcf",
                             Ability = self,
                             iMoveSpeed = 1500,
-                            Source = unit,
-                            Target = units[2],
+                            Source = self.caster,
+                            Target = units[1],
                             bDodgeable = false,
                             iSourceAttachment = DOTA_PROJECTILE_ATTACHMENT_HITLOCATION,
                             bProvidesVision = true,
@@ -159,7 +159,7 @@ function rat_m2:OnSpellStart()
                         ProjectileManager:CreateTrackingProjectile( info )
 
                     end
-                end
+                --end
 
             end,
             OnFinish = function(_self, pos)

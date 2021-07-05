@@ -213,6 +213,7 @@ function GameSetup:OnNPCSpawned(keys)
             if npc:GetUnitName() == "npc_dota_hero_grimstroke" then npc:SetMana(0) end
             if npc:GetUnitName() == "npc_dota_hero_queenofpain" then npc:SetMana(0) end
             if npc:GetUnitName() == "npc_dota_hero_hoodwink" then npc:SetMana(0) end
+            if npc:GetUnitName() == "npc_dota_hero_mars" then npc:SetMana(0) end
             return false
         end)
 

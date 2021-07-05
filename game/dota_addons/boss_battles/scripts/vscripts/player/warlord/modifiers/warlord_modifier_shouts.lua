@@ -34,24 +34,14 @@ function warlord_modifier_shouts:OnCreated( kv )
         self.parent = self:GetParent()
         self.parent_origin = self.parent:GetAbsOrigin()
 
-        if self.parent:GetUnitName() == "npc_dota_hero_hoodwink" then
-            self.health_regen = self:GetCaster():FindAbilityByName("e_warlord_shout"):GetSpecialValueFor( "health_regen" )
-            self.mana_regen = self:GetCaster():FindAbilityByName("e_warlord_shout"):GetSpecialValueFor( "mana_regen" )
-        else
-            self.health_regen = self:GetCaster():FindAbilityByName("e_warlord_shout"):GetSpecialValueFor( "health_regen" )
-            self.mana_regen = self:GetCaster():FindAbilityByName("e_warlord_shout"):GetSpecialValueFor( "mana_regen" ) / 10
-        end
-
-
-    end
-
-    if self.parent:GetUnitName() == "npc_dota_hero_hoodwink" then
         self.health_regen = self:GetCaster():FindAbilityByName("e_warlord_shout"):GetSpecialValueFor( "health_regen" )
         self.mana_regen = self:GetCaster():FindAbilityByName("e_warlord_shout"):GetSpecialValueFor( "mana_regen" )
-    else
-        self.health_regen = self:GetCaster():FindAbilityByName("e_warlord_shout"):GetSpecialValueFor( "health_regen" )
-        self.mana_regen = self:GetCaster():FindAbilityByName("e_warlord_shout"):GetSpecialValueFor( "mana_regen" ) / 10
+
+
     end
+
+    self.health_regen = self:GetCaster():FindAbilityByName("e_warlord_shout"):GetSpecialValueFor( "health_regen" )
+    self.mana_regen = self:GetCaster():FindAbilityByName("e_warlord_shout"):GetSpecialValueFor( "mana_regen" )
 
 end
 
