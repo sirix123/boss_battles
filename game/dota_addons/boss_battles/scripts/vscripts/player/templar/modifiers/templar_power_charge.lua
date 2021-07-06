@@ -15,10 +15,12 @@ end
 function templar_power_charge:OnCreated( kv )
 
     self.speed_bonus = self:GetCaster():FindAbilityByName("templar_passive"):GetSpecialValueFor( "power_charge_ms_bonus_percent" )
+	self.mana = self:GetCaster():FindAbilityByName("templar_passive"):GetSpecialValueFor( "power_charge_mana_regen" )
 
 	if not IsServer() then return end
 
     self.speed_bonus = self:GetCaster():FindAbilityByName("templar_passive"):GetSpecialValueFor( "power_charge_ms_bonus_percent" )
+	self.mana = self:GetCaster():FindAbilityByName("templar_passive"):GetSpecialValueFor( "power_charge_mana_regen" )
 
     if self.pfx and self:GetStackCount() < 3 then
 		ParticleManager:DestroyParticle(self.pfx, true)
@@ -58,7 +60,7 @@ function templar_power_charge:OnDestroy()
 end
 ----------------------------------------------------------------------------
 
-function templar_power_charge:DeclareFunctions()
+--[[function templar_power_charge:DeclareFunctions()
 	local funcs =
 	{
 		MODIFIER_PROPERTY_MOVESPEED_BONUS_PERCENTAGE,
@@ -70,4 +72,23 @@ function templar_power_charge:GetModifierMoveSpeedBonus_Percentage( params )
 	if ( self.speed_bonus * self:GetStackCount() ) ~= nil then
 		return self.speed_bonus * self:GetStackCount()
 	end
+end]]
+
+function templar_power_charge:DeclareFunctions()
+	local funcs =
+	{
+		MODIFIER_PROPERTY_MANA_REGEN_CONSTANT,
+	}
+	return funcs
 end
+
+function templar_power_charge:GetModifierConstantManaRegen( params )
+    if self:GetStackCount() == nil or self:GetStackCount() == 0 then
+        return self.mana
+    else
+        return self.mana * self:GetStackCount()
+    end
+end
+--------------------------------------------------------------------------------
+
+

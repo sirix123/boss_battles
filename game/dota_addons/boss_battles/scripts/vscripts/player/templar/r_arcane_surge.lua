@@ -14,6 +14,13 @@ function r_arcane_surge:OnSpellStart()
             } -- kv
         )
 
+        self:GetCaster():AddNewModifier(
+            self:GetCaster(), -- player source
+            self, -- ability source
+            "templar_power_charge", -- modifier name
+            {duration = -1} -- kv
+        )
+
         EmitSoundOn( "Hero_Razor.Storm.Cast", self:GetCaster() )
 
     end

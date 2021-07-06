@@ -1,0 +1,56 @@
+<!-- kv3 encoding:text:version{e21c7f3c-8a33-41c5-9977-a76d3a32aa0d} format:vpcf35:version{ec5bfcca-b89d-4591-9ef4-c8679487d623} -->
+{
+	_class = "CParticleSystemDefinition"
+	m_bShouldHitboxesFallbackToRenderBounds = false
+	m_nMaxParticles = 0
+	m_bShouldSort = false
+	m_nBehaviorVersion = 11
+	m_nFirstMultipleOverride_BackwardCompat = 3
+	m_controlPointConfigurations = 
+	[
+		{
+			m_name = "preview"
+			m_drivers = 
+			[
+				{
+					m_iAttachType = "PATTACH_WORLDORIGIN"
+					m_entityName = "self"
+				},
+				{
+					m_iControlPoint = 1
+					m_iAttachType = "PATTACH_WORLDORIGIN"
+					m_vecOffset = [ 500.0, 500.0, 500.0 ]
+					m_entityName = "self"
+				},
+			]
+			m_previewState = 
+			{
+				m_previewModel = "models/heroes/pedestal/pedestal_2_ground.vmdl"
+				m_hitboxSetName = "default"
+			}
+		},
+	]
+	m_Children = 
+	[
+		{
+			m_ChildRef = resource:"particles/items3_fx/blink_overwhelming_burst_ground_proj.vpcf"
+		},
+		{
+			m_ChildRef = resource:"particles/templar/tamplar_blink_overwhelming_burst_rope.vpcf"
+		},
+		{
+			m_ChildRef = resource:"particles/items3_fx/blink_overwhelming_burst_smoke.vpcf"
+			m_bDisableChild = true
+		},
+		{
+			m_ChildRef = resource:"particles/templar/templar_blink_overwhelming_burst_glow.vpcf"
+		},
+		{
+			m_ChildRef = resource:"particles/items3_fx/blink_overwhelming_burst_debris.vpcf"
+			m_bDisableChild = true
+		},
+		{
+			m_ChildRef = resource:"particles/templar/templar_blink_overwhelming_burst_sparks.vpcf"
+		},
+	]
+}

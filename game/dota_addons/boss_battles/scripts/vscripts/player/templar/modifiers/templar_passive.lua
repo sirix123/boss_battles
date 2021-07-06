@@ -60,36 +60,37 @@ function templar_passive_modifier:GetModifierTotal_ConstantBlock( params )
             mana_to_remove: 	90
         ]]
 
-        -- remove mana, if we need to remove more then total, reduce by current mana the caster has
-        if current_mana <= mana_to_remove and current_mana > 0 then
-            self:GetParent():ReduceMana( current_mana )
-        else
-            self:GetParent():ReduceMana( mana_to_remove )
+        if params.damage_type ~= DAMAGE_TYPE_PURE then
+            -- remove mana, if we need to remove more then total, reduce by current mana the caster has
+            if current_mana <= mana_to_remove and current_mana > 0 then
+                self:GetParent():ReduceMana( current_mana )
+            else
+                self:GetParent():ReduceMana( mana_to_remove )
+            end
+
+            -- if current mana is less then the dmage coming in, if we don't have 30% of mana to mitgate need to take more dmg
+            -- hit = 100, current mana = 20, player should take 80dmg
+            -- hit * .7 = 70, mana loss hit * .3 = 30
+            -- player hit for 70 + 10 = 80
+            -- return the dmg to block...
+            if mana_to_remove >= current_mana then
+
+                dmg_to_take = incoming_damage - ( incoming_damage * ( mana_damage_reduction / 100 ) ) + current_mana
+                dmg_to_block = incoming_damage - dmg_to_take
+                --print("1 dmg_to_block: ",dmg_to_block)
+                --print("1 dmg_to_take: ",dmg_to_take)
+                --print("-------------")
+                return dmg_to_block
+
+            -- if current mana ismore the the damage coiming in
+            else
+                dmg_to_take = incoming_damage - ( incoming_damage * ( mana_damage_reduction / 100 ) )
+                dmg_to_block = incoming_damage - dmg_to_take
+                --print("2 dmg_to_block: ",dmg_to_block)
+                --print("2 dmg_to_take: ",dmg_to_take)
+                --print("-------------")
+                return dmg_to_block
+            end
         end
-
-        -- if current mana is less then the dmage coming in, if we don't have 30% of mana to mitgate need to take more dmg
-        -- hit = 100, current mana = 20, player should take 80dmg
-        -- hit * .7 = 70, mana loss hit * .3 = 30
-        -- player hit for 70 + 10 = 80
-        -- return the dmg to block...
-        if mana_to_remove >= current_mana then
-
-            dmg_to_take = incoming_damage - ( incoming_damage * ( mana_damage_reduction / 100 ) ) + current_mana
-            dmg_to_block = incoming_damage - dmg_to_take
-            --print("1 dmg_to_block: ",dmg_to_block)
-            --print("1 dmg_to_take: ",dmg_to_take)
-            --print("-------------")
-            return dmg_to_block
-
-        -- if current mana ismore the the damage coiming in
-        else
-            dmg_to_take = incoming_damage - ( incoming_damage * ( mana_damage_reduction / 100 ) )
-            dmg_to_block = incoming_damage - dmg_to_take
-            --print("2 dmg_to_block: ",dmg_to_block)
-            --print("2 dmg_to_take: ",dmg_to_take)
-            --print("-------------")
-            return dmg_to_block
-        end
-
     end
 end

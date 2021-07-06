@@ -68,6 +68,10 @@ function templar_basic:GetManaCost(level)
         mana_cost = 0
     end
 
+    mana_cost = caster:GetMana() * 0.08
+
+
+
 	return mana_cost
 end
 ---------------------------------------------------------------------------
@@ -84,7 +88,6 @@ function templar_basic:OnSpellStart()
 
     local radius = self:GetSpecialValueFor("radius")
 	local damage = self:GetSpecialValueFor("damage")
-	local base_mana = self:GetSpecialValueFor( "mana_gain_percent" )
 
     damage = damage + ( self:GetCaster():GetMana() )
 

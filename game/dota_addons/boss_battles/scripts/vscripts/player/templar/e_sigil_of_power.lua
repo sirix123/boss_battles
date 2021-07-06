@@ -31,9 +31,6 @@ function e_sigil_of_power:OnAbilityPhaseInterrupted()
 end
 ---------------------------------------------------------------------------
 
-function e_sigil_of_power:GetAOERadius()
-	return self:GetSpecialValueFor( "radius" )
-end
 
 function e_sigil_of_power:OnSpellStart()
 
@@ -41,23 +38,47 @@ function e_sigil_of_power:OnSpellStart()
 
     self.caster = self:GetCaster()
 
-    local point = nil
-    point = Clamp(self.caster:GetOrigin(), Vector(self.caster.mouse.x, self.caster.mouse.y, self.caster.mouse.z), self:GetCastRange(Vector(0,0,0), nil), 0)
+    local radius = self:GetSpecialValueFor( "radius" )
 
-    self.modifier = CreateModifierThinker(
-        self.caster,
-        self,
-        "e_sigil_of_power_modifier_thinker",
-        {
-            duration = self:GetSpecialValueFor( "duration" ),
-            target_x = point.x,
-            target_y = point.y,
-            target_z = point.z,
-        },
-        self.caster:GetAbsOrigin(),
-        self.caster:GetTeamNumber(),
-        false
+    local nFXIndex_1 = ParticleManager:CreateParticle( "particles/templar/templar_blink_overwhelming_burst.vpcf", PATTACH_WORLDORIGIN, self:GetCaster() )
+    ParticleManager:SetParticleControl( nFXIndex_1, 0, self:GetCaster():GetAbsOrigin() )
+    ParticleManager:SetParticleControl( nFXIndex_1, 1, Vector(radius,radius,radius) )
+    ParticleManager:ReleaseParticleIndex(nFXIndex_1)
+
+    local stacks = 0
+    if self:GetCaster():HasModifier("templar_power_charge") then
+        stacks = self:GetCaster():GetModifierStackCount("templar_power_charge", self:GetCaster())
+        self:GetCaster():RemoveModifierByName("templar_power_charge")
+    end
+
+    local dmage_boost_per_charge = self:GetSpecialValueFor( "damage_boost_per_power_charge_consumed" )
+
+    local damage_boost = dmage_boost_per_charge * stacks
+
+    local friendlies = FindUnitsInRadius(
+        self.caster:GetTeamNumber(),	-- int, your team number
+        self.caster:GetAbsOrigin(),	-- point, center point
+        nil,	-- handle, cacheUnit. (not known)
+        radius,	-- float, radius. or use FIND_UNITS_EVERYWHERE
+        DOTA_UNIT_TARGET_TEAM_FRIENDLY,	-- int, team filter
+        DOTA_UNIT_TARGET_HERO,	-- int, type filter
+        0,	-- int, flag filter
+        0,	-- int, order filter
+        false	-- bool, can grow cache
     )
+
+    if friendlies ~= nil and #friendlies ~= 0 then
+        for _, friend in pairs(friendlies) do
+            friend:AddNewModifier(self.caster, self, "e_sigil_of_power_modifier_buff",
+            {
+                duration = self:GetSpecialValueFor("duration"),
+                damage_boost = damage_boost,
+            })
+        end
+    end
+
+    local sound_cast = "Blink_Layer.Overwhelming"
+    EmitSoundOn( sound_cast, self:GetCaster() )
 
 end
 ---------------------------------------------------------------------------

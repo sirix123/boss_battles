@@ -78,7 +78,7 @@ function arcane_surge_modifier:OnIntervalThink()
 
         if enemies ~= nil and #enemies ~= 0 then
 
-            self.parent:GiveMana(self:GetAbility():GetSpecialValueFor("mana_on_hit"))
+            --self.parent:GiveMana(self:GetAbility():GetSpecialValueFor("mana_on_hit"))
 
             for _, enemy in pairs(enemies) do
 

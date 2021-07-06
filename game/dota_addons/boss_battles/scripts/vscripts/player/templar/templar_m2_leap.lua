@@ -53,6 +53,9 @@ function templar_m2_leap:OnSpellStart()
 
     local distance = (point - caster:GetAbsOrigin()):Length2D()
 
+    local damage = self:GetSpecialValueFor( "damage" )
+    local radius = self:GetSpecialValueFor( "radius" )
+
     if distance > 100 then
 
         local arc = self:GetCaster():AddNewModifier(
@@ -77,9 +80,6 @@ function templar_m2_leap:OnSpellStart()
         arc:AddParticle(self.ember_particle, false, false, -1, false, false)
 
         arc:SetEndCallback( function()
-            local damage = self:GetSpecialValueFor( "damage" )
-            local radius = self:GetSpecialValueFor( "radius" )
-
             local damageTable = {
                 attacker = self:GetCaster(),
                 damage = damage,
@@ -126,14 +126,20 @@ function templar_m2_leap:OnSpellStart()
             ParticleManager:SetParticleControl(effect_cast_1, 1, self:GetCaster():GetAbsOrigin())
             ParticleManager:ReleaseParticleIndex(effect_cast_1)
 
+            local nFXIndex = ParticleManager:CreateParticle( "particles/items3_fx/blink_overwhelming_end.vpcf", PATTACH_WORLDORIGIN, self:GetCaster() )
+            ParticleManager:SetParticleControl( nFXIndex, 0, self:GetCaster():GetAbsOrigin() )
+            ParticleManager:ReleaseParticleIndex(nFXIndex)
+
+            local nFXIndex_1 = ParticleManager:CreateParticle( "particles/items3_fx/blink_overwhelming_burst.vpcf", PATTACH_WORLDORIGIN, self:GetCaster() )
+            ParticleManager:SetParticleControl( nFXIndex_1, 0, self:GetCaster():GetAbsOrigin() )
+            ParticleManager:SetParticleControl( nFXIndex_1, 1, Vector(radius,radius,radius) )
+            ParticleManager:ReleaseParticleIndex(nFXIndex_1)
+
             -- slam sound
             EmitSoundOn( "Hero_Zuus.LightningBolt", self:GetCaster() )
 
         end)
     else
-        local damage = self:GetSpecialValueFor( "damage" )
-        local radius = self:GetSpecialValueFor( "radius" )
-
         local damageTable = {
             attacker = self:GetCaster(),
             damage = damage,
@@ -180,9 +186,18 @@ function templar_m2_leap:OnSpellStart()
         ParticleManager:SetParticleControl(effect_cast_1, 1, self:GetCaster():GetAbsOrigin())
         ParticleManager:ReleaseParticleIndex(effect_cast_1)
 
+        local nFXIndex = ParticleManager:CreateParticle( "particles/items3_fx/blink_overwhelming_end.vpcf", PATTACH_WORLDORIGIN, self:GetCaster() )
+        ParticleManager:SetParticleControl( nFXIndex, 0, self:GetCaster():GetAbsOrigin() )
+        ParticleManager:ReleaseParticleIndex(nFXIndex)
+
+        local nFXIndex_1 = ParticleManager:CreateParticle( "particles/items3_fx/blink_overwhelming_burst.vpcf", PATTACH_WORLDORIGIN, self:GetCaster() )
+        ParticleManager:SetParticleControl( nFXIndex_1, 0, self:GetCaster():GetAbsOrigin() )
+        ParticleManager:SetParticleControl( nFXIndex_1, 1, Vector(radius,radius,radius) )
+        ParticleManager:ReleaseParticleIndex(nFXIndex_1)
+
         -- slam sound
         EmitSoundOn( "Hero_Zuus.LightningBolt", self:GetCaster() )
-    
+
     end
 
 end

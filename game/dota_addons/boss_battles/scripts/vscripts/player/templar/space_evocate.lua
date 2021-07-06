@@ -5,9 +5,9 @@ LinkLuaModifier("evocate_modifier", "player/templar/modifiers/evocate_modifier",
 function space_evocate:OnSpellStart()
     if IsServer() then
 
-        self:GetCaster():StartGestureWithPlaybackRate(ACT_DOTA_GENERIC_CHANNEL_1, 1.0)
+        --self:GetCaster():StartGestureWithPlaybackRate(ACT_DOTA_GENERIC_CHANNEL_1, 1.0)
 
-        local reduction_per_charge = self:GetCaster():FindAbilityByName("templar_passive"):GetSpecialValueFor( "space_duration_reduction_per_power_charge" )
+        --[[local reduction_per_charge = self:GetCaster():FindAbilityByName("templar_passive"):GetSpecialValueFor( "space_duration_reduction_per_power_charge" )
         local reduction_duration = 0
 
         local stacks = 0
@@ -23,10 +23,29 @@ function space_evocate:OnSpellStart()
 
         if self:GetCaster():HasModifier("templar_power_charge") then
             self:GetCaster():RemoveModifierByName("templar_power_charge")
-        end
+        end]]
 
-        local sound_cast = "Hero_ObsidianDestroyer.AstralImprisonment"
-        EmitSoundOn( sound_cast, self:GetCaster() )
+        if self:GetCaster():GetHealth() > 100  then
+
+            local dmgTable = {
+                victim = self:GetCaster(),
+                attacker = self:GetCaster(),
+                damage =  100,
+                damage_type = DAMAGE_TYPE_PURE,
+                ability = self,
+            }
+
+            ApplyDamage(dmgTable)
+
+            self:GetCaster():GiveMana(50)
+
+            local nFXIndex = ParticleManager:CreateParticle( "particles/items3_fx/blink_overwhelming_start.vpcff", PATTACH_WORLDORIGIN, nil )
+            ParticleManager:SetParticleControl( nFXIndex, 0, self:GetCaster():GetAbsOrigin() )
+            ParticleManager:ReleaseParticleIndex(nFXIndex)
+
+            local sound_cast = "Item_Desolator.Target"
+            EmitSoundOn( sound_cast, self:GetCaster() )
+        end
 
     end
 end

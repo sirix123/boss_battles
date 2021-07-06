@@ -27,6 +27,11 @@ end
 function q_arcane_cage_modifier:OnIntervalThink()
     if IsServer() then
         if (self:GetCaster():GetAbsOrigin() - self:GetParent():GetAbsOrigin() ):Length2D() > self:GetAbility():GetCastRange(Vector(0,0,0), nil) then
+
+            if self:GetCaster():HasModifier("q_arcane_cage_modifier_templar") then
+                self:GetCaster():RemoveModifierByName("q_arcane_cage_modifier_templar")
+            end
+
             self:Destroy()
         end
     end

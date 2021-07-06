@@ -26,7 +26,6 @@ function e_sigil_of_power_modifier_buff:OnCreated( kv )
         ParticleManager:SetParticleControl(self.nfx, 0, self:GetParent():GetAbsOrigin())
         ParticleManager:SetParticleControl(self.nfx, 2, Vector(100,0,0))
 
-        print("kv.damage_boost ",kv.damage_boost)
     end
 end
 -----------------------------------------------------------------------------
