@@ -213,7 +213,7 @@ function GameSetup:OnNPCSpawned(keys)
             if npc:GetUnitName() == "npc_dota_hero_grimstroke" then npc:SetMana(0) end
             if npc:GetUnitName() == "npc_dota_hero_queenofpain" then npc:SetMana(0) end
             if npc:GetUnitName() == "npc_dota_hero_hoodwink" then npc:SetMana(0) end
-            if npc:GetUnitName() == "npc_dota_hero_huskar" then npc:SetMana(0) end
+            --if npc:GetUnitName() == "npc_dota_hero_huskar" then npc:SetMana(0) end
             return false
         end)
 
@@ -260,7 +260,7 @@ function GameSetup:OnNPCSpawned(keys)
         --print("on spanwed lives ", npc.playerLives )
 
         if IsInToolsMode() == true then
-            npc:AddNewModifier( npc,  nil, "admin_god_mode", { } )
+            --npc:AddNewModifier( npc,  nil, "admin_god_mode", { } )
         end
 
         -- level up abilities for all heroes to level 1
@@ -811,6 +811,27 @@ function GameSetup:HeroCheck()
         -- general clean (find all abilities that a hero has and end their cooldowns and set hero hp to full)
         if hero:GetUnitName() ~= "npc_dota_hero_phantom_assassin" then
             hero:SetMana(0)
+        end
+
+        if hero:HasModifier("q_arcane_cage_modifier") then
+            hero:RemoveModifierByName("q_arcane_cage_modifier")
+        end
+
+        -- templar clean
+        if hero:GetUnitName() ~= "npc_dota_hero_huskar" then
+            hero:SetMana(hero:GetMaxMana())
+            if hero:HasModifier("arcane_surge_modifier") then
+                hero:RemoveModifierByName("arcane_surge_modifier")
+            end
+            if hero:HasModifier("e_sigil_of_power_modifier_buff") then
+                hero:RemoveModifierByName("e_sigil_of_power_modifier_buff")
+            end
+            if hero:HasModifier("e_sigil_of_power_modifier") then
+                hero:RemoveModifierByName("e_sigil_of_power_modifier")
+            end
+            if hero:HasModifier("q_arcane_cage_modifier") then
+                hero:RemoveModifierByName("q_arcane_cage_modifier")
+            end
         end
 
         -- heal to full

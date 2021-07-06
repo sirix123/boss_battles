@@ -11,12 +11,17 @@ function evocate_modifier:IsDebuff()
 end
 
 function evocate_modifier:GetEffectName()
-	return "particles/items_fx/black_king_bar_avatar.vpcf"
+	return "particles/items2_fx/rod_of_atos.vpcf"
 end
 -----------------------------------------------------------------------------
 
 function evocate_modifier:OnCreated( kv )
 	if not IsServer() then return end
+
+    local particle = "particles/units/heroes/hero_obsidian_destroyer/obsidian_destroyer_prison.vpcf"
+    self.effect_cast = ParticleManager:CreateParticle(particle, PATTACH_ABSORIGIN, self:GetCaster())
+    ParticleManager:SetParticleControl(self.effect_cast, 0, self:GetCaster():GetAbsOrigin())
+    ParticleManager:SetParticleControl(self.effect_cast, 3, self:GetCaster():GetAbsOrigin())
 
 end
 
@@ -37,14 +42,12 @@ function evocate_modifier:OnDestroy()
 
     self:GetCaster():GiveMana(self:GetCaster():GetMaxMana())
 
-    local sound_cast = "Hero_NyxAssassin.Burrow.Out"
+    local sound_cast = "Hero_ObsidianDestroyer.AstralImprisonment.End"
     EmitSoundOn( sound_cast, self:GetCaster() )
 
-    local particle = "particles/units/heroes/hero_meepo/meepo_burrow_end.vpcf"
-    local effect_cast = ParticleManager:CreateParticle(particle, PATTACH_ABSORIGIN, self:GetCaster())
-    ParticleManager:SetParticleControl(effect_cast, 0, self:GetCaster():GetAbsOrigin())
-    ParticleManager:SetParticleControl(effect_cast, 2, self:GetCaster():GetAbsOrigin())
-    ParticleManager:ReleaseParticleIndex(effect_cast)
+    if self.effect_cast then
+        ParticleManager:DestroyParticle(self.effect_cast, true)
+    end
 
 end
 ----------------------------------------------------------------------------
@@ -54,8 +57,8 @@ end
 function evocate_modifier:CheckState()
 	local state = {
         [MODIFIER_STATE_ROOTED] = true,
-        [MODIFIER_STATE_INVULNERABLE] = true,
-        [MODIFIER_STATE_NO_HEALTH_BAR] = true,
+        --[MODIFIER_STATE_INVULNERABLE] = true,
+        --[MODIFIER_STATE_NO_HEALTH_BAR] = true,
         [MODIFIER_STATE_STUNNED] = true,
 	}
 

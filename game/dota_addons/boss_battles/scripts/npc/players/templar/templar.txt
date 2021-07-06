@@ -10,7 +10,7 @@
         "Ability2"              "templar_m2_leap" 
         "Ability3"              "q_arcane_cage" 
         "Ability4"              "e_sigil_of_power"
-        "Ability5"              "arcane_surge"
+        "Ability5"              "r_arcane_surge"
         "Ability6"              "space_evocate"
         "Ability7"              "templar_passive"
         "Ability8"              ""

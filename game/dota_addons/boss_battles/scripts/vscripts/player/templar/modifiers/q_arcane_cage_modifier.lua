@@ -40,14 +40,6 @@ function q_arcane_cage_modifier:OnDestroy()
     end
 end
 
-function q_arcane_cage_modifier:DeclareFunctions()
-	local funcs = {
-        MODIFIER_PROPERTY_TOTAL_CONSTANT_BLOCK,
-	}
-
-	return funcs
-end
-
 function q_arcane_cage_modifier:GetStatusEffectName()
 	return "particles/templar/templar_status_effect_arc_warden_tempest.vpcf"
 end
@@ -67,14 +59,16 @@ end
 function q_arcane_cage_modifier:GetModifierTotal_ConstantBlock( params )
     if IsServer() then
 
-        local incoming_damage = kv.damage
+        local incoming_damage = params.damage
         local caster = self:GetCaster()
+
+        incoming_damage = incoming_damage - ( incoming_damage * ( self:GetAbility():GetSpecialValueFor( "damage_sent_to_templar" ) / 100))
 
         local dmgTable = {
             victim = caster,
-            attacker = kv.attacker,
-            damage = incoming_damage - ( incoming_damage * ( self:GetAbility():GetSpecialValueFor( "damage_sent_to_templar" ) / 100)) ,
-            damage_type = self:GetAbilityDamageType(),
+            attacker = params.attacker,
+            damage =  incoming_damage,
+            damage_type = DAMAGE_TYPE_PHYSICAL,
             ability = self:GetAbility(),
         }
 
@@ -89,6 +83,7 @@ function q_arcane_cage_modifier:DeclareFunctions()
 	local funcs =
 	{
         MODIFIER_PROPERTY_TOTALDAMAGEOUTGOING_PERCENTAGE,
+        MODIFIER_PROPERTY_TOTAL_CONSTANT_BLOCK,
 	}
 	return funcs
 end

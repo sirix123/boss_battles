@@ -7,12 +7,6 @@ function space_evocate:OnSpellStart()
 
         self:GetCaster():StartGestureWithPlaybackRate(ACT_DOTA_GENERIC_CHANNEL_1, 1.0)
 
-        local particle = "particles/units/heroes/hero_meepo/meepo_burrow.vpcf"
-        local effect_cast = ParticleManager:CreateParticle(particle, PATTACH_ABSORIGIN, self:GetCaster())
-        ParticleManager:SetParticleControl(effect_cast, 0, self:GetCaster():GetAbsOrigin())
-        ParticleManager:SetParticleControl(effect_cast, 2, self:GetCaster():GetAbsOrigin())
-        ParticleManager:ReleaseParticleIndex(effect_cast)
-
         local reduction_per_charge = self:GetCaster():FindAbilityByName("templar_passive"):GetSpecialValueFor( "space_duration_reduction_per_power_charge" )
         local reduction_duration = 0
 
@@ -27,7 +21,11 @@ function space_evocate:OnSpellStart()
 
         self:GetCaster():AddNewModifier(self:GetCaster(), self, "evocate_modifier", { duration = duration })
 
-        local sound_cast = "Hero_NyxAssassin.Burrow.In"
+        if self:GetCaster():HasModifier("templar_power_charge") then
+            self:GetCaster():RemoveModifierByName("templar_power_charge")
+        end
+
+        local sound_cast = "Hero_ObsidianDestroyer.AstralImprisonment"
         EmitSoundOn( sound_cast, self:GetCaster() )
 
     end

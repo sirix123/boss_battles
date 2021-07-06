@@ -36,7 +36,6 @@ function templar_power_charge:OnCreated( kv )
             ParticleManager:SetParticleControl( self.pfx, 8+i, Vector( 1, 0, 0 ) )
         end
 	end
-
 end
 
 function templar_power_charge:OnRefresh( kv )
@@ -47,21 +46,14 @@ end
 function templar_power_charge:OnRemoved()
     if not IsServer() then return end
 
+	if self.pfx then
+		ParticleManager:DestroyParticle(self.pfx, true)
+	end
+
 end
 
 function templar_power_charge:OnDestroy()
 	if not IsServer() then return end
-
-    if self.pfx then
-		ParticleManager:DestroyParticle(self.pfx, true)
-	end
-
-	if self:GetStackCount() > 1 then
-		local modifier = self:GetCaster():AddNewModifier( self:GetCaster(), self:GetAbility(), "templar_power_charge", { duration = -1 } )
-		if modifier then
-			modifier:SetStackCount( self:GetStackCount() - 1 )
-		end
-	end
 
 end
 ----------------------------------------------------------------------------

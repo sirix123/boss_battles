@@ -42,36 +42,53 @@ function templar_passive_modifier:GetModifierTotal_ConstantBlock( params )
     if IsServer() then
 
         -- when we take damage... if we have mana *block" the dmg but reduce mana
-        local mana_damage_reduction = self:GetCaster():FindAbilityByName("templar_passive"):GetSpecialValueFor( "mind_over_matter" )
-        local current_mana = self:GetCaster():GetMana()
-        local incoming_damage = kv.damage
+        local mana_damage_reduction = self:GetParent():FindAbilityByName("templar_passive"):GetSpecialValueFor( "mind_over_matter" )
+        local current_mana = self:GetParent():GetMana()
+        local incoming_damage = params.damage
         local dmg_to_take = 0
+        local dmg_to_block = 0
         local mana_to_remove = ( incoming_damage * ( mana_damage_reduction / 100 ) )
 
-        print("incoming_damage: ",incoming_damage)
-        print("mana_to_remove: ",mana_to_remove)
+        --PrintTable(params)
+
+        --print("incoming_damage: ",incoming_damage)
+        --print("mana_to_remove: ",mana_to_remove)
+
+        --[[
+            bm net
+            incoming_damage: 	300
+            mana_to_remove: 	90
+        ]]
+
+        -- remove mana, if we need to remove more then total, reduce by current mana the caster has
+        if current_mana <= mana_to_remove and current_mana > 0 then
+            self:GetParent():ReduceMana( current_mana )
+        else
+            self:GetParent():ReduceMana( mana_to_remove )
+        end
 
         -- if current mana is less then the dmage coming in, if we don't have 30% of mana to mitgate need to take more dmg
         -- hit = 100, current mana = 20, player should take 80dmg
         -- hit * .7 = 70, mana loss hit * .3 = 30
         -- player hit for 70 + 10 = 80
+        -- return the dmg to block...
         if mana_to_remove >= current_mana then
 
-            dmg_to_take = ( incoming_damage * ( mana_damage_reduction / 100 ) ) + current_mana
-            print("dmg_to_take: ",dmg_to_take)
-
-            return dmg_to_take
+            dmg_to_take = incoming_damage - ( incoming_damage * ( mana_damage_reduction / 100 ) ) + current_mana
+            dmg_to_block = incoming_damage - dmg_to_take
+            --print("1 dmg_to_block: ",dmg_to_block)
+            --print("1 dmg_to_take: ",dmg_to_take)
+            --print("-------------")
+            return dmg_to_block
 
         -- if current mana ismore the the damage coiming in
         else
-            return ( incoming_damage * ( (100 - mana_damage_reduction) / 100 ) )
-        end
-
-        -- remove mana, if we need to remove more then total, reduce by current mana the caster has
-        if current_mana <= mana_to_remove and curent_mana > 0 then
-            self:GetCaster():ReduceMana( current_mana )
-        else
-            self:GetCaster():ReduceMana( mana_to_remove )
+            dmg_to_take = incoming_damage - ( incoming_damage * ( mana_damage_reduction / 100 ) )
+            dmg_to_block = incoming_damage - dmg_to_take
+            --print("2 dmg_to_block: ",dmg_to_block)
+            --print("2 dmg_to_take: ",dmg_to_take)
+            --print("-------------")
+            return dmg_to_block
         end
 
     end

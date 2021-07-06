@@ -131,6 +131,9 @@ function Precache( context ) -- this needs to be in a seperate file
   PrecacheResource("soundfile", "soundevents/game_sounds_heroes/game_sounds_bristleback.vsndevts", context)
   PrecacheResource("soundfile", "soundevents/game_sounds_items.vsndevts", context)
 
+  -- templar
+  PrecacheResource("soundfile", "soundevents/game_sounds_heroes/game_sounds_razor.vsndevts", context)
+  PrecacheResource("soundfile", "soundevents/game_sounds_heroes/game_sounds_zuus.vsndevts", context)
 
   local npcs = LoadKeyValues("scripts/npc/npc_units_custom.txt")
 
