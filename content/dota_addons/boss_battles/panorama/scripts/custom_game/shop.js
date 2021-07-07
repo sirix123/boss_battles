@@ -3,6 +3,7 @@
 // events
 GameEvents.Subscribe( "picking_done", OnPickingDone );
 GameEvents.Subscribe( "player_reconnect", OnPickingDone );
+GameEvents.Subscribe( "player_reconnect", FixUpPortrait );
 GameEvents.Subscribe( "send_product_list", OnPickingDone );
 GameEvents.Subscribe( "open_shop_external", OnServerSendOpenShop );
 GameEvents.Subscribe( "update_shop_product_list", OnServerUpdatePlayerShop );
@@ -227,15 +228,7 @@ function OnEquipButtonPressed( product_id, image_name, buyButton, buyButtonTxt )
     let playerId = Players.GetLocalPlayer()
     let player_hero = Players.GetPlayerSelectedHero( playerId )
 
-    // if player name not crystal maiden then... do this
-
-    if ( player_hero !== "npc_dota_hero_crystal_maiden"  ){
-        var MovieContainer = $.CreatePanel( "Panel", portraitContainer, "CustomHeroMoviePortrait" )
-        MovieContainer.BLoadLayoutFromString( '<root><Panel><MoviePanel src="s2r://panorama/videos/heroes/' + player_hero + '.webm" repeat="true" autoplay="onload" /></Panel></root>', false, false )
-        MovieContainer.style.width = "160px";
-        MovieContainer.style.height = "203px";
-        MovieContainer.style.boxShadow = "#000000aa 0px 0px 16px 0px";
-    }
+    FixUpPortrait()
 
     // disable the equip button
     buyButton.AddClass( "disabled" );
@@ -243,6 +236,19 @@ function OnEquipButtonPressed( product_id, image_name, buyButton, buyButtonTxt )
     buyButton.ClearPanelEvent( 'onactivate' )
 
     GameEvents.SendCustomGameEventToServer( "player_pressed_equip_button", { player_hero, product_id } );
+}
+
+function FixUpPortrait(){
+
+    let playerId = Players.GetLocalPlayer()
+    let player_hero = Players.GetPlayerSelectedHero( playerId )
+
+    // fix up portrait
+    var MovieContainer = $.CreatePanel( "Panel", portraitContainer, "CustomHeroMoviePortrait" )
+    MovieContainer.BLoadLayoutFromString( '<root><Panel><MoviePanel src="s2r://panorama/videos/heroes/' + player_hero + '.webm" repeat="true" autoplay="onload" /></Panel></root>', false, false )
+    MovieContainer.style.width = "160px";
+    MovieContainer.style.height = "203px";
+    MovieContainer.style.boxShadow = "#000000aa 0px 0px 16px 0px";
 }
 
 function OnShopCloseButtonPressed(){

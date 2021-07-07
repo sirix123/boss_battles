@@ -610,7 +610,7 @@ function GameSetup:HeroKilled( keys )
         splitscreenplayer: -1
     ]]
 
-    if TRACK_DATA == true then
+    --[[if TRACK_DATA == true then
 
         local hero = killedHero
 
@@ -666,7 +666,7 @@ function GameSetup:HeroKilled( keys )
                 table.insert(hero.deathsDetails,targets)
             end
         end
-    end
+    end]]
 
 
     killedHero.playerLives = killedHero.playerLives - 1

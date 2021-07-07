@@ -200,7 +200,7 @@ function Scoreboard:StoreDamageDone(keys)
                 end
             end
 
-            -- dmg taken
+            --[[ dmg taken
             if EntIndexToHScript(keys.entindex_killed) == hero then
 
                 -- dmg taken analytics
@@ -277,7 +277,7 @@ function Scoreboard:StoreDamageDone(keys)
                         table.insert(hero.dmgTakenDetails,targets)
                     end
                 end
-            end
+            end]]
         end
     end
 
