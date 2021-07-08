@@ -16,7 +16,7 @@ _G.nBOSSES_KILLED = 0
 
 _G.PLAYERS_CLIENTS_READY = {}
 
-_G.TRACK_DATA = false
+_G.TRACK_DATA = true
 
 -- any unit in this table will not be hit by projectiles (if using barebones proj lib)
 _G.tUNIT_TABLE =
@@ -58,6 +58,8 @@ _G.flWHIRLING_WINDS_PROJ_SPEED_BONUS = 0.25
 
 _G.HERO_NAME_LIST =
 {
+    "npc_dota_hero_templar_assassin",
+	"npc_dota_hero_kunkka",
     "npc_dota_hero_crystal_maiden",
     "npc_dota_hero_juggernaut",
     "npc_dota_hero_phantom_assassin",

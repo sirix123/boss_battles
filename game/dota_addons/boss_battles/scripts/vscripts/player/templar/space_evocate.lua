@@ -25,19 +25,19 @@ function space_evocate:OnSpellStart()
             self:GetCaster():RemoveModifierByName("templar_power_charge")
         end]]
 
-        if self:GetCaster():GetHealth() > 100  then
+        if self:GetCaster():GetHealth() > 150  then
 
             local dmgTable = {
                 victim = self:GetCaster(),
                 attacker = self:GetCaster(),
-                damage =  100,
+                damage =  self:GetSpecialValueFor("damage_self"),
                 damage_type = DAMAGE_TYPE_PURE,
                 ability = self,
             }
 
             ApplyDamage(dmgTable)
 
-            self:GetCaster():GiveMana(50)
+            self:GetCaster():GiveMana(self:GetCaster():GetMaxMana())
 
             local nFXIndex = ParticleManager:CreateParticle( "particles/items3_fx/blink_overwhelming_start.vpcff", PATTACH_WORLDORIGIN, nil )
             ParticleManager:SetParticleControl( nFXIndex, 0, self:GetCaster():GetAbsOrigin() )

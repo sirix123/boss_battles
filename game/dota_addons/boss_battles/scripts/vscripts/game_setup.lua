@@ -809,8 +809,8 @@ function GameSetup:HeroCheck()
     for _,hero in pairs(HERO_LIST) do
 
         -- general clean (find all abilities that a hero has and end their cooldowns and set hero hp to full)
-        if hero:GetUnitName() ~= "npc_dota_hero_phantom_assassin" then
-            hero:SetMana(0)
+        if hero:GetUnitName() ~= "npc_dota_hero_phantom_assassin" and hero:GetUnitName() ~= "npc_dota_hero_huskar" then
+            hero:ReduceMana(hero:GetMaxMana())
         end
 
         if hero:HasModifier("q_arcane_cage_modifier") then
@@ -818,7 +818,7 @@ function GameSetup:HeroCheck()
         end
 
         -- templar clean
-        if hero:GetUnitName() ~= "npc_dota_hero_huskar" then
+        if hero:GetUnitName() == "npc_dota_hero_huskar" then
             hero:SetMana(hero:GetMaxMana())
             if hero:HasModifier("arcane_surge_modifier") then
                 hero:RemoveModifierByName("arcane_surge_modifier")

@@ -128,7 +128,7 @@ function rat_m2:OnSpellStart()
 
                 EmitSoundOnLocationWithCaster(unit:GetAbsOrigin(), "Hero_Hoodwink.Boomerang.Target", self.caster)
 
-                --if self.cast_twice == true then
+                if self.stacks == 5 then
 
                     local units = FindUnitsInRadius(
                         self:GetCaster():GetTeamNumber(),
@@ -159,7 +159,7 @@ function rat_m2:OnSpellStart()
                         ProjectileManager:CreateTrackingProjectile( info )
 
                     end
-                --end
+                end
 
             end,
             OnFinish = function(_self, pos)

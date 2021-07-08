@@ -347,6 +347,19 @@ function WebApi:TestGet()
 	end)
 end
 
+function WebApi:GetProductList()
+	local request = CreateHTTPRequestScriptVM("GET", "http://143.198.224.131/Shop/GetBossBattlesProducts")
+
+	request:Send(function(response)
+		if response.StatusCode == 200 then -- HTTP 200 = Success
+			print("GOT productlist. response.body = ", response.body)
+			return json.decode(response.body)
+		else
+			print("WebApi Http GET failed ", response.StatusCode)
+		end
+	end)
+end
+
 
 
 --UTIL FUNCTIONS

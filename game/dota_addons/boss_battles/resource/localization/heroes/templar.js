@@ -33,7 +33,7 @@ function GenerateLocalizationData() {
     Modifiers.push({
         modifier_classname: "templar_power_charge",
         name: "power charge",
-        description: "bonus movement speed."
+        description: "giving mana regen."
     });
     // abilities
     Abilities.push({
@@ -47,18 +47,8 @@ function GenerateLocalizationData() {
                 percentage: true,
             },
             {
-                ability_special: "power_charge_m1_mana_cost_reduction_per_stack",
-                text: "basic attack mana cost reduction per power charge stack:",
-                percentage: true,
-            },
-            {
-                ability_special: "power_charge_ms_bonus_percent",
-                text: "BONUS MS PER PC STACK:",
-                percentage: true,
-            },
-            {
-                ability_special: "space_duration_reduction_per_power_charge",
-                text: "EVOCATE DURATION REDUCTION PER STACK:",
+                ability_special: "power_charge_mana_regen",
+                text: "Power charge mana regen:",
             },
         ]
     });
@@ -100,23 +90,31 @@ function GenerateLocalizationData() {
             },
             {
                 ability_special: "outgoing_damage_bonus",
-                text: "damage bonus for linked player:",
+                text: "damage bonus for both players:",
                 percentage: true,
+            },
+            {
+                ability_special: "mana_regen",
+                text: "mana_regen for templar:",
             },
         ]
     });
     Abilities.push({
         ability_classname: "e_sigil_of_power",
         name: "sigil of power",
-        description: "place a sigil on the ground, stand in it to get a buff, the more mana you spend with this buff on, the more damage bonus you get after it ends.",
+        description: "discharge your power charges gives a damage boost and deals damage based on power charges consumed.",
         ability_specials: [
             {
                 ability_special: "duration",
                 text: "duration:",
             },
             {
-                ability_special: "duration_buff",
-                text: "buff duration:",
+                ability_special: "damage_boost_per_power_charge_consumed",
+                text: "damage_boost_per_power_charge_consumed:",
+            },
+            {
+                ability_special: "damage",
+                text: "damage per charge consumed:",
                 percentage: true,
             },
         ]
@@ -156,11 +154,11 @@ function GenerateLocalizationData() {
     Abilities.push({
         ability_classname: "space_evocate",
         name: "evocate",
-        description: "get ur mana back",
+        description: "get ur mana back but it costs health",
         ability_specials: [
             {
-                ability_special: "duration",
-                text: "duration:",
+                ability_special: "damage_self",
+                text: "damage_self:",
             },
         ]
     });

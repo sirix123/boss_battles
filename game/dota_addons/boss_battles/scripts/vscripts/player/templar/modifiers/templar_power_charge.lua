@@ -10,6 +10,10 @@ function templar_power_charge:IsDebuff()
 	return false
 end
 
+function templar_power_charge:GetTexture()
+	return "mars_arena_of_blood"
+end
+
 -----------------------------------------------------------------------------
 
 function templar_power_charge:OnCreated( kv )

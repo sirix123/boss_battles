@@ -27,7 +27,7 @@ function HeroSelection:Start()
 
 		--print("are we sending the open hero select event?")
 
-		CustomGameEventManager:Send_ServerToAllClients( "begin_hero_select", { })
+		CustomGameEventManager:Send_ServerToAllClients( "begin_hero_select", { hero_list = HERO_NAME_LIST})
 
 		HeroSelection.numPickers = PlayerResource:GetPlayerCount()
 		HeroSelection.playersPicked  = 0

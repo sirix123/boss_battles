@@ -77,6 +77,42 @@ function e_sigil_of_power:OnSpellStart()
         end
     end
 
+    local dmg = 0
+    if stacks ~= 0 and stacks ~=nil then
+        dmg = self:GetSpecialValueFor("damage") * stacks
+    else
+        dmg = self:GetSpecialValueFor("damage")
+    end
+
+    local enemies = FindUnitsInRadius(
+        self.caster:GetTeamNumber(),	-- int, your team number
+        self.caster:GetAbsOrigin(),	-- point, center point
+        nil,	-- handle, cacheUnit. (not known)
+        radius,	-- float, radius. or use FIND_UNITS_EVERYWHERE
+        DOTA_UNIT_TARGET_TEAM_ENEMY,	-- int, team filter
+        DOTA_UNIT_TARGET_BASIC,	-- int, type filter
+        0,	-- int, flag filter
+        0,	-- int, order filter
+        false	-- bool, can grow cache
+    )
+
+    if enemies ~= nil and #enemies ~= 0 then
+
+        for _, enemy in pairs(enemies) do
+
+            self.dmgTable = {
+                victim = enemy,
+                attacker = self.caster,
+                damage = dmg,
+                damage_type = self:GetAbilityDamageType(),
+                ability = self,
+            }
+
+            ApplyDamage(self.dmgTable)
+
+        end
+    end
+
     local sound_cast = "Blink_Layer.Overwhelming"
     EmitSoundOn( sound_cast, self:GetCaster() )
 

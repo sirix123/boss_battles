@@ -80,6 +80,15 @@ function templar_m2_leap:OnSpellStart()
         arc:AddParticle(self.ember_particle, false, false, -1, false, false)
 
         arc:SetEndCallback( function()
+
+            -- grant power chage
+            self:GetCaster():AddNewModifier(
+                self:GetCaster(), -- player source
+                self, -- ability source
+                "templar_power_charge", -- modifier name
+                {duration = -1} -- kv
+            )
+
             local damageTable = {
                 attacker = self:GetCaster(),
                 damage = damage,
@@ -100,14 +109,6 @@ function templar_m2_leap:OnSpellStart()
             )
 
             if enemies~=nil and #enemies~=0 then
-
-                -- grant power chage
-                self:GetCaster():AddNewModifier(
-                    self:GetCaster(), -- player source
-                    self, -- ability source
-                    "templar_power_charge", -- modifier name
-                    {duration = -1} -- kv
-                )
 
                 for _,enemy in pairs(enemies) do
                     damageTable.victim = enemy

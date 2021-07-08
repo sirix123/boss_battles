@@ -81,12 +81,12 @@ function vertical_saw_blade:OnChannelThink( interval )
         if units ~= nil and #units ~= 0 then
             for _, target in pairs(units) do
 
-                local projectile_direction = (Vector( target:GetAbsOrigin().x - self.origin.x, target:GetAbsOrigin().y - self.origin.y, 0 )):Normalized()
+                local projectile_direction = (Vector( target:GetAbsOrigin().x - self:GetCaster():GetAbsOrigin().x, target:GetAbsOrigin().y - self:GetCaster():GetAbsOrigin().y, 0 )):Normalized()
 
                 local hProjectile = {
                     Source = self.caster,
                     Ability = self,
-                    vSpawnOrigin = self.origin,
+                    vSpawnOrigin = self:GetCaster():GetAbsOrigin(),
                     bDeleteOnHit = true,
                     iUnitTargetTeam = DOTA_UNIT_TARGET_TEAM_ENEMY,
                     iUnitTargetFlags = DOTA_UNIT_TARGET_FLAG_INVULNERABLE,

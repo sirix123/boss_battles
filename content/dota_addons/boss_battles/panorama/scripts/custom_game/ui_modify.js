@@ -46,6 +46,25 @@ function HideOther(top_panel){
 
     var LevelUpGlow = top_panel.FindChildTraverse("LevelUpGlow");
     LevelUpGlow.style.visibility = "collapse";
+
+    let hero_name = ""
+    let playerId = Players.GetLocalPlayer()
+    let player_hero = Players.GetPlayerSelectedHero( playerId )
+    if ( player_hero == "npc_dota_hero_crystal_maiden" 	) 	    { hero_name = "RYLAI"; }
+	if ( player_hero == "npc_dota_hero_phantom_assassin" 	) 	{ hero_name = "NIGHTBLADE"; }
+	if ( player_hero == "npc_dota_hero_juggernaut" 		) 	    { hero_name = "BLADEMASTER"; }
+	if ( player_hero == "npc_dota_hero_windrunner" 		) 	    { hero_name = "WINDRUNNER"; }
+	if ( player_hero == "npc_dota_hero_lina" 				) 	{ hero_name = "LINA"; }
+	if ( player_hero == "npc_dota_hero_omniknight" 		) 	    { hero_name = "NOCENS"; }
+	if ( player_hero == "npc_dota_hero_grimstroke" 		) 	    { hero_name = "ZEEKE"; }
+	if ( player_hero == "npc_dota_hero_queenofpain" 		) 	{ hero_name = "AKASHA"; }
+	if ( player_hero == "npc_dota_hero_hoodwink" 			) 	{ hero_name = "RAT"; }
+	if ( player_hero == "npc_dota_hero_huskar" 			) 	    { hero_name = "TEMPLAR"; }
+
+    var dotaHudUnitName = top_panel.FindChildTraverse('UnitNameLabel');
+    dotaHudUnitName.text = hero_name
+
+
 }
 
 function HideDefaults(){

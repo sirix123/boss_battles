@@ -10,6 +10,8 @@ function CosmeticManager:Init()
     local purchase_list = CosmeticManager:GetPlayerPurchaseListTest()
     local product_list = CosmeticManager:GetProductListTest()
 
+    --local product_list = WebApi:GetProductList()
+
     -- map product list to wearables list
     Timers:CreateTimer(function()
         if purchase_list ~= nil then
@@ -49,7 +51,7 @@ function CosmeticManager:Init()
             CustomGameEventManager:RegisterListener('player_pressed_buy_button', function(eventSourceIndex, args)
                 local hPlayer = PlayerResource:GetPlayer(args.PlayerID)
                 local player_steam_id = tostring(PlayerResource:GetSteamID(args.PlayerID))
-                local url = "www.bossbattles.co" .. player_steam_id
+                local url = "143.198.224.131/Shop/Products?steam=" .. player_steam_id
 
                 CustomGameEventManager:Send_ServerToPlayer( hPlayer, "open_shop_external", { url } )
             end)

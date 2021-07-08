@@ -211,20 +211,6 @@ function OnBuyButtonPressed( buyButton, buyButtonTxt ){
 
 function OnEquipButtonPressed( product_id, image_name, buyButton, buyButtonTxt ){
 
-    // fix portrait (add a panel on top the existing portrait location)
-    var main = $.GetContextPanel().GetParent().GetParent().GetParent();
-    //$.Msg("main ", main);
-    var portraitContainer = main.FindChildTraverse('PortraitContainer');
-    //$.Msg("portraitContainer ", portraitContainer);
-    var portraitHUD = main.FindChildTraverse("portraitHUD");
-    //$.Msg("portraitHUD ", portraitHUD);
-    portraitHUD.style.opacity = 0;
-    //portraitHUD.style.width = '170px';
-    /*portraitContainer.BCreateChildren("<DOTAScenePanel id='cam' style='width:400px;height:400px;' particleonly='false' map='portraits' camera='camera"+1+"' />");
-    var custom_portrait = portraitContainer.FindChildTraverse("cam");
-    $.Msg("custom_portrait ", custom_portrait);
-    custom_portrait.MoveChildBefore(portraitHUD, portraitContainer);*/
-
     let playerId = Players.GetLocalPlayer()
     let player_hero = Players.GetPlayerSelectedHero( playerId )
 
@@ -240,6 +226,12 @@ function OnEquipButtonPressed( product_id, image_name, buyButton, buyButtonTxt )
 
 function FixUpPortrait(){
 
+    // fix portrait (add a panel on top the existing portrait location)
+    var main = $.GetContextPanel().GetParent().GetParent().GetParent();
+    var portraitContainer = main.FindChildTraverse('PortraitContainer');
+    var portraitHUD = main.FindChildTraverse("portraitHUD");
+    portraitHUD.style.opacity = 0;
+
     let playerId = Players.GetLocalPlayer()
     let player_hero = Players.GetPlayerSelectedHero( playerId )
 
@@ -249,6 +241,7 @@ function FixUpPortrait(){
     MovieContainer.style.width = "160px";
     MovieContainer.style.height = "203px";
     MovieContainer.style.boxShadow = "#000000aa 0px 0px 16px 0px";
+
 }
 
 function OnShopCloseButtonPressed(){
@@ -329,10 +322,6 @@ function GetProductTitle( product_id ){
 
     if( product_id == "prod_JhhK4ZwCbpMAXe"){
         return "Windrunner";
-    }
-
-    if( product_id == "prod_JhhDN4uB5R7qT4"){
-        return "Nocens";
     }
 }
 
