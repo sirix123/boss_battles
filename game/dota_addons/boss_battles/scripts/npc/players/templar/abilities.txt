@@ -159,7 +159,7 @@
 		"AbilityCastRange" 				"1000"
         "AbilityCooldown"				"0"
         "AbilityCastPoint"              "0.0"
-		"AbilityManaCost"        		"50"
+		"AbilityManaCost"        		"100"
 
 		"TargetingIndicator"
 		{

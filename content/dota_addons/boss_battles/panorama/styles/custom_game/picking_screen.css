@@ -142,7 +142,7 @@
 	height: 400px;
 	horizontal-align: left;
 	background-color: #fff;
-	background-size: 50% 50%;
+	background-size: 100% 100%;
     background-position: 0px 0px;
 	margin: 10px;
 	flow-children: down;

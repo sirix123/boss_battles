@@ -14,6 +14,19 @@ function r_arcane_surge:OnSpellStart()
             } -- kv
         )
 
+        -- makes stacks drop off individually
+        Timers:CreateTimer(self:GetSpecialValueFor( "duration" ), function()
+
+            if self:GetCaster():HasModifier("arcane_surge_modifier") then
+                local stacks = self:GetCaster():GetModifierStackCount("arcane_surge_modifier", self:GetCaster())
+                if stacks > 0 then
+                    self:GetCaster():SetModifierStackCount("arcane_surge_modifier", self:GetCaster(), stacks -1)	
+                end
+            end
+
+            return false
+        end)
+
         self:GetCaster():AddNewModifier(
             self:GetCaster(), -- player source
             self, -- ability source

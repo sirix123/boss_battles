@@ -32,15 +32,6 @@ function arcane_surge_modifier:OnCreated( kv )
 
         self.interval = self.interval - ( self.interval * ( ( self:GetStackCount() * self:GetAbility():GetSpecialValueFor("stack_bonus_interval") ) / 100 ) )
 
-        local stacks = 0
-        if self:GetCaster():HasModifier("templar_power_charge") then
-            stacks = self:GetCaster():GetModifierStackCount("templar_power_charge", self:GetCaster())
-        end
-
-        if stacks > 0 then
-            self.damage = self.damage + ( self:GetAbility():GetSpecialValueFor("stack_bonus_damage") * stacks )
-        end
-
         self:StartIntervalThink( self.interval )
 
         --print("self.interval ",self.interval)
@@ -55,7 +46,7 @@ end
 function arcane_surge_modifier:OnRefresh( kv )
     if IsServer() then
 
-        self:OnCreated(kv)
+        self:OnCreated()
 
 	end
 end
@@ -63,6 +54,19 @@ end
 
 function arcane_surge_modifier:OnIntervalThink()
     if IsServer() then
+
+        self.damage = self:GetAbility():GetSpecialValueFor("damage")
+
+        local stacks = 0
+        if self:GetCaster():HasModifier("templar_power_charge") then
+            stacks = self:GetCaster():GetModifierStackCount("templar_power_charge", self:GetCaster())
+        end
+
+        if stacks > 0 then
+            self.damage = self.damage + ( self:GetAbility():GetSpecialValueFor("stack_bonus_damage") * stacks )
+        else
+            self.damage = self:GetAbility():GetSpecialValueFor("damage")
+        end
 
         local enemies = FindUnitsInRadius(
             self.parent:GetTeamNumber(),	-- int, your team number
@@ -114,6 +118,13 @@ function arcane_surge_modifier:OnDestroy( kv )
 
         if self.nfx then
             ParticleManager:DestroyParticle(self.nfx,false)
+        end
+
+        if self:GetStackCount() > 1 then
+            local modifier = self:GetCaster():AddNewModifier( self:GetCaster(), self:GetAbility(), "arcane_surge_modifier", { duration = self:GetAbility():GetSpecialValueFor( "duration" ) } )
+            if modifier then
+                modifier:SetStackCount( self:GetStackCount() - 1 )
+            end
         end
 
         self:StartIntervalThink( -1 )

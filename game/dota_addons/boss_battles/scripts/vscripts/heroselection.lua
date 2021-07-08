@@ -76,7 +76,7 @@ function HeroSelection:HeroPicked( event )
 		HeroSelection.playerPicks[ event.PlayerID ] = event.HeroName
 
 		--Send a pick event to all clients
-		CustomGameEventManager:Send_ServerToAllClients( "picking_player_pick", 
+		CustomGameEventManager:Send_ServerToAllClients( "picking_player_pick",
 			{ PlayerID = event.PlayerID, HeroName = event.HeroName } )
 
 		--print("event.PlayerID ",event.PlayerID)
