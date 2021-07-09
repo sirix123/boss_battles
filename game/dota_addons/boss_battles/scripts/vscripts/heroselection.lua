@@ -71,7 +71,7 @@ end
 function HeroSelection:HeroPicked( event )
 
 	-- js calls this when a player picks a hero
-	if HeroSelection.playerPicks[ event.PlayerID ] == nil then
+	--if HeroSelection.playerPicks[ event.PlayerID ] == nil then
 		HeroSelection.playersPicked = HeroSelection.playersPicked + 1
 		HeroSelection.playerPicks[ event.PlayerID ] = event.HeroName
 
@@ -81,10 +81,38 @@ function HeroSelection:HeroPicked( event )
 
 		--print("event.PlayerID ",event.PlayerID)
 		--print("event.HeroName ",event.HeroName)
-	end
+	--end
 
 	--Check if all heroes have been picked
 	if HeroSelection.playersPicked >= HeroSelection.numPickers then
+
+		-- check if any hero duplicates
+		local table_players_duplicate = {}
+		local table_heroes_duplicate_names = {}
+		local previous_hero = ""
+		for player_id, hero_name in pairs(HeroSelection.playerPicks) do
+			print("hero_name ",hero_name)
+			print("player_id ",player_id)
+			if hero_name == previous_hero then
+				print("duplicate hero found")
+				table.insert(table_players_duplicate,PlayerResource:GetPlayer(player_id))
+				table.insert(table_heroes_duplicate_names,hero_name)
+				HeroSelection.playersPicked = HeroSelection.playersPicked - 1
+				print("HeroSelection.playersPicked ",HeroSelection.playersPicked)
+			end
+			previous_hero = hero_name
+		end
+
+		-- send an event to clients and reset picking process for those players, when they pick new heroes it should run this check again or end the picking screen
+		print("#table_players_duplicate ",#table_players_duplicate)
+		if #table_players_duplicate ~= 0 then
+			for _, player in pairs(table_players_duplicate) do
+				CustomGameEventManager:Send_ServerToPlayer( player, "reset_picks_for_players", { hero_duplicates = table_heroes_duplicate_names} )
+			end
+
+			return
+		end
+
 		--End picking
 		HeroSelection:EndPicking()
 	end

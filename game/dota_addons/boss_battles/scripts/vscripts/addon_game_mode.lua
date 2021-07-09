@@ -135,6 +135,17 @@ function Precache( context ) -- this needs to be in a seperate file
   PrecacheResource("soundfile", "soundevents/game_sounds_heroes/game_sounds_razor.vsndevts", context)
   PrecacheResource("soundfile", "soundevents/game_sounds_heroes/game_sounds_zuus.vsndevts", context)
 
+  -- precahce heroes
+  PrecacheUnitByNameSync("npc_dota_hero_phantom_assassin", context)
+  PrecacheUnitByNameSync("npc_dota_hero_crystal_maiden", context)
+  PrecacheUnitByNameSync("npc_dota_hero_hoodwink", context)
+  PrecacheUnitByNameSync("npc_dota_hero_juggernaut", context)
+  PrecacheUnitByNameSync("npc_dota_hero_queenofpain", context)
+  PrecacheUnitByNameSync("npc_dota_hero_huskar", context)
+  PrecacheUnitByNameSync("npc_dota_hero_omniknight", context)
+  PrecacheUnitByNameSync("npc_dota_hero_lina", context)
+  PrecacheUnitByNameSync("npc_dota_hero_windrunner", context)
+
   local npcs = LoadKeyValues("scripts/npc/npc_units_custom.txt")
 
   for k, _ in pairs(npcs) do

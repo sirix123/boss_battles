@@ -159,6 +159,11 @@
 	opacity: 0.2;
 }
 
+.HeroPortrait{
+	width: 100%;
+	height: 80%;
+}
+
 /* 'Pick Hero' button
 =================================================================*/
 .PickHeroBtn {

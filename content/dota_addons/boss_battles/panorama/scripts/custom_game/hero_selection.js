@@ -7,9 +7,62 @@ GameEvents.Subscribe( "picking_time_update", OnTimeUpdate );
 GameEvents.Subscribe( "picking_player_pick", OnPlayerPicked );
 GameEvents.Subscribe( "picking_player_selected", OnPlayerSelected );
 GameEvents.Subscribe( "player_reconnect", OnPickingDone );
+GameEvents.Subscribe( "reset_picks_for_players", OnResetPicksForPlayers );
+
 
 /* Event Handlers
 =========================================================================*/
+
+/* reset player picks */
+function OnResetPicksForPlayers( data ) {
+	//$.Msg("OnResetPicksForPlayers")
+
+	// players that had duplicated heroes picked run this function
+	// so only these players will see the pick reset the other players will see the new picks etc as that is server based
+	// so. we need to clear the ped, re-enable the buttons, 
+		// BUT we can't... re-enable the buttons etc for picked heroes...
+		// how? add the duplicate hero back to the hero... then loop through that list and reenable the heroes in that list
+
+	// lua table massage
+	let heroes_duplicates = []
+	for (let i = 1; data.hero_duplicates[i] !== undefined; i++) {
+		heroes_duplicates.push(data.hero_duplicates[i]);
+	}
+
+	// remove duplicates from that table and push them to the existing hero list
+	let uniqueSet = new Set(heroes_duplicates);
+	let backToArray = [...uniqueSet];
+	for (let i = 0; backToArray[i] !== undefined; i++) {
+		heroes.push(backToArray[i]);
+	}
+
+	// reset the hero selection ( all portraits and reset buttons back to hero select state )
+	for (let i=0; i < heroes.length; i++){
+		for (let [key, value] of Object.entries(heroFramePanels)) {
+			if (heroes[i] == value.id){
+				var heroFrame = value;
+				let heroPickButton = heroFrame.FindChildInLayoutFile("HeroPickHeroBtn");
+				let heroPickButtonText = heroFrame.FindChildInLayoutFile("HeroPickHeroBtnTxt");
+				var heroPortait = heroFrame.FindChildInLayoutFile("HeroPortrait");
+				var heroImage = heroFrame.FindChildInLayoutFile("HeroImage")
+				heroPortait.RemoveClass( "taken" );
+				heroPickButtonText.text = "";
+				heroPickButton.AddClass( "PickHeroBtn" );
+				heroPickButton.AddClass( "disabled" );
+
+				//let PickListRowOneContainer = $("#HeroOptions");
+
+				// enable the hero portriats button again
+				heroImage.SetPanelEvent( 'onactivate', function () {
+					SelectHero( heroes[i], heroPickButton )
+				});
+				
+			}
+		}
+	}
+
+
+}
 
 /* Wait for the server to tell us when to start hero select */
 function StartHeroSelect( data ) {
@@ -35,6 +88,7 @@ function OnTimeUpdate( data ) {
 
 /* A player has picked a hero */
 function OnPlayerPicked( data ) {
+	$.Msg("OnPlayerPicked ",data)
 	PlayerPicked( data.PlayerID, data.HeroName );
 }
 
@@ -51,8 +105,6 @@ function SelectHero( heroName, containerPanel ) {
 
 	// only do this for heroes that haven't been picked...
 	if ( heroes.includes(heroName) == true ) {
-		
-		//$.Msg("hero is in the list ",heroName)
 
 		// loop over the stored hero panels and disable all the buttons
 		let PickListRowOneContainer = $("#PickListRowOne");
@@ -66,11 +118,12 @@ function SelectHero( heroName, containerPanel ) {
 		}
 
 		// enable and show the pick hero button.. beneath the right hero...
-		var heroPickButtonSelected = containerPanel.FindChildInLayoutFile("HeroPickHeroBtn");
+		$.Msg("containerPanel ",containerPanel)
+		//var heroPickButtonSelected = containerPanel.FindChildInLayoutFile("HeroPickHeroBtn");
 		var heroPickButtonTextSelected = containerPanel.FindChildInLayoutFile("HeroPickHeroBtnTxt");
-		heroPickButtonSelected.RemoveClass( "disabled" );
+		containerPanel.RemoveClass( "disabled" );
 		heroPickButtonTextSelected.text = "Pick Hero";
-		heroPickButtonSelected.SetPanelEvent( 'onactivate', function () {
+		containerPanel.SetPanelEvent( 'onactivate', function () {
 			PickHero( heroName );
 				});
 
@@ -119,6 +172,7 @@ function PlayerSelected( player, hero ) {
 /* Clicks the bbutton picks the hero the player as selected */
 function PickHero( heroName ) {
 	//Send the pick to the server
+	$.Msg("PickHero heroName ",heroName);
 	GameEvents.SendCustomGameEventToServer( "hero_picked", { HeroName: heroName } );	
 }
 
@@ -131,28 +185,30 @@ function PlayerPicked( player, hero ) {
 
 		// if the names match disable that portrait
 		//$.Msg("heroFrame.id, ",heroFrame.id)
-		if ( heroFrame.id == hero ) {
+		if (heroFrame !== undefined ){
+			if ( heroFrame.id == hero ) {
 			
-			// find the portait image and grey out
-			var heroPortait = heroFrame.FindChildInLayoutFile("HeroPortrait");
-			heroPortait.AddClass( "taken" );
-
-			// find the portatit onactivate and disable it
-			var heroImage = heroFrame.FindChildInLayoutFile("HeroImage")
-			heroImage.ClearPanelEvent( 'onactivate' )
-
-			// find the button and disable, remove event and remove text
-			let heroPickButton = heroFrame.FindChildInLayoutFile("HeroPickHeroBtn");
-			let heroPickButtonText = heroFrame.FindChildInLayoutFile("HeroPickHeroBtnTxt");
-			heroPickButton.AddClass( "disabled" );
-			heroPickButtonText.text = "";
-			heroPickButton.ClearPanelEvent( 'onactivate' )
-
-			// remove hero from the heroes array
-			//heroes.splice(i, 1);
-			delete heroes[i]
-			//$.Msg("heroes ",heroes)
-			
+				// find the portait image and grey out
+				var heroPortait = heroFrame.FindChildInLayoutFile("HeroPortrait");
+				heroPortait.AddClass( "taken" );
+	
+				// find the portatit onactivate and disable it
+				var heroImage = heroFrame.FindChildInLayoutFile("HeroImage")
+				heroImage.ClearPanelEvent( 'onactivate' )
+	
+				// find the button and disable, remove event and remove text
+				let heroPickButton = heroFrame.FindChildInLayoutFile("HeroPickHeroBtn");
+				let heroPickButtonText = heroFrame.FindChildInLayoutFile("HeroPickHeroBtnTxt");
+				heroPickButton.AddClass( "disabled" );
+				heroPickButtonText.text = "";
+				heroPickButton.ClearPanelEvent( 'onactivate' )
+	
+				// remove hero from the heroes array
+				//heroes.splice(i, 1);
+				delete heroes[i]
+				//$.Msg("heroes ",heroes)
+				
+			}
 		}
 	}
 
@@ -266,16 +322,15 @@ function DisplayHeroSelect( data ){
 		// create hero portrait
 		var heroImage = containerPanel.FindChildInLayoutFile("HeroImage")
 		heroImage.heroname = heroes[i];
-		heroImage.SetImage('file://{images}/heroes/selection/' + heroes[i] + '.png');
-		heroImage.style.backgroundImage = 'url("file://{images}/heroes/' + heroes[i]  + '.png")';
-		heroImage.style.backgroundSize = "100% 100%";
+		//heroImage.SetImage('file://{images}/heroes/selection/' + heroes[i] + '.png');
+		//heroImage.style.backgroundImage = 'url("file://{images}/heroes/' + heroes[i]  + '.png")';
 
 		// add an on activate (click) for the hero portrait
 		// need to store this as a variable using let for some js reason 
 		let hero = heroes[i]
 		heroImage.SetPanelEvent( 'onactivate', function () {
 			//$.Msg("heroImage.SetPanelEvent ",hero)
-			SelectHero( hero, containerPanel )
+			SelectHero( hero, heroPickButton )
 		});
 
 		//store this panel to update it later.

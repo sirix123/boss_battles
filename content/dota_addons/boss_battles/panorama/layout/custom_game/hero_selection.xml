@@ -18,7 +18,7 @@
         <snippet name="HeroOptions">
             <Panel class="HeroOptions">
 				<Panel id="HeroPortrait" class="HeroOption" >
-					<DOTAHeroImage id="HeroImage" heroname="hero_name" heroimagestyle="portrait" scaling="none"/> 
+					<DOTAHeroImage id="HeroImage" heroname="hero_name" heroimagestyle="portrait" scaling="stretch-to-fit-y-preserve-aspect" class="HeroPortrait" /> 
 					<Button id="HeroPickHeroBtn" >
 						<Label id="HeroPickHeroBtnTxt" text="" />
 					</Button>
