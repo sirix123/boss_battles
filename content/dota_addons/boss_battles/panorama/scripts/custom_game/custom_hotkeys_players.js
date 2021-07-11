@@ -1,40 +1,52 @@
 "use strict";
 
 //soon to be Previous ability casting methods:
+let previous_ability = null
 function AbilityToCast(abilityNumber, showEffects){
     var playerId = Players.GetLocalPlayer();
     var playerHero = Players.GetPlayerHeroEntityIndex( playerId );
     var abilityIndex = Entities.GetAbility( playerHero, abilityNumber )
-    
+   
     if (playerHero == -1){
-        $.Msg("[custom_hotkeys_players] no hero assigned")
+        $.Msg("[custom_hotkeys_players] no hero assigned");
         return
     }
 
     if (!abilityIndex){
-        $.Msg("[custom_hotkeys_players] no ability found")
+        $.Msg("[custom_hotkeys_players] no ability found");
         return
     }
 
     // if the ability is not ready (cd/no mana) don't try and cast it...
     if ( Abilities.AbilityReady( abilityIndex ) == false ) 
     {
-        $.Msg("[custom_hotkeys_players] spell not ready, cooldown or mana?")
+        $.Msg("[custom_hotkeys_players] spell not ready, cooldown or mana?");
         return
     }
 
-    if ( abilityNumber !== 0 ){ // if player is casting an ability that isn't m1
-        if (GameUI.IsMouseDown(0) ){ // and the mouse is held down
-            var order = 
-            {
-                OrderType : dotaunitorder_t.DOTA_UNIT_ORDER_STOP,
-                TargetIndex : playerHero,
-                Position : mouse_position,
-                QueueBehavior : OrderQueueBehavior_t.DOTA_ORDER_QUEUE_NEVER,
-                ShowEffects : showEffects,
-                AbilityIndex : 0, // interupt m1 cast to cast the new ability
-            };
-            Game.PrepareUnitOrders(order);
+    // if the ability coming in is already being cast just dont do anything (except if m1)
+    if ( abilityIndex ){
+        if ( Abilities.IsInAbilityPhase(abilityIndex) && abilityNumber !== 0){
+            $.Msg("[custom_hotkeys_players] ability that isn't m1 is being cast twice");
+            return
+        }    
+    }
+
+    if ( previous_ability !== abilityIndex ){
+        if ( abilityNumber !== 0 ){ // if player is casting an ability that isn't m1
+            if (GameUI.IsMouseDown(0) ){ // and the mouse is held down
+                var order = 
+                {
+                    OrderType : dotaunitorder_t.DOTA_UNIT_ORDER_STOP,
+                    TargetIndex : playerHero,
+                    Position : mouse_position,
+                    QueueBehavior : OrderQueueBehavior_t.DOTA_ORDER_QUEUE_NEVER,
+                    ShowEffects : showEffects,
+                    AbilityIndex : 0, // interupt m1 cast to cast the new ability
+                };
+                Game.PrepareUnitOrders(order);
+                $.Msg("[custom_hotkeys_players] m1 held down while trying to cast another spell, issue stop command");
+            }
         }
     }
 
@@ -45,41 +57,42 @@ function AbilityToCast(abilityNumber, showEffects){
         var mouse_position = Game.ScreenXYToWorld(mouse_position_screen[0], mouse_position_screen[1])
         var abilityBehavior = Abilities.GetBehavior(abilityIndex)
 
-        if( ( abilityBehavior == DOTA_ABILITY_BEHAVIOR.DOTA_ABILITY_BEHAVIOR_POINT ) || 
-            ( abilityBehavior ==  DOTA_ABILITY_BEHAVIOR.DOTA_ABILITY_BEHAVIOR_POINT + DOTA_ABILITY_BEHAVIOR.DOTA_ABILITY_BEHAVIOR_HIDDEN ) || 
-            ( abilityBehavior ==  DOTA_ABILITY_BEHAVIOR.DOTA_ABILITY_BEHAVIOR_POINT + DOTA_ABILITY_BEHAVIOR.DOTA_ABILITY_BEHAVIOR_ROOT_DISABLES ) ||
-            ( abilityBehavior ==  DOTA_ABILITY_BEHAVIOR.DOTA_ABILITY_BEHAVIOR_POINT + DOTA_ABILITY_BEHAVIOR.DOTA_ABILITY_BEHAVIOR_CHANNELLED ) 
+        if( ( abilityBehavior == DOTA_ABILITY_BEHAVIOR.DOTA_ABILITY_BEHAVIOR_POINT + DOTA_ABILITY_BEHAVIOR.DOTA_ABILITY_BEHAVIOR_IGNORE_PSEUDO_QUEUE   ) || 
+            ( abilityBehavior ==  DOTA_ABILITY_BEHAVIOR.DOTA_ABILITY_BEHAVIOR_POINT + DOTA_ABILITY_BEHAVIOR.DOTA_ABILITY_BEHAVIOR_HIDDEN + DOTA_ABILITY_BEHAVIOR.DOTA_ABILITY_BEHAVIOR_IGNORE_PSEUDO_QUEUE ) || 
+            ( abilityBehavior ==  DOTA_ABILITY_BEHAVIOR.DOTA_ABILITY_BEHAVIOR_POINT + DOTA_ABILITY_BEHAVIOR.DOTA_ABILITY_BEHAVIOR_ROOT_DISABLES + DOTA_ABILITY_BEHAVIOR.DOTA_ABILITY_BEHAVIOR_IGNORE_PSEUDO_QUEUE ) ||
+            ( abilityBehavior ==  DOTA_ABILITY_BEHAVIOR.DOTA_ABILITY_BEHAVIOR_POINT + DOTA_ABILITY_BEHAVIOR.DOTA_ABILITY_BEHAVIOR_CHANNELLED + DOTA_ABILITY_BEHAVIOR.DOTA_ABILITY_BEHAVIOR_IGNORE_PSEUDO_QUEUE ) ||
+            ( abilityBehavior ==  DOTA_ABILITY_BEHAVIOR.DOTA_ABILITY_BEHAVIOR_POINT + DOTA_ABILITY_BEHAVIOR.DOTA_ABILITY_BEHAVIOR_ROOT_DISABLES + DOTA_ABILITY_BEHAVIOR.DOTA_ABILITY_BEHAVIOR_IGNORE_PSEUDO_QUEUE  ) 
             )
         {
-            if (abilityIndex == 0 || abilityIndex == 1)
+            var order = 
             {
-                var order = 
-                {
-                    OrderType : dotaunitorder_t.DOTA_UNIT_ORDER_CAST_POSITION,
-                    TargetIndex : playerHero,
-                    Position : mouse_position,
-                    QueueBehavior : OrderQueueBehavior_t.DOTA_ORDER_QUEUE_NEVER,
-                    ShowEffects : showEffects,
-                    AbilityIndex : abilityIndex,
-                };
-                Game.PrepareUnitOrders(order);
-            }
-            else 
-            {
-                var order = 
-                {
-                    OrderType : dotaunitorder_t.DOTA_UNIT_ORDER_CAST_POSITION,
-                    TargetIndex : playerHero,
-                    Position : mouse_position,
-                    QueueBehavior : OrderQueueBehavior_t.DOTA_ORDER_QUEUE_NEVER,
-                    ShowEffects : showEffects,
-                    AbilityIndex : abilityIndex,
-                };
-                Game.PrepareUnitOrders(order);
-            }
+                OrderType : dotaunitorder_t.DOTA_UNIT_ORDER_CAST_POSITION,
+                TargetIndex : playerHero,
+                Position : mouse_position,
+                QueueBehavior : OrderQueueBehavior_t.DOTA_ORDER_QUEUE_NEVER,
+                ShowEffects : showEffects,
+                AbilityIndex : abilityIndex,
+            };
+            Game.PrepareUnitOrders(order);
         }
 
-        if(abilityBehavior == ( DOTA_ABILITY_BEHAVIOR.DOTA_ABILITY_BEHAVIOR_AOE + DOTA_ABILITY_BEHAVIOR.DOTA_ABILITY_BEHAVIOR_POINT ))
+        if(abilityBehavior = DOTA_ABILITY_BEHAVIOR.DOTA_ABILITY_BEHAVIOR_NO_TARGET + DOTA_ABILITY_BEHAVIOR.DOTA_ABILITY_BEHAVIOR_IGNORE_PSEUDO_QUEUE)
+        {
+            var order = 
+            {
+                OrderType : dotaunitorder_t.DOTA_UNIT_ORDER_CAST_NO_TARGET,                       
+                TargetIndex : playerHero,
+                QueueBehavior : OrderQueueBehavior_t.DOTA_ORDER_QUEUE_NEVER,
+                ShowEffects : showEffects,
+                AbilityIndex : abilityIndex,
+            };
+            Game.PrepareUnitOrders(order);
+        }
+
+        // below code not used anymore, keeping as a reference....
+
+        /*
+        if(abilityBehavior == ( DOTA_ABILITY_BEHAVIOR.DOTA_ABILITY_BEHAVIOR_AOE + DOTA_ABILITY_BEHAVIOR.DOTA_ABILITY_BEHAVIOR_POINT + DOTA_ABILITY_BEHAVIOR.DOTA_ABILITY_BEHAVIOR_IGNORE_PSEUDO_QUEUE ))
         {
             var max_range = Abilities.GetCastRange(abilityIndex);
             var player_origin = Entities.GetAbsOrigin(playerHero)
@@ -104,21 +117,10 @@ function AbilityToCast(abilityNumber, showEffects){
 
             Abilities.ExecuteAbility( abilityIndex, playerHero, false )
         }
+        
 
-        if(abilityBehavior & DOTA_ABILITY_BEHAVIOR.DOTA_ABILITY_BEHAVIOR_NO_TARGET)
-        {
-            var order = 
-            {
-                OrderType : dotaunitorder_t.DOTA_UNIT_ORDER_CAST_NO_TARGET,                       
-                TargetIndex : playerHero,
-                QueueBehavior : OrderQueueBehavior_t.DOTA_ORDER_QUEUE_NEVER,
-                ShowEffects : showEffects,
-                AbilityIndex : abilityIndex,
-            };
-            Game.PrepareUnitOrders(order);
-        }
 
-        if(abilityBehavior & DOTA_ABILITY_BEHAVIOR.DOTA_ABILITY_BEHAVIOR_UNIT_TARGET)
+        if(abilityBehavior & DOTA_ABILITY_BEHAVIOR.DOTA_ABILITY_BEHAVIOR_UNIT_TARGET + DOTA_ABILITY_BEHAVIOR.DOTA_ABILITY_BEHAVIOR_IGNORE_PSEUDO_QUEUE)
         {
             var mouse_position_screen = GameUI.GetCursorPosition();
             var cursor_targets = GameUI.FindScreenEntities(mouse_position_screen)
@@ -172,8 +174,11 @@ function AbilityToCast(abilityNumber, showEffects){
                 };
                 Game.PrepareUnitOrders(order);
             }
-        }
+           
+        } */
     }
+
+    previous_ability = abilityIndex;
 }
 
 function EmptyCallBack(){
@@ -211,12 +216,12 @@ function OnLeftButtonPressed()
     var playerEntity = Players.GetLocalPlayer();
 
     if ( Players.GetPlayerSelectedHero( playerEntity ) != "npc_dota_hero_lina" ){
-        $.Schedule(0.1, function tic(){
+        $.Schedule(1.0/30.0, function tic(){
             //only continue timer if mouse still down
             if ( GameUI.IsMouseDown(0) )
             {
                 AbilityToCast(0);
-                $.Schedule(0.1, tic);
+                $.Schedule(1.0/30.0, tic);
             }
         })
     }

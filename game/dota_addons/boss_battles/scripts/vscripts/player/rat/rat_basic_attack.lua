@@ -48,6 +48,7 @@ function rat_basic_attack:OnAbilityPhaseStart()
             self:GetCaster():AddNewModifier(self:GetCaster(), self, "casting_modifier_thinker",
             {
                 duration = self:GetCastPoint() + ( self.nMaxProj * self.fBetweenProj ),
+                pMovespeedReduction = 0,
             })
         else
             -- add casting modifier
@@ -55,6 +56,7 @@ function rat_basic_attack:OnAbilityPhaseStart()
             {
                 duration = self:GetCastPoint() + ( self.nMaxProj * self.fBetweenProj ),
                 bMovementLock = true,
+                pMovespeedReduction = 0,
             })
         end
 

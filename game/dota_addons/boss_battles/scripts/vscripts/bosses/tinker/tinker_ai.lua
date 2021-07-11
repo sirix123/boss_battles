@@ -136,7 +136,7 @@ function TinkerThinker()
 		if thisEntity.teleport_out ~= true then
 
 			thisEntity.teleport_out = true
-	
+
 			if thisEntity.tinker_teleport_beam_phase ~= nil and thisEntity.tinker_teleport_beam_phase:IsFullyCastable() and thisEntity.tinker_teleport_beam_phase:IsCooldownReady() and thisEntity.tinker_teleport_beam_phase:IsInAbilityPhase() == false then
 				CastTeleportBeamPhase()
 			end

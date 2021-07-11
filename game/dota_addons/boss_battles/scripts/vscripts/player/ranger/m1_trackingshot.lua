@@ -39,7 +39,7 @@ function m1_trackingshot:OnAbilityPhaseStart()
             animation_sequence = animation_sequence,
         })
 
-        print("cast_point ",self:GetCastPoint())
+        --print("cast_point ",self:GetCastPoint())
 
         -- sound effect
         EmitSoundOn( "Hero_Windrunner.Attack", self:GetCaster() )

@@ -25,7 +25,7 @@
 		"AbilityTextureName"			"queenofpain_shadow_strike"
 		"AbilityUnitTargetTeam"			"DOTA_UNIT_TARGET_TEAM_ENEMY"
 		"AbilityUnitDamageType"			"DAMAGE_TYPE_PHYSICAL"	
-        "AbilityBehavior"				"DOTA_ABILITY_BEHAVIOR_POINT"
+        "AbilityBehavior"				"DOTA_ABILITY_BEHAVIOR_POINT | DOTA_ABILITY_BEHAVIOR_IGNORE_PSEUDO_QUEUE"
 		"AbilityCastRange" 				"1300"
         "AbilityCooldown"				"0.0"
         "AbilityCastPoint"              "0.4"
@@ -54,7 +54,7 @@
 
 		"AbilityTextureName"			"queenofpain_blink"
 		//"AbilityUnitTargetTeam"			"DOTA_UNIT_TARGET_TEAM_FRIENDLY"
-        "AbilityBehavior"				"DOTA_ABILITY_BEHAVIOR_POINT"  //"DOTA_ABILITY_BEHAVIOR_POINT" DOTA_ABILITY_BEHAVIOR_UNIT_TARGET
+        "AbilityBehavior"				"DOTA_ABILITY_BEHAVIOR_POINT | DOTA_ABILITY_BEHAVIOR_IGNORE_PSEUDO_QUEUE"  //"DOTA_ABILITY_BEHAVIOR_POINT" DOTA_ABILITY_BEHAVIOR_UNIT_TARGET
 		//"AbilityUnitTargetType"			"DOTA_UNIT_TARGET_HERO | DOTA_UNIT_TARGET_BASIC"
 		"AbilityCastRange" 				"1300"
         "AbilityCooldown"				"0"
@@ -89,7 +89,7 @@
 
 		"AbilityTextureName"			"shadow_demon_demonic_purge"
 		//"AbilityUnitTargetTeam"			"DOTA_UNIT_TARGET_TEAM_BOTH"
-        "AbilityBehavior"				"DOTA_ABILITY_BEHAVIOR_POINT"
+        "AbilityBehavior"				"DOTA_ABILITY_BEHAVIOR_POINT | DOTA_ABILITY_BEHAVIOR_IGNORE_PSEUDO_QUEUE"
 		//"AbilityUnitTargetType"			"DOTA_UNIT_TARGET_HERO | DOTA_UNIT_TARGET_BASIC"
 		"AbilityUnitDamageType"			"DAMAGE_TYPE_PHYSICAL"
 		"AbilityCastRange" 				"1300"
@@ -128,7 +128,7 @@
 
 		"AbilityTextureName"			"shadow_demon_disruption"
 		"AbilityUnitTargetTeam"			"DOTA_UNIT_TARGET_TEAM_BOTH"
-        "AbilityBehavior"				"DOTA_ABILITY_BEHAVIOR_POINT"  //"DOTA_ABILITY_BEHAVIOR_POINT"
+        "AbilityBehavior"				"DOTA_ABILITY_BEHAVIOR_POINT | DOTA_ABILITY_BEHAVIOR_IGNORE_PSEUDO_QUEUE"  //"DOTA_ABILITY_BEHAVIOR_POINT"
 		"AbilityUnitTargetType"			"DOTA_UNIT_TARGET_HERO | DOTA_UNIT_TARGET_BASIC"
 		"AbilityCastRange" 				"1300"
         "AbilityCooldown"				"0"
@@ -167,7 +167,7 @@
 
 		"AbilityTextureName"			"bloodseeker_blood_bath"
 		"AbilityUnitDamageType"			"DAMAGE_TYPE_PHYSICAL"	
-        "AbilityBehavior"				"DOTA_ABILITY_BEHAVIOR_POINT" //| DOTA_ABILITY_BEHAVIOR_AOE
+        "AbilityBehavior"				"DOTA_ABILITY_BEHAVIOR_POINT | DOTA_ABILITY_BEHAVIOR_IGNORE_PSEUDO_QUEUE" //| DOTA_ABILITY_BEHAVIOR_AOE
 		"AbilityCastRange" 				"1300"
         "AbilityCooldown"				"30"
         "AbilityCastPoint"              "0.2"
@@ -205,7 +205,7 @@
 
 		"AbilityTextureName"			"shadow_demon_shadow_poison"
 		"AbilityUnitTargetTeam"			"DOTA_UNIT_TARGET_TEAM_FRIENDLY"
-        "AbilityBehavior"				"DOTA_ABILITY_BEHAVIOR_POINT" //
+        "AbilityBehavior"				"DOTA_ABILITY_BEHAVIOR_POINT | DOTA_ABILITY_BEHAVIOR_IGNORE_PSEUDO_QUEUE" //
 		"AbilityUnitTargetType"			"DOTA_UNIT_TARGET_HERO | DOTA_UNIT_TARGET_BASIC"
 		"AbilityCastRange" 				"1300"
         "AbilityCastPoint"              "0.0"

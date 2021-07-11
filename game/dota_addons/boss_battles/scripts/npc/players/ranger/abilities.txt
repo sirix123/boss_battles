@@ -10,7 +10,7 @@
 		"AbilityUnitTargetTeam"			"DOTA_UNIT_TARGET_TEAM_ENEMY"
 		"AbilityUnitDamageType"			"DAMAGE_TYPE_PHYSICAL"	
 		"SpellImmunityType"				"SPELL_IMMUNITY_ENEMIES_YES"
-        "AbilityBehavior"				"DOTA_ABILITY_BEHAVIOR_POINT"
+        "AbilityBehavior"				"DOTA_ABILITY_BEHAVIOR_POINT | DOTA_ABILITY_BEHAVIOR_IGNORE_PSEUDO_QUEUE"
 		"AbilityCastRange" 				"1400"
         "AbilityCooldown"				"0"
         "AbilityCastPoint"              "0.4"
@@ -48,7 +48,7 @@
 		"AbilityUnitTargetTeam"			"DOTA_UNIT_TARGET_TEAM_ENEMY"
 		"AbilityUnitDamageType"			"DAMAGE_TYPE_PHYSICAL"	
 		"SpellImmunityType"				"SPELL_IMMUNITY_ENEMIES_YES"
-        "AbilityBehavior"				"DOTA_ABILITY_BEHAVIOR_POINT"
+        "AbilityBehavior"				"DOTA_ABILITY_BEHAVIOR_POINT | DOTA_ABILITY_BEHAVIOR_IGNORE_PSEUDO_QUEUE"
 		"AbilityCastRange" 				"1400"
         "AbilityCooldown"				"0"
         "AbilityCastPoint"              "0.8"
@@ -81,7 +81,7 @@
 		"AbilityTextureName"			"furion_wrath_of_nature"
 		"AbilityUnitTargetTeam"			"DOTA_UNIT_TARGET_TEAM_FRIENDLY"
 		"SpellImmunityType"				"SPELL_IMMUNITY_ENEMIES_YES"
-        "AbilityBehavior"				"DOTA_ABILITY_BEHAVIOR_POINT"
+        "AbilityBehavior"				"DOTA_ABILITY_BEHAVIOR_POINT | DOTA_ABILITY_BEHAVIOR_IGNORE_PSEUDO_QUEUE"
 		"AbilityCastRange" 				"2000"
         "AbilityCooldown"				"20"
         "AbilityCastPoint"              "0.5"
@@ -117,7 +117,7 @@
 		"AbilityTextureName"			"hoodwink_sharpshooter"
 		"AbilityUnitDamageType"			"DAMAGE_TYPE_PHYSICAL"	
 		"SpellImmunityType"				"SPELL_IMMUNITY_ENEMIES_YES"
-        "AbilityBehavior"				"DOTA_ABILITY_BEHAVIOR_POINT" //| DOTA_ABILITY_BEHAVIOR_AOE
+        "AbilityBehavior"				"DOTA_ABILITY_BEHAVIOR_POINT | DOTA_ABILITY_BEHAVIOR_IGNORE_PSEUDO_QUEUE" //| DOTA_ABILITY_BEHAVIOR_AOE
 		"AbilityCastRange" 				"1500"
         "AbilityCooldown"				"45"//"50"
         "AbilityCastPoint"              "0.2"
@@ -156,7 +156,7 @@
 		"AbilityTextureName"			"huskar_burning_spear"
 		"SpellImmunityType"				"SPELL_IMMUNITY_ENEMIES_YES"
 		"AbilityUnitDamageType"			"DAMAGE_TYPE_PHYSICAL"
-        "AbilityBehavior"				"DOTA_ABILITY_BEHAVIOR_POINT" //| DOTA_ABILITY_BEHAVIOR_AOE
+        "AbilityBehavior"				"DOTA_ABILITY_BEHAVIOR_POINT | DOTA_ABILITY_BEHAVIOR_IGNORE_PSEUDO_QUEUE" //| DOTA_ABILITY_BEHAVIOR_AOE
 		"AbilityCastRange" 				"3000"
         "AbilityCooldown"				"5"
         "AbilityCastPoint"              "0.2"
@@ -198,7 +198,7 @@
 
 		"AbilityTextureName"			"windrunner_windrun_sylvan"
 		"SpellImmunityType"				"SPELL_IMMUNITY_ENEMIES_YES"
-        "AbilityBehavior"				"DOTA_ABILITY_BEHAVIOR_NO_TARGET | DOTA_ABILITY_BEHAVIOR_IGNORE_BACKSWING | DOTA_ABILITY_BEHAVIOR_ROOT_DISABLES"
+        "AbilityBehavior"				"DOTA_ABILITY_BEHAVIOR_NO_TARGET | DOTA_ABILITY_BEHAVIOR_IGNORE_BACKSWING | DOTA_ABILITY_BEHAVIOR_ROOT_DISABLES | DOTA_ABILITY_BEHAVIOR_IGNORE_PSEUDO_QUEUE"
 		"AbilityCastRange" 				"1500"
         "AbilityCooldown"				"20"
 

@@ -112,7 +112,8 @@ end
 function casting_modifier_thinker:DeclareFunctions()
     return
     {
-        MODIFIER_PROPERTY_MOVESPEED_BONUS_PERCENTAGE
+        MODIFIER_PROPERTY_MOVESPEED_BONUS_PERCENTAGE,
+        MODIFIER_PROPERTY_TRANSLATE_ACTIVITY_MODIFIERS,
     }
 end
 
@@ -127,9 +128,6 @@ function casting_modifier_thinker:SetDirection( vec )
 end
 
 -----------------------------------------------------------------
-function casting_modifier_thinker:DeclareFunctions()
-    return {MODIFIER_PROPERTY_TRANSLATE_ACTIVITY_MODIFIERS}
-end
 
 function casting_modifier_thinker:GetActivityTranslationModifiers()
     if self.animation_sequence then

@@ -45,6 +45,7 @@ function rat_m2:OnAbilityPhaseStart()
             self:GetCaster():AddNewModifier(self:GetCaster(), self, "casting_modifier_thinker",
             {
                 duration = self:GetCastPoint(),
+                pMovespeedReduction = 0,
             })
         else
             -- add casting modifier
@@ -52,6 +53,7 @@ function rat_m2:OnAbilityPhaseStart()
             {
                 duration = self:GetCastPoint(),
                 bMovementLock = true,
+                pMovespeedReduction = 0,
             })
         end
 

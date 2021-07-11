@@ -25,7 +25,7 @@
 		"AbilityTextureName"			"mars_spear"
 		"AbilityUnitTargetTeam"			"DOTA_UNIT_TARGET_TEAM_ENEMY"
 		"AbilityUnitDamageType"			"DAMAGE_TYPE_PHYSICAL"	
-        "AbilityBehavior"				"DOTA_ABILITY_BEHAVIOR_POINT"
+        "AbilityBehavior"				"DOTA_ABILITY_BEHAVIOR_POINT | DOTA_ABILITY_BEHAVIOR_IGNORE_PSEUDO_QUEUE"
 		"AbilityCastRange" 				"700"
         "AbilityCooldown"				"0.0"
         "AbilityCastPoint"              "0.4"
@@ -52,7 +52,7 @@
 
 		"AbilityTextureName"			"mars_gods_rebuke"
 		"AbilityUnitDamageType"			"DAMAGE_TYPE_PHYSICAL"
-        "AbilityBehavior"				"DOTA_ABILITY_BEHAVIOR_POINT | DOTA_ABILITY_BEHAVIOR_ROOT_DISABLES"
+        "AbilityBehavior"				"DOTA_ABILITY_BEHAVIOR_POINT | DOTA_ABILITY_BEHAVIOR_ROOT_DISABLES | DOTA_ABILITY_BEHAVIOR_IGNORE_PSEUDO_QUEUE"
 		"AbilityCastRange" 				"700"
         "AbilityCooldown"				"0"
         "AbilityCastPoint"              "0.2"
@@ -85,7 +85,7 @@
 		"MaxLevel"						"1"
 
 		"AbilityTextureName"			"wisp_tether"
-        "AbilityBehavior"				"DOTA_ABILITY_BEHAVIOR_POINT"
+        "AbilityBehavior"				"DOTA_ABILITY_BEHAVIOR_POINT | DOTA_ABILITY_BEHAVIOR_IGNORE_PSEUDO_QUEUE"
 		"AbilityCastRange" 				"1000" //750
         "AbilityCooldown"				"20"
         "AbilityCastPoint"              "0.4"
@@ -120,7 +120,7 @@
 
 		"AbilityTextureName"			"huskar_inner_fire"
 		"AbilityUnitDamageType"			"DAMAGE_TYPE_PHYSICAL"
-        "AbilityBehavior"				"DOTA_ABILITY_BEHAVIOR_POINT"
+        "AbilityBehavior"				"DOTA_ABILITY_BEHAVIOR_POINT | DOTA_ABILITY_BEHAVIOR_IGNORE_PSEUDO_QUEUE"
 		"AbilityCastRange" 				"1000" //750
         "AbilityCooldown"				"40"
         "AbilityCastPoint"              "0.2"
@@ -155,11 +155,11 @@
 
 		"AbilityTextureName"			"disruptor_static_storm"
 		"AbilityUnitDamageType"			"DAMAGE_TYPE_PHYSICAL"	
-        "AbilityBehavior"				"DOTA_ABILITY_BEHAVIOR_NO_TARGET | DOTA_ABILITY_BEHAVIOR_IMMEDIATE | DOTA_ABILITY_BEHAVIOR_IGNORE_BACKSWING | DOTA_ABILITY_BEHAVIOR_DONT_CANCEL_MOVEMENT"
+        "AbilityBehavior"				"DOTA_ABILITY_BEHAVIOR_NO_TARGET | DOTA_ABILITY_BEHAVIOR_IMMEDIATE | DOTA_ABILITY_BEHAVIOR_IGNORE_BACKSWING | DOTA_ABILITY_BEHAVIOR_DONT_CANCEL_MOVEMENT | DOTA_ABILITY_BEHAVIOR_IGNORE_PSEUDO_QUEUE"
 		"AbilityCastRange" 				"1000"
         "AbilityCooldown"				"0"
         "AbilityCastPoint"              "0.0"
-		"AbilityManaCost"        		"100"
+		"AbilityManaCost"        		"75"
 
 		"TargetingIndicator"
 		{
@@ -190,7 +190,7 @@
 		"MaxLevel"						"1"
 
 		"AbilityTextureName"			"dragon_knight_dragon_blood"
-        "AbilityBehavior"				"DOTA_ABILITY_BEHAVIOR_NO_TARGET | DOTA_ABILITY_BEHAVIOR_IMMEDIATE | DOTA_ABILITY_BEHAVIOR_IGNORE_BACKSWING | DOTA_ABILITY_BEHAVIOR_DONT_CANCEL_MOVEMENT"
+        "AbilityBehavior"				"DOTA_ABILITY_BEHAVIOR_NO_TARGET | DOTA_ABILITY_BEHAVIOR_IMMEDIATE | DOTA_ABILITY_BEHAVIOR_IGNORE_BACKSWING | DOTA_ABILITY_BEHAVIOR_DONT_CANCEL_MOVEMENT | DOTA_ABILITY_BEHAVIOR_IGNORE_PSEUDO_QUEUE"
 		//"AbilityCastAnimation"          "ACT_DOTA_CAST_ABILITY_1"
 		"AbilityCastRange" 				"1000"
         "AbilityCooldown"				"10"//"20" 0

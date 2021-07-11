@@ -9,7 +9,7 @@
 		"AbilityTextureName"			"lina_dragon_slave"
 		"AbilityUnitTargetTeam"			"DOTA_UNIT_TARGET_TEAM_ENEMY"
 		"AbilityUnitDamageType"			"DAMAGE_TYPE_PHYSICAL"	
-        "AbilityBehavior"				"DOTA_ABILITY_BEHAVIOR_POINT"
+        "AbilityBehavior"				"DOTA_ABILITY_BEHAVIOR_POINT | DOTA_ABILITY_BEHAVIOR_IGNORE_PSEUDO_QUEUE"
 		"AbilityCastRange" 				"750"
         "AbilityCooldown"				"0.5"
         "AbilityCastPoint"              "0.0"
@@ -41,7 +41,7 @@
 		"AbilityTextureName"			"lina_light_strike_array"
 		"AbilityUnitTargetTeam"			"DOTA_UNIT_TARGET_TEAM_ENEMY"
 		"AbilityUnitDamageType"			"DAMAGE_TYPE_PHYSICAL"	
-        "AbilityBehavior"				"DOTA_ABILITY_BEHAVIOR_POINT"
+        "AbilityBehavior"				"DOTA_ABILITY_BEHAVIOR_POINT | DOTA_ABILITY_BEHAVIOR_IGNORE_PSEUDO_QUEUE"
 		"AbilityCastRange" 				"1000"
         "AbilityCooldown"				"12"
         "AbilityCastPoint"              "0.4"
@@ -75,7 +75,7 @@
 
 		"AbilityTextureName"			"ember_spirit_flame_guard"
 		//"AbilityUnitTargetTeam"			"DOTA_UNIT_TARGET_TEAM_FRIENDLY"
-        "AbilityBehavior"				"DOTA_ABILITY_BEHAVIOR_POINT" // DOTA_ABILITY_BEHAVIOR_UNIT_TARGET
+        "AbilityBehavior"				"DOTA_ABILITY_BEHAVIOR_POINT | DOTA_ABILITY_BEHAVIOR_IGNORE_PSEUDO_QUEUE" // DOTA_ABILITY_BEHAVIOR_UNIT_TARGET
 		"AbilityUnitDamageType"			"DAMAGE_TYPE_PHYSICAL"	
 		//"AbilityUnitTargetType"			"DOTA_UNIT_TARGET_HERO | DOTA_UNIT_TARGET_BASIC"
 		"AbilityCastRange" 				"750"
@@ -116,7 +116,7 @@
 		"AbilityTextureName"			"ember_spirit_searing_chains"
 		"AbilityUnitTargetTeam"			"DOTA_UNIT_TARGET_TEAM_ENEMY"
 		"AbilityUnitDamageType"			"DAMAGE_TYPE_PHYSICAL"	
-        "AbilityBehavior"				"DOTA_ABILITY_BEHAVIOR_POINT | DOTA_ABILITY_BEHAVIOR_CHANNELLED"
+        "AbilityBehavior"				"DOTA_ABILITY_BEHAVIOR_POINT | DOTA_ABILITY_BEHAVIOR_CHANNELLED | DOTA_ABILITY_BEHAVIOR_IGNORE_PSEUDO_QUEUE"
 		"AbilityCastRange" 				"1200"
         "AbilityCooldown"				"12"
         "AbilityCastPoint"              "0.2"
@@ -156,7 +156,7 @@
 		"AbilityUnitTargetTeam"			"DOTA_UNIT_TARGET_TEAM_ENEMY"
 		"AbilityUnitDamageType"			"DAMAGE_TYPE_PHYSICAL"	
 		"SpellImmunityType"				"SPELL_IMMUNITY_ENEMIES_YES"
-        "AbilityBehavior"				"DOTA_ABILITY_BEHAVIOR_POINT"
+        "AbilityBehavior"				"DOTA_ABILITY_BEHAVIOR_POINT | DOTA_ABILITY_BEHAVIOR_IGNORE_PSEUDO_QUEUE"
 		"AbilityCastRange" 				"1000"
         "AbilityCooldown"				"20"
         "AbilityCastPoint"              "0.2"
@@ -187,7 +187,7 @@
 		"MaxLevel"						"1"
 
 		"AbilityTextureName"			"phoenix_icarus_dive"
-        "AbilityBehavior"				"DOTA_ABILITY_BEHAVIOR_POINT | DOTA_ABILITY_BEHAVIOR_ROOT_DISABLES"
+        "AbilityBehavior"				"DOTA_ABILITY_BEHAVIOR_POINT | DOTA_ABILITY_BEHAVIOR_ROOT_DISABLES | DOTA_ABILITY_BEHAVIOR_IGNORE_PSEUDO_QUEUE"
 		"AbilityCastRange" 				"500"
         "AbilityCastPoint"              "0.0"
 		"AbilityCharges"				"2"
