@@ -87,9 +87,13 @@ function CosmeticManager:Init()
 
                 -- if both pass from above then equip the cosmetic on the hero
                 if self.product_check == true and self.product_to_equip ~= nil and hero.arcana_equipped == false then
-                    Wearables:EquipWearables( self.product_to_equip , hero )
-                end
 
+                    -- final check.. player must be alive...
+                    if hero:IsAlive() == true then
+                        Wearables:EquipWearables( self.product_to_equip , hero )
+                    end
+
+                end
             end)
 
             return false

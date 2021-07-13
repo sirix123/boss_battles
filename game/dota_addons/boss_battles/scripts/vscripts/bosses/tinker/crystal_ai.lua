@@ -358,7 +358,7 @@ function CrystalPhase2Spawner()
 		end
 
         -- pick a random enemy and apply the phase_2_crystal_spawn_modifier to them
-        
+
         local enemies = FindUnitsInRadius(
             thisEntity:GetTeamNumber(),
             thisEntity:GetAbsOrigin(),
@@ -378,7 +378,7 @@ function CrystalPhase2Spawner()
             target:AddNewModifier( target, nil, "phase_2_crystal_spawn_modifier", { duration = 7 } )
         end
 
-		return 25
+		return 30
 	end)
 end
 --------------------------------------------------------------------------------

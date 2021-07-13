@@ -312,13 +312,13 @@ function Wearables:EquipWearables( product_id , hero )
             local particle_3 = ParticleManager:CreateParticle("particles/econ/items/windrunner/windranger_arcana/windranger_arcana_ambient_mist.vpcf", PATTACH_ABSORIGIN_FOLLOW, hero)
             ParticleManager:ReleaseParticleIndex(particle_3)
 
-            local particle_4 = ParticleManager:CreateParticle("particles/econ/items/windrunner/windranger_arcana/windranger_arcana_bowstring_ambient.vpcf", PATTACH_ABSORIGIN_FOLLOW, hero)
-            ParticleManager:SetParticleControlEnt( 
+            --[[local particle_4 = ParticleManager:CreateParticle("particles/econ/items/windrunner/windranger_arcana/windranger_arcana_bowstring_ambient.vpcf", PATTACH_ABSORIGIN_FOLLOW, hero)
+            ParticleManager:SetParticleControlEnt(
                 particle_4,
                 0,
                 hero,
                 PATTACH_POINT_FOLLOW,
-                "bow_top",
+                "bow_bot",
                 Vector(0,0,0),
                 true
             )
@@ -328,7 +328,7 @@ function Wearables:EquipWearables( product_id , hero )
                 1,
                 hero,
                 PATTACH_POINT_FOLLOW,
-                "bow_mid",
+                "bow_mid1",
                 Vector(0,0,0),
                 true
             )
@@ -338,11 +338,11 @@ function Wearables:EquipWearables( product_id , hero )
                 2,
                 hero,
                 PATTACH_POINT_FOLLOW,
-                "bow_bot",
+                "bow_top",
                 Vector(0,0,0),
                 true
             )
-            ParticleManager:ReleaseParticleIndex(particle_4)
+            ParticleManager:ReleaseParticleIndex(particle_4)]]
 
         end
 

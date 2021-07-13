@@ -161,6 +161,8 @@ function PlayerSelected( player, hero ) {
 	if ( hero == "npc_dota_hero_queenofpain" 		) 	{ hero = "Akasha"; }
 	if ( hero == "npc_dota_hero_hoodwink" 			) 	{ hero = "Rat"; }
 	if ( hero == "npc_dota_hero_huskar" 			) 	{ hero = "Templar"; }
+	if ( hero == "npc_dota_hero_pugna" 				) 	{ hero = "Pugna"; }
+	
 
 	// add the players name to the bottom of the pedestal
 	var pedHeroHeroText = heroPedPanels[player].FindChildInLayoutFile("HeroNamePedTxt");
@@ -269,27 +271,6 @@ function DisplayHeroSelect( data ){
 	for (let i = 1; data.hero_list[i] !== undefined; i++) {
 		heroes.push(data.hero_list[i]);
     }
-
-	// if tools mode.. load Ta and kunka
-	if ( Game.IsInToolsMode() == false ) {
-		$.Msg("tools ",Game.IsInToolsMode())
-
-		for (let i=0; i < heroes.length; i++){
-			$.Msg("i ",heroes[i])
-			if ( heroes[i] == "npc_dota_hero_templar_assassin" ) {
-				heroes.splice(i, 1);
-			}
-
-			if ( heroes[i] == "npc_dota_hero_kunkka"  ) {
-				heroes.splice(i, 1);
-			}
-
-			if ( heroes[i] == "npc_dota_hero_grimstroke"  ) {
-				heroes.splice(i, 1);
-			}
-
-		}
-	}
 
 	//Set panel visibility
 	var rootPanel = $("#PickingScreen");

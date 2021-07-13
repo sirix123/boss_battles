@@ -213,7 +213,7 @@ function GameSetup:OnNPCSpawned(keys)
             if npc:GetUnitName() == "npc_dota_hero_grimstroke" then npc:SetMana(0) end
             if npc:GetUnitName() == "npc_dota_hero_queenofpain" then npc:SetMana(0) end
             if npc:GetUnitName() == "npc_dota_hero_hoodwink" then npc:SetMana(0) end
-            --if npc:GetUnitName() == "npc_dota_hero_huskar" then npc:SetMana(0) end
+            if npc:GetUnitName() == "npc_dota_hero_pugna" then npc:SetMana(0) end
             return false
         end)
 
@@ -881,6 +881,11 @@ function GameSetup:HeroCheck()
         local index = 0
         while (hero:GetAbilityByIndex(index) ~= nil) do
             hero:GetAbilityByIndex(index):EndCooldown()
+
+            if hero:GetAbilityByIndex(index):GetMaxAbilityCharges(hero:GetAbilityByIndex(index):GetLevel()) ~= nil then
+                hero:GetAbilityByIndex(index):RefreshCharges()
+            end
+
             index = index +1
         end
 

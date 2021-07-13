@@ -216,12 +216,12 @@ function OnLeftButtonPressed()
     var playerEntity = Players.GetLocalPlayer();
 
     if ( Players.GetPlayerSelectedHero( playerEntity ) != "npc_dota_hero_lina" ){
-        $.Schedule(1.0/30.0, function tic(){
+        $.Schedule(0.3, function tic(){
             //only continue timer if mouse still down
             if ( GameUI.IsMouseDown(0) )
             {
                 AbilityToCast(0);
-                $.Schedule(1.0/30.0, tic);
+                $.Schedule(0.3, tic);
             }
         })
     }

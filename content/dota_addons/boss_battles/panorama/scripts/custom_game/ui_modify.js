@@ -47,6 +47,11 @@ function HideOther(top_panel){
     var LevelUpGlow = top_panel.FindChildTraverse("LevelUpGlow");
     LevelUpGlow.style.visibility = "collapse";
 
+    var statBranchdiaglog = top_panel.FindChildTraverse("statbranchdialog");
+    if ( statBranchdiaglog !== undefined ){
+        statBranchdiaglog.style.visibility = "collapse";
+    }
+
     let hero_name = ""
     let playerId = Players.GetLocalPlayer()
     let player_hero = Players.GetPlayerSelectedHero( playerId )
@@ -60,6 +65,7 @@ function HideOther(top_panel){
 	if ( player_hero == "npc_dota_hero_queenofpain" 		) 	{ hero_name = "AKASHA"; }
 	if ( player_hero == "npc_dota_hero_hoodwink" 			) 	{ hero_name = "RAT"; }
 	if ( player_hero == "npc_dota_hero_huskar" 			) 	    { hero_name = "TEMPLAR"; }
+    if ( player_hero == "npc_dota_hero_pugna" 			) 	    { hero_name = "PUGNA"; }
 
     var dotaHudUnitName = top_panel.FindChildTraverse('UnitNameLabel');
     dotaHudUnitName.text = hero_name

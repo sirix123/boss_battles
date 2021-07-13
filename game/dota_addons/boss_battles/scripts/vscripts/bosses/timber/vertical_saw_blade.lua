@@ -48,7 +48,7 @@ end
 function vertical_saw_blade:OnChannelThink( interval )
     if not IsServer() then return end
 
-    if IsValidEntity(self:GetCaster()) == false or self.caster:HasModifier("chain_edge_bubble") == false then
+    if IsValidEntity(self:GetCaster()) == false then --or self.caster:HasModifier("chain_edge_bubble") == false
         return false
     end
 
@@ -101,7 +101,7 @@ function vertical_saw_blade:OnChannelThink( interval )
                     fExpireTime = GameRules:GetGameTime() + 30.0,
                     bProvidesVision = true,
                     iVisionRadius = 200,
-                    iVisionTeamNumber = self.caster:GetTeamNumber(),
+                    iVisionTeamNumber = DOTA_TEAM_GOODGUYS,
                 }
 
                 ProjectileManager:CreateLinearProjectile(hProjectile)

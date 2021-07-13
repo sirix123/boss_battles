@@ -139,7 +139,7 @@ function CleaningThinker()
 
         thisEntity.nPreviewFXIndex = ParticleManager:CreateParticle( "particles/econ/events/darkmoon_2017/darkmoon_calldown_marker.vpcf", PATTACH_CUSTOMORIGIN, nil )
         ParticleManager:SetParticleControl( thisEntity.nPreviewFXIndex, 0, thisEntity:GetAbsOrigin() )
-        ParticleManager:SetParticleControl( thisEntity.nPreviewFXIndex, 1, Vector( 250, -250, -250 ) )
+        ParticleManager:SetParticleControl( thisEntity.nPreviewFXIndex, 1, Vector( 350, -350, -350 ) )
         ParticleManager:SetParticleControl( thisEntity.nPreviewFXIndex, 2, Vector( 15, 0, 0 ) );
         ParticleManager:ReleaseParticleIndex(thisEntity.nPreviewFXIndex)
 
@@ -163,7 +163,7 @@ function CleaningThinker()
                 thisEntity:GetTeamNumber(),	-- int, your team number
                 thisEntity:GetAbsOrigin(),	-- point, center point
                 nil,	-- handle, cacheUnit. (not known)
-                250,	-- float, radius. or use FIND_UNITS_EVERYWHERE
+                350,	-- float, radius. or use FIND_UNITS_EVERYWHERE
                 DOTA_UNIT_TARGET_TEAM_ENEMY,	-- int, team filter
                 DOTA_UNIT_TARGET_HERO,	-- int, type filter
                 DOTA_UNIT_TARGET_FLAG_INVULNERABLE,	-- int, flag filter

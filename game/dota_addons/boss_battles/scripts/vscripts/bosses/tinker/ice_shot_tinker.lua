@@ -82,7 +82,7 @@ function ice_shot_tinker:OnSpellStart()
             GroundBehavior = PROJECTILES_NOTHING,
             fGroundOffset = 80,
             UnitTest = function(_self, unit)
-                return unit:GetModelName() ~= "models/development/invisiblebox.vmdl" and CheckGlobalUnitTableForUnitName(unit) ~= true
+                return unit:GetModelName() ~= "models/development/invisiblebox.vmdl" and CheckGlobalUnitTableForUnitName(unit) ~= true and unit:GetTeamNumber() ~= caster:GetTeamNumber() or unit:GetUnitName() == "npc_crystal" 
             end,
             OnUnitHit = function(_self, unit)
 

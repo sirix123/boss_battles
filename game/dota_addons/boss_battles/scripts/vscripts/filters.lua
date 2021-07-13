@@ -2,13 +2,15 @@ if Filters == nil then
     Filters = class({})
 end
 
-LinkLuaModifier( "casting_modifier_thinker", "player/generic/casting_modifier_thinker", LUA_MODIFIER_MOTION_NONE )
-
 function Filters:Activate(GameMode, this)
     function GameMode:ExecuteOrderFilter(filter_table)
         local order_type = filter_table["order_type"]
 
         local caster = EntIndexToHScript(filter_table.units["0"])
+
+        --PrintTable(filter_table)
+
+        local isPlayer = caster:IsRealHero()
 
         --[[
 
@@ -48,43 +50,46 @@ function Filters:Activate(GameMode, this)
             return false
         end
 
-        if order_type ~= DOTA_UNIT_ORDER_STOP and order_type ~= DOTA_UNIT_ORDER_HOLD_POSITION then
-            if caster:GetCurrentActiveAbility() ~= nil then -- if we are currently casting something
-                if filter_table.entindex_ability ~= nil then -- and we are trying to cast an ability
+        if isPlayer == true then
+            if order_type ~= DOTA_UNIT_ORDER_STOP and order_type ~= DOTA_UNIT_ORDER_HOLD_POSITION then
+                if caster:GetCurrentActiveAbility() ~= nil then -- if we are currently casting something
+                    if filter_table.entindex_ability ~= nil then -- and we are trying to cast an ability
 
-                    if EntIndexToHScript(filter_table.entindex_ability):GetAbilityIndex() == 0 then
-                        return false
-                    end
+                        -- if we are casting an ability and an m1 comes in... cancel the order
+                        if EntIndexToHScript(filter_table.entindex_ability):GetAbilityIndex() == 0 then
+                            return false
+                        end
 
-                    if EntIndexToHScript(filter_table.entindex_ability) then
+                        if EntIndexToHScript(filter_table.entindex_ability) then
 
-                        --print("casting ability... ",caster:GetCurrentActiveAbility():GetAbilityIndex(), " trying to cast this... ", EntIndexToHScript(filter_table.entindex_ability):GetAbilityIndex())
+                            --print("casting ability... ",caster:GetCurrentActiveAbility():GetAbilityIndex(), " trying to cast this... ", EntIndexToHScript(filter_table.entindex_ability):GetAbilityIndex())
 
-                        if  ( EntIndexToHScript(filter_table.entindex_ability):GetAbilityIndex() ~= 0 ) and -- if the new ability isn't a basic attack m0
-                            ( EntIndexToHScript(filter_table.entindex_ability):GetAbilityIndex() ~= caster:GetCurrentActiveAbility():GetAbilityIndex() ) -- and its not the ability we are currently casting
-                            then
+                            if  ( EntIndexToHScript(filter_table.entindex_ability):GetAbilityIndex() ~= 0 ) and -- if the new ability isn't a basic attack m0
+                                ( EntIndexToHScript(filter_table.entindex_ability):GetAbilityIndex() ~= caster:GetCurrentActiveAbility():GetAbilityIndex() ) -- and its not the ability we are currently casting
+                                then
 
-                            caster:Interrupt()
+                                caster:Interrupt()
 
-                            -- the REAL 100% issue here for future stefan...!
-                            -- i cast icelance during the cp i cast frostblink if im moving the opposite direction to the m2 cast location i getr the forced moevment bug
-                            -- because i am looking away from the cast pos i cant cast my spell, 
-                            -- because i cant start casting my spell i dont get the casting thinker and therefore the movement thinker faces me towads where i am moving
-                            -- if i do this and im facing where i am casting its ok...
-                            -- SOLUTION somehow for this case only? force the char to look where they need to cast
+                                -- the REAL 100% issue here for future stefan...!
+                                -- i cast icelance during the cp i cast frostblink if im moving the opposite direction to the m2 cast location i getr the forced moevment bug
+                                -- because i am looking away from the cast pos i cant cast my spell, 
+                                -- because i cant start casting my spell i dont get the casting thinker and therefore the movement thinker faces me towads where i am moving
+                                -- if i do this and im facing where i am casting its ok...
+                                -- SOLUTION somehow for this case only? force the char to look where they need to cast
 
 
-                            -- DOTA_ABILITY_BEHAVIOR_IGNORE_PSEUDO_QUEUE !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
-                            -- ADD TO ALL SPELLLLLLLLLLLLLLS!
+                                -- DOTA_ABILITY_BEHAVIOR_IGNORE_PSEUDO_QUEUE !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+                                -- ADD TO ALL SPELLLLLLLLLLLLLLS!
 
-                            print("[filters] interrupting current ability to cast another ability (non m1)")
+                                print("[filters] interrupting current ability to cast another ability (non m1)")
 
-                            --return false --this fixes the forced movement...
+                                --return false --this fixes the forced movement...
+                            end
                         end
                     end
                 end
+                --print("casting... ",EntIndexToHScript(filter_table.entindex_ability):GetAbilityName())
             end
-            --print("casting... ",EntIndexToHScript(filter_table.entindex_ability):GetAbilityName())
         end
 
         if caster:IsAlive() == false or caster:IsStunned() == true then

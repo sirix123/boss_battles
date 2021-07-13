@@ -27,7 +27,7 @@
 			"01"{ "var_type"			"FIELD_INTEGER"		"radius"				"250" }	 
 			"02"{ "var_type"			"FIELD_INTEGER"		"damage"				"60" }
 			"03"{ "var_type"			"FIELD_INTEGER"		"bleed_duration"		"5"    	}	
-			"04"{ "var_type"			"FIELD_INTEGER"		"dmg_dot_base"		    "60"    }	
+			"04"{ "var_type"			"FIELD_INTEGER"		"dmg_dot_base"		    "50"    }	
             "05"{ "var_type"			"FIELD_FLOAT"		"damage_interval"		"1"   	}	
 			"06"{ "var_type"			"FIELD_FLOAT"		"bonus_bleed_percent"	"30"   }
 		}
@@ -151,7 +151,7 @@
 			"02"{ "var_type"			"FIELD_INTEGER"		"hit_box"						"200" 	}
 			"03"{ "var_type"			"FIELD_INTEGER"		"proj_speed"					"1200" 	}
 			"04"{ "var_type"			"FIELD_INTEGER"		"duration"						"12" 	}
-			"05"{ "var_type"			"FIELD_INTEGER"		"dmg_dot_base"		    		"90"    }	
+			"05"{ "var_type"			"FIELD_INTEGER"		"dmg_dot_base"		    		"80"    }	
 			"06"{ "var_type"			"FIELD_FLOAT"		"bonus_bleed_percent"			"30"    }
             "07"{ "var_type"			"FIELD_FLOAT"		"damage_interval"				"1"    }		
 		}

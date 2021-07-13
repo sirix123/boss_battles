@@ -357,7 +357,7 @@ function CastFlee( vLocation )
 	local velocity = thisEntity.flee_speed
     local time = ( distance / velocity )
 
-	return time + 1
+	return time + 3
 end
 --------------------------------------------------------------------------------
 

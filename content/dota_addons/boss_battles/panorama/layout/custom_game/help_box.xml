@@ -47,7 +47,7 @@
                         <Label id="HelpButtonToolTipMenuText_4" class="HelpButtonToolTipMenuText" text="At the end of the season the top 3 teams of Hardmode will be added to the Hall of Fame."/>
                     </Panel>
                     <Panel id="HelpButtonToolTipMenuItem_5" class="HelpButtonToolTipMenuItem">
-                        <Label id="HelpButtonToolTipMenuText_5" class="HelpButtonToolTipMenuText" text="Type !gameid to get the game id this will print the game_id to console. If you encounter a bug and want to report it this id helps alot."/>
+                        <Label id="HelpButtonToolTipMenuText_5" class="HelpButtonToolTipMenuText" text="Type !intermission to move your hero back to the intermission area, helpful if you're stuck in the boss arena. Only works if the boss is dead."/>
                     </Panel>
                     <Panel id="HelpButtonToolTipMenuItem_6" class="HelpButtonToolTipMenuItem">
                         <Label id="HelpButtonToolTipMenuText_6" class="HelpButtonToolTipMenuText" text="There is a bar above your spells, this bar shows modifiers your hero currently has if you mouse over the icon of the modifier it tells you what it does."/>

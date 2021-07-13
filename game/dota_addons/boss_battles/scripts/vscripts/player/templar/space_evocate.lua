@@ -45,6 +45,8 @@ function space_evocate:OnSpellStart()
 
             local sound_cast = "Item_Desolator.Target"
             EmitSoundOn( sound_cast, self:GetCaster() )
+        else
+            self:EndCooldown()
         end
 
     end

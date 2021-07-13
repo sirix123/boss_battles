@@ -450,12 +450,12 @@ function Projectiles:CreateProjectile(projectile)
             --local vec = Vector(GridNav:GridPosToWorldCenterX(GridNav:WorldToGridPosX(subpos.x)), GridNav:GridPosToWorldCenterY(GridNav:WorldToGridPosY(subpos.y)), ground.z - projectile.fGroundOffset)
             --DebugDrawCircle(vec, Vector(200,200,200), 100, 10, true, .5)
             --local ents = Entities:FindAllByClassnameWithin("ent_dota_tree", vec, 70)
-            
+
             for i=1,#ents do
               local tree = ents[i]
               if not projectile.bZCheck or (pos.z < ground.z + 280 + radius - projectile.fGroundOffset and pos.z + radius + projectile.fGroundOffset > ground.z) then
                 if projectile.bCutTrees then
-                  tree:CutDown(projectile.Source:GetTeamNumber())
+                  tree:CutDown(DOTA_TEAM_GOODGUYS)
                   navConnect = not GridNav:IsTraversable(subpos) or GridNav:IsBlocked(subpos)
                 end
 

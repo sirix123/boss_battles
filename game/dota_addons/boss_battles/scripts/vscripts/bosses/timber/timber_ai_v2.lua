@@ -151,6 +151,16 @@ function TimberThink()
 
 	if thisEntity.state == 1 then
 
+		if thisEntity:GetMana() >= 85 then
+			thisEntity.fire_shell:EndCooldown()
+		end
+
+		-- fire shell logic
+		if thisEntity:GetHealthPercent() < 99 and thisEntity.fire_shell ~= nil and thisEntity.fire_shell:IsFullyCastable() and thisEntity.fire_shell:IsCooldownReady() and thisEntity.fire_shell:IsInAbilityPhase() == false then
+			--print("casting fireshell")
+			return CastFireShell()
+		end
+
 		-- saw blade cast logic
 		if thisEntity.saw_blade:IsInAbilityPhase() == false and thisEntity.saw_blade ~= nil and thisEntity.saw_blade:IsFullyCastable() and thisEntity.nCurrentSawBlades < thisEntity.nMaxSawBlades and thisEntity.saw_blade:IsCooldownReady() then
 			thisEntity.nCurrentSawBlades = thisEntity.nCurrentSawBlades + 1
@@ -165,12 +175,6 @@ function TimberThink()
 		-- chain cast logic
 		if thisEntity.chain ~= nil and thisEntity.chain:IsFullyCastable() and thisEntity.chain:IsCooldownReady() and thisEntity.chain:IsInAbilityPhase() then
 			return CastChain()
-		end
-
-		-- fire shell logic
-		if thisEntity:GetHealthPercent() < 99 and thisEntity.fire_shell ~= nil and thisEntity.fire_shell:IsFullyCastable() and thisEntity.fire_shell:IsCooldownReady() and thisEntity.fire_shell:IsInAbilityPhase() == false then
-			--print("casting fireshell")
-			return CastFireShell()
 		end
 
 		-- droid support logic
@@ -196,22 +200,19 @@ function TimberThink()
 		if thisEntity:GetHealthPercent() < 40 and thisEntity.levelTracker == 3 then
 			LevelUpAbilities() -- forces all abilities to be level 4
 		end
-
-		if thisEntity:GetMana() >= 99 then
-			thisEntity.fire_shell:EndCooldown()
-		end
 	end
 
 	if thisEntity.state == 2 then
+
+		if thisEntity.chain_map_edge ~= nil and thisEntity.chain_map_edge:IsFullyCastable() and thisEntity.chain_map_edge:IsCooldownReady() and thisEntity.chain_map_edge:IsInAbilityPhase() == false then
+			return CastChainMapEdge()
+		end
+
 		if thisEntity.createParticleOnce == true then
 			thisEntity.createParticleOnce = false
 
 			thisEntity:AddNewModifier( thisEntity, nil, "chain_edge_bubble", { duration = -1 } )
 
-		end
-
-		if thisEntity.chain_map_edge ~= nil and thisEntity.chain_map_edge:IsFullyCastable() and thisEntity.chain_map_edge:IsCooldownReady() and thisEntity.chain_map_edge:IsInAbilityPhase() == false then
-			return CastChainMapEdge()
 		end
 
 		if thisEntity.vertical_saw_blade ~= nil and thisEntity.vertical_saw_blade:IsFullyCastable() and thisEntity.vertical_saw_blade:IsCooldownReady() and thisEntity.vertical_saw_blade:IsInAbilityPhase() == false and thisEntity.vertical_saw_blade:IsChanneling() == false then
@@ -378,7 +379,8 @@ function CastChainMapEdge()
 		Queue = false,
 	})
 
-	return 2
+	local time = previous_length / thisEntity.chain_edge_speed
+	return time + 1
 
 	--return 2.5
 end
@@ -429,6 +431,6 @@ function CastBlastWave()
 		Queue = 0,
 	})
 
-	return 3
+	return 0.5
 end
 --------------------------------------------------------------------------------

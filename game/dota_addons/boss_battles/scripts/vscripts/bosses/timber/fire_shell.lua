@@ -49,6 +49,7 @@ local tProjectileData = {}
 function fire_shell:OnAbilityPhaseStart()
     if IsServer() then
 		self:GetCaster():StartGestureWithPlaybackRate(ACT_DOTA_GENERIC_CHANNEL_1, 1.0)
+		EmitSoundOn("shredder_timb_kill_16", self:GetCaster())
 		return true
     end
 end
@@ -83,7 +84,6 @@ function fire_shell:OnSpellStart()
 
 		-- play sound on spell start
 		--EmitSoundOn("lone_druid_lone_druid_kill_13", self:GetCaster())
-		EmitSoundOn("shredder_timb_kill_16", caster)
 
 		-- start of the main loop
 		Timers:CreateTimer(1, function()
@@ -120,7 +120,8 @@ function fire_shell:OnSpellStart()
 					EffectName = "particles/timber/ltimber_fireshell_inear_lina_base_attack.vpcf", --particles/tinker/iceshot__invoker_chaos_meteor.vpcf particles/tinker/blue_tinker_missile.vpcf
 					vSpawnOrigin = origin,
 					fDistance = 2000,
-					fUniqueRadius = radius,
+					fStartRadius = radius,
+					fEndRadius = radius,
 					Source = caster,
 					vVelocity = tProjectilesDirection[i] * projectile_speed,
 					UnitBehavior = PROJECTILES_DESTROY,
@@ -129,6 +130,10 @@ function fire_shell:OnSpellStart()
 					GroundBehavior = PROJECTILES_NOTHING,
 					fGroundOffset = 80,
 					draw = false,
+					--bTreeFullCollision = false,
+					--bZCheck = false,
+					--bCutTrees = true,
+					--bGroundLock = true,
 					UnitTest = function(_self, unit)
 						return unit:GetModelName() ~= "models/development/invisiblebox.vmdl" and CheckGlobalUnitTableForUnitName(unit) ~= true and unit:GetTeamNumber() ~= caster:GetTeamNumber()
 					end,
@@ -163,6 +168,23 @@ function fire_shell:OnSpellStart()
 						ParticleManager:SetParticleControl(effect_cast, 3, pos)
 						ParticleManager:ReleaseParticleIndex(effect_cast)
 
+					end,
+					OnTreeHit = function(_self, treeEntity)
+
+						--[[local trees = GridNav:GetAllTreesAroundPoint( self.currentSawbladeLocation, self.destroy_tree_radius, true )
+						for _,tree in pairs(trees) do
+							EmitSoundOnLocationWithCaster( tree:GetOrigin(), sound_tree, self.parent )
+							tree:CutDown(self.caster:GetTeamNumber())
+							self.caster:GiveMana(self.manaAmount)
+						end]]
+
+						local particle = "particles/econ/items/shredder/timber_controlled_burn/timber_controlled_burn_tree_kill.vpcf"
+						local effect_cast = ParticleManager:CreateParticle(particle, PATTACH_ABSORIGIN, caster)
+						ParticleManager:SetParticleControl(effect_cast, 0, treeEntity:GetAbsOrigin())
+						ParticleManager:SetParticleControl(effect_cast, 3, treeEntity:GetAbsOrigin())
+						ParticleManager:ReleaseParticleIndex(effect_cast)
+
+						treeEntity:CutDown(DOTA_TEAM_GOODGUYS)
 					end,
 				}
 

@@ -84,28 +84,25 @@ function arcane_surge_modifier:OnIntervalThink()
 
             --self.parent:GiveMana(self:GetAbility():GetSpecialValueFor("mana_on_hit"))
 
-            for _, enemy in pairs(enemies) do
+            self.dmgTable = {
+                victim = enemies[1],
+                attacker = self.parent,
+                damage = self.damage,
+                damage_type = self:GetAbility():GetAbilityDamageType(),
+                ability = self:GetAbility(),
+            }
 
-                self.dmgTable = {
-                    victim = enemy,
-                    attacker = self.parent,
-                    damage = self.damage,
-                    damage_type = self:GetAbility():GetAbilityDamageType(),
-                    ability = self:GetAbility(),
-                }
+            ApplyDamage(self.dmgTable)
 
-                ApplyDamage(self.dmgTable)
+            local particleName = "particles/units/heroes/hero_razor/razor_storm_lightning_strike.vpcf"
+            local particle = ParticleManager:CreateParticle(particleName, PATTACH_WORLDORIGIN, self.parent)
+            ParticleManager:SetParticleControl(particle, 0, Vector(self.parent:GetAbsOrigin().x,self.parent:GetAbsOrigin().y,800)) -- height of the bolt
+            ParticleManager:SetParticleControl(particle, 1, enemies[1]:GetAbsOrigin()) -- point landing
+            ParticleManager:SetParticleControl(particle, 2, Vector(self.parent:GetAbsOrigin().x,self.parent:GetAbsOrigin().y,800)) -- point origin
+            ParticleManager:ReleaseParticleIndex(particle)
 
-                local particleName = "particles/units/heroes/hero_razor/razor_storm_lightning_strike.vpcf"
-                local particle = ParticleManager:CreateParticle(particleName, PATTACH_WORLDORIGIN, self.parent)
-                ParticleManager:SetParticleControl(particle, 0, Vector(self.parent:GetAbsOrigin().x,self.parent:GetAbsOrigin().y,800)) -- height of the bolt
-                ParticleManager:SetParticleControl(particle, 1, enemy:GetAbsOrigin()) -- point landing
-                ParticleManager:SetParticleControl(particle, 2, Vector(self.parent:GetAbsOrigin().x,self.parent:GetAbsOrigin().y,800)) -- point origin
-                ParticleManager:ReleaseParticleIndex(particle)
+            --EmitSoundOn( "Ability.static.start", self:GetCaster() )
 
-                --EmitSoundOn( "Ability.static.start", self:GetCaster() )
-
-            end
         end
 
     end

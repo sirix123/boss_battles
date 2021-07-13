@@ -58,18 +58,16 @@ _G.flWHIRLING_WINDS_PROJ_SPEED_BONUS = 0.25
 
 _G.HERO_NAME_LIST =
 {
-    "npc_dota_hero_templar_assassin",
-	"npc_dota_hero_kunkka",
     "npc_dota_hero_crystal_maiden",
     "npc_dota_hero_juggernaut",
     "npc_dota_hero_phantom_assassin",
-    "npc_dota_hero_grimstroke",
     "npc_dota_hero_lina",
     "npc_dota_hero_omniknight",
     "npc_dota_hero_queenofpain",
     "npc_dota_hero_windrunner",
     "npc_dota_hero_hoodwink",
     "npc_dota_hero_huskar",
+    "npc_dota_hero_pugna",
 }
 
 _G.tCORE_MODIFIERS =

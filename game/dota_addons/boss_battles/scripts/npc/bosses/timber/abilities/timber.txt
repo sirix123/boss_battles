@@ -236,12 +236,12 @@
 			"01"
 			{
 				"var_type"			"FIELD_INTEGER"
-				"radius"		    "130 130 130 130"
+				"radius"		    "110 110 110 110"
 			}
             "02"
 			{
 				"var_type"			"FIELD_INTEGER"
-				"projectile_speed"  "700 700 700 700"
+				"projectile_speed"  "600 600 600 600"
 			}
             "03"
 			{
@@ -612,7 +612,7 @@
 			"04"
 			{	
 				"var_type"			"FIELD_INTEGER"
-				"speed"				"2000 2500 3000 3500"
+				"speed"				"1500 1500 1500 1500"
 			}
 			"05"
 			{	

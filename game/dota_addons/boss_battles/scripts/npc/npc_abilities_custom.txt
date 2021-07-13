@@ -40,6 +40,9 @@
 //mars
 #base "players/templar/abilities.txt"
 
+//pugna
+#base "players/pugna/abilities.txt"
+
 
 "DOTAAbilities"
 {

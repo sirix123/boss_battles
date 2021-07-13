@@ -909,7 +909,7 @@
         // Casting
         //-------------------------------------------------------------------------------------------------------------
         "AbilityCastPoint"              "1 1 1 1"
-        "AbilityCooldown"               "24 24 24 24"
+        "AbilityCooldown"               "20 20 20 20"
         "AbilityManaCost"               "0"
         "AbilityCastRange" 				"600"
 

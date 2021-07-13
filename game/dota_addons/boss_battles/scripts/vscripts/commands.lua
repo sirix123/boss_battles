@@ -47,15 +47,21 @@ function Commands:OnPlayerChat(keys)
         local hPlayer = PlayerResource:GetPlayer(keys.playerid)
 
         if not hPlayer then return end
-        --local hHero = hPlayer:GetAssignedHero()
 
-            -- GetDedicatedServerKeyV2
-            -- GetSteamID
+        if PLAYERS_FIGHTING_BOSS == true then
+            GameRules:SendCustomMessage("Commands cannot be used if you're in a boss fight.", 0, 0)
+            return
+        end
+
+        local hHero = hPlayer:GetAssignedHero()
+
+            if string.find(text, "intermission") then
+                FindClearSpaceForUnit(hHero, BOSS_BATTLES_INTERMISSION_SPAWN_LOCATION, true)
+                return
+            end
+
             if string.find(text, "cheekybeeky") then
-                --print("PlayerResource:GetSteamID(keys.playerid) ",PlayerResource:GetSteamID(keys.playerid))
-                --PlayerResource:GetSteamID(keys.playerid) 	    76561197972850274
                 if tostring(PlayerResource:GetSteamID(keys.playerid)) == "76561197972850274" then
-                    --print("GetDedicatedServerKeyV2: ",GetDedicatedServerKeyV2("123"))
                     local key = GetDedicatedServerKeyV2("123")
                     GameRules:SendCustomMessage("GetDedicatedServerKeyV2:" .. key, 0, 0)
                     return
@@ -128,7 +134,12 @@ function Commands:OnPlayerChat(keys)
                 return
             end
 
-        if STORY_MODE == true and NORMAL_MODE == false and PLAYERS_FIGHTING_BOSS == false and bGAME_COMPLETE == false then --or IsInToolsMode()
+        if bGAME_COMPLETE == false then --or IsInToolsMode()
+
+            if NORMAL_MODE == true then
+                GameRules:SendCustomMessage("Start boss command cannot be used if you're in Hardmode", 0, 0)
+                return
+            end
 
             if string.find(text, "start boss") then
                 print("found start boss command")
@@ -138,37 +149,37 @@ function Commands:OnPlayerChat(keys)
                 -- reset the attempt tracker
                 nATTEMPT_TRACKER = 0
 
-                if bossName == "beastmaster" then
+                if bossName == "Beastmaster" then
                     print("TODO: start boss ", bossName)
                     BOSS_BATTLES_ENCOUNTER_COUNTER = 4
                     --GameSetup:ReadyupCheck()
                     --self:StartBoss(2)
                 end
-                if bossName == "timber" then
+                if bossName == "Timersaw" then
                     print("TODO: start boss ", bossName)
                     BOSS_BATTLES_ENCOUNTER_COUNTER = 3
                     --GameSetup:ReadyupCheck()
                     --self:StartBoss(3)
                 end
-                if bossName == "techies" then
+                if bossName == "Techies" then
                     print("TODO: start boss ", bossName)
                     BOSS_BATTLES_ENCOUNTER_COUNTER = 5
                     --GameSetup:ReadyupCheck()
                     --self:StartBoss(4)
                 end
-                if bossName == "clock" then
+                if bossName == "Clockwerk" then
                     print("TODO: start boss ", bossName)
                     BOSS_BATTLES_ENCOUNTER_COUNTER = 6
                     --GameSetup:ReadyupCheck()
                     --self:StartBoss(5)
                 end
-                if bossName == "gyro" then
+                if bossName == "Gyrocopter" then
                     print("TODO: start boss ", bossName)
                     BOSS_BATTLES_ENCOUNTER_COUNTER = 2
                     --GameSetup:ReadyupCheck()
                     --self:StartBoss(6)
                 end
-                if bossName == "tinker" then
+                if bossName == "Tinker" then
                     print("TODO: start boss ", bossName)
                     BOSS_BATTLES_ENCOUNTER_COUNTER = 7
                     --GameSetup:ReadyupCheck()
@@ -176,10 +187,6 @@ function Commands:OnPlayerChat(keys)
                 end
             end
 
-        elseif PLAYERS_FIGHTING_BOSS == true then
-            GameRules:SendCustomMessage("Commands cannot be used if you're in a boss fight.", 0, 0)
-        elseif NORMAL_MODE == true then
-            GameRules:SendCustomMessage("Commands cannot be used if you're in Hardmode", 0, 0)
         elseif bGAME_COMPLETE == true then
             GameRules:SendCustomMessage("Commands cannot be used if you've killed the last boss.", 0, 0)
         end

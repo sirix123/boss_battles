@@ -27,7 +27,18 @@ function HeroSelection:Start()
 
 		--print("are we sending the open hero select event?")
 
-		CustomGameEventManager:Send_ServerToAllClients( "begin_hero_select", { hero_list = HERO_NAME_LIST})
+		local copy_hero_name_list = HERO_NAME_LIST
+
+		if IsInToolsMode() == true then
+
+			table.insert(copy_hero_name_list,"npc_dota_hero_templar_assassin")
+			table.insert(copy_hero_name_list,"npc_dota_hero_kunkka")
+			table.insert(copy_hero_name_list,"npc_dota_hero_grimstroke")
+
+		end
+
+
+		CustomGameEventManager:Send_ServerToAllClients( "begin_hero_select", { hero_list = copy_hero_name_list})
 
 		HeroSelection.numPickers = PlayerResource:GetPlayerCount()
 		HeroSelection.playersPicked  = 0
