@@ -26,7 +26,7 @@ function arcane_surge_modifier:OnCreated( kv )
         self.interval = self:GetAbility():GetSpecialValueFor("interval")
         self.radius = self:GetAbility():GetSpecialValueFor("radius")
 
-        if self:GetStackCount() < 3 then
+        if self:GetStackCount() < self:GetAbility():GetSpecialValueFor("max_stacks") then
             self:IncrementStackCount()
         end
 

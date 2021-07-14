@@ -11,7 +11,7 @@
         "Ability3"              "q_eat_cheese" 
         "Ability4"              "e_stim_pack"
         "Ability5"              "r_infest"
-        "Ability6"              "space_burrow"
+        "Ability6"              "space_burrow_v2"
         "Ability7"              "rat_passive"
         "Ability8"              ""
         "Ability9"              ""

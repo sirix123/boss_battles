@@ -136,7 +136,7 @@ function rat_m2:OnSpellStart()
                         self:GetCaster():GetTeamNumber(),
                         unit:GetAbsOrigin(),
                         nil,
-                        5000,
+                        1500,
                         DOTA_UNIT_TARGET_TEAM_ENEMY,
                         DOTA_UNIT_TARGET_BASIC,
                         DOTA_UNIT_TARGET_FLAG_NONE,
@@ -144,6 +144,23 @@ function rat_m2:OnSpellStart()
                         false)
 
                     if units ~= nil or #units ~= 0 then
+
+                        local info = {
+                            EffectName = "particles/units/heroes/hero_hoodwink/hoodwink_boomerang.vpcf",
+                            Ability = self,
+                            iMoveSpeed = 1500,
+                            Source = units[1],
+                            Target = units[2],
+                            bDodgeable = false,
+                            iSourceAttachment = DOTA_PROJECTILE_ATTACHMENT_HITLOCATION,
+                            bProvidesVision = true,
+                            iVisionTeamNumber = self:GetCaster():GetTeamNumber(),
+                            iVisionRadius = 300,
+                        }
+
+                        ProjectileManager:CreateTrackingProjectile( info )
+
+                    else
 
                         local info = {
                             EffectName = "particles/units/heroes/hero_hoodwink/hoodwink_boomerang.vpcf",

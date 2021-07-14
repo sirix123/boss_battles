@@ -28,6 +28,37 @@ function r_infest_modifier:OnCreated( kv )
 
     self.total_damage = 0
     self.dot_duration = kv.dot_duration
+    self.count = self:GetDuration()
+
+    self.timer = Timers:CreateTimer(function()
+		if self.count == 0 then
+			ParticleManager:DestroyParticle(self.particle, true)
+			return false
+		end
+
+		if self.particle then
+			ParticleManager:DestroyParticle(self.particle, true)
+		end
+
+		self.particle = ParticleManager:CreateParticle("particles/rat/_rat_wisp_relocate_timer_custom.vpcf", PATTACH_OVERHEAD_FOLLOW, self:GetParent())
+		--local digitX = self.count >= 10 and 1 or 0
+		if self.count >= 10 and self.count < 20 then
+			digitX = 1
+		elseif self.count >= 20 then
+			digitX = 2
+		else 
+			digitX = 0
+		end
+
+		local digitY = self.count % 10
+		--print("digitX: ",digitX,"digitY: ",digitY)
+		ParticleManager:SetParticleControl(self.particle, 0, self:GetParent():GetAbsOrigin())
+		ParticleManager:SetParticleControl(self.particle, 1, Vector( digitX, digitY, 0 ))
+
+		self.count = self.count - 1
+
+		return 1.0
+	end)
 
 end
 
@@ -55,6 +86,8 @@ function r_infest_modifier:OnDestroy()
             dmg = self.total_damage,
         } -- kv
     )
+
+    Timers:RemoveTimer(self.timer)
 
 end
 ----------------------------------------------------------------------------

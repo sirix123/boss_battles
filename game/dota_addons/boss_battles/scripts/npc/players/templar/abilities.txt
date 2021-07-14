@@ -175,6 +175,8 @@
 			"04"{ "var_type"			"FIELD_INTEGER"		"radius"									"500" }
 			"05"{ "var_type"			"FIELD_INTEGER"		"stack_bonus_interval"						"25" }
 			"06"{ "var_type"			"FIELD_INTEGER"		"stack_bonus_damage"						"5" }
+			"07"{ "var_type"			"FIELD_INTEGER"		"max_stacks"								"3" }
+			
 		}
 
 		"precache"

@@ -27,7 +27,7 @@
 		"AbilityUnitTargetTeam"			"DOTA_UNIT_TARGET_TEAM_ENEMY"
 		"AbilityUnitDamageType"			"DAMAGE_TYPE_PHYSICAL"	
         "AbilityBehavior"				"DOTA_ABILITY_BEHAVIOR_POINT | DOTA_ABILITY_BEHAVIOR_IGNORE_PSEUDO_QUEUE"
-		"AbilityCastRange" 				"1000"
+		"AbilityCastRange" 				"1200"
         "AbilityCooldown"				"0.0"
         "AbilityCastPoint"              "0.8"
 
@@ -96,7 +96,10 @@
         
 		"AbilitySpecial"
 		{
-			"01"{ "var_type"			"FIELD_INTEGER"		"heal"				"100" }
+			"01"{ "var_type"			"FIELD_INTEGER"		"heal"				"25" }
+			"02"{ "var_type"			"FIELD_INTEGER"		"duration"			"5" }
+			"03"{ "var_type"			"FIELD_INTEGER"		"max_stacks"		"5" }
+			
 		}
 
 		"precache"
@@ -148,7 +151,7 @@
 		"AbilityTextureName"			"bristleback_viscous_nasal_goo"
 		"AbilityUnitDamageType"			"DAMAGE_TYPE_PHYSICAL"	
         "AbilityBehavior"				"DOTA_ABILITY_BEHAVIOR_POINT | DOTA_ABILITY_BEHAVIOR_IGNORE_PSEUDO_QUEUE" // | DOTA_ABILITY_BEHAVIOR_AOE
-		"AbilityCastRange" 				"1000"
+		"AbilityCastRange" 				"1200"
         "AbilityCooldown"				"30"
         "AbilityCastPoint"              "0.4"
 		"AbilityManaCost"        		"20"
@@ -164,6 +167,39 @@
 			"01"{ "var_type"			"FIELD_INTEGER"		"duration"									"10" }
 			"02"{ "var_type"			"FIELD_INTEGER"		"dot_duration"								"5" }
 			
+		}
+
+		"precache"
+		{
+
+		}
+	}
+
+	"space_burrow_v2"
+	{
+		"BaseClass"						"ability_lua"
+		"ScriptFile"					"player/rat/space_burrow_v2"
+		"MaxLevel"						"1"
+
+		"AbilityTextureName"			"bristleback_viscous_nasal_goo"
+		"AbilityUnitDamageType"			"nyx_assassin_burrow"	
+        "AbilityBehavior"				"DOTA_ABILITY_BEHAVIOR_POINT | DOTA_ABILITY_BEHAVIOR_IGNORE_PSEUDO_QUEUE" // | DOTA_ABILITY_BEHAVIOR_AOE
+		"AbilityCastRange" 				"2000"
+        "AbilityCooldown"				"25"
+        "AbilityCastPoint"              "0.4"
+		"AbilityManaCost"        		"0"
+
+		"TargetingIndicator"
+		{
+			//"Type"						"TARGETING_INDICATOR_AOE"
+			//"Fixed"						"1"
+		}
+        
+		"AbilitySpecial"
+		{
+			"01"{ "var_type"			"FIELD_INTEGER"		"duration"									"20" }
+			"02"{ "var_type"			"FIELD_INTEGER"		"radius"									"120" }
+			"03"{ "var_type"			"FIELD_INTEGER"		"duration_cooldown"							"5" }
 		}
 
 		"precache"
@@ -193,7 +229,7 @@
         
 		"AbilitySpecial"
 		{
-			"01"{ "var_type"			"FIELD_INTEGER"		"duration"	"4" }
+			"01"{ "var_type"			"FIELD_INTEGER"		"duration"	"15" }
 		}
 
 		"precache"
