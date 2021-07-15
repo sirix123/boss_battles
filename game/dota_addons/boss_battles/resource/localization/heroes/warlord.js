@@ -48,7 +48,7 @@ function GenerateLocalizationData() {
         ability_classname: "m1_sword_slash",
         name: "Sweeping Blade",
         description: "Blademaster performs a wide sweeping cut to deal damage to all enemies infront of him.",
-        lore: "Blademaster's sword techniques are unparalleled for cutting down swathes of enemies.",
+        //lore: `Blademaster's sword techniques are unparalleled for cutting down swathes of enemies.`,
         notes: [],
         ability_specials: [
             {
@@ -70,7 +70,7 @@ function GenerateLocalizationData() {
         ability_classname: "m2_sword_slam",
         name: "Sunder",
         description: "Blademaster slams down his sword, dealing damage based on his total energy to all enemies infront of him. Hitting an enemy with " + sunderColour + " grants a stack of " + bladeMasteryColour + ", up to three times.",
-        lore: "What doesn't kill his opponents only makes him stronger.",
+        //lore: `What doesn't kill his opponents only makes him stronger.`,
         ability_specials: [
             {
                 ability_special: "damage",
@@ -103,7 +103,7 @@ function GenerateLocalizationData() {
         ability_classname: "q_conq_shout",
         name: "Inspire",
         description: "Blademaster inspires his allies near him and his " + bladeVortexColour + ", increasing their damage. " + inspireColour + " also generates one stack of " + fightingSpiritColour + ".",
-        lore: "Blademaster's military experience allows him to inspire his allies to push forward against overwhelming odds.",
+        //lore: `Blademaster's military experience allows him to inspire his allies to push forward against overwhelming odds.`,
         notes: [
             "Fighting Spirit regenerates 5 health per second and 2 energy per second.",
             "Fighting Spirit can stack up to three times.",
@@ -123,7 +123,7 @@ function GenerateLocalizationData() {
         ability_classname: "e_warlord_shout",
         name: "Barricade",
         description: "Blademaster defends his allies near him and his " + bladeVortexColour + ", granting them a shield. " + barricadeColour + " also generates one stack of " + fightingSpiritColour + ".",
-        lore: "The long and bitter war against the Templars revealed the importance of proper defence.",
+        //lore: `The long and bitter war against the Templars revealed the importance of proper defence.`,
         notes: [
             "Fighting Spirit regenerates 5 health per second and 2 energy per second.",
             "Fighting Spirit can stack up to three times.",
@@ -143,7 +143,7 @@ function GenerateLocalizationData() {
         ability_classname: "r_blade_vortex",
         name: "Blade Vortex",
         description: "Blademaster conjures whirling blades that chases the target, dealing damage and granting him energy over time until it expires.",
-        lore: "An ancient technique that has been passed down for generations.",
+        //lore:  `An ancient technique that has been passed down for generations.`,
         ability_specials: [
             {
                 ability_special: "duration",
@@ -164,7 +164,7 @@ function GenerateLocalizationData() {
         ability_classname: "space_chain_hook",
         name: "Chain Hook",
         description: "Blademaster throws a hook out that attaches to an friendly or enemy target, pulling himself towards it.",
-        lore: "Every fighter needs a trick up his sleeve.",
+        //lore: `Every fighter needs a trick up his sleeve.`,
         notes: [
             "Blademaster is not invulnerable during the movement.",
             "Friendly and enemy targets include structures or summons."

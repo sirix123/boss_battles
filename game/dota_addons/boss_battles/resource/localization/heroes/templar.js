@@ -15,58 +15,79 @@ function GenerateLocalizationData() {
         StandardArray: StandardTooltips,
     };
     //#endregion
+    // variables
+    var manastormColour = "<b><font color=\"#ffffff\">Manastorm</font></b>";
     Modifiers.push({
         modifier_classname: "e_sigil_of_power_modifier_buff",
-        name: "sigil buff",
-        description: "getting a dmg boost."
+        name: "Discharged",
+        description: "Gaining amplified damage."
     });
     Modifiers.push({
-        modifier_classname: "e_sigil_of_power_modifier",
-        name: "sigil buff mana spender",
-        description: "spend mana to get a dmg boost."
+        modifier_classname: "q_arcane_cage_modifier_templar",
+        name: "Energised",
+        description: "Gaining amplified damage and regenerating %dMODIFIER_PROPERTY_MANA_REGEN_CONSTANT% mana per second."
     });
     Modifiers.push({
-        modifier_classname: "evocate_modifier",
-        name: "evocate",
-        description: "getting mana back."
+        modifier_classname: "q_arcane_cage_modifier",
+        name: "Energised",
+        description: "Gaining amplified damage."
     });
     Modifiers.push({
         modifier_classname: "templar_power_charge",
-        name: "power charge",
-        description: "giving mana regen."
+        name: "Power Charge",
+        description: "Regenerating %dMODIFIER_PROPERTY_MANA_REGEN_CONSTANT% mana per second."
+    });
+    Modifiers.push({
+        modifier_classname: "arcane_surge_modifier",
+        name: "Surge",
+        description: "Dealing damage around templar."
     });
     // abilities
     Abilities.push({
         ability_classname: "templar_passive",
-        name: "Mind over matter",
-        description: "If you have enough mana the incoming damage will be reduced by x%.",
+        name: "Mind Over Matter",
+        description: "A portion of incoming damage is redirected to mana instead of health. Additionally, each power charge grants mana regen, stacking up three times.",
         ability_specials: [
             {
                 ability_special: "mind_over_matter",
-                text: "DAMAGE TAKEN FROM MANA:",
+                text: "DAMAGE ABSORBED:",
                 percentage: true,
             },
             {
                 ability_special: "power_charge_mana_regen",
-                text: "Power charge mana regen:",
+                text: "MANA REGEN PER CHARGE:",
             },
         ]
     });
     Abilities.push({
         ability_classname: "templar_basic",
-        name: "basic attack",
-        description: "does base damage + damage per mana point.",
+        name: "Arcane Spear",
+        description: "Templar imbues his spear with powerful arcane energy at the expense of his mana, dealing damage to all enemies in front of him.",
         ability_specials: [
             {
                 ability_special: "damage",
-                text: "DAMAGE:",
+                text: "BASE DAMAGE:",
+            },
+            {
+                ability_special: "percent_of_mana_cost",
+                text: "MANA COST OF CURRENT MANA:",
+                percentage: true,
+            },
+            {
+                ability_special: "bonus_damage",
+                text: "MANA BONUS DAMAGE:",
+                percentage: true,
             },
         ]
     });
     Abilities.push({
         ability_classname: "templar_m2_leap",
-        name: "slam",
-        description: "does damage and generates a power charge max 3",
+        name: "Crusader Strike",
+        description: "Templar leaps to the target area dealing damage to all enemies and granting him a power charge.",
+        notes: [
+            "If Crusader Strike is used at templar's location, he instead just deals damage around him.",
+            "Templar is granted a power charge regardless if Crusader Strike hits an enemy.",
+        ],
         ability_specials: [
             {
                 ability_special: "damage",
@@ -76,89 +97,90 @@ function GenerateLocalizationData() {
     });
     Abilities.push({
         ability_classname: "q_arcane_cage",
-        name: "link",
-        description: "link a player, 50% of damage taken goes to templar",
+        name: "Spirit Link",
+        description: "Templar links his spirit to another ally, redirecting a portion of damage they take to himself. Additionally, both targets damage is amplified and templar has increased mana regeneration.",
+        notes: [
+            "Spirit Link is broken if the target moves out of range.",
+        ],
         ability_specials: [
             {
                 ability_special: "duration",
-                text: "duration:",
+                text: "DURATION:",
             },
             {
                 ability_special: "damage_sent_to_templar",
-                text: "sent damage:",
+                text: "REDIRECTED DAMAGE:",
                 percentage: true,
             },
             {
                 ability_special: "outgoing_damage_bonus",
-                text: "damage bonus for both players:",
+                text: "BONUS DAMAGE:",
                 percentage: true,
             },
             {
                 ability_special: "mana_regen",
-                text: "mana_regen for templar:",
+                text: "MANA REGENERATION:",
             },
         ]
     });
     Abilities.push({
         ability_classname: "e_sigil_of_power",
-        name: "sigil of power",
-        description: "discharge your power charges gives a damage boost and deals damage based on power charges consumed.",
+        name: "Discharge",
+        description: "Templar unleashes his inner spirit in an explosion around him, dealing damage to all enemies and consuming all power charges. Additionally, all allies around templar gain bonus damage.",
         ability_specials: [
             {
                 ability_special: "duration",
-                text: "duration:",
+                text: "DURATION:",
             },
             {
                 ability_special: "damage_boost_per_power_charge_consumed",
-                text: "damage_boost_per_power_charge_consumed:",
+                text: "BONUS DAMAGE PER POWER CHARGE:",
+                percentage: true,
             },
             {
                 ability_special: "damage",
-                text: "damage per charge consumed:",
-                percentage: true,
+                text: "DAMAGE PER POWER CHARGE:",
             },
         ]
     });
     Abilities.push({
         ability_classname: "r_arcane_surge",
-        name: "surge",
-        description: "summon a storm",
+        name: "Manastorm",
+        description: "Templar invokes a storm of arcane energy around him, dealing damage to the closest enemy, stacking up to three times. Each stack of " + manastormColour + " increases the damage and strike interval.",
+        notes: [
+            "Each stack of Manastorm has an independant cooldown, and does not refresh with additional uses."
+        ],
         ability_specials: [
             {
                 ability_special: "duration",
-                text: "duration:",
-            },
-            {
-                ability_special: "interval",
-                text: "base interval:",
+                text: "DURATION:",
             },
             {
                 ability_special: "damage",
-                text: "base damage:",
+                text: "BASE DAMAGE:",
             },
             {
                 ability_special: "stack_bonus_interval",
-                text: "stack_bonus_interval:",
+                text: "BONUS STRIKE INTERVAL:",
                 percentage: true,
             },
             {
                 ability_special: "stack_bonus_damage",
-                text: "stack_bonus_damage:",
-            },
-            {
-                ability_special: "mana_on_hit",
-                text: "mana_on_hit:",
+                text: "BONUS DAMAGE:",
             },
         ]
     });
     Abilities.push({
         ability_classname: "space_evocate",
-        name: "evocate",
-        description: "get ur mana back but it costs health",
+        name: "Lifetap",
+        description: "Templar sacrifices his own life to fully restore his mana.",
+        notes: [
+            "Lifetap cannot be used under 150 health.",
+        ],
         ability_specials: [
             {
                 ability_special: "damage_self",
-                text: "damage_self:",
+                text: "SELF DAMAGE:",
             },
         ]
     });

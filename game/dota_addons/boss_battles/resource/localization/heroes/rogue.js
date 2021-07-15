@@ -36,48 +36,57 @@ function GenerateLocalizationData() {
     // abilities
     Abilities.push({
         ability_classname: "m1_combo_hit_1_2",
-        name: "Slash",
-        description: "Rogue delivers a quick slash to all enemies in front of her. After attacking twice the third attack is empowered.",
-        notes: [
-            "This is a chained attack, after two attacks this ability changes into Lacerate.",
-        ],
-        ability_specials: [
-            {
-                ability_special: "damage",
-                text: "DAMAGE:"
-            },
-            {
-                ability_special: "AbilityCastPoint",
-                text: "CAST POINT:"
-            },
-        ]
-    });
-    Abilities.push({
-        ability_classname: "m1_combo_hit_3",
         name: "Lacerate",
-        description: "Rogue ends with a deadly attack that deals damage and inflicts a bleed to all targets. Bleeds dealt by this ability are amplified by <b><font color=\"#6f92fc\">Envenom</font></b>.",
-        notes: [
-            "At the end of the attack this ability will change back into Slash.",
-        ],
+        description: "Rogue delivers a quick slash to all enemies in front of her that deals damage and inflicts a bleed to all targets. Bleeds dealt by this ability are amplified by <b><font color=\"#6f92fc\">Envenom</font></b>.",
+        //lore: `Death by a thousand cuts.`,
         ability_specials: [
             {
                 ability_special: "damage",
                 text: "DAMAGE:"
-            },
-            {
-                ability_special: "AbilityCastPoint",
-                text: "CAST POINT:"
             },
             {
                 ability_special: "dmg_dot_base",
                 text: "BLEED DAMAGE:"
             },
+            {
+                ability_special: "bleed_duration",
+                text: "DURATION:"
+            },
+            {
+                ability_special: "AbilityCastPoint",
+                text: "CAST POINT:"
+            },
         ]
     });
+    //Abilities.push({
+    //ability_classname: "m1_combo_hit_3",
+    //name: "Lacerate",
+    //description: `Rogue ends with a deadly attack that deals damage and inflicts a bleed to all targets. Bleeds dealt by this ability are amplified by <b><font color=\"#6f92fc\">Envenom</font></b>.`,
+    //notes:
+    //[
+    //`At the end of the attack this ability will change back into Slash.`,
+    //],
+    //ability_specials:
+    //[
+    //{
+    //ability_special: "damage",
+    //text: "DAMAGE:"
+    //},
+    //{
+    //ability_special: "AbilityCastPoint",
+    //text: "CAST POINT:"
+    //},
+    //{
+    //ability_special: "dmg_dot_base",
+    //text: "BLEED DAMAGE:"
+    //},
+    //]
+    //});
     Abilities.push({
         ability_classname: "m2_combo_breaker",
         name: "Assassinate",
         description: "Rogue assassinates the targets with a strike that consumes the bleeds from <font color=\"#9af9e0\">Lacerate</font> and <font color=\"#9af9e0\">Rupture</font>, dealing damage based on their remaing duration. Additionally it will consume 3 stacks of <font color=\"#9af9e0\">Envenom</font> and grants <font color=\"#6f92fc\">Adrenaline</font>.",
+        //lore: `A technique taught by the sisterhood to ensure a quick and clean kill.`,
         notes: [
             "Assassinate consumes the bleeds dealing damage based on the duration remaining times the damage per instance.",
         ],
@@ -102,8 +111,9 @@ function GenerateLocalizationData() {
     });
     Abilities.push({
         ability_classname: "q_smoke_bomb",
-        name: "Evasion",
+        name: "Smoke Bomb",
         description: "Rogue instantly disappears in a cloud of smoke, briefly granting invulnerability and increased movement speed.",
+        //lore: `A simple yet effective tool to escape combat.`,
         notes: [],
         ability_specials: [
             {
@@ -128,6 +138,7 @@ function GenerateLocalizationData() {
         ability_classname: "e_swallow_potion",
         name: "Envenom",
         description: "Rogue cuts all enemies infront of her with an envenomed blade, applying a debuff that increases the damage they take from all bleeds and gives rogue a stack of <font color=\"#9af9e0\">Envenom</font>",
+        //lore: `A secret mixture of the deadliest toxins known to man.`,
         notes: [],
         ability_specials: [
             {
@@ -149,6 +160,7 @@ function GenerateLocalizationData() {
         ability_classname: "r_rupture",
         name: "Rupture",
         description: "Rogue throws a dagger that pierces through all enemies and applies a bleed. Bleeds dealt by this ability are amplified by <b><font color=\"#6f92fc\">Envenom</font></b>.",
+        //lore: ``,
         notes: [],
         ability_specials: [
             {

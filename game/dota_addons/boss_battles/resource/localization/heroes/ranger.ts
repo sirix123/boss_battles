@@ -38,7 +38,7 @@ export function GenerateLocalizationData(): LocalizationData
     Abilities.push({
         ability_classname: "m1_trackingshot",
         name: "Farsight shot",
-        description: `Medusa shoots an enchanted arrow from her bow dealing damage to the target. Farsight shot does more damage with distance travelled.`,
+        description: `Windrunner shoots an enchanted arrow from her bow dealing damage to the target. Farsight shot does more damage with distance travelled.`,
         ability_specials:
         [
             {
@@ -68,7 +68,7 @@ export function GenerateLocalizationData(): LocalizationData
     Abilities.push({
         ability_classname: "m2_serratedarrow",
         name: "Power shot",
-        description: `Medusa charges her energy into a powerful shot, dealing damage to all enemies it pierces. Power Shot does more damage with distance travelled.`,
+        description: `Windrunner charges her energy into a powerful shot, dealing damage to all enemies it pierces. Power Shot does more damage with distance travelled.`,
         ability_specials:
         [
             {
@@ -97,7 +97,7 @@ export function GenerateLocalizationData(): LocalizationData
     Abilities.push({
         ability_classname: "q_healing_arrow_v2",
         name: "Mending arrow",
-        description: `Medusa fires an arrow that heals all allies it hits. Mending arrow does more healing with distance travelled.`,
+        description: `Windrunner fires an arrow that heals all allies it hits. Mending arrow does more healing with distance travelled.`,
         ability_specials:
         [
             {
@@ -126,7 +126,7 @@ export function GenerateLocalizationData(): LocalizationData
     Abilities.push({
         ability_classname: "e_whirling_winds",
         name: "Whirling Winds",
-        description: `Medusa summons a tailwind in an area that increases the damage, projectile and movement speed of all allies, as well as reducing the cast point of abilities. Medusa benefits from the tailwind at all times.`,
+        description: `Windrunner summons a tailwind in an area that increases the damage, projectile and movement speed of all allies, as well as reducing the cast point of abilities. Medusa benefits from the tailwind at all times.`,
         ability_specials:
         [
             {
@@ -163,7 +163,7 @@ export function GenerateLocalizationData(): LocalizationData
     Abilities.push({
         ability_classname: "r_explosive_arrow",
         name: "Explosive Arrow",
-        description: `Medusa launches a long distance arrow that explodes on impact, dealing damage to all enemies in range.`,
+        description: `Windrunner launches a long distance arrow that explodes on impact, dealing damage to all enemies in range.`,
         ability_specials:
         [
             {
@@ -176,7 +176,7 @@ export function GenerateLocalizationData(): LocalizationData
     Abilities.push({
         ability_classname: "space_sprint",
         name: "Haste",
-        description: `Medusa channels the wind around her to temporarily increase her movespeed.`,
+        description: `Windrunner channels the wind around her to temporarily increase her movespeed.`,
         ability_specials:
         [
             {

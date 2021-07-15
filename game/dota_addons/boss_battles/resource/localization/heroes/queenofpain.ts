@@ -42,7 +42,7 @@ export function GenerateLocalizationData(): LocalizationData
         ability_classname: "m1_qop_basic_attack",
         name: "Shadow Strike",
         description: `Akasha throws a cursed dagger that deals damage to an enemy.`,
-        lore: `Akasha's daggers are specifically designed to draw out the blood of her enemies.`,
+        //lore: `Akasha's daggers are specifically designed to draw out the blood of her enemies.`,
         ability_specials:
         [
             {
@@ -59,7 +59,7 @@ export function GenerateLocalizationData(): LocalizationData
         ability_classname: "m2_qop_direct_heal",
         name: "Blood Light",
         description: `Akasha bathes an ally in blood. Subsequent casts will apply ${bloodMagicColour} to Akasha, doubling the manacost and healing. Healing an ally in this way applies ${bloodPactColour}. `,
-        lore: `The healing properties of Blood Magic are just as renowned as its destructive ones.`,
+        //lore: `The healing properties of Blood Magic are just as renowned as its destructive ones.`,
         ability_specials:
         [
             {
@@ -84,7 +84,7 @@ export function GenerateLocalizationData(): LocalizationData
         ability_classname: "q_pen",
         name: "Exsanguinate",
         description: `Akasha drains the blood out of an enemy, healing herself and dealing damage. If used on an ally, heals them instead.`,
-        lore: `Manipulating the flow of blood of both ally and foe alike is an easy task for Akasha.`,
+        //lore: `Manipulating the flow of blood of both ally and foe alike is an easy task for Akasha.`,
 		notes:
         [
             `Exsanguinate deals damage once per second`,
@@ -105,7 +105,7 @@ export function GenerateLocalizationData(): LocalizationData
         ability_classname: "e_qop_shield",
         name: "Blood Ward",
         description: `Akasha casts a ${bloodWardColour} on the target and consumes all stacks of ${bloodMagicColour}, empowering it. If cast on an ally, ${bloodWardColour} absorbs incoming damage. If cast on an enemy, ${bloodWardColour} stores incoming damage for a duration, dealing a portion of that damage on expiration.`,
-        lore: `A simple spell first used to protect Akasha and her allies, it has since found use in tormenting her enemies.`,
+        //lore: `A simple spell first used to protect Akasha and her allies, it has since found use in tormenting her enemies.`,
         notes:
         [
             `The base cooldown for Blood Ward on allies is one second.`,
@@ -133,7 +133,7 @@ export function GenerateLocalizationData(): LocalizationData
         ability_classname: "r_delayed_aoe_heal",
         name: "Vampiric Rune",
         description: `Akasha marks the target area with a powerful rune, dealing damage and granting mana over time until it explodes.`,
-        lore: `An ancient rune passed down from Akasha's bloodline.`,
+        //lore: `An ancient rune passed down from Akasha's bloodline.`,
         ability_specials:
         [
             {
@@ -154,7 +154,7 @@ export function GenerateLocalizationData(): LocalizationData
         ability_classname: "space_leap_of_grip",
         name: "Deathgrip",
         description: `Akasha pulls an ally towards herself. Has two charges that recover over time.`,
-        lore: `A powerful blood magic spell that draws the living closer in her grip.`,
+        //lore: `A powerful blood magic spell that draws the living closer in her grip.`,
 		notes:
         [
             `Deathgrip can pull allies while stunned but not rooted.`,
@@ -176,7 +176,7 @@ export function GenerateLocalizationData(): LocalizationData
         ability_classname: "qop_passive",
         name: "Living Blood",
         description: `If Akasha deals damage to an enemy while herself or an ally is affected by ${bloodPactColour}, a portion of that damage will heal them.`,
-        lore: `Akasha's vampiric aura uses the essence of her foes to restore her allies.`,
+        //lore: `Akasha's vampiric aura uses the essence of her foes to restore her allies.`,
         notes:
         [
         ],
