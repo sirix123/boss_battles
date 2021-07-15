@@ -15,19 +15,31 @@ function GenerateLocalizationData() {
         StandardArray: StandardTooltips,
     };
     //#endregion
+    // variables
+    var remnantColour = "<b><font color=\"#ffffff\">Fire Remnant</font></b>";
+    var incinerateColour = "<b><font color=\"#ffffff\">Incinerate</font></b>";
+    // modifiers
+    Modifiers.push({
+        modifier_classname: "m1_beam_fire_rage",
+        name: "Fiery Spirit",
+        description: "Current number of Fiery Spirit stacks."
+    });
     // abilities
     Abilities.push({
         ability_classname: "m1_beam",
-        name: "Fire Beam",
-        description: "Channel a fire beam to destroy your enemies. Mana and damage ramps up over 3seconds.",
+        name: "Incinerate",
+        description: "Lina concentrates her fiery energy into a beam that damages all enemies it touches. " + incinerateColour + " damage and mana gain increases over time, stacking up to three times. " + remnantColour + " replicates this ability.",
+        notes: [
+            "Only gains stacks if a enemy is hit by Incinerate.",
+        ],
         ability_specials: [
             {
                 ability_special: "dmg",
-                text: "DAMAGE:"
+                text: "BASE DAMAGE:"
             },
             {
                 ability_special: "mana_gain_percent",
-                text: "MANA:"
+                text: "BASE MANA GAIN:"
             },
             {
                 ability_special: "AbilityCastPoint",
@@ -37,8 +49,8 @@ function GenerateLocalizationData() {
     });
     Abilities.push({
         ability_classname: "m2_meteor",
-        name: "Flash Flame",
-        description: "After a short delay nuke all enemies in the area and apply fire weakness.",
+        name: "Flash Fire",
+        description: "Lina charges a target area with an intense fire that damages all enemies in the area and applies a debuff that amplifies damage taken.",
         ability_specials: [
             {
                 ability_special: "damage",
@@ -46,11 +58,12 @@ function GenerateLocalizationData() {
             },
             {
                 ability_special: "fire_weakness_duration",
-                text: "FIRE WEAKNESS DURATION:"
+                text: "DEBUFF DURATION:"
             },
             {
                 ability_special: "fire_weakness_dmg_increase",
-                text: "FIRE WEAKNESS DAMAGE INCREASE:"
+                text: "DEBUFF DAMAGE INCREASE:",
+                percentage: true,
             },
             {
                 ability_special: "AbilityCastPoint",
@@ -60,8 +73,8 @@ function GenerateLocalizationData() {
     });
     Abilities.push({
         ability_classname: "q_fire_bubble",
-        name: "Bubble",
-        description: "Bubble a player blocking damage and burning units around them.",
+        name: "Flame Barrier",
+        description: "Lina shields an ally with a fiery aura that absorbs incoming damage and damages nearby enemies.",
         ability_specials: [
             {
                 ability_special: "duration",
@@ -69,35 +82,44 @@ function GenerateLocalizationData() {
             },
             {
                 ability_special: "bubble_amount",
-                text: "BUBBLE AMOUNT:",
+                text: "DAMAGE ABSORB:",
             },
             {
                 ability_special: "burn_amount",
-                text: "DAMAGE:",
+                text: "AURA DAMAGE:",
             },
         ]
     });
     Abilities.push({
         ability_classname: "e_fireball",
-        name: "Fire ball",
-        description: "channel a firestorm and shoot fireballs rapidly.",
+        name: "Firestorm",
+        description: "Lina unleashes a barrage of fireballs infront of her, damaging the first enemy hit. " + remnantColour + " replicates this ability.",
         ability_specials: [
             {
                 ability_special: "dmg",
                 text: "DAMAGE:"
             },
+            {
+                ability_special: "AbilityChannelTime",
+                text: "CHANNEL DURATION:"
+            },
         ]
     });
     Abilities.push({
         ability_classname: "r_remnant",
-        name: "Fire remnant",
-        description: "Summon a fire remnant that copies your spells.",
+        name: "Fire Remnant",
+        description: "Lina creates a replica of her fiery spirit that will attack nearby enemies.",
         ability_specials: [
             {
                 ability_special: "duration",
                 text: "DURATION:"
             },
         ]
+    });
+    Abilities.push({
+        ability_classname: "space_dive",
+        name: "Flame Dash",
+        description: "Lina surges forwards, travelling a short distance.",
     });
     // Return data to compiler
     return localization_info;

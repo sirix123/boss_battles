@@ -51,7 +51,7 @@ export function GenerateLocalizationData(): LocalizationData
     Abilities.push({
         ability_classname: "m1_iceshot",
         name: "Frost Bolt",
-        description: `Ice mage fires an icy projectile that deals damage and ${chillscolour}, generating one stack of ${shatterColour} on hit.`,
+        description: `Rylai fires an icy projectile that deals damage and ${chillscolour}, generating one stack of ${shatterColour} on hit.`,
         ability_specials:
         [
             {
@@ -75,7 +75,7 @@ export function GenerateLocalizationData(): LocalizationData
     Abilities.push({
         ability_classname: "m2_icelance",
         name: "Ice Lance",
-        description: `Ice mage launches {max_proj} long range frozen projectiles that deal damage and explode upon impact, dealing additional damage based on the number of ${shatterColour} stacks. If ${icelanceColour} consumes 3 ${shatterColour} stacks this way, it grants ${boneChill}.`,
+        description: `Rylai launches {max_proj} long range frozen projectiles that deal damage and explode upon impact, dealing additional damage based on the number of ${shatterColour} stacks. If ${icelanceColour} consumes 3 ${shatterColour} stacks this way, it grants ${boneChill}.`,
         notes:
         [
             `Consumes all ${shatterColour} stacks.`,
@@ -142,7 +142,7 @@ export function GenerateLocalizationData(): LocalizationData
     Abilities.push({
         ability_classname: "e_icefall",
         name: "Blizzard",
-        description: `Ice mage summons a violent blizzard at the target location dealing damage and ${chillscolour} all enemies. Enemies affected by ${blizzard} for 2 seconds are frozen in place.`,
+        description: `Rylai summons a violent blizzard at the target location dealing damage and ${chillscolour} all enemies. Enemies affected by ${blizzard} for 2 seconds are frozen in place.`,
         notes:
         [
             `Bosses cannot be frozen.`,
@@ -174,7 +174,7 @@ export function GenerateLocalizationData(): LocalizationData
     Abilities.push({
         ability_classname: "r_frostbomb",
         name: "Frost Strike",
-        description: `Ice mage conjures a sphere of frost above target location. After a delay the sphere hits the ground and explodes, dealing damage over time to all enemies. ${froststrikeColour} can consume ${shatterColour} and ${boneChill} to empower its duration and damage.`,
+        description: `Rylai conjures a sphere of frost above target location. After a delay the sphere hits the ground and explodes, dealing damage over time to all enemies. ${froststrikeColour} can consume ${shatterColour} and ${boneChill} to empower its duration and damage.`,
         notes:
         [
             `Consumes Bonechill.`,
@@ -222,7 +222,7 @@ export function GenerateLocalizationData(): LocalizationData
     Abilities.push({
         ability_classname: "space_frostblink",
         name: "Blink",
-        description: `Ice mage teleports forward and ${chillscolour} enemies at the start and end location.`,
+        description: `Rylai teleports forward and ${chillscolour} enemies at the start and end location.`,
         ability_specials:
         [
             {
@@ -235,7 +235,7 @@ export function GenerateLocalizationData(): LocalizationData
     Abilities.push({
         ability_classname: "ice_mage_passive",
         name: "Cold Blood",
-        description: `Ice mage passively generates ${shatterColour} stacks through her abilities and can grant her ${boneChill} by consuming them. Additionally, certain abilities will also ${chillcolour} enemies on hit.`,
+        description: `Rylai passively generates ${shatterColour} stacks through her abilities and can grant her ${boneChill} by consuming them. Additionally, certain abilities will also ${chillcolour} enemies on hit.`,
         notes:
         [
             `${shatterColour} Modifies ${icelanceColour} and ${froststrikeColour}.`,
