@@ -27,7 +27,7 @@ _G.tUNIT_TABLE =
     "npc_dota_thinker",
     "npc_rubick",
     "npc_lina_remant",
-    "npc_cleaning_bot",
+    --"npc_cleaning_bot",
     "npc_beastmaster_dino",
     "npc_rock_techies",
     "npc_flame_turret",
@@ -67,7 +67,6 @@ _G.HERO_NAME_LIST =
     "npc_dota_hero_windrunner",
     "npc_dota_hero_hoodwink",
     "npc_dota_hero_huskar",
-    "npc_dota_hero_pugna",
 }
 
 _G.tCORE_MODIFIERS =

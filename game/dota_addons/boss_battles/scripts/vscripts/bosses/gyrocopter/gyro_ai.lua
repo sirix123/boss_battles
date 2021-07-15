@@ -41,6 +41,8 @@ function Spawn( entityKeyValues )
 		obj:SetForwardVector( Vector( RandomFloat(-1, 1) , RandomFloat(-1, 1), RandomFloat(-1, 1) ) )]]
 	--end
 
+	AddFOWViewer(DOTA_TEAM_GOODGUYS, thisEntity:GetAbsOrigin(), 8000, 9999, true)
+
 	-- spell init
 	thisEntity.swoop = thisEntity:FindAbilityByName( "swoop_v2" )
 	thisEntity.swoop:StartCooldown(10)
@@ -58,6 +60,8 @@ function Spawn( entityKeyValues )
 	thisEntity.flame_thrower = thisEntity:FindAbilityByName( "flame_thrower" )
 	thisEntity.flame_thrower:StartCooldown(12)
 	thisEntity.flame_thrower_duration = thisEntity.flame_thrower:GetLevelSpecialValueFor("duration", thisEntity.flame_thrower:GetLevel())
+
+	thisEntity.gattling_gun = thisEntity:FindAbilityByName("gattling_gun")
 
 	thisEntity.percent_total_health = thisEntity:GetBaseMaxHealth() / 4 -- 1/4 of max (50k if 200kmax)
 	thisEntity.gyro_call_down_count_tracker = 0
@@ -166,6 +170,10 @@ function GyroThink()
 	LEVEL UP HANDLER / phase 3
 
 	]]
+
+	if thisEntity:HasModifier("modifier_rooted") then
+		thisEntity:RemoveModifierByName("modifier_rooted")
+	end
 
 	if thisEntity:GetHealthPercent() < 75 and thisEntity:GetHealthPercent() > 50 and thisEntity.gyro_call_down_count_tracker == 0 and thisEntity.PHASE == 1 then
 		thisEntity.gyro_call_down_count_tracker = thisEntity.gyro_call_down_count_tracker + 1
@@ -291,8 +299,8 @@ function GyroThink()
 			return CastSwoop( FindFurthestPlayer() )
 		end
 
-		if thisEntity.flee:IsFullyCastable() and thisEntity.flee:IsCooldownReady() and thisEntity.flee:IsInAbilityPhase() == false then
-			return CastFlee( thisEntity.GyroArenaLocations[RandomInt(1,#thisEntity.GyroArenaLocations)] )
+		if thisEntity.gattling_gun:IsFullyCastable() and thisEntity.gattling_gun:IsCooldownReady() and thisEntity.gattling_gun:IsInAbilityPhase() == false and thisEntity.gattling_gun:IsChanneling() == false then
+			return CastGattlingGun( )
 		end
 
 		if thisEntity.cannon_ball:IsFullyCastable() and thisEntity.cannon_ball:IsCooldownReady() and thisEntity.cannon_ball:IsInAbilityPhase() == false then
@@ -306,6 +314,10 @@ function GyroThink()
 
 		if thisEntity.flame_thrower:IsFullyCastable() and thisEntity.flame_thrower:IsCooldownReady() and thisEntity.flame_thrower:IsInAbilityPhase() == false then
 			return CastFlameThrower()
+		end
+
+		if thisEntity.flee:IsFullyCastable() and thisEntity.flee:IsCooldownReady() and thisEntity.flee:IsInAbilityPhase() == false then
+			return CastFlee( thisEntity.GyroArenaLocations[RandomInt(1,#thisEntity.GyroArenaLocations)] )
 		end
 
 	end
@@ -444,6 +456,21 @@ function CastFireGrenade()
 	thisEntity.fire_gren:StartCooldown(2)
 
 	return 0.5
+end
+--------------------------------------------------------------------------------
+
+function CastGattlingGun()
+
+	-- root self in place
+	thisEntity:AddNewModifier( nil, nil, "modifier_rooted", { duration = -1 })
+
+	ExecuteOrderFromTable({
+		UnitIndex = thisEntity:entindex(),
+		OrderType = DOTA_UNIT_ORDER_CAST_NO_TARGET,
+		AbilityIndex = thisEntity.gattling_gun:entindex(),
+		Queue = 0,
+	})
+	return thisEntity.gattling_gun:GetChannelTime()
 end
 --------------------------------------------------------------------------------
 

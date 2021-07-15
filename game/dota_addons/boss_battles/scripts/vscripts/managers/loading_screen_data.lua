@@ -6,7 +6,6 @@ end
 -- send data to front end, if client is ready
 function loading_screen_data:SendLeaderBoardData()
     if IsServer() then
-        -- holy shit.. the server really does send data when the client isn't ready (without this delay the data wont display for the client)
         Timers:CreateTimer(5,function ()
             -- make the http request and send the data to clients once it returns. 
             self:GetLeaderBoardDataFromApi()
@@ -27,7 +26,7 @@ function loading_screen_data:GetLeaderBoardDataFromApi()
             local data = json.decode(response.Body)
             CustomGameEventManager:Send_ServerToAllClients( "loading_screen_data", data )
             return data
-         else 
+         else
              print("Http GET failed ", response.StatusCode)
          end
         end)

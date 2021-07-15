@@ -12,6 +12,7 @@ function fire_cross_grenade_thinker:OnCreated( kv )
 
         -- on spawn of the thinker create a particle thing on the ground
         --DebugDrawCircle(self:GetParent():GetAbsOrigin(),Vector(255,0,0),128,60,true,60)
+        AddFOWViewer(DOTA_TEAM_GOODGUYS, self:GetParent():GetAbsOrigin(), 8000, 9999, true)
 
         local particle = "particles/gyrocopter/gyro_rubick_blackhole.vpcf"
         self.effect_cast = ParticleManager:CreateParticle(particle, PATTACH_WORLDORIGIN, nil)

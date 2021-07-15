@@ -34,6 +34,7 @@ function HeroSelection:Start()
 			table.insert(copy_hero_name_list,"npc_dota_hero_templar_assassin")
 			table.insert(copy_hero_name_list,"npc_dota_hero_kunkka")
 			table.insert(copy_hero_name_list,"npc_dota_hero_grimstroke")
+			table.insert(copy_hero_name_list,"npc_dota_hero_pugna")
 
 		end
 
@@ -94,25 +95,36 @@ function HeroSelection:HeroPicked( event )
 		--print("event.HeroName ",event.HeroName)
 	--end
 
+	--[[HeroSelection.playersPicked = HeroSelection.playersPicked + 1
+	HeroSelection.playerPicks[ 2 ] = "npc_dota_hero_phantom_assassin"
+	CustomGameEventManager:Send_ServerToAllClients( "picking_player_pick",
+	{ PlayerID = 2, HeroName = "npc_dota_hero_phantom_assassin" } )]]
+
 	--Check if all heroes have been picked
 	if HeroSelection.playersPicked >= HeroSelection.numPickers then
 
 		-- check if any hero duplicates
 		local table_players_duplicate = {}
 		local table_heroes_duplicate_names = {}
-		local previous_hero = ""
+		local count = 0
 		for player_id, hero_name in pairs(HeroSelection.playerPicks) do
-			print("hero_name ",hero_name)
-			print("player_id ",player_id)
-			if hero_name == previous_hero then
-				print("duplicate hero found")
+			for _, hero_name_check in pairs(HeroSelection.playerPicks) do
+				if hero_name == hero_name_check then
+					count = count + 1
+					--print("count ",count)
+				end
+			end
+
+			if count >= 2 then
+				--print("duplicate hero found")
 				table.insert(table_players_duplicate,PlayerResource:GetPlayer(player_id))
 				table.insert(table_heroes_duplicate_names,hero_name)
 				HeroSelection.playersPicked = HeroSelection.playersPicked - 1
-				print("HeroSelection.playersPicked ",HeroSelection.playersPicked)
+				--print("HeroSelection.playersPicked ",HeroSelection.playersPicked)
 			end
-			previous_hero = hero_name
+			count = 0
 		end
+
 
 		-- send an event to clients and reset picking process for those players, when they pick new heroes it should run this check again or end the picking screen
 		print("#table_players_duplicate ",#table_players_duplicate)

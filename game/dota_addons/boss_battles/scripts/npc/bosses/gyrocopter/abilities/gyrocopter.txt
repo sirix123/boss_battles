@@ -468,6 +468,39 @@
             //"soundfile"  "soundevents/game_sounds_heroes/game_sounds_obsidian_destroyer.vsndevts"
 		}
     }
+
+    //=================================================================================================================
+    // gattling_gun
+    //=================================================================================================================
+    "gattling_gun"
+    { 
+        "BaseClass"                     "ability_lua"
+        "ScriptFile"                    "bosses/gyrocopter/gattling_gun"
+
+        // General
+        //-------------------------------------------------------------------------------------------------------------
+        "AbilityBehavior"               "DOTA_ABILITY_BEHAVIOR_NO_TARGET | DOTA_ABILITY_BEHAVIOR_CHANNELLED"
+        "AbilityUnitDamageType"         "DAMAGE_TYPE_PHYSICAL"  
+		"AbilityCooldown"               "40 40 40 40"
+        "AbilityManaCost"               "0"
+        "AbilityCastRange" 				"5000"
+        "AbilityChannelTime"            "20 20 20 20"
+		"AbilityCastPoint"              "0.5 0.5 0.5 0.5"
+        "AbilityCastAnimation"          "ACT_DOTA_GENERIC_CHANNEL_1"
+ 
+		"precache"
+		{
+			//"soundfile"	"soundevents/voscripts/game_sounds_vo_shredder.vsndevts"
+			//"particle"	"particles/timber/napalm_wave_basedtidehuntergushupgrade.vpcf"
+		}
+
+        // Special
+        //-------------------------------------------------------------------------------------------------------------
+        "AbilitySpecial"
+		{
+
+		}
+    }
 }
 
 

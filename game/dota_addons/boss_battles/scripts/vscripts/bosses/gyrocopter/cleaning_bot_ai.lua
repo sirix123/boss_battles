@@ -1,14 +1,19 @@
 cleaning_bot_ai = class({})
 LinkLuaModifier( "oil_fire_checker_modifier", "bosses/gyrocopter/oil_fire_checker_modifier", LUA_MODIFIER_MOTION_NONE )
+LinkLuaModifier( "modifier_cleaing_bot_shield", "bosses/gyrocopter/modifier_cleaing_bot_shield", LUA_MODIFIER_MOTION_NONE )
+
 --------------------------------------------------------------------------------
 
 function Spawn( entityKeyValues )
     if not IsServer() then return end
     if thisEntity == nil then return end
 
+    AddFOWViewer(DOTA_TEAM_GOODGUYS, thisEntity:GetAbsOrigin(), 8000, 9999, true)
+
     thisEntity:AddNewModifier( nil, nil, "modifier_remove_healthbar", { duration = -1 } )
 	thisEntity:AddNewModifier( nil, nil, "modifier_phased", { duration = -1 })
     thisEntity:AddNewModifier( nil, nil, "modifier_invulnerable", { duration = -1 })
+    thisEntity:AddNewModifier( nil, nil, "modifier_cleaing_bot_shield", { duration = -1 })
 
     thisEntity.cleaning_bot_explode = thisEntity:FindAbilityByName( "cleaning_bot_explode" )
 
@@ -49,6 +54,9 @@ function CleaningThinker()
     -- find oil puddles or fire puddles
     if thisEntity.STATE == 1 then
         --print("phase 1")
+        thisEntity:AddNewModifier( nil, nil, "modifier_invulnerable", { duration = -1 })
+        thisEntity:AddNewModifier( nil, nil, "modifier_remove_healthbar", { duration = -1 } )
+        thisEntity:AddNewModifier( nil, nil, "modifier_cleaing_bot_shield", { duration = -1 })
 
         if #_G.Oil_Puddles ~= 0 or #_G.Fire_Puddles ~= 0 then
             local oil_or_fire = RandomInt(1,2)
@@ -137,13 +145,17 @@ function CleaningThinker()
     if thisEntity.STATE == 4 then
         --print("phase 4")
 
-        thisEntity.nPreviewFXIndex = ParticleManager:CreateParticle( "particles/econ/events/darkmoon_2017/darkmoon_calldown_marker.vpcf", PATTACH_CUSTOMORIGIN, nil )
+        --[[thisEntity.nPreviewFXIndex = ParticleManager:CreateParticle( "particles/econ/events/darkmoon_2017/darkmoon_calldown_marker.vpcf", PATTACH_CUSTOMORIGIN, nil )
         ParticleManager:SetParticleControl( thisEntity.nPreviewFXIndex, 0, thisEntity:GetAbsOrigin() )
         ParticleManager:SetParticleControl( thisEntity.nPreviewFXIndex, 1, Vector( 350, -350, -350 ) )
         ParticleManager:SetParticleControl( thisEntity.nPreviewFXIndex, 2, Vector( 15, 0, 0 ) );
-        ParticleManager:ReleaseParticleIndex(thisEntity.nPreviewFXIndex)
+        ParticleManager:ReleaseParticleIndex(thisEntity.nPreviewFXIndex)]]
 
         EmitSoundOn("tinker_tink_ability_heatseekingmissile_03", thisEntity)
+
+        thisEntity:RemoveModifierByName("modifier_invulnerable")
+        thisEntity:RemoveModifierByName("modifier_remove_healthbar")
+        thisEntity:RemoveModifierByName("modifier_cleaing_bot_shield")
 
         Timers:CreateTimer(10, function()
             if IsValidEntity(thisEntity) == false then
@@ -159,7 +171,7 @@ function CleaningThinker()
             ParticleManager:SetParticleControl(particle_area_fx, 3, thisEntity:GetAbsOrigin())
             ParticleManager:ReleaseParticleIndex(particle_area_fx)
 
-            local enemies = FindUnitsInRadius(
+            --[[local enemies = FindUnitsInRadius(
                 thisEntity:GetTeamNumber(),	-- int, your team number
                 thisEntity:GetAbsOrigin(),	-- point, center point
                 nil,	-- handle, cacheUnit. (not known)
@@ -169,9 +181,9 @@ function CleaningThinker()
                 DOTA_UNIT_TARGET_FLAG_INVULNERABLE,	-- int, flag filter
                 FIND_CLOSEST,	-- int, order filter
                 false	-- bool, can grow cache
-            )
+            )]]
 
-            if enemies ~= nil and #enemies ~= 0 then
+            --[[if enemies ~= nil and #enemies ~= 0 then
 
                 local particle_burn_fx = ParticleManager:CreateParticle("particles/units/heroes/hero_obsidian_destroyer/obsidian_destroyer_sanity_eclipse_mana_loss.vpcf", PATTACH_ABSORIGIN_FOLLOW, thisEntity)
                 ParticleManager:SetParticleControl(particle_burn_fx, 0, enemies[1]:GetAbsOrigin())
@@ -185,13 +197,13 @@ function CleaningThinker()
                 }
 
                 ApplyDamage(dmgTable)
-            end
+            end]]
 
-            if enemies == nil or #enemies == 0 then
+            --if enemies == nil or #enemies == 0 then
                 if thisEntity.cleaning_bot_explode:IsFullyCastable() and thisEntity.cleaning_bot_explode:IsCooldownReady() and thisEntity.cleaning_bot_explode:IsInAbilityPhase() == false then
                     CastExplode()
                 end
-            end
+            --end
 
             if thisEntity:HasModifier("oil_fire_checker_modifier") then
                 --print("we removing ti here? or fucking what")

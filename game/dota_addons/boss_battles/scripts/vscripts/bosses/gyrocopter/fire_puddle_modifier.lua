@@ -12,7 +12,7 @@ end
 --------------------------------------------------------------------------------
 function fire_puddle_modifier:OnCreated(kv)
 	self.tick_rate = 0.2
-	self.dmg = 10
+	self.dmg = 2
 
 	if IsServer() then
         self:StartIntervalThink(self.tick_rate)
