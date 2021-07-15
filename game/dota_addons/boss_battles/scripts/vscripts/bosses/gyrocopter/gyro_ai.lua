@@ -62,6 +62,7 @@ function Spawn( entityKeyValues )
 	thisEntity.flame_thrower_duration = thisEntity.flame_thrower:GetLevelSpecialValueFor("duration", thisEntity.flame_thrower:GetLevel())
 
 	thisEntity.gattling_gun = thisEntity:FindAbilityByName("gattling_gun")
+	thisEntity.gattling_gun:StartCooldown(25)
 
 	thisEntity.percent_total_health = thisEntity:GetBaseMaxHealth() / 4 -- 1/4 of max (50k if 200kmax)
 	thisEntity.gyro_call_down_count_tracker = 0

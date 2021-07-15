@@ -44,33 +44,13 @@ end
 
 function templar_basic:GetManaCost(level)
 	local caster = self:GetCaster()
-	local modifier = "templar_power_charge"
-	local base_mana_cost = self.BaseClass.GetManaCost(self, level)
-
-	local stacks = 0
-	if caster:HasModifier(modifier) then
-		stacks = caster:GetModifierStackCount(modifier, caster)
-	end
-
-	local mana_cost = base_mana_cost
-
-    local mana_reduction_per_stack = self:GetCaster():FindAbilityByName("templar_passive"):GetSpecialValueFor( "power_charge_m1_mana_cost_reduction_per_stack" )
-
-    if stacks == 1 then
-        mana_cost = mana_cost - ( mana_cost * ( mana_reduction_per_stack / 100 ) ) -- 10%
-    elseif stacks == 2 then
-        mana_cost = mana_cost - ( mana_cost * ( mana_reduction_per_stack * 2 / 100 ) ) -- 20%
-    elseif stacks == 3 then
-        mana_cost = mana_cost - ( mana_cost * ( mana_reduction_per_stack * 3 / 100 ) ) -- 30%
-    end
+    local mana_cost = 0
 
     if caster:GetMana() <= 10 then
         mana_cost = 0
     end
 
-    mana_cost = caster:GetMana() * 0.08
-
-
+    mana_cost = caster:GetMana() * ( self:GetSpecialValueFor("percent_of_mana_cost") / 100) --0.08
 
 	return mana_cost
 end
