@@ -36,7 +36,7 @@
 		{
             "01"{ "var_type"			"FIELD_INTEGER"		"barrage_duration"		            "5" }
             "02"{ "var_type"			"FIELD_INTEGER"		"charge_speed"		                "1500" }
-            "03"{ "var_type"			"FIELD_FLOAT"		"oil_drop_freq"		                "0.2" }
+            "03"{ "var_type"			"FIELD_FLOAT"		"oil_drop_freq"		                "0.5" }
             "04"{ "var_type"			"FIELD_INTEGER"		"barrage_dmg"                       "15" }
             "05"{ "var_type"			"FIELD_FLOAT"		"barrage_tick_rate"                 "0.1" }
 		}
@@ -81,7 +81,7 @@
 		"AbilitySpecial"
 		{
             "01"{ "var_type"			"FIELD_INTEGER"		"speed"		                        "1500" }
-            "02"{ "var_type"			"FIELD_FLOAT"		"oil_drop_freq"		                "0.2" }
+            "02"{ "var_type"			"FIELD_FLOAT"		"oil_drop_freq"		                "0.9" }
 		}
 
         "precache"
@@ -210,7 +210,7 @@
             "01"{ "var_type"			"FIELD_INTEGER"		"distance"		                "15000 18000 20000 25000" }
             "02"{ "var_type"			"FIELD_INTEGER"		"radius"		                "180" }
             "03"{ "var_type"			"FIELD_INTEGER"		"ball_speed"		            "1000 1100 1200 1300" }
-            "04"{ "var_type"			"FIELD_INTEGER"		"damage"		                "400" }
+            "04"{ "var_type"			"FIELD_INTEGER"		"damage"		                "350" }
             "05"{ "var_type"			"FIELD_INTEGER"		"balls_to_summon"		        "1 2 3 4" }
 		}
 
@@ -253,7 +253,7 @@
 		"AbilitySpecial"
 		{
             "01"{ "var_type"			"FIELD_INTEGER"		"speed"		                        "1500" }
-            "02"{ "var_type"			"FIELD_FLOAT"		"oil_drop_freq"		                "0.5" }
+            "02"{ "var_type"			"FIELD_FLOAT"		"oil_drop_freq"		                "1.0" }
             "03"{ "var_type"			"FIELD_FLOAT"		"return_value"		                "15" }
             "04"{ "var_type"			"FIELD_FLOAT"		"gap_between_rings"		            "300" }
             "05"{ "var_type"			"FIELD_FLOAT"		"max_rings"		                    "2 2 3 3" } // first level not used
@@ -484,7 +484,7 @@
 		"AbilityCooldown"               "40 40 40 40"
         "AbilityManaCost"               "0"
         "AbilityCastRange" 				"5000"
-        "AbilityChannelTime"            "20 20 20 20"
+        "AbilityChannelTime"            "11 11 11 11"
 		"AbilityCastPoint"              "0.5 0.5 0.5 0.5"
         "AbilityCastAnimation"          "ACT_DOTA_GENERIC_CHANNEL_1"
  

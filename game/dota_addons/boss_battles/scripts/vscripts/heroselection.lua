@@ -96,9 +96,9 @@ function HeroSelection:HeroPicked( event )
 	--end
 
 	--[[HeroSelection.playersPicked = HeroSelection.playersPicked + 1
-	HeroSelection.playerPicks[ 2 ] = "npc_dota_hero_phantom_assassin"
+	HeroSelection.playerPicks[ 1 ] = "npc_dota_hero_phantom_assassin"
 	CustomGameEventManager:Send_ServerToAllClients( "picking_player_pick",
-	{ PlayerID = 2, HeroName = "npc_dota_hero_phantom_assassin" } )]]
+	{ PlayerID = 1, HeroName = "npc_dota_hero_phantom_assassin" } )]]
 
 	--Check if all heroes have been picked
 	if HeroSelection.playersPicked >= HeroSelection.numPickers then
@@ -120,11 +120,15 @@ function HeroSelection:HeroPicked( event )
 				table.insert(table_players_duplicate,PlayerResource:GetPlayer(player_id))
 				table.insert(table_heroes_duplicate_names,hero_name)
 				HeroSelection.playersPicked = HeroSelection.playersPicked - 1
+				--HeroSelection.playerPicks[ player_id ] = nil
 				--print("HeroSelection.playersPicked ",HeroSelection.playersPicked)
 			end
 			count = 0
 		end
 
+		for player_id, hero_name in pairs(HeroSelection.playerPicks) do
+			print("player_id: ",player_id,"hero_name ",hero_name)
+		end
 
 		-- send an event to clients and reset picking process for those players, when they pick new heroes it should run this check again or end the picking screen
 		print("#table_players_duplicate ",#table_players_duplicate)

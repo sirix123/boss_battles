@@ -42,7 +42,7 @@
 			"01"{ "var_type"			"FIELD_INTEGER"		"radius"									"300" }	 
 			"02"{ "var_type"			"FIELD_INTEGER"		"damage"									"20" }
 			"03"{ "var_type"			"FIELD_INTEGER"		"percent_of_mana_cost"						"8" }
-			"04"{ "var_type"			"FIELD_INTEGER"		"bonus_damage"								"100" }
+			"04"{ "var_type"			"FIELD_INTEGER"		"bonus_damage"								"70" }
 		}
 	}
 

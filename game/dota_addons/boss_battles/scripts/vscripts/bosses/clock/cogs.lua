@@ -207,7 +207,7 @@ function cogs:OnSpellStart()
                     self,
                     "root_thinker_modifier",
                     {
-                        duration = 2,
+                        duration = 3,
                         pos_x = randomX,
                         pos_y = randomY,
                     },

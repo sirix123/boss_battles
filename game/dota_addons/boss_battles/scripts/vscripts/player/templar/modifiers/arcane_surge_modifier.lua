@@ -76,7 +76,7 @@ function arcane_surge_modifier:OnIntervalThink()
             DOTA_UNIT_TARGET_TEAM_ENEMY,	-- int, team filter
             DOTA_UNIT_TARGET_BASIC,	-- int, type filter
             0,	-- int, flag filter
-            0,	-- int, order filter
+            FIND_CLOSEST,	-- int, order filter
             false	-- bool, can grow cache
         )
 

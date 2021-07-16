@@ -69,7 +69,7 @@ function templar_basic:OnSpellStart()
     local radius = self:GetSpecialValueFor("radius")
 	local damage = self:GetSpecialValueFor("damage")
 
-    damage = damage + ( self:GetCaster():GetMana() )
+    damage = damage + ( self:GetCaster():GetMana() * (self:GetSpecialValueFor("bonus_damage") / 100 ) )
 
 	local enemies = FindUnitsInCone(
 		caster:GetTeamNumber(),

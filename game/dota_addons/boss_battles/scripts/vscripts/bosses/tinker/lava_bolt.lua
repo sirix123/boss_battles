@@ -19,7 +19,11 @@ end
 function lava_bolt:OnSpellStart()
 	if IsServer() then
 
-        local particle = "particles/custom/sirix_mouse/range_finder_cone.vpcf"
+        --local particle = "particles/custom/sirix_mouse/range_finder_cone.vpcf"
+
+        local particle = "particles/tinker/tinker_lava_overhead.vpcf"
+        self.overhead = ParticleManager:CreateParticle( particle, PATTACH_OVERHEAD_FOLLOW, self:GetCaster() )
+        ParticleManager:SetParticleControl( self.overhead, 0, self:GetCaster():GetAbsOrigin())
 
         self.num_balls = nil
         if self:GetCaster():HasModifier("lava_bolt_modifier_stacks") then
@@ -48,17 +52,17 @@ function lava_bolt:OnSpellStart()
 
 			self.ball_data = {}
 
-			self.particleNfx = ParticleManager:CreateParticle(particle, PATTACH_ABSORIGIN_FOLLOW, self:GetCaster())
+			--[[self.particleNfx = ParticleManager:CreateParticle(particle, PATTACH_ABSORIGIN_FOLLOW, self:GetCaster())
 			ParticleManager:SetParticleControl(self.particleNfx , 0, Vector(0,0,0))
 			ParticleManager:SetParticleControl(self.particleNfx , 3, Vector(40,40,0)) -- line width
-			ParticleManager:SetParticleControl(self.particleNfx , 4, Vector(255,0,0)) -- colour
+			ParticleManager:SetParticleControl(self.particleNfx , 4, Vector(255,0,0)) -- colour]]
 
             direction = RandomVector(1):Normalized()
 
 			self.distance = self:GetCaster():GetAbsOrigin() + direction * 300
 
-			ParticleManager:SetParticleControl(self.particleNfx , 1, self:GetCaster():GetAbsOrigin()) -- origin
-			ParticleManager:SetParticleControl(self.particleNfx , 2, self.distance)  -- target
+			--ParticleManager:SetParticleControl(self.particleNfx , 1, self:GetCaster():GetAbsOrigin()) -- origin
+			--ParticleManager:SetParticleControl(self.particleNfx , 2, self.distance)  -- target
 
 			--[[local portal_particle = "particles/econ/items/weaver/weaver_immortal_ti6/weaver_immortal_ti6_shukuchi_portal.vpcf"
 			self.particleNfx_portal = ParticleManager:CreateParticle(portal_particle, PATTACH_ABSORIGIN_FOLLOW, self:GetCaster())
@@ -72,7 +76,7 @@ function lava_bolt:OnSpellStart()
 			table.insert(self.balls,self.ball_data)
 		end
 
-        Timers:CreateTimer(function()
+        --[[Timers:CreateTimer(function()
 
             for _, value in ipairs(self.balls) do
                 ParticleManager:SetParticleControl(value["particle_index"] , 1, self:GetCaster():GetAbsOrigin()) -- origin
@@ -82,14 +86,13 @@ function lava_bolt:OnSpellStart()
             end
 
             return 0.03
-        end)
-
+        end)]]
 
         Timers:CreateTimer(3,function() 
-            for _, value in ipairs(self.balls) do
+            --[[for _, value in ipairs(self.balls) do
                 ParticleManager:DestroyParticle(value["particle_index"], true)
                 --ParticleManager:DestroyParticle(value["particleNfx_portal"], true)
-            end
+            end]]
 
             local radius = self:GetSpecialValueFor("radius")
             local projectile_speed = self:GetSpecialValueFor("ball_speed")
@@ -100,6 +103,9 @@ function lava_bolt:OnSpellStart()
             Timers:CreateTimer(function()
 
                 if i == #self.balls then
+                    if self.overhead then
+                        ParticleManager:DestroyParticle(self.overhead, true)
+                    end
                     return false
                 end
 

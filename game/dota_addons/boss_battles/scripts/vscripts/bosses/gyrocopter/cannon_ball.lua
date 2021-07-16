@@ -221,7 +221,7 @@ function cannon_ball:OilSpawner()
 				end
 			end
 
-			return 1
+			return 1.5
 		end)
 	end
 end

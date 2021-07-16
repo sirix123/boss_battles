@@ -7,9 +7,13 @@ function gattling_gun:OnAbilityPhaseStart()
 
         self.caster = self:GetCaster()
         self.origin = self.caster:GetAbsOrigin()
-        self.projectile_speed = 2300
+        self.projectile_speed = 2500
         self.radius = 120
         self.damage = 10
+
+        local particle =  "particles/gyrocopter/higher_gyro_flak_cannon_overhead.vpcf"
+        self.gat_particle = ParticleManager:CreateParticle( particle, PATTACH_OVERHEAD_FOLLOW, self:GetCaster() )
+        ParticleManager:SetParticleControl( self.gat_particle, 0, self.origin)
 
         self:GetCaster():EmitSound("gyrocopter_gyro_attack_06")
 
@@ -23,6 +27,10 @@ function gattling_gun:OnAbilityPhaseInterrupted()
 
         self:GetCaster():RemoveGesture(ACT_DOTA_ATTACK)
 
+        if self.gat_particle then
+            ParticleManager:DestroyParticle(self.gat_particle,true)
+        end
+
     end
 end
 
@@ -32,6 +40,10 @@ function gattling_gun:OnChannelFinish(bInterrupted)
         self:GetCaster():RemoveGesture(ACT_DOTA_ATTACK)
 
         self:StartCooldown(self:GetCooldown(self:GetLevel()))
+
+        if self.gat_particle then
+            ParticleManager:DestroyParticle(self.gat_particle,true)
+        end
 
     end
 end
@@ -75,6 +87,9 @@ function gattling_gun:OnChannelThink( interval )
         self:GetCaster():EmitSound("Hero_Gyrocopter.Attack")
 
         if units ~= nil and #units ~= 0 then
+
+            self:GetCaster():SetForwardVector(units[1]:GetAbsOrigin())
+            self:GetCaster():FaceTowards(units[1]:GetAbsOrigin())
 
             local projectile_direction = (Vector( units[1]:GetAbsOrigin().x - self:GetCaster():GetAbsOrigin().x, units[1]:GetAbsOrigin().y - self:GetCaster():GetAbsOrigin().y, 0 )):Normalized()
 

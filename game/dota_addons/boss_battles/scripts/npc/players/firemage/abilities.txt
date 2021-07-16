@@ -28,6 +28,7 @@
 			"03"{ "var_type"			"FIELD_INTEGER"		"buff_duration"					"3" 	} 
 			"04"{ "var_type"			"FIELD_INTEGER"		"beam_length"					"750" 	} 
 			"05"{ "var_type"			"FIELD_INTEGER"		"buff_channel_time"				"6" 	} // timer runs at 0.5
+			"06"{ "var_type"			"FIELD_INTEGER"		"damageand_mana_gain_reduction"	"33" 	}
 
 		}
 	}

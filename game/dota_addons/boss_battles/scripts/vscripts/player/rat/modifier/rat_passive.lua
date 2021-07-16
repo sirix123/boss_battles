@@ -25,11 +25,13 @@ function rat_passive_modifier:OnCreated( params )
         self:StartIntervalThink(FrameTime())
 
         self.has_stim_pack_buff = false
+        self.stutter_flag = true
 
         -- gaining rat stacks
         Timers:CreateTimer(self:GetCaster():FindAbilityByName("rat_passive"):GetSpecialValueFor( "rat_stack_generate_time" ), function()
 
-            if self:GetParent():HasModifier("stim_pack_debuff") == true then return self:GetCaster():FindAbilityByName("rat_passive"):GetSpecialValueFor( "rat_stack_generate_time" ) end
+            --if self:GetParent():HasModifier("stim_pack_debuff") == true then return self:GetCaster():FindAbilityByName("rat_passive"):GetSpecialValueFor( "rat_stack_generate_time" ) end
+            if self.stutter_flag == true then return self:GetCaster():FindAbilityByName("rat_passive"):GetSpecialValueFor( "rat_stack_generate_time" ) end
             if self:GetParent():HasModifier("stim_pack_buff") == true then return self:GetCaster():FindAbilityByName("rat_passive"):GetSpecialValueFor( "rat_stack_generate_time" ) end
 
             if self.rat_moving == false or self:GetParent():HasModifier("casting_modifier_thinker") == true or self:GetParent():HasModifier("burrow_modifier") == true then
@@ -46,10 +48,11 @@ function rat_passive_modifier:OnCreated( params )
         end)
 
         -- losing rat stacks while moving
-        Timers:CreateTimer(self:GetCaster():FindAbilityByName("rat_passive"):GetSpecialValueFor( "rat_stack_generate_time" ) / 2 , function()
+        Timers:CreateTimer(self:GetCaster():FindAbilityByName("rat_passive"):GetSpecialValueFor( "rat_stack_generate_time" ) / 2 , function() -- lose rat stacks at double the rate if moving
 
-            if self:GetParent():HasModifier("stim_pack_debuff") == true then return self:GetCaster():FindAbilityByName("rat_passive"):GetSpecialValueFor( "rat_stack_generate_time" ) end
-            if self:GetParent():HasModifier("stim_pack_buff") == true then return self:GetCaster():FindAbilityByName("rat_passive"):GetSpecialValueFor( "rat_stack_generate_time" ) end
+            --if self:GetParent():HasModifier("stim_pack_debuff") == true then return self:GetCaster():FindAbilityByName("rat_passive"):GetSpecialValueFor( "rat_stack_generate_time" ) end
+            if self.stutter_flag == true then return self:GetCaster():FindAbilityByName("rat_passive"):GetSpecialValueFor( "rat_stack_generate_time" ) / 2 end
+            if self:GetParent():HasModifier("stim_pack_buff") == true then return self:GetCaster():FindAbilityByName("rat_passive"):GetSpecialValueFor( "rat_stack_generate_time" ) / 2 end
 
             if self.rat_moving == true then
                 if self:GetParent():HasModifier("rat_stacks") and self:GetParent():HasModifier("casting_modifier_thinker") == false then
@@ -58,6 +61,15 @@ function rat_passive_modifier:OnCreated( params )
             end
 
             return self:GetCaster():FindAbilityByName("rat_passive"):GetSpecialValueFor( "rat_stack_generate_time" ) / 2
+        end)
+
+        -- sutter step flag
+        Timers:CreateTimer(self:GetCaster():FindAbilityByName("rat_basic_attack"):GetCastPoint() , function() -- lose rat stacks at double the rate if moving
+
+            -- reset stutter flag.. might need a faster timer for this.... as cp for m1 is shorter then this
+            self.stutter_flag = false
+
+            return self:GetCaster():FindAbilityByName("rat_basic_attack"):GetCastPoint()
         end)
     end
 end
@@ -90,11 +102,11 @@ function rat_passive_modifier:OnIntervalThink()
 
     self.has_stim_pack_buff = false
 
-    if self:GetParent():HasModifier("stim_pack_debuff") == true then
+    --[[if self:GetParent():HasModifier("stim_pack_debuff") == true then
         self.rat_moving = false
         self:GetParent():RemoveModifierByName("rat_stacks")
         return
-    end
+    end]]
 
 	if parent.direction.x ~= 0 or parent.direction.y ~= 0 then
 		if parent:IsStunned() or parent:IsCommandRestricted() or parent:IsRooted() then
@@ -103,6 +115,12 @@ function rat_passive_modifier:OnIntervalThink()
 		else
             --print("rat is moving")
             self.rat_moving = true
+            if self.stutter_flag == false then
+                if self:GetParent():HasModifier("rat_stacks") and self:GetParent():HasModifier("casting_modifier_thinker") == false then
+                    self:GetParent():FindModifierByName("rat_stacks"):DecrementStackCount()
+                end
+                self.stutter_flag = true
+            end
 		end
 	else
         --print("rat is not moving")

@@ -110,7 +110,7 @@ function rat_basic_attack:OnSpellStart()
             -- set proj direction to mouse location
             local vTargetPos = nil
             vTargetPos = Vector(self.caster.mouse.x, self.caster.mouse.y, self.caster.mouse.z)
-            local projectile_direction = (Vector( vTargetPos.x - origin.x, vTargetPos.y - origin.y, 0 )):Normalized()
+            local projectile_direction = (Vector( vTargetPos.x - self.caster:GetAbsOrigin().x, vTargetPos.y - self.caster:GetAbsOrigin().y, 0 )):Normalized()
 
             -- end timer logic
             if nProj == self.nMaxProj then
@@ -120,7 +120,7 @@ function rat_basic_attack:OnSpellStart()
 
             local projectile = {
                 EffectName = "particles/rat/rat_hoodwink_base_attack.vpcf",
-                vSpawnOrigin = origin + Vector(0, 0, 100),
+                vSpawnOrigin = self.caster:GetAbsOrigin() + Vector(0, 0, 100),
                 fDistance = self:GetCastRange(Vector(0,0,0), nil),
                 fUniqueRadius = self:GetSpecialValueFor( "hit_box" ),
                 Source = self.caster,
@@ -147,7 +147,7 @@ function rat_basic_attack:OnSpellStart()
 
                         ApplyDamage(dmgTable)
 
-                    end
+                    
 
                     EmitSoundOnLocationWithCaster(unit:GetAbsOrigin(), "Hero_Hoodwink.ProjectileImpact", self.caster)
 
@@ -161,6 +161,8 @@ function rat_basic_attack:OnSpellStart()
                     --if nProjHit == 3 then
                         self.caster:GiveMana(self:GetSpecialValueFor( "mana_gain_percent" ))
                     --end
+
+                    end
 
                 end,
                 OnFinish = function(_self, pos)

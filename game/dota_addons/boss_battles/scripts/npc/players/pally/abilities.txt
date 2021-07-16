@@ -77,9 +77,9 @@
         
 		"AbilitySpecial"
 		{
-			"01"{ "var_type"			"FIELD_INTEGER"		"heal"							"320" 	}
+			"01"{ "var_type"			"FIELD_INTEGER"		"heal"							"360" 	}
 			"02"{ "var_type"			"FIELD_INTEGER"		"delay"							"0.1" 	}
-			"03"{ "var_type"			"FIELD_INTEGER"		"radius"						"300" 	}
+			"03"{ "var_type"			"FIELD_INTEGER"		"radius"						"350" 	}
 		}
 	}
 

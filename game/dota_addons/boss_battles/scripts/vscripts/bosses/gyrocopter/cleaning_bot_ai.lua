@@ -11,7 +11,7 @@ function Spawn( entityKeyValues )
     AddFOWViewer(DOTA_TEAM_GOODGUYS, thisEntity:GetAbsOrigin(), 8000, 9999, true)
 
     thisEntity:AddNewModifier( nil, nil, "modifier_remove_healthbar", { duration = -1 } )
-	thisEntity:AddNewModifier( nil, nil, "modifier_phased", { duration = -1 })
+	--thisEntity:AddNewModifier( nil, nil, "modifier_phased", { duration = -1 })
     thisEntity:AddNewModifier( nil, nil, "modifier_invulnerable", { duration = -1 })
     thisEntity:AddNewModifier( nil, nil, "modifier_cleaing_bot_shield", { duration = -1 })
 
@@ -107,7 +107,7 @@ function CleaningThinker()
         end
 
         local distance = ( thisEntity:GetAbsOrigin() - thisEntity.puddle_location ):Length2D()
-        if distance < 150 then
+        if distance < 300 then
             thisEntity.moving = true
             thisEntity.STATE = 3
         end
@@ -159,6 +159,10 @@ function CleaningThinker()
 
         Timers:CreateTimer(10, function()
             if IsValidEntity(thisEntity) == false then
+                return false
+            end
+
+            if thisEntity:IsAlive() == false then
                 return false
             end
 

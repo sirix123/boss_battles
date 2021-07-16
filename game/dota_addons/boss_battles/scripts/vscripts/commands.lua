@@ -154,37 +154,44 @@ function Commands:OnPlayerChat(keys)
                     BOSS_BATTLES_ENCOUNTER_COUNTER = 4
                     --GameSetup:ReadyupCheck()
                     --self:StartBoss(2)
+                    GameRules:SendCustomMessage("Boss set to: " .. bossName, 0, 0)
                 end
-                if bossName == "Timersaw" then
+                if bossName == "Timbersaw" then
                     print("TODO: start boss ", bossName)
                     BOSS_BATTLES_ENCOUNTER_COUNTER = 3
                     --GameSetup:ReadyupCheck()
                     --self:StartBoss(3)
+                    GameRules:SendCustomMessage("Boss set to: " .. bossName, 0, 0)
                 end
                 if bossName == "Techies" then
                     print("TODO: start boss ", bossName)
                     BOSS_BATTLES_ENCOUNTER_COUNTER = 5
                     --GameSetup:ReadyupCheck()
                     --self:StartBoss(4)
+                    GameRules:SendCustomMessage("Boss set to: " .. bossName, 0, 0)
                 end
                 if bossName == "Clockwerk" then
                     print("TODO: start boss ", bossName)
                     BOSS_BATTLES_ENCOUNTER_COUNTER = 6
                     --GameSetup:ReadyupCheck()
                     --self:StartBoss(5)
+                    GameRules:SendCustomMessage("Boss set to: " .. bossName, 0, 0)
                 end
                 if bossName == "Gyrocopter" then
                     print("TODO: start boss ", bossName)
                     BOSS_BATTLES_ENCOUNTER_COUNTER = 2
                     --GameSetup:ReadyupCheck()
                     --self:StartBoss(6)
+                    GameRules:SendCustomMessage("Boss set to: " .. bossName, 0, 0)
                 end
                 if bossName == "Tinker" then
                     print("TODO: start boss ", bossName)
                     BOSS_BATTLES_ENCOUNTER_COUNTER = 7
                     --GameSetup:ReadyupCheck()
                     --self:StartBoss(7)
+                    GameRules:SendCustomMessage("Boss set to: " .. bossName, 0, 0)
                 end
+
             end
 
         elseif bGAME_COMPLETE == true then

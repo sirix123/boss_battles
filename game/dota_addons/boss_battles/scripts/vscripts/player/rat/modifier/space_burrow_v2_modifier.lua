@@ -7,7 +7,7 @@ function space_burrow_v2_modifier:IsHidden()
 end
 
 function space_burrow_v2_modifier:IsDebuff()
-	return false
+	return true
 end
 
 -----------------------------------------------------------------------------

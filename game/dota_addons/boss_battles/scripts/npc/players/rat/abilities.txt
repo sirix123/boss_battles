@@ -39,8 +39,8 @@
         
 		"AbilitySpecial"
 		{
-			"01"{ "var_type"			"FIELD_INTEGER"		"dmg"							"30" } 
-			"02"{ "var_type"			"FIELD_INTEGER"		"hit_box"						"80" }
+			"01"{ "var_type"			"FIELD_INTEGER"		"dmg"							"35" } 
+			"02"{ "var_type"			"FIELD_INTEGER"		"hit_box"						"100" }
 			"03"{ "var_type"			"FIELD_INTEGER"		"proj_speed"					"1200" }
 			"04"{ "var_type"			"FIELD_INTEGER"		"mana_gain_percent"				"3" }
 		}
@@ -69,7 +69,7 @@
         
 		"AbilitySpecial"
 		{
-			"01"{ "var_type"			"FIELD_INTEGER"		"dmg"							"350" 	}
+			"01"{ "var_type"			"FIELD_INTEGER"		"dmg"							"400" 	}
 			"02"{ "var_type"			"FIELD_INTEGER"		"hit_box"						"110" 	}
 			"03"{ "var_type"			"FIELD_INTEGER"		"proj_speed"					"1200" 	}
 		}
@@ -118,7 +118,7 @@
 		"AbilityTextureName"			"hoodwink_scurry"
         "AbilityBehavior"				"DOTA_ABILITY_BEHAVIOR_NO_TARGET | DOTA_ABILITY_BEHAVIOR_IMMEDIATE | DOTA_ABILITY_BEHAVIOR_IGNORE_BACKSWING | DOTA_ABILITY_BEHAVIOR_DONT_CANCEL_MOVEMENT | DOTA_ABILITY_BEHAVIOR_IGNORE_PSEUDO_QUEUE"
 		"AbilityCastRange" 				"750" //750
-        "AbilityCooldown"				"20"
+        "AbilityCooldown"				"35"
         "AbilityCastPoint"              "0.0"
 		"AbilityManaCost"        		"20"
 
@@ -132,7 +132,7 @@
 		{
 			"01"{ "var_type"			"FIELD_INTEGER"		"buff_duration"				"10" }
 			"02"{ "var_type"			"FIELD_INTEGER"		"duration_debuff"			"5" }
-			"03"{ "var_type"			"FIELD_INTEGER"		"ms_slow"					"50" }
+			"03"{ "var_type"			"FIELD_INTEGER"		"ms_slow"					"80" }
 		}
 
 		"precache"

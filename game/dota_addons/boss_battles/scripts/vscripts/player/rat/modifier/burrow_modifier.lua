@@ -7,7 +7,7 @@ function burrow_modifier:IsHidden()
 end
 
 function burrow_modifier:IsDebuff()
-	return false
+	return true
 end
 
 function burrow_modifier:GetEffectName()

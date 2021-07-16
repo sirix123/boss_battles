@@ -37,6 +37,10 @@ function space_burrow_v2_modifier_thinker_first:OnCreated( kv )
         ParticleManager:SetParticleControl(self.effect_cast_1, 0, self.location)
         ParticleManager:SetParticleControl(self.effect_cast_1, 2, self.location)
 
+        particle = "particles/rat/rat_teleport_spring_2021_rays.vpcf"
+        self.effect_cast_2 = ParticleManager:CreateParticle(particle, PATTACH_WORLDORIGIN, nil)
+        ParticleManager:SetParticleControl(self.effect_cast_2, 0, self.location)
+
 
         self:StartIntervalThink( self.interval )
 	end
@@ -93,6 +97,9 @@ function space_burrow_v2_modifier_thinker_first:OnDestroy( kv )
         end
         if self.effect_cast_1 then
             ParticleManager:DestroyParticle(self.effect_cast_1,true)
+        end
+        if self.effect_cast_2 then
+            ParticleManager:DestroyParticle(self.effect_cast_2,true)
         end
         self:StartIntervalThink( -1 )
         UTIL_Remove( self.parent )

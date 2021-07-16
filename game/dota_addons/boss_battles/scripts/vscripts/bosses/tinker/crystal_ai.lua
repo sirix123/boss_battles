@@ -378,7 +378,7 @@ function CrystalPhase2Spawner()
             target:AddNewModifier( target, nil, "phase_2_crystal_spawn_modifier", { duration = 7 } )
         end
 
-		return 30
+		return 40
 	end)
 end
 --------------------------------------------------------------------------------

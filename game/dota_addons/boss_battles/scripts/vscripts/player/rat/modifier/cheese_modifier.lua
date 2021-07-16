@@ -31,6 +31,8 @@ function cheese_modifier:OnCreated( kv )
             self:IncrementStackCount()
         end
 
+        self:GetCaster():Heal(self.heal_amount * self:GetStackCount(), self:GetCaster())
+
         self:StartIntervalThink(1)
 
     end

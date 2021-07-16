@@ -40,7 +40,7 @@ function r_infest_modifier:OnCreated( kv )
 			ParticleManager:DestroyParticle(self.particle, true)
 		end
 
-		self.particle = ParticleManager:CreateParticle("particles/rat/_rat_wisp_relocate_timer_custom.vpcf", PATTACH_OVERHEAD_FOLLOW, self:GetParent())
+		self.particle = ParticleManager:CreateParticleForPlayer("particles/rat/_rat_wisp_relocate_timer_custom.vpcf", PATTACH_OVERHEAD_FOLLOW, self:GetParent(), self:GetCaster():GetPlayerOwner())
 		--local digitX = self.count >= 10 and 1 or 0
 		if self.count >= 10 and self.count < 20 then
 			digitX = 1
@@ -86,6 +86,10 @@ function r_infest_modifier:OnDestroy()
             dmg = self.total_damage,
         } -- kv
     )
+
+	if self.particle then
+		ParticleManager:DestroyParticle(self.particle, true)
+	end
 
     Timers:RemoveTimer(self.timer)
 

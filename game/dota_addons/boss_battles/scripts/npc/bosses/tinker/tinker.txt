@@ -57,7 +57,7 @@
 		"StatusHealth"				"100"		// Base health.
 		"StatusHealthRegen"			"0.0"		// Health regeneration rate.
 		"StatusMana"				"100"		// Base mana.
-		"StatusManaRegen"			"2.5"		// Mana regeneration rate.		 
+		"StatusManaRegen"			"1.7"		// Mana regeneration rate.	 REMEBER TO CHANGE GREEN BEAM SPELL AS WELL	 AND MANA DRAIN ON THE BOT
 		
 		// Vision
 		//----------------------------------------------------------------
@@ -134,7 +134,7 @@
 
 		// Status
 		//----------------------------------------------------------------
-		"StatusHealth"				"90000"		// Base health.
+		"StatusHealth"				"120000"		// Base health.
 		"StatusHealthRegen"			"0.0"		// Health regeneration rate.
 		"StatusMana"				"100"		// Base mana.
 		"StatusManaRegen"			"0.0"		// Mana regeneration rate.		 
