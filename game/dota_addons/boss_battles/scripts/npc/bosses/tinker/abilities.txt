@@ -1297,9 +1297,9 @@
 		"AbilitySpecial"
 		{
             "01"{ "var_type"			"FIELD_INTEGER"		"distance"		                "15000 15000 15000 15000" }
-            "02"{ "var_type"			"FIELD_INTEGER"		"radius"		                "50" }
+            "02"{ "var_type"			"FIELD_INTEGER"		"radius"		                "80" }
             "03"{ "var_type"			"FIELD_INTEGER"		"ball_speed"		            "1500 1500 1500 1500" }
-            "04"{ "var_type"			"FIELD_INTEGER"		"damage"		                "100" }
+            "04"{ "var_type"			"FIELD_INTEGER"		"damage"		                "200" }
 		}
 
         "precache"

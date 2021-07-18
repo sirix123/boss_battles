@@ -87,11 +87,11 @@ function red_missile:OnSpellStart()
                 if unit:GetUnitName() == "npc_crystal" then
                     self:HitCrystal( unit )
                     if self.stack_count == 0 then
-                        unit:GiveMana(10)
-                        BossNumbersOnTarget(unit, 10, Vector(75,75,255))
+                        unit:GiveMana(5)
+                        BossNumbersOnTarget(unit, 5, Vector(75,75,255))
                     else
-                        unit:GiveMana(10)
-                        BossNumbersOnTarget(unit, 10, Vector(75,75,255))
+                        unit:GiveMana(5)
+                        BossNumbersOnTarget(unit, 5, Vector(75,75,255))
                     end
                 else
                     -- fire puddle on ground

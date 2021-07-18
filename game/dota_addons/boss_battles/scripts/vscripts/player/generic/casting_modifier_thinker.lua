@@ -19,6 +19,12 @@ function casting_modifier_thinker:OnCreated(params)
             self.MoveSpeedReduction = -50
         end
 
+        if params.bSpellLock == 1  then
+            self.silenced = true
+        else
+            self.silenced = false
+        end
+
         if params.animation_sequence then
             self.animation_sequence = params.animation_sequence
         else
@@ -133,4 +139,14 @@ function casting_modifier_thinker:GetActivityTranslationModifiers()
     if self.animation_sequence then
         return self.animation_sequence
     end
+end
+-----------------------------------------------------------------
+
+function casting_modifier_thinker:CheckState()
+
+	state = {
+			[MODIFIER_STATE_SILENCED] = self.silenced
+    }
+
+	return state
 end

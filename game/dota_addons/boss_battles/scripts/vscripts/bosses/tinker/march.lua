@@ -123,15 +123,26 @@ function march:OnSpellStart()
                 return false
             end
 
+            local i = 1
             for _, start_spawn in pairs(tStartSpawns) do
-                for i = 1, nProj, 1 do
+
+                Timers:CreateTimer(0.08, function()
+                    if IsValidEntity(self) == false then
+                        return false
+                    end
+
+                    if i == nProj then
+                        return false
+                    end
+
                     local offset = self.proj_radius * i
                     local vSpawnOrigin = start_spawn.vSpawn + ( start_spawn.vFillDirection * offset )
                     local randomSpeed = RandomInt(300, 500)
                     self:CreateProjectile(vSpawnOrigin, start_spawn.vProjDirection, randomSpeed)
-                    --print("vSpawnOrigin ", vSpawnOrigin)
-                    --DebugDrawCircle(vSpawnOrigin, Vector(0,0,255), 128, 10, true, 60)
-                end
+
+                    i = i + 1
+                    return 0.08
+                end)
             end
 
             numWaves = numWaves + 1

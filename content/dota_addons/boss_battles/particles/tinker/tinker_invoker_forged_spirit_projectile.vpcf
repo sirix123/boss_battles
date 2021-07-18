@@ -223,7 +223,7 @@
 			m_ChildRef = resource:"particles/units/heroes/hero_invoker/invoker_forged_spirit_projectile_trail.vpcf"
 		},
 		{
-			m_ChildRef = resource:"particles/units/heroes/hero_invoker/invoker_forged_spirit_projectile_trail_c.vpcf"
+			m_ChildRef = resource:"particles/tinker/tinker_invoker_forged_spirit_projectile_trail_c.vpcf"
 		},
 	]
 }

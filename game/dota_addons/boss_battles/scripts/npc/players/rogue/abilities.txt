@@ -26,13 +26,8 @@
 		{
 			"01"{ "var_type"			"FIELD_INTEGER"		"radius"				"250" }	 
 			"02"{ "var_type"			"FIELD_INTEGER"		"damage"				"60" }
-<<<<<<< Updated upstream
 			"03"{ "var_type"			"FIELD_INTEGER"		"bleed_duration"		"5"    	}	
 			"04"{ "var_type"			"FIELD_INTEGER"		"dmg_dot_base"		    "50"    }	
-=======
-			"03"{ "var_type"			"FIELD_INTEGER"		"dmg_dot_base"		"60"    	}	
-			"04"{ "var_type"			"FIELD_INTEGER"		"bleed_duration"		    "5"    }	
->>>>>>> Stashed changes
             "05"{ "var_type"			"FIELD_FLOAT"		"damage_interval"		"1"   	}	
 			"06"{ "var_type"			"FIELD_FLOAT"		"bonus_bleed_percent"	"30"   }
 		}

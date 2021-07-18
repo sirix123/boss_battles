@@ -5,7 +5,7 @@ function OnSocialButtonOnePressed(){
     $.Msg("click social button 1 website");
 
     //$.DispatchEvent("ExternalBrowserGoToURL", "your_url");
-    $.DispatchEvent("ExternalBrowserGoToURL", "https://www.bossbattles.co");
+    $.DispatchEvent("ExternalBrowserGoToURL", "http://bossbattles.co/Landing");
 
 }
 

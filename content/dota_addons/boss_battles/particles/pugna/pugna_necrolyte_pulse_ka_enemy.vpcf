@@ -2,9 +2,10 @@
 {
 	_class = "CParticleSystemDefinition"
 	m_bShouldHitboxesFallbackToRenderBounds = false
-	m_nMaxParticles = 20
+	m_nMaxParticles = 16
+	m_nConstantSequenceNumber = 6
+	m_bShouldSort = false
 	m_nBehaviorVersion = 11
-	m_nFirstMultipleOverride_BackwardCompat = 1
 	m_controlPointConfigurations = 
 	[
 		{
@@ -17,6 +18,11 @@
 				},
 				{
 					m_iControlPoint = 1
+					m_iAttachType = "PATTACH_WORLDORIGIN"
+					m_entityName = "self"
+				},
+				{
+					m_iControlPoint = 3
 					m_iAttachType = "PATTACH_WORLDORIGIN"
 					m_entityName = "self"
 				},
@@ -40,12 +46,29 @@
 			_class = "C_INIT_CreateWithinSphere"
 		},
 		{
+			_class = "C_INIT_RandomRadius"
+			m_flRadiusMin = 60.0
+			m_flRadiusMax = 60.0
+		},
+		{
+			_class = "C_INIT_RandomLifeTime"
+		},
+		{
+			_class = "C_INIT_RandomTrailLength"
+			m_flMinLength = 0.4
+			m_flMaxLength = 0.4
+		},
+		{
+			_class = "C_INIT_VelocityFromCP"
+			m_nControlPoint = 1
+		},
+		{
 			_class = "C_INIT_PositionOffset"
-			m_OffsetMax = 
+			m_OffsetMin = 
 			{
 				m_nType = "PVEC_TYPE_LITERAL"
-				m_vLiteralValue = [ 0.0, 0.0, 250.0 ]
-				m_LiteralColor = [ 0, 0, 0, 255 ]
+				m_vLiteralValue = [ 0.0, 0.0, 50.0 ]
+				m_LiteralColor = [ 0, 0, 0 ]
 				m_nVectorAttribute = 6
 				m_vVectorAttributeScale = [ 1.0, 1.0, 1.0 ]
 				m_nControlPoint = 0
@@ -241,11 +264,11 @@
 					m_Stops = [  ]
 				}
 			}
-			m_OffsetMin = 
+			m_OffsetMax = 
 			{
 				m_nType = "PVEC_TYPE_LITERAL"
-				m_vLiteralValue = [ 0.0, 0.0, 250.0 ]
-				m_LiteralColor = [ 0, 0, 0, 255 ]
+				m_vLiteralValue = [ 0.0, 0.0, 50.0 ]
+				m_LiteralColor = [ 0, 0, 0 ]
 				m_nVectorAttribute = 6
 				m_vVectorAttributeScale = [ 1.0, 1.0, 1.0 ]
 				m_nControlPoint = 0
@@ -446,44 +469,52 @@
 	m_Operators = 
 	[
 		{
-			_class = "C_OP_SetControlPointsToParticle"
-			m_nFirstControlPoint = 3
-		},
-		{
-			_class = "C_OP_OscillateVector"
-			m_bOffset = true
-			m_RateMin = [ -45.0, -45.0, -25.0 ]
-			m_RateMax = [ 50.0, 50.0, 25.0 ]
-			m_FrequencyMin = [ 0.2, 0.2, 0.2 ]
-			m_flEndTime_min = 9999.0
-			m_flEndTime_max = 99999.0
-		},
-		{
 			_class = "C_OP_BasicMovement"
-		},
-		{
-			_class = "C_OP_PositionLock"
 		},
 		{
 			_class = "C_OP_Decay"
 			m_nOpEndCapState = "PARTICLE_ENDCAP_ENDCAP_ON"
 		},
+		{
+			_class = "C_OP_SetChildControlPoints"
+			m_nFirstControlPoint = 3
+			m_bSetOrientation = true
+		},
+		{
+			_class = "C_OP_MovementMaintainOffset"
+			m_vecOffset = [ 0.0, 0.0, 50.0 ]
+		},
 	]
 	m_Renderers = 
 	[
 		{
-			_class = "C_OP_RenderSprites"
-			m_flStartFadeSize = 0.675
-			m_flEndFadeSize = 0.75
-			m_flMaxSize = 0.85
-			m_flOverbrightFactor = 1.5
-			m_flAddSelfAmount = 2.0
-			m_bBlendFramesSeq0 = false
-			m_bSaturateColorPreAlphaBlend = false
+			_class = "C_OP_RenderTrails"
+			m_flOverbrightFactor = 3.0
+			m_bDisableOperator = true
+			m_flLengthFadeInTime = 0.1
+			m_flMaxLength = 128.0
+			m_flRadiusScale = 
+			{
+				m_nType = "PF_TYPE_LITERAL"
+				m_flLiteralValue = 0.5
+			}
 			m_vecTexturesInput = 
 			[
 				{
-					m_hTexture = resource:"materials/particle/spray1/spray1.vtex"
+					m_hTexture = resource:"materials/particle/sparks/sparks.vtex"
+					m_TextureControls = 
+					{
+						m_flFinalTextureScaleV = 
+						{
+							m_nType = "PF_TYPE_LITERAL"
+							m_flLiteralValue = -1.0
+						}
+						m_flFinalTextureOffsetV = 
+						{
+							m_nType = "PF_TYPE_LITERAL"
+							m_flLiteralValue = 1.0
+						}
+					}
 				},
 			]
 		},
@@ -491,50 +522,36 @@
 	m_Children = 
 	[
 		{
-			m_ChildRef = resource:"particles/units/heroes/hero_disruptor/disruptor_thunder_strike_machine.vpcf"
-			m_bDisableChild = true
+			m_ChildRef = resource:"particles/econ/items/necrolyte/necronub_death_pulse/necrolyte_pulse_ka_launch.vpcf"
 		},
 		{
-			m_ChildRef = resource:"particles/units/heroes/hero_disruptor/disruptor_thunder_strike_buff_cloud.vpcf"
-			m_bDisableChild = true
+			m_ChildRef = resource:"particles/econ/items/necrolyte/necronub_death_pulse/necrolyte_pulse_ka_trail_enemy.vpcf"
 		},
 		{
-			m_ChildRef = resource:"particles/units/heroes/hero_disruptor/disruptor_thunder_strike_buff_cloud_c.vpcf"
-			m_bDisableChild = true
+			m_ChildRef = resource:"particles/econ/items/necrolyte/necronub_death_pulse/necrolyte_pulse_ka_trail_enemy_b.vpcf"
 		},
 		{
-			m_ChildRef = resource:"particles/tinker/tinker_disruptor_thunder_strike_buff_sphere.vpcf"
-		},
-		{
-			m_ChildRef = resource:"particles/units/heroes/hero_disruptor/disruptor_thunder_strike_buff_sphere2.vpcf"
-			m_bDisableChild = true
-		},
-		{
-			m_ChildRef = resource:"particles/tinker/tinker_disruptor_thunder_strike_buff_sphereeg.vpcf"
-			m_bDisableChild = true
-		},
-		{
-			m_ChildRef = resource:"particles/tinker/tinker_disruptor_thunder_strike_buff_bolt.vpcf"
-		},
-		{
-			m_ChildRef = resource:"particles/units/heroes/hero_disruptor/disruptor_thunder_strike_buff_sphere3pulse.vpcf"
-			m_bDisableChild = true
-		},
-		{
-			m_ChildRef = resource:"particles/units/heroes/hero_disruptor/disruptor_thunder_strike_buff_sphere3.vpcf"
-			m_bDisableChild = true
-		},
-		{
-			m_ChildRef = resource:"particles/units/heroes/hero_disruptor/disruptor_thunder_strike_buff_sparks.vpcf"
-			m_bDisableChild = true
+			m_ChildRef = resource:"particles/econ/items/necrolyte/necronub_death_pulse/necrolyte_pulse_ka_trail_enemy_c.vpcf"
 		},
 		{
 			m_bEndCap = true
-			m_ChildRef = resource:"particles/units/heroes/hero_disruptor/disruptor_thunderstrike_buff_endcap.vpcf"
+			m_ChildRef = resource:"particles/econ/items/necrolyte/necronub_death_pulse/necrolyte_pulse_ka_sparks_reverse.vpcf"
 		},
 		{
-			m_ChildRef = resource:"particles/units/heroes/hero_disruptor/disruptor_thunder_strike_buffstrt.vpcf"
-			m_bDisableChild = true
+			m_bEndCap = true
+			m_ChildRef = resource:"particles/econ/items/necrolyte/necronub_death_pulse/necrolyte_pulse_ka_enemy_explosion.vpcf"
+		},
+		{
+			m_ChildRef = resource:"particles/econ/items/necrolyte/necronub_death_pulse/necrolyte_pulse_ka_enemy_skull.vpcf"
+		},
+		{
+			m_ChildRef = resource:"particles/econ/items/necrolyte/necronub_death_pulse/necrolyte_pulse_ka_enemy_sparks.vpcf"
+		},
+		{
+			m_ChildRef = resource:"particles/econ/items/necrolyte/necronub_death_pulse/necrolyte_pulse_ka_enemy_skull_glow.vpcf"
+		},
+		{
+			m_ChildRef = resource:"particles/econ/items/necrolyte/necronub_death_pulse/necrolyte_pulse_ka_sand_trail.vpcf"
 		},
 	]
 }

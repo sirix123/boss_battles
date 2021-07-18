@@ -3,33 +3,31 @@
 	"pugna_passive"
 	{
 		"BaseClass"						"ability_lua"
-		"ScriptFile"					"player/rat/modifier/rat_passive"
+		"ScriptFile"					"player/pugna/pugna_passive"
 		"MaxLevel"						"1"
-		"AbilityTextureName"			"hoodwink_acorn_shot"
+		"AbilityTextureName"			"pugna_decrepify"
         "AbilityBehavior"				"DOTA_ABILITY_BEHAVIOR_PASSIVE"
         
 		"AbilitySpecial"
 		{
-			"01"{ "var_type"			"FIELD_INTEGER"		"castpoint_reduction"			"20" 	}
-			"02"{ "var_type"			"FIELD_INTEGER"		"rat_stack_generate_time"		"2" 	}
-			"03"{ "var_type"			"FIELD_INTEGER"		"rat_stack_max"					"5" 	}
+			"01"{ "var_type"			"FIELD_INTEGER"		"max_soul_shards"				"3" 	}
+			"02"{ "var_type"			"FIELD_INTEGER"		"outgoing_damage_per_shard"		"5" 	}
 		}
 	}
 
 
-	"rat_basic_attack"
+	"pugna_basic_attack"
 	{
 		"BaseClass"						"ability_lua"
-		"ScriptFile"					"player/rat/rat_basic_attack"
+		"ScriptFile"					"player/pugna/pugna_basic_attack"
 		"MaxLevel"						"1"
 
-		"AbilityTextureName"			"hoodwink_bushwhack"
-		"AbilityUnitTargetTeam"			"DOTA_UNIT_TARGET_TEAM_ENEMY"
+		"AbilityTextureName"			"skeleton_king_hellfire_blast"
 		"AbilityUnitDamageType"			"DAMAGE_TYPE_PHYSICAL"	
         "AbilityBehavior"				"DOTA_ABILITY_BEHAVIOR_POINT | DOTA_ABILITY_BEHAVIOR_IGNORE_PSEUDO_QUEUE"
 		"AbilityCastRange" 				"1000"
         "AbilityCooldown"				"0.0"
-        "AbilityCastPoint"              "0.8"
+        "AbilityCastPoint"              "0.5"
 
 		"TargetingIndicator"
 		{
@@ -39,26 +37,25 @@
         
 		"AbilitySpecial"
 		{
-			"01"{ "var_type"			"FIELD_INTEGER"		"dmg"							"30" } 
+			"01"{ "var_type"			"FIELD_INTEGER"		"dmg"							"100" } 
 			"02"{ "var_type"			"FIELD_INTEGER"		"hit_box"						"80" }
-			"03"{ "var_type"			"FIELD_INTEGER"		"proj_speed"					"1200" }
-			"04"{ "var_type"			"FIELD_INTEGER"		"mana_gain_percent"				"3" }
+			"03"{ "var_type"			"FIELD_INTEGER"		"proj_speed"					"1000" }
+			"04"{ "var_type"			"FIELD_INTEGER"		"mana_gain_percent"				"5" }
 		}
 	}
 
-	"rat_m2"
+	"pugna_m2"
 	{
 		"BaseClass"						"ability_lua"
-		"ScriptFile"					"player/rat/rat_m2"
+		"ScriptFile"					"player/pugna/pugna_m2"
 		"MaxLevel"						"1"
 
-		"AbilityTextureName"			"hoodwink_hunters_boomerang"
-		"AbilityUnitTargetTeam"			"DOTA_UNIT_TARGET_TEAM_ENEMY"
+		"AbilityTextureName"			"abyssal_underlord_firestorm"
 		"AbilityUnitDamageType"			"DAMAGE_TYPE_PHYSICAL"
         "AbilityBehavior"				"DOTA_ABILITY_BEHAVIOR_POINT | DOTA_ABILITY_BEHAVIOR_IGNORE_PSEUDO_QUEUE"
 		"AbilityCastRange" 				"1200"
         "AbilityCooldown"				"0"
-        "AbilityCastPoint"              "1.0"
+        "AbilityCastPoint"              "0.4"
 		"AbilityManaCost"        		"20"
 
 		"TargetingIndicator"
@@ -69,24 +66,26 @@
         
 		"AbilitySpecial"
 		{
-			"01"{ "var_type"			"FIELD_INTEGER"		"dmg"							"200" 	}
+			"01"{ "var_type"			"FIELD_INTEGER"		"dmg"							"300" 	}
 			"02"{ "var_type"			"FIELD_INTEGER"		"hit_box"						"110" 	}
 			"03"{ "var_type"			"FIELD_INTEGER"		"proj_speed"					"1200" 	}
 		}
 	}
 
-	"q_eat_cheese"
+	"soul_drain"
 	{
 		"BaseClass"						"ability_lua"
-		"ScriptFile"					"player/rat/q_eat_cheese"
+		"ScriptFile"					"player/pugna/soul_drain"
 		"MaxLevel"						"1"
 
-		"AbilityTextureName"			"hoodwink_decoy"
-        "AbilityBehavior"				"DOTA_ABILITY_BEHAVIOR_NO_TARGET | DOTA_ABILITY_BEHAVIOR_IMMEDIATE | DOTA_ABILITY_BEHAVIOR_IGNORE_BACKSWING | DOTA_ABILITY_BEHAVIOR_DONT_CANCEL_MOVEMENT | DOTA_ABILITY_BEHAVIOR_IGNORE_PSEUDO_QUEUE"
-		"AbilityCastRange" 				"750" //750
-        "AbilityCooldown"				"0"
-        "AbilityCastPoint"              "0.0"
-		"AbilityManaCost"        		"20"
+		"AbilityTextureName"			"pugna_life_drain"
+		"AbilityUnitTargetTeam"			"DOTA_UNIT_TARGET_TEAM_ENEMY"
+		"AbilityUnitDamageType"			"DAMAGE_TYPE_PHYSICAL"
+        "AbilityBehavior"				"DOTA_ABILITY_BEHAVIOR_POINT | DOTA_ABILITY_BEHAVIOR_IGNORE_PSEUDO_QUEUE"
+		"AbilityCastRange" 				"1000" //750
+        "AbilityCooldown"				"15"
+        "AbilityCastPoint"              "0.2"
+		"AbilityManaCost"        		"0"
 
 		"TargetingIndicator"
 		{
@@ -96,28 +95,32 @@
         
 		"AbilitySpecial"
 		{
-			"01"{ "var_type"			"FIELD_INTEGER"		"heal"				"100" }
+			"01"{ "var_type"			"FIELD_INTEGER"		"mana"								"10" }
+			"02"{ "var_type"			"FIELD_INTEGER"		"dmg"								"100" }
+			"03"{ "var_type"			"FIELD_INTEGER"		"drain_tick_rate"					"1" }
+			"04"{ "var_type"			"FIELD_INTEGER"		"max_ticks"							"3" }
+			"05"{ "var_type"			"FIELD_INTEGER"		"duration_buff_soul_crystal"		"55" }
 		}
 
 		"precache"
 		{
-			"soundfile"	"soundevents/game_sounds_items.vsndevts"
+
 		}
 
 	}
 
-	"e_stim_pack"
+	"e_magic_circle_pugna"
 	{
 		"BaseClass"						"ability_lua"
-		"ScriptFile"					"player/rat/e_stim_pack"
+		"ScriptFile"					"player/pugna/e_magic_circle_pugna"
 		"MaxLevel"						"1"
 
-		"AbilityTextureName"			"hoodwink_scurry"
-        "AbilityBehavior"				"DOTA_ABILITY_BEHAVIOR_NO_TARGET | DOTA_ABILITY_BEHAVIOR_IMMEDIATE | DOTA_ABILITY_BEHAVIOR_IGNORE_BACKSWING | DOTA_ABILITY_BEHAVIOR_DONT_CANCEL_MOVEMENT | DOTA_ABILITY_BEHAVIOR_IGNORE_PSEUDO_QUEUE"
-		"AbilityCastRange" 				"750" //750
+		"AbilityTextureName"			"pugna_nether_blast"
+        "AbilityBehavior"				"DOTA_ABILITY_BEHAVIOR_POINT | DOTA_ABILITY_BEHAVIOR_IGNORE_PSEUDO_QUEUE"
+		"AbilityCastRange" 				"1000" //750
         "AbilityCooldown"				"20"
-        "AbilityCastPoint"              "0.0"
-		"AbilityManaCost"        		"20"
+        "AbilityCastPoint"              "0.4"
+		"AbilityManaCost"        		"0"
 
 		"TargetingIndicator"
 		{
@@ -127,9 +130,10 @@
         
 		"AbilitySpecial"
 		{
-			"01"{ "var_type"			"FIELD_INTEGER"		"buff_duration"				"10" }
-			"02"{ "var_type"			"FIELD_INTEGER"		"duration_debuff"			"5" }
-			"03"{ "var_type"			"FIELD_INTEGER"		"ms_slow"					"50" }
+			"01"{ "var_type"			"FIELD_INTEGER"		"radius"				"300" }
+			"02"{ "var_type"			"FIELD_INTEGER"		"duration"				"10" }
+			"03"{ "var_type"			"FIELD_INTEGER"		"dmg"					"50" }
+			"04"{ "var_type"			"FIELD_INTEGER"		"thinker_tick_rate"		"1" }
 		}
 
 		"precache"
@@ -139,19 +143,19 @@
 
 	}
 
-	"r_infest"
+	"r_infest_pugna"
 	{
 		"BaseClass"						"ability_lua"
-		"ScriptFile"					"player/rat/r_infest"
+		"ScriptFile"					"player/pugna/r_infest_pugna"
 		"MaxLevel"						"1"
 
-		"AbilityTextureName"			"bristleback_viscous_nasal_goo"
+		"AbilityTextureName"			"undying_soul_rip"
 		"AbilityUnitDamageType"			"DAMAGE_TYPE_PHYSICAL"	
         "AbilityBehavior"				"DOTA_ABILITY_BEHAVIOR_POINT | DOTA_ABILITY_BEHAVIOR_IGNORE_PSEUDO_QUEUE" // | DOTA_ABILITY_BEHAVIOR_AOE
 		"AbilityCastRange" 				"1000"
-        "AbilityCooldown"				"45"
+        "AbilityCooldown"				"40"
         "AbilityCastPoint"              "0.4"
-		"AbilityManaCost"        		"20"
+		"AbilityManaCost"        		"0"
 
 		"TargetingIndicator"
 		{
@@ -162,7 +166,7 @@
 		"AbilitySpecial"
 		{
 			"01"{ "var_type"			"FIELD_INTEGER"		"duration"									"10" }
-			"02"{ "var_type"			"FIELD_INTEGER"		"dot_duration"								"5" }
+			"02"{ "var_type"			"FIELD_INTEGER"		"dot_duration"								"15" }
 			
 		}
 
@@ -172,17 +176,16 @@
 		}
 	}
 
-	"space_burrow"
+	"space_disperse"
 	{
 		"BaseClass"						"ability_lua"
-		"ScriptFile"					"player/rat/space_burrow"
+		"ScriptFile"					"player/pugna/space_disperse"
 		"MaxLevel"						"1"
 
-		"AbilityTextureName"			"nyx_assassin_burrow"
+		"AbilityTextureName"			"abyssal_underlord_dark_rift"
         "AbilityBehavior"				"DOTA_ABILITY_BEHAVIOR_NO_TARGET | DOTA_ABILITY_BEHAVIOR_IMMEDIATE | DOTA_ABILITY_BEHAVIOR_IGNORE_BACKSWING | DOTA_ABILITY_BEHAVIOR_DONT_CANCEL_MOVEMENT | DOTA_ABILITY_BEHAVIOR_IGNORE_PSEUDO_QUEUE"
-		//"AbilityCastAnimation"          "ACT_DOTA_CAST_ABILITY_1"
 		"AbilityCastRange" 				"1000"
-        "AbilityCooldown"				"25"//"20" 0
+        "AbilityCooldown"				"35"//"20" 0
         "AbilityCastPoint"              "0" // 0.4
 
 		"TargetingIndicator"
@@ -193,7 +196,8 @@
         
 		"AbilitySpecial"
 		{
-			"01"{ "var_type"			"FIELD_INTEGER"		"duration"	"4" }
+			"01"{ "var_type"			"FIELD_INTEGER"		"duration"				"3"   	}	 
+			"02"{ "var_type"			"FIELD_INTEGER"		"movespeed_bonus_pct"	"30"   		}
 		}
 
 		"precache"

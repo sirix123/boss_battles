@@ -93,8 +93,8 @@ function ice_shot_tinker:OnSpellStart()
                         unit:GiveMana(10)
                         BossNumbersOnTarget(unit, 10, Vector(75,75,255))
                     else
-                        unit:GiveMana(10)
-                        BossNumbersOnTarget(unit, 10, Vector(75,75,255))
+                        unit:GiveMana(5)
+                        BossNumbersOnTarget(unit, 5, Vector(75,75,255))
                     end
                     self:HitCrystal( unit )
                 elseif unit:GetTeamNumber() == DOTA_UNIT_TARGET_TEAM_ENEMY then

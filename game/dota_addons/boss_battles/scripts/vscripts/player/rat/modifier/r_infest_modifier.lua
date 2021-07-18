@@ -107,7 +107,7 @@ end
 function r_infest_modifier:OnTakeDamage( params )
     if IsServer() then
         --print("params.attacker.name ",params.attacker:GetUnitName())
-        if params.attacker:GetUnitName() == "npc_dota_hero_hoodwink" then
+        if params.attacker:GetUnitName() == "npc_dota_hero_hoodwink" or params.attacker:GetUnitName() == "npc_dota_hero_pugna" then
             --print("healing")
             --print("original_damage ",params.original_damage)
             --print("damage ",params.damage)

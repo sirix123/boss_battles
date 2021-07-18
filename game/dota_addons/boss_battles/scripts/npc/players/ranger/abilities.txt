@@ -119,7 +119,7 @@
 		"SpellImmunityType"				"SPELL_IMMUNITY_ENEMIES_YES"
         "AbilityBehavior"				"DOTA_ABILITY_BEHAVIOR_POINT | DOTA_ABILITY_BEHAVIOR_IGNORE_PSEUDO_QUEUE" //| DOTA_ABILITY_BEHAVIOR_AOE
 		"AbilityCastRange" 				"1500"
-        "AbilityCooldown"				"45"//"50"
+        "AbilityCooldown"				"40"//"50"
         "AbilityCastPoint"              "0.2"
 		"AbilityManaCost"        		"30"
 
@@ -132,7 +132,7 @@
 		"AbilitySpecial"
 		{
 			"01"{ "var_type"			"FIELD_INTEGER"		"radius"				"300" 	}
-			"02"{ "var_type"			"FIELD_INTEGER"		"duration"				"12" 	}
+			"02"{ "var_type"			"FIELD_INTEGER"		"duration"				"14" 	}
 			"03"{ "var_type"			"FIELD_FLOAT"		"cast_point_reduction"	"0.25" 	}
 			"04"{ "var_type"			"FIELD_FLOAT"		"proj_speed_increase"	"0.25" 	}
 			"05"{ "var_type"			"FIELD_INTEGER"		"dmg_increase"			"30" 	}
@@ -158,7 +158,7 @@
 		"AbilityUnitDamageType"			"DAMAGE_TYPE_PHYSICAL"
         "AbilityBehavior"				"DOTA_ABILITY_BEHAVIOR_POINT | DOTA_ABILITY_BEHAVIOR_IGNORE_PSEUDO_QUEUE" //| DOTA_ABILITY_BEHAVIOR_AOE
 		"AbilityCastRange" 				"3000"
-        "AbilityCooldown"				"5"
+        "AbilityCooldown"				"15"
         "AbilityCastPoint"              "0.2"
 		"AbilityManaCost"        		"50"
 		"AbilityDuration"				"1"

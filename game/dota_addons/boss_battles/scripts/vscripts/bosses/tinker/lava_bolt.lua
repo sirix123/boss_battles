@@ -31,7 +31,7 @@ function lava_bolt:OnSpellStart()
         end
 
         if self.num_balls == 0 or self.num_balls == nil then
-            self.num_balls = 1
+            self.num_balls = 20
         end
 
         --self.num_balls = 50
@@ -126,7 +126,7 @@ function lava_bolt:OnSpellStart()
                     WallBehavior = PROJECTILES_DESTROY,
                     GroundBehavior = PROJECTILES_NOTHING,
                     fGroundOffset = 80,
-                    draw = false,
+                    draw = true,
                     --bZCheck = false,
                     UnitTest = function(_self, unit)
 
@@ -169,7 +169,7 @@ function lava_bolt:OnSpellStart()
                 Projectiles:CreateProjectile(projectile)
 
                 i = i + 1
-                return 0.05
+                return 0.08
             end)
 
             return false
