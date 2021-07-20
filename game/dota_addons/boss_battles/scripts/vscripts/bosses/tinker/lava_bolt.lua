@@ -126,7 +126,7 @@ function lava_bolt:OnSpellStart()
                     WallBehavior = PROJECTILES_DESTROY,
                     GroundBehavior = PROJECTILES_NOTHING,
                     fGroundOffset = 80,
-                    draw = true,
+                    draw = false,
                     --bZCheck = false,
                     UnitTest = function(_self, unit)
 

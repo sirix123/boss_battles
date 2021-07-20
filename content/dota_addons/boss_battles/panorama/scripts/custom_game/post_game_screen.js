@@ -28,4 +28,5 @@ function PostPanelCloseButtonPressed(){
 (function () {
 	var rootPanel = $("#PostPanelContainer");
 	rootPanel.SetHasClass("hidden", true);
+	//rootPanel.RemoveClass("hidden"); 
 })();

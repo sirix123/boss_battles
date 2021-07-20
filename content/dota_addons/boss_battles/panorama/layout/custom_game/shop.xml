@@ -55,14 +55,20 @@
             <Panel id="ProductListContainer" class="ProductListContainer" >
                 <!-- SNIPPET HERE-->
             </Panel>
-            
 
             <Panel id="ProductListFooter" class="ProductListFooter" >
                 <Panel id="ProductListFooterTitle" class="ProductListFooterTitle" >
                     <Label id="ProductListTitleFooterTxt" class="ProductListTitleTxt" text="Purchases can take up to 2minutes to process." />
                 </Panel>
+                <Panel id="ToolTipInfoContainer" class="ToolTipInfoContainer" >
+                    <Label id="ToolTipInfo" class="ToolTipInfo" text="i" />
+                </Panel>
             </Panel>
-
         </Panel>
+
+        <Panel id="ToolTip" class="ToolTip"> 
+            <Label id="ToolTipTxt" text="ToolTipText" />
+        </Panel>
+
     </Panel>
 </root>

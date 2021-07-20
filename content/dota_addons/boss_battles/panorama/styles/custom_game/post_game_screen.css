@@ -13,8 +13,8 @@
 
 #PostPanelContainer
 {
-    width: 800px;
-    height: 800px;
+    width: 600px;
+    height: 400px;
 	horizontal-align: center;
 	vertical-align: center;
     background-color: #151515;
@@ -52,7 +52,7 @@
     horizontal-align: right;
     background-color: gradient( linear, 0% 0%, 0% 100%, from( #fa3535 ), to( #d6878733 ) );
     border: 3px solid black;
-    border-radius: 0px 12px 0px 0px;
+    border-radius: 0px 5px 0px 0px;
 }
 
 .PostPanelCloseButtonLabel{
@@ -71,7 +71,8 @@
 .PostPanelContainerBodyText{
     horizontal-align: center;
 	vertical-align: center;
+    margin: 10px;
 	color: #fff;
-	font-size: 17px;
+	font-size: 22px;
 	font-family: defaultFont;
 }

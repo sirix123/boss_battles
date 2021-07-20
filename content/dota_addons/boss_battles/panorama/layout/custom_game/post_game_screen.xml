@@ -15,14 +15,14 @@
         <Panel id="PostPanelContainer" hittest="true" >
             <Panel id="PostPanelContainerHeading" class="PostPanelContainerHeading">
                 <Panel id="PostPanelContainerHeadingTextContainer" class="PostPanelContainerHeadingTextContainer">
-                    <Label id="PostPanelContainerHeadingTextContainerText" class="PostPanelContainerHeadingTextContainerText" text="Post game screen" />
+                    <Label id="PostPanelContainerHeadingTextContainerText" class="PostPanelContainerHeadingTextContainerText" text="Game Complete!" />
                 </Panel>
                 <Button id="PostPanelCloseButton" class="PostPanelCloseButton" onactivate="PostPanelCloseButtonPressed()">
                     <Label id="PostPanelCloseButtonLabel" class="PostPanelCloseButtonLabel" text="X" />
                 </Button>
             </Panel>
             <Panel id="PostPanelContainerBody" class="PostPanelContainerBody">
-                <Label id="PostPanelContainerBodyText" class="PostPanelContainerBodyText" text="" />
+                <Label id="PostPanelContainerBodyText" class="PostPanelContainerBodyText" text="Thanks for playing Boss Battles! Your game has been uploaded to the leaderboard. The ready up area is now disabled" />
             </Panel>
         </Panel>
     </Panel>

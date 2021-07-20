@@ -34,7 +34,7 @@ function HeroSelection:Start()
 			table.insert(copy_hero_name_list,"npc_dota_hero_templar_assassin")
 			table.insert(copy_hero_name_list,"npc_dota_hero_kunkka")
 			table.insert(copy_hero_name_list,"npc_dota_hero_grimstroke")
-			--table.insert(copy_hero_name_list,"npc_dota_hero_pugna")
+			table.insert(copy_hero_name_list,"npc_dota_hero_hoodwink")
 
 		end
 

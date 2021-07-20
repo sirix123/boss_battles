@@ -120,6 +120,23 @@ function OnShopButtonPressed(){
 
 	let productListContainer = $("#ProductListContainer");
 
+    // load tooltip
+    // rootPanelMainShop
+    let tooltipLabel = $("#ToolTipInfoContainer")
+    let toolTipContainer = $("#ToolTip");
+	toolTipContainer.style.visibility = 'collapse';
+
+    tooltipLabel.SetPanelEvent( 'onmouseover', function () {
+        toolTipContainer.RemoveClass("hidden");
+        toolTipContainer.style.visibility = 'visible';
+        var tooltipText = toolTipContainer.FindChildInLayoutFile("ToolTipTxt");
+        tooltipText.text = "Use this shop UI to buy cosmetics for your heroes do not manually navigate to the shop on the website.";
+    });
+
+    tooltipLabel.SetPanelEvent( 'onmouseout', function () {
+        toolTipContainer.style.visibility = 'collapse';
+    });
+
     for (let [key, value] of Object.entries(product_list)) {
         for (let i = 0; i < value["products"].length; i++) {
 
@@ -333,5 +350,8 @@ function GetProductTitle( product_id ){
 
     var rootPanelMainShop = $("#ParentShopPanel");
 	rootPanelMainShop.SetHasClass("hidden", true);
+
+    var rootTooltip = $("#ToolTip");
+	rootTooltip.SetHasClass("hidden", true);
 })();
 

@@ -110,8 +110,8 @@ function CreateLeaderBoard( data ) {
 function UpdateScoreboardRows( data )
 {
     //$.Msg("UpdateScoreboardRows( data )")
-    //$.Msg("data = ", data)
-    //$.Msg("data[games] = ", data["games"])
+    $.Msg("data = ", data)
+    $.Msg("data[games] = ", data["games"])
 
     //for each row in the leaderboard
     for (var index in data["games"]) {

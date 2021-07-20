@@ -75,8 +75,8 @@
 		},
 		{
 			_class = "C_INIT_RandomColor"
-			m_ColorMin = [ 83, 146, 6 ]
-			m_ColorMax = [ 48, 126, 2 ]
+			m_ColorMin = [ 22, 74, 33 ]
+			m_ColorMax = [ 22, 74, 33 ]
 		},
 		{
 			_class = "C_INIT_RandomRotationSpeed"

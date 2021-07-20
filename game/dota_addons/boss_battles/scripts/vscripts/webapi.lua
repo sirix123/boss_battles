@@ -31,7 +31,7 @@ function WebApi:GetScoreboardData(heroIndex)
 end
 
 function WebApi:GetProductList()
-	local request = CreateHTTPRequestScriptVM("GET", "http://143.198.224.131/Shop/GetBossBattlesProducts")
+	local request = CreateHTTPRequestScriptVM("GET", "http://bossbattles.co/Shop/GetBossBattlesProducts")
 
 	request:Send(function(response)
 		if response.StatusCode == 200 then -- HTTP 200 = Success

@@ -1,7 +1,7 @@
 modifier_roar = modifier_roar or class({})
 
 function modifier_roar:IsDebuff() return false end
-function modifier_roar:IsHidden() return false end
+function modifier_roar:IsHidden() return true end
 function modifier_roar:IsStunDebuff() return true end
 function modifier_roar:IsMotionController()  return true end
 function modifier_roar:GetMotionControllerPriority()  return DOTA_MOTION_CONTROLLER_PRIORITY_MEDIUM end

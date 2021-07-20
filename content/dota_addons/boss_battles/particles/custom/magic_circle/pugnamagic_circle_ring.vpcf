@@ -76,8 +76,8 @@
 		},
 		{
 			_class = "C_INIT_RandomColor"
-			m_ColorMin = [ 21, 106, 43 ]
-			m_ColorMax = [ 21, 106, 40 ]
+			m_ColorMin = [ 14, 68, 28 ]
+			m_ColorMax = [ 14, 68, 28 ]
 		},
 		{
 			_class = "C_INIT_RandomRadius"
@@ -818,7 +818,7 @@
 			{
 				m_nType = "PF_TYPE_LITERAL"
 				m_nMapType = "PF_MAP_TYPE_DIRECT"
-				m_flLiteralValue = 1.5
+				m_flLiteralValue = 4.0
 				m_nControlPoint = 0
 				m_nScalarAttribute = 3
 				m_nVectorAttribute = 6
@@ -862,7 +862,7 @@
 			m_vecTexturesInput = 
 			[
 				{
-					m_hTexture = resource:"materials/particle/beam_plasma_08.vtex"
+					m_hTexture = resource:"materials/particle/beam_smokejuggsword_inverted_01.vtex"
 				},
 			]
 		},

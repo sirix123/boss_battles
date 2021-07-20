@@ -1,4 +1,5 @@
 pugna_m2 = class({})
+LinkLuaModifier("m2_dot_pugna", "player/pugna/modifiers/m2_dot_pugna", LUA_MODIFIER_MOTION_NONE)
 
 function pugna_m2:OnAbilityPhaseStart()
     if IsServer() then
@@ -94,6 +95,15 @@ function pugna_m2:OnSpellStart()
 
                     ApplyDamage(dmgTable)
 
+                    unit:AddNewModifier(
+                        self.caster, -- player source
+                        self, -- ability source
+                        "m2_dot_pugna", -- modifier name
+                        {
+                            duration = self:GetSpecialValueFor( "dot_duration" ),
+                        } -- kv
+                    )
+
                 end
 
                 EmitSoundOnLocationWithCaster(unit:GetAbsOrigin(), "Hero_Necrolyte.ProjectileImpact", self.caster)
@@ -187,6 +197,15 @@ function pugna_m2:OnProjectileHit( hTarget, vLocation)
             ApplyDamage(dmgTable)
 
             EmitSoundOnLocationWithCaster(hTarget:GetAbsOrigin(), "Hero_Necrolyte.ProjectileImpact", self.caster)
+
+            hTarget:AddNewModifier(
+                self.caster, -- player source
+                self, -- ability source
+                "m2_dot_pugna", -- modifier name
+                {
+                    duration = self:GetSpecialValueFor( "dot_duration" ),
+                } -- kv
+            )
 
             return true
         end

@@ -33,7 +33,7 @@ function StartModeSelect(){
 			//$.Msg("modeLabel-hover-on")
             toolTipContainer.style.visibility = 'visible';
             var tooltipText = toolTipContainer.FindChildInLayoutFile("ToolTipTxt")
-			tooltipText.text = "Please select a mode, if you do not select a mode it will default to Normal mode."
+			tooltipText.text = "Please select a mode. If you do not select a mode it will default to Normal mode. Only the lobby host sees this selection."
 		});
 
 		modeLabel.SetPanelEvent( 'onmouseout', function () {
@@ -46,7 +46,7 @@ function StartModeSelect(){
 			//$.Msg("storyModeButton-hover-on")
 			toolTipContainer.style.visibility = 'visible';
 			var tooltipText = toolTipContainer.FindChildInLayoutFile("ToolTipTxt")
-			tooltipText.text = "In Normal mode lives reset to 3 after every boss. If you wipe on a boss you stay on the same boss. In Story mode the chat command !start boss *boss name* will change the next boss to whatever boss you type. If you complete the game (kill Tinker) your game session will be posted on the Leaderboard."
+			tooltipText.text = "In Normal mode lives reset to 3 after every boss. If you wipe on a boss you stay on the same boss. In Normal mode the chat command !start boss *boss name* will change the next boss to whatever boss you type. If you complete the game (kill Tinker) your game session will be posted on the Leaderboard."
 		});
 
 		storyModeButton.SetPanelEvent( 'onmouseout', function () {
@@ -68,7 +68,7 @@ function StartModeSelect(){
 			//$.Msg("normalModeButton-hover-on")
             toolTipContainer.style.visibility = 'visible';
             var tooltipText = toolTipContainer.FindChildInLayoutFile("ToolTipTxt")
-			tooltipText.text = "In Hard mode every boss kill grants all players 1 life. If you wipe on a boss you reset back to the first boss. If you complete the game (kill Tinker) your game session will be posted on the Leaderboard. Note the !start boss command does not work in Hard mode."
+			tooltipText.text = "In Hard mode lives don't reset you have 3 lives. If you wipe on a boss you reset back to the first boss. If you complete the game (kill Tinker) your game session will be posted on the Leaderboard. Note the !start boss command does not work in Hard mode."
 		});
 
 		normalModeButton.SetPanelEvent( 'onmouseout', function () {

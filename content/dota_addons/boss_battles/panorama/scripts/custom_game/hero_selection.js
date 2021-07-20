@@ -330,7 +330,7 @@ function DisplayWASDToolTip(){
 	wasdLabel.SetPanelEvent( 'onmouseover', function () {
 		toolTipContainer.style.visibility = 'visible';
 		var tooltipText = toolTipContainer.FindChildInLayoutFile("ToolTipTxt")
-		tooltipText.text = "Very rarely when you intially spawn or if you lag a movement key might get 'stuck' down. To fix this type !reset."
+		tooltipText.text = "Very rarely when you intially spawn or if you lag a movement key might get 'stuck' down. To fix this type !reset in chat."
 	});
 
 	wasdLabel.SetPanelEvent( 'onmouseout', function () {
