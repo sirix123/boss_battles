@@ -725,7 +725,7 @@
         "AbilityBehavior"				"DOTA_ABILITY_BEHAVIOR_NO_TARGET | DOTA_ABILITY_BEHAVIOR_CHANNELLED"
         "AbilityUnitDamageType"         "DAMAGE_TYPE_PHYSICAL"
         "AbilityTextureName"            "venomancer_poison_sting"
-        "AbilityChannelTime"			"10"  
+        "AbilityChannelTime"			"3"  
 
         // Casting
         //-------------------------------------------------------------------------------------------------------------

@@ -22,7 +22,12 @@ function beastmaster_puddle_dot_debuff_attack:OnCreated( kv )
     if IsServer() then
         self.parent = self:GetParent()
         self.caster = self:GetCaster()
-        self.dmg = 3 * kv.stacks
+		if kv.stacks ~= nil and kv.stacks ~= 0 then
+			self.dmg = 3 * kv.stacks
+		else
+			self.dmg = 10
+		end
+
 	end
 end
 ---------------------------------------------------------------------------

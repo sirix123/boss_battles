@@ -8,7 +8,7 @@ function puddle_projectile_spell:OnAbilityPhaseStart()
     if IsServer() then
 
         -- soudn
-
+        self:GetCaster():AddNewModifier( nil, nil, "modifier_rooted", { duration = -1 } )
         -- animation
         self:GetCaster():StartGestureWithPlaybackRate(ACT_DOTA_VICTORY, 2.0)
 
@@ -25,6 +25,10 @@ function puddle_projectile_spell:OnAbilityPhaseInterrupted()
 
         -- soudn
 
+        if self:GetCaster():HasModifier("modifier_rooted") then
+			self:GetCaster():RemoveModifierByName("modifier_rooted")
+		end
+
         -- animation
         self:GetCaster():RemoveGesture(ACT_DOTA_VICTORY)
 	end
@@ -34,6 +38,10 @@ function puddle_projectile_spell:OnChannelFinish(bInterrupted)
 	if IsServer() then
 
         self:GetCaster():RemoveGesture(ACT_DOTA_VICTORY)
+
+        if self:GetCaster():HasModifier("modifier_rooted") then
+			self:GetCaster():RemoveModifierByName("modifier_rooted")
+		end
 
 	end
 end
@@ -139,7 +147,7 @@ function puddle_projectile_spell:OnProjectileHit( hTarget, vLocation)
 
         if hTarget then
             if hTarget:GetUnitName() == "npc_beastmaster" then
-                hTarget:AddNewModifier(self:GetCaster(),self,"puddle_projectile_spell_beastmaster_buff",{duration = 30})
+                hTarget:AddNewModifier(self:GetCaster(),self,"puddle_projectile_spell_beastmaster_buff",{duration = 20})
             end
 
             local particle_cast = "particles/units/heroes/hero_venomancer/venomancer_venomous_gale_impact.vpcf"

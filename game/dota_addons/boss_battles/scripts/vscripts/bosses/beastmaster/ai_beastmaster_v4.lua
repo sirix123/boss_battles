@@ -109,7 +109,7 @@ function BeastmasterThink()
 		thisEntity.enraged = true
 	end
 
-	if thisEntity:HasModifier("puddle_projectile_spell_beastmaster_buff") and thisEntity.poison_on == false then
+	--[[if thisEntity:HasModifier("puddle_projectile_spell_beastmaster_buff") and thisEntity.poison_on == false then
 		thisEntity.poison_on = true
 
 		if thisEntity:HasModifier("modifier_rooted") then
@@ -126,27 +126,29 @@ function BeastmasterThink()
 			thisEntity:AddNewModifier( thisEntity,thisEntity.puddle_projectile_spell, "beastmaster_puddle_dot_debuff_attack", { duration = 15, stacks = stacks } )
 			PoisonTimer()
 		end
-	end
+	end]]
 
-	if thisEntity.roar:IsFullyCastable() and thisEntity.roar:IsCooldownReady() and thisEntity.roar:IsInAbilityPhase() == false then
-		return CastRoar()
-	end
+	if thisEntity:HasModifier("puddle_projectile_spell_beastmaster_buff") ~= true then
+		if thisEntity.roar:IsFullyCastable() and thisEntity.roar:IsCooldownReady() and thisEntity.roar:IsInAbilityPhase() == false then
+			return CastRoar()
+		end
 
-	if thisEntity.summon_bird:IsFullyCastable() and thisEntity.summon_bird:IsCooldownReady() and thisEntity:GetHealthPercent() < 95 and thisEntity.summon_bird:IsInAbilityPhase() == false then
-		return SummonBird()
-	end
+		if thisEntity.summon_bird:IsFullyCastable() and thisEntity.summon_bird:IsCooldownReady() and thisEntity:GetHealthPercent() < 95 and thisEntity.summon_bird:IsInAbilityPhase() == false then
+			return SummonBird()
+		end
 
-	if thisEntity.summon_quillboar:IsFullyCastable() and thisEntity.summon_quillboar:IsCooldownReady() and thisEntity.summon_quillboar:IsInAbilityPhase() == false then
-		return SummonQuillBoar()
-	end
+		if thisEntity.summon_quillboar:IsFullyCastable() and thisEntity.summon_quillboar:IsCooldownReady() and thisEntity.summon_quillboar:IsInAbilityPhase() == false then
+			return SummonQuillBoar()
+		end
 
-	if thisEntity.beastmaster_net:IsFullyCastable() and thisEntity.beastmaster_net:IsCooldownReady() and thisEntity.beastmaster_net:IsInAbilityPhase() == false then
-		return BeastmasterNet_v2()
-	end
+		if thisEntity.beastmaster_net:IsFullyCastable() and thisEntity.beastmaster_net:IsCooldownReady() and thisEntity.beastmaster_net:IsInAbilityPhase() == false then
+			return BeastmasterNet_v2()
+		end
 
-	if thisEntity.enraged == true then
-		if thisEntity.puddle_projectile_spell:IsFullyCastable() and thisEntity.puddle_projectile_spell:IsCooldownReady() and thisEntity.puddle_projectile_spell:IsInAbilityPhase() == false then
-			return CastPuddleSpell()
+		if thisEntity.enraged == true then
+			if thisEntity.puddle_projectile_spell:IsFullyCastable() and thisEntity.puddle_projectile_spell:IsCooldownReady() and thisEntity.puddle_projectile_spell:IsInAbilityPhase() == false then
+				return CastPuddleSpell()
+			end
 		end
 	end
 
@@ -178,14 +180,14 @@ end
 
 function CastPuddleSpell()
 
-	thisEntity:AddNewModifier( nil, nil, "modifier_rooted", { duration = -1 } )
+	--thisEntity:AddNewModifier( nil, nil, "modifier_rooted", { duration = -1 } )
 
-	PoisonSpellRootChecker()
+	--PoisonSpellRootChecker()
 
-	local roar_cd = thisEntity.roar:GetCooldown(thisEntity.roar:GetLevel())
+	--[[local roar_cd = thisEntity.roar:GetCooldown(thisEntity.roar:GetLevel())
 	if roar_cd <= 35 then
 		thisEntity.roar:StartCooldown(RandomInt(35,42))
-	end
+	end]]
 
 	thisEntity.beastmaster_net:StartCooldown(RandomInt(10,20))
 

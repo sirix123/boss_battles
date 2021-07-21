@@ -37,6 +37,12 @@ export function GenerateLocalizationData(): LocalizationData
         description: `You're trapped.`
     });
 
+    Modifiers.push({
+        modifier_classname: "beastmaster_puddle_dot_debuff_attack_player_debuff",
+        name: "Poison",
+        description: `You're taking damage every second.`
+    });
+
 
     // Return data to compiler
     return localization_info;

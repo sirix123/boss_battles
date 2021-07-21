@@ -11,6 +11,11 @@ end
 function puddle_projectile_spell_beastmaster_buff:IsPurgable()
 	return false
 end
+
+function puddle_projectile_spell_beastmaster_buff:GetHeroEffectName()
+	return "particles/beastmaster/green_ursa_enrage_buff_beastmaster.vpcf"
+end
+
 ---------------------------------------------------------------------------
 
 function puddle_projectile_spell_beastmaster_buff:OnCreated( kv )
@@ -47,6 +52,12 @@ function puddle_projectile_spell_beastmaster_buff:OnCreated( kv )
         ParticleManager:SetParticleControl(self.particle, 0, self:GetParent():GetAbsOrigin())
         ParticleManager:SetParticleControl(self.particle, 1, Vector( digitX, digitY, 0 ))
 
+        if stacks ~= nil and stacks ~= 0 then
+			self.dmg = 3 * stacks
+		else
+			self.dmg = 10
+		end
+
 
 	end
 end
@@ -71,3 +82,24 @@ function puddle_projectile_spell_beastmaster_buff:OnDestroy( kv )
 	end
 end
 ---------------------------------------------------------------------------
+
+function puddle_projectile_spell_beastmaster_buff:DeclareFunctions()
+	local funcs = {
+		MODIFIER_EVENT_ON_ATTACK_LANDED,
+	}
+	return funcs
+end
+
+function puddle_projectile_spell_beastmaster_buff:OnAttackLanded( keys )
+	if IsServer() then
+		local owner = self:GetParent()
+
+		if owner ~= keys.attacker then
+			return end
+
+        local target = keys.target
+
+        target:AddNewModifier(owner,self:GetAbility(),"beastmaster_puddle_dot_debuff_attack_player_debuff",{duration = 10, dmg_per_tick = self.dmg})
+
+	end
+end
