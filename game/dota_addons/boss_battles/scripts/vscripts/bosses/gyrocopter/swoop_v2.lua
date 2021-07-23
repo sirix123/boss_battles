@@ -3,6 +3,8 @@ swoop_v2 = class({})
 LinkLuaModifier( "modifier_generic_arc_lua", "player/generic/modifier_generic_arc_lua", LUA_MODIFIER_MOTION_BOTH )
 LinkLuaModifier( "gyro_barrage", "bosses/gyrocopter/gyro_barrage", LUA_MODIFIER_MOTION_NONE )
 LinkLuaModifier( "oil_drop_thinker", "bosses/gyrocopter/oil_drop_thinker", LUA_MODIFIER_MOTION_NONE )
+LinkLuaModifier( "modifier_gyro_barrage_debuff", "bosses/gyrocopter/modifier_gyro_barrage_debuff", LUA_MODIFIER_MOTION_NONE )
+
 --------------------------------------------------------------------------------
 
 function swoop_v2:OnAbilityPhaseStart()
@@ -40,6 +42,13 @@ function swoop_v2:OnAbilityPhaseStart()
 				self:GetCaster(), -- player source
 				self, -- ability source
 				"modifier_generic_stunned", -- modifier name
+				{ duration = self:GetSpecialValueFor("barrage_duration") + 1 } -- kv
+			)
+
+            self.hTarget:AddNewModifier(
+				self:GetCaster(), -- player source
+				self, -- ability source
+				"modifier_gyro_barrage_debuff", -- modifier name
 				{ duration = self:GetSpecialValueFor("barrage_duration") + 1 } -- kv
 			)
 

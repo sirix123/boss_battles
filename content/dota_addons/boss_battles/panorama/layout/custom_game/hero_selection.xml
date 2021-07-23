@@ -116,6 +116,13 @@
 				</Panel>
 			</Panel>
 
+			<Panel id="herocompContainer" class="herocompContainer" >
+				<Panel id="herocompContainerLabelContainer" class="herocompContainerLabelContainer">
+					<Label id="herocompLabel" class="herocompLabel" text="Team composition tips." />
+					<Label id="ToolTipInfo" class="ToolTipInfo" text="i" />
+				</Panel>
+			</Panel>
+
 			<Panel id="ToolTip" class="ToolTip"> 
             	<Label id="ToolTipTxt" text="ToolTipText" />
         	</Panel>

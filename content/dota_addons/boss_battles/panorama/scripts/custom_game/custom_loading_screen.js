@@ -62,6 +62,21 @@ function OnHardButtonPressed(){
 /* recieve event from server*/
 function CreateLeaderBoard( data ) {
 	//$.Msg("server event handshake", data);
+
+    //lua massage
+    /*for (let i = 1; data[i] !== undefined; i++) {
+    	let products = []; 
+        for(let j = 1; data[i]["products"][j] !== undefined; j++)
+        {
+			products.push(data[i]["products"][j]);
+        }
+        let heroProductMap = { 
+        	hero: data[i]["hero"],
+        	products: products
+         };
+     	product_list.push(heroProductMap);
+    }*/
+
     normal_mode_data = data;
     hard_mode_data = data;
 
@@ -89,7 +104,7 @@ function CreateLeaderBoard( data ) {
     // for top 10 leaderboard
     let leaderboardContainer_row = $("#leaderboard_rows");
 
-    for (let i=1; i < 12; i++) // why does this need to be 12 to populate 10 ranks..?
+    for (let i=1; i < 12; i++)
 	{
         let leader_board_row_info = $.CreatePanel("Panel", leaderboardContainer_row, i);
         leader_board_row_info.BLoadLayoutSnippet("leaderboard_row_info");

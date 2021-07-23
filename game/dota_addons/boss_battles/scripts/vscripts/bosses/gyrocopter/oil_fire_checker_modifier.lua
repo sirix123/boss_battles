@@ -36,7 +36,7 @@ function oil_fire_checker_modifier:OnCreated( kv )
                     return false
                 end
 
-                self.particle = ParticleManager:CreateParticle("particles/techies/wisp_relocate_timer_custom.vpcf", PATTACH_OVERHEAD_FOLLOW, self:GetParent())
+                self.particle = ParticleManager:CreateParticle("particles/gyrocopter/gyro_wisp_relocate_timer_custom.vpcf", PATTACH_OVERHEAD_FOLLOW, self:GetParent())
 
                 --local digitX = thisEntity.count >= 10 and 1 or 0
                 if self.count >= 10 and self.count < 20 then

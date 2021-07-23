@@ -195,6 +195,34 @@
 
 /* 'WASD' button
 =================================================================*/
+.herocompContainer {
+	width: 300px;
+	height: 100px;
+    horizontal-align: right;
+	vertical-align: center;
+	margin-bottom: -350px;
+	background-color: #151515;
+	border-radius: 12px 0px 0px 12px;
+}
+
+.herocompContainerLabelContainer {
+	width: 100%;
+	height: 100%;
+}
+
+.herocompLabel {
+	text-align: center;
+	horizontal-align: center;
+	vertical-align: center;
+	color: #fff;
+	font-size: 24px;
+	background-color: #151515;
+	background-size: 100% 100%;
+	font-family: defaultFont;
+}
+
+/* 'hero comp' button
+=================================================================*/
 .wasdcontainer {
 	width: 300px;
 	height: 100px;
@@ -221,11 +249,12 @@
 	font-family: defaultFont;
 }
 
+
 /* '' tooltips
 =================================================================*/
 
 #ToolTip{
-	width: 250px;
+	width: 400px;
 	/*height: 150px;*/
 	margin-top: 400px;
 	margin-right: 400px;
@@ -237,7 +266,7 @@
 
 #ToolTipTxt {
 	horizontal-align: center;
-	vertical-align: bottom;
+	vertical-align: top;
 	color: #fff;
     font-size: 17px;
     margin-top: 20px;

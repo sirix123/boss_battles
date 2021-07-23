@@ -77,6 +77,7 @@ function OnPickingDone( data ) {
 	$.Msg("hero select ending / reconnected deleting panels")
 
 	$('#wasdcontainer').DeleteAsync( 0.0 );
+	$('#herocompContainer').DeleteAsync( 0.0 );
     $('#ToolTip').DeleteAsync( 0.0 );
 	EnterGame()
 }
@@ -322,7 +323,7 @@ function DisplayHeroSelect( data ){
 
 function DisplayWASDToolTip(){
 	let wasdContainer = $("#wasdcontainer");
-	let wasdLabel = wasdContainer.FindChildInLayoutFile("wasdcontainerLabelContainer")
+	let wasdLabel = wasdContainer.FindChildInLayoutFile("wasdcontainerLabelContainer");
 
 	let toolTipContainer = $("#ToolTip");
 	toolTipContainer.style.visibility = 'collapse';
@@ -334,6 +335,25 @@ function DisplayWASDToolTip(){
 	});
 
 	wasdLabel.SetPanelEvent( 'onmouseout', function () {
+		toolTipContainer.style.visibility = 'collapse';
+	});
+
+	let herocompContainer = $("#herocompContainer");
+	let herocompLabel = herocompContainer.FindChildInLayoutFile("herocompContainerLabelContainer");
+
+	herocompLabel.SetPanelEvent( 'onmouseover', function () {
+		toolTipContainer.style.visibility = 'visible';
+		var tooltipText = toolTipContainer.FindChildInLayoutFile("ToolTipTxt")
+		tooltipText.text = 
+		"If this is your first time playing Boss Battles.\n\n\
+It is recommended that your team comprises of one damage dealer, two hybrids and one support.\n\n\
+Rylai, Blademaster, Windrunner are hybrids.\n\n\
+Lina, Nightblade and Templar are damage dealers.\n\n\
+Nocens and Akasha are supports.\n\n\
+The info panel on the left handside of the screen (shown once hero selection is finished) has some helpful gameplay tips.";
+	});
+
+	herocompLabel.SetPanelEvent( 'onmouseout', function () {
 		toolTipContainer.style.visibility = 'collapse';
 	});
 

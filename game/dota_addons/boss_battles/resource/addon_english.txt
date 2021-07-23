@@ -385,6 +385,8 @@
         "DOTA_Tooltip_fire_puddle_modifier_description"    "You're on fire."
         "DOTA_Tooltip_oil_puddle_slow_modifier"    "Oil"
         "DOTA_Tooltip_oil_puddle_slow_modifier_description"    "You're slowed by oil."
+        "DOTA_Tooltip_modifier_gyro_barrage_debuff"    "Barrage"
+        "DOTA_Tooltip_modifier_gyro_barrage_debuff_description"    "Barrage damage reduced depending on how many players are nearby."
         "DOTA_Tooltip_modifier_sticky_bomb"    "Sticky Bomb"
         "DOTA_Tooltip_modifier_sticky_bomb_description"    "This bomb splits damage with all surrounding players."
         "DOTA_Tooltip_modifier_electric_vortex"    "Stasis pull"

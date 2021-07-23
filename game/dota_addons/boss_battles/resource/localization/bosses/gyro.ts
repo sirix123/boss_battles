@@ -37,6 +37,13 @@ export function GenerateLocalizationData(): LocalizationData
         description: `You're slowed by oil.`
     });
 
+    Modifiers.push({
+        modifier_classname: "modifier_gyro_barrage_debuff",
+        name: "Barrage",
+        description: `Barrage damage reduced depending on how many players are nearby.`
+    });
+
+
 
     // Return data to compiler
     return localization_info;
