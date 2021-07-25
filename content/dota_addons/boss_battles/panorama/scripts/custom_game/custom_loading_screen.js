@@ -61,6 +61,8 @@ function OnHardButtonPressed(){
 
 /* recieve event from server*/
 function CreateLeaderBoard( data ) {
+    //data now contains both game modes
+
 	//$.Msg("server event handshake", data);
 
     //lua massage
@@ -77,8 +79,8 @@ function CreateLeaderBoard( data ) {
      	product_list.push(heroProductMap);
     }*/
 
-    normal_mode_data = data;
-    hard_mode_data = data;
+    normal_mode_data = data[1];
+    hard_mode_data = data[2];;
 
     hardDataButton.AddClass( "enable" );
     hardDataButton.RemoveClass( "disabled" );
