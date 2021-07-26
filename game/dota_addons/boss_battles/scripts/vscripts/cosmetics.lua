@@ -210,7 +210,7 @@ function CosmeticManager:GetPlayerPurchaseList()
 
         -- call the api: /shop/GetPlayersOrders and send the player steam id table
         if IsServer() then
-            local request = CreateHTTPRequestScriptVM("GET", "http://143.198.224.131/shop/GetPlayersOrders")
+            local request = CreateHTTPRequestScriptVM("POST", "http://143.198.224.131/shop/GetPlayersOrders")
             --local request = CreateHTTPRequestScriptVM("POST", "https://localhost:5001/shop/GetPlayersOrders")
             request:SetHTTPRequestRawPostBody("application/json", dataToSendJson)
             request:Send(function(response) 
@@ -261,8 +261,8 @@ function CosmeticManager:GetPlayerPurchaseListTest()
 
         -- call the api: /shop/GetPlayersOrders and send the player steam id table
         if IsServer() then
-            --local request = CreateHTTPRequestScriptVM("GET", "http://143.198.224.131/shop/GetPlayersOrders")
-            local request = CreateHTTPRequestScriptVM("POST", "https://localhost:5001/shop/GetPlayersOrders")
+            local request = CreateHTTPRequestScriptVM("POST", "http://143.198.224.131/shop/GetPlayersOrders")
+            --local request = CreateHTTPRequestScriptVM("POST", "https://localhost:5001/shop/GetPlayersOrders")
             request:SetHTTPRequestRawPostBody("application/json", dataToSendJson)
             request:Send(function(response) 
                 if response.StatusCode == 200 then -- HTTP 200 = Success
