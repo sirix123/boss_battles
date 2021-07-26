@@ -1,4 +1,5 @@
 gattling_gun = class({})
+LinkLuaModifier( "modifier_generic_arc_lua", "player/generic/modifier_generic_arc_lua", LUA_MODIFIER_MOTION_BOTH )
 
 function gattling_gun:OnAbilityPhaseStart()
     if IsServer() then
@@ -16,6 +17,71 @@ function gattling_gun:OnAbilityPhaseStart()
         ParticleManager:SetParticleControl( self.gat_particle, 0, self.origin)
 
         self:GetCaster():EmitSound("gyrocopter_gyro_attack_06")
+
+        --[[Timers:CreateTimer(0.2,function()
+            if IsValidEntity(self:GetCaster()) ==  false then
+                return false
+            end
+
+            self.effect_indicator = ParticleManager:CreateParticle( "particles/econ/events/new_bloom/dragon_cast_dust.vpcf", PATTACH_WORLDORIGIN, nil )
+            ParticleManager:SetParticleControl( self.effect_indicator, 0, self:GetCaster():GetAbsOrigin() )
+            ParticleManager:ReleaseParticleIndex(self.effect_indicator)
+    
+            local enemies = FindUnitsInRadius(
+                DOTA_TEAM_BADGUYS,
+                self.origin,
+                nil,
+                400,
+                DOTA_UNIT_TARGET_TEAM_ENEMY,
+                DOTA_UNIT_TARGET_HERO,
+                DOTA_UNIT_TARGET_FLAG_INVULNERABLE,
+                FIND_FARTHEST,
+                false)
+    
+            if enemies ~= nil and #enemies ~= 0 then
+                for _, enemy in pairs(enemies) do
+                    enemy:AddNewModifier(
+                        self.caster,
+                        self,
+                        "modifier_generic_arc_lua",
+                        {
+                            dir_x = enemy:GetAbsOrigin().x,
+                            dir_y = enemy:GetAbsOrigin().y,
+                            speed = 1000,
+                            distance = 500,
+                            fix_end = true,
+                            isStun = false,
+                            activity = ACT_DOTA_FLAIL,
+                        }
+                    )
+                end
+            end
+
+            -- jump up in the air and push everyone back
+            local arc = self:GetCaster():AddNewModifier(
+                self:GetCaster(), -- player source
+                self, -- ability source
+                "modifier_generic_arc_lua", -- modifier name
+                {
+                    target_x = self.origin.x,
+                    target_y = self.origin.y,
+                    duration = self:GetCastPoint() + 0.5,
+                    height = 500,
+                    fix_end = true,
+                    isStun = false,
+                    activity = ACT_DOTA_RUN,
+                    isForward = true,
+                } -- kv
+            )
+
+            arc:SetEndCallback( function()
+                self.effect_indicator = ParticleManager:CreateParticle( "particles/econ/events/new_bloom/dragon_cast_dust.vpcf", PATTACH_WORLDORIGIN, nil )
+                ParticleManager:SetParticleControl( self.effect_indicator, 0, self:GetCaster():GetAbsOrigin() )
+                ParticleManager:ReleaseParticleIndex(self.effect_indicator)
+            end)
+    
+            return false
+        end)]]
 
         return true
     end

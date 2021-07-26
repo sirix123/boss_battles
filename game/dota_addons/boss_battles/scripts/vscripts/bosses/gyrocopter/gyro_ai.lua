@@ -3,6 +3,8 @@ LinkLuaModifier( "oil_ignite_fire_puddle_thinker", "bosses/gyrocopter/oil_ignite
 LinkLuaModifier( "modifier_flak_cannon", "bosses/gyrocopter/modifier_flak_cannon", LUA_MODIFIER_MOTION_NONE )
 LinkLuaModifier( "modifier_generic_disable_movement_abilities", "player/generic/modifier_generic_disable_movement_abilities", LUA_MODIFIER_MOTION_NONE )
 LinkLuaModifier( "modifier_generic_disable_auto_attack", "core/modifier_generic_disable_auto_attack", LUA_MODIFIER_MOTION_NONE )
+LinkLuaModifier( "gyro_rocket_modifier", "bosses/gyrocopter/gyro_rocket_modifier", LUA_MODIFIER_MOTION_NONE )
+
 
 function Spawn( entityKeyValues )
 
@@ -180,18 +182,21 @@ function GyroThink()
 		thisEntity.gyro_call_down_count_tracker = thisEntity.gyro_call_down_count_tracker + 1
 		thisEntity.level_tracker = 2
 		LevelUpAbilities()
+		FindAllPlayersGiveRocketModifier()
 		thisEntity:AddNewModifier( nil, nil, "modifier_generic_disable_auto_attack", { duration = -1 })
 		thisEntity.PHASE = 2
 	elseif thisEntity:GetHealthPercent() < 50 and thisEntity:GetHealthPercent() > 25 and thisEntity.gyro_call_down_count_tracker == 1 and thisEntity.PHASE == 1 then
 		thisEntity.gyro_call_down_count_tracker = thisEntity.gyro_call_down_count_tracker + 1
 		thisEntity.level_tracker = 3
 		LevelUpAbilities()
+		FindAllPlayersGiveRocketModifier()
 		thisEntity:AddNewModifier( nil, nil, "modifier_generic_disable_auto_attack", { duration = -1 })
 		thisEntity.PHASE = 2
 	elseif thisEntity:GetHealthPercent() < 25 and thisEntity:GetHealthPercent() > 0 and thisEntity.gyro_call_down_count_tracker == 2 and thisEntity.PHASE == 1 then
 		thisEntity.gyro_call_down_count_tracker = thisEntity.gyro_call_down_count_tracker + 1
 		thisEntity.level_tracker = 4
 		LevelUpAbilities()
+		FindAllPlayersGiveRocketModifier()
 		thisEntity:AddNewModifier( nil, nil, "modifier_generic_disable_auto_attack", { duration = -1 })
 		thisEntity.PHASE = 2
 	end
@@ -516,6 +521,28 @@ function FindRandomPlayer()
 		return enemies[RandomInt(1,#enemies)]
 	else
 		return nil
+	end
+end
+--------------------------------------------------------------------------------
+
+function FindAllPlayersGiveRocketModifier()
+
+	-- find random player
+	local enemies = FindUnitsInRadius(
+		thisEntity:GetTeamNumber(),
+		thisEntity:GetAbsOrigin(),
+		nil,
+		5000,
+		DOTA_UNIT_TARGET_TEAM_ENEMY,
+		DOTA_UNIT_TARGET_HERO,
+		DOTA_UNIT_TARGET_FLAG_INVULNERABLE,
+		FIND_CLOSEST,
+		false )
+
+	if #enemies ~= 0 and enemies ~= nil then
+		for _,enemy in pairs(enemies) do
+			enemy:AddNewModifier( enemy, nil, "gyro_rocket_modifier", { duration = 35 })
+		end
 	end
 end
 --------------------------------------------------------------------------------

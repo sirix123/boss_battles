@@ -43,6 +43,11 @@ export function GenerateLocalizationData(): LocalizationData
         description: `Barrage damage reduced depending on how many players are nearby.`
     });
 
+    Modifiers.push({
+        modifier_classname: "gyro_rocket_modifier",
+        name: "Homing missile",
+        description: `A missile is following you! You notice that the missile follows the closest target...`
+    });
 
 
     // Return data to compiler
