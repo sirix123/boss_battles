@@ -37,7 +37,7 @@ function cannon_ball:OnAbilityPhaseStart()
 				direction = RandomVector(1):Normalized()
 			end
 
-			self.distance = self:GetCaster():GetAbsOrigin() + direction * 700
+			self.distance = self:GetCaster():GetAbsOrigin() + direction * 1000
 
 			ParticleManager:SetParticleControl(self.particleNfx , 1, self:GetCaster():GetAbsOrigin()) -- origin
 			ParticleManager:SetParticleControl(self.particleNfx , 2, self.distance)  -- target

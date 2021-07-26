@@ -31,7 +31,7 @@ export function GenerateLocalizationData(): LocalizationData
     Modifiers.push({
         modifier_classname: "e_whirling_winds_modifier",
         name: "Tailwind",
-        description: `Increased damage, movement and projectile speed. Cast points reduced.`,
+        description: `Increased damage, movement and projectile speed. Cast points of basic attacks reduced.`,
     });
 
     // abilities
@@ -126,7 +126,7 @@ export function GenerateLocalizationData(): LocalizationData
     Abilities.push({
         ability_classname: "e_whirling_winds",
         name: "Whirling Winds",
-        description: `Windrunner summons a tailwind in an area that increases the damage, projectile and movement speed of all allies, as well as reducing the cast point of abilities. Windrunner benefits from the tailwind at all times.`,
+        description: `Windrunner summons a tailwind in an area that increases the damage, projectile and movement speed of all allies, as well as reducing the cast point of basic attacks. Windrunner benefits from the tailwind at all times.`,
         ability_specials:
         [
             {
