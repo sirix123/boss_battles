@@ -192,8 +192,102 @@ function CosmeticManager:GetProductListTest()
     return product_list
 end
 
+function CosmeticManager:GetPlayerPurchaseList()
+ local product_player_list = {}
+    if PICKING_DONE == true then -- need to remove this later but need to figure out how to get steam id's eariler...
+        --get all the players steam_ids to find out who has purchased products
+        local player_steam_ids = {}
+        for _, hero in pairs(HERO_LIST) do
+            local player_id = hero:GetPlayerID()
+            local player_steam_id = tostring(PlayerResource:GetSteamID(player_id))
+            table.insert(player_steam_ids, player_steam_id)
+        end
+
+        local dataToSend = {}
+        dataToSend["playersSteamIds"] = player_steam_ids
+        local dataToSendJson = json.encode(dataToSend)
+        --print("sending this data to /shop/GetPlayersOrders" , dump(dataToSendJson))
+
+        -- call the api: /shop/GetPlayersOrders and send the player steam id table
+        if IsServer() then
+            local request = CreateHTTPRequestScriptVM("GET", "http://143.198.224.131/shop/GetPlayersOrders")
+            --local request = CreateHTTPRequestScriptVM("POST", "https://localhost:5001/shop/GetPlayersOrders")
+            request:SetHTTPRequestRawPostBody("application/json", dataToSendJson)
+            request:Send(function(response) 
+                if response.StatusCode == 200 then -- HTTP 200 = Success
+                    --TODO: send cosmetic data, send packet to each client?
+                    local data = json.decode(response.Body)
+                    --print("got response. data = ", dump(data))
+
+                    for steamId, productTable in pairs(data) do
+                        -- print("steamid = ", steamId )
+                        -- print("productTable = ", productTable )
+                        -- print("dump(productTable) = ", dump(productTable) )
+
+                        local player = {}
+                        player["steam_id"] = steamId
+                        player["purchases"] = productTable
+                        table.insert(product_player_list,player)
+                    end
+                    --CustomGameEventManager:Send_ServerToAllClients( "loading_screen_data", data )
+                    return product_player_list   
+                 else
+                     print("Http GET failed ", response.StatusCode)
+                 end
+                 
+            end)
+        end
+    end
+    return product_player_list
+end
 
 function CosmeticManager:GetPlayerPurchaseListTest()
+    local product_player_list = {}
+
+
+    if PICKING_DONE == true then -- need to remove this later but need to figure out how to get steam id's eariler...
+        --get all the players steam_ids to find out who has purchased products
+        local player_steam_ids = {}
+        for _, hero in pairs(HERO_LIST) do
+            local player_id = hero:GetPlayerID()
+            local player_steam_id = tostring(PlayerResource:GetSteamID(player_id))
+            table.insert(player_steam_ids, player_steam_id)
+        end
+
+        local dataToSend = {}
+        dataToSend["playersSteamIds"] = player_steam_ids
+        local dataToSendJson = json.encode(dataToSend)
+        --print("sending this data to /shop/GetPlayersOrders" , dump(dataToSendJson))
+
+        -- call the api: /shop/GetPlayersOrders and send the player steam id table
+        if IsServer() then
+            --local request = CreateHTTPRequestScriptVM("GET", "http://143.198.224.131/shop/GetPlayersOrders")
+            local request = CreateHTTPRequestScriptVM("POST", "https://localhost:5001/shop/GetPlayersOrders")
+            request:SetHTTPRequestRawPostBody("application/json", dataToSendJson)
+            request:Send(function(response) 
+                if response.StatusCode == 200 then -- HTTP 200 = Success
+                    --TODO: send cosmetic data, send packet to each client?
+                    local data = json.decode(response.Body)
+                    --print("got response. data = ", dump(data))
+
+                    for steamId, productTable in pairs(data) do
+                        -- print("steamid = ", steamId )
+                        -- print("productTable = ", productTable )
+                        -- print("dump(productTable) = ", dump(productTable) )
+
+                        local player = {}
+                        player["steam_id"] = steamId
+                        player["purchases"] = productTable
+                        table.insert(product_player_list,player)
+                    end
+                    --CustomGameEventManager:Send_ServerToAllClients( "loading_screen_data", data )
+                    return data
+                 else
+                     print("Http GET failed ", response.StatusCode)
+                 end
+            end)
+        end
+    end
 
     --[[
         schema..
