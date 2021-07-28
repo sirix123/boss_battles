@@ -4,17 +4,17 @@ end
 
 function CosmeticManager:Init()
 
-    -- init timer that checks db for changes
+    --local purchase_list = CosmeticManager:GetPlayerPurchaseListTest()
+
+    self.purchase_list = {} -- init
+    CosmeticManager:GetPlayerPurchaseList() -- get the product list
     CosmeticManager:CheckDatabaseForChanges() -- checks database for player purchases every x interval
 
-    local purchase_list = CosmeticManager:GetPlayerPurchaseListTest()
     local product_list = CosmeticManager:GetProductListTest()
-
-    --local product_list = WebApi:GetProductList()
 
     -- map product list to wearables list
     Timers:CreateTimer(function()
-        if purchase_list ~= nil then
+        if product_list ~= nil then
             Wearables:MapWearablesToProductlist( product_list )
             return false
         end
@@ -27,7 +27,7 @@ function CosmeticManager:Init()
 
         -- if these are nil it means the shop is down and we have no idea what player owns what
         -- when these variables initalise the below code runs once
-        if ( purchase_list == nil or product_list == nil) and PICKING_DONE == true then -- make sure all clients are ready / hero select is done
+        if ( self.purchase_list == nil or product_list == nil) and PICKING_DONE == true then -- make sure all clients are ready / hero select is done
 
             if timeout >= 60 then
                 return false
@@ -36,13 +36,15 @@ function CosmeticManager:Init()
             -- send event to clients that disables the open shop button
             CustomGameEventManager:Send_ServerToAllClients( "shop_status", { shop_status = false } )
 
+            print("timeout ",timeout)
+
             timeout = timeout + 1
 
             return 1
         end
 
         -- if the lists arent nil means the shops are up and we are good to go
-        if ( purchase_list ~= nil and product_list ~= nil) and PICKING_DONE == true then -- make sure all clients are ready / hero select is done
+        if ( self.purchase_list ~= nil and product_list ~= nil) and PICKING_DONE == true then -- make sure all clients are ready / hero select is done
 
             -- send event to clients that enables the open shop button
             CustomGameEventManager:Send_ServerToAllClients( "shop_status", { shop_status = true } )
@@ -67,8 +69,8 @@ function CosmeticManager:Init()
                 self.product_to_equip = nil
 
                 -- check for spoofing
-                if purchase_list ~= nil then
-                    for _, player in pairs(purchase_list) do
+                if self.purchase_list ~= nil then
+                    for _, player in pairs(self.purchase_list) do
                         if player.steam_id == player_steam_id then -- check steamid matches from player purchase list (probs dont need this)
                             for _, product in pairs(product_list) do
                                 if product.hero == hero:GetUnitName() then -- check the hero matches
@@ -105,26 +107,15 @@ end
 function CosmeticManager:CheckDatabaseForChanges()
 
     -- webapi call.... send list of the current players steamIDs.. send every 2mins...
-    Timers:CreateTimer(function()
+    Timers:CreateTimer(20,function()
         if PICKING_DONE == true then -- need to remove this later but need to figure out how to get steam id's eariler...
 
-            local player_steam_ids = {}
-            for _, hero in pairs(HERO_LIST) do
-                local player_id = hero:GetPlayerID()
-                local player_steam_id = tostring(PlayerResource:GetSteamID(player_id))
-                table.insert(player_steam_ids, player_steam_id)
-            end
-
-            --self.all_players_purchase_list = WebApi:GetPlayerPurchaseList( player_steam_ids )
-
-            -- how to handle if the shop goes down in the middle of a game? if checking for database changes ever returns nil / error?
-            -- if  WebApi:GetPlayerPurchaseList( player_steam_ids ) returns an error or is nil send flag to all clients (close shop if its open and disable the shop button)
-
             -- for testing only... (simulating the webapi sending data back)
-            self.all_players_purchase_list = nil
-            self.all_players_purchase_list = CosmeticManager:GetPlayerPurchaseListTest()
+            self.purchase_list = {}
+            CosmeticManager:GetPlayerPurchaseList()
+            --print("CosmeticManager:CheckDatabaseForChanges() self.purchase_list, ",self.purchase_list)
 
-            return 120
+            return 20
         end
         return 1
     end)
@@ -132,21 +123,21 @@ function CosmeticManager:CheckDatabaseForChanges()
     -- need another timer... to 'wait' for the endpoint to populate the array...
     Timers:CreateTimer(2, function()
 
-        if self.all_players_purchase_list ~= nil then
+        if self.purchase_list ~= nil and self.purchase_list ~= 0 then
 
             for _, hero in pairs(HERO_LIST) do
                 local player_id = hero:GetPlayerID()
                 local hPlayer = PlayerResource:GetPlayer(player_id)
                 local player_steam_id = tostring(PlayerResource:GetSteamID(player_id))
 
-                for _, player in pairs(self.all_players_purchase_list) do
+                for _, player in pairs(self.purchase_list) do
                     if player.steam_id == player_steam_id then
                         CustomGameEventManager:Send_ServerToPlayer( hPlayer, "update_shop_product_list", { player.purchases } )
                     end
                 end
             end
 
-            self.all_players_purchase_list = nil -- dont want to keep updating the shop with the same information every 2 seconds
+            --self.purchase_list = {} -- dont want to keep updating the shop with the same information every 2 seconds
         end
 
         return 2
@@ -193,7 +184,7 @@ function CosmeticManager:GetProductListTest()
 end
 
 function CosmeticManager:GetPlayerPurchaseList()
- local product_player_list = {}
+    --local product_player_list = {}
     if PICKING_DONE == true then -- need to remove this later but need to figure out how to get steam id's eariler...
         --get all the players steam_ids to find out who has purchased products
         local player_steam_ids = {}
@@ -220,25 +211,25 @@ function CosmeticManager:GetPlayerPurchaseList()
                     --print("got response. data = ", dump(data))
 
                     for steamId, productTable in pairs(data) do
-                        -- print("steamid = ", steamId )
-                        -- print("productTable = ", productTable )
+                        --print("steamid = ", steamId )
+                        --print("productTable = ", productTable )
                         -- print("dump(productTable) = ", dump(productTable) )
 
                         local player = {}
                         player["steam_id"] = steamId
                         player["purchases"] = productTable
-                        table.insert(product_player_list,player)
+                        table.insert(self.purchase_list,player)
                     end
                     --CustomGameEventManager:Send_ServerToAllClients( "loading_screen_data", data )
-                    return product_player_list   
+                    --return product_player_list
                  else
                      print("Http GET failed ", response.StatusCode)
                  end
-                 
+
             end)
         end
     end
-    return product_player_list
+    --return nil
 end
 
 function CosmeticManager:GetPlayerPurchaseListTest()

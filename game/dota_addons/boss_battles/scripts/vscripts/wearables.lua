@@ -328,7 +328,7 @@ function Wearables:EquipWearables( product_id , hero )
                 1,
                 hero,
                 PATTACH_POINT_FOLLOW,
-                "bow_mid1",
+                "bowstring",
                 Vector(0,0,0),
                 true
             )

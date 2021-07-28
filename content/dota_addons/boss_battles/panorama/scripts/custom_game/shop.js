@@ -40,7 +40,8 @@ function OnServerSendOpenShop( data ) {
         end_url = data[i]; 
     }
 
-    var start_url = "https://";
+    //var start_url = "https://";
+    var start_url = "http://";
     $.DispatchEvent("ExternalBrowserGoToURL",  start_url.concat(end_url) ); 
 }
 
@@ -174,6 +175,7 @@ function OnShopButtonPressed(){
                         {
                             let buyButtonTxt = productPanel.FindChildInLayoutFile("ProductPurchaseButtonTxt");
                             buyButton.RemoveClass( "disabled" );
+                            buyButton.AddClass( "equip" );
                             buyButtonTxt.text = "Equip";
                             buyButton.product = value2["products_purchased"][j];
                             buyButton.SetPanelEvent( 'onactivate', function () {

@@ -184,6 +184,10 @@
 	background-color: gradient( linear, 0% 0%, 0% 100%, from( #9C9C9C ), to( #D1D1D133 ) );
 }
 
+.equip{
+	background-color: gradient( linear, 0% 0%, 0% 100%, from( #5397b6 ), to( #4a99c733 ) );
+}
+
 .hero_image{
 	width: 100%;
 	height: 100%;
