@@ -3,19 +3,18 @@ if CosmeticManager == nil then
 end
 
 function CosmeticManager:Init()
-
     --local purchase_list = CosmeticManager:GetPlayerPurchaseListTest()
-
     self.purchase_list = {} -- init
     CosmeticManager:GetPlayerPurchaseList() -- get the product list
     CosmeticManager:CheckDatabaseForChanges() -- checks database for player purchases every x interval
 
-    local product_list = CosmeticManager:GetProductListTest()
+    self.product_list = {}
+    CosmeticManager:GetProductList()
 
-    -- map product list to wearables list
+    -- wait for product_list to be populated, then map product list to wearables list
     Timers:CreateTimer(function()
-        if product_list ~= nil then
-            Wearables:MapWearablesToProductlist( product_list )
+        if #self.product_list > 0 then
+            Wearables:MapWearablesToProductlist( self.product_list )
             return false
         end
         return 1
@@ -27,7 +26,7 @@ function CosmeticManager:Init()
 
         -- if these are nil it means the shop is down and we have no idea what player owns what
         -- when these variables initalise the below code runs once
-        if ( self.purchase_list == nil or product_list == nil) and PICKING_DONE == true then -- make sure all clients are ready / hero select is done
+        if ( self.purchase_list == nil or self.product_list == nil) and PICKING_DONE == true then -- make sure all clients are ready / hero select is done
 
             if timeout >= 60 then
                 return false
@@ -44,7 +43,7 @@ function CosmeticManager:Init()
         end
 
         -- if the lists arent nil means the shops are up and we are good to go
-        if ( self.purchase_list ~= nil and product_list ~= nil) and PICKING_DONE == true then -- make sure all clients are ready / hero select is done
+        if ( self.purchase_list ~= nil and self.product_list ~= nil) and PICKING_DONE == true then -- make sure all clients are ready / hero select is done
 
             -- send event to clients that enables the open shop button
             CustomGameEventManager:Send_ServerToAllClients( "shop_status", { shop_status = true } )
@@ -72,7 +71,7 @@ function CosmeticManager:Init()
                 if self.purchase_list ~= nil then
                     for _, player in pairs(self.purchase_list) do
                         if player.steam_id == player_steam_id then -- check steamid matches from player purchase list (probs dont need this)
-                            for _, product in pairs(product_list) do
+                            for _, product in pairs(self.product_list) do
                                 if product.hero == hero:GetUnitName() then -- check the hero matches
                                     for _, product_id in pairs(product.products) do
                                         if args.product_id == product_id then -- check the player owns that cosmetic
@@ -143,6 +142,26 @@ function CosmeticManager:CheckDatabaseForChanges()
         return 2
     end)
 
+end
+
+function CosmeticManager:GetProductList()
+  --This wasn't working. req1 will be nil. It happens too quick after the server has started.
+  --local req1 = CreateHTTPRequestScriptVM("GET", "http://bossbattles.co/Shop/GetBossBattlesProducts")
+
+  -- A solution to the above is to delay for some time before using CreateHTTPRequestScriptVM 
+  Timers:CreateTimer(1, function() -- A timer that starts x seconds in the future, respects pauses
+    local request = CreateHTTPRequestScriptVM("GET", "http://bossbattles.co/Shop/GetBossBattlesProducts")
+        request:Send(function(response)
+        if response.StatusCode == 200 then -- HTTP 200 = Success
+          local data = json.decode(response.Body)
+          --print("GetProductList() returning. data = ", dump(data))
+          self.product_list = data
+          --return data
+        else
+          print("GetProductList Http GET failed ", response.StatusCode)
+        end
+      end)
+    end)
 end
 
 function CosmeticManager:GetProductListTest()
