@@ -26,7 +26,7 @@ function CosmeticManager:Init()
 
         -- if these are nil it means the shop is down and we have no idea what player owns what
         -- when these variables initalise the below code runs once
-        if ( self.purchase_list == nil or self.product_list == nil) and PICKING_DONE == true then -- make sure all clients are ready / hero select is done
+        if ( self.purchase_list == nil or #self.product_list == 0) and PICKING_DONE == true then -- make sure all clients are ready / hero select is done
 
             if timeout >= 60 then
                 return false
@@ -43,7 +43,7 @@ function CosmeticManager:Init()
         end
 
         -- if the lists arent nil means the shops are up and we are good to go
-        if ( self.purchase_list ~= nil and self.product_list ~= nil) and PICKING_DONE == true then -- make sure all clients are ready / hero select is done
+        if ( self.purchase_list ~= nil and #self.product_list ~= 0) and PICKING_DONE == true then -- make sure all clients are ready / hero select is done
 
             -- send event to clients that enables the open shop button
             CustomGameEventManager:Send_ServerToAllClients( "shop_status", { shop_status = true } )

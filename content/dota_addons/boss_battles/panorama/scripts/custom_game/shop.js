@@ -131,7 +131,7 @@ function OnShopButtonPressed(){
         toolTipContainer.RemoveClass("hidden");
         toolTipContainer.style.visibility = 'visible';
         var tooltipText = toolTipContainer.FindChildInLayoutFile("ToolTipTxt");
-        tooltipText.text = "Use this shop UI to buy cosmetics for your heroes do not manually navigate to the shop on the website.";
+        tooltipText.text = "The shop can take a few minutes to update after loading into the game, to refresh the shop open and close it.";
     });
 
     tooltipLabel.SetPanelEvent( 'onmouseout', function () {
