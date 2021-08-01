@@ -10,11 +10,11 @@ end
 
 function clock_battery_modifier:OnCreated()
 	self.radius		= 300
-	self.interval	= 0.6
+	self.interval	= 1.0
 
 	if not IsServer() then return end
 
-	self.damage				= 40
+	self.damage				= 20
 
 	self:GetParent():EmitSound("Hero_Rattletrap.Battery_Assault")
 
@@ -49,7 +49,7 @@ function clock_battery_modifier:OnIntervalThink()
 
         ApplyDamage(damageTable)
 
-        enemies[1]:AddNewModifier(self:GetCaster(), self:GetAbility(), "modifier_generic_stunned", {duration = 0.2 })
+        enemies[1]:AddNewModifier(self:GetCaster(), self:GetAbility(), "modifier_generic_stunned", {duration = 0.15 })
 
 	else
 		ParticleManager:SetParticleControl(particle2, 1, self:GetParent():GetAbsOrigin() + RandomVector(RandomInt(0, 128))) -- Arbitrary numbers

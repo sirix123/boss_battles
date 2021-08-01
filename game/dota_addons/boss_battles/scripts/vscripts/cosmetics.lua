@@ -6,15 +6,32 @@ function CosmeticManager:Init()
     --local purchase_list = CosmeticManager:GetPlayerPurchaseListTest()
     self.purchase_list = {} -- init
     CosmeticManager:GetPlayerPurchaseList() -- get the product list
-    CosmeticManager:CheckDatabaseForChanges() -- checks database for player purchases every x interval
 
     self.product_list = {}
     CosmeticManager:GetProductList()
 
     -- wait for product_list to be populated, then map product list to wearables list
     Timers:CreateTimer(function()
-        if #self.product_list > 0 then
+        --print("#self.product_list ",#self.product_list)
+        if #self.product_list > 0 and PICKING_DONE == true then
+            --print("product list sent")
             Wearables:MapWearablesToProductlist( self.product_list )
+            CustomGameEventManager:Send_ServerToAllClients( "send_product_list", self.product_list)
+
+            for _, hero in pairs(HERO_LIST) do
+                local player_id = hero:GetPlayerID()
+                local hPlayer = PlayerResource:GetPlayer(player_id)
+                local player_steam_id = tostring(PlayerResource:GetSteamID(player_id))
+
+                for _, player in pairs(self.purchase_list) do
+                    if player.steam_id == player_steam_id then
+                        CustomGameEventManager:Send_ServerToPlayer( hPlayer, "update_shop_product_list", { player.purchases } )
+                    end
+                end
+            end
+
+            CosmeticManager:CheckDatabaseForChanges() -- checks database for player purchases every x interval
+
             return false
         end
         return 1
@@ -109,37 +126,35 @@ function CosmeticManager:CheckDatabaseForChanges()
     Timers:CreateTimer(20,function()
         if PICKING_DONE == true then -- need to remove this later but need to figure out how to get steam id's eariler...
 
-            -- for testing only... (simulating the webapi sending data back)
-            self.purchase_list = {}
+            self.purchase_list = nil
             CosmeticManager:GetPlayerPurchaseList()
-            --print("CosmeticManager:CheckDatabaseForChanges() self.purchase_list, ",self.purchase_list)
+
+            -- need another timer... to 'wait' for the endpoint to populate the array...
+            Timers:CreateTimer(5, function()
+
+                if ( self.purchase_list ~= nil and #self.product_list ~= 0) then
+
+                    for _, hero in pairs(HERO_LIST) do
+                        local player_id = hero:GetPlayerID()
+                        local hPlayer = PlayerResource:GetPlayer(player_id)
+                        local player_steam_id = tostring(PlayerResource:GetSteamID(player_id))
+
+                        for _, player in pairs(self.purchase_list) do
+                            if player.steam_id == player_steam_id then
+                                CustomGameEventManager:Send_ServerToPlayer( hPlayer, "update_shop_product_list", { player.purchases } )
+                            end
+                        end
+                    end
+
+                    return false
+                end
+
+                return 1
+            end)
 
             return 20
         end
         return 1
-    end)
-
-    -- need another timer... to 'wait' for the endpoint to populate the array...
-    Timers:CreateTimer(2, function()
-
-        if self.purchase_list ~= nil and self.purchase_list ~= 0 then
-
-            for _, hero in pairs(HERO_LIST) do
-                local player_id = hero:GetPlayerID()
-                local hPlayer = PlayerResource:GetPlayer(player_id)
-                local player_steam_id = tostring(PlayerResource:GetSteamID(player_id))
-
-                for _, player in pairs(self.purchase_list) do
-                    if player.steam_id == player_steam_id then
-                        CustomGameEventManager:Send_ServerToPlayer( hPlayer, "update_shop_product_list", { player.purchases } )
-                    end
-                end
-            end
-
-            --self.purchase_list = {} -- dont want to keep updating the shop with the same information every 2 seconds
-        end
-
-        return 2
     end)
 
 end
@@ -203,7 +218,7 @@ function CosmeticManager:GetProductListTest()
 end
 
 function CosmeticManager:GetPlayerPurchaseList()
-    --local product_player_list = {}
+    self.purchase_list = {}
     if PICKING_DONE == true then -- need to remove this later but need to figure out how to get steam id's eariler...
         --get all the players steam_ids to find out who has purchased products
         local player_steam_ids = {}

@@ -12,7 +12,7 @@ GameEvents.Subscribe( "shop_status", OnServerShopStatus );
 /* Event Handlers
 =========================================================================*/
 /* After picking is done spawn the shop button */
-const product_list = [];
+let product_list = [];
 function OnPickingDone( data ) {
 
     for (let i = 1; data[i] !== undefined; i++) {
@@ -28,7 +28,7 @@ function OnPickingDone( data ) {
      	product_list.push(heroProductMap);
     }
 
-    //$.Msg("product_list, ",product_list)
+    $.Msg("product_list, ",product_list)
 
 }
 
@@ -49,6 +49,8 @@ function OnServerSendOpenShop( data ) {
 let player_purchase_list = [];
 function OnServerUpdatePlayerShop( data ) {
 
+    player_purchase_list = [];
+
     for (let i = 1; data[i] !== undefined; i++) {
     	let products_purchased = [];
         for(let j = 1; data[i][j] !== undefined; j++)
@@ -61,7 +63,7 @@ function OnServerUpdatePlayerShop( data ) {
      	player_purchase_list.push(heroProductMap);
     }
 
-    //$.Msg("player_purchase_list ",player_purchase_list)
+    $.Msg("player_purchase_list ",player_purchase_list)
 }
 
 /* if the shop server is down disable the buttona nd close the shop if its open*/
@@ -145,6 +147,12 @@ function OnShopButtonPressed(){
             productPanel.BLoadLayoutSnippet("ProductList");
 
             let buyButton = productPanel.FindChildInLayoutFile("ProductPurchaseButton");
+            let buyButtonTxt = productPanel.FindChildInLayoutFile("ProductPurchaseButtonTxt");
+            buyButton.RemoveClass( "disabled" );
+            buyButtonTxt.text = "Buy now!";
+            buyButton.SetPanelEvent( 'onactivate', function () {
+                OnBuyButtonPressed( buyButton, buyButtonTxt );
+            });
 
             // get appropriate image for the product id provided
             let image_name = GetProductImage(value["products"][i]);
@@ -166,7 +174,7 @@ function OnShopButtonPressed(){
             let player_hero = Players.GetPlayerSelectedHero( playerId )
 
             // check the product list against the player purcahse list whenever the shop is loaded, 
-            for (let [key2, value2] of Object.entries(player_purchase_list)) {
+            for (let [key2, value2] of Object.entries(player_purchase_list)) { 
                 for (let j = 0; j < value2["products_purchased"].length; j++) {
                     if(value2["products_purchased"][j] == value["products"][i])
                     {

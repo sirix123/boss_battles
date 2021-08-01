@@ -21,7 +21,7 @@
 
         // Time     
         //-------------------------------------------------------------------------------------------------------------
-        "AbilityCooldown"               "70 60 55 55"
+        "AbilityCooldown"               "75 70 70 65"
 
         // Cost
         //-------------------------------------------------------------------------------------------------------------
@@ -67,7 +67,7 @@
         // Casting
         //-------------------------------------------------------------------------------------------------------------
         "AbilityCastPoint"              "1.5 1.5 1.5 1.5"
-        "AbilityCooldown"               "30 25 23 22"
+        "AbilityCooldown"               "40 35 35 30"
         "AbilityManaCost"               "0"
         "AbilityCastRange" 				"9000"
 
@@ -146,7 +146,7 @@
         // Casting
         //-------------------------------------------------------------------------------------------------------------
         "AbilityCastPoint"              "0.0 0.0 0.0 0.0"
-        "AbilityCooldown"               "40 40 30 30"
+        "AbilityCooldown"               "50 50 45 45"
         "AbilityManaCost"               "0"
         "AbilityCastRange" 				"9000"
 
@@ -283,8 +283,8 @@
         //-------------------------------------------------------------------------------------------------------------
 		"AbilitySpecial"
 		{
-            "01"{ "var_type"			"FIELD_INTEGER"		"speed"		            "500" }
-            "02"{ "var_type"			"FIELD_INTEGER"		"dmg"		            "250" }
+            "01"{ "var_type"			"FIELD_INTEGER"		"speed"		            "400" }
+            "02"{ "var_type"			"FIELD_INTEGER"		"dmg"		            "200" }
             "03"{ "var_type"			"FIELD_INTEGER"		"hit_box"		        "200" }
 		}
 
@@ -309,7 +309,7 @@
         "AbilityUnitDamageType"         "DAMAGE_TYPE_PHYSICAL" 
         "MaxLevel"						"4"
         "AbilityCastRange" 				"10000"
-        "AbilityCooldown"				"40 35 35 40"
+        "AbilityCooldown"				"50 45 40 40"
         "AbilityCastPoint"              "0"
         "AbilityManaCost"               "0"
 
@@ -379,7 +379,7 @@
         "AbilityUnitDamageType"         "DAMAGE_TYPE_PHYSICAL" 
         "MaxLevel"						"4"
         "AbilityCastRange" 				"10000"
-        "AbilityCooldown"				"30 35 35 35"
+        "AbilityCooldown"				"40 35 35 35"
         "AbilityCastPoint"              "0"
         "AbilityManaCost"               "0"
 
@@ -583,7 +583,7 @@
         // Casting
         //-------------------------------------------------------------------------------------------------------------
         "AbilityCastPoint"              "2.0 1.5 1.5 1.0"
-        "AbilityCooldown"               "30 25 20 18"
+        "AbilityCooldown"               "35 30 30 25"
         "AbilityManaCost"               "0"
         "AbilityCastRange" 				"5000"
 
@@ -617,7 +617,7 @@
         // Casting
         //-------------------------------------------------------------------------------------------------------------
         "AbilityCastPoint"              "0 0 0 0"
-        "AbilityCooldown"               "30 30 30 30"
+        "AbilityCooldown"               "45 45 45 45"
         "AbilityManaCost"               "0"
         "AbilityCastRange" 				"5000"
 
