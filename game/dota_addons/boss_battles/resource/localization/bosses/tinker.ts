@@ -22,19 +22,19 @@ export function GenerateLocalizationData(): LocalizationData
     Modifiers.push({
         modifier_classname: "phase_2_crystal_spawn_modifier",
         name: "Crystal Growth",
-        description: `At the end of the duration you will spawn a crystal.`
+        description: `You will mark a location on the floor at the end of the duration.`
     });
 
     Modifiers.push({
         modifier_classname: "biting_frost_modifier_debuff",
         name: "Icebite",
-        description: `Taking damage per second. Stacks. Does damage in a radius around you. Can be cleansed by fire...`
+        description: `Taking stacking damage per second that is dealt to all nearby targets. Can be cleansed by fire.`
     });
 
     Modifiers.push({
         modifier_classname: "fire_ele_melt_debuff",
         name: "Melted armor",
-        description: `Your armor is being melted.`
+        description: `Your armour is reduced, increasing damage taken.`
     });
 
     Modifiers.push({

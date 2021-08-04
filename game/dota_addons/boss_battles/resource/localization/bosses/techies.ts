@@ -22,25 +22,25 @@ export function GenerateLocalizationData(): LocalizationData
     Modifiers.push({
         modifier_classname: "modifier_sticky_bomb",
         name: "Sticky Bomb",
-        description: `This bomb splits damage with all surrounding players.`
+        description: `Damage dealt by the bomb is spread evenly across all targets.`
     });
 
     Modifiers.push({
         modifier_classname: "modifier_electric_vortex",
         name: "Stasis pull",
-        description: `Pulls target towards the stasis trap.`
+        description: `You are being pulled towards the trap.`
     });
 
     Modifiers.push({
         modifier_classname: "blast_off_fog_modifier",
         name: "Blast off smoke",
-        description: `Vision reduced from blast off smoke.`
+        description: `Your vision is heavily reduced.`
     });
 
     Modifiers.push({
         modifier_classname: "generic_cube_bomb_modifier",
         name: "Deadly looking cube",
-        description: `Quick find the diffuse location.`
+        description: `You must find the location marked to dispell this.`
     });
 
 

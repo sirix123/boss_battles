@@ -17,19 +17,19 @@ function GenerateLocalizationData() {
     //#endregion
     Modifiers.push({
         modifier_classname: "soul_crystals",
-        name: "soul crystal",
-        description: "yuve got a soul crystal."
+        name: "Soul Crystals",
+        description: "Current amount of soul crystals."
     });
     Modifiers.push({
         modifier_classname: "space_disperse_modifier",
-        name: "space_disperse_modifier",
-        description: "invul running faster."
+        name: "Wraithwalk",
+        description: "Increased movement speed and invulnerability."
     });
     // abilities
     Abilities.push({
         ability_classname: "pugna_basic_attack",
-        name: "Pugna basic",
-        description: "Shoot your glizzy.",
+        name: "Shadow Bolt",
+        description: "Pugna fires a bolt of necrotic energy towards a target.",
         ability_specials: [
             {
                 ability_special: "dmg",
@@ -47,13 +47,13 @@ function GenerateLocalizationData() {
     });
     Abilities.push({
         ability_classname: "pugna_m2",
-        name: "Boomerang",
-        description: "Lienar proj at 3 crystal stacks bounces/double casts.",
+        name: "Wrathfire Blast",
+        description: "Pugna launches a bolt of chaotic energy towards a target. At maximum soul crystals, Wraithfire Blast will bounce towards an additional target.",
         notes: [],
         ability_specials: [
             {
                 ability_special: "dmg",
-                text: "DAMAGE EACH:"
+                text: "DAMAGE:"
             },
             {
                 ability_special: "AbilityCastPoint",
@@ -63,16 +63,16 @@ function GenerateLocalizationData() {
     });
     Abilities.push({
         ability_classname: "soul_drain",
-        name: "Soul drain",
-        description: "Drains soul of enemy.",
+        name: "Soul Drain",
+        description: "Pugna drains the soul of a target enemy, restoring mana and dealing damage.",
         ability_specials: [
             {
                 ability_special: "mana",
-                text: "mana:"
+                text: "MANA PER SECOND:"
             },
             {
                 ability_special: "dmg",
-                text: "dmg:",
+                text: "DAMAGE PER SECOND:",
             },
             {
                 ability_special: "drain_tick_rate",

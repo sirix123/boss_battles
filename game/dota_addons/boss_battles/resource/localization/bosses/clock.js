@@ -19,12 +19,12 @@ function GenerateLocalizationData() {
     Modifiers.push({
         modifier_classname: "modifier_rooted_clock",
         name: "Rooted",
-        description: "You cannot move or use movement spell."
+        description: "You are unable to move or use movement abilities."
     });
     Modifiers.push({
         modifier_classname: "choking_gas_timer",
         name: "Gas",
-        description: "You spawn deadly gas every step you take."
+        description: "Toxic gas is spawning underneath you."
     });
     // Return data to compiler
     return localization_info;
