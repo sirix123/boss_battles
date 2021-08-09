@@ -113,7 +113,7 @@ function bird_puddle_thinker:StartApplyDamageLoop()
        if friendlies ~= nil and #friendlies ~= 0 then
             for _, friend in pairs(friendlies) do
                 if friend:GetUnitName() == "npc_charge_bot" then
-                    friend:AddNewModifier(self:GetCaster(), self, "biting_frost_modifier_buff_fire", {duration = 5})
+                    --friend:AddNewModifier(self:GetCaster(), self, "biting_frost_modifier_buff_fire", {duration = 5})
                 end
             end
         end

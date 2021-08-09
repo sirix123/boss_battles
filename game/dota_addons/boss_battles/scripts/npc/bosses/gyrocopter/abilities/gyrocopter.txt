@@ -37,7 +37,7 @@
             "01"{ "var_type"			"FIELD_INTEGER"		"barrage_duration"		            "5" }
             "02"{ "var_type"			"FIELD_INTEGER"		"charge_speed"		                "1200" }
             "03"{ "var_type"			"FIELD_FLOAT"		"oil_drop_freq"		                "0.5" }
-            "04"{ "var_type"			"FIELD_INTEGER"		"barrage_dmg"                       "19" }
+            "04"{ "var_type"			"FIELD_INTEGER"		"barrage_dmg"                       "14" }
             "05"{ "var_type"			"FIELD_FLOAT"		"barrage_tick_rate"                 "0.1" }
 		}
 
@@ -209,8 +209,8 @@
 		{
             "01"{ "var_type"			"FIELD_INTEGER"		"distance"		                "15000 18000 20000 25000" }
             "02"{ "var_type"			"FIELD_INTEGER"		"radius"		                "180" }
-            "03"{ "var_type"			"FIELD_INTEGER"		"ball_speed"		            "1000 1100 1200 1300" }
-            "04"{ "var_type"			"FIELD_INTEGER"		"damage"		                "350" }
+            "03"{ "var_type"			"FIELD_INTEGER"		"ball_speed"		            "700 700 800 900" }
+            "04"{ "var_type"			"FIELD_INTEGER"		"damage"		                "300" }
             "05"{ "var_type"			"FIELD_INTEGER"		"balls_to_summon"		        "1 2 3 4" }
 		}
 

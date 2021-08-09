@@ -29,7 +29,7 @@ function Spawn( entityKeyValues )
 
 	-- saw blade references and init
 	thisEntity.saw_blade = thisEntity:FindAbilityByName( "saw_blade" )
-	thisEntity.saw_blade:StartCooldown(10)
+	thisEntity.saw_blade:StartCooldown(3)
 	thisEntity.nMaxSawBlades = thisEntity.saw_blade:GetLevelSpecialValueFor("nMaxSawBlades", thisEntity.saw_blade:GetLevel())
 	thisEntity.nCurrentSawBlades = 0
 	thisEntity.return_saw_blades = thisEntity:FindAbilityByName( "return_saw_blades" )
@@ -83,7 +83,7 @@ function TimberThink()
 	end
 
 	-- state change handler
-	if thisEntity:GetHealthPercent() < 90 and thisEntity.chain_map_edge:IsCooldownReady() == true then
+	if thisEntity:GetHealthPercent() < 85 and thisEntity.chain_map_edge:IsCooldownReady() == true then
 		thisEntity.createParticleOnce = true
 		thisEntity:SetBaseManaRegen(0)
 		thisEntity.state = 2
@@ -204,15 +204,15 @@ function TimberThink()
 
 	if thisEntity.state == 2 then
 
-		if thisEntity.chain_map_edge ~= nil and thisEntity.chain_map_edge:IsFullyCastable() and thisEntity.chain_map_edge:IsCooldownReady() and thisEntity.chain_map_edge:IsInAbilityPhase() == false then
-			return CastChainMapEdge()
-		end
-
 		if thisEntity.createParticleOnce == true then
 			thisEntity.createParticleOnce = false
 
 			thisEntity:AddNewModifier( thisEntity, nil, "chain_edge_bubble", { duration = -1 } )
 
+		end
+
+		if thisEntity.chain_map_edge ~= nil and thisEntity.chain_map_edge:IsFullyCastable() and thisEntity.chain_map_edge:IsCooldownReady() and thisEntity.chain_map_edge:IsInAbilityPhase() == false then
+			return CastChainMapEdge()
 		end
 
 		if thisEntity.vertical_saw_blade ~= nil and thisEntity.vertical_saw_blade:IsFullyCastable() and thisEntity.vertical_saw_blade:IsCooldownReady() and thisEntity.vertical_saw_blade:IsInAbilityPhase() == false and thisEntity.vertical_saw_blade:IsChanneling() == false then

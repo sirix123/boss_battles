@@ -121,6 +121,10 @@ function DinoThink()
 		-- stuff that happens after the windup/castpoint
 		if thisEntity:HasModifier("modifier_generic_arc_lua") == false and thisEntity.dino_charge:IsInAbilityPhase() == false and thisEntity.charge_target ~= nil then
 
+			if thisEntity.charge_target:IsAlive() == false then
+				thisEntity.STATE = 3
+			end
+
 			--print("distance, ",distance)
 			local distance = ( thisEntity:GetAbsOrigin() - thisEntity.charge_target:GetAbsOrigin() ):Length2D()
 

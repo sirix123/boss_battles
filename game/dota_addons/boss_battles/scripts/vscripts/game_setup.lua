@@ -40,9 +40,6 @@ function GameSetup:init()
     -- init dc manager
     disconnect_manager:Init()
 
-    -- stripe init
-    CosmeticManager:Init()
-
     --listen to game state event
     -- events here: https://developer.valvesoftware.com/wiki/Dota_2_Workshop_Tools/Scripting/Built-In_Engine_Events
     ListenToGameEvent("game_rules_state_change", Dynamic_Wrap(self, "OnStateChange"), self) -- valve engine event
@@ -61,6 +58,9 @@ end
 function GameSetup:OnStateChange()
     if GameRules:State_Get() == DOTA_GAMERULES_STATE_CUSTOM_GAME_SETUP then
         loading_screen_data:SendLeaderBoardData()
+
+        -- stripe init
+        CosmeticManager:Init()
     end
 
     if GameRules:State_Get() == DOTA_GAMERULES_STATE_PRE_GAME then
