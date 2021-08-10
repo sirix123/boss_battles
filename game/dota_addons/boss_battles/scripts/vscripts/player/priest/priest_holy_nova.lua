@@ -4,7 +4,7 @@ function priest_holy_nova:GetCastPoint()
 	local caster = self:GetCaster()
     local ability_cast_point = self.BaseClass.GetCastPoint(self)
 
-    if caster:HasModifier("space_angel_mode_modifier") then
+    if caster:HasModifier("space_angel_mode_modifier") == true then
         return ability_cast_point - ( ability_cast_point * caster:FindAbilityByName("space_angel_mode"):GetSpecialValueFor( "reduce_cps" ) )
     else
         return ability_cast_point

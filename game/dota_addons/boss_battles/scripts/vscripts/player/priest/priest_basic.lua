@@ -6,9 +6,9 @@ function priest_basic:GetCastPoint()
 
     if caster:HasModifier("e_whirling_winds_modifier") == true then
         return ability_cast_point - ( ability_cast_point * 0.25 )
-    elseif caster:HasModifier("space_angel_mode_modifier") then
+    elseif caster:HasModifier("space_angel_mode_modifier") == true then
         return ability_cast_point - ( ability_cast_point * self:GetSpecialValueFor( "reduce_cps") )
-    elseif caster:HasModifier("e_whirling_winds_modifier") == true and caster:HasModifier("space_angel_mode_modifier") then
+    elseif caster:HasModifier("e_whirling_winds_modifier") == true and caster:HasModifier("space_angel_mode_modifier") == true then
         return ability_cast_point - ( ability_cast_point * 0.25 ) - (  ability_cast_point * caster:FindAbilityByName("space_angel_mode"):GetSpecialValueFor( "reduce_cps" ) )
     else
         return ability_cast_point

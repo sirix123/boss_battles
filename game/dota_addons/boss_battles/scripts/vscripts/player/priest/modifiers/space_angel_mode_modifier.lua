@@ -37,6 +37,23 @@ end
 function space_angel_mode_modifier:OnCreated( kv )
 	if IsServer() then
 
+		self.health_bar_off_set = self:GetCaster():GetBaseHealthBarOffset()
+
+		self:GetCaster():SetHealthBarOffsetOverride(500)
+
+        local particle = "particles/orcale/techies_earthshaker_totem_ti6_buff_longer.vpcf"
+        self.effect_cast = ParticleManager:CreateParticle( particle, PATTACH_POINT_FOLLOW, self:GetCaster() )
+        local attach = "attach_hitloc"
+        ParticleManager:SetParticleControlEnt(
+            self.effect_cast,
+            0,
+            self:GetCaster(),
+            PATTACH_POINT_FOLLOW,
+            attach,
+            Vector(0,0,0), -- unknown
+            true -- unknown, true
+        )
+
     end
 end
 ----------------------------------------------------------------------------
@@ -44,6 +61,11 @@ end
 
 function space_angel_mode_modifier:OnDestroy()
 	if IsServer() then
+		if self.effect_cast then
+			ParticleManager:DestroyParticle(self.effect_cast,true)
+		end
+
+		self:GetCaster():SetHealthBarOffsetOverride(self.health_bar_off_set)
 	end
 end
 ----------------------------------------------------------------------------

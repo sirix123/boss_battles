@@ -818,6 +818,10 @@ function GameSetup:HeroCheck()
             hero:RemoveModifierByName("q_arcane_cage_modifier")
         end
 
+        if hero:HasModifier("priest_inner_fire_modifier") then
+            hero:RemoveModifierByName("priest_inner_fire_modifier")
+        end
+
         -- templar clean
         if hero:GetUnitName() == "npc_dota_hero_huskar" then
             hero:SetMana(hero:GetMaxMana())
@@ -858,6 +862,13 @@ function GameSetup:HeroCheck()
             end
             if hero:HasModifier("shatter_modifier") then
                 hero:RemoveModifierByName("shatter_modifier")
+            end
+        end
+
+        -- nerif clean
+        if hero:GetUnitName() == "npc_dota_hero_oracle" then
+            if hero:HasModifier("space_angel_mode_modifier") then
+                hero:RemoveModifierByName("space_angel_mode_modifier")
             end
         end
 
