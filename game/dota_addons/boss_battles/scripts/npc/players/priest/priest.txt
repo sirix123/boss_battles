@@ -1,0 +1,58 @@
+"DOTAHeroes"
+{
+	//=================================================================================================================
+	// HERO: Templar - Player Character
+	//=================================================================================================================
+	"npc_dota_hero_oracle"
+	{
+		"override_hero"			"npc_dota_hero_oracle" 			// Hero to override
+		"Ability1"              "priest_basic" 
+        "Ability2"              "priest_flash_heal" 
+        "Ability3"              "priest_holy_nova" 
+        "Ability4"              "priest_inner_fire"
+        "Ability5"              "priest_holy_fire"
+        "Ability6"              "space_angel_mode"
+        "Ability7"              ""
+        "Ability8"              ""
+        "Ability9"              ""
+        "Ability10"             ""
+        "Ability11"             ""
+        "Ability12"             ""
+        "Ability13"             ""
+        "Ability14"             ""
+        "Ability15"             ""
+        "Ability16"             ""
+        "Ability17"             ""
+
+        "ArmorPhysical"             "0"
+        "MagicalResistance"         "0"
+
+        "AttackCapabilities"        "DOTA_UNIT_CAP_RANGED_ATTACK"
+        "AttackDamageMin"           "1"
+        "AttackDamageMax"           "1"
+
+        //"AttributePrimary"        "DOTA_ATTRIBUTE_STRENGTH"
+        "AttributeBaseStrength"     "0"
+        "AttributeStrengthGain"     "0"
+        "AttributeBaseIntelligence" "0"
+        "AttributeIntelligenceGain" "0"
+        "AttributeBaseAgility"      "0"
+        "AttributeAgilityGain"      "0"
+
+        "BountyXP"                  "0"
+        "BountyGoldMin"             "0"
+        "BountyGoldMax"             "0"
+
+        "MovementCapabilities"      "DOTA_UNIT_CAP_MOVE_GROUND"
+        "MovementSpeed"             "400"
+        "MovementTurnRate"          "1.0"
+
+        "StatusHealth"              "500" //500 50000
+        "StatusHealthRegen"         "0"
+        "StatusMana"                "100"
+        "StatusManaRegen"           "0.0"
+
+        "VisionDaytimeRange"        "5000"
+        "VisionNighttimeRange"      "5000"
+	}
+}

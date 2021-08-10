@@ -66,6 +66,7 @@ function HideOther(top_panel){
 	if ( player_hero == "npc_dota_hero_hoodwink" 			) 	{ hero_name = "RAT"; }
 	if ( player_hero == "npc_dota_hero_huskar" 			) 	    { hero_name = "TEMPLAR"; }
     if ( player_hero == "npc_dota_hero_pugna" 			) 	    { hero_name = "PUGNA"; }
+    if ( player_hero == "npc_dota_hero_oracle" 			) 	    { hero_name = "NERIF"; }
 
     var dotaHudUnitName = top_panel.FindChildTraverse('UnitNameLabel');
     dotaHudUnitName.text = hero_name

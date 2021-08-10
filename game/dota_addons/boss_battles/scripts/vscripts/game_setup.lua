@@ -214,6 +214,7 @@ function GameSetup:OnNPCSpawned(keys)
             if npc:GetUnitName() == "npc_dota_hero_queenofpain" then npc:SetMana(0) end
             if npc:GetUnitName() == "npc_dota_hero_hoodwink" then npc:SetMana(0) end
             if npc:GetUnitName() == "npc_dota_hero_pugna" then npc:SetMana(0) end
+            if npc:GetUnitName() == "npc_dota_hero_oracle" then npc:SetMana(0) end
             return false
         end)
 
@@ -260,7 +261,7 @@ function GameSetup:OnNPCSpawned(keys)
         --print("on spanwed lives ", npc.playerLives )
 
         if IsInToolsMode() == true then
-            npc:AddNewModifier( npc,  nil, "admin_god_mode", { } )
+            --npc:AddNewModifier( npc,  nil, "admin_god_mode", { } )
         end
 
         -- level up abilities for all heroes to level 1

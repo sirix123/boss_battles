@@ -148,6 +148,7 @@ function Precache( context ) -- this needs to be in a seperate file
   PrecacheUnitByNameSync("npc_dota_hero_omniknight", context)
   PrecacheUnitByNameSync("npc_dota_hero_lina", context)
   PrecacheUnitByNameSync("npc_dota_hero_windrunner", context)
+  PrecacheUnitByNameSync("npc_dota_hero_oracle", context)
 
   local npcs = LoadKeyValues("scripts/npc/npc_units_custom.txt")
 

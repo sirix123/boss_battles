@@ -28,7 +28,7 @@ function OnPickingDone( data ) {
      	product_list.push(heroProductMap);
     }
 
-    $.Msg("product_list, ",product_list)
+    //$.Msg("product_list, ",product_list)
 
 }
 

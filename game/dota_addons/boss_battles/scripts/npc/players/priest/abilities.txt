@@ -1,0 +1,206 @@
+"DOTAAbilities"
+{
+
+	"priest_basic"
+	{
+		"BaseClass"						"ability_lua"
+		"ScriptFile"					"player/priest/priest_basic"
+		"MaxLevel"						"1"
+
+		"AbilityTextureName"			"oracle_purifying_flames"
+		"AbilityUnitTargetTeam"			"DOTA_UNIT_TARGET_TEAM_ENEMY"
+		"AbilityUnitDamageType"			"DAMAGE_TYPE_PHYSICAL"	
+        "AbilityBehavior"				"DOTA_ABILITY_BEHAVIOR_POINT | DOTA_ABILITY_BEHAVIOR_IGNORE_PSEUDO_QUEUE"
+		"AbilityCastRange" 				"700"
+        "AbilityCooldown"				"0.0"
+        "AbilityCastPoint"              "0.5"
+		"AbilityManaCost"        		"0"
+
+		"TargetingIndicator"
+		{
+			"Type"						"TARGETING_INDICATOR_LINE"
+			"Fixed"						"1"
+		}
+        
+		"AbilitySpecial"
+		{
+			"01"{ "var_type"			"FIELD_INTEGER"		"dmg"							"80" } 
+			"02"{ "var_type"			"FIELD_INTEGER"		"hit_box"						"80" }
+			"03"{ "var_type"			"FIELD_INTEGER"		"proj_speed"					"1200" }
+			"09"{ "var_type"			"FIELD_INTEGER"		"mana_gain_percent"             "5" }
+			
+		}
+	}
+
+	"priest_flash_heal"
+	{
+		"BaseClass"						"ability_lua"
+		"ScriptFile"					"player/priest/priest_flash_heal"
+		"MaxLevel"						"1"
+
+		"AbilityTextureName"			"oracle_false_promise"
+        "AbilityBehavior"				"DOTA_ABILITY_BEHAVIOR_POINT | DOTA_ABILITY_BEHAVIOR_IGNORE_PSEUDO_QUEUE"
+		"AbilityCastRange" 				"1000"
+        "AbilityCooldown"				"0"
+        "AbilityCastPoint"              "0.4"
+		"AbilityManaCost"        		"15"
+		"AbilityCharges"				"3"
+		"AbilityChargeRestoreTime"		"8"
+
+		"TargetingIndicator"
+		{
+			//"Type"						"TARGETING_INDICATOR_AOE"
+			//"Fixed"						"1"
+		}
+        
+		"AbilitySpecial"
+		{
+			"01"{ "var_type"			"FIELD_INTEGER"		"heal_amount"			"150" }	
+		}
+
+		"precache"
+		{
+			//"soundfile"	"soundevents/game_sounds_heroes/game_sounds_winter_wyvern.vsndevts"
+			//"particle"	"particles/units/heroes/hero_winter_wyvern/wyvern_cold_embrace_buff.vpcf"
+		}
+	}
+
+	"priest_holy_nova"
+	{
+		"BaseClass"						"ability_lua"
+		"ScriptFile"					"player/priest/priest_holy_nova"
+		"MaxLevel"						"1"
+
+		"AbilityTextureName"			"arc_warden_magnetic_field"
+        "AbilityBehavior"				"DOTA_ABILITY_BEHAVIOR_POINT | DOTA_ABILITY_BEHAVIOR_IGNORE_PSEUDO_QUEUE"
+		"AbilityCastRange" 				"1000"
+        "AbilityCooldown"				"15"
+        "AbilityCastPoint"              "0.3"
+		"AbilityManaCost"        		"15"
+
+		"TargetingIndicator"
+		{
+			//"Type"						"TARGETING_INDICATOR_AOE"
+			//"Fixed"						"1"
+		}
+        
+		"AbilitySpecial"
+		{
+			"01"{ "var_type"			"FIELD_INTEGER"		"heal_amount"			"250" }	
+			"02"{ "var_type"			"FIELD_INTEGER"		"dmg"					"250" }	
+			"03"{ "var_type"			"FIELD_INTEGER"		"radius"				"450" }	
+			"04"{ "var_type"			"FIELD_INTEGER"		"speed"					"300" }
+			"05"{ "var_type"			"FIELD_FLOAT"		"distance_multi"		"0.3" }	
+		}
+
+		"precache"
+		{
+			//"soundfile"	"soundevents/game_sounds_heroes/game_sounds_winter_wyvern.vsndevts"
+			//"particle"	"particles/units/heroes/hero_winter_wyvern/wyvern_cold_embrace_buff.vpcf"
+		}
+	}
+
+	"priest_inner_fire"
+	{
+		"BaseClass"						"ability_lua"
+		"ScriptFile"					"player/priest/priest_inner_fire"
+		"MaxLevel"						"1"
+
+		"AbilityTextureName"			"keeper_of_the_light_chakra_magic"
+        "AbilityBehavior"				"DOTA_ABILITY_BEHAVIOR_POINT | DOTA_ABILITY_BEHAVIOR_IGNORE_PSEUDO_QUEUE"
+		"AbilityCastRange" 				"1000"
+        "AbilityCooldown"				"30"
+        "AbilityCastPoint"              "0.2"
+		"AbilityManaCost"        		"0"
+
+		"TargetingIndicator"
+		{
+			//"Type"						"TARGETING_INDICATOR_AOE"
+			//"Fixed"						"1"
+		}
+        
+		"AbilitySpecial"
+		{
+			"01"{ "var_type"			"FIELD_INTEGER"		"healing_reduce_target"			"50" }	
+			"02"{ "var_type"			"FIELD_INTEGER"		"duration"						"30" }	
+			"03"{ "var_type"			"FIELD_INTEGER"		"armor_inc"						"3" }	
+			"04"{ "var_type"			"FIELD_INTEGER"		"dmg_inc"						"5" }
+			"05"{ "var_type"			"FIELD_INTEGER"		"mana_gain_amount_per_attack"	"5" }		
+		}
+
+		"precache"
+		{
+			//"soundfile"	"soundevents/game_sounds_heroes/game_sounds_winter_wyvern.vsndevts"
+			//"particle"	"particles/units/heroes/hero_winter_wyvern/wyvern_cold_embrace_buff.vpcf"
+		}
+	}
+
+	"priest_holy_fire"
+	{
+		"BaseClass"						"ability_lua"
+		"ScriptFile"					"player/priest/priest_holy_fire"
+		"MaxLevel"						"1"
+
+		"AbilityTextureName"			"oracle_fortunes_end"
+        "AbilityBehavior"				"DOTA_ABILITY_BEHAVIOR_POINT | DOTA_ABILITY_BEHAVIOR_IGNORE_PSEUDO_QUEUE"
+		"AbilityCastRange" 				"1000"
+        "AbilityCooldown"				"10"
+        "AbilityCastPoint"              "0.4"
+		"AbilityManaCost"        		"15"
+
+		"TargetingIndicator"
+		{
+			//"Type"						"TARGETING_INDICATOR_AOE"
+			//"Fixed"						"1"
+		}
+        
+		"AbilitySpecial"
+		{
+			"01"{ "var_type"			"FIELD_INTEGER"		"dmg_dot"							"40" }	
+			"02"{ "var_type"			"FIELD_INTEGER"		"duration"							"10" }		
+			"03"{ "var_type"			"FIELD_INTEGER"		"delay"								"3" }	
+			"04"{ "var_type"			"FIELD_INTEGER"		"dmg_explode"						"200" }	
+			"05"{ "var_type"			"FIELD_INTEGER"		"radius"							"250" }	
+			"06"{ "var_type"			"FIELD_INTEGER"		"dmg_dot_interval"					"1" }
+		}
+
+		"precache"
+		{
+			"soundfile"	"soundevents/game_sounds_heroes/game_sounds_leshrac.vsndevts"
+			//"particle"	"particles/units/heroes/hero_winter_wyvern/wyvern_cold_embrace_buff.vpcf"
+		}
+	}
+
+	"space_angel_mode"
+	{
+		"BaseClass"						"ability_lua"
+		"ScriptFile"					"player/priest/space_angel_mode"
+		"MaxLevel"						"1"
+
+		"AbilityTextureName"			"keeper_of_the_light_spirit_form_illuminate"
+        "AbilityBehavior"				"DOTA_ABILITY_BEHAVIOR_NO_TARGET | DOTA_ABILITY_BEHAVIOR_IMMEDIATE | DOTA_ABILITY_BEHAVIOR_IGNORE_BACKSWING | DOTA_ABILITY_BEHAVIOR_DONT_CANCEL_MOVEMENT | DOTA_ABILITY_BEHAVIOR_IGNORE_PSEUDO_QUEUE"
+		"AbilityCastRange" 				"1000"
+        "AbilityCooldown"				"45"//"20" 0
+        "AbilityCastPoint"              "0" // 0.4
+
+		"TargetingIndicator"
+		{
+			//"Type"						"TARGETING_INDICATOR_AOE"
+			//"Fixed"						"1"
+		}
+        
+		"AbilitySpecial"
+		{
+			"01"{ "var_type"			"FIELD_INTEGER"		"duration"			"15" }
+			"02"{ "var_type"			"FIELD_INTEGER"		"reduce_cps"		"50" }
+			"03"{ "var_type"			"FIELD_INTEGER"		"reduce_cooldowns"	"50" }
+			"04"{ "var_type"			"FIELD_INTEGER"		"reduce_mana_cost"	"100" }
+		}
+
+		"precache"
+		{
+			//"soundfile"	"soundevents/game_sounds_heroes/game_sounds_obsidian_destroyer.vsndevts"
+		}
+
+	}
+}

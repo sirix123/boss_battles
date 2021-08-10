@@ -43,6 +43,8 @@
 //pugna
 #base "players/pugna/abilities.txt"
 
+//priest
+#base "players/priest/abilities.txt"
 
 "DOTAAbilities"
 {

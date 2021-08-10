@@ -1,0 +1,143 @@
+<!-- kv3 encoding:text:version{e21c7f3c-8a33-41c5-9977-a76d3a32aa0d} format:vpcf36:version{d15c9157-10e0-47bc-9333-1ac81da07b8d} -->
+{
+	_class = "CParticleSystemDefinition"
+	m_bShouldHitboxesFallbackToRenderBounds = false
+	m_nMaxParticles = 256
+	m_nBehaviorVersion = 5
+	m_nFirstMultipleOverride_BackwardCompat = 6
+	m_controlPointConfigurations = 
+	[
+		{
+			m_name = "preview"
+			m_drivers = 
+			[
+				{
+					m_iAttachType = "PATTACH_WORLDORIGIN"
+					m_entityName = "self"
+				},
+				{
+					m_iControlPoint = 1
+					m_iAttachType = "PATTACH_WORLDORIGIN"
+					m_entityName = "self"
+				},
+			]
+		},
+	]
+	m_Emitters = 
+	[
+		{
+			_class = "C_OP_InstantaneousEmitter"
+			m_nParticlesToEmit = 
+			{
+				m_nType = "PF_TYPE_CONTROL_POINT_COMPONENT"
+				m_nControlPoint = 1
+				m_nVectorComponent = 0
+				m_nMapType = "PF_MAP_TYPE_MULT"
+				m_flMultFactor = 64.0
+			}
+		},
+	]
+	m_Initializers = 
+	[
+		{
+			_class = "C_INIT_RandomLifeTime"
+			m_fLifetimeMax = 0.8
+			m_fLifetimeMin = 0.2
+		},
+		{
+			_class = "C_INIT_RandomRotation"
+			m_flDegreesMax = 10.0
+			m_flDegreesMin = -10.0
+		},
+		{
+			_class = "C_INIT_RandomRadius"
+			m_flRadiusMax = 40.0
+			m_flRadiusMin = 40.0
+		},
+		{
+			_class = "C_INIT_RandomAlpha"
+		},
+		{
+			_class = "C_INIT_CreateOnModel"
+			m_vecHitBoxScale = 
+			{
+				m_nType = "PVEC_TYPE_LITERAL"
+				m_vLiteralValue = [ 1.4, 1.4, 1.4 ]
+			}
+		},
+		{
+			_class = "C_INIT_RandomColor"
+			m_ColorMax = [ 216, 241, 117 ]
+			m_ColorMin = [ 243, 246, 204 ]
+		},
+		{
+			_class = "C_INIT_PositionOffset"
+			m_OffsetMin = [ -32.0, -32.0, -32.0 ]
+			m_OffsetMax = [ 32.0, 32.0, 32.0 ]
+		},
+	]
+	m_Operators = 
+	[
+		{
+			_class = "C_OP_BasicMovement"
+			m_fDrag = 0.05
+		},
+		{
+			_class = "C_OP_InterpolateRadius"
+			m_flBias = 0.25
+			m_flStartScale = 0.0
+			m_flEndTime = 0.7
+			m_flEndScale = 4.0
+		},
+		{
+			_class = "C_OP_LockToBone"
+		},
+		{
+			_class = "C_OP_Decay"
+		},
+		{
+			_class = "C_OP_OscillateVector"
+			m_RateMin = [ -4.0, -4.0, -4.0 ]
+			m_RateMax = [ 4.0, 4.0, 4.0 ]
+			m_FrequencyMax = [ 3.0, 3.0, 3.0 ]
+			m_flStartTime_min = 0.25
+			m_flStartTime_max = 0.25
+		},
+		{
+			_class = "C_OP_InterpolateRadius"
+			m_flStartTime = 0.7
+			m_flStartScale = 4.0
+			m_flEndScale = 0.0
+			m_flBias = 0.85
+		},
+	]
+	m_ForceGenerators = 
+	[
+		{
+			_class = "C_OP_AttractToControlPoint"
+			m_flOpStartFadeInTime = 0.35
+			m_flOpEndFadeInTime = 0.35
+			m_fForceAmount = 
+			{
+				m_nType = "PF_TYPE_LITERAL"
+				m_flLiteralValue = -1500.0
+			}
+			m_fFalloffPower = 0.0
+			m_vecComponentScale = [ 1.0, 1.0, 0.25 ]
+		},
+	]
+	m_Renderers = 
+	[
+		{
+			_class = "C_OP_RenderSprites"
+			m_bDisableZBuffering = true
+			m_vecTexturesInput = 
+			[
+				{
+					m_hTexture = resource:"materials/particle/particle_flares/aircraft_white.vtex"
+				},
+			]
+			m_nOutputBlendMode = "PARTICLE_OUTPUT_BLEND_MODE_ADD"
+		},
+	]
+}

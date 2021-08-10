@@ -163,7 +163,7 @@ function PlayerSelected( player, hero ) {
 	if ( hero == "npc_dota_hero_hoodwink" 			) 	{ hero = "Rat"; }
 	if ( hero == "npc_dota_hero_huskar" 			) 	{ hero = "Templar"; }
 	if ( hero == "npc_dota_hero_pugna" 				) 	{ hero = "Pugna"; }
-	
+	if ( hero == "npc_dota_hero_oracle" 			) 	{ hero = "Nerif"; }
 
 	// add the players name to the bottom of the pedestal
 	var pedHeroHeroText = heroPedPanels[player].FindChildInLayoutFile("HeroNamePedTxt");
