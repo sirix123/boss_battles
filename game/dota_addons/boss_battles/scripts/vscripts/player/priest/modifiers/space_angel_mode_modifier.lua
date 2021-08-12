@@ -91,7 +91,7 @@ function space_angel_mode_modifier:GetModifierModelScale()
 end
 
 function space_angel_mode_modifier:GetModifierMoveSpeedBonus_Percentage()
-	return 30
+	return self:GetAbility():GetSpecialValueFor( "movement_speed_buff")
 end
 
 function space_angel_mode_modifier:CheckState()

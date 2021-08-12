@@ -191,10 +191,11 @@
         
 		"AbilitySpecial"
 		{
-			"01"{ "var_type"			"FIELD_INTEGER"		"duration"			"10" }
-			"02"{ "var_type"			"FIELD_INTEGER"		"reduce_cps"		"50" }
-			"03"{ "var_type"			"FIELD_INTEGER"		"reduce_cooldowns"	"50" }
-			"04"{ "var_type"			"FIELD_INTEGER"		"reduce_mana_cost"	"100" }
+			"01"{ "var_type"			"FIELD_INTEGER"		"duration"				"10" }
+			"02"{ "var_type"			"FIELD_INTEGER"		"reduce_cps"			"50" }
+			"03"{ "var_type"			"FIELD_INTEGER"		"reduce_cooldowns"		"50" }
+			"04"{ "var_type"			"FIELD_INTEGER"		"reduce_mana_cost"		"100" }
+			"05"{ "var_type"			"FIELD_INTEGER"		"movement_speed_buff"	"30" }
 		}
 
 		"precache"
