@@ -41,6 +41,8 @@ function space_angel_mode_modifier:OnCreated( kv )
 
 		self:GetCaster():SetHealthBarOffsetOverride(500)
 
+		self:GetCaster():FindAbilityByName("priest_flash_heal"):RefreshCharges()
+
         local particle = "particles/orcale/techies_earthshaker_totem_ti6_buff_longer.vpcf"
         self.effect_cast = ParticleManager:CreateParticle( particle, PATTACH_POINT_FOLLOW, self:GetCaster() )
         local attach = "attach_hitloc"
@@ -75,6 +77,7 @@ function space_angel_mode_modifier:DeclareFunctions()
 	{
         MODIFIER_PROPERTY_COOLDOWN_PERCENTAGE,
 		MODIFIER_PROPERTY_MODEL_SCALE,
+		MODIFIER_PROPERTY_MOVESPEED_BONUS_PERCENTAGE,
 	}
 	return funcs
 end
@@ -86,3 +89,14 @@ end
 function space_angel_mode_modifier:GetModifierModelScale()
 	return 60
 end
+
+function space_angel_mode_modifier:GetModifierMoveSpeedBonus_Percentage()
+	return 30
+end
+
+function space_angel_mode_modifier:CheckState()
+	return {
+	--	[MODIFIER_STATE_FLYING] = true,
+	  	[MODIFIER_STATE_UNSLOWABLE] = true,
+	}
+  end

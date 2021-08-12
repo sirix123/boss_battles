@@ -11,9 +11,9 @@
 		"AbilityUnitTargetTeam"			"DOTA_UNIT_TARGET_TEAM_ENEMY"
 		"AbilityUnitDamageType"			"DAMAGE_TYPE_PHYSICAL"	
         "AbilityBehavior"				"DOTA_ABILITY_BEHAVIOR_POINT | DOTA_ABILITY_BEHAVIOR_IGNORE_PSEUDO_QUEUE"
-		"AbilityCastRange" 				"700"
+		"AbilityCastRange" 				"900"
         "AbilityCooldown"				"0.0"
-        "AbilityCastPoint"              "0.5"
+        "AbilityCastPoint"              "0.4"
 		"AbilityManaCost"        		"0"
 
 		"TargetingIndicator"
@@ -45,7 +45,7 @@
         "AbilityCastPoint"              "0.4"
 		"AbilityManaCost"        		"20"
 		"AbilityCharges"				"3"
-		"AbilityChargeRestoreTime"		"8"
+		"AbilityChargeRestoreTime"		"12"
 
 		"TargetingIndicator"
 		{
@@ -86,11 +86,11 @@
         
 		"AbilitySpecial"
 		{
-			"01"{ "var_type"			"FIELD_INTEGER"		"heal_amount"			"250" }	
+			"01"{ "var_type"			"FIELD_INTEGER"		"heal_amount"			"180" }	
 			"02"{ "var_type"			"FIELD_INTEGER"		"dmg"					"250" }	
 			"03"{ "var_type"			"FIELD_INTEGER"		"radius"				"450" }	
 			"04"{ "var_type"			"FIELD_INTEGER"		"speed"					"300" }
-			"05"{ "var_type"			"FIELD_FLOAT"		"distance_multi"		"0.3" }	
+			"05"{ "var_type"			"FIELD_INTEGER"		"distance_multi"		"30" }	
 		}
 
 		"precache"
@@ -123,7 +123,7 @@
 		{
 			"01"{ "var_type"			"FIELD_INTEGER"		"healing_reduce_target"			"50" }	
 			"02"{ "var_type"			"FIELD_INTEGER"		"duration"						"30" }	
-			"03"{ "var_type"			"FIELD_INTEGER"		"armor_inc"						"3" }	
+			"03"{ "var_type"			"FIELD_INTEGER"		"armor_inc"						"1" }	
 			"04"{ "var_type"			"FIELD_INTEGER"		"dmg_inc"						"5" }
 			"05"{ "var_type"			"FIELD_INTEGER"		"mana_gain_amount_per_attack"	"1" }		
 		}
@@ -144,7 +144,7 @@
 		"AbilityTextureName"			"oracle_fortunes_end"
         "AbilityBehavior"				"DOTA_ABILITY_BEHAVIOR_POINT | DOTA_ABILITY_BEHAVIOR_IGNORE_PSEUDO_QUEUE"
 		"AbilityCastRange" 				"1000"
-        "AbilityCooldown"				"10"
+        "AbilityCooldown"				"5"
         "AbilityCastPoint"              "0.4"
 		"AbilityManaCost"        		"15"
 
@@ -156,8 +156,8 @@
         
 		"AbilitySpecial"
 		{
-			"01"{ "var_type"			"FIELD_INTEGER"		"dmg_dot"							"40" }	
-			"02"{ "var_type"			"FIELD_INTEGER"		"duration"							"10" }		
+			"01"{ "var_type"			"FIELD_INTEGER"		"dmg_dot"							"80" }	
+			"02"{ "var_type"			"FIELD_INTEGER"		"duration"							"5" }		
 			"03"{ "var_type"			"FIELD_INTEGER"		"delay"								"3" }	
 			"04"{ "var_type"			"FIELD_INTEGER"		"dmg_explode"						"200" }	
 			"05"{ "var_type"			"FIELD_INTEGER"		"radius"							"250" }	
@@ -191,7 +191,7 @@
         
 		"AbilitySpecial"
 		{
-			"01"{ "var_type"			"FIELD_INTEGER"		"duration"			"15" }
+			"01"{ "var_type"			"FIELD_INTEGER"		"duration"			"10" }
 			"02"{ "var_type"			"FIELD_INTEGER"		"reduce_cps"		"50" }
 			"03"{ "var_type"			"FIELD_INTEGER"		"reduce_cooldowns"	"50" }
 			"04"{ "var_type"			"FIELD_INTEGER"		"reduce_mana_cost"	"100" }

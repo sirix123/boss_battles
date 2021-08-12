@@ -89,7 +89,7 @@ function OnTimeUpdate( data ) {
 
 /* A player has picked a hero */
 function OnPlayerPicked( data ) {
-	$.Msg("OnPlayerPicked ",data)
+	//$.Msg("OnPlayerPicked ",data)
 	PlayerPicked( data.PlayerID, data.HeroName );
 }
 
@@ -349,7 +349,7 @@ function DisplayWASDToolTip(){
 It is recommended that your team comprises of one damage dealer, two hybrids and one support.\n\n\
 Rylai, Blademaster, Windrunner are hybrids.\n\n\
 Lina, Nightblade and Templar are damage dealers.\n\n\
-Nocens and Akasha are supports.\n\n\
+Nocens, Akasha and Nerif are supports.\n\n\
 The info panel on the left handside of the screen (shown once hero selection is finished) has some helpful gameplay tips.";
 	});
 

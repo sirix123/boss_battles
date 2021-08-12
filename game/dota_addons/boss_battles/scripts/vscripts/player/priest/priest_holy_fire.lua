@@ -35,7 +35,7 @@ function priest_holy_fire:OnAbilityPhaseStart()
 
         self.caster = self:GetCaster()
 
-        self.nPreviewFXIndex = ParticleManager:CreateParticle( "particles/custom/markercircle/darkmoon_calldown_marker.vpcf", PATTACH_CUSTOMORIGIN, nil )
+        self.nPreviewFXIndex = ParticleManager:CreateParticleForPlayer( "particles/custom/markercircle/darkmoon_calldown_marker.vpcf", PATTACH_CUSTOMORIGIN, self:GetCaster(), self:GetCaster():GetPlayerOwner() )
         ParticleManager:SetParticleControl( self.nPreviewFXIndex, 0, self.point )
         ParticleManager:SetParticleControl( self.nPreviewFXIndex, 1, Vector( self:GetSpecialValueFor( "radius" ), -self:GetSpecialValueFor( "radius" ), -self:GetSpecialValueFor( "radius" ) ) )
         ParticleManager:SetParticleControl( self.nPreviewFXIndex, 2, Vector( self:GetCastPoint(), 0, 0 ) );

@@ -68,6 +68,7 @@ _G.HERO_NAME_LIST =
     --"npc_dota_hero_hoodwink",
     "npc_dota_hero_huskar",
     --"npc_dota_hero_pugna",
+    "npc_dota_hero_oracle",
 }
 
 _G.tCORE_MODIFIERS =

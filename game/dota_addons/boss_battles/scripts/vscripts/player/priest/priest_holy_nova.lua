@@ -74,7 +74,7 @@ function priest_holy_nova:OnSpellStart()
         local blast_radius = self:GetSpecialValueFor("radius")
         local blast_speed = self:GetSpecialValueFor("speed")
         local damage = self:GetSpecialValueFor("dmg")
-        local dist_multi = self:GetSpecialValueFor("distance_multi")
+        local dist_multi = self:GetSpecialValueFor("distance_multi") /100
         local blast_duration = blast_radius / blast_speed
         local current_loc = self:GetCaster():GetAbsOrigin()
 

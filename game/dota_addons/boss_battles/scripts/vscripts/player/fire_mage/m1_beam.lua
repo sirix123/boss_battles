@@ -71,11 +71,6 @@ function m1_beam:OnSpellStart()
         local particleName = "particles/fire_mage/lina_phoenix_sunray_solar_forge.vpcf"
         self.pfx = ParticleManager:CreateParticle( particleName, PATTACH_ABSORIGIN, self.caster )
 
-        if self.caster:HasModifier("m1_beam_fire_rage") then
-            local modifier = self.caster:FindModifierByNameAndCaster("m1_beam_fire_rage",self.caster)
-            modifier:SetDuration(self:GetSpecialValueFor( "buff_duration" ),true)
-        end
-
         -- particle effect timer
         Timers:CreateTimer(function()
             if IsValidEntity(self.caster) == false then
@@ -109,7 +104,9 @@ function m1_beam:OnSpellStart()
                 return false
             end
 
-            if self.caster.left_mouse_up_down == 1 or self.caster:IsStunned() or self.caster:HasModifier("modifier_stomp_push") or self.caster:IsAlive() == false or self.caster:IsSilenced() then
+            if  self.caster.left_mouse_up_down == 1 or self.caster:IsStunned()
+                or self.caster:HasModifier("modifier_stomp_push") or self.caster:IsAlive() == false
+                or self.caster:IsSilenced() or self.caster:HasModifier("modifier_generic_silenced") then
                 self:CleanUp()
                 i = 0
                 return false
@@ -127,6 +124,11 @@ function m1_beam:OnSpellStart()
 
                     if units ~= nil and #units ~= 0 then
                         for _,unit in pairs(units) do
+
+                            if self.caster:HasModifier("m1_beam_fire_rage") then
+                                local modifier = self.caster:FindModifierByNameAndCaster("m1_beam_fire_rage",self.caster)
+                                modifier:SetDuration(self:GetSpecialValueFor( "buff_duration" ),true)
+                            end
 
                             if i >= 1.5 then
                                 self.caster:AddNewModifier(self.caster,self,"m1_beam_fire_rage", { duration = self:GetSpecialValueFor( "buff_duration" ) })

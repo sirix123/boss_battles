@@ -72,7 +72,7 @@ end
 function m1_beam_remnant:OnChannelThink( flinterval )
 	if IsServer() then
 
-        if IsValidEntity(self:GetCaster()) == false then
+        if IsValidEntity(self:GetCaster()) ~= true then
             self:GetCaster():InterruptChannel()
         end
 

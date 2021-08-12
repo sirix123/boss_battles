@@ -81,7 +81,7 @@
 		"AbilitySpecial"
 		{
             "01"{ "var_type"			"FIELD_INTEGER"		"speed"		                        "1500" }
-            "02"{ "var_type"			"FIELD_FLOAT"		"oil_drop_freq"		                "0.9" }
+            "02"{ "var_type"			"FIELD_FLOAT"		"oil_drop_freq"		                "0.3" }
 		}
 
         "precache"
@@ -112,7 +112,7 @@
 
         // Time     
         //-------------------------------------------------------------------------------------------------------------
-        "AbilityCooldown"               "25 25 25 25"
+        "AbilityCooldown"               "30 30 30 30"
 
         // Cost
         //-------------------------------------------------------------------------------------------------------------
@@ -209,7 +209,7 @@
 		{
             "01"{ "var_type"			"FIELD_INTEGER"		"distance"		                "15000 18000 20000 25000" }
             "02"{ "var_type"			"FIELD_INTEGER"		"radius"		                "180" }
-            "03"{ "var_type"			"FIELD_INTEGER"		"ball_speed"		            "700 700 800 900" }
+            "03"{ "var_type"			"FIELD_INTEGER"		"ball_speed"		            "1000 1000 1000 1000" }
             "04"{ "var_type"			"FIELD_INTEGER"		"damage"		                "300" }
             "05"{ "var_type"			"FIELD_INTEGER"		"balls_to_summon"		        "1 2 3 4" }
 		}
@@ -484,7 +484,7 @@
 		"AbilityCooldown"               "40 40 40 40"
         "AbilityManaCost"               "0"
         "AbilityCastRange" 				"5000"
-        "AbilityChannelTime"            "16 16 16 16"
+        "AbilityChannelTime"            "12 12 12 12"
 		"AbilityCastPoint"              "0.5 0.5 0.5 0.5"
         "AbilityCastAnimation"          "ACT_DOTA_GENERIC_CHANNEL_1"
  

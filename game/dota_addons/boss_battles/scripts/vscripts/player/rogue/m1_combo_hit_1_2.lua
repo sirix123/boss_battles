@@ -29,7 +29,7 @@ function m1_combo_hit_1_2:OnAbilityPhaseStart()
         self:GetCaster():AddNewModifier(self:GetCaster(), self, "casting_modifier_thinker",
         {
             duration = self:GetCastPoint(),
-			animation_sequence = "fast",
+			animation_sequence = "arcana",
         })
 
         return true

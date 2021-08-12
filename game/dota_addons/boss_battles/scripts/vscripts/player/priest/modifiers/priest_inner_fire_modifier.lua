@@ -46,6 +46,11 @@ function priest_inner_fire_modifier:OnDestroy()
         if self.effect_cast ~= nil then
             ParticleManager:DestroyParticle(self.effect_cast, true)
         end
+
+        if self:GetCaster():FindAbilityByName("priest_inner_fire"):IsCooldownReady() == false then
+            self:GetCaster():FindAbilityByName("priest_inner_fire"):StartCooldown(10)
+        end
+
 	end
 end
 ----------------------------------------------------------------------------

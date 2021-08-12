@@ -554,8 +554,8 @@
             "01"{ "var_type"			"FIELD_INTEGER"		"totalTicks"		           "25 25 20 20" }
             "02"{ "var_type"			"FIELD_FLOAT"		"timerInterval"		           "1 0.7 0.5 0.4" }
             "03"{ "var_type"			"FIELD_INTEGER"		"nCogs"		                   "8 16 32 32" }
-            "04"{ "var_type"			"FIELD_INTEGER"		"min_rand"		               "8 8 5 5" }
-            "05"{ "var_type"			"FIELD_INTEGER"		"max_rand"		               "19 19 10 10" }
+            "04"{ "var_type"			"FIELD_INTEGER"		"min_rand"		               "8 8 12 12" }
+            "05"{ "var_type"			"FIELD_INTEGER"		"max_rand"		               "19 19 19 19" }
             "06"{ "var_type"			"FIELD_INTEGER"		"min_rand_root"		           "2 2 1 1" }
             "07"{ "var_type"			"FIELD_INTEGER"		"max_rand_root"		           "2 2 2 2" }
 		}

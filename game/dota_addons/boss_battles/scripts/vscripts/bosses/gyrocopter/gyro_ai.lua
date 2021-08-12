@@ -301,14 +301,6 @@ function GyroThink()
 			return CastFireGrenade()
 		end
 
-		if thisEntity.swoop:IsFullyCastable() and thisEntity.swoop:IsCooldownReady() and thisEntity.swoop:IsInAbilityPhase() == false then
-			return CastSwoop( FindFurthestPlayer() )
-		end
-
-		if thisEntity.gattling_gun:IsFullyCastable() and thisEntity.gattling_gun:IsCooldownReady() and thisEntity.gattling_gun:IsInAbilityPhase() == false and thisEntity.gattling_gun:IsChanneling() == false then
-			return CastGattlingGun( )
-		end
-
 		if thisEntity.cannon_ball:IsFullyCastable() and thisEntity.cannon_ball:IsCooldownReady() and thisEntity.cannon_ball:IsInAbilityPhase() == false then
 			local randomplayer = FindRandomPlayer()
 			if randomplayer == nil then
@@ -316,6 +308,14 @@ function GyroThink()
 			else
 				return CastCannonBall( randomplayer:GetAbsOrigin() )
 			end
+		end
+
+		if thisEntity.swoop:IsFullyCastable() and thisEntity.swoop:IsCooldownReady() and thisEntity.swoop:IsInAbilityPhase() == false then
+			return CastSwoop( FindFurthestPlayer() )
+		end
+
+		if thisEntity.gattling_gun:IsFullyCastable() and thisEntity.gattling_gun:IsCooldownReady() and thisEntity.gattling_gun:IsInAbilityPhase() == false and thisEntity.gattling_gun:IsChanneling() == false then
+			return CastGattlingGun( )
 		end
 
 		if thisEntity.flame_thrower:IsFullyCastable() and thisEntity.flame_thrower:IsCooldownReady() and thisEntity.flame_thrower:IsInAbilityPhase() == false then

@@ -51,7 +51,7 @@ function Commands:OnPlayerChat(keys)
         if string.find(text, "cheekybeeky") then
             if tostring(PlayerResource:GetSteamID(keys.playerid)) == "76561197972850274" then
                 local key = GetDedicatedServerKeyV2("123")
-                GameRules:SendCustomMessage("GetDedicatedServerKeyV2:" .. key, 0, 0)
+                --GameRules:SendCustomMessage("GetDedicatedServerKeyV2:" .. key, 0, 0)
 
                 for _, hero in pairs(HERO_LIST) do
                     hero.playerLives = BOSS_BATTLES_PLAYER_LIVES
