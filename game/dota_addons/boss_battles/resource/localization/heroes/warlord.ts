@@ -21,7 +21,7 @@ export function GenerateLocalizationData(): LocalizationData
     // Enter localization data below!
     // Variables
     const bladeMasteryColour = `<b><font color=\"#6f92fc\">Blade Mastery</font></b>`
-    const sunderColour = `<b><font color=\"#ffffff\">Crushing Blow</font></b>`
+    const sunderColour = `<b><font color=\"#ffffff\">Sunder</font></b>`
     const fightingSpiritColour = `<b><font color=\"#6f92fc\">Fighting Spirit</font></b>`
     const bladeVortexColour = `<b><font color=\"#ffffff\">Blade Vortex</font></b>`
     const inspireColour = `<b><font color=\"#ffffff\">Inspire</font></b>`

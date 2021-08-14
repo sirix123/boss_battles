@@ -37,6 +37,11 @@ export function GenerateLocalizationData(): LocalizationData
         name: "Shadow Dagger",
         description: `Shadowstep.`,
     });
+    Modifiers.push({
+            modifier_classname: "space_shadowstep_caster_modifier",
+            name: "Envenom",
+            description: `Current Envenom stacks.`,
+    });
     // abilities
     Abilities.push({
         ability_classname: "m1_combo_hit_1_2",
