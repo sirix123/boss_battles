@@ -210,7 +210,7 @@
             "01"{ "var_type"			"FIELD_INTEGER"		"distance"		                "15000 18000 20000 25000" }
             "02"{ "var_type"			"FIELD_INTEGER"		"radius"		                "180" }
             "03"{ "var_type"			"FIELD_INTEGER"		"ball_speed"		            "1000 1000 1000 1000" }
-            "04"{ "var_type"			"FIELD_INTEGER"		"damage"		                "300" }
+            "04"{ "var_type"			"FIELD_INTEGER"		"damage"		                "250" }
             "05"{ "var_type"			"FIELD_INTEGER"		"balls_to_summon"		        "1 2 3 4" }
 		}
 

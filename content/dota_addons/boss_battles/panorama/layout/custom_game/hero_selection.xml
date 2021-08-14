@@ -127,6 +127,9 @@
             	<Label id="ToolTipTxt" text="ToolTipText" />
         	</Panel>
 
+			<Panel id="Event" class="Event"> 
+        	</Panel>
+
 		</Panel>
 	</Panel>
 </root>

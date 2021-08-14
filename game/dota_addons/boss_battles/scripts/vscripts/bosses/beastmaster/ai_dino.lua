@@ -91,6 +91,7 @@ function DinoThink()
 					thisEntity.charge_target = enemies[RandomInt(1,#enemies)]
 					if thisEntity.charge_target:HasModifier("grab_player_modifier") == true then
 						thisEntity.charge_target = nil
+						thisEntity.STATE = 3
 						return 1
 					end
 				end
@@ -110,11 +111,18 @@ function DinoThink()
 
 			if thisEntity.charge_target:IsAlive() == false then
 				thisEntity.STATE = 3
+				thisEntity.charge_target = nil
 			end
 
 			if thisEntity.charge_target:IsInvulnerable() == true then
 				thisEntity.STATE = 1
 				thisEntity.charge_target = nil
+			end
+
+			if thisEntity.charge_target:HasModifier("grab_player_modifier") == true then
+				thisEntity.charge_target = nil
+				thisEntity.STATE = 3
+				return 1
 			end
 		end
 

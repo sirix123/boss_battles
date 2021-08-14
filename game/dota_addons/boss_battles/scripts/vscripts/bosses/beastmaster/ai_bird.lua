@@ -235,6 +235,23 @@ function BirdThinker()
             thisEntity:RemoveModifierByName("modifier_invulnerable")
         end
 
+        local hBeastmaster = FindBeastMaster()
+        if hBeastmaster ~= nil then
+            if hBeastmaster:HasModifier("modifier_rooted") then
+                thisEntity.PHASE = 1
+                thisEntity.grab_player:StartCooldown(RandomInt(15,20))
+                if thisEntity.target:HasModifier("bird_mark_modifier") ~= nil then
+                    thisEntity.target:RemoveModifierByName("bird_mark_modifier")
+                end
+                if thisEntity.target:HasModifier("grab_player_modifier") == true then
+                    thisEntity.target:RemoveModifierByName("grab_player_modifier")
+                end
+                thisEntity.target = nil
+                thisEntity.vTarget = nil
+                return 1
+            end
+        end
+
         if thisEntity.vWaterPos == nil then 
             local vPos = {
                 Vector(-1789.364868, -11690.703125, 133.128906),

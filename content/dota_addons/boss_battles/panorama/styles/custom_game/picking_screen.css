@@ -262,6 +262,7 @@
 	background-size: 100% 100%;
 	border-radius: 12px;
 	horizontal-align: right;
+	z-index:10;
 }
 
 #ToolTipTxt {
@@ -272,6 +273,7 @@
     margin-top: 20px;
     margin: 10px;
     font-family: defaultFont;
+	z-index:10;
 }
 
 .ToolTipInfo {
@@ -287,6 +289,7 @@
 	background-size: 100% 100%;
 	border-radius: 6px;
 	font-family: defaultFont;
+	z-index:10;
 }
 
 .ToolTipInfoOpenToolTip {
@@ -302,4 +305,18 @@
 	background-size: 100% 100%;
 	border-radius: 6px;
 	font-family: defaultFont;
+	z-index:10;
+}
+
+.Event{
+	width: 600px;
+	height: 366px;
+	horizontal-align: center;
+	vertical-align: middle;
+	background-color: gradient( linear, 0% 0%, 0% 100%, from( #3553fa ), to( #8887d633 ) );
+	background-size: 100% 100%;
+	border-radius: 6px;
+	background-image: url("file://{images}/event_2.png");
+	z-index:0;
+	margin-bottom: 200px;
 }

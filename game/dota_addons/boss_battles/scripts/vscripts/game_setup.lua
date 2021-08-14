@@ -434,6 +434,18 @@ function GameSetup:OnEntityKilled(keys)
                 heroes = HERO_LIST --HeroList:GetAllHeroes()
                 for _,hero in pairs(heroes) do
 
+                    local count = hero:GetModifierCount()
+                    for i=0, count - 1 do
+                        local mn = hero:GetModifierNameByIndex(i)
+
+                        if CheckGlobalModifierTable(mn) ~= true then
+                            if hero:HasModifier(mn) then
+                                hero:RemoveModifierByName(mn)
+                            end
+                        end
+
+                    end
+
                     FindClearSpaceForUnit(hero, BOSS_BATTLES_INTERMISSION_SPAWN_LOCATION, true)
 
                     -- remove items

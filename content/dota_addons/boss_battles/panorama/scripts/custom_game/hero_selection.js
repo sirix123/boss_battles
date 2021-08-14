@@ -78,6 +78,7 @@ function OnPickingDone( data ) {
 
 	$('#wasdcontainer').DeleteAsync( 0.0 );
 	$('#herocompContainer').DeleteAsync( 0.0 );
+	$('#Event').DeleteAsync( 0.0 );
     $('#ToolTip').DeleteAsync( 0.0 );
 	EnterGame()
 }
