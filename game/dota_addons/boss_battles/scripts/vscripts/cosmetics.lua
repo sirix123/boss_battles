@@ -184,32 +184,32 @@ function CosmeticManager:GetProductListTest()
     local product_list = {}
     local hero = {}
     hero["hero"] = "npc_dota_hero_crystal_maiden"
-    hero["products"] = {"prod_JeM6EdQsCCvQbB"}
+    hero["products"] = {"prod_K3nLLJ8Cg5oRRN"}
     table.insert(product_list,hero)
 
     hero = {}
     hero["hero"] = "npc_dota_hero_juggernaut"
-    hero["products"] = {"prod_JhhDluCT1T5SWR"}
+    hero["products"] = {"prod_K3nKIapPT9IwVx"}
     table.insert(product_list,hero)
 
     hero = {}
     hero["hero"] = "npc_dota_hero_queenofpain"
-    hero["products"] = {"prod_JhhDzGDJJb9t1z"}
+    hero["products"] = {"prod_K3nLHE2IAIKZhx"}
     table.insert(product_list,hero)
 
     hero = {}
     hero["hero"] = "npc_dota_hero_windrunner"
-    hero["products"] = {"prod_JhhK4ZwCbpMAXe"}
+    hero["products"] = {"prod_K3nKNer3yuFb1P"}
     table.insert(product_list,hero)
 
     hero = {}
     hero["hero"] = "npc_dota_hero_phantom_assassin"
-    hero["products"] = {"prod_JhhDjvKw86l9bm"}
+    hero["products"] = {"prod_K3nKKvwFuhrkse"}
     table.insert(product_list,hero)
 
     hero = {}
     hero["hero"] = "npc_dota_hero_lina"
-    hero["products"] = {"prod_JhhDnkjfU31G0U"}
+    hero["products"] = {"prod_K3nKsxusCxUqlx"}
     table.insert(product_list,hero)
 
     --print(dump(json.encode(product_list)))
@@ -340,42 +340,42 @@ function CosmeticManager:GetPlayerPurchaseListTest()
 
     local player = {}
     player["steam_id"] = "76561197972850274"
-    player["purchases"] = {"prod_JhhDjvKw86l9bm","prod_JhhDnkjfU31G0U","prod_JhhK4ZwCbpMAXe","prod_JhhDN4uB5R7qT4","prod_JhhDzGDJJb9t1z","prod_JhhDluCT1T5SWR","prod_JeM6EdQsCCvQbB"}
+    player["purchases"] = {"prod_K3nKKvwFuhrkse","prod_K3nKsxusCxUqlx","prod_K3nKNer3yuFb1P","prod_JhhDN4uB5R7qT4","prod_K3nLHE2IAIKZhx","prod_K3nKIapPT9IwVx","prod_K3nLHE2IAIKZhx"}
     table.insert(product_player_list,player)
 
     player = {}
     player["steam_id"] = "76561198054593305"
-    player["purchases"] = {"prod_JhhDjvKw86l9bm","prod_JhhDnkjfU31G0U","prod_JhhK4ZwCbpMAXe","prod_JhhDN4uB5R7qT4","prod_JhhDzGDJJb9t1z","prod_JhhDluCT1T5SWR","prod_JeM6EdQsCCvQbB"}
+    player["purchases"] = {"prod_K3nKKvwFuhrkse","prod_K3nKsxusCxUqlx","prod_K3nKNer3yuFb1P","prod_JhhDN4uB5R7qT4","prod_K3nLHE2IAIKZhx","prod_K3nKIapPT9IwVx","prod_K3nLLJ8Cg5oRRN"}
     table.insert(product_player_list,player)
 
     player = {}
     player["steam_id"] = "76561198015252302"
-    player["purchases"] = {"prod_JhhDjvKw86l9bm","prod_JhhDnkjfU31G0U","prod_JhhK4ZwCbpMAXe","prod_JhhDN4uB5R7qT4","prod_JhhDzGDJJb9t1z","prod_JhhDluCT1T5SWR","prod_JeM6EdQsCCvQbB"}
+    player["purchases"] = {"prod_K3nKKvwFuhrkse","prod_K3nKsxusCxUqlx","prod_K3nKNer3yuFb1P","prod_JhhDN4uB5R7qT4","prod_K3nLHE2IAIKZhx","prod_K3nKIapPT9IwVx","prod_K3nLLJ8Cg5oRRN"}
     table.insert(product_player_list,player)
 
     player = {}
     player["steam_id"] = "76561198261513304"
-    player["purchases"] = {"prod_JhhDjvKw86l9bm","prod_JhhDnkjfU31G0U","prod_JhhK4ZwCbpMAXe","prod_JhhDN4uB5R7qT4","prod_JhhDzGDJJb9t1z","prod_JhhDluCT1T5SWR","prod_JeM6EdQsCCvQbB"}
+    player["purchases"] = {"prod_K3nKKvwFuhrkse","prod_K3nKsxusCxUqlx","prod_K3nKNer3yuFb1P","prod_JhhDN4uB5R7qT4","prod_K3nLHE2IAIKZhx","prod_K3nKIapPT9IwVx","prod_K3nLLJ8Cg5oRRN"}
     table.insert(product_player_list,player)
 
     player = {}
     player["steam_id"] = "76561198088786586"
-    player["purchases"] = {"prod_JhhDjvKw86l9bm","prod_JhhDnkjfU31G0U","prod_JhhK4ZwCbpMAXe","prod_JhhDN4uB5R7qT4","prod_JhhDzGDJJb9t1z","prod_JhhDluCT1T5SWR","prod_JeM6EdQsCCvQbB"}
+    player["purchases"] = {"prod_K3nKKvwFuhrkse","prod_K3nKsxusCxUqlx","prod_K3nKNer3yuFb1P","prod_JhhDN4uB5R7qT4","prod_K3nLHE2IAIKZhx","prod_K3nKIapPT9IwVx","prod_K3nLLJ8Cg5oRRN"}
     table.insert(product_player_list,player)
 
     player = {}
     player["steam_id"] = "76561198028107754"
-    player["purchases"] = {"prod_JhhDjvKw86l9bm","prod_JhhDnkjfU31G0U","prod_JhhK4ZwCbpMAXe","prod_JhhDN4uB5R7qT4","prod_JhhDzGDJJb9t1z","prod_JhhDluCT1T5SWR","prod_JeM6EdQsCCvQbB"}
+    player["purchases"] = {"prod_K3nKKvwFuhrkse","prod_K3nKsxusCxUqlx","prod_K3nKNer3yuFb1P","prod_JhhDN4uB5R7qT4","prod_K3nLHE2IAIKZhx","prod_K3nKIapPT9IwVx","prod_K3nLLJ8Cg5oRRN"}
     table.insert(product_player_list,player)
 
     player = {}
     player["steam_id"] = "76561198077897720"
-    player["purchases"] = {"prod_JhhDjvKw86l9bm","prod_JhhDnkjfU31G0U","prod_JhhK4ZwCbpMAXe","prod_JhhDN4uB5R7qT4","prod_JhhDzGDJJb9t1z","prod_JhhDluCT1T5SWR","prod_JeM6EdQsCCvQbB"}
+    player["purchases"] = {"prod_K3nKKvwFuhrkse","prod_K3nKsxusCxUqlx","prod_K3nKNer3yuFb1P","prod_JhhDN4uB5R7qT4","prod_K3nLHE2IAIKZhx","prod_K3nKIapPT9IwVx","prod_K3nLLJ8Cg5oRRN"}
     table.insert(product_player_list,player)
 
     player = {}
     player["steam_id"] = "76561198000305117"
-    player["purchases"] = {"prod_JhhDjvKw86l9bm","prod_JhhDnkjfU31G0U","prod_JhhK4ZwCbpMAXe","prod_JhhDN4uB5R7qT4","prod_JhhDzGDJJb9t1z","prod_JhhDluCT1T5SWR","prod_JeM6EdQsCCvQbB"}
+    player["purchases"] = {"prod_K3nKKvwFuhrkse","prod_K3nKsxusCxUqlx","prod_K3nKNer3yuFb1P","prod_JhhDN4uB5R7qT4","prod_K3nLHE2IAIKZhx","prod_K3nKIapPT9IwVx","prod_K3nLLJ8Cg5oRRN"}
     table.insert(product_player_list,player)
 
     --print(dump(json.encode(product_player_list)))

@@ -295,27 +295,27 @@ function OnShopCloseButtonPressed(){
 /*
 =========================================================================*/
 function GetProductImage( product_id ){
-    if( product_id == "prod_JeM6EdQsCCvQbB"){
+    if( product_id == "prod_K3nLLJ8Cg5oRRN"){
         return "npc_dota_hero_crystal_maiden_alt1";
     }
 
-    if( product_id == "prod_JhhDzGDJJb9t1z"){
+    if( product_id == "prod_K3nLHE2IAIKZhx"){
         return "npc_dota_hero_queenofpain_alt1";
     }
 
-    if( product_id == "prod_JhhDnkjfU31G0U"){
+    if( product_id == "prod_K3nKsxusCxUqlx"){
         return "npc_dota_hero_lina_alt1";
     }
 
-    if( product_id == "prod_JhhDjvKw86l9bm"){
+    if( product_id == "prod_K3nKKvwFuhrkse"){
         return "npc_dota_hero_phantom_assassin_alt1";
     }
 
-    if( product_id == "prod_JhhDluCT1T5SWR"){
+    if( product_id == "prod_K3nKIapPT9IwVx"){
         return "npc_dota_hero_juggernaut_alt1";
     }
 
-    if( product_id == "prod_JhhK4ZwCbpMAXe"){
+    if( product_id == "prod_K3nKNer3yuFb1P"){
         return "npc_dota_hero_windrunner_alt1";
     }
 
@@ -327,27 +327,27 @@ function GetProductImage( product_id ){
 /*
 =========================================================================*/
 function GetProductTitle( product_id ){
-    if( product_id == "prod_JeM6EdQsCCvQbB"){
+    if( product_id == "prod_K3nLLJ8Cg5oRRN"){
         return "Rylai";
     }
 
-    if( product_id == "prod_JhhDzGDJJb9t1z"){
+    if( product_id == "prod_K3nLHE2IAIKZhx"){
         return "Akasha";
     }
 
-    if( product_id == "prod_JhhDnkjfU31G0U"){
+    if( product_id == "prod_K3nKsxusCxUqlx"){
         return "Lina";
     }
 
-    if( product_id == "prod_JhhDjvKw86l9bm"){
+    if( product_id == "prod_K3nKKvwFuhrkse"){
         return "Nightblade";
     }
 
-    if( product_id == "prod_JhhDluCT1T5SWR"){
+    if( product_id == "prod_K3nKIapPT9IwVx"){
         return "Blademaster";
     }
 
-    if( product_id == "prod_JhhK4ZwCbpMAXe"){
+    if( product_id == "prod_K3nKNer3yuFb1P"){
         return "Windrunner";
     }
 }

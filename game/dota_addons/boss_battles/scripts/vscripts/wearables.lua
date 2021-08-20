@@ -13,7 +13,7 @@ function Wearables:MapWearablesToProductlist( product_list )
         for _, product_id in pairs(product.products) do
             local wearable = {}
 
-            if product_id == "prod_JeM6EdQsCCvQbB" then
+            if product_id == "prod_K3nLLJ8Cg5oRRN" then
                 wearable["product_id"] = product_id
 
                 self.model = "models/heroes/crystal_maiden/crystal_maiden_arcana.vmdl"
@@ -39,7 +39,7 @@ function Wearables:MapWearablesToProductlist( product_list )
                 table.insert(self.wearable_table,wearable)
             end
 
-            if product_id == "prod_JhhDzGDJJb9t1z" then
+            if product_id == "prod_K3nLHE2IAIKZhx" then
                 wearable["product_id"] = product_id
 
                 self.model = "models/items/queenofpain/queenofpain_arcana/queenofpain_arcana.vmdl"
@@ -68,7 +68,7 @@ function Wearables:MapWearablesToProductlist( product_list )
                 table.insert(self.wearable_table,wearable)
             end
 
-            if product_id == "prod_JhhDjvKw86l9bm" then
+            if product_id == "prod_K3nKKvwFuhrkse" then
                 wearable["product_id"] = product_id
 
                 self.model = "models/heroes/phantom_assassin/pa_arcana.vmdl"
@@ -98,7 +98,7 @@ function Wearables:MapWearablesToProductlist( product_list )
                 table.insert(self.wearable_table,wearable)
             end
 
-            if product_id == "prod_JhhK4ZwCbpMAXe" then
+            if product_id == "prod_K3nKNer3yuFb1P" then
                 wearable["product_id"] = product_id
 
                 self.model = "models/items/windrunner/windrunner_arcana/wr_arcana_base.vmdl"
@@ -124,7 +124,7 @@ function Wearables:MapWearablesToProductlist( product_list )
                 table.insert(self.wearable_table,wearable)
             end
 
-            if product_id == "prod_JhhDnkjfU31G0U" then
+            if product_id == "prod_K3nKsxusCxUqlx" then
                 wearable["product_id"] = product_id
 
                 wearable["portrait"] = "npc_dota_hero_lina_alt1"
@@ -132,7 +132,7 @@ function Wearables:MapWearablesToProductlist( product_list )
                 table.insert(self.wearable_table,wearable)
             end
 
-            if product_id == "prod_JhhDluCT1T5SWR" then
+            if product_id == "prod_K3nKIapPT9IwVx" then
                 wearable["product_id"] = product_id
 
                 self.model = "models/heroes/juggernaut/juggernaut_arcana.vmdl"
@@ -277,7 +277,7 @@ function Wearables:EquipWearables( product_id , hero )
         end
 
         -- general stuff that takes too long to put into tables..
-        if hero:GetUnitName() == "npc_dota_hero_phantom_assassin" and product_id == "prod_JhhDjvKw86l9bm" then
+        if hero:GetUnitName() == "npc_dota_hero_phantom_assassin" and product_id == "prod_K3nKKvwFuhrkse" then
             local pfx = ParticleManager:CreateParticle("particles/econ/items/phantom_assassin/phantom_assassin_arcana_elder_smith/pa_arcana_elder_ambient.vpcf", PATTACH_ABSORIGIN_FOLLOW, hero)
             ParticleManager:SetParticleControlEnt(pfx, 0, hero, PATTACH_POINT_FOLLOW, "attach_leg_r", hero:GetAbsOrigin(), true)
             ParticleManager:SetParticleControlEnt(pfx, 1, hero, PATTACH_POINT_FOLLOW, "attach_leg_l", hero:GetAbsOrigin(), true)
@@ -286,12 +286,12 @@ function Wearables:EquipWearables( product_id , hero )
             ParticleManager:ReleaseParticleIndex(pfx)
         end
 
-        if hero:GetUnitName() == "npc_dota_hero_crystal_maiden" and product_id == "prod_JeM6EdQsCCvQbB" then
+        if hero:GetUnitName() == "npc_dota_hero_crystal_maiden" and product_id == "prod_K3nLLJ8Cg5oRRN" then
             local particle = ParticleManager:CreateParticle("particles/econ/items/crystal_maiden/crystal_maiden_maiden_of_icewrack/maiden_arcana_base_ambient.vpcf", PATTACH_ABSORIGIN_FOLLOW, hero)
             ParticleManager:ReleaseParticleIndex(particle)
         end
 
-        if hero:GetUnitName() == "npc_dota_hero_queenofpain" and product_id == "prod_JhhDzGDJJb9t1z" then
+        if hero:GetUnitName() == "npc_dota_hero_queenofpain" and product_id == "prod_K3nLHE2IAIKZhx" then
             local particle = ParticleManager:CreateParticle("particles/econ/items/queen_of_pain/qop_arcana/qop_arcana_feet_ambient.vpcf", PATTACH_ABSORIGIN_FOLLOW, hero)
             ParticleManager:ReleaseParticleIndex(particle)
 
@@ -302,7 +302,7 @@ function Wearables:EquipWearables( product_id , hero )
             ParticleManager:ReleaseParticleIndex(particle_3)
         end
 
-        if hero:GetUnitName() == "npc_dota_hero_windrunner" and product_id == "prod_JhhK4ZwCbpMAXe" then
+        if hero:GetUnitName() == "npc_dota_hero_windrunner" and product_id == "prod_K3nKNer3yuFb1P" then
             local particle = ParticleManager:CreateParticle("particles/econ/items/windrunner/windranger_arcana/windranger_arcana_ambient.vpcf", PATTACH_ABSORIGIN_FOLLOW, hero)
             ParticleManager:ReleaseParticleIndex(particle)
 
@@ -346,7 +346,7 @@ function Wearables:EquipWearables( product_id , hero )
 
         end
 
-        if hero:GetUnitName() == "npc_dota_hero_lina" and product_id == "prod_JhhDnkjfU31G0U" then
+        if hero:GetUnitName() == "npc_dota_hero_lina" and product_id == "prod_K3nKsxusCxUqlx" then
             ParticleManager:CreateParticle("particles/econ/items/lina/lina_blazing_cosmos/lina_blazing_cosmos_neck.vpcf", PATTACH_ABSORIGIN_FOLLOW, hero)
 
             local index = ParticleManager:CreateParticle("particles/econ/items/lina/lina_head_headflame/lina_headflame.vpcf", PATTACH_POINT_FOLLOW, hero)
@@ -367,7 +367,7 @@ function Wearables:EquipWearables( product_id , hero )
             ParticleManager:ReleaseParticleIndex(index_1)]]
         end
 
-        if hero:GetUnitName() == "npc_dota_hero_juggernaut" and product_id == "prod_JhhDluCT1T5SWR" then
+        if hero:GetUnitName() == "npc_dota_hero_juggernaut" and product_id == "prod_K3nKIapPT9IwVx" then
             local particle_1 = ParticleManager:CreateParticle("particles/econ/items/juggernaut/jugg_arcana/juggernaut_arcana_body_ambient.vpcf", PATTACH_ABSORIGIN_FOLLOW, hero)
             ParticleManager:ReleaseParticleIndex(particle_1)
         end
