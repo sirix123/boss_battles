@@ -40,8 +40,8 @@ function OnServerSendOpenShop( data ) {
         end_url = data[i]; 
     }
 
-    //var start_url = "https://";
-    var start_url = "http://";
+    var start_url = "https://";
+    //var start_url = "http://";
     $.DispatchEvent("ExternalBrowserGoToURL",  start_url.concat(end_url) ); 
 }
 

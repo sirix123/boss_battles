@@ -5,7 +5,7 @@ function OnSocialButtonOnePressed(){
     $.Msg("click social button 1 website");
 
     //$.DispatchEvent("ExternalBrowserGoToURL", "your_url");
-    $.DispatchEvent("ExternalBrowserGoToURL", "http://bossbattles.co/Landing");
+    $.DispatchEvent("ExternalBrowserGoToURL", "https://bossbattles.co/Landing");
 
 }
 
@@ -34,11 +34,11 @@ hardDataButton.AddClass( "leaderboard_buttons" );
 
 /* buttons for leaderboard to load different data*/
 function OnNormalButtonPressed(){
-    $.Msg("click normal button ");
+    //$.Msg("click normal button ");
     normalDataButton.RemoveClass( "disabled" );
 
     if (normal_mode_data){
-        $.Msg("click normal button ", normal_mode_data);
+        //$.Msg("click normal button ", normal_mode_data);
         normalDataButton.AddClass( "enable" );
         hardDataButton.RemoveClass( "enable" );
         hardDataButton.AddClass( "disabled" );
@@ -47,11 +47,11 @@ function OnNormalButtonPressed(){
 }
 
 function OnHardButtonPressed(){
-    $.Msg("click hard button ");
+    //$.Msg("click hard button ");
     hardDataButton.RemoveClass( "disabled" );
 
     if (hard_mode_data){
-        $.Msg("click hard button ", hard_mode_data);
+        //$.Msg("click hard button ", hard_mode_data);
         hardDataButton.AddClass( "enable" );
         normalDataButton.RemoveClass( "enable" );
         normalDataButton.AddClass( "disabled" );
@@ -61,24 +61,7 @@ function OnHardButtonPressed(){
 
 /* recieve event from server*/
 function CreateLeaderBoard( data ) {
-    //data now contains both game modes
-
-	//$.Msg("server event handshake", data);
-
-    //lua massage
-    /*for (let i = 1; data[i] !== undefined; i++) {
-    	let products = []; 
-        for(let j = 1; data[i]["products"][j] !== undefined; j++)
-        {
-			products.push(data[i]["products"][j]);
-        }
-        let heroProductMap = { 
-        	hero: data[i]["hero"],
-        	products: products
-         };
-     	product_list.push(heroProductMap);
-    }*/
-
+    //data data for both game modes
     normal_mode_data = data[1];
     hard_mode_data = data[2];;
 
@@ -127,26 +110,23 @@ function CreateLeaderBoard( data ) {
 function UpdateScoreboardRows( data )
 {
     //$.Msg("UpdateScoreboardRows( data )")
-    $.Msg("data = ", data)
-    $.Msg("data[games] = ", data["games"])
+    //$.Msg("data = ", data)
+    //$.Msg("data[games] = ", data["games"])
 
     //for each row in the leaderboard
     for (var index in data["games"]) {
         let leaderboardRow = top10panels[index];
         var rank = leaderboardRow.FindChildTraverse("leaderboard_row_info_rank").text = index+ToOrdinal(index)
-
         var totalTime = leaderboardRow.FindChildTraverse("leaderboard_row_info_total_time").text = data["games"][index]["total_time"]
 
         for(var bossTimeIndex in data["games"][index]["boss_times"])
         {
-            //$.Msg("bossRow = ", data["games"][index]["boss_times"][bossTimeIndex])
             //bossRow = {"boss_name":"Tinker","time_taken":"4:59"}
             leaderboardRow.FindChildTraverse("leaderboard_row_info_boss_"+bossTimeIndex+"_time").text = data["games"][index]["boss_times"][bossTimeIndex]["time_taken"]
         }
 
         for(var playerIndex in data["games"][index]["players"])
         {
-            //$.Msg("playerRow = ", data["games"][index]["players"][playerIndex])
             //playerRow = {"lives":1,"player_name":"Moomoo","hero":"ranger"}
             leaderboardRow.FindChildTraverse("leaderboard_row_info_player_"+playerIndex).text = data["games"][index]["players"][playerIndex]["player_name"]
             leaderboardRow.FindChildTraverse("leaderboard_row_info_hero_"+playerIndex).text = data["games"][index]["players"][playerIndex]["hero"]

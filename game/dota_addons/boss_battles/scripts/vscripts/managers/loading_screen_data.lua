@@ -16,10 +16,10 @@ end
 
 -- TODO: implement version with parametized mode
 -- function loading_screen_data:GetLeaderBoardDataFromApi(mode)
-    -- local request = CreateHTTPRequestScriptVM("GET", "http://143.198.224.131/api/leaderboard?mode="..mode)
+    -- local request = CreateHTTPRequestScriptVM("GET", "https://bossbattles.co/api/leaderboard?mode="..mode)
 function loading_screen_data:GetLeaderBoardDataFromApi()
     if IsServer() then
-        local request = CreateHTTPRequestScriptVM("GET", "http://143.198.224.131/api/leaderboard?mode=normalMode")
+        local request = CreateHTTPRequestScriptVM("GET", "https://bossbattles.co/api/leaderboard?mode=normalMode")
         --local request = CreateHTTPRequestScriptVM("GET", "https://localhost:44363/api/leaderboard?mode=MOCK")
         request:Send(function(response) 
          if response.StatusCode == 200 then -- HTTP 200 = Success
