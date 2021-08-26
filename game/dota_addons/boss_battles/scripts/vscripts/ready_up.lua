@@ -42,7 +42,7 @@ function OnEndTouch( trigger )
     local ent = trigger.activator
     if not ent then return end
 
-    ent.ready_up = false
+    ent.ready_up = false -- could move this to gamesetup ready up check.,.. and reset ... that way... it will only fire once.. but once you ready up.. you ready up..(for good until next boss)
 
     --[[local triggerName = thisEntity:GetName()
 

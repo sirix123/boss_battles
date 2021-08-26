@@ -20,7 +20,8 @@ function Spawn( entityKeyValues )
     thisEntity.summon_fire_ele = thisEntity:FindAbilityByName( "summon_fire_ele" )
     thisEntity.summon_elec_ele = thisEntity:FindAbilityByName( "summon_elec_ele" )
 
-    thisEntity.summon_ice_ele:StartCooldown(thisEntity.summon_ice_ele:GetCooldown(thisEntity.summon_ice_ele:GetLevel()))
+    --thisEntity.summon_ice_ele:StartCooldown(thisEntity.summon_ice_ele:GetCooldown(thisEntity.summon_ice_ele:GetLevel()))
+    thisEntity.summon_ice_ele:StartCooldown(10)
     thisEntity.summon_fire_ele:StartCooldown(thisEntity.summon_fire_ele:GetCooldown(thisEntity.summon_fire_ele:GetLevel()))
     thisEntity.summon_elec_ele:StartCooldown(thisEntity.summon_elec_ele:GetCooldown(thisEntity.summon_elec_ele:GetLevel()))
 

@@ -561,12 +561,12 @@
     //=================================================================================================================
     // ice_ele_attack
     //=================================================================================================================
-    "ice_ele_attack"
+    "ice_ele_attack_v2"
     {
         // General
         //-------------------------------------------------------------------------------------------------------------
         "BaseClass"                     "ability_lua"
-        "ScriptFile"                    "bosses/tinker/ice_ele_attack"
+        "ScriptFile"                    "bosses/tinker/ice_ele_attack_v2"
         "AbilityTextureName"            "mirana_arrow"
 
         "AbilityBehavior"               "DOTA_ABILITY_BEHAVIOR_POINT"
@@ -575,6 +575,7 @@
         "AbilityUnitDamageType"         "DAMAGE_TYPE_PURE"
         "SpellImmunityType"             "SPELL_IMMUNITY_ENEMIES_NO"
         "MaxLevel"                      "1"
+        "AbilityDuration"               "3 3 3 3"
 
         "AbilityCastAnimation"          "ACT_DOTA_ATTACK"
 
@@ -589,7 +590,7 @@
 
         // Time     
         //-------------------------------------------------------------------------------------------------------------
-        "AbilityCooldown"               "4"
+        "AbilityCooldown"               "6"
 
         // Cost
         //-------------------------------------------------------------------------------------------------------------
@@ -630,6 +631,14 @@
                 "var_type"                  "FIELD_FLOAT"
                 "duration"                  "3.0"
             }
+            "07"{ "var_type"			"FIELD_INTEGER"		"radius"				"275" 	}
+			"08"{ "var_type"			"FIELD_INTEGER"		"damage"				"200" 	}
+			"09"{ "var_type"			"FIELD_INTEGER"		"max_travel"			"2" 	}
+			"10"{ "var_type"			"FIELD_INTEGER"		"min_range"				"600" 	}
+			"11"{ "var_type"			"FIELD_FLOAT"		"min_travel"			"0.8" 	}
+			"12"{ "var_type"			"FIELD_FLOAT"		"max_travel"			"2.0" 	}
+			"13"{ "var_type"			"FIELD_INTEGER"		"projectile_speed"		"1300" 	}
+			"14"{ "var_type"			"FIELD_INTEGER"		"proj_count"			"3" 	}
         }
     }
 

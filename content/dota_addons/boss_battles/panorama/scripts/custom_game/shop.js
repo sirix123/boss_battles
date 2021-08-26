@@ -63,7 +63,7 @@ function OnServerUpdatePlayerShop( data ) {
      	player_purchase_list.push(heroProductMap);
     }
 
-    $.Msg("player_purchase_list ",player_purchase_list)
+    //$.Msg("player_purchase_list ",player_purchase_list)
 }
 
 /* if the shop server is down disable the buttona nd close the shop if its open*/

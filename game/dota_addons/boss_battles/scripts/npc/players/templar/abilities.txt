@@ -173,7 +173,7 @@
 		{
 			"01"{ "var_type"			"FIELD_INTEGER"		"duration"									"10" }
 			"02"{ "var_type"			"FIELD_INTEGER"		"interval"									"1" }
-			"03"{ "var_type"			"FIELD_INTEGER"		"damage"									"50" }
+			"03"{ "var_type"			"FIELD_INTEGER"		"damage"									"40" }
 			"04"{ "var_type"			"FIELD_INTEGER"		"radius"									"500" }
 			"05"{ "var_type"			"FIELD_INTEGER"		"stack_bonus_interval"						"25" }
 			"06"{ "var_type"			"FIELD_INTEGER"		"stack_bonus_damage"						"5" }

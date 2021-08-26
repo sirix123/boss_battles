@@ -25,7 +25,9 @@ function CosmeticManager:Init()
                 local player_steam_id = tostring(PlayerResource:GetSteamID(player_id))
 
                 for _, player in pairs(self.purchase_list) do
+                    print("purchase_list 1")
                     if player.steam_id == player_steam_id then
+                        print("purchase_list 2")
                         CustomGameEventManager:Send_ServerToPlayer( hPlayer, "update_shop_product_list", { player.purchases } )
                     end
                 end

@@ -756,7 +756,6 @@ function GameSetup:EncounterCleanUp( origin )
     end]]
 
     -- find heroes in the arena and move them back to the intermission area
-    
 
     -- on cleanup remove all modifiers except the core ones
     for _, hero in pairs(HERO_LIST) do

@@ -6,7 +6,7 @@ function Spawn( entityKeyValues )
     if not IsServer() then return end
     if thisEntity == nil then return end
 
-    thisEntity.ice_ele_attack = thisEntity:FindAbilityByName( "ice_ele_attack" )
+    thisEntity.ice_ele_attack = thisEntity:FindAbilityByName( "ice_ele_attack_v2" )
 
     thisEntity:SetContextThink( "IceThinker", IceThinker, 0.5 )
 
@@ -24,7 +24,7 @@ function IceThinker()
 		return 0.5
     end
 
-    local hEnemies = FindUnitsInRadius( thisEntity:GetTeamNumber(), thisEntity:GetOrigin(), nil, 2500, DOTA_UNIT_TARGET_TEAM_ENEMY, DOTA_UNIT_TARGET_HERO, DOTA_UNIT_TARGET_FLAG_MAGIC_IMMUNE_ENEMIES, FIND_CLOSEST, false )
+    local hEnemies = FindUnitsInRadius( thisEntity:GetTeamNumber(), thisEntity:GetOrigin(), nil, 3000, DOTA_UNIT_TARGET_TEAM_ENEMY, DOTA_UNIT_TARGET_HERO, DOTA_UNIT_TARGET_FLAG_MAGIC_IMMUNE_ENEMIES, FIND_CLOSEST, false )
 	if #hEnemies == 0 then
 		return 1
     end
@@ -42,10 +42,10 @@ function IceThinker()
 					return Retreat( hEnemy )
 				end
 			end
-			if flDist <= 1200 then
+			if flDist <= 1500 then
 				hAttackTarget = hEnemy
 			end
-            if flDist > 1200 then
+            if flDist > 1500 then
 				hApproachTarget = hEnemy
 			end
 		end
@@ -69,13 +69,7 @@ end
 --------------------------------------------------------------------------------
 
 function CastIceEleAttack( hEnemy )
-	local fDist = ( hEnemy:GetOrigin() - thisEntity:GetOrigin() ):Length2D()
 	local vTargetPos = hEnemy:GetOrigin()
-
-	if ( fDist > 400 ) and hEnemy and hEnemy:IsMoving() then
-		local vLeadingOffset = hEnemy:GetForwardVector() * RandomInt( 200, 400 )
-		vTargetPos = hEnemy:GetOrigin() + vLeadingOffset
-	end
 
 	ExecuteOrderFromTable({
 		UnitIndex = thisEntity:entindex(),
@@ -85,7 +79,7 @@ function CastIceEleAttack( hEnemy )
 		Queue = false,
 	})
 
-	return 2
+	return 3
 end
 
 --------------------------------------------------------------------------------
