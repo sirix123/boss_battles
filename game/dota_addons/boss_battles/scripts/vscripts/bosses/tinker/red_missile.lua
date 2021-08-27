@@ -145,7 +145,7 @@ end
 function red_missile:HitCrystal( crystal )
     if IsServer() then
 
-        local max_proj = 10
+        local max_proj = 9
         local nProj = 0
 
         -- references

@@ -17,7 +17,7 @@ function Spawn( entityKeyValues )
 
     thisEntity.cleaning_bot_explode = thisEntity:FindAbilityByName( "cleaning_bot_explode" )
 
-	thisEntity:SetHullRadius(80)
+	thisEntity:SetHullRadius(50)
 
     thisEntity.STATE = 1
 

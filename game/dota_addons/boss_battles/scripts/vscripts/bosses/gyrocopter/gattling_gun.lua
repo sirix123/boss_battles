@@ -10,7 +10,7 @@ function gattling_gun:OnAbilityPhaseStart()
         self.origin = self.caster:GetAbsOrigin()
         self.projectile_speed = 2500
         self.radius = 120
-        self.damage = 15
+        self.damage = 10
 
         local particle =  "particles/gyrocopter/higher_gyro_flak_cannon_overhead.vpcf"
         self.gat_particle = ParticleManager:CreateParticle( particle, PATTACH_OVERHEAD_FOLLOW, self:GetCaster() )

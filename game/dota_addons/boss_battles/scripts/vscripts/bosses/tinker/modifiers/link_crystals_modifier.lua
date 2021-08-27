@@ -19,7 +19,7 @@ function link_crystals_modifier:OnCreated( kv )
         self.parent = self:GetParent()
         self.caster = self:GetCaster()
         self.radius = 200
-        self.dmg_link = 150
+        self.dmg_link = 100
         self.stopDamageLoop = false
         self.damage_interval = 1
         self.tCrystals = {}

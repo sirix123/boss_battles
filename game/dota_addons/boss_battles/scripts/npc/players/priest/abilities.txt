@@ -45,7 +45,7 @@
         "AbilityCastPoint"              "0.4"
 		"AbilityManaCost"        		"20"
 		"AbilityCharges"				"3"
-		"AbilityChargeRestoreTime"		"12"
+		"AbilityChargeRestoreTime"		"10"
 
 		"TargetingIndicator"
 		{

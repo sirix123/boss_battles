@@ -83,7 +83,7 @@ function swoop_v2:OnSpellStart()
 	if IsServer() then
 
         -- dorp oil timer
-        self.timer = Timers:CreateTimer(function()
+        --[[self.timer = Timers:CreateTimer(function()
             if IsValidEntity(self:GetCaster()) == false then
                 return false
             end
@@ -110,7 +110,7 @@ function swoop_v2:OnSpellStart()
             table.insert(_G.Oil_Puddles, puddle)
 
             return self:GetSpecialValueFor("oil_drop_freq")
-        end)
+        end)]]
 
         -- movement
         local arc = self:GetCaster():AddNewModifier(
@@ -131,7 +131,7 @@ function swoop_v2:OnSpellStart()
 
         arc:SetEndCallback( function()
 
-            Timers:RemoveTimer(self.timer)
+            --Timers:RemoveTimer(self.timer)
 
             -- add the gyro q modifier
             self:GetCaster():AddNewModifier(

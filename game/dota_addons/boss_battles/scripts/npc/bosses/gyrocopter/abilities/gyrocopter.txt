@@ -81,7 +81,7 @@
 		"AbilitySpecial"
 		{
             "01"{ "var_type"			"FIELD_INTEGER"		"speed"		                        "1500" }
-            "02"{ "var_type"			"FIELD_FLOAT"		"oil_drop_freq"		                "0.3" }
+            "02"{ "var_type"			"FIELD_FLOAT"		"oil_drop_freq"		                "0.2" }
 		}
 
         "precache"
@@ -484,7 +484,7 @@
 		"AbilityCooldown"               "40 40 40 40"
         "AbilityManaCost"               "0"
         "AbilityCastRange" 				"5000"
-        "AbilityChannelTime"            "12 12 12 12"
+        "AbilityChannelTime"            "10 10 10 10"
 		"AbilityCastPoint"              "0.5 0.5 0.5 0.5"
         "AbilityCastAnimation"          "ACT_DOTA_GENERIC_CHANNEL_1"
  

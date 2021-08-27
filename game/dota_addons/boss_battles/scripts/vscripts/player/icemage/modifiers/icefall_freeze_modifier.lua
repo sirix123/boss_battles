@@ -34,8 +34,8 @@ end
 
 function icefall_freeze_modifier:CheckState()
 	return {
-		[MODIFIER_STATE_COMMAND_RESTRICTED] = true,
-		[MODIFIER_STATE_STUNNED] = true,
+		--[MODIFIER_STATE_COMMAND_RESTRICTED] = true,
+		[MODIFIER_STATE_ROOTED] = true,
 	}
 end
 -----------------------------------------------------------------------------
