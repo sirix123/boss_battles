@@ -32,35 +32,31 @@ normalDataButton.AddClass( "leaderboard_buttons" );
 let hardDataButton = leaderboard_buttons_container.FindChildInLayoutFile("leaderboard_button_mode_2");
 hardDataButton.AddClass( "leaderboard_buttons" );
 
+
 /* buttons for leaderboard to load different data*/
 function OnNormalButtonPressed(){
     //$.Msg("click normal button ");
     normalDataButton.RemoveClass( "disabled" );
-
-    if (normal_mode_data){
-        //$.Msg("click normal button ", normal_mode_data);
-        normalDataButton.AddClass( "enable" );
-        hardDataButton.RemoveClass( "enable" );
-        hardDataButton.AddClass( "disabled" );
-        UpdateScoreboardRows( normal_mode_data );
-    }
+    normalDataButton.AddClass( "enable" );
+    hardDataButton.RemoveClass( "enable" );
+    hardDataButton.AddClass( "disabled" );
+    ClearScoreboardRows();
+    UpdateScoreboardRows( normal_mode_data );
 }
 
 function OnHardButtonPressed(){
     //$.Msg("click hard button ");
     hardDataButton.RemoveClass( "disabled" );
-
-    if (hard_mode_data){
-        //$.Msg("click hard button ", hard_mode_data);
-        hardDataButton.AddClass( "enable" );
-        normalDataButton.RemoveClass( "enable" );
-        normalDataButton.AddClass( "disabled" );
-        UpdateScoreboardRows( hard_mode_data );
-    }
+    hardDataButton.AddClass( "enable" );
+    normalDataButton.RemoveClass( "enable" );
+    normalDataButton.AddClass( "disabled" );
+    ClearScoreboardRows();
+    UpdateScoreboardRows( hard_mode_data );
 }
 
 /* recieve event from server*/
 function CreateLeaderBoard( data ) {
+    //$.Msg("CreateLeaderBoard( data )")
     //data data for both game modes
     normal_mode_data = data[1];
     hard_mode_data = data[2];;
@@ -72,6 +68,7 @@ function CreateLeaderBoard( data ) {
     normalDataButton.RemoveClass( "enable" );
 
     if (hard_mode_data){
+        ClearScoreboardRows();
         UpdateScoreboardRows( hard_mode_data );
 
         // delete the leader board loading panel
@@ -107,6 +104,29 @@ function CreateLeaderBoard( data ) {
 })();
 
 
+function ClearScoreboardRows()
+{
+    //for (var i = 0; i <= 10; i++) {
+    //same loop as used above... 
+    for (let i=1; i < 12; i++) {
+        let leaderboardRow = top10panels[i];
+        
+        leaderboardRow.FindChildTraverse("leaderboard_row_info_rank").text = i+ToOrdinal(i);
+        leaderboardRow.FindChildTraverse("leaderboard_row_info_total_time").text = "";
+
+        for (let b=1; b <= 6; b++) {
+            leaderboardRow.FindChildTraverse("leaderboard_row_info_boss_"+b+"_time").text = ""
+        }
+
+        for (let p=1; p <= 4; p++) {
+            leaderboardRow.FindChildTraverse("leaderboard_row_info_player_"+p).text = ""
+            leaderboardRow.FindChildTraverse("leaderboard_row_info_hero_"+p).text = ""
+            leaderboardRow.FindChildTraverse("leaderboard_row_info_live_"+p).text = ""
+        }
+    }   
+}
+
+
 function UpdateScoreboardRows( data )
 {
     //$.Msg("UpdateScoreboardRows( data )")
@@ -115,9 +135,10 @@ function UpdateScoreboardRows( data )
 
     //for each row in the leaderboard
     for (var index in data["games"]) {
+
         let leaderboardRow = top10panels[index];
-        var rank = leaderboardRow.FindChildTraverse("leaderboard_row_info_rank").text = index+ToOrdinal(index)
-        var totalTime = leaderboardRow.FindChildTraverse("leaderboard_row_info_total_time").text = data["games"][index]["total_time"]
+        leaderboardRow.FindChildTraverse("leaderboard_row_info_rank").text = index+ToOrdinal(index)
+        leaderboardRow.FindChildTraverse("leaderboard_row_info_total_time").text = data["games"][index]["total_time"]
 
         for(var bossTimeIndex in data["games"][index]["boss_times"])
         {
