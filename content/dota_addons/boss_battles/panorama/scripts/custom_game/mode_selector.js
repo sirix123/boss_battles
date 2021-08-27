@@ -51,7 +51,7 @@ Only the lobby host sees this selection."
 			tooltipText.text = "In Normal mode lives reset to 3 after every boss.\n\n\
 If you wipe on a boss you stay on the same boss.\n\n\
 In Normal mode the chat command !start boss *boss name* will change the next boss to whatever boss you type.\n\n\
-If you complete the game (kill Tinker) your game session will be posted on the Leaderboard."
+If you complete the game (kill all bosses) your game session will be posted on the Leaderboard."
 		});
 
 		storyModeButton.SetPanelEvent( 'onmouseout', function () {
@@ -75,7 +75,7 @@ If you complete the game (kill Tinker) your game session will be posted on the L
             var tooltipText = toolTipContainer.FindChildInLayoutFile("ToolTipTxt")
 			tooltipText.text = "In Hard mode lives don't reset you have 3 lives.\n\n\
 If you wipe on a boss you reset back to the first boss.\n\n\
-If you complete the game (kill Tinker) your game session will be posted on the Leaderboard.\n\n\
+If you complete the game (kill all bosses) your game session will be posted on the Leaderboard.\n\n\
 Note the !start boss command does not work in Hard mode."
 		});
 
