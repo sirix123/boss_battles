@@ -152,6 +152,29 @@ function red_missile:HitCrystal( crystal )
         self.speed = self:GetSpecialValueFor( "speed" ) --600 -- special value
         self.damage = self:GetSpecialValueFor( "damage" ) -- 40
 
+        EmitSoundOnLocationWithCaster(crystal:GetAbsOrigin(),"DOTA_Item.ClarityPotion.Activate",crystal)
+
+        local particle = "particles/tinker/tinker_earthshaker_totem_ti6_buff_longer.vpcf"
+        self.effect_cast_10 = ParticleManager:CreateParticle( particle, PATTACH_POINT_FOLLOW, crystal )
+        local attach = "attach_hitloc"
+        ParticleManager:SetParticleControlEnt(
+            self.effect_cast_10,
+            0,
+            crystal,
+            PATTACH_POINT_FOLLOW,
+            attach,
+            Vector(0,0,0), -- unknown
+            true -- unknown, true
+        )
+
+        Timers:CreateTimer(3, function()
+            if self.effect_cast_10 then
+                ParticleManager:DestroyParticle(self.effect_cast_10,false)
+            end
+
+            return false
+        end)
+
         Timers:CreateTimer(0.2, function()
             if IsValidEntity(self:GetCaster()) == false then return false end
             if nProj == max_proj then return false end
