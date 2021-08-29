@@ -96,7 +96,7 @@
 		{
 			"01"{ "var_type"			"FIELD_INTEGER"		"duration"					"5" }
 			"02"{ "var_type"			"FIELD_INTEGER"		"radius"					"500" }
-			"03"{ "var_type"			"FIELD_FLOAT"		"vortex_dmg_inc"			"0.3" }
+			"03"{ "var_type"			"FIELD_INTEGER"		"vortex_dmg_inc"			"30" }
 		}
 
         "precache"

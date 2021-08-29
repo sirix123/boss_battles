@@ -64,7 +64,7 @@ function r_blade_vortex_thinker:OnCreated( kv )
                     ParticleManager:ReleaseParticleIndex(particle_stomp_fx)
 
                     -- increase dmg
-                    self.dmg = self.caster:FindAbilityByName("r_blade_vortex"):GetSpecialValueFor( "base_dmg" ) + ( self.caster:FindAbilityByName("q_conq_shout"):GetSpecialValueFor( "vortex_dmg_inc" ) * self.caster:FindAbilityByName("r_blade_vortex"):GetSpecialValueFor( "base_dmg" ) )
+                    self.dmg = self.caster:FindAbilityByName("r_blade_vortex"):GetSpecialValueFor( "base_dmg" ) + ( ( self.caster:FindAbilityByName("q_conq_shout"):GetSpecialValueFor( "vortex_dmg_inc" ) /100 ) * self.caster:FindAbilityByName("r_blade_vortex"):GetSpecialValueFor( "base_dmg" ) )
 
                     -- reset dmg
                     self.timer_damage_boost = Timers:CreateTimer(self.caster:FindAbilityByName("q_conq_shout"):GetSpecialValueFor( "duration" ), function()

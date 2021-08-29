@@ -3,7 +3,7 @@
     "Language"    "russian"
     "Tokens"
     {
-	    "addon_game_name"    "Схватки с боссами"
+	"addon_game_name"    "Схватки с боссами"
         "DOTA_Tooltip_Ability_aghanims_shard_explosion"    "Осколочный взрыв"
         "DOTA_Tooltip_Ability_aghanims_shard_explosion_description"    "Направляет осколок в выбранную точку, нанося $%damage% урона всем противникам, оказавшимся в зоне поражения."
         "DOTA_Tooltip_Ability_aghanims_shard_explosion_Lore"    "Уникальная способность Аганимса, позволяющая использовать силу осколков мистической энергии."

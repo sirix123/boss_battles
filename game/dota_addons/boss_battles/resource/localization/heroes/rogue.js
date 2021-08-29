@@ -33,6 +33,11 @@ function GenerateLocalizationData() {
         name: "Shadow Dagger",
         description: "Shadowstep.",
     });
+    Modifiers.push({
+        modifier_classname: "e_swallow_potion_modifier",
+        name: "Envenom",
+        description: "Current Envenom stacks.",
+    });
     // abilities
     Abilities.push({
         ability_classname: "m1_combo_hit_1_2",

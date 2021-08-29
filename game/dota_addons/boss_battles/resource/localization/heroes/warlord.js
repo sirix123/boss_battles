@@ -18,7 +18,7 @@ function GenerateLocalizationData() {
     // Enter localization data below!
     // Variables
     var bladeMasteryColour = "<b><font color=\"#6f92fc\">Blade Mastery</font></b>";
-    var sunderColour = "<b><font color=\"#ffffff\">Crushing Blow</font></b>";
+    var sunderColour = "<b><font color=\"#ffffff\">Sunder</font></b>";
     var fightingSpiritColour = "<b><font color=\"#6f92fc\">Fighting Spirit</font></b>";
     var bladeVortexColour = "<b><font color=\"#ffffff\">Blade Vortex</font></b>";
     var inspireColour = "<b><font color=\"#ffffff\">Inspire</font></b>";
@@ -112,6 +112,7 @@ function GenerateLocalizationData() {
             {
                 ability_special: "vortex_dmg_inc",
                 text: "DAMAGE:",
+                percentage: true,
             },
             {
                 ability_special: "duration",

@@ -136,6 +136,7 @@ export function GenerateLocalizationData(): LocalizationData
             {
                 ability_special: "vortex_dmg_inc",
                 text: "DAMAGE:",
+                percentage: true,
             },
 
             {
