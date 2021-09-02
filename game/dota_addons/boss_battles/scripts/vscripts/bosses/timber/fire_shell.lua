@@ -54,6 +54,12 @@ function fire_shell:OnAbilityPhaseStart()
     end
 end
 
+function fire_shell:OnAbilityPhaseInterrupted()
+    if IsServer() then
+		self:GetCaster():RemoveGesture(ACT_DOTA_GENERIC_CHANNEL_1)
+    end
+end
+
 function fire_shell:OnSpellStart()
 	if IsServer() then
 

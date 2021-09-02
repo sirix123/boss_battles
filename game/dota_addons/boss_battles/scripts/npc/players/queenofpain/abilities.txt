@@ -10,7 +10,7 @@
         
 		"AbilitySpecial"
 		{
-			"01"{ "var_type"			"FIELD_FLOAT"		"dmg_to_heal_reduction"			"0.2" 	}
+			"01"{ "var_type"			"FIELD_FLOAT"		"dmg_to_heal_reduction"			"20" 	}
 			"02"{ "var_type"			"FIELD_INTEGER"		"duration_main_buff"			"12" 	}
 		}
 	}

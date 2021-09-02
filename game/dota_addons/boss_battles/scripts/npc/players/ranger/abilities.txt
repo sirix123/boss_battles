@@ -133,8 +133,8 @@
 		{
 			"01"{ "var_type"			"FIELD_INTEGER"		"radius"				"300" 	}
 			"02"{ "var_type"			"FIELD_INTEGER"		"duration"				"14" 	}
-			"03"{ "var_type"			"FIELD_FLOAT"		"cast_point_reduction"	"0.25" 	}
-			"04"{ "var_type"			"FIELD_FLOAT"		"proj_speed_increase"	"0.25" 	}
+			"03"{ "var_type"			"FIELD_FLOAT"		"cast_point_reduction"	"25" 	}
+			"04"{ "var_type"			"FIELD_FLOAT"		"proj_speed_increase"	"25" 	}
 			"05"{ "var_type"			"FIELD_INTEGER"		"dmg_increase"			"30" 	}
 			"06"{ "var_type"			"FIELD_INTEGER"		"ms_increase"			"30" 	}
 		}

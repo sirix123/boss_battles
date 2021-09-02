@@ -31,7 +31,7 @@ function qop_passive_modifier:OnTakeDamage( params )
             --print("damage ",params.damage)
 
             local damage = params.original_damage
-            local heal_value = damage * self:GetAbility():GetSpecialValueFor( "dmg_to_heal_reduction" )
+            local heal_value = damage * ( self:GetAbility():GetSpecialValueFor( "dmg_to_heal_reduction" ) / 100)
 
             local friendlies = FindUnitsInRadius(
                 self:GetParent():GetTeamNumber(),	-- int, your team number

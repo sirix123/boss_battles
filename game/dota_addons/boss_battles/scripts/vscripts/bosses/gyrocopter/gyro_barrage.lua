@@ -31,24 +31,27 @@ function gyro_barrage:OnIntervalThink()
 		false	-- bool, can grow cache
 	)
 
-	for _,enemy in pairs(enemies) do
-        enemy:EmitSound("Hero_Gyrocopter.Rocket_Barrage.Impact")
+	if enemies ~= nil and #enemies ~= 0 then
+		for _,enemy in pairs(enemies) do
+			enemy:EmitSound("Hero_Gyrocopter.Rocket_Barrage.Impact")
 
-        self.barrage_particle	= ParticleManager:CreateParticle("particles/econ/items/gyrocopter/hero_gyrocopter_gyrotechnics/gyro_rocket_barrage.vpcf", PATTACH_ABSORIGIN_FOLLOW, self:GetParent())
-        ParticleManager:SetParticleControlEnt(self.barrage_particle, 0, self:GetParent(), PATTACH_ABSORIGIN_FOLLOW, self.particle_attach[RandomInt(1, #self.particle_attach)], self:GetParent():GetAbsOrigin(), true)
-        ParticleManager:SetParticleControlEnt(self.barrage_particle, 1, enemy, PATTACH_ABSORIGIN_FOLLOW, "attach_hitloc", enemy:GetAbsOrigin(), true)
-        ParticleManager:ReleaseParticleIndex(self.barrage_particle)
+			self.barrage_particle	= ParticleManager:CreateParticle("particles/econ/items/gyrocopter/hero_gyrocopter_gyrotechnics/gyro_rocket_barrage.vpcf", PATTACH_ABSORIGIN_FOLLOW, self:GetParent())
+			ParticleManager:SetParticleControlEnt(self.barrage_particle, 0, self:GetParent(), PATTACH_ABSORIGIN_FOLLOW, self.particle_attach[RandomInt(1, #self.particle_attach)], self:GetParent():GetAbsOrigin(), true)
+			ParticleManager:SetParticleControlEnt(self.barrage_particle, 1, enemy, PATTACH_ABSORIGIN_FOLLOW, "attach_hitloc", enemy:GetAbsOrigin(), true)
+			ParticleManager:ReleaseParticleIndex(self.barrage_particle)
 
-        self.damageTable = {
-            victim = enemy,
-            attacker = self:GetCaster(),
-            damage = self.dmg / #enemies,
-            damage_type = DAMAGE_TYPE_PHYSICAL,
-            ability = self,
-        }
+			self.damageTable = {
+				victim = enemy,
+				attacker = self:GetCaster(),
+				damage = self.dmg / #enemies,
+				damage_type = DAMAGE_TYPE_PHYSICAL,
+				ability = self,
+			}
 
-        ApplyDamage( self.damageTable )
+			ApplyDamage( self.damageTable )
+		end
 	end
+
 end
 ----------------------------------------------------------------------------------------------------------------
 

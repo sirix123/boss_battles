@@ -24,8 +24,8 @@ function e_whirling_winds_modifier:OnCreated( kv )
 
     end
 
-	self.ms_boost = self:GetCaster():FindAbilityByName("e_whirling_winds"):GetSpecialValueFor( "dmg_increase" )
-    self.dmg_boost_percent = self:GetCaster():FindAbilityByName("e_whirling_winds"):GetSpecialValueFor( "ms_increase" )
+	self.ms_boost = self:GetCaster():FindAbilityByName("e_whirling_winds"):GetSpecialValueFor( "dmg_increase" ) / 100
+    self.dmg_boost_percent = self:GetCaster():FindAbilityByName("e_whirling_winds"):GetSpecialValueFor( "ms_increase" ) / 100
 
 end
 ----------------------------------------------------------------------------

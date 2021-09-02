@@ -223,7 +223,7 @@
         "DOTA_Tooltip_Ability_space_leap_of_grip_AbilityCastPoint"    "CAST POINT:"
         "DOTA_Tooltip_Ability_qop_passive"    "Living Blood"
         "DOTA_Tooltip_Ability_qop_passive_description"    "If Akasha deals damage to an enemy while herself or an ally is affected by <b><font color=\"#60f6ce\">Blood Pact</font></b>, a portion of that damage will heal them."
-        "DOTA_Tooltip_Ability_qop_passive_ADD HEALING PERCENT HERE"    "%HEAL:"
+        "DOTA_Tooltip_Ability_qop_passive_dmg_to_heal_reduction"    "%HEAL:"
         "DOTA_Tooltip_Ability_m1_trackingshot"    "Farsight shot"
         "DOTA_Tooltip_Ability_m1_trackingshot_description"    "Windrunner shoots an enchanted arrow from her bow dealing damage to the target. Farsight shot does more damage with distance travelled."
         "DOTA_Tooltip_Ability_m1_trackingshot_base_dmg"    "DAMAGE:"

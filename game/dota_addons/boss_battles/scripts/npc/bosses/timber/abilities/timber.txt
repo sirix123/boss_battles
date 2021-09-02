@@ -41,7 +41,7 @@
 			"01"
 			{
 				"var_type"			                "FIELD_INTEGER"
-				"nMaxSawBlades"		                "8 9 10 11" 
+				"nMaxSawBlades"		                "8 9 9 10" 
 			}
             "02"
 			{
@@ -71,7 +71,7 @@
             "07"
 			{
 				"var_type"			                "FIELD_FLOAT"
-                "manaAmount"		                "0.2 0.2 0.2 0.2"
+                "manaAmount"		                "0.2 0.2 0.2 0.15"
 			}
 		}
     }
@@ -447,7 +447,7 @@
             "02"
 			{
 				"var_type"			"FIELD_INTEGER"
-				"droidsPerLocation" "3 4 5 6"
+				"droidsPerLocation" "3 4 4 6"
             }
 		}
     }

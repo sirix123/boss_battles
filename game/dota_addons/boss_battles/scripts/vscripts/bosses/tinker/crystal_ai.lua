@@ -62,24 +62,34 @@ function Spawn( entityKeyValues )
     local spawn_3 = Entities:FindByName(nil, "tinker_add_spawn_3"):GetAbsOrigin()
     local spawn_4 = Entities:FindByName(nil, "tinker_add_spawn_4"):GetAbsOrigin()
     local tSpawns = {spawn_1, spawn_2, spawn_3, spawn_4}
-    local random_index_1 = Vector(0,0,0)
+    --local random_index_1 = Vector(0,0,0)
+    local next_spawn_location = Vector(0,0,0)
+    local spawn_clock_count = 1
     Timers:CreateTimer(5,function()
         if IsValidEntity(thisEntity) == false then return false end
 
-        random_index_1 = RandomInt(1,#tSpawns)
+        --random_index_1 = RandomInt(1,#tSpawns)
+
+        if spawn_clock_count > 4 then
+            spawn_clock_count = 1
+        end
+
+        next_spawn_location = tSpawns[spawn_clock_count]
 
         local particle = "particles/tinker/summon_elementals_portal_open_good.vpcf"
         thisEntity.effect_cast_1 = ParticleManager:CreateParticle(particle, PATTACH_WORLDORIGIN, nil)
-        ParticleManager:SetParticleControl(thisEntity.effect_cast_1, 0, tSpawns[random_index_1])
+        ParticleManager:SetParticleControl(thisEntity.effect_cast_1, 0, next_spawn_location)
         ParticleManager:ReleaseParticleIndex(thisEntity.effect_cast_1)
 
         Timers:CreateTimer(1.0,function()
             if IsValidEntity(thisEntity) == false then return false end
 
-            CreateUnitByName( "npc_charge_bot", tSpawns[random_index_1], true, nil, nil, DOTA_TEAM_BADGUYS)
+            CreateUnitByName( "npc_charge_bot", next_spawn_location, true, nil, nil, DOTA_TEAM_BADGUYS)
 
             return false
         end)
+
+        spawn_clock_count = spawn_clock_count + 1
 
         return 45
     end)

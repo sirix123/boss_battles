@@ -170,7 +170,7 @@ function GenerateLocalizationData() {
         notes: [],
         ability_specials: [
             {
-                ability_special: "ADD HEALING PERCENT HERE",
+                ability_special: "dmg_to_heal_reduction",
                 text: "HEAL:",
                 percentage: true,
             },
