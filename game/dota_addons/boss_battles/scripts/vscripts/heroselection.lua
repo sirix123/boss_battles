@@ -99,6 +99,9 @@ function HeroSelection:HeroPicked( event )
 	CustomGameEventManager:Send_ServerToAllClients( "picking_player_pick",
 	{ PlayerID = 1, HeroName = "npc_dota_hero_phantom_assassin" } )]]
 
+	print("HeroSelection.playersPicked ", HeroSelection.playersPicked)
+	print("HeroSelection.numPickers ", HeroSelection.numPickers)
+
 	--Check if all heroes have been picked
 	if HeroSelection.playersPicked >= HeroSelection.numPickers then
 

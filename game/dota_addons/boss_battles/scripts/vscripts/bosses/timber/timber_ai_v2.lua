@@ -85,9 +85,15 @@ function TimberThink()
 	-- state change handler
 	if thisEntity:GetHealthPercent() < 85 and thisEntity.chain_map_edge:IsCooldownReady() == true then
 		thisEntity.createParticleOnce = true
+		thisEntity.draw_feet_particle_helper = true
 		thisEntity:SetBaseManaRegen(0)
 		thisEntity.state = 2
 	elseif thisEntity.state == 2 and FindUnitsCloseAndBubbleGone() == true then
+
+		-- destroy feet particle
+		if thisEntity.nPreviewFXIndex then
+			ParticleManager:DestroyParticle(thisEntity.nPreviewFXIndex,true)
+		end
 
 		-- start the CD on fireshell just incase he can cast it when the circle is tiny particles/units/heroes/hero_shredder/shredder_armor_lyr.vpcf
 		thisEntity.fire_shell:StartCooldown(60)
@@ -105,7 +111,7 @@ function TimberThink()
 			if IsValidEntity(thisEntity) == false then return false end
 			ParticleManager:DestroyParticle(nFXIndex, false)
 			thisEntity.furion = CreateUnitByName( "npc_furion", Vector(10136,-10597,136), true, thisEntity, thisEntity, DOTA_TEAM_BADGUYS)
-			EmitSoundOn("Hero_Furion.Teleport_Appear", thisEntity.furion)  
+			EmitSoundOn("Hero_Furion.Teleport_Appear", thisEntity.furion)
 
 			-- animation channel
 			thisEntity.furion:StartGestureWithPlaybackRate(ACT_DOTA_CAST_ABILITY_2, 0.3)
@@ -211,6 +217,21 @@ function TimberThink()
 
 		end
 
+		if thisEntity:HasModifier("chain_edge_bubble") ~= true then
+
+			-- only do it once though
+			if thisEntity.draw_feet_particle_helper == true then
+				thisEntity.draw_feet_particle_helper = false
+
+				-- draw green circle/arrow at timbers feet
+				thisEntity.nPreviewFXIndex = ParticleManager:CreateParticle( "particles/custom/markercircle/darkmoon_calldown_marker.vpcf", PATTACH_CUSTOMORIGIN, nil )
+				ParticleManager:SetParticleControl( thisEntity.nPreviewFXIndex, 0, thisEntity:GetAbsOrigin() )
+				ParticleManager:SetParticleControl( thisEntity.nPreviewFXIndex, 1, Vector( 500, -500, -500 ) )
+				ParticleManager:SetParticleControl( thisEntity.nPreviewFXIndex, 2, Vector( 60, 0, 0 ) );
+
+			end
+		end
+
 		if thisEntity.chain_map_edge ~= nil and thisEntity.chain_map_edge:IsFullyCastable() and thisEntity.chain_map_edge:IsCooldownReady() and thisEntity.chain_map_edge:IsInAbilityPhase() == false then
 			return CastChainMapEdge()
 		end
@@ -256,7 +277,7 @@ function FindUnitsCloseAndBubbleGone()
 		thisEntity:GetTeamNumber(),
 		thisEntity:GetAbsOrigin(),
 		nil,
-		400,
+		500,
 		DOTA_UNIT_TARGET_TEAM_ENEMY,
 		DOTA_UNIT_TARGET_HERO,
 		DOTA_UNIT_TARGET_FLAG_INVULNERABLE,

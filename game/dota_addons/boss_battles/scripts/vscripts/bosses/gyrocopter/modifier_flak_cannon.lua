@@ -19,7 +19,10 @@ end
 function modifier_flak_cannon:OnCreated(  )
     if IsServer() then
         self.radius				= self:GetAbility():GetSpecialValueFor("radius")
+        self.duration			= self:GetAbility():GetSpecialValueFor("duration")
         self.tick_rate = 0.5
+
+        print("self.duration ",self.duration)
 
         if IsServer() then
 
@@ -55,7 +58,7 @@ function modifier_flak_cannon:OnCreated(  )
             self.nPreviewFXIndex = ParticleManager:CreateParticle( "particles/gyrocopter/no_arrows_gyro_darkmoon_calldown_marker.vpcf", PATTACH_ABSORIGIN_FOLLOW, self:GetParent() )
             ParticleManager:SetParticleControl( self.nPreviewFXIndex, 0, self:GetParent():GetAbsOrigin() )
             ParticleManager:SetParticleControl( self.nPreviewFXIndex, 1, Vector( self.radius, -self.radius, -self.radius ) )
-            ParticleManager:SetParticleControl( self.nPreviewFXIndex, 2, Vector(999,0,0) );
+            ParticleManager:SetParticleControl( self.nPreviewFXIndex, 2, Vector(self.duration,0,0) );
             --ParticleManager:ReleaseParticleIndex( self.nPreviewFXIndex )
 
             self:StartIntervalThink(self.tick_rate)
@@ -71,7 +74,10 @@ end
 
 function modifier_flak_cannon:OnDestroy()
     if IsServer() then
-        ParticleManager:DestroyParticle( self.nPreviewFXIndex,true )
+        if self.nPreviewFXIndex then
+            ParticleManager:DestroyParticle( self.nPreviewFXIndex,true )
+        end
+
         Timers:RemoveTimer(self.timer)
         self:GetAbility():StartCooldown(self:GetAbility():GetCooldown(self:GetAbility():GetLevel()))
     end
