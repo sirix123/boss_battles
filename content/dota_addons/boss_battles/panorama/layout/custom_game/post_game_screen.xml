@@ -22,7 +22,7 @@
                 </Button>
             </Panel>
             <Panel id="PostPanelContainerBody" class="PostPanelContainerBody">
-                <Label id="PostPanelContainerBodyText" class="PostPanelContainerBodyText" text="Thanks for playing Boss Battles! Your game has been uploaded to the leaderboard. The ready up area is now disabled" />
+                <Label id="PostPanelContainerBodyText" class="PostPanelContainerBodyText" text="Thanks for playing Boss Battles! You've defeated all bosses, your game has been uploaded to the leaderboard. View the leaderboard on the website at bossbattles.co" />
             </Panel>
         </Panel>
     </Panel>
