@@ -35,13 +35,13 @@
                         <Label id="HelpButtonToolTipMenuText_1" class="HelpButtonToolTipMenuText" text="Type !reset in chat if your hero is automatically moving in a direction." />
                     </Panel>
                     <Panel id="HelpButtonToolTipMenuItem_2" class="HelpButtonToolTipMenuItem">
-                        <Label id="HelpButtonToolTipMenuText_2" class="HelpButtonToolTipMenuText" text="If you're in Normal mode type !start boss Beastmaster to change bosses. The next time you stand on the ready up area that boss encounter will start. Boss names: Gyrocopter, Timbersaw, Beastmaster, Techies, Clockwerk, Tinker."/>
+                        <Label id="HelpButtonToolTipMenuText_2" class="HelpButtonToolTipMenuText" text="If you're in Normal or Hard mode type !start boss Beastmaster to change bosses. The next time you stand on the ready up area that boss encounter will start. Boss names: Gyrocopter, Timbersaw, Beastmaster, Techies, Clockwerk, Tinker. You do not need to type this to progress."/>
                     </Panel>
                     <Panel id="HelpButtonToolTipMenuItem_3" class="HelpButtonToolTipMenuItem">
                         <Label id="HelpButtonToolTipMenuText_3" class="HelpButtonToolTipMenuText" text="If you complete all of the bosses your game session will be uploaded to the Leaderboard."/>
                     </Panel>
                     <Panel id="HelpButtonToolTipMenuItem_4" class="HelpButtonToolTipMenuItem">
-                        <Label id="HelpButtonToolTipMenuText_4" class="HelpButtonToolTipMenuText" text="At the end of the season the top 3 teams of Hardmode will be added to the Hall of Fame."/>
+                        <Label id="HelpButtonToolTipMenuText_4" class="HelpButtonToolTipMenuText" text="At the end of the season the top 3 teams of Impossible mode will be added to the Hall of Fame."/>
                     </Panel>
                     <Panel id="HelpButtonToolTipMenuItem_5" class="HelpButtonToolTipMenuItem">
                         <Label id="HelpButtonToolTipMenuText_5" class="HelpButtonToolTipMenuText" text="Type !intermission to move your hero back to the intermission area, helpful if you're stuck in the boss arena. Only works if the boss is dead."/>

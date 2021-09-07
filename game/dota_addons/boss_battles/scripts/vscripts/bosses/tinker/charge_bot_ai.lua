@@ -9,6 +9,10 @@ function Spawn( entityKeyValues )
     thisEntity.quick_strike = thisEntity:FindAbilityByName( "quick_strike" )
     thisEntity.mana_drain = thisEntity:FindAbilityByName( "mana_drain" )
 
+    if EASY_MODE == true then
+        thisEntity:AddNewModifier( nil, nil, "easy_mode_modifier", { duration = -1 } )
+    end
+
     thisEntity:SetHullRadius(100)
 
     thisEntity:SetMana(0)

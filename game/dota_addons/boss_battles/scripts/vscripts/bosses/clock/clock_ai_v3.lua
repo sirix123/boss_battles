@@ -29,6 +29,10 @@ function Spawn( entityKeyValues )
 	boss_frame_manager:ShowBossManaFrame()
 	boss_frame_manager:ShowBossHpFrame()
 
+	if EASY_MODE == true then
+        thisEntity:AddNewModifier( nil, nil, "easy_mode_modifier", { duration = -1 } )
+    end
+
 	-- armor modifier
 	-- start stacks at 3, reduce to 0
 	-- add code to the activate furnace stuf
@@ -211,8 +215,10 @@ function ClockThink()
 		return CastSummonFlameTurret()
 	end
 
-	if thisEntity.summon_chain_gun_turret:IsFullyCastable() and thisEntity.summon_chain_gun_turret:IsCooldownReady() and thisEntity.summon_chain_gun_turret:IsInAbilityPhase() == false then
-		return CastChainGunTurret()
+	if EASY_MODE == false then
+		if thisEntity.summon_chain_gun_turret:IsFullyCastable() and thisEntity.summon_chain_gun_turret:IsCooldownReady() and thisEntity.summon_chain_gun_turret:IsInAbilityPhase() == false then
+			return CastChainGunTurret()
+		end
 	end
 
 	if thisEntity.cogs:IsFullyCastable() and thisEntity.cogs:IsCooldownReady() and thisEntity.cast_cogs == false and thisEntity.cogs:IsInAbilityPhase() == false then

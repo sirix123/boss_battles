@@ -19,6 +19,10 @@ function Spawn( entityKeyValues )
 	boss_frame_manager:ShowBossManaFrame()
 	boss_frame_manager:ShowBossHpFrame()
 
+	if EASY_MODE == true then
+        thisEntity:AddNewModifier( nil, nil, "easy_mode_modifier", { duration = -1 } )
+    end
+
 	-- set mana to 0 on spawn
 	thisEntity:SetMana(0)
 
@@ -226,7 +230,7 @@ function TimberThink()
 				-- draw green circle/arrow at timbers feet
 				thisEntity.nPreviewFXIndex = ParticleManager:CreateParticle( "particles/custom/markercircle/darkmoon_calldown_marker.vpcf", PATTACH_CUSTOMORIGIN, nil )
 				ParticleManager:SetParticleControl( thisEntity.nPreviewFXIndex, 0, thisEntity:GetAbsOrigin() )
-				ParticleManager:SetParticleControl( thisEntity.nPreviewFXIndex, 1, Vector( 500, -500, -500 ) )
+				ParticleManager:SetParticleControl( thisEntity.nPreviewFXIndex, 1, Vector( 600, -600, -600 ) )
 				ParticleManager:SetParticleControl( thisEntity.nPreviewFXIndex, 2, Vector( 60, 0, 0 ) );
 
 			end
@@ -277,7 +281,7 @@ function FindUnitsCloseAndBubbleGone()
 		thisEntity:GetTeamNumber(),
 		thisEntity:GetAbsOrigin(),
 		nil,
-		500,
+		600,
 		DOTA_UNIT_TARGET_TEAM_ENEMY,
 		DOTA_UNIT_TARGET_HERO,
 		DOTA_UNIT_TARGET_FLAG_INVULNERABLE,

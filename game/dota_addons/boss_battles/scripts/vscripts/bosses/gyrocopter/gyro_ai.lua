@@ -45,6 +45,10 @@ function Spawn( entityKeyValues )
 
 	AddFOWViewer(DOTA_TEAM_GOODGUYS, thisEntity:GetAbsOrigin(), 8000, 9999, true)
 
+	if EASY_MODE == true then
+        thisEntity:AddNewModifier( nil, nil, "easy_mode_modifier", { duration = -1 } )
+    end
+
 	-- spell init
 	thisEntity.swoop = thisEntity:FindAbilityByName( "swoop_v2" )
 	thisEntity.swoop:StartCooldown(10)
@@ -314,8 +318,10 @@ function GyroThink()
 			return CastSwoop( FindFurthestPlayer() )
 		end
 
-		if thisEntity.gattling_gun:IsFullyCastable() and thisEntity.gattling_gun:IsCooldownReady() and thisEntity.gattling_gun:IsInAbilityPhase() == false and thisEntity.gattling_gun:IsChanneling() == false then
-			return CastGattlingGun( )
+		if EASY_MODE == false then
+			if thisEntity.gattling_gun:IsFullyCastable() and thisEntity.gattling_gun:IsCooldownReady() and thisEntity.gattling_gun:IsInAbilityPhase() == false and thisEntity.gattling_gun:IsChanneling() == false then
+				return CastGattlingGun( )
+			end
 		end
 
 		if thisEntity.flame_thrower:IsFullyCastable() and thisEntity.flame_thrower:IsCooldownReady() and thisEntity.flame_thrower:IsInAbilityPhase() == false then

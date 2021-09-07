@@ -41,7 +41,8 @@ _G.PLAYERS_FIGHTING_BOSS = false
 
 _G.HERO_LIST = {}
 
-_G.STORY_MODE = true
+_G.EASY_MODE = true
+_G.STORY_MODE = false
 _G.NORMAL_MODE = false
 _G.HARD_MODE = false
 _G.DEBUG_MODE = false

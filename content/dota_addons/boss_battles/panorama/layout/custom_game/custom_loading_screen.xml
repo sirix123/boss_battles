@@ -168,11 +168,14 @@
 				<!-- Leaderboard snippets 
 				==================================================================-->
 				<Panel class="leaderboard_buttons_container" id="leaderboard_buttons">
+					<Button id="leaderboard_button_mode_3" class="leaderboard_buttons" onactivate="OnEasyButtonPressed()" >
+						<Label id="leaderboard_button_mode_3_text" class="leaderboard_buttons_text" text="Normal Mode" />
+					</Button>
 					<Button id="leaderboard_button_mode_1" class="leaderboard_buttons" onactivate="OnNormalButtonPressed()" >
-						<Label id="leaderboard_button_mode_1_text" class="leaderboard_buttons_text" text="Normal Mode" />
+						<Label id="leaderboard_button_mode_1_text" class="leaderboard_buttons_text" text="Hard Mode" />
 					</Button>
 					<Button id="leaderboard_button_mode_2" class="leaderboard_buttons" onactivate="OnHardButtonPressed()" >
-						<Label id="leaderboard_button_mode_2_text" class="leaderboard_buttons_text" text="Hard mode" />
+						<Label id="leaderboard_button_mode_2_text" class="leaderboard_buttons_text" text="Impossible" />
 					</Button>
 				</Panel>
 

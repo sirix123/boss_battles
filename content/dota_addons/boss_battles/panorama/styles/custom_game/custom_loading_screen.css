@@ -107,7 +107,7 @@ leaderboard - buttons
 
 .leaderboard_buttons{
 	height: 100%;
-    width: 50%;
+    width: 33%;
 	horizontal-align: center;
 	vertical-align: bottom;
 	/*background-image: url("file://panorama/images/backgrounds/background_play_button_large_2x_png.png");*/

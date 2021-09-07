@@ -12,9 +12,13 @@ function Spawn( entityKeyValues )
 
 	EmitSoundOnLocationWithCaster(thisEntity:GetAbsOrigin(),"Hero_Techies.StasisTrap.Plant",thisEntity)
 
+	if EASY_MODE == true then
+        thisEntity:AddNewModifier( nil, nil, "easy_mode_modifier", { duration = -1 } )
+    end
+
 	thisEntity:SetHullRadius(60)
-	
-	-- random start time 
+
+	-- random start time
 	thisEntity.random_start = RandomInt(12,19) -- dont make this higher then 29
 	thisEntity.count = thisEntity.random_start
 	StartTimer()

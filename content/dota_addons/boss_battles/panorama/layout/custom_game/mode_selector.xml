@@ -13,12 +13,16 @@
                 <Label id="ModeSelectorContainer" class="ModeSelectorContainer" text="Pick Mode" />
                 <Label id="ToolTipInfo" class="ToolTipInfo" text="i" />
             </Panel>
+            <Button id="EasyModeButton" >
+                <Label id="EasyModeButtonBtnTxt" text="Normal mode" />
+                <Label id="ToolTipInfo" class="ToolTipInfo" text="i" />
+            </Button>
             <Button id="StoryModeButton" >
-                <Label id="StoryModeButtonBtnTxt" text="Normal mode" />
+                <Label id="StoryModeButtonBtnTxt" text="Hard mode" />
                 <Label id="ToolTipInfo" class="ToolTipInfo" text="i" />
             </Button>
             <Button id="NormalModeButton" >
-                <Label id="NormalModeButtonTxt" text="Hard Mode" />
+                <Label id="NormalModeButtonTxt" text="Impossible" />
                 <Label id="ToolTipInfo" class="ToolTipInfo" text="i" />
             </Button>
             <!--

@@ -16,6 +16,10 @@ function Spawn( entityKeyValues )
 	boss_frame_manager:HideBossManaFrame()
 	boss_frame_manager:ShowBossHpFrame()
 
+	if EASY_MODE == true then
+        thisEntity:AddNewModifier( nil, nil, "easy_mode_modifier", { duration = -1 } )
+    end
+
 	--thisEntity:AddNewModifier( nil, nil, "modifier_phased", { duration = -1 })
 	--thisEntity:AddNewModifier( nil, nil, "oil_leak_modifier", { duration = -1 })
 	thisEntity:AddNewModifier( nil, nil, "guard_death_modifier", { duration = -1 })
@@ -71,9 +75,11 @@ function AssistantThink()
 		return CastSweep( thisEntity.vTargetPos )
 	end
 
-	if thisEntity.stomp_push ~= nil and thisEntity.stomp_push:IsFullyCastable() and thisEntity.stomp_push:IsCooldownReady() then
-		--print("stomp push")
-		return CastStompPush()
+	if EASY_MODE == false then
+		if thisEntity.stomp_push ~= nil and thisEntity.stomp_push:IsFullyCastable() and thisEntity.stomp_push:IsCooldownReady() then
+			--print("stomp push")
+			return CastStompPush()
+		end
 	end
 
 	if thisEntity.magnetic_totem ~= nil and thisEntity.magnetic_totem:IsFullyCastable() and thisEntity.magnetic_totem:IsCooldownReady() and thisEntity.magnetic_totem:IsInAbilityPhase() == false then

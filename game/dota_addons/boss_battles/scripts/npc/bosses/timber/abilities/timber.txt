@@ -71,7 +71,7 @@
             "07"
 			{
 				"var_type"			                "FIELD_FLOAT"
-                "manaAmount"		                "0.2 0.2 0.2 0.15"
+                "manaAmount"		                "0.15 0.15 0.15 0.15"
 			}
 		}
     }

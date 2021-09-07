@@ -12,6 +12,10 @@ function Spawn( entityKeyValues )
 
 	CreateUnitByName( "npc_crystal", Vector(-10673,11950,0), true, thisEntity, thisEntity, DOTA_TEAM_BADGUYS)
 
+	if EASY_MODE == true then
+        thisEntity:AddNewModifier( nil, nil, "easy_mode_modifier", { duration = -1 } )
+    end
+
 	thisEntity:AddNewModifier( nil, nil, "shield_effect", { duration = -1 } )
 	thisEntity:AddNewModifier( nil, nil, "modifier_invulnerable", { duration = -1 } )
 	thisEntity:AddNewModifier( nil, nil, "modifier_phased", { duration = -1 } )

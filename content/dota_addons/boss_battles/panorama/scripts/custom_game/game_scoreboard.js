@@ -105,9 +105,11 @@ function showScoreboardUI( table_data )
 
 	var bsb_mode_panel = bsb.FindChildInLayoutFile("bsb_boss_mode_text")
 	if (mode == "storyMode"){
-		bsb_mode_panel.text = "Normal Mode"
-	}else if (mode == "normalMode") {
 		bsb_mode_panel.text = "Hard Mode"
+	}else if (mode == "normalMode") {
+		bsb_mode_panel.text = "Impossible"
+	}else if (mode == "easyMode") {
+		bsb_mode_panel.text = "Normal Mode"
 	}
 	
 	var bsb_bossInfoContainer = $.CreatePanel("Panel", bsb_bossHeader, table_data);

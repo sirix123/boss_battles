@@ -23,6 +23,8 @@ function SessionManager:Init()
 
     if STORY_MODE == true then
         self.session_data["mode"] = "normalMode"
+    elseif EASY_MODE == true then
+        self.session_data["mode"] = "easyMode"
     elseif NORMAL_MODE == true then
         self.session_data["mode"] = "hardMode"
     end

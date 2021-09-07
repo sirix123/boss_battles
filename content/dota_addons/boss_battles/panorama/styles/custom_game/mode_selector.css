@@ -16,7 +16,7 @@
 
 .HeroModeSelectorContainer {
 	width: 200px;
-	height: 150px;
+	height: 200px;
 	horizontal-align: left;
 	margin-left: -1px;
 	margin-top: 50px;
@@ -27,7 +27,7 @@
 }
 
 .SelectorLabelContainer {
-	height: 33%;
+	height: 25%;
 	width: 100%;
 	background-color: #151515;
 	background-size: 100% 100%;
@@ -43,7 +43,7 @@
 }
 
 #StoryModeButton {
-	height: 33%;
+	height: 25%;
 	width: 100%;
 	box-shadow: fill #00000066 -4px -4px 8px 8px;
 	background-color: gradient( linear, 0% 0%, 0% 100%, from( #5AA15E ), to( #87d69533 ) );
@@ -66,8 +66,32 @@
 	background-color: gradient( linear, 0% 0%, 0% 100%, from( #6FDE75 ), to( #87d69533 ) );
 }
 
+#EasyModeButton {
+	height: 25%;
+	width: 100%;
+	box-shadow: fill #00000066 -4px -4px 8px 8px;
+	background-color: gradient( linear, 0% 0%, 0% 100%, from( #5AA15E ), to( #87d69533 ) );
+	background-image: url("file://panorama/images/backgrounds/background_play_button_large_2x_png.png");
+}
+
+#EasyModeButtonBtnTxt {
+	horizontal-align: center;
+	vertical-align: center;
+	color: #fff;
+	font-size: 18px;
+	font-family: defaultFont;
+}
+
+#EasyModeButton.disabled, #EasyModeButton.disabled:Hover {
+	background-color: gradient( linear, 0% 0%, 0% 100%, from( #9C9C9C ), to( #D1D1D133 ) );
+}
+
+#EasyModeButton:Hover {
+	background-color: gradient( linear, 0% 0%, 0% 100%, from( #6FDE75 ), to( #87d69533 ) );
+}
+
 #NormalModeButton {
-	height: 33%;
+	height: 25%;
 	width: 100%;
 	box-shadow: fill #00000066 -4px -4px 8px 8px;
 	background-color: gradient( linear, 0% 0%, 0% 100%, from( #5AA15E ), to( #87d69533 ) );
@@ -118,7 +142,7 @@
 =================================================================*/
 
 #ToolTip{
-	width: 250px;
+	width: 300px;
 	/*height: 150px;*/
 	margin-top: 50px;
 	margin-left: 250px;

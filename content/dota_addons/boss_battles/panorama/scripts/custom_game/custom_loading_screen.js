@@ -23,6 +23,7 @@ function OnSocialButtonThreePressed(){
 let top10panels = {};
 let normal_mode_data = null;
 let hard_mode_data = null;
+let easy_mode_data = null;
 
 let leaderboard_buttons_container = $("#LeaderboardContainer");
 
@@ -32,14 +33,22 @@ normalDataButton.AddClass( "leaderboard_buttons" );
 let hardDataButton = leaderboard_buttons_container.FindChildInLayoutFile("leaderboard_button_mode_2");
 hardDataButton.AddClass( "leaderboard_buttons" );
 
+let easyDataButton = leaderboard_buttons_container.FindChildInLayoutFile("leaderboard_button_mode_3");
+easyDataButton.AddClass( "leaderboard_buttons" );
+
 
 /* buttons for leaderboard to load different data*/
 function OnNormalButtonPressed(){
     //$.Msg("click normal button ");
     normalDataButton.RemoveClass( "disabled" );
     normalDataButton.AddClass( "enable" );
+
     hardDataButton.RemoveClass( "enable" );
     hardDataButton.AddClass( "disabled" );
+
+    easyDataButton.RemoveClass( "enable" );
+    easyDataButton.AddClass( "disabled" );
+
     ClearScoreboardRows();
     UpdateScoreboardRows( normal_mode_data );
 }
@@ -48,28 +57,53 @@ function OnHardButtonPressed(){
     //$.Msg("click hard button ");
     hardDataButton.RemoveClass( "disabled" );
     hardDataButton.AddClass( "enable" );
+
     normalDataButton.RemoveClass( "enable" );
     normalDataButton.AddClass( "disabled" );
+
+    easyDataButton.RemoveClass( "enable" );
+    easyDataButton.AddClass( "disabled" );
+
     ClearScoreboardRows();
     UpdateScoreboardRows( hard_mode_data );
 }
 
+function OnEasyButtonPressed(){
+    //$.Msg("click easy button ");
+    easyDataButton.RemoveClass( "disabled" );
+    easyDataButton.AddClass( "enable" );
+
+    normalDataButton.RemoveClass( "enable" );
+    normalDataButton.AddClass( "disabled" );
+
+    hardDataButton.RemoveClass( "enable" );
+    hardDataButton.AddClass( "disabled" );
+
+    ClearScoreboardRows();
+    UpdateScoreboardRows( easy_mode_data );
+}
+
+
 /* recieve event from server*/
 function CreateLeaderBoard( data ) {
-    //$.Msg("CreateLeaderBoard( data )")
+    $.Msg("CreateLeaderBoard( data )",data);
     //data data for both game modes
-    normal_mode_data = data[1];
-    hard_mode_data = data[2];;
+    normal_mode_data = data[2];
+    hard_mode_data = data[3];
+    easy_mode_data = data[1];
 
-    hardDataButton.AddClass( "enable" );
-    hardDataButton.RemoveClass( "disabled" );
+    hardDataButton.AddClass( "disabled" );
+    hardDataButton.RemoveClass( "enable" );
 
     normalDataButton.AddClass( "disabled" );
     normalDataButton.RemoveClass( "enable" );
 
-    if (hard_mode_data){
+    easyDataButton.RemoveClass( "disabled" );
+    easyDataButton.AddClass( "enable" );
+
+    if (easy_mode_data){
         ClearScoreboardRows();
-        UpdateScoreboardRows( hard_mode_data );
+        UpdateScoreboardRows( easy_mode_data );
 
         // delete the leader board loading panel
         $('#LoadingScreenLeaderBoard').DeleteAsync( 0.0 );

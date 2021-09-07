@@ -12,6 +12,10 @@ function Spawn( entityKeyValues )
     boss_frame_manager:ShowBossHpFrame()
 	boss_frame_manager:ShowBossManaFrame()
 
+    if EASY_MODE == true then
+        thisEntity:AddNewModifier( nil, nil, "easy_mode_modifier", { duration = -1 } )
+    end
+
     thisEntity.green_beam = thisEntity:FindAbilityByName( "green_beam" )
     thisEntity.spawn_rocks = thisEntity:FindAbilityByName( "spawn_rocks" )
     thisEntity.electric_field_v2 = thisEntity:FindAbilityByName( "electric_field_v2" )
@@ -182,8 +186,10 @@ function CrystalThinker()
             return CastSummonFireEle()
         end
 
-        if thisEntity.summon_elec_ele ~= nil and thisEntity.summon_elec_ele:IsFullyCastable() and thisEntity.summon_elec_ele:IsCooldownReady() and thisEntity.elec_phase == true then
-            return CastSummonElecEle()
+        if EASY_MODE == false then
+            if thisEntity.summon_elec_ele ~= nil and thisEntity.summon_elec_ele:IsFullyCastable() and thisEntity.summon_elec_ele:IsCooldownReady() and thisEntity.elec_phase == true then
+                return CastSummonElecEle()
+            end
         end
 
     --end

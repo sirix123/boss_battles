@@ -12,9 +12,15 @@ function ModeSelector:ModeSelected( event )
     --print("mode selected ",event.mode)
 
     if event.mode == "storyMode" then
+        EASY_MODE = false
         STORY_MODE = true
         NORMAL_MODE = false
+    elseif event.mode == "easyMode" then
+        EASY_MODE = true
+        STORY_MODE = false
+        NORMAL_MODE = false
     elseif event.mode == "normalMode" then
+        EASY_MODE = false
         STORY_MODE = false
         NORMAL_MODE = true
     end

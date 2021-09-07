@@ -10,6 +10,7 @@ LinkLuaModifier( "modifier_grace_period", "player/generic/modifier_grace_period"
 LinkLuaModifier( "modifier_hide_hero", "player/generic/modifier_hide_hero", LUA_MODIFIER_MOTION_NONE )
 LinkLuaModifier( "admin_god_mode", "player/generic/admin_god_mode", LUA_MODIFIER_MOTION_NONE )
 LinkLuaModifier( "blademaster_death_enable_spells", "player/warlord/modifiers/blademaster_death_enable_spells", LUA_MODIFIER_MOTION_NONE )
+LinkLuaModifier( "easy_mode_modifier", "core/easy_mode_modifier", LUA_MODIFIER_MOTION_NONE )
 
 function GameSetup:init()
 
@@ -303,7 +304,7 @@ function GameSetup:RegisterRaidWipe( )
                             killedHero:SetTimeUntilRespawn(self.respawn_time)
 
                             -- depending on the mode... figure out the lives players should have and what encounter they will do next
-                            if STORY_MODE == true then -- infinte lives and stay on wiped encounter
+                            if STORY_MODE == true or EASY_MODE == true then -- infinte lives and stay on wiped encounter
                                 killedHero.playerLives = BOSS_BATTLES_PLAYER_LIVES
 
                             elseif NORMAL_MODE == true or HARD_MODE == true then -- 3 lives total
@@ -326,7 +327,7 @@ function GameSetup:RegisterRaidWipe( )
                         end
 
                         -- call boss cleanup function
-                        if STORY_MODE == true then
+                        if STORY_MODE == true or EASY_MODE == true then
                             self:EncounterCleanUp( Entities:FindByName(nil, RAID_TABLES[BOSS_BATTLES_ENCOUNTER_COUNTER].arena):GetAbsOrigin() )
                         elseif NORMAL_MODE == true or HARD_MODE == true then
                             self:EncounterCleanUp( Entities:FindByName(nil, RAID_TABLES[self.previous_encounter].arena):GetAbsOrigin() )
@@ -395,7 +396,7 @@ function GameSetup:OnEntityKilled(keys)
                 hero:SetTimeUntilRespawn(self.respawn_time)
 
                 -- depending on the mode... figure out the lives players should have and what encounter they will do next
-                if STORY_MODE == true then -- infinte lives and stay on wiped encounter
+                if STORY_MODE == true or EASY_MODE == true then -- infinte lives and stay on wiped encounter
                     hero.playerLives = BOSS_BATTLES_PLAYER_LIVES
 
                 elseif NORMAL_MODE == true or HARD_MODE == true then -- 3 lives total

@@ -18,6 +18,7 @@ function StartModeSelect(){
 	let modeSelectorContainer = $("#HeroModeSelectorContainer"); // mode selector handler
 	let normalModeButton = modeSelectorContainer.FindChildInLayoutFile("NormalModeButton") // nomral mode button
 	let storyModeButton = modeSelectorContainer.FindChildInLayoutFile("StoryModeButton") // story mode button
+	let easyModeButton = modeSelectorContainer.FindChildInLayoutFile("EasyModeButton") // story mode button
 	//let hardmodeModeButton = modeSelectorContainer.FindChildInLayoutFile("HardModeButton") // hard mode button
     let modeLabel = modeSelectorContainer.FindChildInLayoutFile("SelectorLabelContainer") // mode label / container
 	
@@ -48,9 +49,8 @@ Only the lobby host sees this selection."
 			//$.Msg("storyModeButton-hover-on")
 			toolTipContainer.style.visibility = 'visible';
 			var tooltipText = toolTipContainer.FindChildInLayoutFile("ToolTipTxt")
-			tooltipText.text = "In Normal mode lives reset to 3 after every boss.\n\n\
+			tooltipText.text = "In Hard mode lives reset to 3 after every boss.\n\n\
 If you wipe on a boss you stay on the same boss.\n\n\
-In Normal mode the chat command !start boss *boss name* will change the next boss to whatever boss you type.\n\n\
 If you complete the game (kill all bosses) your game session will be posted on the Leaderboard."
 		});
 
@@ -66,6 +66,8 @@ If you complete the game (kill all bosses) your game session will be posted on t
 			normalModeButton.AddClass( "disabled" );
 			normalModeButton.ClearPanelEvent( 'onactivate' )
 			storyModeButton.ClearPanelEvent( 'onactivate' )
+			easyModeButton.AddClass( "disabled" );
+			easyModeButton.ClearPanelEvent( 'onactivate' )
 		});
 
 		// nomral mode button
@@ -73,10 +75,9 @@ If you complete the game (kill all bosses) your game session will be posted on t
 			//$.Msg("normalModeButton-hover-on")
             toolTipContainer.style.visibility = 'visible';
             var tooltipText = toolTipContainer.FindChildInLayoutFile("ToolTipTxt")
-			tooltipText.text = "In Hard mode lives don't reset you have 3 lives.\n\n\
+			tooltipText.text = "In Impossible mode lives don't reset, you have 3 lives.\n\n\
 If you wipe on a boss you reset back to the first boss.\n\n\
-If you complete the game (kill all bosses) your game session will be posted on the Leaderboard.\n\n\
-Note the !start boss command does not work in Hard mode."
+If you complete the game (kill all bosses) your game session will be posted on the Leaderboard."
 		});
 
 		normalModeButton.SetPanelEvent( 'onmouseout', function () {
@@ -91,7 +92,37 @@ Note the !start boss command does not work in Hard mode."
 			normalModeButton.AddClass( "disabled" );
 			normalModeButton.ClearPanelEvent( 'onactivate' )
 			storyModeButton.ClearPanelEvent( 'onactivate' )
+			easyModeButton.AddClass( "disabled" );
+			easyModeButton.ClearPanelEvent( 'onactivate' )
         });
+
+		// easy mode button
+		easyModeButton.SetPanelEvent( 'onmouseover', function () {
+			//$.Msg("easyModeButton-hover-on")
+			toolTipContainer.style.visibility = 'visible';
+			var tooltipText = toolTipContainer.FindChildInLayoutFile("ToolTipTxt")
+			tooltipText.text = "In Normal mode lives reset to 3 after every boss.\n\n\
+If you wipe on a boss you stay on the same boss.\n\n\
+The damage from all boss abilities and attacks are reduced by 20% (most minions as well). Also, some bosses have 1 or more mechanics removed.\n\n\
+Boss HP is also reduced by 20% (most minions as well).\n\n\
+If you complete the game (kill all bosses) your game session will be posted on the Leaderboard."
+		});
+
+		easyModeButton.SetPanelEvent( 'onmouseout', function () {
+			//$.Msg("easyModeButton-hover-off")
+			toolTipContainer.style.visibility = 'collapse';
+		});
+		
+		easyModeButton.SetPanelEvent( 'onactivate', function () {
+			//$.Msg("easyModeButton")
+			GameEvents.SendCustomGameEventToServer( "mode_selected", { mode: "easyMode" } );
+			storyModeButton.AddClass( "disabled" );
+			storyModeButton.ClearPanelEvent( 'onactivate' )
+			normalModeButton.AddClass( "disabled" );
+			normalModeButton.ClearPanelEvent( 'onactivate' )
+			easyModeButton.AddClass( "disabled" );
+			easyModeButton.ClearPanelEvent( 'onactivate' )
+		});
         
 		// hard mode button
 		/*

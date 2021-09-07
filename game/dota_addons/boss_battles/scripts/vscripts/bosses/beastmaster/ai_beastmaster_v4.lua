@@ -23,6 +23,12 @@ function Spawn( entityKeyValues )
 
 	thisEntity:AddNewModifier( nil, nil, "modifier_remove_healthbar", { duration = -1 } )
 
+	if EASY_MODE == true then
+        thisEntity:AddNewModifier( nil, nil, "easy_mode_modifier", { duration = -1 } )
+    end
+
+	--print("health ", thisEntity:GetHealth())
+
 	thisEntity:SetMana(0)
 
 	-- abilities this boss has
@@ -69,7 +75,11 @@ function Spawn( entityKeyValues )
 
 		local dino_spawn = thisEntity.dino_spawns[RandomInt(1,#thisEntity.dino_spawns)]
 
-		CreateUnitByName("npc_beastmaster_bear", dino_spawn, true, nil, nil, DOTA_TEAM_BADGUYS)
+		local bear = CreateUnitByName("npc_beastmaster_bear", dino_spawn, true, nil, nil, DOTA_TEAM_BADGUYS)
+
+		if EASY_MODE == true then
+			bear:AddNewModifier( nil, nil, "easy_mode_modifier", { duration = -1 } )
+		end
 
 		return false
 	end)
@@ -133,8 +143,10 @@ function BeastmasterThink()
 			return CastRoar()
 		end
 
-		if thisEntity.summon_bird:IsFullyCastable() and thisEntity.summon_bird:IsCooldownReady() and thisEntity:GetHealthPercent() < 95 and thisEntity.summon_bird:IsInAbilityPhase() == false then
-			return SummonBird()
+		if EASY_MODE == false then
+			if thisEntity.summon_bird:IsFullyCastable() and thisEntity.summon_bird:IsCooldownReady() and thisEntity:GetHealthPercent() < 95 and thisEntity.summon_bird:IsInAbilityPhase() == false then
+				return SummonBird()
+			end
 		end
 
 		if thisEntity.summon_quillboar:IsFullyCastable() and thisEntity.summon_quillboar:IsCooldownReady() and thisEntity.summon_quillboar:IsInAbilityPhase() == false then
