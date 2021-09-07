@@ -240,7 +240,6 @@ function DinoThink()
 				end
             end
 
-
 			thisEntity.charge_cooldown = RandomInt(25,40)
 			thisEntity.dino_charge:StartCooldown(thisEntity.charge_cooldown)
 			thisEntity.vResetPos = nil

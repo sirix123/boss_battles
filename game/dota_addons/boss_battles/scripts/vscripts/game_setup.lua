@@ -330,7 +330,8 @@ function GameSetup:RegisterRaidWipe( )
                         if STORY_MODE == true or EASY_MODE == true then
                             self:EncounterCleanUp( Entities:FindByName(nil, RAID_TABLES[BOSS_BATTLES_ENCOUNTER_COUNTER].arena):GetAbsOrigin() )
                         elseif NORMAL_MODE == true or HARD_MODE == true then
-                            self:EncounterCleanUp( Entities:FindByName(nil, RAID_TABLES[self.previous_encounter].arena):GetAbsOrigin() )
+                            --self:EncounterCleanUp( Entities:FindByName(nil, RAID_TABLES[self.previous_encounter].arena):GetAbsOrigin() )
+                            self:EncounterCleanUp( self.boss_spawn )
                         end
 
                         -- reset death counter
@@ -781,7 +782,7 @@ function GameSetup:EncounterCleanUp( origin )
         DOTA_TEAM_BADGUYS,
         origin,
         nil,
-        5000,
+        5000, -- 5000
         DOTA_UNIT_TARGET_TEAM_FRIENDLY,
         DOTA_UNIT_TARGET_ALL,
         DOTA_UNIT_TARGET_FLAG_INVULNERABLE,

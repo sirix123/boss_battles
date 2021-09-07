@@ -221,6 +221,10 @@ function TimberThink()
 
 		end
 
+		if thisEntity.chain_map_edge ~= nil and thisEntity.chain_map_edge:IsFullyCastable() and thisEntity.chain_map_edge:IsCooldownReady() and thisEntity.chain_map_edge:IsInAbilityPhase() == false then
+			return CastChainMapEdge()
+		end
+
 		if thisEntity:HasModifier("chain_edge_bubble") ~= true then
 
 			-- only do it once though
@@ -234,10 +238,6 @@ function TimberThink()
 				ParticleManager:SetParticleControl( thisEntity.nPreviewFXIndex, 2, Vector( 60, 0, 0 ) );
 
 			end
-		end
-
-		if thisEntity.chain_map_edge ~= nil and thisEntity.chain_map_edge:IsFullyCastable() and thisEntity.chain_map_edge:IsCooldownReady() and thisEntity.chain_map_edge:IsInAbilityPhase() == false then
-			return CastChainMapEdge()
 		end
 
 		if thisEntity.vertical_saw_blade ~= nil and thisEntity.vertical_saw_blade:IsFullyCastable() and thisEntity.vertical_saw_blade:IsCooldownReady() and thisEntity.vertical_saw_blade:IsInAbilityPhase() == false and thisEntity.vertical_saw_blade:IsChanneling() == false then
@@ -405,7 +405,7 @@ function CastChainMapEdge()
 	})
 
 	local time = previous_length / thisEntity.chain_edge_speed
-	return time + 1
+	return time + 2
 
 	--return 2.5
 end
