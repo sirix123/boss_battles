@@ -130,7 +130,13 @@ function dino_charge:OnSpellStart()
             )
 
             if units ~= nil and #units ~= 0 then
-                units[1]:AddNewModifier(self:GetCaster(), self, "grab_player_modifier_dino", { duration= -1, })
+                -- could we check this self.target if this the same as unit1 and if it is grab him.. else dont?
+
+                    if units[1]:GetUnitName() == self.target:GetUnitName() then
+                        units[1]:AddNewModifier(self:GetCaster(), self, "grab_player_modifier_dino", { duration= -1, })
+                    end
+
+                --units[1]:AddNewModifier(self:GetCaster(), self, "grab_player_modifier_dino", { duration= -1, })
             end
 
             -- play small slam particle effect
