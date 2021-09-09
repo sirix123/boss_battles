@@ -9,6 +9,10 @@ function dino_charge:OnAbilityPhaseStart()
 
         self.target = self:GetCursorTarget()
 
+        if self.target:HasModifier("grab_player_modifier") == true or self.target:HasModifier("bird_mark_modifier") then
+            return false
+        end
+
         -- stomp floor, play animation
         self.animation_timer = Timers:CreateTimer(function()
             self:GetCaster():StartGestureWithPlaybackRate(ACT_DOTA_CAST_ABILITY_3, 0.1)

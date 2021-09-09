@@ -39,7 +39,7 @@ function Spawn( entityKeyValues )
 	thisEntity.roar:StartCooldown(15)
 
 	thisEntity.summon_bird = thisEntity:FindAbilityByName( "summon_bird" )
-	thisEntity.summon_bird:StartCooldown(20)
+	thisEntity.summon_bird:StartCooldown(40)
 
 	thisEntity.summon_quillboar = thisEntity:FindAbilityByName( "summon_quillboar" )
 	thisEntity.summon_quillboar:StartCooldown(15)

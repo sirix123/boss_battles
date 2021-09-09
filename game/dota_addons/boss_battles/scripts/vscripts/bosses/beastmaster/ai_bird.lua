@@ -24,6 +24,8 @@ function Spawn( entityKeyValues )
 
     thisEntity.circle_timer_running = false
 
+    print("thisEntity bird name ",thisEntity:GetUnitName())
+
     thisEntity:SetContextThink( "BirdThinker", BirdThinker, 0.1 )
 
 end

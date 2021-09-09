@@ -66,9 +66,14 @@ function DinoThink()
 
 	--print("thisEntity.STATE ,", thisEntity.STATE)
 
+	-- FindBird().PHASE
+	-- if FindBird().PHASE ~= 1 and FindBird().PHASE ~= nil then return 5 end
+
 	-- state 1
 	-- dino waits until charge is off CD sitting in the corner, charge off cd, finds a target and charges at them
 	if thisEntity.STATE == 1 then
+
+		-- if a unit is targeted by, can we find the bird and check its state? surely not?
 
 		if thisEntity.charge_target == nil then
 			if thisEntity.dino_charge:IsFullyCastable() and thisEntity.dino_charge:IsCooldownReady() and thisEntity.dino_charge:IsInAbilityPhase() == false and thisEntity.moving == false then
@@ -89,7 +94,7 @@ function DinoThink()
 					return 0.5
 				else
 					thisEntity.charge_target = enemies[RandomInt(1,#enemies)]
-					if thisEntity.charge_target:HasModifier("grab_player_modifier") == true then
+					if thisEntity.charge_target:HasModifier("grab_player_modifier") == true or thisEntity.charge_target:HasModifier("bird_mark_modifier") then
 						thisEntity.charge_target = nil
 						thisEntity.STATE = 3
 						return 1
@@ -290,6 +295,31 @@ function FindBeastMaster()
     if units ~= nil and #units ~= 0 then
         for _, unit in pairs(units) do
             if unit:GetUnitName() == "npc_beastmaster" then
+                return unit
+            end
+        end
+    end
+    return nil
+end
+
+--------------------------------------------------------------------------------
+
+function FindBird()
+    local units = FindUnitsInRadius(
+        thisEntity:GetTeamNumber(),	-- int, your team number
+        thisEntity:GetAbsOrigin(),	-- point, center point
+        nil,	-- handle, cacheUnit. (not known)
+        FIND_UNITS_EVERYWHERE,	-- float, radius. or use FIND_UNITS_EVERYWHERE
+        DOTA_UNIT_TARGET_TEAM_FRIENDLY,	-- int, team filter
+        DOTA_UNIT_TARGET_HERO + DOTA_UNIT_TARGET_BASIC,	-- int, type filter
+        DOTA_UNIT_TARGET_FLAG_INVULNERABLE,	-- int, flag filter
+        FIND_ANY_ORDER,	-- int, order filter
+        false	-- bool, can grow cache
+    )
+
+    if units ~= nil and #units ~= 0 then
+        for _, unit in pairs(units) do
+            if string.find(unit:GetUnitName(),"npc_beastmaster_bird") then
                 return unit
             end
         end

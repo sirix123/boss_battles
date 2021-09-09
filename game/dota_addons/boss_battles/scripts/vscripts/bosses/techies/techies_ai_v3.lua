@@ -98,8 +98,25 @@ function TechiesThinker()
         end
 
         -- cast other spells while we move
+        -- if any players are close dont cast this, set cd 5s
         if thisEntity.blast_off ~= nil and thisEntity.blast_off:IsFullyCastable() and thisEntity.blast_off:IsCooldownReady() and thisEntity.blast_off:IsInAbilityPhase() == false then
-            return CastBlastOff()
+            thisEntity.blast_off_units = FindUnitsInRadius(
+                thisEntity:GetTeamNumber(),	-- int, your team number
+                thisEntity:GetAbsOrigin(),	-- point, center point
+                nil,	-- handle, cacheUnit. (not known)
+                400,	-- float, radius. or use FIND_UNITS_EVERYWHERE
+                DOTA_UNIT_TARGET_TEAM_ENEMY,
+                DOTA_UNIT_TARGET_HERO,
+                DOTA_UNIT_TARGET_FLAG_INVULNERABLE,	-- int, flag filter
+                0,	-- int, order filter
+                false	-- bool, can grow cache
+                )
+
+            if thisEntity.blast_off_units == nil or #thisEntity.blast_off_units == 0 then
+                return CastBlastOff()
+            else
+                thisEntity.blast_off:StartCooldown(8)
+            end
         end
 
         if thisEntity.summon_electric_vortex_turret ~= nil and thisEntity.summon_electric_vortex_turret:IsFullyCastable() and thisEntity.summon_electric_vortex_turret:IsCooldownReady() then
