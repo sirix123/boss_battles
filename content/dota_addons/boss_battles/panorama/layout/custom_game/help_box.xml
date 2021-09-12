@@ -34,6 +34,9 @@
                     <Panel id="HelpButtonToolTipMenuItem_1" class="HelpButtonToolTipMenuItem">
                         <Label id="HelpButtonToolTipMenuText_1" class="HelpButtonToolTipMenuText" text="Type !reset in chat if your hero is automatically moving in a direction." />
                     </Panel>
+                    <Panel id="HelpButtonToolTipMenuItem_7" class="HelpButtonToolTipMenuItem">
+                        <Label id="HelpButtonToolTipMenuText_7" class="HelpButtonToolTipMenuText" text="Very rarely you might not be able to cast anything, press any keyboard bound ability to fix this." />
+                    </Panel>
                     <Panel id="HelpButtonToolTipMenuItem_2" class="HelpButtonToolTipMenuItem">
                         <Label id="HelpButtonToolTipMenuText_2" class="HelpButtonToolTipMenuText" text="If you're in Normal or Hard mode type !start boss Beastmaster to change bosses. The next time you stand on the ready up area that boss encounter will start. Boss names: Gyrocopter, Timbersaw, Beastmaster, Techies, Clockwerk, Tinker. You do not need to type this to progress."/>
                     </Panel>
