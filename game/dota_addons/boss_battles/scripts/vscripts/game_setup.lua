@@ -25,9 +25,6 @@ function GameSetup:init()
     -- setup commands
     Commands:Init()
 
-    -- setup session manager
-    SessionManager:Init()
-
     -- setup scoreboard
     Scoreboard:Init()
 
