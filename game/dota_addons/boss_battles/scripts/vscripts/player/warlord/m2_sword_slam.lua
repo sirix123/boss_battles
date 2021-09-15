@@ -81,15 +81,6 @@ function m2_sword_slam:OnSpellStart()
     -- stack duration
     local duration = self:GetSpecialValueFor( "stack_duration" )
 
-    if units ~= nil and #units ~= 0 then
-        self:GetCaster():AddNewModifier(
-            self.caster, -- player source
-            self, -- ability source
-            "m2_sword_slam_debuff", -- modifier name
-            {duration = duration} -- kv
-        )
-    end
-
     if self:GetCaster():HasModifier("m2_sword_slam_debuff") then
         local hBuff = self:GetCaster():FindModifierByNameAndCaster("m2_sword_slam_debuff", self.caster)
         local nStackCount = hBuff:GetStackCount()
@@ -119,6 +110,15 @@ function m2_sword_slam:OnSpellStart()
             end
 
         end
+    end
+
+    if units ~= nil and #units ~= 0 then
+        self:GetCaster():AddNewModifier(
+            self.caster, -- player source
+            self, -- ability source
+            "m2_sword_slam_debuff", -- modifier name
+            {duration = duration} -- kv
+        )
     end
 
     -- slam effect
