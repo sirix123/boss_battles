@@ -7,6 +7,10 @@ function vertical_saw_blade:OnAbilityPhaseStart()
 
         self:GetCaster():StartGestureWithPlaybackRate(ACT_DOTA_ATTACK, 1.0)
 
+        if self:GetCaster():HasModifier("chain_edge_bubble") == false then
+            return false
+        end
+
         self.tPos = {}
 
         self.caster = self:GetCaster()
@@ -49,6 +53,22 @@ function vertical_saw_blade:OnChannelThink( interval )
     if not IsServer() then return end
 
     if IsValidEntity(self:GetCaster()) == false then --or self.caster:HasModifier("chain_edge_bubble") == false
+        return false
+    end
+
+    local units_close_end_phase = FindUnitsInRadius(
+        self:GetCaster():GetTeamNumber(),	-- int, your team number
+        self:GetCaster():GetAbsOrigin(),	-- point, center point
+        nil,	-- handle, cacheUnit. (not known)
+        600,	-- float, radius. or use FIND_UNITS_EVERYWHERE
+        DOTA_UNIT_TARGET_TEAM_ENEMY,
+        DOTA_UNIT_TARGET_HERO,
+        DOTA_UNIT_TARGET_FLAG_INVULNERABLE,	-- int, flag filter
+        FIND_CLOSEST,	-- int, order filter
+        false	-- bool, can grow cache
+    )
+
+    if units_close_end_phase ~= nil and #units_close_end_phase ~= 0 and self:GetCaster():HasModifier("chain_edge_bubble") ~= true then
         return false
     end
 

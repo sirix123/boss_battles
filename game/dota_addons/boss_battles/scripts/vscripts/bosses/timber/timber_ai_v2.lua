@@ -240,7 +240,10 @@ function TimberThink()
 			end
 		end
 
-		if thisEntity.vertical_saw_blade ~= nil and thisEntity.vertical_saw_blade:IsFullyCastable() and thisEntity.vertical_saw_blade:IsCooldownReady() and thisEntity.vertical_saw_blade:IsInAbilityPhase() == false and thisEntity.vertical_saw_blade:IsChanneling() == false then
+		if thisEntity.vertical_saw_blade ~= nil and thisEntity.vertical_saw_blade:IsFullyCastable() 
+			and thisEntity.vertical_saw_blade:IsCooldownReady() and thisEntity.vertical_saw_blade:IsInAbilityPhase() == false
+			and thisEntity.vertical_saw_blade:IsChanneling() == false and thisEntity:HasModifier("chain_edge_bubble") == true
+			then
 			return CastVerticalSawBlade()
 		end
 	end
@@ -288,7 +291,7 @@ function FindUnitsCloseAndBubbleGone()
 		FIND_CLOSEST,
 		false )
 
-	if #enemies == 0 or enemies == nil then
+	if #enemies == 0 or enemies == nil or thisEntity:HasModifier("chain_edge_bubble") ~= false then
 		return false
 	elseif #enemies >= 1 and thisEntity:HasModifier("chain_edge_bubble") ~= true then
 		return true

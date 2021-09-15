@@ -121,6 +121,10 @@ end
 function modifier_generic_arc_lua:UpdateHorizontalMotion( me, dt )
 	if self.fix_duration and self:GetElapsedTime()>=self.duration then return end
 
+	if GridNav:IsTraversable( me:GetOrigin() ) == false then
+		self:Destroy()
+	end
+
 	-- set relative position
 	local pos = me:GetOrigin() + self.direction * self.speed * dt
 	me:SetOrigin( pos )
