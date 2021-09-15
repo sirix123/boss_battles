@@ -556,7 +556,7 @@ function GameSetup:ReadyupCheck() -- called from trigger lua file for activators
 
     PLAYERS_FIGHTING_BOSS = true
 
-    Timers:CreateTimer(1.0, function()
+    Timers:CreateTimer(function()
 
         --print("game_setup: boss_arena: ", RAID_TABLES[BOSS_BATTLES_ENCOUNTER_COUNTER].spawnLocation," player_arena:", RAID_TABLES[BOSS_BATTLES_ENCOUNTER_COUNTER].arena )
 
