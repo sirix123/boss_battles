@@ -69,11 +69,16 @@ function e_fireball:OnChannelThink( flinterval )
             self.onceoff = false
         end
 
+        -- end channel if lina gets gripped
+        if self.caster:HasModifier("space_leap_of_grip_modifier") then
+            return false
+        end
+
         -- dmg
         self.time = (self.time or 0) + flinterval
         if self.time < self:GetSpecialValueFor( "interval" ) then
             self:GetCaster():RemoveGesture(ACT_DOTA_ATTACK)
-            return
+            return false
         else
 
             self:GetCaster():StartGestureWithPlaybackRate(ACT_DOTA_ATTACK, 1.2)

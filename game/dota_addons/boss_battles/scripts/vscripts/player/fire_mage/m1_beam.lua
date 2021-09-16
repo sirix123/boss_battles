@@ -106,7 +106,8 @@ function m1_beam:OnSpellStart()
 
             if  self.caster.left_mouse_up_down == 1 or self.caster:IsStunned()
                 or self.caster:HasModifier("modifier_stomp_push") or self.caster:IsAlive() == false
-                or self.caster:IsSilenced() or self.caster:HasModifier("modifier_generic_silenced") then
+                or self.caster:IsSilenced() or self.caster:HasModifier("modifier_generic_silenced")
+                or self.caster:HasModifier("space_leap_of_grip_modifier") then
                 self:CleanUp()
                 i = 0
                 return false
