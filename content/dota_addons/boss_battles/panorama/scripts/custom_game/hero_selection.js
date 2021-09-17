@@ -145,6 +145,8 @@ function PlayerSelected( player, hero ) {
 	// when a player selects the portait, create a greyscale ped at the bottom for all clients (called from lua)
 	var pedHeroImage = heroPedPanels[player].FindChildInLayoutFile("HeroPed");
 	pedHeroImage.BLoadLayoutFromString('<root><Panel><DOTAScenePanel style="width: 100%; height: 100%; " unit="'+hero+'" particleonly="false" /></Panel></root>', true, false );
+	//$.CreatePanelWithProperties("Panel", message, "", { class: "HeroBadge", selectionpos: "auto" });
+	//$.CreatePanelWithProperties("Panel", message, "", { class: "PedSceneHeroSelected", selectionpos: "auto" });
 	pedHeroImage.AddClass("PedSceneHeroSelected")
 
 	// add the players name to the bottom of the pedestal

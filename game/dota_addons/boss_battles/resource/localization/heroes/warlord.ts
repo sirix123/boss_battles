@@ -31,7 +31,7 @@ export function GenerateLocalizationData(): LocalizationData
     Modifiers.push({
         modifier_classname: "m2_sword_slam_debuff",
         name: "Blade Mastery",
-        description: `The damage of Sword Slam is increased.`,
+        description: `The damage of Sunder is increased.`,
     });
 
     Modifiers.push({
@@ -49,7 +49,7 @@ export function GenerateLocalizationData(): LocalizationData
     Modifiers.push({
         modifier_classname: "q_conq_shout_modifier",
         name: "Conquerer Shout",
-        description: `Your vortex is generating you energy and have increased damage.`,
+        description: `Your vortex is generating you mana and has increased damage.`,
     });
 
     Abilities.push({
@@ -70,7 +70,7 @@ export function GenerateLocalizationData(): LocalizationData
 
             {
                 ability_special: "mana_gain_percent_bonus",
-                text: "ENERGY GAIN:",
+                text: "MANA GAIN:",
                 percentage: true
             },
     
@@ -84,7 +84,7 @@ export function GenerateLocalizationData(): LocalizationData
     Abilities.push({
         ability_classname: "m2_sword_slam",
         name: "Sunder",
-        description: `Blademaster slams down his sword, dealing damage based on his total energy to all enemies infront of him. Hitting an enemy with ${sunderColour} grants a stack of ${bladeMasteryColour}, up to three times.`,
+        description: `Blademaster slams down his sword, dealing damage based on his total mana to all enemies infront of him. Hitting an enemy with ${sunderColour} grants a stack of ${bladeMasteryColour}, up to three times.`,
         //lore: `What doesn't kill his opponents only makes him stronger.`,
         ability_specials:
         [
@@ -95,7 +95,7 @@ export function GenerateLocalizationData(): LocalizationData
 
             {
                 ability_special: "mana_gain_percent_bonus",
-                text: "ENERGY GAIN:",
+                text: "MANA GAIN:",
                 percentage: true
             },
     
@@ -106,7 +106,7 @@ export function GenerateLocalizationData(): LocalizationData
 
             {
                 ability_special: "dmg_per_mana_point",
-                text: "DAMAGE PER ENERGY:",
+                text: "DAMAGE PER MANA:",
             },
 
             {
@@ -124,11 +124,11 @@ export function GenerateLocalizationData(): LocalizationData
     Abilities.push({
         ability_classname: "q_conq_shout",
         name: "Inspire",
-        description: `Blademaster inspires his allies near him and his ${bladeVortexColour}, increasing their damage. ${inspireColour} also generates one stack of ${fightingSpiritColour}.`,
+        description: `Blademaster inspires his allies near him and his ${bladeVortexColour}. ${inspireColour} also generates one stack of ${fightingSpiritColour}.`,
         //lore: `Blademaster's military experience allows him to inspire his allies to push forward against overwhelming odds.`,
         notes:
         [
-            `Fighting Spirit regenerates 5 health per second and 2 energy per second.`,
+            `Fighting Spirit regenerates 5 health per second and 2 mana per second.`,
             `Fighting Spirit can stack up to three times.`,
         ],
         ability_specials:
@@ -153,7 +153,7 @@ export function GenerateLocalizationData(): LocalizationData
         //lore: `The long and bitter war against the Templars revealed the importance of proper defence.`,
         notes:
         [
-            `Fighting Spirit regenerates 5 health per second and 2 energy per second.`,
+            `Fighting Spirit regenerates 5 health per second and 2 mana per second.`,
             `Fighting Spirit can stack up to three times.`,
         ],
         ability_specials:
@@ -173,7 +173,7 @@ export function GenerateLocalizationData(): LocalizationData
     Abilities.push({
         ability_classname: "r_blade_vortex",
         name: "Blade Vortex",
-        description: `Blademaster conjures whirling blades that chases the target, dealing damage and granting him energy over time until it expires.`,
+        description: `Blademaster conjures whirling blades that chases the target, dealing damage and granting him mana over time until it expires.`,
         //lore:  `An ancient technique that has been passed down for generations.`,
         ability_specials:
         [
@@ -189,7 +189,7 @@ export function GenerateLocalizationData(): LocalizationData
 
             {
                 ability_special: "mana_gain_percent_bonus",
-                text: "ENERGY GAIN:",
+                text: "MANA GAIN:",
                 percentage: true
             },
 

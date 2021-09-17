@@ -66,6 +66,9 @@ function r_blade_vortex_thinker:OnCreated( kv )
                     -- increase dmg
                     self.dmg = self.caster:FindAbilityByName("r_blade_vortex"):GetSpecialValueFor( "base_dmg" ) + ( ( self.caster:FindAbilityByName("q_conq_shout"):GetSpecialValueFor( "vortex_dmg_inc" ) /100 ) * self.caster:FindAbilityByName("r_blade_vortex"):GetSpecialValueFor( "base_dmg" ) )
 
+                    -- applying fighitng spirit around blade vortex target
+                    self:FindAlliesAndApplyModifier( false )
+
                     -- reset dmg
                     self.timer_damage_boost = Timers:CreateTimer(self.caster:FindAbilityByName("q_conq_shout"):GetSpecialValueFor( "duration" ), function()
                         self.dmg = self.caster:FindAbilityByName("r_blade_vortex"):GetSpecialValueFor( "base_dmg" )
@@ -74,6 +77,43 @@ function r_blade_vortex_thinker:OnCreated( kv )
                 end
             return 0.03
         end)
+
+        self.timer_find_caster_2 = Timers:CreateTimer(function()
+            if IsValidEntity(self.parent) == false then
+                self:Destroy()
+                return false
+            end
+
+            if self.caster:IsAlive() == false then
+                self:Destroy()
+                return false
+            end
+
+            if self.parent:IsAlive() == false then
+                self:Destroy()
+                return false
+            end
+
+            ParticleManager:SetParticleControl(self.nfx , 0, self.parent:GetAbsOrigin())
+
+            if self.caster:HasModifier("e_warlord_shout_modifier") then
+
+                -- play effects
+                local particle = 'particles/units/heroes/hero_elder_titan/elder_titan_echo_stomp.vpcf'
+                local particle_stomp_fx = ParticleManager:CreateParticle(particle, PATTACH_ABSORIGIN, self.caster)
+                ParticleManager:SetParticleControl(particle_stomp_fx, 0, self.parent:GetAbsOrigin())
+                ParticleManager:SetParticleControl(particle_stomp_fx, 1, Vector(self.radius, 1, 1))
+                ParticleManager:SetParticleControl(particle_stomp_fx, 2, Vector(250,0,0))
+                ParticleManager:ReleaseParticleIndex(particle_stomp_fx)
+
+                -- apply e_warlord_shout_modifier to friends
+                self:FindAlliesAndApplyModifier( true  )
+
+                return self.caster:FindAbilityByName("e_warlord_shout"):GetSpecialValueFor( "duration" ) + 0.5
+
+            end
+        return 0.03
+    end)
 
         self:StartIntervalThink( self.interval )
 	end
@@ -163,6 +203,10 @@ function r_blade_vortex_thinker:OnDestroy( kv )
             Timers:RemoveTimer(self.timer_damage_boost)
         end
 
+        if self.timer_find_caster_2 ~= nil then
+            Timers:RemoveTimer(self.timer_find_caster_2)
+        end
+
         if self.nfx then
             ParticleManager:DestroyParticle(self.nfx,false)
         end
@@ -188,6 +232,49 @@ function r_blade_vortex_thinker:PlayEffectsOnCreated()
             self.nfx = ParticleManager:CreateParticle(particle, PATTACH_ABSORIGIN, self.parent)
             ParticleManager:SetParticleControl(self.nfx , 0, self.parent:GetAbsOrigin())
             ParticleManager:SetParticleControl(self.nfx , 5, Vector(self.radius,1,1))
+        end
+
+	end
+end
+---------------------------------------------------------------------------
+
+function r_blade_vortex_thinker:FindAlliesAndApplyModifier( flag )
+    if IsServer() then
+
+        local friends = FindUnitsInRadius(
+            self:GetCaster():GetTeamNumber(),	-- int, your team number
+            self.parent:GetAbsOrigin(),	-- point, center point
+            nil,	-- handle, cacheUnit. (not known)
+            self.radius,	-- float, radius. or use FIND_UNITS_EVERYWHERE
+            DOTA_UNIT_TARGET_TEAM_FRIENDLY,	-- int, team filter
+            DOTA_UNIT_TARGET_HERO,	-- int, type filter
+            DOTA_UNIT_TARGET_FLAG_INVULNERABLE,	-- int, flag filter
+            0,	-- int, order filter
+            false	-- bool, can grow cache
+	    )
+
+        -- for friendly in the table add the modifier
+        if friends ~= nil and #friends ~= 0 then
+            for _,friend in pairs(friends) do
+
+                friend:AddNewModifier(
+                    self:GetCaster(), -- player source
+                    self:GetAbility(), -- ability source
+                    "warlord_modifier_shouts", -- modifier name
+                    { duration = self:GetCaster():FindAbilityByName("e_warlord_shout"):GetSpecialValueFor( "generic_shout_duration" )} -- kv
+                )
+
+                -- if flag is true then apply bubble 
+                if flag == true then
+                    friend:AddNewModifier(
+                        self:GetCaster(), -- player source
+                        self:GetAbility(), -- ability source
+                        "e_warlord_shout_modifier", -- modifier name
+                        { duration = self:GetCaster():FindAbilityByName("e_warlord_shout"):GetSpecialValueFor( "duration" )} -- kv
+                    )
+                end
+
+            end
         end
 
 	end

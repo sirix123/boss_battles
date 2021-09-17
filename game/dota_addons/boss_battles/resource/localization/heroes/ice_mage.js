@@ -33,7 +33,7 @@ function GenerateLocalizationData() {
     Modifiers.push({
         modifier_classname: "bonechill_modifier",
         name: "Bonechill",
-        description: "Regenerates {" + "MODIFIER_PROPERTY_MANA_REGEN_CONSTANT" /* MANA_REGEN_CONSTANT */ + "} per second."
+        description: "Regenerates {" + "MODIFIER_PROPERTY_MANA_REGEN_CONSTANT" /* MANA_REGEN_CONSTANT */ + "} mana per second."
     });
     Modifiers.push({
         modifier_classname: "q_iceblock_modifier",

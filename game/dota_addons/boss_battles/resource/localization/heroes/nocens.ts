@@ -137,7 +137,7 @@ export function GenerateLocalizationData(): LocalizationData
     Abilities.push({
         ability_classname: "space_judgement",
         name: "Judgement",
-        description: `Paladin judges all enemies in a targeted area, consuming active auras to deal additional effects.`,
+        description: `Paladin judges all enemies in a targeted area, consuming active auras to deal additional effects. Consuming an active aura also grants bonus damage.`,
         ability_specials:
         [
             {

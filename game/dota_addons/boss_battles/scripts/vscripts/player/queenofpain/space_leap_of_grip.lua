@@ -69,7 +69,7 @@ function space_leap_of_grip:OnSpellStart()
         ProjectileManager:CreateTrackingProjectile( info )
 
         self.target:AddNewModifier(
-            self.caster, -- player source
+            self.target, -- player source
             self, -- ability source
             "space_leap_of_grip_modifier", -- modifier name
             {

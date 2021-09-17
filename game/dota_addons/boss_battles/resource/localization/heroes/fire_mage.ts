@@ -29,6 +29,12 @@ export function GenerateLocalizationData(): LocalizationData
         description: `Current number of Fiery Spirit stacks.`
     });
 
+    Modifiers.push({
+        modifier_classname: "q_fire_bubble_modifier",
+        name: "Flame Barrier",
+        description: `Absorbs incoming damage and damages nearby enemies.`
+    });
+
     // abilities
     Abilities.push({
         ability_classname: "m1_beam",
