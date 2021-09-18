@@ -143,11 +143,14 @@ function PlayerSelected( player, hero ) {
 	//$.Msg("hero ",hero)
 
 	// when a player selects the portait, create a greyscale ped at the bottom for all clients (called from lua)
-	var pedHeroImage = heroPedPanels[player].FindChildInLayoutFile("HeroPed");
-	pedHeroImage.BLoadLayoutFromString('<root><Panel><DOTAScenePanel style="width: 100%; height: 100%; " unit="'+hero+'" particleonly="false" /></Panel></root>', true, false );
-	//$.CreatePanelWithProperties("Panel", message, "", { class: "HeroBadge", selectionpos: "auto" });
-	//$.CreatePanelWithProperties("Panel", message, "", { class: "PedSceneHeroSelected", selectionpos: "auto" });
-	pedHeroImage.AddClass("PedSceneHeroSelected")
+	//var pedHeroImage = heroPedPanels[player].FindChildInLayoutFile("HeroPed");
+	//pedHeroImage.BLoadLayoutFromString('<root><Panel><DOTAScenePanel style="width: 100%; height: 100%; " unit="'+hero+'" particleonly="false" /></Panel></root>', true, false );
+	//$.CreatePanelWithProperties("PanelType", panelParent, "panelID", tableOfProperties)
+	//{ class: "PedSceneHeroSelected", selectionpos: "auto" }
+	heroPedPanels[player].FindChildInLayoutFile("HeroPed").RemoveAndDeleteChildren()
+	var ped_panel = null;
+	ped_panel = $.CreatePanelWithProperties("DOTAScenePanel", heroPedPanels[player].FindChildInLayoutFile("HeroPed"), "panelID", { class: "PedSceneHeroSelected", selectionpos: "auto",  unit: hero, particleonly: "false"  });
+	//pedHeroImage.AddClass("PedSceneHeroSelected")
 
 	// add the players name to the bottom of the pedestal
 	var pedHeroPlayerText = heroPedPanels[player].FindChildInLayoutFile("PlayerNamePedTxt");
