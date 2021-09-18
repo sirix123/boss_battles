@@ -92,7 +92,10 @@ function oil_fire_checker_modifier:OnDestroy( kv )
         if self.particle ~= nil then
             ParticleManager:DestroyParticle(self.particle,true)
         end
-        Timers:RemoveTimer(self.timer)
+
+        if self.timer then
+            Timers:RemoveTimer(self.timer)
+        end
 	end
 end
 ---------------------------------------------------------------------------
