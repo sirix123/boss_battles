@@ -137,6 +137,7 @@ function SelectHero( heroName, containerPanel ) {
 }
 
 /* Clicks the hero portrait */
+let ped_panel = null;
 function PlayerSelected( player, hero ) {
 
 	//$.Msg("player ",player)
@@ -148,8 +149,7 @@ function PlayerSelected( player, hero ) {
 	//$.CreatePanelWithProperties("PanelType", panelParent, "panelID", tableOfProperties)
 	//{ class: "PedSceneHeroSelected", selectionpos: "auto" }
 	heroPedPanels[player].FindChildInLayoutFile("HeroPed").RemoveAndDeleteChildren()
-	var ped_panel = null;
-	ped_panel = $.CreatePanelWithProperties("DOTAScenePanel", heroPedPanels[player].FindChildInLayoutFile("HeroPed"), "panelID", { class: "PedSceneHeroSelected", selectionpos: "auto",  unit: hero, particleonly: "false"  });
+	ped_panel = $.CreatePanelWithProperties("DOTAScenePanel", heroPedPanels[player].FindChildInLayoutFile("HeroPed"), "HeroPed", { class: "PedSceneHeroSelected", selectionpos: "auto",  unit: hero, particleonly: "false"  });
 	//pedHeroImage.AddClass("PedSceneHeroSelected")
 
 	// add the players name to the bottom of the pedestal
@@ -247,9 +247,9 @@ function PlayerPicked( player, hero ) {
 	}
 
 	// fidn the ped scene and remove the selected class and apply the taken class
-	var pedHeroImage = heroPedPanels[player].FindChildInLayoutFile("HeroPed");
-	pedHeroImage.RemoveClass("PedSceneHeroSelected");
-	pedHeroImage.AddClass("PedSceneHeroTaken");
+	//var pedHeroImage = heroPedPanels[player].FindChildInLayoutFile("HeroPed");
+	ped_panel.RemoveClass("PedSceneHeroSelected");
+	ped_panel.AddClass("PedSceneHeroTaken");
 }
 
 /* Enter the game by removing the picking screen, called when the player */

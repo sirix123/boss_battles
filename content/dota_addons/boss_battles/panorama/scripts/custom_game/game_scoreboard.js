@@ -89,7 +89,7 @@ function hideScoreboardUI()
 
 function showScoreboardUI( table_data )
 {
-	//$.Msg("mode = ", mode)
+	$.Msg("mode = ", mode)
 
 	var bsb = $("#bsb_parent");
 	if (bsb) 
@@ -104,6 +104,7 @@ function showScoreboardUI( table_data )
 	}
 
 	var bsb_mode_panel = bsb.FindChildInLayoutFile("bsb_boss_mode_text")
+	bsb_mode_panel.text = "Normal Mode";
 	if (mode == "storyMode"){
 		bsb_mode_panel.text = "Hard Mode"
 	}else if (mode == "normalMode") {
@@ -236,7 +237,7 @@ function CreateBossScoreBoardRow(rowData, rowId)
 // END SHOW BOSS SCOREBOARD
 
 // grab the mode from the server
-let mode = "storyMode"
+let mode = "easyMode"
 function ModeChosen(event)
 {
 	mode = event.mode
