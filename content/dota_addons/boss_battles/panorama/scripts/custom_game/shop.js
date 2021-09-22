@@ -263,11 +263,13 @@ function FixUpPortrait(){
     let player_hero = Players.GetPlayerSelectedHero( playerId )
 
     // fix up portrait
-    var MovieContainer = $.CreatePanel( "Panel", portraitContainer, "CustomHeroMoviePortrait" )
-    MovieContainer.BLoadLayoutFromString( '<root><Panel><MoviePanel src="s2r://panorama/videos/heroes/' + player_hero + '.webm" repeat="true" autoplay="onload" /></Panel></root>', false, false )
-    MovieContainer.style.width = "160px";
-    MovieContainer.style.height = "203px";
-    MovieContainer.style.boxShadow = "#000000aa 0px 0px 16px 0px";
+    //var MovieContainer = $.CreatePanel( "Panel", portraitContainer, "CustomHeroMoviePortrait" )
+    //MovieContainer.BLoadLayoutFromString( '<root><Panel><MoviePanel src="s2r://panorama/videos/heroes/' + player_hero + '.webm" repeat="true" autoplay="onload" /></Panel></root>', false, false )
+    //MovieContainer.style.width = "160px";
+    //MovieContainer.style.height = "203px";
+    //MovieContainer.style.boxShadow = "#000000aa 0px 0px 16px 0px";
+
+    var MovieContainer = $.CreatePanelWithProperties("MoviePanel", portraitContainer, "CustomHeroMoviePortrait", { src: 'file://{resources}videos/heroes/' + player_hero + '.webm', repeat: "true",  autoplay: "onload" });
 
 }
 
