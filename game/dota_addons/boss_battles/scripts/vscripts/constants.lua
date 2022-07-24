@@ -45,7 +45,7 @@ _G.HARD_MODE = false
 _G.DEBUG_MODE = false
 
 -- set before a release
-_G.sRELEASE_NUMBER = "0.0.0a"
+_G.sRELEASE_NUMBER = "0.0.1a"
 
 _G.nATTEMPT_TRACKER = 0
 _G.nBOSS_HP_ATTEMPT = 0
