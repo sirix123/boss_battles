@@ -54,7 +54,7 @@ function space_shadowstep_teleport_back:OnSpellStart()
             for _, shadow in pairs(shadows) do
                 if shadow:GetUnitName() == "npc_shadow" then
                     FindClearSpaceForUnit(caster, shadow:GetAbsOrigin() , true)
-                    shadow:Destroy()
+                    shadow:RemoveSelf()
                 end
             end
         end

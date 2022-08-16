@@ -11,7 +11,7 @@ function mine_droid_laymine:OnSpellStart()
 		self.point = self:GetCursorPosition()
 	end
 
-    self.land_mine = CreateUnitByName("npc_dota_techies_land_mine", self.point, true, self:GetCaster(), self:GetCaster():GetOwner(), caster:GetTeamNumber())
+    self.land_mine = CreateUnitByName("npc_imba_techies_land_mines", self.point, true, self:GetCaster(), self:GetCaster():GetOwner(), caster:GetTeamNumber())
 
     if self.land_mine ~= nil then
         self.land_mine_thinker = CreateModifierThinker(

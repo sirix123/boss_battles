@@ -34,7 +34,7 @@ function space_shadowstep_teleport:OnSpellStart()
                 if shadow:GetUnitName() == "npc_shadow" then
                     self.vShadowOrigin = shadow:GetAbsOrigin()
                     FindClearSpaceForUnit(caster, self.vShadowOrigin , true)
-                    shadow:Destroy()
+                    shadow:RemoveSelf()
                 end
             end
         end

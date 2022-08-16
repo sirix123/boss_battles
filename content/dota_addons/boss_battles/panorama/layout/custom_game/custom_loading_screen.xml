@@ -157,16 +157,17 @@
 			</Panel>
 
 			<!-- background  style="border: 1px solid red;"
-			==================================================================--> 
+			
 			<Panel id="LoadingScreenLeaderBoard" hittest="true">
 				<Label id="leaderboard_loadingscreen_text" class="leaderboard_loadingscreen_text" text="Leaderboard loading..." />
 			</Panel>
+			==================================================================--> 
 
 			<!-- Leaderboard Container |  style="border: 1px solid red;" 
-			=========================================-->
+			
 			<Panel id="LeaderboardContainer" hittest="false" >
-				<!-- Leaderboard snippets 
-				==================================================================-->
+				Leaderboard snippets 
+
 				<Panel class="leaderboard_buttons_container" id="leaderboard_buttons">
 					<Button id="leaderboard_button_mode_3" class="leaderboard_buttons" onactivate="OnEasyButtonPressed()" >
 						<Label id="leaderboard_button_mode_3_text" class="leaderboard_buttons_text" text="Normal Mode" />
@@ -180,20 +181,19 @@
 				</Panel>
 
 				<Panel class="leaderboard_titles" id="leaderboard_titles" hittest="false">
-					<!-- snippet: leaderboard_titles goes here -->
 				</Panel>
 
 				<Panel class="leaderboard_rows" id="leaderboard_rows" hittest="false">
-					<!-- snippet: leaderboard_rows goes here -->
 				</Panel>
 
 			</Panel>
+							==================================================================-->
 
 			<!-- Socials |  style="border: 1px solid red;" 
 			=========================================-->
 			<Panel id="SocialsContainer">
 				<Button id="socials_button_1" class="social_buttons" onactivate="OnSocialButtonOnePressed()" >
-					<Label id="socials_button_1_text" class="social_buttons_text" text="Website" />
+					<Label id="socials_button_1_text" class="social_buttons_text" text="Leaderboard" />
 				</Button>
 				<Button id="socials_button_2" class="social_buttons" onactivate="OnSocialButtonTwoPressed()" >
 					<Label id="socials_button_1_text" class="social_buttons_text" text="Discord" />

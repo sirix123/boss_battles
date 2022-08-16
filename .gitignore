@@ -38,3 +38,6 @@ game/dota_addons/boss_battles/package.json
 game/dota_addons/boss_battles/package-lock.json
 
 
+content/dota_addons/boss_battles/panorama/.VSCodeCounter
+game/dota_addons/boss_battles/resource/.VSCodeCounter
+game/dota_addons/boss_battles/scripts/.VSCodeCounter

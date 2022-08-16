@@ -150,7 +150,7 @@ function mine_droid_laymine_thinker:Explode()
         false)
 
     for _, mine in pairs(mines) do
-        if mine:GetUnitName() == "npc_dota_techies_land_mine" then
+        if mine:GetUnitName() == "npc_imba_techies_land_mines" then
             local mine_health = mine:GetHealth()
             print(mine_health)
             if mine_health > 1 then

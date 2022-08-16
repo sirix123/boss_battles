@@ -5,7 +5,7 @@ function OnSocialButtonOnePressed(){
     $.Msg("click social button 1 website");
 
     //$.DispatchEvent("ExternalBrowserGoToURL", "your_url");
-    $.DispatchEvent("ExternalBrowserGoToURL", "https://bossbattles.co/Landing");
+    $.DispatchEvent("ExternalBrowserGoToURL", "https://bossbattles.co/Leaderboard");
 
 }
 
@@ -110,32 +110,32 @@ function CreateLeaderBoard( data ) {
     }
 }
 
-(function () {
+// (function () {
 
-    // for website and discord
-    var leaderboardContainer_header = $("#leaderboard_titles");
-    var leader_board_header_info = $.CreatePanel("Panel", leaderboardContainer_header, "");
-	leader_board_header_info.BLoadLayoutSnippet("leaderboard_header_info");	
+//     // for website and discord
+//     var leaderboardContainer_header = $("#leaderboard_titles");
+//     var leader_board_header_info = $.CreatePanel("Panel", leaderboardContainer_header, "");
+// 	leader_board_header_info.BLoadLayoutSnippet("leaderboard_header_info");	
 
-    // for top 10 leaderboard
-    let leaderboardContainer_row = $("#leaderboard_rows");
+//     // for top 10 leaderboard
+//     let leaderboardContainer_row = $("#leaderboard_rows");
 
-    for (let i=1; i < 12; i++)
-	{
-        let leader_board_row_info = $.CreatePanel("Panel", leaderboardContainer_row, i);
-        leader_board_row_info.BLoadLayoutSnippet("leaderboard_row_info");
-        top10panels[i] = leader_board_row_info; 
+//     for (let i=1; i < 12; i++)
+// 	{
+//         let leader_board_row_info = $.CreatePanel("Panel", leaderboardContainer_row, i);
+//         leader_board_row_info.BLoadLayoutSnippet("leaderboard_row_info");
+//         top10panels[i] = leader_board_row_info; 
 
-        if(i % 2 == 0)
-        {
-            leader_board_row_info.AddClass( "leaderboard_row_info" );
-        }else
-        {
-            leader_board_row_info.AddClass( "leaderboard_row_info_odd" );
-        }
-    }
+//         if(i % 2 == 0)
+//         {
+//             leader_board_row_info.AddClass( "leaderboard_row_info" );
+//         }else
+//         {
+//             leader_board_row_info.AddClass( "leaderboard_row_info_odd" );
+//         }
+//     }
 
-})();
+// })();
 
 
 function ClearScoreboardRows()
@@ -218,5 +218,5 @@ function ToOrdinal(number)
 
 
 // get data
-GameEvents.Subscribe( "loading_screen_data", CreateLeaderBoard );
+// GameEvents.Subscribe( "loading_screen_data", CreateLeaderBoard );
 

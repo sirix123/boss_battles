@@ -12,8 +12,8 @@ function Spawn( entityKeyValues )
 
 	CreateUnitByName( "npc_crystal", Vector(-10673,11950,0), true, thisEntity, thisEntity, DOTA_TEAM_BADGUYS)
 
-	if EASY_MODE == true then
-        thisEntity:AddNewModifier( nil, nil, "easy_mode_modifier", { duration = -1 } )
+	if SOLO_MODE == true then
+        thisEntity:AddNewModifier( nil, nil, "SOLO_MODE_modifier", { duration = -1 } )
     end
 
 	thisEntity:AddNewModifier( nil, nil, "shield_effect", { duration = -1 } )
@@ -178,10 +178,10 @@ function TinkerThinker()
 		boss_frame_manager:ShowBossHpFrame( )
 		boss_frame_manager:HideBossManaFrame()
 
-		if thisEntity.summon_lava_mobs_once == false then
-			thisEntity.summon_lava_mobs_once = true
-			thisEntity:AddNewModifier(thisEntity,nil,"summon_lava_puddle",{duration = thisEntity.channel_tinker_buff_lava_mob:GetChannelTime() } )
-		end
+		-- if thisEntity.summon_lava_mobs_once == false then
+		-- 	thisEntity.summon_lava_mobs_once = true
+		-- 	thisEntity:AddNewModifier(thisEntity,nil,"summon_lava_puddle",{duration = thisEntity.channel_tinker_buff_lava_mob:GetChannelTime() } )
+		-- end
 
 		if thisEntity.march ~= nil and thisEntity.march:IsFullyCastable() and thisEntity.march:IsCooldownReady() and thisEntity.march:IsInAbilityPhase() == false then
 			return CastMarch()
@@ -191,17 +191,17 @@ function TinkerThinker()
 			return CastLaser()
 		end
 
-		if thisEntity.link_crystals_tinker ~= nil and thisEntity.link_crystals_tinker:IsFullyCastable() and thisEntity.link_crystals_tinker:IsCooldownReady() and thisEntity.link_crystals_tinker:IsInAbilityPhase() == false then
-			return CastLinkCrystals()
-		end
+		-- if thisEntity.link_crystals_tinker ~= nil and thisEntity.link_crystals_tinker:IsFullyCastable() and thisEntity.link_crystals_tinker:IsCooldownReady() and thisEntity.link_crystals_tinker:IsInAbilityPhase() == false then
+		-- 	return CastLinkCrystals()
+		-- end
 
 		if thisEntity.tinker_teleport_phase2 ~= nil and thisEntity.tinker_teleport_phase2:IsFullyCastable() and thisEntity.tinker_teleport_phase2:IsCooldownReady() and thisEntity.tinker_teleport_phase2:IsInAbilityPhase() == false then
 			return CastTeleportPhase2()
 		end
 
-		if thisEntity.lava_bolt ~= nil and thisEntity.lava_bolt:IsFullyCastable() and thisEntity.lava_bolt:IsCooldownReady() and thisEntity.lava_bolt:IsInAbilityPhase() == false and thisEntity.summon_lava_mobs_once == true and thisEntity:HasModifier("lava_bolt_modifier_stacks") == true then
-			return CastLavaBolt()
-		end
+		-- if thisEntity.lava_bolt ~= nil and thisEntity.lava_bolt:IsFullyCastable() and thisEntity.lava_bolt:IsCooldownReady() and thisEntity.lava_bolt:IsInAbilityPhase() == false and thisEntity.summon_lava_mobs_once == true and thisEntity:HasModifier("lava_bolt_modifier_stacks") == true then
+		-- 	return CastLavaBolt()
+		-- end
 
 	end
 
@@ -334,10 +334,10 @@ function Transition(  )
 
 
 			-- rock spawning
-			local numRocks = 4
+			local numRocks = 2
 			local tRocks = {}
 			local centre_point = Vector(-10633,11918,130.33)
-			local radius = 1800
+			local radius = 600
 
 			for i = 1, numRocks, 1 do
 				local x = RandomInt(centre_point.x - radius, centre_point.x + radius)
@@ -356,7 +356,7 @@ function Transition(  )
 			end
 
 			-- crystal spawnin (OLD)
-			local numCrystals = 4
+			local numCrystals = 2
 			local tRockCrystals = {}
 
 			for i = 1, numCrystals, 1 do
@@ -529,13 +529,16 @@ function CastLaser()
 	if units == nil or #units == 0 then
 		return 1
 	else
+		local random_index = RandomInt(1,#units)
+
 		ExecuteOrderFromTable({
 			UnitIndex = thisEntity:entindex(),
 			OrderType = DOTA_UNIT_ORDER_CAST_TARGET,
-			TargetIndex = units[RandomInt(1,#units)]:entindex(),
+			TargetIndex = units[random_index]:entindex(),
 			AbilityIndex = thisEntity.laser:entindex(),
 			Queue = false,
 		})
+
 		return 4
 	end
 end

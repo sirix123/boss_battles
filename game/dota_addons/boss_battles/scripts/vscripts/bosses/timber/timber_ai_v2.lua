@@ -19,8 +19,8 @@ function Spawn( entityKeyValues )
 	boss_frame_manager:ShowBossManaFrame()
 	boss_frame_manager:ShowBossHpFrame()
 
-	if EASY_MODE == true then
-        thisEntity:AddNewModifier( nil, nil, "easy_mode_modifier", { duration = -1 } )
+	if SOLO_MODE == true then
+        thisEntity:AddNewModifier( nil, nil, "SOLO_MODE_modifier", { duration = -1 } )
     end
 
 	-- set mana to 0 on spawn
@@ -92,7 +92,7 @@ function TimberThink()
 		thisEntity.draw_feet_particle_helper = true
 		thisEntity:SetBaseManaRegen(0)
 		thisEntity.state = 2
-	elseif thisEntity.state == 2 and FindUnitsCloseAndBubbleGone() == true then
+	elseif thisEntity.state == 2 and ( FindUnitsCloseAndBubbleGone() == true or thisEntity.end_phase_2 == true ) then
 
 		-- destroy feet particle
 		if thisEntity.nPreviewFXIndex then
@@ -218,6 +218,13 @@ function TimberThink()
 			thisEntity.createParticleOnce = false
 
 			thisEntity:AddNewModifier( thisEntity, nil, "chain_edge_bubble", { duration = -1 } )
+
+			thisEntity.end_phase_2 = false
+			Timers:CreateTimer(40, function()
+				if IsValidEntity(thisEntity) == false then return false end
+				thisEntity.end_phase_2 = true
+				return false
+			end)
 
 		end
 

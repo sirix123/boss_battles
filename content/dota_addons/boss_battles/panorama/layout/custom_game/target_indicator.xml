@@ -8,6 +8,6 @@
 	</scripts>
 
 	<Panel>
-		hittest="false"
+		<!-- hittest="false" -->
 	</Panel>
 </root>

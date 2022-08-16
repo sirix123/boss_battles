@@ -71,7 +71,7 @@ function magnetic_totem:OnSpellStart()
     local count = 0
     if units ~= nil and #units ~= 0 then
         for _, unit in pairs(units) do
-            if unit:GetUnitName() == "npc_dota_techies_land_mine" and count < 3 then
+            if unit:GetUnitName() == "npc_imba_techies_land_mines" and count < 3 then
                 table.insert(mines_to_pull,unit)
 
                 local particle_mine = "particles/techies/techies_earthshaker_totem_ti6_buff.vpcf"

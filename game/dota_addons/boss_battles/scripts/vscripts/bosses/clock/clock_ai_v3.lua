@@ -29,8 +29,8 @@ function Spawn( entityKeyValues )
 	boss_frame_manager:ShowBossManaFrame()
 	boss_frame_manager:ShowBossHpFrame()
 
-	if EASY_MODE == true then
-        thisEntity:AddNewModifier( nil, nil, "easy_mode_modifier", { duration = -1 } )
+	if SOLO_MODE == true then
+        thisEntity:AddNewModifier( nil, nil, "SOLO_MODE_modifier", { duration = -1 } )
     end
 
 	-- armor modifier
@@ -215,7 +215,7 @@ function ClockThink()
 		return CastSummonFlameTurret()
 	end
 
-	if EASY_MODE == false then
+	if SOLO_MODE == false then
 		if thisEntity.summon_chain_gun_turret:IsFullyCastable() and thisEntity.summon_chain_gun_turret:IsCooldownReady() and thisEntity.summon_chain_gun_turret:IsInAbilityPhase() == false then
 			return CastChainGunTurret()
 		end

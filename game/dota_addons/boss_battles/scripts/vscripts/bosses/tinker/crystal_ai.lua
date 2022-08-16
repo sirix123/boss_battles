@@ -12,8 +12,12 @@ function Spawn( entityKeyValues )
     boss_frame_manager:ShowBossHpFrame()
 	boss_frame_manager:ShowBossManaFrame()
 
-    if EASY_MODE == true then
-        thisEntity:AddNewModifier( nil, nil, "easy_mode_modifier", { duration = -1 } )
+    if SOLO_MODE == true then
+        thisEntity:AddNewModifier( nil, nil, "SOLO_MODE_modifier", { duration = -1 } )
+    end
+
+    if IsInToolsMode() == true then
+        thisEntity:SetBaseManaRegen(10)
     end
 
     thisEntity.green_beam = thisEntity:FindAbilityByName( "green_beam" )
@@ -53,9 +57,9 @@ function Spawn( entityKeyValues )
     thisEntity.beam_phase = false
 
     thisEntity.beam_stack_count = 0 -- 0
-    thisEntity.total_beams = 3 -- 3
+    thisEntity.total_beams = 3
 
-    thisEntity:SetMana(0)
+    thisEntity:SetMana(0) -- 0
 
     thisEntity.check_tinker = false
 
@@ -186,7 +190,7 @@ function CrystalThinker()
             return CastSummonFireEle()
         end
 
-        if EASY_MODE == false then
+        if SOLO_MODE == false then
             if thisEntity.summon_elec_ele ~= nil and thisEntity.summon_elec_ele:IsFullyCastable() and thisEntity.summon_elec_ele:IsCooldownReady() and thisEntity.elec_phase == true then
                 return CastSummonElecEle()
             end

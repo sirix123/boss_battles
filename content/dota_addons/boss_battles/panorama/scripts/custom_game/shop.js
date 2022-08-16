@@ -1,13 +1,13 @@
 "use strict";
 
 // events
-GameEvents.Subscribe( "picking_done", OnPickingDone );
-GameEvents.Subscribe( "player_reconnect", OnPickingDone );
-GameEvents.Subscribe( "player_reconnect", FixUpPortrait );
-GameEvents.Subscribe( "send_product_list", OnPickingDone );
-GameEvents.Subscribe( "open_shop_external", OnServerSendOpenShop );
-GameEvents.Subscribe( "update_shop_product_list", OnServerUpdatePlayerShop );
-GameEvents.Subscribe( "shop_status", OnServerShopStatus );
+// GameEvents.Subscribe( "picking_done", OnPickingDone );
+// GameEvents.Subscribe( "player_reconnect", OnPickingDone );
+// GameEvents.Subscribe( "player_reconnect", FixUpPortrait );
+// GameEvents.Subscribe( "send_product_list", OnPickingDone );
+// GameEvents.Subscribe( "open_shop_external", OnServerSendOpenShop );
+// GameEvents.Subscribe( "update_shop_product_list", OnServerUpdatePlayerShop );
+// GameEvents.Subscribe( "shop_status", OnServerShopStatus );
 
 /* Event Handlers
 =========================================================================*/

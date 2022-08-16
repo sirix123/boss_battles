@@ -36,7 +36,7 @@ function explode_proxy_mines:OnSpellStart()
         local tMines = {}
 
         for _, target in pairs(targets) do
-            if target:GetUnitName() == "npc_dota_techies_land_mine" then
+            if target:GetUnitName() == "npc_imba_techies_land_mines" then
                 table.insert(tMines,target)
             end
         end

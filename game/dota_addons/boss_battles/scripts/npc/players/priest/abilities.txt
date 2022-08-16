@@ -24,7 +24,7 @@
         
 		"AbilitySpecial"
 		{
-			"01"{ "var_type"			"FIELD_INTEGER"		"dmg"							"70" } 
+			"01"{ "var_type"			"FIELD_INTEGER"		"dmg"							"80" } 
 			"02"{ "var_type"			"FIELD_INTEGER"		"hit_box"						"80" }
 			"03"{ "var_type"			"FIELD_INTEGER"		"proj_speed"					"1200" }
 			"09"{ "var_type"			"FIELD_INTEGER"		"mana_gain_percent"             "5" }
@@ -55,7 +55,7 @@
         
 		"AbilitySpecial"
 		{
-			"01"{ "var_type"			"FIELD_INTEGER"		"heal_amount"			"150" }	
+			"01"{ "var_type"			"FIELD_INTEGER"		"heal_amount"			"170" }	
 		}
 
 		"precache"
@@ -86,7 +86,7 @@
         
 		"AbilitySpecial"
 		{
-			"01"{ "var_type"			"FIELD_INTEGER"		"heal_amount"			"180" }	
+			"01"{ "var_type"			"FIELD_INTEGER"		"heal_amount"			"250" }	
 			"02"{ "var_type"			"FIELD_INTEGER"		"dmg"					"250" }	
 			"03"{ "var_type"			"FIELD_INTEGER"		"radius"				"450" }	
 			"04"{ "var_type"			"FIELD_INTEGER"		"speed"					"300" }
@@ -109,9 +109,11 @@
 		"AbilityTextureName"			"keeper_of_the_light_chakra_magic"
         "AbilityBehavior"				"DOTA_ABILITY_BEHAVIOR_POINT | DOTA_ABILITY_BEHAVIOR_IGNORE_PSEUDO_QUEUE"
 		"AbilityCastRange" 				"1000"
-        "AbilityCooldown"				"30"
+        //"AbilityCooldown"				"30"
         "AbilityCastPoint"              "0.2"
 		"AbilityManaCost"        		"0"
+		"AbilityCharges"				"2"
+		"AbilityChargeRestoreTime"		"30"
 
 		"TargetingIndicator"
 		{
@@ -121,10 +123,10 @@
         
 		"AbilitySpecial"
 		{
-			"01"{ "var_type"			"FIELD_INTEGER"		"healing_reduce_target"			"50" }	
+			"01"{ "var_type"			"FIELD_INTEGER"		"healing_reduce_target"			"30" }	
 			"02"{ "var_type"			"FIELD_INTEGER"		"duration"						"30" }	
 			"03"{ "var_type"			"FIELD_INTEGER"		"armor_inc"						"1" }	
-			"04"{ "var_type"			"FIELD_INTEGER"		"dmg_inc"						"5" }
+			"04"{ "var_type"			"FIELD_INTEGER"		"dmg_inc"						"7" }
 			"05"{ "var_type"			"FIELD_INTEGER"		"mana_gain_amount_per_attack"	"1" }		
 		}
 
@@ -156,8 +158,8 @@
         
 		"AbilitySpecial"
 		{
-			"01"{ "var_type"			"FIELD_INTEGER"		"dmg_explode"						"200" }	
-			"02"{ "var_type"			"FIELD_INTEGER"		"dmg_dot"							"80" }		
+			"01"{ "var_type"			"FIELD_INTEGER"		"dmg_explode"						"300" }	
+			"02"{ "var_type"			"FIELD_INTEGER"		"dmg_dot"							"90" }		
 			"03"{ "var_type"			"FIELD_INTEGER"		"delay"								"3" }	
 			"04"{ "var_type"			"FIELD_INTEGER"		"duration"							"5" }	
 			"05"{ "var_type"			"FIELD_INTEGER"		"radius"							"250" }	
@@ -191,11 +193,11 @@
         
 		"AbilitySpecial"
 		{
-			"01"{ "var_type"			"FIELD_INTEGER"		"duration"				"10" }
+			"01"{ "var_type"			"FIELD_INTEGER"		"duration"				"12" }
 			"02"{ "var_type"			"FIELD_INTEGER"		"reduce_cps"			"50" }
 			"03"{ "var_type"			"FIELD_INTEGER"		"reduce_cooldowns"		"50" }
 			"04"{ "var_type"			"FIELD_INTEGER"		"reduce_mana_cost"		"100" }
-			"05"{ "var_type"			"FIELD_INTEGER"		"movement_speed_buff"	"30" }
+			"05"{ "var_type"			"FIELD_INTEGER"		"movement_speed_buff"	"40" }
 		}
 
 		"precache"

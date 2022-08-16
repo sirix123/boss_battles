@@ -143,7 +143,7 @@ function createPlayerFrames(data)
     heroImage.style.backgroundSize = "100% 100%";
 
     var pNameLabel = playerFrame.FindChildTraverse("PlayerNameLabel")
-    pNameLabel.text = data["HeroData"].playerName
+    pNameLabel.text = Players.GetPlayerName( data["PlayerID"] ) //data["HeroData"].playerName
 
     playerFramePanels[data["PlayerID"]] = playerFrame;
 }

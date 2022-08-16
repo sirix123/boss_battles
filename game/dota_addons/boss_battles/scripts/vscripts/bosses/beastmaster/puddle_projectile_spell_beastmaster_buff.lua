@@ -99,7 +99,7 @@ function puddle_projectile_spell_beastmaster_buff:OnAttackLanded( keys )
 
         local target = keys.target
 
-        target:AddNewModifier(owner,self:GetAbility(),"beastmaster_puddle_dot_debuff_attack_player_debuff",{duration = 10, dmg_per_tick = self.dmg})
+        target:AddNewModifier(owner,self:GetAbility(),"beastmaster_puddle_dot_debuff_attack_player_debuff",{duration = 6, dmg_per_tick = self.dmg})
 
 	end
 end

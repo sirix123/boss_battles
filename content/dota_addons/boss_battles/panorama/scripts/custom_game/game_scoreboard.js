@@ -104,13 +104,13 @@ function showScoreboardUI( table_data )
 	}
 
 	var bsb_mode_panel = bsb.FindChildInLayoutFile("bsb_boss_mode_text")
-	bsb_mode_panel.text = "Normal Mode";
-	if (mode == "storyMode"){
-		bsb_mode_panel.text = "Hard Mode"
-	}else if (mode == "normalMode") {
-		bsb_mode_panel.text = "Impossible"
-	}else if (mode == "easyMode") {
+	bsb_mode_panel.text = "Solo Mode";
+	if (mode == "normalMode"){
 		bsb_mode_panel.text = "Normal Mode"
+	}else if (mode == "hardMode") {
+		bsb_mode_panel.text = "Hard Mode"
+	}else if (mode == "soloMode") {
+		bsb_mode_panel.text = "Solo Mode"
 	}
 	
 	var bsb_bossInfoContainer = $.CreatePanel("Panel", bsb_bossHeader, table_data);
@@ -237,7 +237,7 @@ function CreateBossScoreBoardRow(rowData, rowId)
 // END SHOW BOSS SCOREBOARD
 
 // grab the mode from the server
-let mode = "easyMode"
+let mode = "soloMode"
 function ModeChosen(event)
 {
 	mode = event.mode

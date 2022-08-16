@@ -10,11 +10,13 @@ LinkLuaModifier( "modifier_grace_period", "player/generic/modifier_grace_period"
 LinkLuaModifier( "modifier_hide_hero", "player/generic/modifier_hide_hero", LUA_MODIFIER_MOTION_NONE )
 LinkLuaModifier( "admin_god_mode", "player/generic/admin_god_mode", LUA_MODIFIER_MOTION_NONE )
 LinkLuaModifier( "blademaster_death_enable_spells", "player/warlord/modifiers/blademaster_death_enable_spells", LUA_MODIFIER_MOTION_NONE )
-LinkLuaModifier( "easy_mode_modifier", "core/easy_mode_modifier", LUA_MODIFIER_MOTION_NONE )
+LinkLuaModifier( "SOLO_MODE_modifier", "core/SOLO_MODE_modifier", LUA_MODIFIER_MOTION_NONE )
 
 function GameSetup:init()
 
     self.player_deaths = {}
+
+    self.mode_selected_finsihed = false
 
     -- init client handshake
     client_handshake:Init()
@@ -56,9 +58,9 @@ end
 function GameSetup:OnStateChange()
     if GameRules:State_Get() == DOTA_GAMERULES_STATE_CUSTOM_GAME_SETUP then
         loading_screen_data:SendLeaderBoardData()
-
         -- stripe init
-        CosmeticManager:Init()
+        --CosmeticManager:Init()
+        ModeSelector:Start()
     end
 
     if GameRules:State_Get() == DOTA_GAMERULES_STATE_PRE_GAME then
@@ -70,6 +72,7 @@ function GameSetup:OnStateChange()
     end
 
     if GameRules:State_Get() == DOTA_GAMERULES_STATE_HERO_SELECTION then
+        
 
     end
 
@@ -78,10 +81,22 @@ function GameSetup:OnStateChange()
         print("does this run on reconnect? (GameRules:State_Get() == DOTA_GAMERULES_STATE_GAME_IN_PROGRESS) ")
 
         -- might to need check all clients are ready with a timer ehre and dont move past until theyre
-        Timers:CreateTimer(1.0, function()
+        Timers:CreateTimer(2.0, function()
             if PLAYERS_HANDSHAKE_READY == PlayerResource:GetPlayerCount() then
-                ModeSelector:Start()
-                HeroSelection:Start()
+                
+                -- HeroSelection:Start()
+                -- setup session manager
+                SessionManager:Init()
+
+                -- use in lua in gamesetup to control other things
+                PICKING_DONE = true
+
+                CustomGameEventManager:Send_ServerToAllClients( "begin_hero_select", {}) --  hero_list = copy_hero_name_list
+
+                CustomGameEventManager:Send_ServerToAllClients( "picking_done", { } )
+
+                -- reg player name events
+                CustomGameEventManager:RegisterListener( "player_name_listener", GameSetup.PlayerNameSent )
 
                 -- register the raid wipe timer
                 self:RegisterRaidWipe()
@@ -98,6 +113,7 @@ function GameSetup:OnStateChange()
     if GameRules:State_Get() == DOTA_GAMERULES_STATE_POST_GAME or GameRules:State_Get() == DOTA_GAMERULES_STATE_DISCONNECT then
     end
 end
+
 --------------------------------------------------------------------------------------------------
 
 function GameSetup:OnPlayerDisconnected(keys)
@@ -241,6 +257,15 @@ function GameSetup:OnNPCSpawned(keys)
             local playerID = npc:GetPlayerID()
             local hPlayer = PlayerResource:GetPlayer(playerID)
             CustomGameEventManager:Send_ServerToPlayer( hPlayer, "player_hero_spawned", {} )
+
+            if playerID == 0 then
+                self.mode_selector_host = npc
+
+                if self.mode_selected_finsihed == false then
+                    self.mode_selector_host:AddNewModifier( nil, self.mode_selector_host, "modifier_rooted", { duration = -1 })
+                end
+            end
+
             return false
         end)
 
@@ -261,6 +286,9 @@ function GameSetup:OnNPCSpawned(keys)
         if IsInToolsMode() == true then
             npc:AddNewModifier( npc,  nil, "admin_god_mode", { } )
         end
+        
+
+        -- gt player name from front end.. event.. etc...
 
         -- level up abilities for all heroes to level 1
         for i = 0, 23 do
@@ -301,10 +329,10 @@ function GameSetup:RegisterRaidWipe( )
                             killedHero:SetTimeUntilRespawn(self.respawn_time)
 
                             -- depending on the mode... figure out the lives players should have and what encounter they will do next
-                            if STORY_MODE == true or EASY_MODE == true then -- infinte lives and stay on wiped encounter
+                            if NORMAL_MODE == true or SOLO_MODE == true then -- infinte lives and stay on wiped encounter
                                 killedHero.playerLives = BOSS_BATTLES_PLAYER_LIVES
 
-                            elseif NORMAL_MODE == true or HARD_MODE == true then -- 3 lives total
+                            elseif HARD_MODE == true then -- 3 lives total
                                 killedHero.playerLives = BOSS_BATTLES_PLAYER_LIVES
                                 self.previous_encounter = BOSS_BATTLES_ENCOUNTER_COUNTER
                                 BOSS_BATTLES_ENCOUNTER_COUNTER = 2
@@ -324,9 +352,9 @@ function GameSetup:RegisterRaidWipe( )
                         end
 
                         -- call boss cleanup function
-                        if STORY_MODE == true or EASY_MODE == true then
+                        if NORMAL_MODE == true or SOLO_MODE == true then
                             self:EncounterCleanUp( Entities:FindByName(nil, RAID_TABLES[BOSS_BATTLES_ENCOUNTER_COUNTER].arena):GetAbsOrigin() )
-                        elseif NORMAL_MODE == true or HARD_MODE == true then
+                        elseif HARD_MODE == true then
                             --self:EncounterCleanUp( Entities:FindByName(nil, RAID_TABLES[self.previous_encounter].arena):GetAbsOrigin() )
                             self:EncounterCleanUp( self.boss_spawn )
                         end
@@ -394,10 +422,10 @@ function GameSetup:OnEntityKilled(keys)
                 hero:SetTimeUntilRespawn(self.respawn_time)
 
                 -- depending on the mode... figure out the lives players should have and what encounter they will do next
-                if STORY_MODE == true or EASY_MODE == true then -- infinte lives and stay on wiped encounter
+                if NORMAL_MODE == true or SOLO_MODE == true then -- infinte lives and stay on wiped encounter
                     hero.playerLives = BOSS_BATTLES_PLAYER_LIVES
 
-                elseif NORMAL_MODE == true or HARD_MODE == true then -- 3 lives total
+                elseif HARD_MODE == true then -- 3 lives total
                     -- add code to give dead players 1 life (0 lives)
                     if hero.playerLives == 0 then
                         hero.playerLives = 1
@@ -416,7 +444,7 @@ function GameSetup:OnEntityKilled(keys)
                 end
             end
 
-            if nBOSSES_KILLED == 7 then --7
+            if nBOSSES_KILLED == 8 then --7
                 bGAME_COMPLETE = true
                 SessionManager:SendSessionData()
                 EndGameScreenManager:OpenPostGameScreen()
@@ -424,7 +452,7 @@ function GameSetup:OnEntityKilled(keys)
                 nBOSSES_KILLED = 0
             end
 
-            if isHeroAlive == true and bGAME_COMPLETE == false and BOSS_BATTLES_ENCOUNTER_COUNTER < 7 then
+            if isHeroAlive == true and bGAME_COMPLETE == false and BOSS_BATTLES_ENCOUNTER_COUNTER < 8 then
                 BOSS_BATTLES_ENCOUNTER_COUNTER = BOSS_BATTLES_ENCOUNTER_COUNTER + 1
             end
 
@@ -539,7 +567,7 @@ function GameSetup:ReadyupCheck() -- called from trigger lua file for activators
     self.playerDeaths = 0
 
     -- look at raid tables and move players to boss encounter based on counter
-    --print("game_setup: Start boss counter: ", BOSS_BATTLES_ENCOUNTER_COUNTER," ", RAID_TABLES[BOSS_BATTLES_ENCOUNTER_COUNTER].boss )
+    print("game_setup: Start boss counter: ", BOSS_BATTLES_ENCOUNTER_COUNTER," ", RAID_TABLES[BOSS_BATTLES_ENCOUNTER_COUNTER].boss )
 
     for _,hero in pairs(HERO_LIST) do
         hero.dmgDoneAttempt = 0  -- reset damage done
@@ -692,7 +720,7 @@ function GameSetup:HeroKilled( keys )
         self.respawn_time = BOSS_BATTLES_RESPAWN_TIME
 
         if self.inflictor == "fish_puddle" then
-            killedHero:SetRespawnPosition( Entities:FindByName(nil, RAID_TABLES[4].spawnLocation):GetAbsOrigin() )
+            killedHero:SetRespawnPosition( Entities:FindByName(nil, RAID_TABLES[5].spawnLocation):GetAbsOrigin() )
         else
             killedHero:SetRespawnPosition( killedHeroOrigin )
         end
@@ -915,3 +943,29 @@ function GameSetup:HeroCheck()
 end
 -----------------------------------------------------------------------------------------------------
 
+function GameSetup:FinishModeSelection()
+
+    self.mode_selected_finsihed = true
+
+    if self.mode_selector_host ~= nil then
+        if self.mode_selector_host:HasModifier("modifier_rooted") == true then
+            self.mode_selector_host:RemoveModifierByName("modifier_rooted")
+        end
+    end
+
+    CustomGameEventManager:Send_ServerToAllClients( "player_name", { })
+
+end
+
+function GameSetup:PlayerNameSent( event )
+    -- print("PlayerNameSent server id " , event.id)
+
+    local playerName = event.PlayerName
+
+    for _,hero in pairs(HERO_LIST) do
+        if event.PlayerID == hero.playerId then
+            hero.playerName = playerName
+        end
+    end
+
+end

@@ -5,6 +5,7 @@
 #base "bosses/clock/units/clock.txt"
 #base "bosses/tinker/units.txt"
 #base "bosses/tinker/tinker.txt"
+#base "bosses/primalbeast/units/primalbeast.txt"
 #base "players/rogue/rogue_units.txt"
 #base "players/firemage/firemage_units.txt"
 #base "core/npc_trigger_plates.txt"
@@ -251,6 +252,7 @@
 		"BaseClass" "npc_dota_creature" // Class of entity of link to.
 		"Model" "models/development/invisiblebox.vmdl" // Model.
 		"SoundSet" "Creep_Good_Range" // Name of sound set.
+		"vscripts"					"core/dummy_dummy.lua"
 		"Level" "0"
 		"UnitLabel" "temp_unit"
 		// Abilities

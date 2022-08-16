@@ -28,6 +28,15 @@ tRAID_INIT_TABLE = {
 	},
 
 	[2] = {
+		name = "Primal Beast",
+		description = "gyrocopter boss description",
+		arena = "primalbeast_boss_spawn",
+		spawnLocation = "primalbeast_player_spawn",
+		boss = "npc_primalbeast",
+		bossKilled = false,
+	},
+
+	[3] = {
 		name = "Gyrocopter",
 		description = "gyrocopter boss description",
 		arena = "gyro_player_spawn",
@@ -36,7 +45,7 @@ tRAID_INIT_TABLE = {
 		bossKilled = false,
 	},
 
-	[3] = {
+	[4] = {
 		name = "Timbersaw",
 		description = "MANY ANIMALS",
 		arena = "timber_player_spawn",
@@ -45,7 +54,7 @@ tRAID_INIT_TABLE = {
 		bossKilled = false,
 	},
 
-	[4] = {
+	[5] = {
 		name = "Beastmaster",
 		description = "MANY ANIMALS",
 		arena = "beastmaster_playerspawn",
@@ -54,7 +63,7 @@ tRAID_INIT_TABLE = {
 		bossKilled = false,
 	},
 
-	[5] = {
+	[6] = {
 		name = "Techies",
 		description = "MANY ANIMALS",
 		arena = "techies_player_spawn",
@@ -63,7 +72,7 @@ tRAID_INIT_TABLE = {
 		bossKilled = false,
 	},
 
-	[6] = {
+	[7] = {
 		name = "Clockwerk",
 		description = "MANY ANIMALS",
 		arena = "clock_player_spawn",
@@ -72,7 +81,7 @@ tRAID_INIT_TABLE = {
 		bossKilled = false,
 	},
 
-	[7] = {
+	[8] = {
 		name = "Tinker",
 		description = "gyrocopter boss description",
 		arena = "tinker_player_spawn",

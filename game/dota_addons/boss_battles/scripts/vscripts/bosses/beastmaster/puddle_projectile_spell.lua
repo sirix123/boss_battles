@@ -147,7 +147,7 @@ function puddle_projectile_spell:OnProjectileHit( hTarget, vLocation)
 
         if hTarget then
             if hTarget:GetUnitName() == "npc_beastmaster" then
-                hTarget:AddNewModifier(self:GetCaster(),self,"puddle_projectile_spell_beastmaster_buff",{duration = 20})
+                hTarget:AddNewModifier(self:GetCaster(),self,"puddle_projectile_spell_beastmaster_buff",{duration = -1})
             end
 
             local particle_cast = "particles/units/heroes/hero_venomancer/venomancer_venomous_gale_impact.vpcf"

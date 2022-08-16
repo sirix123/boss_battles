@@ -67,7 +67,7 @@ function OnResetPicksForPlayers( data ) {
 /* Wait for the server to tell us when to start hero select */
 function StartHeroSelect( data ) {
 	$.Msg("got start event from server to open the hero select screen")
-	DisplayHeroSelect( data )
+	//DisplayHeroSelect( data )
 	DisplayWASDToolTip()
 }
 
@@ -76,7 +76,7 @@ function OnPickingDone( data ) {
 
 	$.Msg("hero select ending / reconnected deleting panels")
 
-	$('#wasdcontainer').DeleteAsync( 0.0 );
+	//$('#wasdcontainer').DeleteAsync( 0.0 );
 	$('#herocompContainer').DeleteAsync( 0.0 );
 	$('#Event').DeleteAsync( 0.0 );
     $('#ToolTip').DeleteAsync( 0.0 );

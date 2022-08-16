@@ -136,14 +136,14 @@ function rat_m2:OnSpellStart()
                         self:GetCaster():GetTeamNumber(),
                         unit:GetAbsOrigin(),
                         nil,
-                        1500,
+                        900,
                         DOTA_UNIT_TARGET_TEAM_ENEMY,
                         DOTA_UNIT_TARGET_BASIC,
                         DOTA_UNIT_TARGET_FLAG_NONE,
                         FIND_CLOSEST,
                         false)
 
-                    if units ~= nil or #units ~= 0 then
+                    if #units >= 2 then
 
                         local info = {
                             EffectName = "particles/units/heroes/hero_hoodwink/hoodwink_boomerang.vpcf",

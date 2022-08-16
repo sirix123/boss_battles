@@ -18,7 +18,7 @@ _G.TRACK_DATA = false -- still lags the game even just tracking dmg done by hero
 -- any unit in this table will not be hit by projectiles (if using barebones proj lib)
 _G.tUNIT_TABLE =
 {
-    "npc_dota_techies_land_mine",
+    "npc_imba_techies_land_mines",
     "npc_shadow",
     "npc_dota_gyrocopter_homing_missile",
     "npc_dota_thinker",
@@ -38,14 +38,13 @@ _G.PLAYERS_FIGHTING_BOSS = false
 
 _G.HERO_LIST = {}
 
-_G.EASY_MODE = true
-_G.STORY_MODE = false
+_G.SOLO_MODE = true
 _G.NORMAL_MODE = false
 _G.HARD_MODE = false
 _G.DEBUG_MODE = false
 
 -- set before a release
-_G.sRELEASE_NUMBER = "0.0.0a"
+_G.sRELEASE_NUMBER = "1.1"
 
 _G.nATTEMPT_TRACKER = 0
 _G.nBOSS_HP_ATTEMPT = 0

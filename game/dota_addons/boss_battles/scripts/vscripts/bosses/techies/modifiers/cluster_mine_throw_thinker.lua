@@ -135,6 +135,10 @@ end
 function cluster_mine_throw_thinker:Explode()
 
     local parent = self.parent
+
+    -- if parent == nil then return end
+    -- if parent == IsNull() then return end
+
     local parentAbsOrigin = parent:GetAbsOrigin()
 
     local sound_explosion = "Hero_Techies.LandMine.Detonate"
@@ -183,7 +187,7 @@ function cluster_mine_throw_thinker:Explode()
 
     for _, mine in pairs(mines) do
         --print("hello123")
-        if mine:GetUnitName() == "npc_dota_techies_land_mine" then
+        if mine:GetUnitName() == "npc_imba_techies_land_mines" then
             local mine_health = mine:GetHealth()
             --print(mine_health)
             if mine_health > 1 then
@@ -202,6 +206,7 @@ end
 
 function cluster_mine_throw_thinker:OnDestroy()
     if not IsServer() then return end
+    if self:GetParent():IsNull() then return end
     self:Explode()
     self.parent:ForceKill(false)
     UTIL_Remove( self.parent )

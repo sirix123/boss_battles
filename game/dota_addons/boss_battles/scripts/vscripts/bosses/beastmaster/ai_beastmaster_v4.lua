@@ -23,8 +23,8 @@ function Spawn( entityKeyValues )
 
 	thisEntity:AddNewModifier( nil, nil, "modifier_remove_healthbar", { duration = -1 } )
 
-	if EASY_MODE == true then
-        thisEntity:AddNewModifier( nil, nil, "easy_mode_modifier", { duration = -1 } )
+	if SOLO_MODE == true then
+        thisEntity:AddNewModifier( nil, nil, "SOLO_MODE_modifier", { duration = -1 } )
     end
 
 	--print("health ", thisEntity:GetHealth())
@@ -77,8 +77,8 @@ function Spawn( entityKeyValues )
 
 		local bear = CreateUnitByName("npc_beastmaster_bear", dino_spawn, true, nil, nil, DOTA_TEAM_BADGUYS)
 
-		if EASY_MODE == true then
-			bear:AddNewModifier( nil, nil, "easy_mode_modifier", { duration = -1 } )
+		if SOLO_MODE == true then
+			bear:AddNewModifier( nil, nil, "SOLO_MODE_modifier", { duration = -1 } )
 		end
 
 		return false
@@ -138,12 +138,12 @@ function BeastmasterThink()
 		end
 	end]]
 
-	if thisEntity:HasModifier("puddle_projectile_spell_beastmaster_buff") ~= true then
+	-- if thisEntity:HasModifier("puddle_projectile_spell_beastmaster_buff") ~= true then
 		if thisEntity.roar:IsFullyCastable() and thisEntity.roar:IsCooldownReady() and thisEntity.roar:IsInAbilityPhase() == false then
 			return CastRoar()
 		end
 
-		if EASY_MODE == false then
+		if SOLO_MODE == false then
 			if thisEntity.summon_bird:IsFullyCastable() and thisEntity.summon_bird:IsCooldownReady() and thisEntity:GetHealthPercent() < 95 and thisEntity.summon_bird:IsInAbilityPhase() == false then
 				return SummonBird()
 			end
@@ -162,7 +162,7 @@ function BeastmasterThink()
 				return CastPuddleSpell()
 			end
 		end
-	end
+	-- end
 
 	return 0.5
 end

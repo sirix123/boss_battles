@@ -36,7 +36,7 @@ function CDOTA_BaseNPC:Initialize(data)
   self.previousCommand = nil
   self.playerLagging = false
 
-  self.playerName = PlayerResource:GetPlayerName(self.playerId)
+  self.playerName = ""
   self.steamId = PlayerResource:GetSteamID(self.playerId)
   self.class_name = ""
   self.hero_name = self:GetUnitName()

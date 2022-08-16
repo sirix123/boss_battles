@@ -5,8 +5,8 @@ GameEvents.Subscribe( "begin_hero_select", StartModeSelect );
 GameEvents.Subscribe( "player_reconnect", OnPickingDone );
 
 function OnPickingDone( ) {
-    $('#HeroModeSelectorContainer').DeleteAsync( 0.0 );
-    $('#ToolTip').DeleteAsync( 0.0 );
+    //$('#HeroModeSelectorContainer').DeleteAsync( 0.0 );
+    //$('#ToolTip').DeleteAsync( 0.0 );
 }
 
 //(function () {
@@ -16,10 +16,9 @@ function StartModeSelect(){
 	rootPanel.RemoveClass("hidden");
 
 	let modeSelectorContainer = $("#HeroModeSelectorContainer"); // mode selector handler
-	let normalModeButton = modeSelectorContainer.FindChildInLayoutFile("NormalModeButton") // nomral mode button
-	let storyModeButton = modeSelectorContainer.FindChildInLayoutFile("StoryModeButton") // story mode button
-	let easyModeButton = modeSelectorContainer.FindChildInLayoutFile("EasyModeButton") // story mode button
-	//let hardmodeModeButton = modeSelectorContainer.FindChildInLayoutFile("HardModeButton") // hard mode button
+	let normalModeButton = modeSelectorContainer.FindChildInLayoutFile("NormalModeButton") 
+	let soloModeButton = modeSelectorContainer.FindChildInLayoutFile("SoloModeButton")
+	let hardModeButton = modeSelectorContainer.FindChildInLayoutFile("HardModeButton") 
     let modeLabel = modeSelectorContainer.FindChildInLayoutFile("SelectorLabelContainer") // mode label / container
 	
 	// find the tooltip panel and hide it
@@ -35,7 +34,7 @@ function StartModeSelect(){
             toolTipContainer.style.visibility = 'visible';
             var tooltipText = toolTipContainer.FindChildInLayoutFile("ToolTipTxt")
 			tooltipText.text = "Please select a mode.\n\n\
-If you do not select a mode it will default to Normal mode.\n\n\
+If you do not select a mode it will default to Solo mode.\n\n\
 Only the lobby host sees this selection."
 		});
 
@@ -44,30 +43,33 @@ Only the lobby host sees this selection."
 			toolTipContainer.style.visibility = 'collapse';
 		});
 		 
-		// story mode button
-		storyModeButton.SetPanelEvent( 'onmouseover', function () {
-			//$.Msg("storyModeButton-hover-on")
+		soloModeButton.SetPanelEvent( 'onmouseover', function () {
+			//$.Msg("soloModeButton-hover-on")
 			toolTipContainer.style.visibility = 'visible';
 			var tooltipText = toolTipContainer.FindChildInLayoutFile("ToolTipTxt")
-			tooltipText.text = "In Hard mode lives reset to 3 after every boss.\n\n\
+			tooltipText.text = 
+			"In Solo mode lives reset to 3 after every boss.\n\n\
 If you wipe on a boss you stay on the same boss.\n\n\
+The damage from all boss abilities and attacks are reduced by 75% (most minions as well). Also, some bosses have 1 or more mechanics removed.\n\n\
+Boss HP is also reduced by 75% (most minions as well).\n\n\
 If you complete the game (kill all bosses) your game session will be posted on the Leaderboard."
 		});
 
-		storyModeButton.SetPanelEvent( 'onmouseout', function () {
-			//$.Msg("storyModeButton-hover-off")
+		soloModeButton.SetPanelEvent( 'onmouseout', function () {
+			//$.Msg("soloModeButton-hover-off")
 			toolTipContainer.style.visibility = 'collapse';
 		});
 		
-		storyModeButton.SetPanelEvent( 'onactivate', function () {
-			//$.Msg("storyModeButton")
-            GameEvents.SendCustomGameEventToServer( "mode_selected", { mode: "storyMode" } );
-			storyModeButton.AddClass( "disabled" );
+		soloModeButton.SetPanelEvent( 'onactivate', function () {
+			//$.Msg("soloModeButton")
+            GameEvents.SendCustomGameEventToServer( "mode_selected", { mode: "soloMode" } );
+			soloModeButton.AddClass( "disabled" );
 			normalModeButton.AddClass( "disabled" );
 			normalModeButton.ClearPanelEvent( 'onactivate' )
-			storyModeButton.ClearPanelEvent( 'onactivate' )
-			easyModeButton.AddClass( "disabled" );
-			easyModeButton.ClearPanelEvent( 'onactivate' )
+			soloModeButton.ClearPanelEvent( 'onactivate' )
+			hardModeButton.AddClass( "disabled" );
+			hardModeButton.ClearPanelEvent( 'onactivate' )
+			EnterGame()
 		});
 
 		// nomral mode button
@@ -75,8 +77,8 @@ If you complete the game (kill all bosses) your game session will be posted on t
 			//$.Msg("normalModeButton-hover-on")
             toolTipContainer.style.visibility = 'visible';
             var tooltipText = toolTipContainer.FindChildInLayoutFile("ToolTipTxt")
-			tooltipText.text = "In Impossible mode lives don't reset, you have 3 lives.\n\n\
-If you wipe on a boss you reset back to the first boss.\n\n\
+			tooltipText.text = "In Normal Mode lives reset to 3 after every boss.\n\n\
+If you wipe on a boss you stay on the same boss.\n\n\
 If you complete the game (kill all bosses) your game session will be posted on the Leaderboard."
 		});
 
@@ -88,40 +90,40 @@ If you complete the game (kill all bosses) your game session will be posted on t
 		normalModeButton.SetPanelEvent( 'onactivate', function () {
 			//$.Msg("normalModeButton")
 			GameEvents.SendCustomGameEventToServer( "mode_selected", { mode: "normalMode" } );
-			storyModeButton.AddClass( "disabled" );
+			soloModeButton.AddClass( "disabled" );
 			normalModeButton.AddClass( "disabled" );
 			normalModeButton.ClearPanelEvent( 'onactivate' )
-			storyModeButton.ClearPanelEvent( 'onactivate' )
-			easyModeButton.AddClass( "disabled" );
-			easyModeButton.ClearPanelEvent( 'onactivate' )
+			soloModeButton.ClearPanelEvent( 'onactivate' )
+			hardModeButton.AddClass( "disabled" );
+			hardModeButton.ClearPanelEvent( 'onactivate' )
+			EnterGame()
         });
 
 		// easy mode button
-		easyModeButton.SetPanelEvent( 'onmouseover', function () {
-			//$.Msg("easyModeButton-hover-on")
+		hardModeButton.SetPanelEvent( 'onmouseover', function () {
+			//$.Msg("hardModeButton-hover-on")
 			toolTipContainer.style.visibility = 'visible';
 			var tooltipText = toolTipContainer.FindChildInLayoutFile("ToolTipTxt")
-			tooltipText.text = "In Normal mode lives reset to 3 after every boss.\n\n\
-If you wipe on a boss you stay on the same boss.\n\n\
-The damage from all boss abilities and attacks are reduced by 20% (most minions as well). Also, some bosses have 1 or more mechanics removed.\n\n\
-Boss HP is also reduced by 20% (most minions as well).\n\n\
+			tooltipText.text = "In Hard mode lives don't reset, you have 3 lives.\n\n\
+If you wipe on a boss you reset back to the first boss.\n\n\
 If you complete the game (kill all bosses) your game session will be posted on the Leaderboard."
 		});
 
-		easyModeButton.SetPanelEvent( 'onmouseout', function () {
-			//$.Msg("easyModeButton-hover-off")
+		hardModeButton.SetPanelEvent( 'onmouseout', function () {
+			//$.Msg("hardModeButton-hover-off")
 			toolTipContainer.style.visibility = 'collapse';
 		});
 		
-		easyModeButton.SetPanelEvent( 'onactivate', function () {
-			//$.Msg("easyModeButton")
-			GameEvents.SendCustomGameEventToServer( "mode_selected", { mode: "easyMode" } );
-			storyModeButton.AddClass( "disabled" );
-			storyModeButton.ClearPanelEvent( 'onactivate' )
+		hardModeButton.SetPanelEvent( 'onactivate', function () {
+			//$.Msg("hardModeButton")
+			GameEvents.SendCustomGameEventToServer( "mode_selected", { mode: "hardMode" } );
+			soloModeButton.AddClass( "disabled" );
+			soloModeButton.ClearPanelEvent( 'onactivate' )
 			normalModeButton.AddClass( "disabled" );
 			normalModeButton.ClearPanelEvent( 'onactivate' )
-			easyModeButton.AddClass( "disabled" );
-			easyModeButton.ClearPanelEvent( 'onactivate' )
+			hardModeButton.AddClass( "disabled" );
+			hardModeButton.ClearPanelEvent( 'onactivate' )
+			EnterGame()
 		});
         
 		// hard mode button
@@ -152,13 +154,17 @@ If you complete the game (kill all bosses) your game session will be posted on t
 
 		modeSelectorContainer.style.visibility = 'collapse';
 		normalModeButton.style.visibility = 'collapse';
-		storyModeButton.style.visibility = 'collapse';
+		soloModeButton.style.visibility = 'collapse';
 		modeLabel.style.visibility = 'collapse';
 		toolTipContainer.style.visibility = 'collapse';
 
 	}
 }
 //})();
+
+function EnterGame() {
+	$('#HeroModeSelectorContainer').DeleteAsync( 0.0 );
+}
 
 // by default set the root panel as hidden
 (function () {

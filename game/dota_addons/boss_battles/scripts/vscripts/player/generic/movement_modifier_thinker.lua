@@ -143,6 +143,18 @@ function movement_modifier_thinker:Move(direction, speed)
 				false -- bool, can grow cache
 			)
 
+			local units2 = FindUnitsInRadius( 
+				self.parent:GetTeamNumber(), -- int, your team number
+				test_position_front, -- point, center point
+				nil, -- handle, cacheUnit. (not known)
+				offset, -- float, radius. or use FIND_UNITS_EVERYWHERE
+				DOTA_UNIT_TARGET_TEAM_ENEMY, -- int, team filter DOTA_UNIT_TARGET_TEAM_BOTH
+				DOTA_UNIT_TARGET_HERO + DOTA_UNIT_TARGET_BASIC,	-- int, type filter
+				DOTA_UNIT_TARGET_FLAG_NONE, -- int, flag filter
+				FIND_ANY_ORDER, -- int, order filter
+				false -- bool, can grow cache
+			)
+
 			-- find trees around fuuture position if finds trees dont allow movement 
 			local trees = GridNav:GetAllTreesAroundPoint( test_position_front, offset, true )
 			if #trees > 0 then
@@ -153,8 +165,14 @@ function movement_modifier_thinker:Move(direction, speed)
 			for _,unit in pairs(units) do
 				if unit ~= self.parent then
 					if not unit:IsPhased() then
-						return false
+							return false
 					end
+				end
+			end
+
+			for _, unit in pairs(units) do
+				if unit:GetUnitName() == "npc_rock_primal"  then
+					return false
 				end
 			end
 

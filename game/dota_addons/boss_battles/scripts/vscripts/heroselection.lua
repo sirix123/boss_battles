@@ -169,12 +169,6 @@ function HeroSelection:EndPicking()
 		--Signal the picking screen to disappear 9also calls other front end things)
 		CustomGameEventManager:Send_ServerToAllClients( "picking_done", { } )
 
-		-- setup session manager
-		SessionManager:Init()
-
-		-- use in lua in gamesetup to control other things
-		PICKING_DONE = true
-
 		return false
 	end)
 end

@@ -1,6 +1,7 @@
 <root>
 	<scripts>
 		<include src="file://{resources}/scripts/custom_game/client_handshake.js" />
+		<include src="file://{resources}/scripts/custom_game/player_name.js" />
 		<include src="file://{resources}/scripts/custom_game/util.js" />
 		<include src="file://{resources}/scripts/custom_game/camera.js" />
 		<include src="file://{resources}/scripts/custom_game/ui_modify.js" />

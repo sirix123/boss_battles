@@ -3,9 +3,6 @@ if player_frame_manager == nil then
 end
 
 function player_frame_manager:CreatePlayerFrame( hero, player )
-
-    --print("player in player manager ", player)
-
     CustomGameEventManager:Send_ServerToAllClients( "create_player_frame", { PlayerID = hero.playerId , HeroData = hero } )
 end
 

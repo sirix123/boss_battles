@@ -33,20 +33,48 @@ function space_shadowstep_unit_modifier:OnRefresh( kv )
 end
 
 function space_shadowstep_unit_modifier:OnRemoved()
+	if IsServer() then
 
+		if not self.parent:IsNull() then
+
+			-- print("abiity ", self.caster:GetAbilityByIndex(5))
+			
+
+			if self.caster:GetAbilityByIndex(5):GetAbilityName() == "space_shadowstep_teleport" then -- if dagger expires before teleporting to it then switch back to step 1
+				self.caster:SwapAbilities("space_shadowstep_teleport", "space_shadowstep", false, true)
+			elseif self.caster:GetAbilityByIndex(5):GetAbilityName() == "space_shadowstep_teleport_back" then -- normal use case of following daggers before modfier expires
+				self.caster:SwapAbilities("space_shadowstep_teleport_back", "space_shadowstep", false, true)
+			end
+			self.parent:Destroy()
+
+		end
+
+
+	end
 end
 
 function space_shadowstep_unit_modifier:OnDestroy()
 	if IsServer() then
 
-		self.parent:Destroy()
+		-- if not self.parent:IsNull() then
+		-- 	self.parent:Destroy()
+		-- end
 
-		-- check what ability is in slot spacebar
-		if self.caster:GetAbilityByIndex(5):GetAbilityName() == "space_shadowstep_teleport" then -- if dagger expires before teleporting to it then switch back to step 1
-			self.caster:SwapAbilities("space_shadowstep_teleport", "space_shadowstep", false, true)
-		elseif self.caster:GetAbilityByIndex(5):GetAbilityName() == "space_shadowstep_teleport_back" then -- normal use case of following daggers before modfier expires
-            self.caster:SwapAbilities("space_shadowstep_teleport_back", "space_shadowstep", false, true)
-        end
+		-- 
+		-- print("1")
+
+		-- -- check what ability is in slot spacebar
+		-- if not self.parent:IsNull() then
+			
+
+		-- 	if self.caster:GetAbilityByIndex(5):GetAbilityName() == "space_shadowstep_teleport" then -- if dagger expires before teleporting to it then switch back to step 1
+		-- 		self.caster:SwapAbilities("space_shadowstep_teleport", "space_shadowstep", false, true)
+		-- 	elseif self.caster:GetAbilityByIndex(5):GetAbilityName() == "space_shadowstep_teleport_back" then -- normal use case of following daggers before modfier expires
+		-- 		self.caster:SwapAbilities("space_shadowstep_teleport_back", "space_shadowstep", false, true)
+		-- 	end
+		-- 	-- self.parent:Destroy()
+
+		-- end
 
 	end
 end

@@ -1,41 +1,41 @@
 
-easy_mode_modifier = class({})
+SOLO_MODE_modifier = class({})
 
 --[[
 
-    if EASY_MODE == true then
-        thisEntity:AddNewModifier( nil, nil, "easy_mode_modifier", { duration = -1 } )
+    if SOLO_MODE == true then
+        thisEntity:AddNewModifier( nil, nil, "SOLO_MODE_modifier", { duration = -1 } )
     end
 
 ]]
 
 -----------------------------------------------------------------------------
 
-function easy_mode_modifier:IsHidden()
+function SOLO_MODE_modifier:IsHidden()
 	return false
 end
 
-function easy_mode_modifier:RemoveOnDeath()
+function SOLO_MODE_modifier:RemoveOnDeath()
     return false
 end
 
 -----------------------------------------------------------------------------
 
-function easy_mode_modifier:OnCreated( kv )
+function SOLO_MODE_modifier:OnCreated( kv )
     if IsServer() then
-        self.outgoing_minus = -20
-        self.total_health = -20
+        self.outgoing_minus = -75
+        self.total_health = -75
     end
 end
 -----------------------------------------------------------------------------
 
-function easy_mode_modifier:OnDestroy()
+function SOLO_MODE_modifier:OnDestroy()
     if IsServer() then
     end
 end
 -----------------------------------------------------------------------------
 
-function easy_mode_modifier:DeclareFunctions()
+function SOLO_MODE_modifier:DeclareFunctions()
 	local funcs =
 	{
         MODIFIER_PROPERTY_TOTALDAMAGEOUTGOING_PERCENTAGE,
@@ -46,11 +46,11 @@ end
 
 -----------------------------------------------------------------------------
 
-function easy_mode_modifier:GetModifierTotalDamageOutgoing_Percentage( params )
+function SOLO_MODE_modifier:GetModifierTotalDamageOutgoing_Percentage( params )
 	return self.outgoing_minus
 end
 
-function easy_mode_modifier:GetModifierExtraHealthPercentage( params )
+function SOLO_MODE_modifier:GetModifierExtraHealthPercentage( params )
 	return self.total_health
 end
 

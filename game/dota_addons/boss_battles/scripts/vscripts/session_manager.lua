@@ -21,14 +21,6 @@ function SessionManager:Init()
         self.session_data["testingMode"] = false
     end
 
-    if STORY_MODE == true then
-        self.session_data["mode"] = "normalMode"
-    elseif EASY_MODE == true then
-        self.session_data["mode"] = "easyMode"
-    elseif NORMAL_MODE == true then
-        self.session_data["mode"] = "hardMode"
-    end
-
     self.start_time = 0
     self.end_time = 0
 end
@@ -136,6 +128,14 @@ end
 -- send session data (leaderboard/databse)
 function SessionManager:SendSessionData()
 
+    if SOLO_MODE == true then
+        self.session_data["mode"] = "soloMode"
+    elseif NORMAL_MODE == true then
+        self.session_data["mode"] = "normalMode"
+    elseif HARD_MODE == true then
+        self.session_data["mode"] = "hardMode"
+    end
+
     -- when we send the session data, happens once...
     -- individual player data
     for _, hero in pairs(HERO_LIST) do
@@ -160,7 +160,7 @@ function SessionManager:SendSessionData()
     end
 
     --print("sending session data")
-    --print(dump(json.encode(self.session_data)))
+    print(dump(json.encode(self.session_data)))
 
     WebApi:SaveSessionData( self.session_data )
 end

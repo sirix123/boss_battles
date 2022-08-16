@@ -66,7 +66,7 @@ function cluster_mine_throw:OnSpellStart()
             point = Vector(point.x,point.y,vTargetPos.z)
             --DebugDrawCircle(point, Vector(0,0,255), 128, 20, true, 60)
 
-            local land_mine = CreateUnitByName("npc_dota_techies_land_mine", point, true, self:GetCaster(), self:GetCaster():GetOwner(), caster:GetTeamNumber())
+            local land_mine = CreateUnitByName("npc_imba_techies_land_mines", point, true, self:GetCaster(), self:GetCaster():GetOwner(), caster:GetTeamNumber())
 
             --unit:AddNewModifier( self:GetCaster(), self, "bear_bloodlust_modifier", { duration = -1, as_bonus = 10, ms_bonus = 10 } )
 

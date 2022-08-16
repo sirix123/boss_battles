@@ -12,8 +12,8 @@ function Spawn( entityKeyValues )
 
 	EmitSoundOnLocationWithCaster(thisEntity:GetAbsOrigin(),"Hero_Techies.StasisTrap.Plant",thisEntity)
 
-	if EASY_MODE == true then
-        thisEntity:AddNewModifier( nil, nil, "easy_mode_modifier", { duration = -1 } )
+	if SOLO_MODE == true then
+        thisEntity:AddNewModifier( nil, nil, "SOLO_MODE_modifier", { duration = -1 } )
     end
 
 	thisEntity:SetHullRadius(60)

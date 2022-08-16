@@ -12,7 +12,7 @@
         "AbilityBehavior"				"DOTA_ABILITY_BEHAVIOR_POINT | DOTA_ABILITY_BEHAVIOR_IGNORE_PSEUDO_QUEUE"
 		"AbilityCastRange" 				"750"
         "AbilityCooldown"				"0.5"
-        "AbilityCastPoint"              "0.0"
+        "AbilityCastPoint"              "0.1"
 
 
 		"TargetingIndicator"

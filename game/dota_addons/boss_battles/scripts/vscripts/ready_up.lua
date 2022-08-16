@@ -19,7 +19,7 @@ function OnStartTouch(trigger)
         end
     end
     if allHeroesAreReady then
-        if BOSS_BATTLES_ENCOUNTER_COUNTER < 8 then
+        if BOSS_BATTLES_ENCOUNTER_COUNTER < 9 then
             GameSetup:ReadyupCheck()
         end
     end
