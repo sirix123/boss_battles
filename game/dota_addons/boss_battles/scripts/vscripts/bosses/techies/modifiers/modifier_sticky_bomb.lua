@@ -26,6 +26,10 @@ function modifier_sticky_bomb:OnCreated( kv )
 	self.damage = self:GetAbility():GetSpecialValueFor( "damage" )
 	self.radius = self:GetAbility():GetSpecialValueFor( "radius" )
 
+	if SOLO_MODE == true then
+		self.damage = self.damage + ( self.damage / 0.75 )
+	end
+
 	-- precache damage
 	self.damage = self.damage
 	self.damageTable = {

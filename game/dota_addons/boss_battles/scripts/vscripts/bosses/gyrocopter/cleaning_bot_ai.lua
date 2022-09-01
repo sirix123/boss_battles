@@ -17,6 +17,10 @@ function Spawn( entityKeyValues )
 
     thisEntity.cleaning_bot_explode = thisEntity:FindAbilityByName( "cleaning_bot_explode" )
 
+    if SOLO_MODE == true then
+        thisEntity:AddNewModifier( nil, nil, "SOLO_MODE_modifier", { duration = -1 } )
+    end
+
 	thisEntity:SetHullRadius(50)
 
     thisEntity.STATE = 1

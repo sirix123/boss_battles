@@ -74,6 +74,10 @@ function blast_off:OnSpellStart()
         self.radius_dmg = 500
         self.damage = 400
 
+        if SOLO_MODE == true then
+            self.damage = self.damage + ( self.damage / 0.75 )
+        end
+
         local nFXIndex = ParticleManager:CreateParticle( "particles/units/heroes/hero_techies/techies_blast_off_trail.vpcf", PATTACH_ABSORIGIN_FOLLOW, caster )
 		ParticleManager:SetParticleControlEnt( nFXIndex, 1, caster, PATTACH_POINT_FOLLOW, "attach_hitloc", caster:GetAbsOrigin(), true )
 		--caster:AddParticle( nFXIndex, false, false, -1, false, false )

@@ -47,7 +47,10 @@ function Spawn( entityKeyValues )
 
 	if SOLO_MODE == true then
         thisEntity:AddNewModifier( nil, nil, "SOLO_MODE_modifier", { duration = -1 } )
+		thisEntity.rockets_that_need_to_hit_to_stun = 1;
     end
+
+	thisEntity.rockets_that_need_to_hit_to_stun = 3;
 
 	-- spell init
 	thisEntity.swoop = thisEntity:FindAbilityByName( "swoop_v2" )
@@ -278,7 +281,7 @@ function GyroThink()
 			stacks = thisEntity:GetModifierStackCount("gyro_homing_missile_stun_check", thisEntity)
 		end
 
-		if stacks >= 3 then
+		if stacks >= rockets_that_need_to_hit_to_stun then
 			thisEntity.circle_timer_running = false
 		end
 

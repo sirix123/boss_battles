@@ -148,6 +148,10 @@ function green_beam:CreateBeam( )
         self.tBeamStartPoints = {self.beam_point_1, self.beam_point_2, self.beam_point_3, self.beam_point_4}
         self.tBeamData = {}
 
+        if SOLO_MODE == true then
+            dmg = dmg + ( dmg / 0.75 )
+        end
+
         for i = 1, #self.tBeamStartPoints, 1 do
 
             -- setup the table of beam data

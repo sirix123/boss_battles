@@ -20,6 +20,10 @@ function cluster_mine_throw_thinker:OnCreated( kv )
     self.explosion_range = kv.explosion_range
     self.thinkInterval = FrameTime()
 
+    if SOLO_MODE == true then
+		self.damage = self.damage + ( self.damage / 0.75 )
+	end
+
     -- invul
     self.invul = true
 

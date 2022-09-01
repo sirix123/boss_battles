@@ -8,6 +8,10 @@ function Spawn( entityKeyValues )
 
     thisEntity.fire_ele_attack = thisEntity:FindAbilityByName( "fire_ele_attack" )
 
+    if SOLO_MODE == true then
+        thisEntity:AddNewModifier( nil, nil, "SOLO_MODE_modifier", { duration = -1 } )
+    end
+
     thisEntity:SetContextThink( "FireThinker", FireThinker, 0.1 )
 
 end

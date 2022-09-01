@@ -10,6 +10,10 @@ function Spawn( entityKeyValues )
 		return
 	end
 
+	if SOLO_MODE == true then
+        thisEntity:AddNewModifier( nil, nil, "SOLO_MODE_modifier", { duration = -1 } )
+    end
+
 	thisEntity.hPuddle = thisEntity:FindAbilityByName( "quilboar_puddle" )
 
 	thisEntity.vTargetPos = nil

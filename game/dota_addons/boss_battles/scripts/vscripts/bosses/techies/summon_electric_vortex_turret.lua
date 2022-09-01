@@ -18,6 +18,10 @@ function summon_electric_vortex_turret:OnSpellStart()
         local point = Vector(0,0,0)
         local max_turrets = self:GetSpecialValueFor( "max_turrets" )
 
+        if SOLO_MODE == true then
+            max_turrets = 3
+        end
+
         -- find a random point inside the map arena
         --local vTargetPos = Vector(caster.mouse.x, caster.mouse.y, caster.mouse.z) -- for testing
         --local vTargetPos = Vector(Rand)

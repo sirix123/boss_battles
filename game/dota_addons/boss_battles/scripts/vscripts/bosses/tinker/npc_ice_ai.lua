@@ -8,6 +8,10 @@ function Spawn( entityKeyValues )
 
     thisEntity.ice_ele_attack = thisEntity:FindAbilityByName( "ice_ele_attack_v2" )
 
+	if SOLO_MODE == true then
+        thisEntity:AddNewModifier( nil, nil, "SOLO_MODE_modifier", { duration = -1 } )
+    end
+
     thisEntity:SetContextThink( "IceThinker", IceThinker, 0.5 )
 
 end

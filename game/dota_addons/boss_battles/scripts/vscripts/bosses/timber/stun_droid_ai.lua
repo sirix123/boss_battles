@@ -18,6 +18,10 @@ function Spawn( entityKeyValues )
 	thisEntity:AddNewModifier( nil, nil, "modifier_flying_movement_ground", { duration = -1 })
 	thisEntity:AddNewModifier( nil, nil, "blue_droid_death_modifier", { duration = -1 })
 
+	if SOLO_MODE == true then
+        thisEntity:AddNewModifier( nil, nil, "SOLO_MODE_modifier", { duration = -1 } )
+    end
+
 	thisEntity.target = nil
 
 	thisEntity:SetHullRadius(60)

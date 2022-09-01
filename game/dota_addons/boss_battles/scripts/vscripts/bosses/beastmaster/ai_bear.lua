@@ -14,6 +14,10 @@ function Spawn( entityKeyValues )
 		return
 	end
 
+	if SOLO_MODE == true then
+        thisEntity:AddNewModifier( nil, nil, "SOLO_MODE_modifier", { duration = -1 } )
+    end
+
 	thisEntity:AddNewModifier( thisEntity, thisEntity, "bear_death_modifier", { duration = -1 } )
 
 	thisEntity.hClaw = thisEntity:FindAbilityByName( "bear_claw" )

@@ -23,6 +23,10 @@ function choking_gas_thinker:OnCreated( kv )
         self.damage_interval = kv.damage_interval
         self.dmgType = kv.damage_type
 
+        if SOLO_MODE == true then
+            self.dmg = self.dmg + ( self.dmg / 0.75 )
+        end
+
         -- ref from spell 
         self.currentTarget = Vector( kv.target_x, kv.target_y, kv.target_z )
 

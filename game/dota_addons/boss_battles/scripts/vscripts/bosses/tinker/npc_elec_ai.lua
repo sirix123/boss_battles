@@ -11,6 +11,10 @@ function Spawn( entityKeyValues )
 
 	thisEntity.elec_explode = thisEntity:FindAbilityByName( "elec_explode" )
 
+    if SOLO_MODE == true then
+        thisEntity:AddNewModifier( nil, nil, "SOLO_MODE_modifier", { duration = -1 } )
+    end
+
     thisEntity:SetContextThink( "ElecThinker", ElecThinker, 0.1 )
 
 end
