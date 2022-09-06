@@ -326,34 +326,46 @@ let hotkeys = [
 
 (function () 
 {
-    //$.Msg("init all custom mouse and movement controls")
+    $.Msg("init all custom mouse and movement controls")
+
+    var random_string = makeid(10);
 
     MouseInit()
 
     for(var i in hotkeys) {
-        $.Msg("hotkey = ", hotkeys[i])
-        Game.CreateCustomKeyBind(hotkeys[i], "+" + hotkeys[i]);
+        Game.CreateCustomKeyBind(hotkeys[i], "+" + hotkeys[i] + random_string);
     }
 
-    Game.AddCommand( "+Q", function(){ AbilityToCast(2) }, "", 0 );
-    Game.AddCommand( "-Q", EmptyCallBack, "", 0 );   
+    Game.AddCommand( "+Q" + random_string, function(){ AbilityToCast(2) }, "", 0 );
+    Game.AddCommand( "-Q" + random_string, EmptyCallBack, "", 0 );   
 
-    Game.AddCommand( "+E", function(){ AbilityToCast(3) }, "", 0 );
-    Game.AddCommand( "-E", EmptyCallBack, "", 0 );   
+    Game.AddCommand( "+E" + random_string, function(){ AbilityToCast(3) }, "", 0 );
+    Game.AddCommand( "-E" + random_string, EmptyCallBack, "", 0 );   
 
-    Game.AddCommand( "+R", function(){ AbilityToCast(4) }, "", 0 );
-    Game.AddCommand( "-R", EmptyCallBack, "", 0 );   
+    Game.AddCommand( "+R" + random_string, function(){ AbilityToCast(4) }, "", 0 );
+    Game.AddCommand( "-R" + random_string, EmptyCallBack, "", 0 );   
 
-    Game.AddCommand( "+1", function(){ UseItem(0) }, "", 0 );
-    Game.AddCommand( "-1", EmptyCallBack, "", 0 );   
+    Game.AddCommand( "+1" + random_string, function(){ UseItem(0) }, "", 0 );
+    Game.AddCommand( "-1" + random_string, EmptyCallBack, "", 0 );   
 
-    Game.AddCommand( "+L", ShowScoreboard, "", 0 );
-    Game.AddCommand( "-L", HideScoreboard, "", 0 );
+    Game.AddCommand( "+L" + random_string, ShowScoreboard, "", 0 );
+    Game.AddCommand( "-L" + random_string, HideScoreboard, "", 0 );
 
-    Game.AddCommand( "+Space", function(){ AbilityToCast(5, true) }, "", 0 );
-    Game.AddCommand( "-Space", EmptyCallBack, "", 0 );
+    Game.AddCommand( "+Space" + random_string, function(){ AbilityToCast(5, true) }, "", 0 );
+    Game.AddCommand( "-Space" + random_string, EmptyCallBack, "", 0 );
 
 })();
+
+function makeid(length) {
+    var result           = '';
+    var characters       = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789';
+    var charactersLength = characters.length;
+    for ( var i = 0; i < length; i++ ) {
+      result += characters.charAt(Math.floor(Math.random() * 
+ charactersLength));
+   }
+   return result;
+}
 
 function EmptyCallBack(){
 

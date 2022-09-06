@@ -19,8 +19,10 @@ function PlayerManager:SetUpMovement()
     CustomGameEventManager:RegisterListener('MoveUnit', function(eventSourceIndex, args)
         --print("GameMode:SetUpMovement(): MoveUnit event caught")
 
+        -- print("args", args.command)
+
         --[[print("args", args)
-        print("args", args.command)
+        
         print("args.heroEnt", args.heroEnt)
         print("args.type", args.type)
         print("hero", EntIndexToHScript(args.heroEnt):GetUnitName())
@@ -50,7 +52,8 @@ function PlayerManager:SetUpMovement()
             print("network lag detected - movement controller")
             CustomGameEventManager:Send_ServerToPlayer( player, "display_lag_message", nil )
         elseif hPlayerHero.playerLagging == false then
-            if args.command == "W" then
+
+            if args.command == "W"  then
                 if args.type == "+" then
                     hPlayerHero.direction.y = hPlayerHero.direction.y + 1
                 elseif args.type == "-" then
@@ -62,13 +65,13 @@ function PlayerManager:SetUpMovement()
                 elseif args.type == "-" then
                     hPlayerHero.direction.x = hPlayerHero.direction.x + 1
                 end
-            elseif args.command == "S"  then
+            elseif args.command == "S" then
                 if args.type == "+" then
                     hPlayerHero.direction.y = hPlayerHero.direction.y - 1
                 elseif args.type == "-" then
                     hPlayerHero.direction.y = hPlayerHero.direction.y + 1
                 end
-            elseif args.command == "D"  then
+            elseif args.command == "D" then
                 if args.type == "+" then
                     hPlayerHero.direction.x = hPlayerHero.direction.x + 1
                 elseif args.type == "-" then
