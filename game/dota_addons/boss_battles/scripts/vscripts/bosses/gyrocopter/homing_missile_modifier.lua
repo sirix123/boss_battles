@@ -120,7 +120,12 @@ function homing_missile_modifier:OnIntervalThink()
                     stacks = self:GetCaster():GetModifierStackCount("gyro_homing_missile_stun_check", self:GetCaster())
                 end
 
-                if stacks >= 3 then
+                self.rockets_that_need_to_hit_to_stun = 3
+                if SOLO_MODE == true then
+                    self.rockets_that_need_to_hit_to_stun = 1;
+                end
+
+                if stacks >= self.rockets_that_need_to_hit_to_stun then
 
                     if self:GetCaster().particle_timer ~= nil then
                         ParticleManager:DestroyParticle(self:GetCaster().particle_timer,true)

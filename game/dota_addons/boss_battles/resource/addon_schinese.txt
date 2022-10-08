@@ -305,6 +305,7 @@
         "DOTA_Tooltip_Ability_e_swallow_potion_damage"    "损害:"
         "DOTA_Tooltip_Ability_e_swallow_potion_duration"    "期间:"
         "DOTA_Tooltip_Ability_e_swallow_potion_bonus_bleed_percent"    "%毒液加成伤害:"
+        "DOTA_Tooltip_Ability_e_swallow_potion_Note0"    "In solo mode if the Rogue has max stacks of <font color=\"#9af9e0\">Envenom</font> they will be healed %heal_tick% per second."
         "DOTA_Tooltip_Ability_r_rupture"    "破裂"
         "DOTA_Tooltip_Ability_r_rupture_description"    "盗贼投掷匕首刺穿所有敌人并造成流血。 此技能造成的流血会被<b><font color=\"#6f92fc\">毒液</font></b>放大。"
         "DOTA_Tooltip_Ability_r_rupture_dmg"    "伤害:"

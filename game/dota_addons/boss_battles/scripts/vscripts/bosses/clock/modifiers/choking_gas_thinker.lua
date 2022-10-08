@@ -24,7 +24,7 @@ function choking_gas_thinker:OnCreated( kv )
         self.dmgType = kv.damage_type
 
         if SOLO_MODE == true then
-            self.dmg = self.dmg + ( self.dmg / 0.75 )
+            self.dmg = self.dmg * 0.2
         end
 
         -- ref from spell 

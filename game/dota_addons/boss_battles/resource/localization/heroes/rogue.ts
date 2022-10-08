@@ -157,6 +157,7 @@ export function GenerateLocalizationData(): LocalizationData
         //lore: `A secret mixture of the deadliest toxins known to man.`,
         notes:
         [
+            "In solo mode if the Rogue has max stacks of <font color=\"#9af9e0\">Envenom</font> they will be healed %heal_tick% per second."
         ],
         ability_specials:
         [

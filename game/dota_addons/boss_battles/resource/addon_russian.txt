@@ -305,6 +305,7 @@
         "DOTA_Tooltip_Ability_e_swallow_potion_damage"    "УРОН:"
         "DOTA_Tooltip_Ability_e_swallow_potion_duration"    "ПРОДОЛЖИТЕЛЬНОСТЬ:"
         "DOTA_Tooltip_Ability_e_swallow_potion_bonus_bleed_percent"    "% БОНУС УРОНА ОТ ОТРАВЛЕНИЯ"
+        "DOTA_Tooltip_Ability_e_swallow_potion_Note0"    "In solo mode if the Rogue has max stacks of <font color=\"#9af9e0\">Envenom</font> they will be healed %heal_tick% per second."
         "DOTA_Tooltip_Ability_r_rupture"    "Разрыв"
         "DOTA_Tooltip_Ability_r_rupture_description"    "Свен бросает кинжал, который пронзает всех врагов насквозь и вызывает кровотечение. Кровотечения, вызванные этой способностью, усиливаются <b><font color=\"#6f92fc\">Отравлением</font></b>."
         "DOTA_Tooltip_Ability_r_rupture_dmg"    "УРОН:"

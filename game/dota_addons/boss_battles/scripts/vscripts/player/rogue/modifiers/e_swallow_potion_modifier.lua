@@ -22,12 +22,17 @@ function e_swallow_potion_modifier:OnCreated( kv )
 		--self.ms_bonus = self:GetAbility():GetSpecialValueFor( "movespeed_bonus_pct" )
 		self:SetStackCount(1)
 
+
+		
 		--[[local caster = self:GetCaster()
 		self.effectIndex = ParticleManager:CreateParticle(
 			"particles/econ/items/dazzle/dazzle_dark_light_weapon/dazzle_dark_shallow_grave_playerglow.vpcf",
 			PATTACH_CUSTOMORIGIN,
 			caster)
 		ParticleManager:SetParticleControlEnt(self.effectIndex , 0, caster, 5, "attach_attack2", Vector(0,0,0), true)]]
+
+
+
     end
 end
 
@@ -35,7 +40,13 @@ function e_swallow_potion_modifier:OnRefresh( kv )
 	if IsServer() then
 		if self:GetStackCount() < 3 then
 			self:IncrementStackCount()
+		end
 
+		if (SOLO_MODE == true and self:GetStackCount() == 3 ) then
+			self.heal = self:GetAbility():GetSpecialValueFor("heal_tick")
+			self.parent = self:GetParent()
+			self.stopHealLoop = false
+			self:HealLoop()
 		end
 
     end
@@ -45,7 +56,30 @@ function e_swallow_potion_modifier:OnRemoved()
 end
 
 function e_swallow_potion_modifier:OnDestroy()
-	--ParticleManager:DestroyParticle(self.effectIndex, true)
+	if IsServer() then
+		self.stopHealLoop = true
+	end
+end
+
+function e_swallow_potion_modifier:HealLoop()
+    if IsServer() then
+
+        Timers:CreateTimer(1, function()
+            if self.stopHealLoop == true then
+                return false
+            end
+
+			local particle_lifesteal = "particles/items3_fx/octarine_core_lifesteal.vpcf"
+
+			local lifesteal_fx = ParticleManager:CreateParticle(particle_lifesteal, PATTACH_ABSORIGIN_FOLLOW, self.parent)
+			ParticleManager:SetParticleControl(lifesteal_fx, 0, self.parent:GetAbsOrigin())
+
+			self.parent:Heal( self.heal , self.parent )
+
+            return 1
+        end)
+
+    end
 end
 
 --------------------------------------------------------------------------------

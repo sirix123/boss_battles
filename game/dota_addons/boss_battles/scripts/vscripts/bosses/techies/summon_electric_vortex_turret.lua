@@ -18,9 +18,9 @@ function summon_electric_vortex_turret:OnSpellStart()
         local point = Vector(0,0,0)
         local max_turrets = self:GetSpecialValueFor( "max_turrets" )
 
-        if SOLO_MODE == true then
-            max_turrets = 3
-        end
+        -- if SOLO_MODE == true then
+        --     max_turrets = 2
+        -- end
 
         -- find a random point inside the map arena
         --local vTargetPos = Vector(caster.mouse.x, caster.mouse.y, caster.mouse.z) -- for testing
@@ -33,11 +33,15 @@ function summon_electric_vortex_turret:OnSpellStart()
         local top_side = Vector(RandomInt(1132,8862),2929,130)
         local bottom_side = Vector(RandomInt(1132,8862),497,130)
 
+        -- center of techies arena DEBUG VECTOR LOCATION:     Vector 000000000223ECF0 [10058.650391 1505.785156 130.121094]
+
         local tSides = {left_side, right_side, top_side, bottom_side}
 
         local vTargetPos = tSides[RandomInt(1,#tSides)]
         --local vTargetPos = Vector(RandomInt(9126,11000),RandomInt(1500,1800),0)
         --DebugDrawCircle(vTargetPos, Vector(0,255,0), 128, 500, true, 60)
+        
+        -- self.centreOfTechiesArena = Vector(10058,1505,130)
 
         local i = 0
         Timers:CreateTimer(delay, function()

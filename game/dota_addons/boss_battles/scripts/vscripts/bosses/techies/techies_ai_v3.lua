@@ -29,6 +29,10 @@ function Spawn( entityKeyValues )
     thisEntity.summon_electric_vortex_turret = thisEntity:FindAbilityByName( "summon_electric_vortex_turret" )
     thisEntity.summon_electric_vortex_turret:StartCooldown(30)
 
+    if SOLO_MODE == true then
+        thisEntity.summon_electric_vortex_turret:StartCooldown(9999)
+    end
+
     thisEntity.choking_gas = thisEntity:FindAbilityByName( "choking_gas" )
     thisEntity.choking_gas:StartCooldown(30)
 

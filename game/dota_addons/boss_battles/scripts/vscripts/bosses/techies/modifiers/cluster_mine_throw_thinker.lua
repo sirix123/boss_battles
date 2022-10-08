@@ -21,7 +21,7 @@ function cluster_mine_throw_thinker:OnCreated( kv )
     self.thinkInterval = FrameTime()
 
     if SOLO_MODE == true then
-		self.damage = self.damage + ( self.damage / 0.75 )
+		self.damage = self.damage * 0.2
 	end
 
     -- invul

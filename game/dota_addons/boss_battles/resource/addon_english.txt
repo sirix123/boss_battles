@@ -309,6 +309,7 @@
         "DOTA_Tooltip_Ability_q_smoke_bomb_AbilityCastPoint"    "CAST POINT:"
         "DOTA_Tooltip_Ability_e_swallow_potion"    "Envenom"
         "DOTA_Tooltip_Ability_e_swallow_potion_description"    "Rogue cuts all enemies infront of her with an envenomed blade, applying a debuff that increases the damage they take from all bleeds and gives rogue a stack of <font color=\"#9af9e0\">Envenom</font>"
+        "DOTA_Tooltip_Ability_e_swallow_potion_Note0"    "In solo mode if the Rogue has max stacks of <font color=\"#9af9e0\">Envenom</font> they will be healed %heal_tick% per second."
         "DOTA_Tooltip_Ability_e_swallow_potion_damage"    "DAMAGE:"
         "DOTA_Tooltip_Ability_e_swallow_potion_duration"    "DURATION:"
         "DOTA_Tooltip_Ability_e_swallow_potion_bonus_bleed_percent"    "%ENVENOM BONUS DAMAGE:"
