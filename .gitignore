@@ -1,4 +1,4 @@
-# Cache crap that Valve autogenerates
+# Cache crap that Valve autogenerates test123
 *.bin
 
 # Compiled formats
@@ -41,3 +41,7 @@ game/dota_addons/boss_battles/package-lock.json
 content/dota_addons/boss_battles/panorama/.VSCodeCounter
 game/dota_addons/boss_battles/resource/.VSCodeCounter
 game/dota_addons/boss_battles/scripts/.VSCodeCounter
+
+# sublime
+*.sublime-project
+*.sublime-workspace
