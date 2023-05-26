@@ -11,7 +11,7 @@
 		"AbilitySpecial"
 		{
 			"01"{ "var_type"			"FIELD_INTEGER"		"castpoint_reduction"			"20" 	}
-			"02"{ "var_type"			"FIELD_INTEGER"		"rat_stack_generate_time"		"2" 	}
+			"02"{ "var_type"			"FIELD_FLOAT"		"rat_stack_generate_time"		"1.75" 	}
 			"03"{ "var_type"			"FIELD_INTEGER"		"rat_stack_max"					"5" 	}
 		}
 	}
@@ -58,7 +58,7 @@
         "AbilityBehavior"				"DOTA_ABILITY_BEHAVIOR_POINT | DOTA_ABILITY_BEHAVIOR_IGNORE_PSEUDO_QUEUE"
 		"AbilityCastRange" 				"1200"
         "AbilityCooldown"				"0"
-        "AbilityCastPoint"              "0.8"
+        "AbilityCastPoint"              "0.7"
 		"AbilityManaCost"        		"20"
 
 		"TargetingIndicator"
