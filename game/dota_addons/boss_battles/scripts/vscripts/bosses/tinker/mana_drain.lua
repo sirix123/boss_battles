@@ -73,7 +73,7 @@ function mana_drain:OnChannelThink( interval )
         self:GetCaster():GiveMana(self.mana)
         BossNumbersOnTarget(self:GetCaster(), self.mana, Vector(75,75,255))
 
-        self.hTargetPos:ReduceMana(self.mana)
+        self.hTargetPos:Script_ReduceMana(self.mana,nil)
 
         self.time = self.time - myInterval
     end

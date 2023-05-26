@@ -63,9 +63,9 @@ function templar_passive_modifier:GetModifierTotal_ConstantBlock( params )
         if params.damage_type ~= DAMAGE_TYPE_PURE then
             -- remove mana, if we need to remove more then total, reduce by current mana the caster has
             if current_mana <= mana_to_remove and current_mana > 0 then
-                self:GetParent():ReduceMana( current_mana )
+                self:GetParent():Script_ReduceMana( current_mana ,nil)
             else
-                self:GetParent():ReduceMana( mana_to_remove )
+                self:GetParent():Script_ReduceMana( mana_to_remove ,nil)
             end
 
             -- if current mana is less then the dmage coming in, if we don't have 30% of mana to mitgate need to take more dmg

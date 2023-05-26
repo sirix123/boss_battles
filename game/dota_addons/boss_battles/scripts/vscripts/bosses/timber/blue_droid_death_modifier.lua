@@ -66,7 +66,7 @@ function blue_droid_death_modifier:OnDestroy()
 
     -- find timber if he is in range and remove some mana
     -- how to show the players that this is happening?
-    -- ReduceMana( 20 )
+    -- Script_ReduceMana( 20 )
 
     local units = FindUnitsInRadius(
         self:GetParent():GetTeamNumber(),	-- int, your team number
@@ -82,7 +82,7 @@ function blue_droid_death_modifier:OnDestroy()
 
     for _, unit in pairs(units) do
         if unit:GetUnitName() == "npc_timber" then
-            unit:ReduceMana(5)
+            unit:Script_ReduceMana(5,nil)
 
             --print("inside the death modifier")
 

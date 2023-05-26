@@ -48,7 +48,7 @@ function mana_drain_modifier:OnIntervalThink()
         self:GetCaster():GiveMana(self.mana)
         BossNumbersOnTarget(self:GetCaster(), self.mana, Vector(75,75,255))
 
-        self:GetParent():ReduceMana(self.mana)
+        self:GetParent():Script_ReduceMana(self.mana,nil)
 
     end
 end
