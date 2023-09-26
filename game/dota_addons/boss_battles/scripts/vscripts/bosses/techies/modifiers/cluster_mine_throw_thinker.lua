@@ -55,6 +55,7 @@ end
 
 function cluster_mine_throw_thinker:OnIntervalThink()
     if not IsServer() then return end
+    if not self.parent then return end
 
     local parent = self.parent
     self.currentPosition = self.parent:GetAbsOrigin()

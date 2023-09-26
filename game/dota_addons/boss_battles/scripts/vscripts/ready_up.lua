@@ -1,12 +1,16 @@
 local tTriggers = {}
 local DEBUG = false
 
-function OnStartTouch(trigger)
+print("ready up lua trigger running")
+
+function MyOnStartTouch(trigger)
 
     local ent = trigger.activator
     if not ent then return end
 
-    --PrintTable(trigger, indent, done)
+    print ("OnStartTouch: " .. ent:GetUnitName() .. " has entered " .. thisEntity:GetName() .. " trigger")
+
+    -- PrintTable(trigger, indent, done)
 
     ent.ready_up = true
 
@@ -37,7 +41,7 @@ function OnStartTouch(trigger)
 
 end
 
-function OnEndTouch( trigger )
+function MyOnEndTouch( trigger )
 
     local ent = trigger.activator
     if not ent then return end
