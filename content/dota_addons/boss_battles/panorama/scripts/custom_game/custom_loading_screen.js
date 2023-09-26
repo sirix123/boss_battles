@@ -25,16 +25,16 @@ let normal_mode_data = null;
 let hard_mode_data = null;
 let easy_mode_data = null;
 
-let leaderboard_buttons_container = $("#LeaderboardContainer");
+// let leaderboard_buttons_container = $("#LeaderboardContainer");
 
-let normalDataButton = leaderboard_buttons_container.FindChildInLayoutFile("leaderboard_button_mode_1");
-normalDataButton.AddClass( "leaderboard_buttons" );
+// let normalDataButton = leaderboard_buttons_container.FindChildInLayoutFile("leaderboard_button_mode_1");
+// normalDataButton.AddClass( "leaderboard_buttons" );
 
-let hardDataButton = leaderboard_buttons_container.FindChildInLayoutFile("leaderboard_button_mode_2");
-hardDataButton.AddClass( "leaderboard_buttons" );
+// let hardDataButton = leaderboard_buttons_container.FindChildInLayoutFile("leaderboard_button_mode_2");
+// hardDataButton.AddClass( "leaderboard_buttons" );
 
-let easyDataButton = leaderboard_buttons_container.FindChildInLayoutFile("leaderboard_button_mode_3");
-easyDataButton.AddClass( "leaderboard_buttons" );
+// let easyDataButton = leaderboard_buttons_container.FindChildInLayoutFile("leaderboard_button_mode_3");
+// easyDataButton.AddClass( "leaderboard_buttons" );
 
 
 /* buttons for leaderboard to load different data*/
