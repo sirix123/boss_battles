@@ -4,23 +4,6 @@ LinkLuaModifier( "modifier_target_indicator_aoe", "player/generic/modifier_targe
 
 function space_frostblink:OnAbilityPhaseStart()
     if IsServer() then
-
-        self:GetCaster():StartGestureWithPlaybackRate(ACT_DOTA_CAST_ABILITY_4, 1.5)
-
-        -- add casting modifier
-        self:GetCaster():AddNewModifier(self:GetCaster(), self, "casting_modifier_thinker",
-        {
-            duration = self:GetCastPoint(),
-            pMovespeedReduction = -80,
-        })
-
-        -- add targeting modifier
-        self:GetCaster():AddNewModifier(self:GetCaster(), self, "modifier_target_indicator_aoe",
-        {
-            duration = -1,
-            cast_range = self:GetCastRange(Vector(0,0,0), nil),
-        })
-
         return true
     end
 end
@@ -28,14 +11,6 @@ end
 
 function space_frostblink:OnAbilityPhaseInterrupted()
     if IsServer() then
-        self:GetCaster():RemoveGesture(ACT_DOTA_CAST_ABILITY_4)
-
-        if self:GetCaster():HasModifier("modifier_target_indicator_aoe") == true then
-            self:GetCaster():RemoveModifierByName("modifier_target_indicator_aoe")
-        end
-
-        self:GetCaster():RemoveModifierByName("casting_modifier_thinker")
-
     end
 end
 ----------------------------------------------------------------------------------------------------------
@@ -53,7 +28,7 @@ function space_frostblink:OnSpellStart()
         self:GetCaster():RemoveGesture(ACT_DOTA_CAST_ABILITY_4)
 
         self.radius = self:GetSpecialValueFor("radius")
-        point = Clamp(caster:GetOrigin(), Vector(caster.mouse.x, caster.mouse.y, caster.mouse.z), self:GetCastRange(Vector(0,0,0), nil), 0)
+        point = self:GetCursorPosition()
 
         -- apply chill and play effect
         -- apply chill to enemies around in a radius

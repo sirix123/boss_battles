@@ -1,5 +1,5 @@
-
 shatter_modifier = class({})
+
 
 -----------------------------------------------------------------------------
 -- Classifications
@@ -37,7 +37,12 @@ function shatter_modifier:OnCreated( kv )
         self.parent = self:GetParent()
         self.caster = self:GetCaster()
 
+        self.particleName = "particles/icemage/icemage_icelance_phoenix_fire_spirits.vpcf"
+        self.pfx = ParticleManager:CreateParticle( self.particleName, PATTACH_ABSORIGIN_FOLLOW, self.caster )
+
         self:SetStackCount(1)
+
+        ParticleManager:SetParticleControl( self.pfx, 1, Vector( self.max_shatter_stacks, 0, 0 ) )
     end
 end
 ----------------------------------------------------------------------------
@@ -46,6 +51,26 @@ function shatter_modifier:OnRefresh( kv )
 	if IsServer() then
         if self:GetStackCount() < self.max_shatter_stacks then
             self:IncrementStackCount()
+
+            ParticleManager:SetParticleControl( self.pfx, 1, Vector( self:GetStackCount(), 0, 0 ) )
+            for i=1, self:GetStackCount() do
+                ParticleManager:SetParticleControl( self.pfx, 8+i, Vector( 1, 0, 0 ) )
+            end
+        end
+    end
+end
+
+function shatter_modifier:OnStackCountChanged( prevStackCount )
+	if IsServer() then
+        ParticleManager:SetParticleControl( self.pfx, 1, Vector( prevStackCount, 0, 0 ) )
+        for i=1, self.max_shatter_stacks, 1 do
+            local radius = 0
+
+            if i <= prevStackCount then
+                radius = 1
+            end
+
+            ParticleManager:SetParticleControl( self.pfx, 8+i, Vector( radius, 0, 0 ) )
         end
     end
 end
@@ -53,6 +78,11 @@ end
 
 function shatter_modifier:OnDestroy()
     if IsServer() then
+
+        if self.pfx then
+            ParticleManager:DestroyParticle( self.pfx, false )
+            ParticleManager:ReleaseParticleIndex( self.pfx )
+        end
         
     end
 end

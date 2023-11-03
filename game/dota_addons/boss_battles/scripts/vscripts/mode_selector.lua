@@ -10,7 +10,7 @@ end
 
 function ModeSelector:ModeSelected( event )
 
-    -- print("mode selected ",event.mode)
+    print("mode selected ",event.mode)
 
     -- soloMode
     -- normalMode

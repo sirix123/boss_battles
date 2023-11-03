@@ -159,15 +159,6 @@ function Precache( context ) -- this needs to be in a seperate file
 end
 
 function Activate()
-
-  if GetMapName() == "arena_6x6" then
-    require('internal/util')
-    require('gamemode')
-
-    GameRules.GameMode = GameMode()
-    GameRules.GameMode:_InitGameMode()
-
-  end
   if GetMapName() == "main_map" then
     if BossBattles == nil then
       BossBattles = class({})
@@ -188,15 +179,12 @@ function Activate()
     require('intermission_manager')
 
     require('managers/game_manager')
-    require('filters')
-    require('managers/player_manager')
 
     require('heroselection')
     require('scoreboard')
     require('boss_frame_manager')
     require('player_frame_manager')
     require('mode_selector')
-    require('player/generic/targeting_indicator')
 
     require('session_manager')
     require('webapi')

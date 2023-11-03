@@ -4,27 +4,6 @@ LinkLuaModifier( "r_frostbomb_modifier", "player/icemage/modifiers/r_frostbomb_m
 
 function r_frostbomb:OnAbilityPhaseStart()
     if IsServer() then
-
-        self.point = nil
-        --self.point = Clamp(self:GetCaster():GetOrigin(), Vector(self:GetCaster().mouse.x, self:GetCaster().mouse.y, self:GetCaster().mouse.z), self:GetCastRange(Vector(0,0,0), nil), 0)
-        self.point = Vector(self:GetCaster().mouse.x, self:GetCaster().mouse.y, self:GetCaster().mouse.z)
-
-        if ( (self:GetCaster():GetAbsOrigin() - self.point):Length2D() ) > self:GetCastRange(Vector(0,0,0), nil) then
-            local playerID = self:GetCaster():GetPlayerID()
-            local player = PlayerResource:GetPlayer(playerID)
-            CustomGameEventManager:Send_ServerToPlayer( player, "out_of_range", { } )
-            return false
-        end
-
-        self:GetCaster():StartGestureWithPlaybackRate(ACT_DOTA_CAST_ABILITY_2, 0.6)
-
-        -- add casting modifier
-        self:GetCaster():AddNewModifier(self:GetCaster(), self, "casting_modifier_thinker",
-        {
-            duration = self:GetCastPoint(),
-            bMovementLock = true,
-        })
-
         return true
     end
 end
@@ -32,13 +11,6 @@ end
 
 function r_frostbomb:OnAbilityPhaseInterrupted()
     if IsServer() then
-
-        -- remove casting animation
-        self:GetCaster():FadeGesture(ACT_DOTA_CAST_ABILITY_2)
-
-        -- remove casting modifier
-        self:GetCaster():RemoveModifierByName("casting_modifier_thinker")
-
     end
 end
 ---------------------------------------------------------------------------
@@ -93,7 +65,7 @@ function r_frostbomb:OnSpellStart()
             damage_type = self.damageType,
             dot_duration = self.dot_duration
         },
-        self.point,
+        self:GetCursorPosition(),
         self.caster:GetTeamNumber(),
         false
     )

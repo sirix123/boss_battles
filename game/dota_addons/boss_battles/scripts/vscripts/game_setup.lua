@@ -4,10 +4,7 @@ end
 
 RAID_TABLES = require('managers/raid_init_tables')
 
-LinkLuaModifier( "movement_modifier_thinker", "player/generic/movement_modifier_thinker", LUA_MODIFIER_MOTION_NONE )
-LinkLuaModifier( "remove_attack_modifier", "player/generic/remove_attack_modifier", LUA_MODIFIER_MOTION_NONE )
 LinkLuaModifier( "modifier_grace_period", "player/generic/modifier_grace_period", LUA_MODIFIER_MOTION_NONE )
-LinkLuaModifier( "modifier_hide_hero", "player/generic/modifier_hide_hero", LUA_MODIFIER_MOTION_NONE )
 LinkLuaModifier( "admin_god_mode", "player/generic/admin_god_mode", LUA_MODIFIER_MOTION_NONE )
 LinkLuaModifier( "blademaster_death_enable_spells", "player/warlord/modifiers/blademaster_death_enable_spells", LUA_MODIFIER_MOTION_NONE )
 LinkLuaModifier( "SOLO_MODE_modifier", "core/SOLO_MODE_modifier", LUA_MODIFIER_MOTION_NONE )
@@ -30,10 +27,6 @@ function GameSetup:init()
     -- setup scoreboard
     Scoreboard:Init()
 
-    -- setup movement
-    PlayerManager:SetUpMouseUpdater()
-    PlayerManager:SetUpMovement()
-
     -- timer for updating player frames
     player_frame_manager:UpdatePlayer()
 
@@ -44,48 +37,32 @@ function GameSetup:init()
     -- events here: https://developer.valvesoftware.com/wiki/Dota_2_Workshop_Tools/Scripting/Built-In_Engine_Events
     ListenToGameEvent("game_rules_state_change", Dynamic_Wrap(self, "OnStateChange"), self) -- valve engine event
     ListenToGameEvent('npc_spawned', Dynamic_Wrap(self, 'OnNPCSpawned'), self) -- npc_spawned is a valve engine event
-    --ListenToGameEvent('dota_player_pick_hero', Dynamic_Wrap(self, 'PlayerPickHero'), self) -- dota_player_pick_hero is a valve engine event
     ListenToGameEvent('entity_killed', Dynamic_Wrap(self, 'OnEntityKilled'), self) --
     ListenToGameEvent('entity_hurt', Dynamic_Wrap(self, 'OnEntityHurt'), self)
     ListenToGameEvent('player_reconnected', Dynamic_Wrap(self, 'OnPlayerReconnected'), self)
     ListenToGameEvent('player_disconnect', Dynamic_Wrap(self, 'OnPlayerDisconnected'), self)
-
-    --ListenToGameEvent('player_team', Dynamic_Wrap(self, 'OnPlayerTeamChange'), self)
-
 end
 --------------------------------------------------------------------------------------------------
 
 function GameSetup:OnStateChange()
     if GameRules:State_Get() == DOTA_GAMERULES_STATE_CUSTOM_GAME_SETUP then
         loading_screen_data:SendLeaderBoardData()
-        -- stripe init
-        --CosmeticManager:Init()
         ModeSelector:Start()
     end
 
     if GameRules:State_Get() == DOTA_GAMERULES_STATE_PRE_GAME then
-        Filters:Activate(GameSetup, self)
-
-        local mode = GameRules:GetGameModeEntity()
-        mode:SetExecuteOrderFilter(Dynamic_Wrap(GameSetup, "ExecuteOrderFilter" ), GameSetup)
-
     end
 
     if GameRules:State_Get() == DOTA_GAMERULES_STATE_HERO_SELECTION then
-        
-
     end
 
     if GameRules:State_Get() == DOTA_GAMERULES_STATE_GAME_IN_PROGRESS then
 
         print("does this run on reconnect? (GameRules:State_Get() == DOTA_GAMERULES_STATE_GAME_IN_PROGRESS) ")
 
-        -- might to need check all clients are ready with a timer ehre and dont move past until theyre
         Timers:CreateTimer(2.0, function()
             if PLAYERS_HANDSHAKE_READY == PlayerResource:GetPlayerCount() then
                 
-                -- HeroSelection:Start()
-                -- setup session manager
                 SessionManager:Init()
 
                 -- use in lua in gamesetup to control other things
@@ -119,67 +96,14 @@ end
 function GameSetup:OnPlayerDisconnected(keys)
     print("GameSetup:OnPlayerDisconnected(keys) ",keys)
 
-    --[[
-        for key, v in pairs(keys) do
-            print("key, ",key,"v, ",v)
-        end
-
-        key, 	PlayerID	v, 	1
-        key, 	xuid	v, 	STEAM ID
-        key, 	game_event_name	v, 	player_disconnect
-        key, 	game_event_listener	v, 	100663304
-        key, 	splitscreenplayer	v, 	-1
-        key, 	name	v, 	PLAYER NAME
-        key, 	networkid	v, 	NET WORK ID
-        key, 	userid	v, 	4 -- this increases per disconnect
-        key, 	reason	v, 	2
-    ]]
-
-    -- i think based on this information above we can add a flag to each player if they're disconnected
-    -- if they reconnect we can change the flag...
-    -- create a timer at game start that polls/checks each player for the flag and if all players are DC
-    -- we can send the session data
-
     if GameRules:State_Get() == DOTA_GAMERULES_STATE_GAME_IN_PROGRESS and PICKING_DONE == true then
-
-        --local pID = keys.PlayerID
-        --local hPlayer = PlayerResource:GetPlayer(pID)
-        --local hPlayerHero = hPlayer:GetAssignedHero()
-
         disconnect_manager:PlayerDisconnect( )
-
-        --print("disconnecting hero name, ",hPlayerHero:GetUnitName())
-
-        --hPlayerHero.isConnected = false
     end
 
 end
 --------------------------------------------------------------------------------------------------
 
 function GameSetup:OnPlayerReconnected(keys)
-    --print("GameSetup:OnPlayerReconnected(keys) ",keys)
-
-    --CustomGameEventManager:Send_ServerToPlayer( player, "display_scoreboard", data )
-
-    -- send event to the client that reconnected most likely... we can send the picking done command as they're setup for that listener.
-
-    -- not sure if we need to makesure the client is ready before we sent this event..
-
-    --[[for key, v in pairs(keys) do
-        print("key, ",key,"v, ",v)
-    end]]
-
-    --[[
-        key, 	game_event_listener	v, 	1602224135
-        key, 	game_event_name	v, 	player_reconnected
-        key, 	PlayerID	v, 	1
-        key, 	splitscreenplayer	v, 	-1
-    ]]
-
-    -- adding comment anotheirn one
-
-    --print("running reconnect code")
-
     disconnect_manager:PlayerReconnect()
 
     local pID = keys.PlayerID
@@ -232,9 +156,6 @@ function GameSetup:OnNPCSpawned(keys)
             return false
         end)
 
-        -- enable camera control
-        PlayerManager:CameraControl( npc:GetPlayerID(), 1 ) -- 0 = disable camera, 1 = enable camera
-
         npc:GetPlayerOwner():SetMusicStatus(2,1) -- battle music
 
         -- remove wearables
@@ -272,24 +193,17 @@ function GameSetup:OnNPCSpawned(keys)
         -- create our own hero list because of the custom hero select screen
         table.insert(HERO_LIST,npc)
 
-        npc:AddNewModifier( npc,  nil, "movement_modifier_thinker", { } )
-        npc:AddNewModifier( npc,  nil, "remove_attack_modifier", { } )
-
         npc:Initialize()
         npc.class_name = GetClassName(npc:GetUnitName())
 
         npc:GetPlayerOwner():SetMusicStatus(1,1)
 
         player_frame_manager:CreatePlayerFrame( npc )
-        --print("on spanwed lives ", npc.playerLives )
 
         if IsInToolsMode() == true then
             npc:AddNewModifier( npc,  nil, "admin_god_mode", { } )
         end
         
-
-        -- gt player name from front end.. event.. etc...
-
         -- level up abilities for all heroes to level 1
         for i = 0, 23 do
             local ability = npc:GetAbilityByIndex(i)
@@ -355,7 +269,6 @@ function GameSetup:RegisterRaidWipe( )
                         if NORMAL_MODE == true or SOLO_MODE == true then
                             self:EncounterCleanUp( Entities:FindByName(nil, RAID_TABLES[BOSS_BATTLES_ENCOUNTER_COUNTER].arena):GetAbsOrigin() )
                         elseif HARD_MODE == true then
-                            --self:EncounterCleanUp( Entities:FindByName(nil, RAID_TABLES[self.previous_encounter].arena):GetAbsOrigin() )
                             self:EncounterCleanUp( self.boss_spawn )
                         end
 
@@ -401,7 +314,6 @@ function GameSetup:OnEntityKilled(keys)
         end
 
         -- handles encounter/boss dying
-        --print("BOSS_BATTLES_ENCOUNTER_COUNTER ",BOSS_BATTLES_ENCOUNTER_COUNTER)
         if npc:GetUnitName() == RAID_TABLES[BOSS_BATTLES_ENCOUNTER_COUNTER].boss then
 
             self.bBossKilled = true
@@ -488,13 +400,9 @@ function GameSetup:OnEntityKilled(keys)
             end)
 
             Timers:CreateTimer(6.5, function()
-                -- clean up enounter
                 self:EncounterCleanUp( self.boss_spawn )
             end)
 
-            -- dispaly scoreboard and send attempt data to UI
-            --local forceOpen = true
-            --Scoreboard:DisplayScoreBoard(forceOpen)
             local data = SessionManager:GetAttemptData()
             CustomGameEventManager:Send_ServerToAllClients( "sendScoreboardData", data )
 
@@ -504,27 +412,11 @@ end
 --------------------------------------------------------------------------------------------------
 
 function GameSetup:OnEntityHurt(keys)
-    -- print("GameSetup:OnEntityHurt(keys). Printing keys: ")
-    --PrintTable(keys, indent, done)
-
-    -- Store the dmg done in a table to maintain history. 
-    -- StoreDamageDone(keys)
     if PICKING_DONE == true then
 
         --DEBUG:
         local inflictor = keys.entindex_inflictor and EntIndexToHScript(keys.entindex_inflictor):GetName()
         if inflictor == nil then inflictor = "unknown_ability" end
-        --print("" ..EntIndexToHScript(keys.entindex_attacker):GetUnitName().. " attacked " ..EntIndexToHScript(keys.entindex_killed):GetUnitName().. " with " ..inflictor.. " dealing " ..keys.damage)
-
-        -- Only process dmg if from or too a player Hero.
-        --local heroes = HERO_LIST--HeroList:GetAllHeroes()
-        --for _, hero in pairs(heroes) do
-            -- Store damage done or received to hero
-            --if (hero:GetEntityIndex() == keys.entindex_killed) or (hero:GetEntityIndex() == keys.entindex_attacker) then
-                --Scoreboard:StoreDamageDone(keys)
-                --break
-            --end
-        --end
 
         Scoreboard:StoreDamageDone(keys)
 
@@ -551,13 +443,12 @@ function GameSetup:OnEntityHurt(keys)
                 local effect_cast = ParticleManager:CreateParticleForPlayer( "particles/custom_msg_damage.vpcf", PATTACH_WORLDORIGIN , entAttacker, entAttacker:GetPlayerOwner() )
                 ParticleManager:SetParticleControl(effect_cast, 0, entVictim:GetAbsOrigin())
                 ParticleManager:SetParticleControl(effect_cast, 1, Vector(0, keys.damage, 0))
-                ParticleManager:SetParticleControl(effect_cast, 2, Vector(0.5, word_length, 0)) --vector(math.max(1, keys.damage / 10), word_length, 0))
+                ParticleManager:SetParticleControl(effect_cast, 2, Vector(1, word_length, 0)) --vector(math.max(1, keys.damage / 10), word_length, 0))
                 ParticleManager:SetParticleControl(effect_cast, 3, color)
                 ParticleManager:ReleaseParticleIndex(effect_cast)
             end
         end
     end
-
 end
 --------------------------------------------------------------------------------------------------
 
@@ -636,79 +527,6 @@ function GameSetup:HeroKilled( keys )
         self.inflictor = EntIndexToHScript(keys.entindex_inflictor):GetName()
     end
 
-    --PrintTable(keys, indent, done)
-    --print("entindex_inflictor ",EntIndexToHScript( keys.entindex_inflictor ):GetUnitName())
-    --print("entindex_attacker ",EntIndexToHScript( keys.entindex_attacker ):GetUnitName())
-
-    --[[
-        damagebits: 0
-        entindex_attacker: 88
-        entindex_inflictor: 88
-        entindex_killed: 88
-        game_event_listener: 503316485
-        game_event_name: entity_killed
-        splitscreenplayer: -1
-    ]]
-
-    --[[if TRACK_DATA == true then
-
-        local hero = killedHero
-
-        -- GameRules:GetGameTime()
-        if hero.deathsDetails == nil or #hero.deathsDetails == 0 then
-            print("init - deathsDetails table does not contain anything")
-            local targets = {}
-            targets["attacker"] = EntIndexToHScript(keys.entindex_attacker):GetUnitName()
-            targets["abilities"] = {}
-
-            local ability = {}
-            ability["spell_name"] = ""
-            ability["time"] = GameRules:GetGameTime()
-
-            ability["spell_name"] = self.inflictor
-            table.insert(targets["abilities"],ability)
-            table.insert(hero.deathsDetails,targets)
-        else
-
-            self.target_exists = false
-            for _, targetData in pairs(hero.deathsDetails) do
-                if targetData.attacker == EntIndexToHScript(keys.entindex_attacker):GetUnitName() == true then
-                    self.target_exists = true
-                end
-            end
-
-            if self.target_exists == true then
-                for _, targetData in pairs(hero.deathsDetails) do
-                    if targetData.attacker == EntIndexToHScript(keys.entindex_attacker):GetUnitName() == true then
-
-                        local ability = {}
-                        ability["spell_name"] = ""
-                        ability["time"] = GameRules:GetGameTime()
-
-                        ability["spell_name"] = self.inflictor
-                        table.insert(targetData.abilities,ability)
-                        break
-                    end
-                end
-            end
-
-            if self.target_exists == false then
-                local targets = {}
-                targets["attacker"] = EntIndexToHScript(keys.entindex_attacker):GetUnitName()
-                targets["abilities"] = {}
-
-                local ability = {}
-                ability["spell_name"] = ""
-                ability["time"] = GameRules:GetGameTime()
-
-                ability["spell_name"] = self.inflictor
-                table.insert(targets["abilities"],ability)
-                table.insert(hero.deathsDetails,targets)
-            end
-        end
-    end]]
-
-
     killedHero.playerLives = killedHero.playerLives - 1
     killedHero.playerDeaths = killedHero.playerDeaths + 1
 
@@ -741,9 +559,6 @@ end
 function GameSetup:EncounterCleanUp( origin )
     if origin == nil then return end
 
-    --print("cleaning up encounter ", RAID_TABLES[BOSS_BATTLES_ENCOUNTER_COUNTER].name)
-
-    --GameRules:SetTreeRegrowTime( 1.0 )
     PLAYERS_FIGHTING_BOSS = false
 
     DestroyItems( origin )
@@ -782,9 +597,6 @@ function GameSetup:EncounterCleanUp( origin )
         end
     end]]
 
-    -- find heroes in the arena and move them back to the intermission area
-
-    -- on cleanup remove all modifiers except the core ones
     for _, hero in pairs(HERO_LIST) do
 
         hero:GetPlayerOwner():SetMusicStatus(1,1) -- chill music
@@ -949,6 +761,7 @@ function GameSetup:FinishModeSelection()
 
     if self.mode_selector_host ~= nil then
         if self.mode_selector_host:HasModifier("modifier_rooted") == true then
+            print("FinishModeSelection removing ropot ")
             self.mode_selector_host:RemoveModifierByName("modifier_rooted")
         end
     end
@@ -968,4 +781,27 @@ function GameSetup:PlayerNameSent( event )
         end
     end
 
+end
+
+function GameSetup:AddDefaultModifiersToHeroes()
+
+    if hero:GetUnitName() == "npc_dota_hero_phantom_assassin" then
+
+    end
+
+    if hero:GetUnitName() == "npc_dota_hero_crystal_maiden" then
+
+    end
+
+    if hero:GetUnitName() == "npc_dota_hero_oracle" then
+
+    end
+
+    if hero:GetUnitName() == "npc_dota_hero_juggernaut" then
+
+    end
+
+    if hero:GetUnitName() == "npc_dota_hero_lina" then
+
+    end
 end

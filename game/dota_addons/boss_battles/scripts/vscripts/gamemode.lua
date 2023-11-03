@@ -208,8 +208,8 @@ function GameMode:OnHeroInGame(hero)
   --WebApi:PostScoreboardDummyData()
   --WebApi:SavePlayHistory(hero)
 
-  hero:AddNewModifier( hero,  nil, "movement_modifier_thinker", { } )
-  hero:AddNewModifier( hero,  nil, "remove_attack_modifier", { } )
+  -- hero:AddNewModifier( hero,  nil, "movement_modifier_thinker", { } )
+  -- hero:AddNewModifier( hero,  nil, "remove_attack_modifier", { } )
 
   -- level up abilities for all heroes to level 1
   if hero:GetUnitName() == "npc_dota_hero_crystal_maiden" or hero:GetUnitName() == "npc_dota_hero_windrunner" then

@@ -88,11 +88,11 @@ function HideDefaults(){
 
 
 function ModifyHotkeyBox(top_panel) {
-    if(!ModifyHotkeyText(top_panel, "Ability0", "L-Mouse")){ return false; }
-    if(!ModifyHotkeyText(top_panel, "Ability1", "R-Mouse")){ return false; }
-    if(!ModifyHotkeyText(top_panel, "Ability2", "Q")){ return false; }
-    if(!ModifyHotkeyText(top_panel, "Ability3", "E")){ return false; }
-    if(!ModifyHotkeyText(top_panel, "Ability4", "R")){ return false; }
+    if(!ModifyHotkeyText(top_panel, "Ability0", "Q")){ return false; }
+    if(!ModifyHotkeyText(top_panel, "Ability1", "W")){ return false; }
+    if(!ModifyHotkeyText(top_panel, "Ability2", "E")){ return false; }
+    if(!ModifyHotkeyText(top_panel, "Ability3", "R")){ return false; }
+    if(!ModifyHotkeyText(top_panel, "Ability4", "T")){ return false; }
     if(!ModifyHotkeyText(top_panel, "Ability5", "Space")){ return false; }
     return true;
 }
@@ -125,35 +125,6 @@ function ModifyHotkeyBoxes(top_panel){
     })();
 }
 
-function ModifyPlayers(top_panel){
-
-    // notes
-    // removing the mana/health bar from the bottom HUD ui / changing colour should be straight forward
-    // BUT if want that to match the stuff above the hero we would need to create our own custom stuff (overhead) there are a few exmaples for this so might not be too hard
-
-    //$.Msg("modify mana bars")
-
-    /*var manaBar_left = top_panel.FindChildTraverse("ManaProgress_Left");
-    manaBar_left.RemoveClass("ProgressBarLeft");
-    manaBar_left.AddClass("ProgressBarLeft_v2")
-
-    var manaBar_right = top_panel.FindChildTraverse("ManaProgress_Right"); 
-    manaBar_right.RemoveClass("ProgressBarRight");
-    manaBar_right.AddClass("ProgressBarRight_v2")*/
-
-}
-
-/*(function() {
-    var top_panel = $.GetContextPanel();
-    while(top_panel.GetParent() != null){
-        top_panel = top_panel.GetParent();
-    }
-
-    ModifyHotkeyBoxes(top_panel);
-    HideDefaults();
-    HideOther(top_panel);
-
-})();*/
 
 function Init(){
     var top_panel = $.GetContextPanel();
@@ -165,7 +136,5 @@ function Init(){
     ModifyHotkeyBoxes(top_panel);
     HideDefaults();
     HideOther(top_panel);
-    //ModifyPlayers(top_panel);
-
 }
 

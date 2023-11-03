@@ -6,12 +6,12 @@
 	"npc_dota_hero_crystal_maiden"
 	{
 		"override_hero"			"npc_dota_hero_crystal_maiden" 			// Hero to override
-		"Ability1"              "m1_iceshot" 
-        "Ability2"              "m2_icelance" 
-        "Ability3"              "q_iceblock" 
-        "Ability4"              "e_icefall"
-        "Ability5"              "r_frostbomb"
-        "Ability6"              "space_frostblink"
+		"Ability1"              "m2_icelance" 
+        "Ability2"              "q_iceblock" 
+        "Ability3"              "e_icefall" 
+        "Ability4"              "r_frostbomb"
+        "Ability5"              "space_frostblink"
+        "Ability6"              "ice_mage_passive"
         "Ability7"              ""
         "Ability8"              ""
         "Ability9"              ""
@@ -22,14 +22,21 @@
         "Ability14"             ""
         "Ability15"             ""
         "Ability16"             ""
-        "Ability17"             "ice_mage_passive"
+        "Ability17"             ""
 
         "ArmorPhysical"             "0"
         "MagicalResistance"         "0"
 
         "AttackCapabilities"        "DOTA_UNIT_CAP_RANGED_ATTACK"
-        "AttackDamageMin"           "1"
-        "AttackDamageMax"           "1"
+        "AttackDamageMin"           "55"
+        "AttackDamageMax"           "55"
+        "AttackRate"                 "1.0"     // Speed of attack. 1.7 cm defualt
+        "AttackAnimationPoint"       "0.45"    // Normalized time in animation cycle to attack.
+        "AttackAcquisitionRange"     "1000"     // Range within a target can be acquired.
+        "AttackRange"                "1000"     // Range within a target can be attacked.
+        "AttackRangeBuffer"          "250"     // Extra range the target can move without canceling the attack
+        "ProjectileModel"            "particles/units/heroes/hero_crystalmaiden/maiden_base_attack.vpcf"
+        "ProjectileSpeed"            "1200"
 
         //"AttributePrimary"        "DOTA_ATTRIBUTE_STRENGTH"
         "AttributeBaseStrength"     "0"

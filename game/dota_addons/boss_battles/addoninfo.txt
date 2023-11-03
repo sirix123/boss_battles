@@ -9,24 +9,12 @@
 	Default_Keys = 
 	[
 		{
-			Key = "W"
-			Command = "+W"
-		},
-		{
-			Key = "A"
-			Command = "+A"
-		},
-		{
-			Key = "S"
-			Command = "+S"
-		},
-		{
-			Key = "D"
-			Command = "+D"
-		},
-		{
 			Key = "Q"
 			Command = "+Q"
+		},
+		{
+			Key = "W"
+			Command = "+W"
 		},
 		{
 			Key = "E"
@@ -34,6 +22,10 @@
 		},
 		{
 			Key = "R"
+			Command = "+R"
+		},
+		{
+			Key = "T"
 			Command = "+R"
 		},
 		{

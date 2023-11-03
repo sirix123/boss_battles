@@ -44,7 +44,7 @@ _G.HARD_MODE = false
 _G.DEBUG_MODE = false
 
 -- set before a release
-_G.sRELEASE_NUMBER = "1.1"
+_G.sRELEASE_NUMBER = "2.0"
 
 _G.nATTEMPT_TRACKER = 0
 _G.nBOSS_HP_ATTEMPT = 0
@@ -70,12 +70,10 @@ _G.HERO_NAME_LIST =
 
 _G.tCORE_MODIFIERS =
 {
-    "movement_modifier_thinker",
-    "remove_attack_modifier",
     "admin_god_mode",
     "modifier_grace_period",
-    "modifier_hero_movement",
     "qop_passive_modifier",
+    "ice_mage_passive_modifier",
     "blademaster_death_enable_spells",
     "modifier_arcana_cosmetics",
     "rat_passive_modifier",

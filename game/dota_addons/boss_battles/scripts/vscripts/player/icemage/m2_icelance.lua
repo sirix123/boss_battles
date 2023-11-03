@@ -1,8 +1,6 @@
 m2_icelance = class({})
 LinkLuaModifier("shatter_modifier", "player/icemage/modifiers/shatter_modifier", LUA_MODIFIER_MOTION_NONE)
 LinkLuaModifier("bonechill_modifier", "player/icemage/modifiers/bonechill_modifier", LUA_MODIFIER_MOTION_NONE)
---LinkLuaModifier( "modifier_target_indicator_line", "player/generic/modifier_target_indicator_line", LUA_MODIFIER_MOTION_NONE )
-
 
 function m2_icelance:OnAbilityPhaseStart()
     if IsServer() then
@@ -11,35 +9,6 @@ function m2_icelance:OnAbilityPhaseStart()
         self.fBetweenProj = self:GetSpecialValueFor( "time_between_proj" )
         self.caster = self:GetCaster()
 
-        -- attach iceorbs around caster
-        -- this particple effect can only handle 4 orbs total if maxproj is > 4 only 4 orbs will show
-        local particleName = "particles/icemage/icemage_icelance_phoenix_fire_spirits.vpcf"
-        self.pfx = ParticleManager:CreateParticle( particleName, PATTACH_ABSORIGIN_FOLLOW, self.caster )
-
-        ParticleManager:SetParticleControl( self.pfx, 1, Vector( self.nMaxProj, 0, 0 ) )
-
-        for i=1, self.nMaxProj do
-            ParticleManager:SetParticleControl( self.pfx, 8+i, Vector( 1, 0, 0 ) )
-        end
-
-        -- start casting animation
-        -- the 1 below is imporant if set incorrectly the animation will stutter (second variable in startgesture is the playback override)
-        self:GetCaster():StartGestureWithPlaybackRate(ACT_DOTA_CAST_ABILITY_1, 0.5)
-
-        -- add casting modifier
-        self:GetCaster():AddNewModifier(self:GetCaster(), self, "casting_modifier_thinker",
-        {
-            duration = self:GetCastPoint() + ((self.nMaxProj * self.fBetweenProj) - self.fBetweenProj),
-            bMovementLock = true,
-        })
-
-        --[[ add targeting modifier
-        self:GetCaster():AddNewModifier(self:GetCaster(), self, "modifier_target_indicator_line",
-        {
-            duration = -1,
-            cast_range = self:GetCastRange(Vector(0,0,0), nil),
-        })]]
-
         return true
     end
 end
@@ -47,23 +16,6 @@ end
 
 function m2_icelance:OnAbilityPhaseInterrupted()
     if IsServer() then
-
-        -- remove casting animation
-        self:GetCaster():FadeGesture(ACT_DOTA_CAST_ABILITY_1)
-
-        -- remove casting modifier
-        self:GetCaster():RemoveModifierByName("casting_modifier_thinker")
-
-        -- remove orbs
-        if self.pfx then
-            ParticleManager:DestroyParticle( self.pfx, false )
-            ParticleManager:ReleaseParticleIndex( self.pfx )
-        end
-
-        --[[if self:GetCaster():HasModifier("modifier_target_indicator_line") == true then
-            self:GetCaster():RemoveModifierByName("modifier_target_indicator_line")
-        end]]
-
     end
 end
 ---------------------------------------------------------------------------
@@ -81,99 +33,56 @@ function m2_icelance:OnSpellStart()
         self.shatterDmg = self:GetSpecialValueFor( "shatter_dmg_xStacks" )
         self.mana_regen = self:GetSpecialValueFor( "mana_regen" )
 
-        local nProj = 0
-        local currentOrbs = self.nMaxProj
+        -- set proj direction to mouse location
+        local vTargetPos = nil
+        vTargetPos = self:GetCursorPosition()
+        local projectile_direction = (Vector( vTargetPos.x - origin.x, vTargetPos.y - origin.y, 0 )):Normalized()
 
-        -- start timer
-        Timers:CreateTimer(0, function()
+        local projectile = {
+            EffectName = "particles/icemage/m2_icelance_mars_ti9_immortal_crimson_spear.vpcf",
+            vSpawnOrigin = origin + Vector(0, 0, 100),
+            fDistance = self:GetCastRange(Vector(0,0,0), nil),
+            fUniqueRadius = self:GetSpecialValueFor( "hit_box" ),
+            Source = self.caster,
+            vVelocity = projectile_direction * projectile_speed,
+            UnitBehavior = PROJECTILES_DESTROY,
+            TreeBehavior = PROJECTILES_DESTROY,
+            WallBehavior = PROJECTILES_DESTROY,
+            GroundBehavior = PROJECTILES_NOTHING,
+            fGroundOffset = 80,
+            UnitTest = function(_self, unit)
+                return unit:GetTeamNumber() ~= self.caster:GetTeamNumber() and unit:GetModelName() ~= "models/development/invisiblebox.vmdl" and CheckGlobalUnitTableForUnitName(unit) ~= true
+            end,
+            OnUnitHit = function(_self, unit)
 
-            -- set proj direction to mouse location
-            local vTargetPos = nil
-            vTargetPos = Vector(self.caster.mouse.x, self.caster.mouse.y, self.caster.mouse.z)
-            local projectile_direction = (Vector( vTargetPos.x - origin.x, vTargetPos.y - origin.y, 0 )):Normalized()
+                -- init icelance dmg table
+                local dmgTable = {
+                    victim = unit,
+                    attacker = self.caster,
+                    damage = self:GetSpecialValueFor( "dmg" ),
+                    damage_type = self:GetAbilityDamageType(),
+                    ability = self,
+                }
 
-            -- end timer logic
-            if nProj == self.nMaxProj then
-                -- sstop animation when spell finishes
-                self:GetCaster():FadeGesture(ACT_DOTA_CAST_ABILITY_1)
+                -- handles bonechill apply logic with shatter stacks
+                self:ApplyBoneChill(unit)
 
-                --[[if self:GetCaster():HasModifier("modifier_target_indicator_line") == true then
-                    self:GetCaster():RemoveModifierByName("modifier_target_indicator_line")
-                end]]
+                -- applys base dmg icelance regardles of stacks
+                ApplyDamage(dmgTable)
+                EmitSoundOnLocationWithCaster(unit:GetAbsOrigin(), "hero_Crystal.projectileImpact", self.caster)
 
-				return false
-            end
+            end,
+            OnFinish = function(_self, pos)
+                -- add projectile explode particle effect here on the pos it finishes at
+                local particle_cast = "particles/units/heroes/hero_crystalmaiden/maiden_base_attack_explosion.vpcf"
+                local effect_cast = ParticleManager:CreateParticle(particle_cast, PATTACH_WORLDORIGIN, nil)
+                ParticleManager:SetParticleControl(effect_cast, 0, pos)
+                ParticleManager:SetParticleControl(effect_cast, 3, pos)
+                ParticleManager:ReleaseParticleIndex(effect_cast)
+            end,
+        }
 
-            local projectile = {
-                EffectName = "particles/icemage/m2_icelance_mars_ti9_immortal_crimson_spear.vpcf",
-                vSpawnOrigin = origin + Vector(0, 0, 100),
-                fDistance = self:GetCastRange(Vector(0,0,0), nil),
-                fUniqueRadius = self:GetSpecialValueFor( "hit_box" ),
-                Source = self.caster,
-                vVelocity = projectile_direction * projectile_speed,
-                UnitBehavior = PROJECTILES_DESTROY,
-                TreeBehavior = PROJECTILES_DESTROY,
-                WallBehavior = PROJECTILES_DESTROY,
-                GroundBehavior = PROJECTILES_NOTHING,
-                fGroundOffset = 80,
-                UnitTest = function(_self, unit)
-                    return unit:GetTeamNumber() ~= self.caster:GetTeamNumber() and unit:GetModelName() ~= "models/development/invisiblebox.vmdl" and CheckGlobalUnitTableForUnitName(unit) ~= true
-                end,
-                OnUnitHit = function(_self, unit)
-
-                    -- init icelance dmg table
-                    local dmgTable = {
-                        victim = unit,
-                        attacker = self.caster,
-                        damage = self:GetSpecialValueFor( "dmg" ),
-                        damage_type = self:GetAbilityDamageType(),
-                        ability = self,
-                    }
-
-                    -- give mana
-                    --self.caster:ManaOnHit(self:GetSpecialValueFor( "mana_gain_percent"))
-
-                    -- handles bonechill apply logic with shatter stacks
-                    self:ApplyBoneChill(unit)
-
-                    -- applys base dmg icelance regardles of stacks
-                    ApplyDamage(dmgTable)
-                    EmitSoundOnLocationWithCaster(unit:GetAbsOrigin(), "hero_Crystal.projectileImpact", self.caster)
-
-                end,
-                OnFinish = function(_self, pos)
-                    -- add projectile explode particle effect here on the pos it finishes at
-                    local particle_cast = "particles/units/heroes/hero_crystalmaiden/maiden_base_attack_explosion.vpcf"
-                    local effect_cast = ParticleManager:CreateParticle(particle_cast, PATTACH_WORLDORIGIN, nil)
-                    ParticleManager:SetParticleControl(effect_cast, 0, pos)
-                    ParticleManager:SetParticleControl(effect_cast, 3, pos)
-                    ParticleManager:ReleaseParticleIndex(effect_cast)
-
-                    -- maybe add small ground aoe here as well if we decide icelance does a sml aoe for dmg
-                end,
-            }
-
-            -- destroy one orb
-            currentOrbs = currentOrbs - 1
-            ParticleManager:SetParticleControl( self.pfx, 1, Vector( currentOrbs, 0, 0 ) )
-            for i=1, self.nMaxProj, 1 do
-                local radius = 0
-
-                if i <= currentOrbs then
-                    radius = 1
-                end
-
-                ParticleManager:SetParticleControl( self.pfx, 8+i, Vector( radius, 0, 0 ) )
-            end
-
-            -- inc local stack count
-            nProj = nProj + 1
-
-            -- create projectile and launch it
-            Projectiles:CreateProjectile(projectile)
-
-            return self.fBetweenProj
-        end)
+        Projectiles:CreateProjectile(projectile)
 	end
 end
 ----------------------------------------------------------------------------------------------------------------
