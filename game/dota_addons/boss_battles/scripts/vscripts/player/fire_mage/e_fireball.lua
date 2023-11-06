@@ -3,19 +3,7 @@ LinkLuaModifier( "cast_fireball_modifier", "player/fire_mage/modifiers/cast_fire
 
 function e_fireball:OnAbilityPhaseStart()
     if IsServer() then
-
-        self:GetCaster():StartGestureWithPlaybackRate(ACT_DOTA_GENERIC_CHANNEL_1, 1.2)
-
-        -- add casting modifier
-        self:GetCaster():AddNewModifier(self:GetCaster(), self, "casting_modifier_thinker",
-        {
-            duration = -1,
-            bMovementLock = true,
-            bTurnRateLimit = true,
-        })
-
         self.onceoff = true
-
         return true
     end
 end
@@ -24,28 +12,16 @@ end
 function e_fireball:OnAbilityPhaseInterrupted()
     if IsServer() then
 
-        -- remove casting animation
-        self:GetCaster():FadeGesture(ACT_DOTA_GENERIC_CHANNEL_1)
-
-        -- remove casting modifier
-        self:GetCaster():RemoveModifierByName("casting_modifier_thinker")
-
     end
 end
 ---------------------------------------------------------------------------
 
 function e_fireball:OnChannelFinish(bInterrupted)
 	if IsServer() then
-
-        self:GetCaster():RemoveModifierByName("casting_modifier_thinker")
-
-        self:GetCaster():FadeGesture(ACT_DOTA_GENERIC_CHANNEL_1)
-
         local remnant = self:FindRemnant()
         if remnant ~= nil then
             remnant:RemoveModifierByName("cast_fireball_modifier")
         end
-
 	end
 end
 
@@ -56,7 +32,9 @@ function e_fireball:OnChannelThink( flinterval )
         self.caster = self:GetCaster()
         self.origin = self.caster:GetAbsOrigin()
 
-        local caster_forward = self.caster:GetForwardVector()
+        local vTargetPos = nil
+        vTargetPos = self:GetCursorPosition()
+        local projectile_direction = (Vector( vTargetPos.x - self.origin.x, vTargetPos.y - self.origin.y, 0 )):Normalized()
 
         local dmg = self:GetSpecialValueFor( "dmg" )
 
@@ -89,7 +67,7 @@ function e_fireball:OnChannelThink( flinterval )
                 fDistance = self:GetCastRange(Vector(0,0,0), nil),
                 fUniqueRadius = self:GetSpecialValueFor( "hit_box" ),
                 Source = self.caster,
-                vVelocity = caster_forward * self:GetSpecialValueFor( "speed" ),
+                vVelocity = projectile_direction * self:GetSpecialValueFor( "speed" ),
                 UnitBehavior = PROJECTILES_DESTROY,
                 TreeBehavior = PROJECTILES_DESTROY,
                 WallBehavior = PROJECTILES_DESTROY,

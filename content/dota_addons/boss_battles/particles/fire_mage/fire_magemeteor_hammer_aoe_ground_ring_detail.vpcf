@@ -1,4 +1,4 @@
-<!-- kv3 encoding:text:version{e21c7f3c-8a33-41c5-9977-a76d3a32aa0d} format:vpcf31:version{593cd181-a1d6-4c6f-9a8c-0534e8d44db0} -->
+<!-- kv3 encoding:text:version{e21c7f3c-8a33-41c5-9977-a76d3a32aa0d} format:vpcf58:version{9bada39c-a931-42d0-abdd-e5c1b13d37a6} -->
 {
 	_class = "CParticleSystemDefinition"
 	m_bShouldHitboxesFallbackToRenderBounds = false
@@ -6,7 +6,7 @@
 	m_nInitialParticles = 1
 	m_nMaxParticles = 8
 	m_ConstantColor = [ 221, 51, 51, 255 ]
-	m_nBehaviorVersion = 4
+	m_nBehaviorVersion = 12
 	m_nFirstMultipleOverride_BackwardCompat = 7
 	m_controlPointConfigurations = 
 	[
@@ -16,8 +16,6 @@
 			[
 				{
 					m_iAttachType = "PATTACH_WORLDORIGIN"
-					m_vecOffset = [ 0.0, 0.0, 0.0 ]
-					m_angOffset = [ 0.0, 0.0, 0.0 ]
 					m_entityName = "self"
 				},
 			]
@@ -49,27 +47,36 @@
 	m_Initializers = 
 	[
 		{
-			_class = "C_INIT_RandomRadius"
-			m_flRadiusMin = 95.0
-			m_flRadiusMax = 95.0
+			_class = "C_INIT_InitFloat"
+			m_InputValue = 
+			{
+				m_nType = "PF_TYPE_LITERAL"
+				m_flLiteralValue = 95.0
+			}
 		},
 		{
-			_class = "C_INIT_RandomAlpha"
-			m_nAlphaMin = 75
-			m_nAlphaMax = 75
+			_class = "C_INIT_InitFloat"
+			m_InputValue = 
+			{
+				m_nType = "PF_TYPE_LITERAL"
+				m_flLiteralValue = 0.294118
+			}
+			m_nOutputField = 7
 		},
 		{
-			_class = "C_INIT_RandomLifeTime"
-			m_fLifetimeMin = 1.2
-			m_fLifetimeMax = 1.2
+			_class = "C_INIT_InitFloat"
+			m_InputValue = 
+			{
+				m_nType = "PF_TYPE_LITERAL"
+				m_flLiteralValue = 1.2
+			}
+			m_nOutputField = 1
 		},
 		{
 			_class = "C_INIT_RandomColor"
 			m_ColorMin = [ 108, 191, 233 ]
 			m_ColorMax = [ 53, 99, 200 ]
 			m_bDisableOperator = true
-			m_TintMin = [ 0, 0, 0 ]
-			m_TintMax = [ 255, 255, 255 ]
 		},
 		{
 			_class = "C_INIT_RingWave"
@@ -101,7 +108,7 @@
 		},
 		{
 			_class = "C_INIT_RemapParticleCountToScalar"
-			m_nFieldOutput = "1"
+			m_nFieldOutput = 1
 			m_nInputMax = 7
 			m_flOutputMin = 4.0
 			m_flOutputMax = 2.0
@@ -135,7 +142,7 @@
 			_class = "C_OP_RampScalarLinearSimple"
 			m_Rate = -2.0
 			m_flEndTime = 99999.0
-			m_nField = "16"
+			m_nField = 16
 			m_nOpEndCapState = "PARTICLE_ENDCAP_ENDCAP_ON"
 		},
 	]
@@ -154,7 +161,6 @@
 				},
 			]
 			m_nOutputBlendMode = "PARTICLE_OUTPUT_BLEND_MODE_ADD"
-			m_OutlineColor = [ 255, 255, 255 ]
 		},
 	]
 }

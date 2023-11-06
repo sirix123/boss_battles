@@ -8,11 +8,14 @@
 
 		"AbilityTextureName"			"lina_dragon_slave"
 		"AbilityUnitTargetTeam"			"DOTA_UNIT_TARGET_TEAM_ENEMY"
+		"AbilityBehavior"				"DOTA_ABILITY_BEHAVIOR_UNIT_TARGET | DOTA_ABILITY_BEHAVIOR_CHANNELLED"
+		"AbilityUnitTargetType"			"DOTA_UNIT_TARGET_HERO | DOTA_UNIT_TARGET_BASIC"
+		"AbilityCastAnimation"   		"ACT_DOTA_GENERIC_CHANNEL_1"
 		"AbilityUnitDamageType"			"DAMAGE_TYPE_PHYSICAL"	
-        "AbilityBehavior"				"DOTA_ABILITY_BEHAVIOR_POINT | DOTA_ABILITY_BEHAVIOR_IGNORE_PSEUDO_QUEUE"
 		"AbilityCastRange" 				"750"
         "AbilityCooldown"				"0.5"
         "AbilityCastPoint"              "0.1"
+		"AbilityChannelTime"			"30.0"
 
 
 		"TargetingIndicator"
@@ -27,9 +30,11 @@
 			"02"{ "var_type"			"FIELD_INTEGER"		"mana_gain_percent"				"5" 	}
 			"03"{ "var_type"			"FIELD_INTEGER"		"buff_duration"					"3" 	} 
 			"04"{ "var_type"			"FIELD_INTEGER"		"beam_length"					"750" 	} 
-			"05"{ "var_type"			"FIELD_INTEGER"		"buff_channel_time"				"6" 	} // timer runs at 0.5
-			"06"{ "var_type"			"FIELD_INTEGER"		"damageand_mana_gain_reduction"	"33" 	}
-
+			"05"{ "var_type"			"FIELD_INTEGER"		"beam_width"					"100" 	} 
+			"06"{ "var_type"			"FIELD_INTEGER"		"buff_channel_time"				"6" 	} // timer runs at 0.5
+			"07"{ "var_type"			"FIELD_INTEGER"		"damageand_mana_gain_reduction"	"33" 	}
+			"08"{ "var_type"			"FIELD_FLOAT"		"interval"						"0.5" 	}
+			"08"{ "var_type"			"FIELD_FLOAT"		"stack_gain_interval"			"0.5" 	}
 		}
 	}
 
@@ -42,11 +47,12 @@
 		"AbilityTextureName"			"lina_light_strike_array"
 		"AbilityUnitTargetTeam"			"DOTA_UNIT_TARGET_TEAM_ENEMY"
 		"AbilityUnitDamageType"			"DAMAGE_TYPE_PHYSICAL"	
-        "AbilityBehavior"				"DOTA_ABILITY_BEHAVIOR_POINT | DOTA_ABILITY_BEHAVIOR_IGNORE_PSEUDO_QUEUE"
+        "AbilityBehavior"				"DOTA_ABILITY_BEHAVIOR_POINT"
 		"AbilityCastRange" 				"1000"
         "AbilityCooldown"				"12"
         "AbilityCastPoint"              "0.4"
 		"AbilityManaCost"        		"20"
+		"AbilityCastAnimation"   		"ACT_DOTA_CAST_ABILITY_2"
 
 		"TargetingIndicator"
 		{
@@ -75,10 +81,11 @@
 		"MaxLevel"						"1"
 
 		"AbilityTextureName"			"ember_spirit_flame_guard"
-		//"AbilityUnitTargetTeam"			"DOTA_UNIT_TARGET_TEAM_FRIENDLY"
-        "AbilityBehavior"				"DOTA_ABILITY_BEHAVIOR_POINT | DOTA_ABILITY_BEHAVIOR_IGNORE_PSEUDO_QUEUE" // DOTA_ABILITY_BEHAVIOR_UNIT_TARGET
-		"AbilityUnitDamageType"			"DAMAGE_TYPE_PHYSICAL"	
-		//"AbilityUnitTargetType"			"DOTA_UNIT_TARGET_HERO | DOTA_UNIT_TARGET_BASIC"
+		"AbilityUnitTargetTeam"			"DOTA_UNIT_TARGET_TEAM_FRIENDLY"
+		"AbilityUnitDamageType"			"DAMAGE_TYPE_PHYSICAL"
+        "AbilityBehavior"				"DOTA_ABILITY_BEHAVIOR_UNIT_TARGET"
+		"AbilityCastAnimation"   		"ACT_DOTA_CAST_ABILITY_1"
+		"AbilityUnitTargetType"			"DOTA_UNIT_TARGET_HERO | DOTA_UNIT_TARGET_BASIC"
 		"AbilityCastRange" 				"750"
         "AbilityCooldown"				"20"
         "AbilityCastPoint"              "0.0"
@@ -115,9 +122,11 @@
 		"MaxLevel"						"1"
 
 		"AbilityTextureName"			"ember_spirit_searing_chains"
-		"AbilityUnitTargetTeam"			"DOTA_UNIT_TARGET_TEAM_ENEMY"
 		"AbilityUnitDamageType"			"DAMAGE_TYPE_PHYSICAL"	
-        "AbilityBehavior"				"DOTA_ABILITY_BEHAVIOR_POINT | DOTA_ABILITY_BEHAVIOR_CHANNELLED | DOTA_ABILITY_BEHAVIOR_IGNORE_PSEUDO_QUEUE"
+		"AbilityUnitTargetTeam"			"DOTA_UNIT_TARGET_TEAM_ENEMY"
+		"AbilityBehavior"				"DOTA_ABILITY_BEHAVIOR_UNIT_TARGET | DOTA_ABILITY_BEHAVIOR_CHANNELLED"
+		"AbilityUnitTargetType"			"DOTA_UNIT_TARGET_HERO | DOTA_UNIT_TARGET_BASIC"
+		"AbilityCastAnimation"   		"ACT_DOTA_GENERIC_CHANNEL_1"
 		"AbilityCastRange" 				"1200"
         "AbilityCooldown"				"12"
         "AbilityCastPoint"              "0.2"
@@ -155,9 +164,9 @@
 
 		"AbilityTextureName"			"ember_spirit_fire_remnant"
 		"AbilityUnitTargetTeam"			"DOTA_UNIT_TARGET_TEAM_ENEMY"
-		"AbilityUnitDamageType"			"DAMAGE_TYPE_PHYSICAL"	
 		"SpellImmunityType"				"SPELL_IMMUNITY_ENEMIES_YES"
-        "AbilityBehavior"				"DOTA_ABILITY_BEHAVIOR_POINT | DOTA_ABILITY_BEHAVIOR_IGNORE_PSEUDO_QUEUE"
+		"AbilityUnitDamageType"			"DAMAGE_TYPE_PHYSICAL"	
+        "AbilityBehavior"				"DOTA_ABILITY_BEHAVIOR_POINT"
 		"AbilityCastRange" 				"1000"
         "AbilityCooldown"				"20"
         "AbilityCastPoint"              "0.2"
@@ -188,7 +197,8 @@
 		"MaxLevel"						"1"
 
 		"AbilityTextureName"			"phoenix_icarus_dive"
-        "AbilityBehavior"				"DOTA_ABILITY_BEHAVIOR_POINT | DOTA_ABILITY_BEHAVIOR_ROOT_DISABLES | DOTA_ABILITY_BEHAVIOR_IGNORE_PSEUDO_QUEUE"
+        "AbilityBehavior"				"DOTA_ABILITY_BEHAVIOR_POINT | DOTA_ABILITY_BEHAVIOR_ROOT_DISABLES"
+		"AbilityCastAnimation"   		"ACT_DOTA_CAST_ABILITY_1"
 		"AbilityCastRange" 				"500"
         "AbilityCastPoint"              "0.0"
 		"AbilityCharges"				"2"

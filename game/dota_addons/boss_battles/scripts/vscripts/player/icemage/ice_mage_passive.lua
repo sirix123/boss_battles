@@ -52,8 +52,27 @@ function ice_mage_passive_modifier:OnAttackLanded(params)
         local attacker = params.attacker
     
         -- check attacker is the modifier parent
-        if not attacker == self:GetParent() then
+        if attacker ~= self:GetParent() then
             return
+        end
+
+        if target == nil and target:GetTeamNumber() == self:GetParent():GetTeamNumber() then
+            return
+        end
+
+        ---- if in editor mode, deal 10000 damage on right clicks
+        if self:GetParent():HasModifier("admin_god_mode") then
+            local dmgEditor = 10000
+
+            local dmgTable = {
+                victim = target,
+                attacker = self:GetParent(),
+                damage = dmgEditor,
+                damage_type = DAMAGE_TYPE_PHYSICAL,
+                ability = self:GetAbility(),
+            }
+
+            ApplyDamage(dmgTable)
         end
 
         -- apply shatter modifier to icemage

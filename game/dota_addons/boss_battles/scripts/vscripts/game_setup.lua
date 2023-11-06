@@ -196,12 +196,15 @@ function GameSetup:OnNPCSpawned(keys)
         npc:Initialize()
         npc.class_name = GetClassName(npc:GetUnitName())
 
+        -- set player hero team
+        npc:SetTeam(DOTA_TEAM_GOODGUYS)
+
         npc:GetPlayerOwner():SetMusicStatus(1,1)
 
         player_frame_manager:CreatePlayerFrame( npc )
 
         if IsInToolsMode() == true then
-            npc:AddNewModifier( npc,  nil, "admin_god_mode", { } )
+            -- npc:AddNewModifier( npc,  nil, "admin_god_mode", { } )
         end
         
         -- level up abilities for all heroes to level 1
@@ -395,6 +398,8 @@ function GameSetup:OnEntityKilled(keys)
                         end
                     end
 
+                    CenterCameraOnUnit(hero:GetPlayerOwnerID(), hero)
+
                 end
 
             end)
@@ -487,6 +492,7 @@ function GameSetup:ReadyupCheck() -- called from trigger lua file for activators
 
         for _,hero in pairs(HERO_LIST) do
             FindClearSpaceForUnit(hero, self.player_spawn, true) -- spawn players in the arena
+            CenterCameraOnUnit(hero:GetPlayerOwnerID(), hero)
         end
 
         -- spawn boss
@@ -533,7 +539,6 @@ function GameSetup:HeroKilled( keys )
     if killedHero.playerLives <= 0 then
         table.insert(self.player_deaths, killedHero)
         self.respawn_time = 9999
-        PlayerManager:CameraControl( killedPlayerID, 0 ) -- 0 = disable camera, 1 = enable camera
     else
         self.respawn_time = BOSS_BATTLES_RESPAWN_TIME
 

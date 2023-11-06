@@ -3,12 +3,6 @@ LinkLuaModifier( "space_dive_modifier", "player/fire_mage/modifiers/space_dive_m
 
 function space_dive:OnAbilityPhaseStart()
     if IsServer() then
-        -- add casting modifier
-        self:GetCaster():AddNewModifier(self:GetCaster(), self, "casting_modifier_thinker",
-        {
-            duration = self:GetCastPoint(),
-        })
-
         return true
     end
 end
@@ -17,12 +11,6 @@ end
 function space_dive:OnAbilityPhaseInterrupted()
     if IsServer() then
 
-        -- remove casting animation
-        self:GetCaster():FadeGesture(ACT_DOTA_CAST_ABILITY_1)
-
-        -- remove casting modifier
-        self:GetCaster():RemoveModifierByName("casting_modifier_thinker")
-
     end
 end
 ---------------------------------------------------------------------------
@@ -30,15 +18,11 @@ end
 function space_dive:OnSpellStart()
     if IsServer() then
 
-        self:GetCaster():FadeGesture(ACT_DOTA_CAST_ABILITY_1)
-
-        self:GetCaster():RemoveModifierByName("casting_modifier_thinker")
-
         EmitSoundOn("Hero_Lina.ProjectileImpact", self:GetCaster())
 
         local caster = self:GetCaster()
         local point = nil
-        point = Clamp(caster:GetOrigin(), Vector(caster.mouse.x, caster.mouse.y, caster.mouse.z), self:GetCastRange(Vector(0,0,0), nil), 0)
+        point = Clamp(caster:GetOrigin(), Vector(self:GetCursorPosition().x, self:GetCursorPosition().y, self:GetCursorPosition().z), self:GetCastRange(Vector(0,0,0), nil), 0)
 
         local arc = self:GetCaster():AddNewModifier(
             self:GetCaster(), -- player source

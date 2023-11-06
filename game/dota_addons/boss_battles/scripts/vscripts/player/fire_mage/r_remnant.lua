@@ -3,12 +3,6 @@ LinkLuaModifier( "r_remnant_modifier", "player/fire_mage/modifiers/r_remnant_mod
 
 function r_remnant:OnAbilityPhaseStart()
     if IsServer() then
-        -- add casting modifier
-        self:GetCaster():AddNewModifier(self:GetCaster(), self, "casting_modifier_thinker",
-        {
-            duration = self:GetCastPoint(),
-        })
-
         return true
     end
 end
@@ -16,13 +10,6 @@ end
 
 function r_remnant:OnAbilityPhaseInterrupted()
     if IsServer() then
-
-        -- remove casting animation
-        self:GetCaster():FadeGesture(ACT_DOTA_CAST_ABILITY_1)
-
-        -- remove casting modifier
-        self:GetCaster():RemoveModifierByName("casting_modifier_thinker")
-
     end
 end
 ---------------------------------------------------------------------------
@@ -30,14 +17,10 @@ end
 function r_remnant:OnSpellStart()
     if IsServer() then
 
-        self:GetCaster():FadeGesture(ACT_DOTA_CAST_ABILITY_1)
-
-        self:GetCaster():RemoveModifierByName("casting_modifier_thinker")
-
         local caster = self:GetCaster()
 
         local vTargetPos = nil
-        vTargetPos = Clamp(caster:GetOrigin(), Vector(caster.mouse.x, caster.mouse.y, caster.mouse.z), self:GetCastRange(Vector(0,0,0), nil), 0)
+        vTargetPos = Clamp(caster:GetOrigin(), Vector(self:GetCursorPosition().x, self:GetCursorPosition().y, self:GetCursorPosition().z), self:GetCastRange(Vector(0,0,0), nil), 0)
 
         local unit = CreateUnitByName("npc_lina_remant", vTargetPos, true, caster, caster, DOTA_TEAM_NEUTRALS)
         --unit:SetOwner(caster)
