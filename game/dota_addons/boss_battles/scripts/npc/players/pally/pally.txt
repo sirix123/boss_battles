@@ -6,12 +6,12 @@
 	"npc_dota_hero_omniknight"
 	{
 		"override_hero"			"npc_dota_hero_omniknight" 			// Hero to override
-		"Ability1"              "m1_omni_basic_attack" 
-        "Ability2"              "m2_direct_heal" 
-        "Ability3"              "q_armor_aura" 
-        "Ability4"              "r_outgoing_dmg"
-        "Ability5"              "e_regen_aura"
-        "Ability6"              "space_judgement"
+		"Ability1"              "m2_direct_heal" 
+        "Ability2"              "q_armor_aura" 
+        "Ability3"              "r_outgoing_dmg" 
+        "Ability4"              "e_regen_aura"
+        "Ability5"              "space_judgement"
+        "Ability6"              ""
         "Ability7"              ""
         "Ability8"              ""
         "Ability9"              ""
@@ -28,9 +28,13 @@
         "ArmorPhysical"             "0"
         "MagicalResistance"         "0"
 
-        "AttackCapabilities"        "DOTA_UNIT_CAP_RANGED_ATTACK"
-        "AttackDamageMin"           "1"
-        "AttackDamageMax"           "1"
+		"AttackCapabilities"		"DOTA_UNIT_CAP_MELEE_ATTACK"
+		"AttackDamageMin"			"70"		// Damage range min.
+		"AttackDamageMax"			"70"		// Damage range max.
+		"AttackRate"				"1.0"		// Speed of attack.
+		"AttackAnimationPoint"		"0.45"		// Normalized time in animation cycle to attack.
+		"AttackAcquisitionRange"	"200"		// Range within a target can be acquired.
+		"AttackRange"				"200"		// Range within a target can be attacked.  
 
         //"AttributePrimary"        "DOTA_ATTRIBUTE_STRENGTH"
         "AttributeBaseStrength"     "0"

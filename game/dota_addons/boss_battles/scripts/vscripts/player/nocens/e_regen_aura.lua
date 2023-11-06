@@ -3,16 +3,6 @@ LinkLuaModifier( "e_regen_aura_buff", "player/nocens/modifiers/e_regen_aura_buff
 
 function e_regen_aura:OnAbilityPhaseStart()
     if IsServer() then
-
-        -- start casting animation
-        self:GetCaster():StartGestureWithPlaybackRate(ACT_DOTA_CAST_ABILITY_2, 1.0)
-
-        -- add casting modifier
-        self:GetCaster():AddNewModifier(self:GetCaster(), self, "casting_modifier_thinker",
-        {
-            duration = self:GetCastPoint(),
-        })
-
         return true
     end
 end
@@ -20,33 +10,15 @@ end
 
 function e_regen_aura:OnAbilityPhaseInterrupted()
     if IsServer() then
-
-        -- remove casting animation
-        self:GetCaster():FadeGesture(ACT_DOTA_CAST_ABILITY_2)
-
-        -- remove casting modifier
-        self:GetCaster():RemoveModifierByName("casting_modifier_thinker")
-
     end
 end
 ---------------------------------------------------------------------------
 
 function e_regen_aura:OnSpellStart()
     if IsServer() then
-
-        self:GetCaster():FadeGesture(ACT_DOTA_CAST_ABILITY_2)
-
         local caster = self:GetCaster()
-
         -- sound effect
         caster:EmitSound("Hero_Omniknight.Repel")
-
-        --caster:AddNewModifier(caster, self, "e_regen_aura_buff", {duration = self:GetSpecialValueFor( "duration" )})
-
-        --caster:FindAbilityByName("q_armor_aura"):StartCooldown(caster:FindAbilityByName("q_armor_aura"):GetCooldown(1))
-        --caster:FindAbilityByName("e_regen_aura"):StartCooldown(caster:FindAbilityByName("e_regen_aura"):GetCooldown(1))
-        --caster:FindAbilityByName("r_outgoing_dmg"):StartCooldown(caster:FindAbilityByName("r_outgoing_dmg"):GetCooldown(1))
-
         caster:FindAbilityByName("q_armor_aura"):SetActivated(false)
 		caster:FindAbilityByName("r_outgoing_dmg"):SetActivated(false)
 

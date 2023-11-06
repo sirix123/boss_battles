@@ -5,18 +5,8 @@ LinkLuaModifier( "r_outgoing_dmg_debuff", "player/nocens/modifiers/r_outgoing_dm
 
 function space_judgement:OnAbilityPhaseStart()
     if IsServer() then
-
-        self:GetCaster():StartGestureWithPlaybackRate(ACT_DOTA_CAST_ABILITY_1, 1.5)
-        -- add casting modifier
-        self:GetCaster():AddNewModifier(self:GetCaster(), self, "casting_modifier_thinker",
-        {
-            duration = self:GetCastPoint(),
-        })
-
         self.caster = self:GetCaster()
-        self.point = nil
-        self.point = Clamp(self.caster:GetOrigin(), Vector(self.caster.mouse.x, self.caster.mouse.y, self.caster.mouse.z), self:GetCastRange(Vector(0,0,0), nil), 0)
-
+        self.point = self:GetCursorPosition()
         self.nPreviewFXIndex = ParticleManager:CreateParticle( "particles/econ/events/darkmoon_2017/darkmoon_calldown_marker.vpcf", PATTACH_CUSTOMORIGIN, nil )
         ParticleManager:SetParticleControl( self.nPreviewFXIndex, 0, self.point )
         ParticleManager:SetParticleControl( self.nPreviewFXIndex, 1, Vector( self:GetSpecialValueFor( "radius" ), -self:GetSpecialValueFor( "radius" ), -self:GetSpecialValueFor( "radius" ) ) )
@@ -29,13 +19,7 @@ end
 
 function space_judgement:OnAbilityPhaseInterrupted()
     if IsServer() then
-
-        -- remove casting animation
-        self:GetCaster():FadeGesture(ACT_DOTA_CAST_ABILITY_1)
-
-        -- remove casting modifier
-        self:GetCaster():RemoveModifierByName("casting_modifier_thinker")
-
+        ParticleManager:DestroyParticle( self.nPreviewFXIndex, false )
     end
 end
 ---------------------------------------------------------------------------

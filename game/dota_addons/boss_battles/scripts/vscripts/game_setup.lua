@@ -5,6 +5,7 @@ end
 RAID_TABLES = require('managers/raid_init_tables')
 
 LinkLuaModifier( "modifier_grace_period", "player/generic/modifier_grace_period", LUA_MODIFIER_MOTION_NONE )
+LinkLuaModifier( "modifier_cleave", "player/generic/modifier_cleave", LUA_MODIFIER_MOTION_NONE )
 LinkLuaModifier( "admin_god_mode", "player/generic/admin_god_mode", LUA_MODIFIER_MOTION_NONE )
 LinkLuaModifier( "blademaster_death_enable_spells", "player/warlord/modifiers/blademaster_death_enable_spells", LUA_MODIFIER_MOTION_NONE )
 LinkLuaModifier( "SOLO_MODE_modifier", "core/SOLO_MODE_modifier", LUA_MODIFIER_MOTION_NONE )
@@ -202,6 +203,8 @@ function GameSetup:OnNPCSpawned(keys)
         npc:GetPlayerOwner():SetMusicStatus(1,1)
 
         player_frame_manager:CreatePlayerFrame( npc )
+
+        self:AddDefaultModifiersToHeroes(npc)
 
         if IsInToolsMode() == true then
             -- npc:AddNewModifier( npc,  nil, "admin_god_mode", { } )
@@ -788,10 +791,10 @@ function GameSetup:PlayerNameSent( event )
 
 end
 
-function GameSetup:AddDefaultModifiersToHeroes()
+function GameSetup:AddDefaultModifiersToHeroes(hero)
 
     if hero:GetUnitName() == "npc_dota_hero_phantom_assassin" then
-
+        hero:AddNewModifier( hero, nil, "modifier_cleave", { duration = -1 } )
     end
 
     if hero:GetUnitName() == "npc_dota_hero_crystal_maiden" then
@@ -803,10 +806,30 @@ function GameSetup:AddDefaultModifiersToHeroes()
     end
 
     if hero:GetUnitName() == "npc_dota_hero_juggernaut" then
-
+        hero:AddNewModifier( hero, nil, "modifier_cleave", { duration = -1 } )
     end
 
     if hero:GetUnitName() == "npc_dota_hero_lina" then
 
+    end
+
+    if hero:GetUnitName() == "npc_dota_hero_huskar" then
+        hero:AddNewModifier( hero, nil, "modifier_cleave", { duration = -1 } )
+    end
+
+    if hero:GetUnitName() == "npc_dota_hero_windrunner" then
+
+    end
+
+    if hero:GetUnitName() == "npc_dota_hero_queenofpain" then
+
+    end
+
+    if hero:GetUnitName() == "npc_dota_hero_hoodwink" then
+
+    end
+
+    if hero:GetUnitName() == "npc_dota_hero_omniknight" then
+        hero:AddNewModifier( hero, nil, "modifier_cleave", { duration = -1 } )
     end
 end

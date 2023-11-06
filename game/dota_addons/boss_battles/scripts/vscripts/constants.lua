@@ -78,6 +78,7 @@ _G.tCORE_MODIFIERS =
     "modifier_arcana_cosmetics",
     "rat_passive_modifier",
     "templar_passive_modifier",
+    "modifier_cleave"
 }
 
 _G.PLAYERS_HANDSHAKE_READY = 0
