@@ -4,47 +4,13 @@ LinkLuaModifier("m2_qop_stacks", "player/queenofpain/modifiers/m2_qop_stacks", L
 
 function m2_qop_direct_heal:OnAbilityPhaseStart()
     if IsServer() then
-
-        local units = FindUnitsInRadius(
-            self:GetCaster():GetTeamNumber(),
-            Clamp(self:GetCaster():GetOrigin(), Vector(self:GetCaster().mouse.x, self:GetCaster().mouse.y, self:GetCaster().mouse.z), self:GetCastRange(Vector(0,0,0), nil), 0),
-            nil,
-            200,
-            DOTA_UNIT_TARGET_TEAM_FRIENDLY,
-            DOTA_UNIT_TARGET_HERO,
-            DOTA_UNIT_TARGET_FLAG_MAGIC_IMMUNE_ENEMIES + DOTA_UNIT_TARGET_FLAG_INVULNERABLE,
-            FIND_CLOSEST,
-            false)
-
-        if units == nil or #units == 0 then
-            local playerID = self:GetCaster():GetPlayerID()
-            local player = PlayerResource:GetPlayer(playerID)
-            CustomGameEventManager:Send_ServerToPlayer( player, "no_target", { } )
-            return false
-        else
-
-            self.target = units[1]
-
-            self:GetCaster():StartGestureWithPlaybackRate(ACT_DOTA_CAST_ABILITY_2, 1.0)
-
-            local particle_cast = "particles/units/heroes/hero_omniknight/omniknight_purification_cast.vpcf"
-            local particle_cast_fx = ParticleManager:CreateParticle(particle_cast, PATTACH_ABSORIGIN_FOLLOW, self:GetCaster())
-            ParticleManager:SetParticleControlEnt(particle_cast_fx, 0, self:GetCaster(), PATTACH_POINT_FOLLOW, "attach_hitloc", self:GetCaster():GetAbsOrigin(), true)
-            ParticleManager:SetParticleControl(particle_cast_fx, 1, self.target:GetAbsOrigin())
-            ParticleManager:ReleaseParticleIndex(particle_cast_fx)
-
-            return true
-        end
+        return true
     end
 end
 ---------------------------------------------------------------------------
 
 function m2_qop_direct_heal:OnAbilityPhaseInterrupted()
     if IsServer() then
-
-        -- remove casting animation
-        self:GetCaster():FadeGesture(ACT_DOTA_CAST_ABILITY_2)
-
     end
 end
 
@@ -77,9 +43,6 @@ end
 function m2_qop_direct_heal:OnSpellStart()
     if IsServer() then
 
-        -- when spell starts fade gesture
-        self:GetCaster():FadeGesture(ACT_DOTA_CAST_ABILITY_2)
-
         -- init
         self.caster = self:GetCaster()
 
@@ -98,9 +61,9 @@ function m2_qop_direct_heal:OnSpellStart()
             end
         end
 
-        self.target:Heal(heal_amount, self.caster)
+        self:GetCursorTarget():Heal(heal_amount, self.caster)
 
-        self.target:AddNewModifier(
+        self:GetCursorTarget():AddNewModifier(
             self.caster, -- player source
             self, -- ability source
             "ally_buff_heal", -- modifier name
@@ -116,14 +79,14 @@ function m2_qop_direct_heal:OnSpellStart()
 
         if self.caster.arcana_equipped == true then
             local particle = "particles/econ/items/queen_of_pain/qop_arcana/qop_arcana_blink_end.vpcf"
-            local particle_aoe_fx = ParticleManager:CreateParticle(particle, PATTACH_ABSORIGIN_FOLLOW, self.target)
-            ParticleManager:SetParticleControl(particle_aoe_fx, 0, self.target:GetAbsOrigin())
+            local particle_aoe_fx = ParticleManager:CreateParticle(particle, PATTACH_ABSORIGIN_FOLLOW, self:GetCursorTarget())
+            ParticleManager:SetParticleControl(particle_aoe_fx, 0, self:GetCursorTarget():GetAbsOrigin())
             ParticleManager:ReleaseParticleIndex(particle_aoe_fx)
         else
             -- local particle
             local particle_aoe = "particles/qop/qop_omniknight_purification.vpcf"
-            local particle_aoe_fx = ParticleManager:CreateParticle(particle_aoe, PATTACH_ABSORIGIN_FOLLOW, self.target)
-            ParticleManager:SetParticleControl(particle_aoe_fx, 0, self.target:GetAbsOrigin())
+            local particle_aoe_fx = ParticleManager:CreateParticle(particle_aoe, PATTACH_ABSORIGIN_FOLLOW, self:GetCursorTarget())
+            ParticleManager:SetParticleControl(particle_aoe_fx, 0, self:GetCursorTarget():GetAbsOrigin())
             ParticleManager:SetParticleControl(particle_aoe_fx, 1, Vector(80, 1, 1))
             ParticleManager:ReleaseParticleIndex(particle_aoe_fx)
         end
@@ -131,7 +94,7 @@ function m2_qop_direct_heal:OnSpellStart()
 
 
         -- sound
-        EmitSoundOnLocationWithCaster(self.target:GetAbsOrigin(), "Hero_QueenOfPain.Blink_in", self.caster)
+        EmitSoundOnLocationWithCaster(self:GetCursorTarget():GetAbsOrigin(), "Hero_QueenOfPain.Blink_in", self.caster)
 
 	end
 end

@@ -823,7 +823,7 @@ function GameSetup:AddDefaultModifiersToHeroes(hero)
     end
 
     if hero:GetUnitName() == "npc_dota_hero_queenofpain" then
-
+        hero:AddNewModifier( hero, nil, "modifier_mana_on_hit", { duration = -1 } )
     end
 
     if hero:GetUnitName() == "npc_dota_hero_hoodwink" then

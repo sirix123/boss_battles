@@ -3,70 +3,32 @@ LinkLuaModifier("ally_buff_heal", "player/queenofpain/modifiers/ally_buff_heal",
 
 function q_pen:OnAbilityPhaseStart()
     if IsServer() then
-
-        self:GetCaster():StartGestureWithPlaybackRate(ACT_DOTA_CAST_ABILITY_3, 1.0)
-
-        local units = FindUnitsInRadius(
-            self:GetCaster():GetTeamNumber(),
-            Clamp(self:GetCaster():GetOrigin(), Vector(self:GetCaster().mouse.x, self:GetCaster().mouse.y, self:GetCaster().mouse.z), self:GetCastRange(Vector(0,0,0), nil), 0),
-            nil,
-            200,
-            DOTA_UNIT_TARGET_TEAM_BOTH,
-            DOTA_UNIT_TARGET_ALL,
-            DOTA_UNIT_TARGET_FLAG_NONE,
-            FIND_CLOSEST,
-            false)
-
-        if units == nil or #units == 0 then
-            local playerID = self:GetCaster():GetPlayerID()
-            local player = PlayerResource:GetPlayer(playerID)
-            CustomGameEventManager:Send_ServerToPlayer( player, "no_target", { } )
-            return false
-        else
-
-            self.target = units[1]
-
-            self:GetCaster():AddNewModifier(self:GetCaster(), self, "casting_modifier_thinker",
-            {
-                duration = -1,
-                pMovespeedReduction = 0,
-                bFaceTarget = true,
-                target = self.target:GetEntityIndex(),
-            })
-
-            --[[self:GetCaster():FindAbilityByName("m2_meteor"):SetActivated(false)
-            self:GetCaster():FindAbilityByName("q_fire_bubble"):SetActivated(false)
-            self:GetCaster():FindAbilityByName("r_remnant"):SetActivated(false)
-            self:GetCaster():FindAbilityByName("e_fireball"):SetActivated(false)]]
-
-            return true
-        end
+        return true
     end
 end
 ---------------------------------------------------------------------------
 
 function q_pen:OnAbilityPhaseInterrupted()
     if IsServer() then
-
-        self:GetCaster():RemoveModifierByName("casting_modifier_thinker")
-
-        --[[self:GetCaster():FindAbilityByName("m2_meteor"):SetActivated(false)
-        self:GetCaster():FindAbilityByName("q_fire_bubble"):SetActivated(false)
-        self:GetCaster():FindAbilityByName("r_remnant"):SetActivated(false)
-        self:GetCaster():FindAbilityByName("e_fireball"):SetActivated(false)]]
-
-        -- remove casting animation
-        self:GetCaster():FadeGesture(ACT_DOTA_CAST_ABILITY_3)
-
     end
 end
----------------------------------------------------------------------------
+
+function q_pen:OnChannelFinish(bInterrupted)
+	if IsServer() then
+	end
+end
 
 function q_pen:OnSpellStart()
     if IsServer() then
 
-        -- when spell starts fade gesture
-        self:GetCaster():FadeGesture(ACT_DOTA_CAST_ABILITY_3)
+        if not self:IsChanneling() then return end
+
+	end
+end
+---------------------------------------------------------------------------
+
+function q_pen:OnChannelThink( flinterval )
+    if IsServer() then
 
         -- init
         self.caster = self:GetCaster()
@@ -78,31 +40,18 @@ function q_pen:OnSpellStart()
         self.duration_buff = self:GetSpecialValueFor( "duration_main_buff" )
 
         -- heal calc
-        local current_ticks = 0
         self.heal_amount = base_heal
 
-        Timers:CreateTimer(tick_rate,function()
-            if IsValidEntity(self.caster) == false then
-                self:CleanUp()
-                return false
-            end
-
-            if self.caster:IsAlive() == false or self.target:IsAlive() == false then
-                self:CleanUp()
-                return false
-            end
-
-            if current_ticks == max_ticks then
-                self:CleanUp()
-                return false
-            end
-
+        self.time = (self.time or 0) + flinterval
+        if self.time < self:GetSpecialValueFor( "tick_rate" ) then
+            return false
+        else
             local info = {
                 EffectName = "particles/qop/qop_necrolyte_pulse_friend.vpcf",
                 Ability = self,
                 iMoveSpeed = 2000,
                 Source = self.caster,
-                Target = self.target,
+                Target = self:GetCursorTarget(),
                 bDodgeable = false,
                 iSourceAttachment = DOTA_PROJECTILE_ATTACHMENT_HITLOCATION,
                 bProvidesVision = true,
@@ -112,12 +61,47 @@ function q_pen:OnSpellStart()
 
             ProjectileManager:CreateTrackingProjectile( info )
 
-            current_ticks = current_ticks + 1
-            return tick_rate
-        end)
+            self.time = 0
+        end
+
+        -- Timers:CreateTimer(tick_rate,function()
+        --     if IsValidEntity(self.caster) == false then
+        --         self:CleanUp()
+        --         return false
+        --     end
+
+        --     if self.caster:IsAlive() == false or self:GetCursorTarget():IsAlive() == false then
+        --         self:CleanUp()
+        --         return false
+        --     end
+
+        --     if current_ticks == max_ticks then
+        --         self:CleanUp()
+        --         return false
+        --     end
+
+        --     local info = {
+        --         EffectName = "particles/qop/qop_necrolyte_pulse_friend.vpcf",
+        --         Ability = self,
+        --         iMoveSpeed = 2000,
+        --         Source = self.caster,
+        --         Target = self:GetCursorTarget(),
+        --         bDodgeable = false,
+        --         iSourceAttachment = DOTA_PROJECTILE_ATTACHMENT_HITLOCATION,
+        --         bProvidesVision = true,
+        --         iVisionTeamNumber = self:GetCaster():GetTeamNumber(),
+        --         iVisionRadius = 300,
+        --     }
+
+        --     ProjectileManager:CreateTrackingProjectile( info )
+
+        --     current_ticks = current_ticks + 1
+        --     return tick_rate
+        -- end)
 	end
 end
 ----------------------------------------------------------------------------------------------------------------
+
 
 function q_pen:OnProjectileHit( hTarget, vLocation)
     if IsServer() then
@@ -157,12 +141,5 @@ end
 
 function q_pen:CleanUp()
     if IsServer() then
-        self:GetCaster():RemoveModifierByName("casting_modifier_thinker")
-        --[[self:GetCaster():FindAbilityByName("m2_meteor"):SetActivated(true)
-        self:GetCaster():FindAbilityByName("r_remnant"):SetActivated(true)
-        self:GetCaster():FindAbilityByName("e_fireball"):SetActivated(true)
-        self:GetCaster():FindAbilityByName("q_fire_bubble"):SetActivated(true)
-        self:GetCaster():RemoveModifierByName("casting_modifier_thinker")
-        ParticleManager:DestroyParticle(self.pfx,true)]]
     end
 end

@@ -6,13 +6,13 @@
 	"npc_dota_hero_queenofpain"
 	{
 		"override_hero"			"npc_dota_hero_queenofpain" 			// Hero to override
-		"Ability1"              "m1_qop_basic_attack" 
-        "Ability2"              "m2_qop_direct_heal" 
-        "Ability3"              "q_pen" 
-        "Ability4"              "e_qop_shield"
-        "Ability5"              "r_delayed_aoe_heal"
-        "Ability6"              "space_leap_of_grip"
-        "Ability7"              "qop_passive"
+		"Ability1"              "m2_qop_direct_heal" 
+        "Ability2"              "q_pen" 
+        "Ability3"              "e_qop_shield" 
+        "Ability4"              "r_delayed_aoe_heal"
+        "Ability5"              "space_leap_of_grip"
+        "Ability6"              "qop_passive"
+        "Ability7"              ""
         "Ability8"              ""
         "Ability9"              ""
         "Ability10"             ""
@@ -28,8 +28,15 @@
         "MagicalResistance"         "0"
 
         "AttackCapabilities"        "DOTA_UNIT_CAP_RANGED_ATTACK"
-        "AttackDamageMin"           "1"
-        "AttackDamageMax"           "1"
+        "AttackDamageMin"           "90"
+        "AttackDamageMax"           "90"
+        "AttackRate"                 "1.0"     // Speed of attack. 1.7 cm defualt
+        "AttackAnimationPoint"       "0.45"    // Normalized time in animation cycle to attack.
+        "AttackAcquisitionRange"     "1000"     // Range within a target can be acquired.
+        "AttackRange"                "1300"     // Range within a target can be attacked.
+        "AttackRangeBuffer"          "250"     // Extra range the target can move without canceling the attack
+        "ProjectileModel"            "particles/units/heroes/hero_queenofpain/queen_base_attack.vpcf"
+        "ProjectileSpeed"            "1200"
 
         //"AttributePrimary"        "DOTA_ATTRIBUTE_STRENGTH"
         "AttributeBaseStrength"     "0"
