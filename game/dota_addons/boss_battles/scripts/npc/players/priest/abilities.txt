@@ -39,7 +39,10 @@
 		"MaxLevel"						"1"
 
 		"AbilityTextureName"			"oracle_false_promise"
-        "AbilityBehavior"				"DOTA_ABILITY_BEHAVIOR_POINT | DOTA_ABILITY_BEHAVIOR_IGNORE_PSEUDO_QUEUE"
+		"AbilityUnitTargetTeam"			"DOTA_UNIT_TARGET_TEAM_FRIENDLY"
+        "AbilityBehavior"				"DOTA_ABILITY_BEHAVIOR_UNIT_TARGET"
+		"AbilityCastAnimation"   		"ACT_DOTA_CAST_ABILITY_1"
+		"AbilityUnitTargetType"			"DOTA_UNIT_TARGET_HERO | DOTA_UNIT_TARGET_BASIC"
 		"AbilityCastRange" 				"1000"
         "AbilityCooldown"				"0"
         "AbilityCastPoint"              "0.4"
@@ -72,7 +75,7 @@
 		"MaxLevel"						"1"
 
 		"AbilityTextureName"			"arc_warden_magnetic_field"
-        "AbilityBehavior"				"DOTA_ABILITY_BEHAVIOR_POINT | DOTA_ABILITY_BEHAVIOR_IGNORE_PSEUDO_QUEUE"
+        "AbilityBehavior"				"DOTA_ABILITY_BEHAVIOR_NO_TARGET | DOTA_ABILITY_BEHAVIOR_AOE"
 		"AbilityCastRange" 				"1000"
         "AbilityCooldown"				"15"
         "AbilityCastPoint"              "0.3"
@@ -107,7 +110,10 @@
 		"MaxLevel"						"1"
 
 		"AbilityTextureName"			"keeper_of_the_light_chakra_magic"
-        "AbilityBehavior"				"DOTA_ABILITY_BEHAVIOR_POINT | DOTA_ABILITY_BEHAVIOR_IGNORE_PSEUDO_QUEUE"
+		"AbilityUnitTargetTeam"			"DOTA_UNIT_TARGET_TEAM_FRIENDLY"
+        "AbilityBehavior"				"DOTA_ABILITY_BEHAVIOR_UNIT_TARGET"
+		"AbilityCastAnimation"   		"ACT_DOTA_CAST_ABILITY_1"
+		"AbilityUnitTargetType"			"DOTA_UNIT_TARGET_HERO | DOTA_UNIT_TARGET_BASIC"
 		"AbilityCastRange" 				"1000"
         //"AbilityCooldown"				"30"
         "AbilityCastPoint"              "0.2"
@@ -144,7 +150,7 @@
 		"MaxLevel"						"1"
 
 		"AbilityTextureName"			"oracle_fortunes_end"
-        "AbilityBehavior"				"DOTA_ABILITY_BEHAVIOR_POINT | DOTA_ABILITY_BEHAVIOR_IGNORE_PSEUDO_QUEUE"
+        "AbilityBehavior"				"DOTA_ABILITY_BEHAVIOR_POINT"
 		"AbilityCastRange" 				"1000"
         "AbilityCooldown"				"5"
         "AbilityCastPoint"              "0.4"
@@ -180,7 +186,7 @@
 		"MaxLevel"						"1"
 
 		"AbilityTextureName"			"keeper_of_the_light_spirit_form_illuminate"
-        "AbilityBehavior"				"DOTA_ABILITY_BEHAVIOR_NO_TARGET | DOTA_ABILITY_BEHAVIOR_IMMEDIATE | DOTA_ABILITY_BEHAVIOR_IGNORE_BACKSWING | DOTA_ABILITY_BEHAVIOR_DONT_CANCEL_MOVEMENT | DOTA_ABILITY_BEHAVIOR_IGNORE_PSEUDO_QUEUE"
+        "AbilityBehavior"				"DOTA_ABILITY_BEHAVIOR_NO_TARGET | DOTA_ABILITY_BEHAVIOR_IMMEDIATE | DOTA_ABILITY_BEHAVIOR_IGNORE_BACKSWING | DOTA_ABILITY_BEHAVIOR_DONT_CANCEL_MOVEMENT"
 		"AbilityCastRange" 				"1000"
         "AbilityCooldown"				"45"//"20" 0
         "AbilityCastPoint"              "0" // 0.4

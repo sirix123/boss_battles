@@ -13,55 +13,13 @@ end
 
 function priest_flash_heal:OnAbilityPhaseStart()
     if IsServer() then
-
-        local units = FindUnitsInRadius(
-            self:GetCaster():GetTeamNumber(),
-            Clamp(self:GetCaster():GetOrigin(), Vector(self:GetCaster().mouse.x, self:GetCaster().mouse.y, self:GetCaster().mouse.z), self:GetCastRange(Vector(0,0,0), nil), 0),
-            nil,
-            200,
-            DOTA_UNIT_TARGET_TEAM_FRIENDLY,
-            DOTA_UNIT_TARGET_HERO,
-            DOTA_UNIT_TARGET_FLAG_MAGIC_IMMUNE_ENEMIES + DOTA_UNIT_TARGET_FLAG_INVULNERABLE,
-            FIND_CLOSEST,
-            false)
-
-        if units == nil or #units == 0 then
-            local playerID = self:GetCaster():GetPlayerID()
-            local player = PlayerResource:GetPlayer(playerID)
-            CustomGameEventManager:Send_ServerToPlayer( player, "no_target", { } )
-            return false
-        else
-
-            self:GetCaster():AddNewModifier(self:GetCaster(), self, "casting_modifier_thinker",
-            {
-                duration = self:GetCastPoint(),
-                bMovementLock = true,
-            })
-
-            self.target = units[1]
-
-            self:GetCaster():StartGestureWithPlaybackRate(ACT_DOTA_CAST_ABILITY_2, 1.0)
-
-            local particle_cast = "particles/units/heroes/hero_omniknight/omniknight_purification_cast.vpcf"
-            local particle_cast_fx = ParticleManager:CreateParticle(particle_cast, PATTACH_ABSORIGIN_FOLLOW, self:GetCaster())
-            ParticleManager:SetParticleControlEnt(particle_cast_fx, 0, self:GetCaster(), PATTACH_POINT_FOLLOW, "attach_hitloc", self:GetCaster():GetAbsOrigin(), true)
-            ParticleManager:SetParticleControl(particle_cast_fx, 1, self.target:GetAbsOrigin())
-            ParticleManager:ReleaseParticleIndex(particle_cast_fx)
-
-            return true
-        end
+        return true
     end
 end
 ---------------------------------------------------------------------------
 
 function priest_flash_heal:OnAbilityPhaseInterrupted()
     if IsServer() then
-
-        -- remove casting animation
-        self:GetCaster():FadeGesture(ACT_DOTA_CAST_ABILITY_2)
-
-        self:GetCaster():RemoveModifierByName("casting_modifier_thinker")
-
     end
 end
 ---------------------------------------------------------------------------
@@ -85,43 +43,23 @@ end
 function priest_flash_heal:OnSpellStart()
     if IsServer() then
 
-        -- when spell starts fade gesture
-        self:GetCaster():FadeGesture(ACT_DOTA_CAST_ABILITY_2)
-
-        self:GetCaster():RemoveModifierByName("casting_modifier_thinker")
-
         -- init
         self.caster = self:GetCaster()
 
-        self.target:Heal(self:GetSpecialValueFor( "heal_amount" ),self.caster)
+        self:GetCursorTarget():Heal(self:GetSpecialValueFor( "heal_amount" ),self.caster)
 
         self.reduce_healing = 100 / self.caster:FindAbilityByName("priest_inner_fire"):GetSpecialValueFor( "healing_reduce_target" )
 
-        local units = FindUnitsInRadius(
-            self:GetCaster():GetTeamNumber(),
-            self:GetCaster():GetAbsOrigin(),
-            nil,
-            FIND_UNITS_EVERYWHERE,
-            DOTA_UNIT_TARGET_TEAM_FRIENDLY,
-            DOTA_UNIT_TARGET_HERO,
-            DOTA_UNIT_TARGET_FLAG_MAGIC_IMMUNE_ENEMIES + DOTA_UNIT_TARGET_FLAG_INVULNERABLE,
-            FIND_CLOSEST,
-            false)
-
-        if units ~= nil or #units ~= 0 then
-            for _, unit in pairs(units) do
-                if unit:HasModifier("priest_inner_fire_modifier") then
-                    unit:Heal(self:GetSpecialValueFor( "heal_amount" ) / self.reduce_healing ,self.caster)
-                end
-            end
+        if self:GetCursorTarget():HasModifier("priest_inner_fire_modifier") then
+            self:GetCursorTarget():Heal(self:GetSpecialValueFor( "heal_amount" ) / self.reduce_healing ,self.caster)
         end
 
-        self.false_promise_cast_particle = ParticleManager:CreateParticle("particles/units/heroes/hero_oracle/oracle_false_promise_cast.vpcf", PATTACH_ABSORIGIN_FOLLOW, self.target)
-        ParticleManager:SetParticleControl(self.false_promise_cast_particle, 2, self.target:GetAbsOrigin())
+        self.false_promise_cast_particle = ParticleManager:CreateParticle("particles/units/heroes/hero_oracle/oracle_false_promise_cast.vpcf", PATTACH_ABSORIGIN_FOLLOW, self:GetCursorTarget())
+        ParticleManager:SetParticleControl(self.false_promise_cast_particle, 2, self:GetCursorTarget():GetAbsOrigin())
         ParticleManager:ReleaseParticleIndex(self.false_promise_cast_particle)
 
         -- Create Sound
-        self.target:EmitSound("Hero_Oracle.FalsePromise.Cast")
+        self:GetCursorTarget():EmitSound("Hero_Oracle.FalsePromise.Cast")
 
 	end
 end

@@ -2,7 +2,7 @@ modifier_cleave = class ({})
 
 --- Misc 
 function modifier_cleave:IsHidden()
-    return false
+    return true
 end
 
 function modifier_cleave:DestroyOnExpire()

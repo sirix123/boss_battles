@@ -60,7 +60,7 @@ function priest_inner_fire_modifier:DeclareFunctions()
 	{
         MODIFIER_PROPERTY_PHYSICAL_ARMOR_BONUS,
         MODIFIER_PROPERTY_TOTALDAMAGEOUTGOING_PERCENTAGE,
-        MODIFIER_EVENT_ON_TAKEDAMAGE,
+        MODIFIER_EVENT_ON_ATTACK_LANDED,
 	}
 	return funcs
 end
@@ -74,15 +74,22 @@ function priest_inner_fire_modifier:GetModifierTotalDamageOutgoing_Percentage( p
 	return self.dmg_bonus
 end
 
-function priest_inner_fire_modifier:OnTakeDamage( params )
+function priest_inner_fire_modifier:OnAttackLanded( params )
     if IsServer() then
-        --print("params.attacker.name ",params.attacker:GetUnitName())
-        if params.attacker:GetUnitName() == self:GetParent():GetUnitName() then
-            if params.inflictor then
-                if params.inflictor:GetAbilityIndex() == 0 then
-                    self:GetCaster():GiveMana(self.mana_gain)
-                end
-            end
+
+        local caster = self:GetCaster()
+        local target = params.target
+        local attacker = params.attacker
+
+        -- check attacker is the modifier parent
+        if attacker ~= self:GetParent() then
+            return
         end
+
+        if target == nil and target:GetTeamNumber() == self:GetParent():GetTeamNumber() then
+            return
+        end
+
+        caster:ManaOnHit(self.mana_gain)
     end
 end

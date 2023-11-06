@@ -6,12 +6,12 @@
 	"npc_dota_hero_oracle"
 	{
 		"override_hero"			"npc_dota_hero_oracle" 			// Hero to override
-		"Ability1"              "priest_basic" 
-        "Ability2"              "priest_flash_heal" 
-        "Ability3"              "priest_holy_nova" 
-        "Ability4"              "priest_inner_fire"
-        "Ability5"              "priest_holy_fire"
-        "Ability6"              "space_angel_mode"
+		"Ability1"              "priest_flash_heal" 
+        "Ability2"              "priest_holy_nova" 
+        "Ability3"              "priest_inner_fire" 
+        "Ability4"              "priest_holy_fire"
+        "Ability5"              "space_angel_mode"
+        "Ability6"              ""
         "Ability7"              ""
         "Ability8"              ""
         "Ability9"              ""
@@ -28,8 +28,15 @@
         "MagicalResistance"         "0"
 
         "AttackCapabilities"        "DOTA_UNIT_CAP_RANGED_ATTACK"
-        "AttackDamageMin"           "1"
-        "AttackDamageMax"           "1"
+        "AttackDamageMin"           "80"
+        "AttackDamageMax"           "80"
+        "AttackRate"                 "1.0"     // Speed of attack. 1.7 cm defualt
+        "AttackAnimationPoint"       "0.45"    // Normalized time in animation cycle to attack.
+        "AttackAcquisitionRange"     "1000"     // Range within a target can be acquired.
+        "AttackRange"                "1000"     // Range within a target can be attacked.
+        "AttackRangeBuffer"          "250"     // Extra range the target can move without canceling the attack
+        "ProjectileModel"            "particles/units/heroes/hero_oracle/oracle_base_attack.vpcf"
+        "ProjectileSpeed"            "1200"
 
         //"AttributePrimary"        "DOTA_ATTRIBUTE_STRENGTH"
         "AttributeBaseStrength"     "0"

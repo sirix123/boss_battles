@@ -5,6 +5,7 @@ end
 RAID_TABLES = require('managers/raid_init_tables')
 
 LinkLuaModifier( "modifier_grace_period", "player/generic/modifier_grace_period", LUA_MODIFIER_MOTION_NONE )
+LinkLuaModifier( "modifier_mana_on_hit", "player/generic/modifier_mana_on_hit", LUA_MODIFIER_MOTION_NONE )
 LinkLuaModifier( "modifier_cleave", "player/generic/modifier_cleave", LUA_MODIFIER_MOTION_NONE )
 LinkLuaModifier( "admin_god_mode", "player/generic/admin_god_mode", LUA_MODIFIER_MOTION_NONE )
 LinkLuaModifier( "blademaster_death_enable_spells", "player/warlord/modifiers/blademaster_death_enable_spells", LUA_MODIFIER_MOTION_NONE )
@@ -802,7 +803,7 @@ function GameSetup:AddDefaultModifiersToHeroes(hero)
     end
 
     if hero:GetUnitName() == "npc_dota_hero_oracle" then
-
+        hero:AddNewModifier( hero, nil, "modifier_mana_on_hit", { duration = -1 } )
     end
 
     if hero:GetUnitName() == "npc_dota_hero_juggernaut" then
