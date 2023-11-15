@@ -69,35 +69,9 @@ end
 
 function r_explosive_arrow_modifier:OnDestroy()
 	if IsServer() then
-		self:GetCaster():FindAbilityByName("m1_trackingshot"):SetActivated(true)
-        self:GetCaster():FindAbilityByName("m2_serratedarrow"):SetActivated(true)
-        self:GetCaster():FindAbilityByName("q_healing_arrow_v2"):SetActivated(true)
-        self:GetCaster():FindAbilityByName("e_whirling_winds"):SetActivated(true)
-        self:GetCaster():FindAbilityByName("space_sprint"):SetActivated(true)
 	end
 end
 
---------------------------------------------------------------------------------
--- Modifier Effects
-function r_explosive_arrow_modifier:DeclareFunctions()
-	local funcs = {
-		MODIFIER_EVENT_ON_ORDER,
-	}
-
-	return funcs
-end
-
-function r_explosive_arrow_modifier:OnOrder( params )
-	if params.unit~=self:GetParent() then return end
-	-- stop or hold
-	if
-		params.order_type==DOTA_UNIT_ORDER_STOP or
-		params.order_type==DOTA_UNIT_ORDER_HOLD_POSITION
-	then
-        self:Destroy()
-        self:GetCaster():RemoveModifierByName("casting_modifier_thinker")
-	end
-end
 --------------------------------------------------------------------------------
 
 -- Interval Effects
@@ -105,7 +79,7 @@ function r_explosive_arrow_modifier:OnIntervalThink()
 
 	if self.num_proj < self.proj_count then 
 		-- if we want turn rate limit, measure the 2d length to the mouse point to get the cast  range then use the beam formulae ... forward vector * mousedistance * origin
-		local vector = Clamp(self:GetParent():GetOrigin(), Vector(self:GetParent().mouse.x, self:GetParent().mouse.y, self:GetParent().mouse.z), self:GetAbility():GetCastRange(Vector(0,0,0), nil), 0)
+		local vector = Clamp(self:GetParent():GetOrigin(), Vector(self:GetCursorPosition().x, self:GetCursorPosition().y, self:GetCursorPosition().z), self:GetAbility():GetCastRange(Vector(0,0,0), nil), 0)
 		self:SetValidTarget( vector )
 
 		-- create target thinker

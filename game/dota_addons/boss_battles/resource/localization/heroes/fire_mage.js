@@ -33,7 +33,7 @@ function GenerateLocalizationData() {
     Abilities.push({
         ability_classname: "m1_beam",
         name: "Incinerate",
-        description: "Lina concentrates her fiery energy into a beam that damages all enemies it touches. " + incinerateColour + " damage and mana gain increases over time, stacking up to three times. " + remnantColour + " replicates this ability.",
+        description: "Lina concentrates her fiery energy into a beam that damages all enemies it touches. ".concat(incinerateColour, " damage and mana gain increases over time, stacking up to three times. ").concat(remnantColour, " replicates this ability."),
         notes: [
             "Only gains stacks if a enemy is hit by Incinerate.",
         ],
@@ -98,7 +98,7 @@ function GenerateLocalizationData() {
     Abilities.push({
         ability_classname: "e_fireball",
         name: "Firestorm",
-        description: "Lina unleashes a barrage of fireballs infront of her, damaging the first enemy hit. " + remnantColour + " replicates this ability.",
+        description: "Lina unleashes a barrage of fireballs infront of her, damaging the first enemy hit. ".concat(remnantColour, " replicates this ability."),
         ability_specials: [
             {
                 ability_special: "dmg",

@@ -24,6 +24,12 @@ function cheese_modifier:OnCreated( kv )
         self.parent = self:GetParent()
         self.caster = self:GetCaster()
 
+        -- play particle eeffect
+        local particle_cast = "particles/econ/events/ti8/mekanism_ti8.vpcf"
+        local effect_cast = ParticleManager:CreateParticle(particle_cast, PATTACH_ABSORIGIN_FOLLOW, self:GetCaster())
+        ParticleManager:SetParticleControl(effect_cast, 0, self:GetCaster():GetAbsOrigin())
+        ParticleManager:ReleaseParticleIndex(effect_cast)
+
         -- reference from kv
         self.heal_amount = self:GetAbility():GetSpecialValueFor( "heal")
 
@@ -44,12 +50,6 @@ function cheese_modifier:OnIntervalThink()
 
     -- heal
     self:GetCaster():Heal(self.heal_amount * self:GetStackCount(), self:GetCaster())
-
-    -- play particle eeffect
-    local particle_cast = "particles/econ/events/ti8/mekanism_ti8.vpcf"
-    local effect_cast = ParticleManager:CreateParticle(particle_cast, PATTACH_ABSORIGIN_FOLLOW, self:GetCaster())
-    ParticleManager:SetParticleControl(effect_cast, 0, self:GetCaster():GetAbsOrigin())
-    ParticleManager:ReleaseParticleIndex(effect_cast)
 
 end
 

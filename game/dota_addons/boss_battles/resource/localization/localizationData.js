@@ -20,7 +20,7 @@ function GenerateLocalizationData() {
     Modifiers.push({
         modifier_classname: "modifier_greater_power",
         name: "Greater Power",
-        description: "Increases your base damage by {" + "MODIFIER_PROPERTY_PREATTACK_BONUS_DAMAGE" /* PREATTACK_BONUS_DAMAGE */ + "} and your move speed by {" + "MODIFIER_PROPERTY_MOVESPEED_BONUS_PERCENTAGE" /* MOVESPEED_BONUS_PERCENTAGE */ + "}%."
+        description: "Increases your base damage by {".concat("MODIFIER_PROPERTY_PREATTACK_BONUS_DAMAGE" /* LocalizationModifierProperty.PREATTACK_BONUS_DAMAGE */, "} and your move speed by {").concat("MODIFIER_PROPERTY_MOVESPEED_BONUS_PERCENTAGE" /* LocalizationModifierProperty.MOVESPEED_BONUS_PERCENTAGE */, "}%.")
     });
     // abilities
     Abilities.push({

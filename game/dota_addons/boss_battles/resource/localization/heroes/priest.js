@@ -68,7 +68,7 @@ function GenerateLocalizationData() {
     Abilities.push({
         ability_classname: "priest_holy_nova",
         name: "Radiance",
-        description: "Nerif emits a wave of light, dealing damage to enemies and healing allies. The effect of " + radianceColour + " is reduced as the wave travels outwards.",
+        description: "Nerif emits a wave of light, dealing damage to enemies and healing allies. The effect of ".concat(radianceColour, " is reduced as the wave travels outwards."),
         notes: [
             "Radiance has a maximum radius of 450 and travels at a speed of 300 units.",
         ],
@@ -145,7 +145,7 @@ function GenerateLocalizationData() {
     Abilities.push({
         ability_classname: "space_angel_mode",
         name: "Apotheosis",
-        description: "Nerif sends out a desperate prayer, becoming godlike for a brief period of time. During " + apoColour + ", Nerif's cooldowns, mana costs and cast points are reduced, as well as refreshing all charges of " + redemColour + " and increasing his movespeed.",
+        description: "Nerif sends out a desperate prayer, becoming godlike for a brief period of time. During ".concat(apoColour, ", Nerif's cooldowns, mana costs and cast points are reduced, as well as refreshing all charges of ").concat(redemColour, " and increasing his movespeed."),
         ability_specials: [
             {
                 ability_special: "duration",

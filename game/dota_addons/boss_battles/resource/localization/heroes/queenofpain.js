@@ -56,7 +56,7 @@ function GenerateLocalizationData() {
     Abilities.push({
         ability_classname: "m2_qop_direct_heal",
         name: "Blood Light",
-        description: "Akasha bathes an ally in blood. Subsequent casts will apply " + bloodMagicColour + " to Akasha, doubling the manacost and healing. Healing an ally in this way applies " + bloodPactColour + ". ",
+        description: "Akasha bathes an ally in blood. Subsequent casts will apply ".concat(bloodMagicColour, " to Akasha, doubling the manacost and healing. Healing an ally in this way applies ").concat(bloodPactColour, ". "),
         //lore: `The healing properties of Blood Magic are just as renowned as its destructive ones.`,
         ability_specials: [
             {
@@ -99,7 +99,7 @@ function GenerateLocalizationData() {
     Abilities.push({
         ability_classname: "e_qop_shield",
         name: "Blood Ward",
-        description: "Akasha casts a " + bloodWardColour + " on the target and consumes all stacks of " + bloodMagicColour + ", empowering it. If cast on an ally, " + bloodWardColour + " absorbs incoming damage. If cast on an enemy, " + bloodWardColour + " stores incoming damage for a duration, dealing a portion of that damage on expiration.",
+        description: "Akasha casts a ".concat(bloodWardColour, " on the target and consumes all stacks of ").concat(bloodMagicColour, ", empowering it. If cast on an ally, ").concat(bloodWardColour, " absorbs incoming damage. If cast on an enemy, ").concat(bloodWardColour, " stores incoming damage for a duration, dealing a portion of that damage on expiration."),
         //lore: `A simple spell first used to protect Akasha and her allies, it has since found use in tormenting her enemies.`,
         notes: [
             "The base cooldown for Blood Ward on allies is one second.",
@@ -165,7 +165,7 @@ function GenerateLocalizationData() {
     Abilities.push({
         ability_classname: "qop_passive",
         name: "Living Blood",
-        description: "If Akasha deals damage to an enemy while herself or an ally is affected by " + bloodPactColour + ", a portion of that damage will heal them.",
+        description: "If Akasha deals damage to an enemy while herself or an ally is affected by ".concat(bloodPactColour, ", a portion of that damage will heal them."),
         //lore: `Akasha's vampiric aura uses the essence of her foes to restore her allies.`,
         notes: [],
         ability_specials: [

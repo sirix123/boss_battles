@@ -26,7 +26,32 @@ function GenerateLocalizationData() {
     Modifiers.push({
         modifier_classname: "e_whirling_winds_modifier",
         name: "Tailwind",
-        description: "Increased damage, movement and projectile speed. Cast points of basic attacks reduced.",
+        description: "Increased damage, movement, attack speed and projectile speed.",
+    });
+    Modifiers.push({
+        modifier_classname: "ranger_passive_modifier",
+        name: "Ranger's Focus",
+        description: "Windrunner does more damage and healing with distance travelled.",
+    });
+    Abilities.push({
+        ability_classname: "ranger_passive",
+        name: "Ranger's Focus",
+        description: "Windrunner does more damage and healing with distance travelled.",
+        ability_specials: [
+            {
+                ability_special: "base_dmg",
+                text: "BASE DAMAGE:"
+            },
+            {
+                ability_special: "dmg_dist_multi",
+                text: "DISTANCE MULTIPLIER:",
+                percentage: true,
+            },
+            {
+                ability_special: "mana_gain_percent",
+                text: "MANA GAIN:"
+            },
+        ]
     });
     // abilities
     Abilities.push({
@@ -104,7 +129,7 @@ function GenerateLocalizationData() {
     Abilities.push({
         ability_classname: "e_whirling_winds",
         name: "Whirling Winds",
-        description: "Windrunner summons a tailwind in an area that increases the damage, projectile and movement speed of all allies, as well as reducing the cast point of basic attacks. Windrunner benefits from the tailwind at all times.",
+        description: "Windrunner summons a tailwind in an area that increases the damage, projectile, attack and movement speed of all allies. Windrunner benefits from the tailwind at all times.",
         ability_specials: [
             {
                 ability_special: "cast_point_reduction",
@@ -124,6 +149,11 @@ function GenerateLocalizationData() {
             {
                 ability_special: "ms_increase",
                 text: "MOVEMENT SPEED:",
+                percentage: true,
+            },
+            {
+                ability_special: "as_increase",
+                text: "ATTACK SPEED:",
                 percentage: true,
             },
             {

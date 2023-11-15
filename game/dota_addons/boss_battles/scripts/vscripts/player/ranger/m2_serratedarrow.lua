@@ -20,25 +20,6 @@ function m2_serratedarrow:OnAbilityPhaseStart()
         ParticleManager:SetParticleControl(self.nfx, 1, self.caster:GetAbsOrigin())
         ParticleManager:SetParticleControlForward(self.nfx, 1, self.caster:GetForwardVector())
 
-        local animation_sequence = nil
-        if self:GetCaster():HasModifier("modifier_hero_movement") == true then
-            animation_sequence = "focusfire"
-
-            self:GetCaster():AddNewModifier(self:GetCaster(), self, "casting_modifier_thinker_windrunner_focusfire",
-            {
-                duration = self:GetCastPoint(),
-            })
-        else
-            self:GetCaster():StartGestureWithPlaybackRate(ACT_DOTA_ATTACK, 1.3)
-        end
-
-        -- add casting modifier
-        self:GetCaster():AddNewModifier(self:GetCaster(), self, "casting_modifier_thinker",
-        {
-            duration = self:GetCastPoint(),
-            pMovespeedReduction = -50,
-            animation_sequence = animation_sequence,
-        })
 
         return true
     end
@@ -47,13 +28,6 @@ end
 
 function m2_serratedarrow:OnAbilityPhaseInterrupted()
     if IsServer() then
-
-
-        self:GetCaster():RemoveGesture(ACT_DOTA_ATTACK)
-
-        -- remove casting modifier
-        self:GetCaster():RemoveModifierByName("casting_modifier_thinker")
-
         -- destroy channel particle
         ParticleManager:DestroyParticle( self.nfx, true )
 
@@ -67,9 +41,6 @@ function m2_serratedarrow:OnSpellStart()
         -- destroy channel particle
         ParticleManager:DestroyParticle( self.nfx, true )
 
-        -- remove casting animation
-        self:GetCaster():RemoveGesture(ACT_DOTA_ATTACK)
-
         -- init
 		self.caster = self:GetCaster()
         local origin = self.caster:GetAbsOrigin()
@@ -82,7 +53,7 @@ function m2_serratedarrow:OnSpellStart()
 
         -- set proj direction to mouse location
         local vTargetPos = nil
-        vTargetPos = Vector(self.caster.mouse.x, self.caster.mouse.y, self.caster.mouse.z)
+        vTargetPos = Vector(self:GetCursorPosition().x,self:GetCursorPosition().y, self:GetCursorPosition().z)
         local projectile_direction = (Vector( vTargetPos.x - origin.x, vTargetPos.y - origin.y, 0 )):Normalized()
         -- init effect
 

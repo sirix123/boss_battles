@@ -5,60 +5,19 @@ LinkLuaModifier("r_infest_modifier_damage", "player/rat/modifier/r_infest_modifi
 
 function r_infest:OnAbilityPhaseStart()
     if IsServer() then
-
-        local units = FindUnitsInRadius(
-            self:GetCaster():GetTeamNumber(),
-            Clamp(self:GetCaster():GetOrigin(), Vector(self:GetCaster().mouse.x, self:GetCaster().mouse.y, self:GetCaster().mouse.z), self:GetCastRange(Vector(0,0,0), nil), 0),
-            nil,
-            200,
-            DOTA_UNIT_TARGET_TEAM_ENEMY,
-            DOTA_UNIT_TARGET_BASIC,
-            DOTA_UNIT_TARGET_FLAG_NONE,
-            FIND_CLOSEST,
-            false)
-
-        if units == nil or #units == 0 then
-            local playerID = self:GetCaster():GetPlayerID()
-            local player = PlayerResource:GetPlayer(playerID)
-            CustomGameEventManager:Send_ServerToPlayer( player, "no_target", { } )
-            return false
-        else
-
-            self.target = units[1]
-
-            self:GetCaster():StartGestureWithPlaybackRate(ACT_DOTA_CAST_ABILITY_2, 1.0)
-
-            self:GetCaster():AddNewModifier(self:GetCaster(), self, "casting_modifier_thinker",
-            {
-                duration = self:GetCastPoint(),
-                bMovementLock = true,
-            })
-
-            return true
-        end
+        return true
     end
 end
 ---------------------------------------------------------------------------
 
 function r_infest:OnAbilityPhaseInterrupted()
     if IsServer() then
-
-        -- remove casting animation
-        self:GetCaster():FadeGesture(ACT_DOTA_CAST_ABILITY_2)
-
-        self:GetCaster():RemoveModifierByName("casting_modifier_thinker")
-
     end
 end
 ---------------------------------------------------------------------------
 
 function r_infest:OnSpellStart()
     if IsServer() then
-
-        -- when spell starts fade gesture
-        self:GetCaster():FadeGesture(ACT_DOTA_CAST_ABILITY_2)
-
-        self:GetCaster():RemoveModifierByName("casting_modifier_thinker")
 
         self:GetCaster():EmitSound("Hero_Bristleback.ViscousGoo.Cast")
 
@@ -67,7 +26,7 @@ function r_infest:OnSpellStart()
 
         local projectile =
         {
-            Target 				= self.target,
+            Target 				= self:GetCursorTarget(),
             Source 				= self.caster,
             Ability 			= self,
             EffectName 			= "particles/units/heroes/hero_bristleback/bristleback_viscous_nasal_goo.vpcf",

@@ -10,9 +10,12 @@
         
 		"AbilitySpecial"
 		{
-			"01"{ "var_type"			"FIELD_INTEGER"		"castpoint_reduction"			"20" 	}
-			"02"{ "var_type"			"FIELD_FLOAT"		"rat_stack_generate_time"		"1.75" 	}
-			"03"{ "var_type"			"FIELD_INTEGER"		"rat_stack_max"					"5" 	}
+			"01"{ "var_type"			"FIELD_INTEGER"		"attack_speed_per_stack"						"20" 	}
+			"02"{ "var_type"			"FIELD_FLOAT"		"rat_stack_generate_time"						"1.75" 	}
+			"03"{ "var_type"			"FIELD_INTEGER"		"rat_stack_max"									"5" 	}
+			"04"{ "var_type"			"FIELD_INTEGER"		"mana_gain_percent"								"4" }
+			"05"{ "var_type"			"FIELD_INTEGER"		"castpoint_reduction"							"20" }
+
 		}
 	}
 
@@ -53,9 +56,11 @@
 		"MaxLevel"						"1"
 
 		"AbilityTextureName"			"hoodwink_hunters_boomerang"
-		"AbilityUnitTargetTeam"			"DOTA_UNIT_TARGET_TEAM_ENEMY"
 		"AbilityUnitDamageType"			"DAMAGE_TYPE_PHYSICAL"
-        "AbilityBehavior"				"DOTA_ABILITY_BEHAVIOR_POINT | DOTA_ABILITY_BEHAVIOR_IGNORE_PSEUDO_QUEUE"
+		"AbilityUnitTargetTeam"			"DOTA_UNIT_TARGET_TEAM_ENEMY"
+        "AbilityBehavior"				"DOTA_ABILITY_BEHAVIOR_UNIT_TARGET"
+		"AbilityCastAnimation"   		"ACT_DOTA_CAST_ABILITY_1"
+		"AbilityUnitTargetType"			"DOTA_UNIT_TARGET_HERO | DOTA_UNIT_TARGET_BASIC"
 		"AbilityCastRange" 				"1200"
         "AbilityCooldown"				"0"
         "AbilityCastPoint"              "0.7"
@@ -150,7 +155,10 @@
 
 		"AbilityTextureName"			"bristleback_viscous_nasal_goo"
 		"AbilityUnitDamageType"			"DAMAGE_TYPE_PHYSICAL"	
-        "AbilityBehavior"				"DOTA_ABILITY_BEHAVIOR_POINT | DOTA_ABILITY_BEHAVIOR_IGNORE_PSEUDO_QUEUE" // | DOTA_ABILITY_BEHAVIOR_AOE
+		"AbilityUnitTargetTeam"			"DOTA_UNIT_TARGET_TEAM_ENEMY"
+        "AbilityBehavior"				"DOTA_ABILITY_BEHAVIOR_UNIT_TARGET"
+		"AbilityCastAnimation"   		"ACT_DOTA_CAST_ABILITY_1"
+		"AbilityUnitTargetType"			"DOTA_UNIT_TARGET_HERO | DOTA_UNIT_TARGET_BASIC"
 		"AbilityCastRange" 				"1200"
         "AbilityCooldown"				"40"
         "AbilityCastPoint"              "0.4"
@@ -181,8 +189,8 @@
 		"ScriptFile"					"player/rat/space_burrow_v2"
 		"MaxLevel"						"1"
 
-		"AbilityTextureName"			"bristleback_viscous_nasal_goo"
-		"AbilityUnitDamageType"			"nyx_assassin_burrow"	
+		"AbilityTextureName"			"nyx_assassin_burrow"
+		"AbilityUnitDamageType"			"DAMAGE_TYPE_PHYSICAL"	
         "AbilityBehavior"				"DOTA_ABILITY_BEHAVIOR_POINT | DOTA_ABILITY_BEHAVIOR_IGNORE_PSEUDO_QUEUE" // | DOTA_ABILITY_BEHAVIOR_AOE
 		"AbilityCastRange" 				"2000"
         "AbilityCooldown"				"25"

@@ -1,4 +1,4 @@
-import { AbilityLocalization, Language, LocalizationData, ModifierLocalization, StandardLocalization } from "~generator/localizationInterfaces";
+import { AbilityLocalization, LocalizationData, ModifierLocalization, StandardLocalization } from "~generator/localizationInterfaces";
 
 export function GenerateLocalizationData(): LocalizationData
 {
@@ -20,27 +20,37 @@ export function GenerateLocalizationData(): LocalizationData
 
 
     Modifiers.push({
-        modifier_classname: "burrow_modifier",
+        modifier_classname: "space_burrow_v2_modifier",
         name: "Burrow",
-        description: `Undersground invul generate stacks.`
+        description: `Cannot use the tunnel again.`
     });
 
     Modifiers.push({
         modifier_classname: "rat_stacks",
         name: "Rat stack",
-        description: `Castpoints redcued.`
+        description: `Attack speed increased and cast point reduction.`
     });
 
     Modifiers.push({
         modifier_classname: "stim_pack_buff",
         name: "Juiced",
-        description: `can move and shoot.`
+        description: `Rat can move and shoot.`
     });
 
     Modifiers.push({
         modifier_classname: "stim_pack_debuff",
         name: "Withdrawl",
-        description: `slowed.`
+        description: `Slowed.`
+    });
+
+    Modifiers.push({
+        modifier_classname: "rat_passive",
+        name: "Rat passive"
+    });
+
+    Modifiers.push({
+        modifier_classname: "rat_passive_modifier",
+        name: "Rat passive"
     });
 
     // abilities
@@ -70,7 +80,7 @@ export function GenerateLocalizationData(): LocalizationData
     Abilities.push({
         ability_classname: "rat_m2",
         name: "Boomerang",
-        description: `Fire a boomerang at the target has a chance to bounce to another target if you have 5 rat stacks.`,
+        description: `Fire a boomerang at the target will bounce to another target if you have 5 rat stacks.`,
         notes:
         [
         ],
@@ -101,7 +111,7 @@ export function GenerateLocalizationData(): LocalizationData
     Abilities.push({
         ability_classname: "e_stim_pack",
         name: "Pickle Juice",
-        description: `Drink some pickle juice. Allows you cast m1 and m2 while moving. Gives 5 rat stacks. Rat stacks do not get removed during movement. At the end of the duration get a debuff that slows you.`,
+        description: `Drink some pickle juice. Allows you attack while moving and reduces Boomerang cast point. Gives 5 rat stacks. Rat stacks do not get removed during movement. At the end of the duration get a debuff that slows you.`,
         notes:
         [
         ],
@@ -147,9 +157,9 @@ export function GenerateLocalizationData(): LocalizationData
     });
 
     Abilities.push({
-        ability_classname: "space_burrow",
+        ability_classname: "space_burrow_v2",
         name: "Burrow",
-        description: `Burrow underground, invul, gain rat stacks, cannot move or shoot.`,
+        description: `Tunnel underground. Connects two points that your allies can use to teleport around. Has a cooldown.`,
         ability_specials:
         [
             {
@@ -162,14 +172,29 @@ export function GenerateLocalizationData(): LocalizationData
     Abilities.push({
         ability_classname: "rat_passive",
         name: "Rat Passive",
-        description: `Standing still for 2 seconds generates 1 stack, Max 5 stacks. Each Rat Stack reduces cast point of m1 and m2 by 20%, If you move lose all stacks`,
+        description: `Standing still generates rat stacks, moving consumes rat stacks.`,
         notes:
         [
 
         ],
         ability_specials:
         [
-
+            {
+                ability_special: "attack_speed_per_stack",
+                text: "ATTACK SPEED PER STACK:"
+            },
+            {
+                ability_special: "rat_stack_generate_time",
+                text: "RAT STACK GENERATE TIME:"
+            },
+            {
+                ability_special: "rat_stack_max",
+                text: "RAT STACK MAX:"
+            },
+            {
+                ability_special: "mana_gain_percent",
+                text: "MANA ON HIT:"
+            }
         ]
     });
 

@@ -1,43 +1,9 @@
 r_explosive_arrow = class({})
-LinkLuaModifier( "r_explosive_arrow_modifier", "player/ranger/modifiers/r_explosive_arrow_modifier", LUA_MODIFIER_MOTION_NONE )
 LinkLuaModifier( "r_explosive_arrow_thinker_indicator", "player/ranger/modifiers/r_explosive_arrow_thinker_indicator", LUA_MODIFIER_MOTION_NONE )
 
 
 function r_explosive_arrow:OnAbilityPhaseStart()
     if IsServer() then
-
-		self.point = nil
-        --self.point = Clamp(self:GetCaster():GetOrigin(), Vector(self:GetCaster().mouse.x, self:GetCaster().mouse.y, self:GetCaster().mouse.z), self:GetCastRange(Vector(0,0,0), nil), 0)
-        self.point = Vector(self:GetCaster().mouse.x, self:GetCaster().mouse.y, self:GetCaster().mouse.z)
-
-        if ( (self:GetCaster():GetAbsOrigin() - self.point):Length2D() ) > self:GetCastRange(Vector(0,0,0), nil) then
-            local playerID = self:GetCaster():GetPlayerID()
-            local player = PlayerResource:GetPlayer(playerID)
-            CustomGameEventManager:Send_ServerToPlayer( player, "out_of_range", { } )
-            return false
-        end
-
-        local animation_sequence = nil
-        if self:GetCaster():HasModifier("modifier_hero_movement") == true then
-            animation_sequence = "focusfire"
-            self:GetCaster():StartGestureWithPlaybackRate(ACT_DOTA_RUN, 1.0)
-
-            self:GetCaster():AddNewModifier(self:GetCaster(), self, "casting_modifier_thinker_windrunner_focusfire",
-            {
-                duration = self:GetCastPoint(),
-            })
-        else
-            self:GetCaster():StartGestureWithPlaybackRate(ACT_DOTA_ATTACK, 1.3)
-        end
-
-        -- add casting modifier
-        self:GetCaster():AddNewModifier(self:GetCaster(), self, "casting_modifier_thinker",
-        {
-            duration = self:GetCastPoint(),
-            pMovespeedReduction = -50,
-            animation_sequence = animation_sequence,
-        })
-
         return true
     end
 end
@@ -48,48 +14,65 @@ end
 
 ---------------------------------------------------------------------------
 
-function r_explosive_arrow:OnAbilityPhaseInterrupted()
-    if IsServer() then
-
-        -- remove casting animation
-        self:GetCaster():FadeGesture(ACT_DOTA_ATTACK)
-
-        -- remove casting modifier
-        self:GetCaster():RemoveModifierByName("casting_modifier_thinker")
-
-    end
+function r_explosive_arrow:OnChannelFinish(bInterrupted)
+	if IsServer() then
+	end
 end
----------------------------------------------------------------------------
 
 function r_explosive_arrow:OnSpellStart()
     if IsServer() then
+        
 
-        -- when spell starts fade gesture
-        self:GetCaster():FadeGesture(ACT_DOTA_ATTACK)
+	end
+end
+---------------------------------------------------------------------------
 
-        local caster = self:GetCaster()
+function r_explosive_arrow:OnChannelThink( flinterval )
+    if IsServer() then
 
-		caster:FindAbilityByName("m1_trackingshot"):SetActivated(false)
-        caster:FindAbilityByName("m2_serratedarrow"):SetActivated(false)
-        caster:FindAbilityByName("q_healing_arrow_v2"):SetActivated(false)
-        caster:FindAbilityByName("e_whirling_winds"):SetActivated(false)
-        caster:FindAbilityByName("space_sprint"):SetActivated(false)
+        self.time = (self.time or 0) + flinterval
+        if self.time < self:GetSpecialValueFor( "tick_rate" ) then
+            return false
+        else
+            self.point = Vector(self:GetCursorPosition().x, self:GetCursorPosition().y, self:GetCursorPosition().z)
 
-        -- load data
-	    local duration = self:GetDuration()
+            local distance = (self.point - self:GetCaster():GetOrigin()):Length2D()
+            local travel_time = distance / self:GetSpecialValueFor( "projectile_speed" )
 
-        -- add modifier
-        caster:AddNewModifier(
-            caster, -- player source
-            self, -- ability source
-            "r_explosive_arrow_modifier", -- modifier name
-            {
-                duration = duration,
-                pos_x = self.point.x,
-                pos_y = self.point.y,
-            } -- kv
-        )
+            local thinker = CreateModifierThinker(
+                self:GetCaster(), -- player source
+                self, -- ability source
+                "r_explosive_arrow_thinker_indicator", -- modifier name
+                { travel_time = travel_time }, -- kv
+                self.point,
+                self:GetCaster():GetTeamNumber(),
+                false
+            )
 
+            -- fire trakcing at thinker
+            local info = {
+                Target = thinker,
+                Source = self:GetCaster(),
+                Ability = self,	
+                iMoveSpeed = self:GetSpecialValueFor( "projectile_speed" ),
+                EffectName = "particles/units/heroes/hero_snapfire/snapfire_lizard_blobs_arced.vpcf",
+                bDodgeable = false,                           -- Optional
+
+                vSourceLoc = self.point,                -- Optional (HOW)
+
+                bDrawsOnMinimap = false,                          -- Optional
+                bVisibleToEnemies = true,                         -- Optional
+                bProvidesVision = true,                           -- Optional
+                iVisionRadius = self:GetSpecialValueFor( "projectile_vision" ),                              -- Optional
+                iVisionTeamNumber = self:GetCaster():GetTeamNumber()        -- Optional
+            }
+
+            ProjectileManager:CreateTrackingProjectile( info )
+
+            local sound_cast = "Hero_Snapfire.MortimerBlob.Launch"
+            EmitSoundOn( sound_cast, self:GetCaster() )
+            self.time = 0
+        end
 	end
 end
 ----------------------------------------------------------------------------------------------------------------
@@ -124,27 +107,16 @@ function r_explosive_arrow:OnProjectileHit( target, location )
 		ApplyDamage(damageTable)
 	end
 
-	-- play effects
 	self:PlayEffects( target:GetOrigin() )
 end
 
 --------------------------------------------------------------------------------
 function r_explosive_arrow:PlayEffects( loc )
-	-- Get Resources
-	--local particle_cast = "particles/units/heroes/hero_snapfire/hero_snapfire_ultimate_impact.vpcf"
 	local particle_cast2 = "particles/units/heroes/hero_snapfire/snapfire_lizard_blobs_arced_explosion.vpcf"
-
-	-- Create Particle
-	--local effect_cast = ParticleManager:CreateParticle( particle_cast, PATTACH_WORLDORIGIN, self:GetCaster() )
-	--ParticleManager:SetParticleControl( effect_cast, 3, loc )
-	--ParticleManager:ReleaseParticleIndex( effect_cast )
-
 	local effect_cast = ParticleManager:CreateParticle( particle_cast2, PATTACH_WORLDORIGIN, self:GetCaster() )
 	ParticleManager:SetParticleControl( effect_cast, 0, loc )
 	ParticleManager:SetParticleControl( effect_cast, 3, loc )
 	ParticleManager:ReleaseParticleIndex( effect_cast )
-
-	-- Create Sound
 	local sound_location = "Hero_Snapfire.MortimerBlob.Impact"
 	EmitSoundOnLocationWithCaster( loc, sound_location, self:GetCaster() )
 end

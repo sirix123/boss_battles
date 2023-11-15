@@ -146,7 +146,7 @@ function GenerateLocalizationData() {
     Abilities.push({
         ability_classname: "r_arcane_surge",
         name: "Manastorm",
-        description: "Templar invokes a storm of arcane energy around him, dealing damage to the closest enemy, stacking up to three times. Each stack of " + manastormColour + " increases the damage and strike interval.",
+        description: "Templar invokes a storm of arcane energy around him, dealing damage to the closest enemy, stacking up to three times. Each stack of ".concat(manastormColour, " increases the damage and strike interval."),
         notes: [
             "Each stack of Manastorm has an independant cooldown, and does not refresh with additional uses."
         ],

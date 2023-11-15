@@ -6,13 +6,13 @@
 	"npc_dota_hero_hoodwink"
 	{
 		"override_hero"			"npc_dota_hero_hoodwink" 			// Hero to override
-		"Ability1"              "rat_basic_attack" 
-        "Ability2"              "rat_m2" 
-        "Ability3"              "q_eat_cheese" 
-        "Ability4"              "e_stim_pack"
-        "Ability5"              "r_infest"
-        "Ability6"              "space_burrow_v2"
-        "Ability7"              "rat_passive"
+		"Ability1"              "rat_m2" 
+        "Ability2"              "q_eat_cheese" 
+        "Ability3"              "e_stim_pack" 
+        "Ability4"              "r_infest"
+        "Ability5"              "space_burrow_v2"
+        "Ability6"              "rat_passive"
+        "Ability7"              ""
         "Ability8"              ""
         "Ability9"              ""
         "Ability10"             ""
@@ -38,6 +38,17 @@
         "AttributeIntelligenceGain" "0"
         "AttributeBaseAgility"      "0"
         "AttributeAgilityGain"      "0"
+
+        "AttackCapabilities"            "DOTA_UNIT_CAP_RANGED_ATTACK"
+        "AttackDamageMin"               "25"
+        "AttackDamageMax"               "25"
+        "AttackRate"                    "1.0"     // Speed of attack. 1.7 cm defualt
+        "AttackAnimationPoint"          "0.45"    // Normalized time in animation cycle to attack.
+        "AttackAcquisitionRange"        "1000"     // Range within a target can be acquired.
+        "AttackRange"                   "1000"     // Range within a target can be attacked.
+        "AttackRangeBuffer"             "250"     // Extra range the target can move without canceling the attack
+        "ProjectileModel"               "particles/units/heroes/hero_hoodwink/hoodwink_base_attack.vpcf"
+        "ProjectileSpeed"               "1200"
 
         "BountyXP"                  "0"
         "BountyGoldMin"             "0"

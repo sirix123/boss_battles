@@ -4,14 +4,6 @@ LinkLuaModifier("e_whirling_winds_modifier_thinker", "player/ranger/modifiers/e_
 
 function e_whirling_winds:OnAbilityPhaseStart()
     if IsServer() then
-        self:GetCaster():StartGestureWithPlaybackRate(ACT_DOTA_CAST_ABILITY_1, 1.0)
-        -- add casting modifier
-        self:GetCaster():AddNewModifier(self:GetCaster(), self, "casting_modifier_thinker",
-        {
-            duration = self:GetCastPoint(),
-            pMovespeedReduction = -50,
-        })
-
         return true
     end
 end
@@ -19,13 +11,6 @@ end
 
 function e_whirling_winds:OnAbilityPhaseInterrupted()
     if IsServer() then
-
-        -- remove casting animation
-        self:GetCaster():FadeGesture(ACT_DOTA_CAST_ABILITY_1)
-
-        -- remove casting modifier
-        self:GetCaster():RemoveModifierByName("casting_modifier_thinker")
-
     end
 end
 ---------------------------------------------------------------------------
@@ -36,12 +21,10 @@ end
 
 function e_whirling_winds:OnSpellStart()
 
-    self:GetCaster():RemoveGesture(ACT_DOTA_CAST_ABILITY_1)
-
     self.caster = self:GetCaster()
 
     local point = nil
-    point = Clamp(self.caster:GetOrigin(), Vector(self.caster.mouse.x, self.caster.mouse.y, self.caster.mouse.z), self:GetCastRange(Vector(0,0,0), nil), 0)
+    point = Clamp(self.caster:GetOrigin(), Vector(self:GetCursorPosition().x, self:GetCursorPosition().y, self:GetCursorPosition().z), self:GetCastRange(Vector(0,0,0), nil), 0)
 
     self:GetCaster():AddNewModifier(self:GetCaster(), self, "e_whirling_winds_modifier", 
         { 

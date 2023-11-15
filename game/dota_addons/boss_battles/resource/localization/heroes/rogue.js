@@ -144,7 +144,9 @@ function GenerateLocalizationData() {
         name: "Envenom",
         description: "Rogue cuts all enemies infront of her with an envenomed blade, applying a debuff that increases the damage they take from all bleeds and gives rogue a stack of <font color=\"#9af9e0\">Envenom</font>",
         //lore: `A secret mixture of the deadliest toxins known to man.`,
-        notes: [],
+        notes: [
+            "In solo mode if the Rogue has max stacks of <font color=\"#9af9e0\">Envenom</font> they will be healed %heal_tick% per second."
+        ],
         ability_specials: [
             {
                 ability_special: "damage",

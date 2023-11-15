@@ -28,7 +28,7 @@ function GenerateLocalizationData() {
     Modifiers.push({
         modifier_classname: "water_gun_dmg_buff",
         name: "Living water.",
-        description: "All of your outgoing damage is increased by {" + "MODIFIER_PROPERTY_TOTALDAMAGEOUTGOING_PERCENTAGE" /* TOTALDAMAGEOUTGOING_PERCENTAGE */ + "}%."
+        description: "All of your outgoing damage is increased by {".concat("MODIFIER_PROPERTY_TOTALDAMAGEOUTGOING_PERCENTAGE" /* LocalizationModifierProperty.TOTALDAMAGEOUTGOING_PERCENTAGE */, "}%.")
     });
     Modifiers.push({
         modifier_classname: "water_gun_dmg_debuff",

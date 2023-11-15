@@ -69,7 +69,7 @@ function GenerateLocalizationData() {
     Abilities.push({
         ability_classname: "m2_sword_slam",
         name: "Sunder",
-        description: "Blademaster slams down his sword, dealing damage based on his total mana to all enemies infront of him. Hitting an enemy with " + sunderColour + " grants a stack of " + bladeMasteryColour + ", up to three times.",
+        description: "Blademaster slams down his sword, dealing damage based on his total mana to all enemies infront of him. Hitting an enemy with ".concat(sunderColour, " grants a stack of ").concat(bladeMasteryColour, ", up to three times."),
         //lore: `What doesn't kill his opponents only makes him stronger.`,
         ability_specials: [
             {
@@ -102,7 +102,7 @@ function GenerateLocalizationData() {
     Abilities.push({
         ability_classname: "q_conq_shout",
         name: "Inspire",
-        description: "Blademaster inspires his allies near him and his " + bladeVortexColour + ". " + inspireColour + " also generates one stack of " + fightingSpiritColour + ".",
+        description: "Blademaster inspires his allies near him and his ".concat(bladeVortexColour, ". ").concat(inspireColour, " also generates one stack of ").concat(fightingSpiritColour, "."),
         //lore: `Blademaster's military experience allows him to inspire his allies to push forward against overwhelming odds.`,
         notes: [
             "Fighting Spirit regenerates 5 health per second and 2 mana per second.",
@@ -123,7 +123,7 @@ function GenerateLocalizationData() {
     Abilities.push({
         ability_classname: "e_warlord_shout",
         name: "Barricade",
-        description: "Blademaster defends his allies near him and his " + bladeVortexColour + ", granting them a shield. " + barricadeColour + " also generates one stack of " + fightingSpiritColour + ".",
+        description: "Blademaster defends his allies near him and his ".concat(bladeVortexColour, ", granting them a shield. ").concat(barricadeColour, " also generates one stack of ").concat(fightingSpiritColour, "."),
         //lore: `The long and bitter war against the Templars revealed the importance of proper defence.`,
         notes: [
             "Fighting Spirit regenerates 5 health per second and 2 mana per second.",

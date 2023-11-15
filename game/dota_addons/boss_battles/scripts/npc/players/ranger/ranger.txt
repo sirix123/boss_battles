@@ -6,12 +6,12 @@
 	"npc_dota_hero_windrunner" //"npc_dota_hero_medusa"
 	{
 		"override_hero"			"npc_dota_hero_windrunner" 			// Hero to override
-		"Ability1"              "m1_trackingshot" 
-        "Ability2"              "m2_serratedarrow" 
-        "Ability3"              "q_healing_arrow_v2" 
-        "Ability4"              "e_whirling_winds"
-        "Ability5"              "r_explosive_arrow"
-        "Ability6"              "space_sprint"
+		"Ability1"              "m2_serratedarrow" 
+        "Ability2"              "q_healing_arrow_v2" 
+        "Ability3"              "e_whirling_winds" 
+        "Ability4"              "r_explosive_arrow"
+        "Ability5"              "space_sprint"
+        "Ability6"              "ranger_passive"
         "Ability7"              ""
         "Ability8"              ""
         "Ability9"              ""
@@ -28,8 +28,15 @@
         "MagicalResistance"         "0"
 
         "AttackCapabilities"        "DOTA_UNIT_CAP_RANGED_ATTACK"
-        "AttackDamageMin"           "1"
-        "AttackDamageMax"           "1"
+        "AttackDamageMin"           "15"
+        "AttackDamageMax"           "15"
+        "AttackRate"                 "1.0"     // Speed of attack. 1.7 cm defualt
+        "AttackAnimationPoint"       "0.45"    // Normalized time in animation cycle to attack.
+        "AttackAcquisitionRange"     "1400"     // Range within a target can be acquired.
+        "AttackRange"                "1400"     // Range within a target can be attacked.
+        "AttackRangeBuffer"          "250"     // Extra range the target can move without canceling the attack
+        "ProjectileModel"            "particles/econ/items/windrunner/windranger_arcana/windranger_arcana_base_attack_v2.vpcf"
+        "ProjectileSpeed"            "1200"
 
         //"AttributePrimary"        "DOTA_ATTRIBUTE_STRENGTH"
         "AttributeBaseStrength"     "0"

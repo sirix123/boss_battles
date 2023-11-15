@@ -22,17 +22,17 @@ function GenerateLocalizationData() {
     Modifiers.push({
         modifier_classname: "e_regen_aura_buff",
         name: "Divine Light",
-        description: "Regenerates {" + "MODIFIER_PROPERTY_HEALTH_REGEN_CONSTANT" /* HEALTH_REGEN_CONSTANT */ + "} health per second."
+        description: "Regenerates {".concat("MODIFIER_PROPERTY_HEALTH_REGEN_CONSTANT" /* LocalizationModifierProperty.HEALTH_REGEN_CONSTANT */, "} health per second.")
     });
     Modifiers.push({
         modifier_classname: "q_armor_aura_buff",
         name: "Bolster",
-        description: "Armour increased by {" + "MODIFIER_PROPERTY_PHYSICAL_ARMOR_BONUS" /* PHYSICAL_ARMOR_BONUS */ + "}."
+        description: "Armour increased by {".concat("MODIFIER_PROPERTY_PHYSICAL_ARMOR_BONUS" /* LocalizationModifierProperty.PHYSICAL_ARMOR_BONUS */, "}.")
     });
     Modifiers.push({
         modifier_classname: "r_outgoing_dmg_buff",
         name: "Divine Purge",
-        description: "Damage increased by {" + "MODIFIER_PROPERTY_TOTALDAMAGEOUTGOING_PERCENTAGE" /* TOTALDAMAGEOUTGOING_PERCENTAGE */ + "}%."
+        description: "Damage increased by {".concat("MODIFIER_PROPERTY_TOTALDAMAGEOUTGOING_PERCENTAGE" /* LocalizationModifierProperty.TOTALDAMAGEOUTGOING_PERCENTAGE */, "}%.")
     });
     // abilities
     Abilities.push({
@@ -68,7 +68,7 @@ function GenerateLocalizationData() {
     Abilities.push({
         ability_classname: "q_armor_aura",
         name: "Holy Ward",
-        description: "Paladin grants all of his allies a protective ward that increases their armour. If Paladin uses " + judgementColour + " while using this aura, then it reduces the targeted enemies armour.",
+        description: "Paladin grants all of his allies a protective ward that increases their armour. If Paladin uses ".concat(judgementColour, " while using this aura, then it reduces the targeted enemies armour."),
         ability_specials: [
             {
                 ability_special: "armor_plus",
@@ -83,7 +83,7 @@ function GenerateLocalizationData() {
     Abilities.push({
         ability_classname: "e_regen_aura",
         name: "Divine Light",
-        description: "Paladin covers his allies in a divine light that grants all allies health regeneration. If Paladin uses " + judgementColour + " while using this aura, then it applies a damage over time effect to all targeted enemmies.",
+        description: "Paladin covers his allies in a divine light that grants all allies health regeneration. If Paladin uses ".concat(judgementColour, " while using this aura, then it applies a damage over time effect to all targeted enemmies."),
         ability_specials: [
             {
                 ability_special: "regen_plus",
@@ -98,7 +98,7 @@ function GenerateLocalizationData() {
     Abilities.push({
         ability_classname: "r_outgoing_dmg",
         name: "Zealotry",
-        description: "Paladin inspires all allies with a zealous fervour, increasing their damage. If Paladin uses " + judgementColour + " while using this aura, then " + judgementColour + " deals additional damage.",
+        description: "Paladin inspires all allies with a zealous fervour, increasing their damage. If Paladin uses ".concat(judgementColour, " while using this aura, then ").concat(judgementColour, " deals additional damage."),
         ability_specials: [
             {
                 ability_special: "outgoing_plus",
@@ -125,7 +125,7 @@ function GenerateLocalizationData() {
     Abilities.push({
         ability_classname: "nocens_passive",
         name: "Crusader",
-        description: "Paladin's devotion to the light allows him to empower his allies with auras as well as burn his enemies with his " + judgementColour + ". Consuming any auras with " + judgementColour + " increases its damage and deals additional effects.",
+        description: "Paladin's devotion to the light allows him to empower his allies with auras as well as burn his enemies with his ".concat(judgementColour, ". Consuming any auras with ").concat(judgementColour, " increases its damage and deals additional effects."),
         notes: [
             "Paladin may have only one active aura at a time.",
             "Paladin auras have global range.",

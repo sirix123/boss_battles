@@ -21,12 +21,13 @@ function e_whirling_winds_modifier:OnCreated( kv )
 
         self.ms_boost = kv.ms_boost
         self.dmg_boost_percent = kv.dmg_boost_percent
+		self.as_boost = kv.as_boost
 
     end
 
-	self.ms_boost = self:GetCaster():FindAbilityByName("e_whirling_winds"):GetSpecialValueFor( "dmg_increase" ) / 100
-    self.dmg_boost_percent = self:GetCaster():FindAbilityByName("e_whirling_winds"):GetSpecialValueFor( "ms_increase" ) / 100
-
+	self.ms_boost = self:GetCaster():FindAbilityByName("e_whirling_winds"):GetSpecialValueFor( "dmg_increase" )
+    self.dmg_boost_percent = self:GetCaster():FindAbilityByName("e_whirling_winds"):GetSpecialValueFor( "ms_increase" )
+	self.as_boost = self:GetCaster():FindAbilityByName("e_whirling_winds"):GetSpecialValueFor( "as_boost" )
 end
 ----------------------------------------------------------------------------
 
@@ -35,6 +36,7 @@ function e_whirling_winds_modifier:DeclareFunctions()
 	{
         MODIFIER_PROPERTY_MOVESPEED_BONUS_PERCENTAGE,
         MODIFIER_PROPERTY_TOTALDAMAGEOUTGOING_PERCENTAGE,
+		MODIFIER_PROPERTY_ATTACKSPEED_PERCENTAGE,
 	}
 	return funcs
 end
@@ -49,5 +51,9 @@ function e_whirling_winds_modifier:GetModifierTotalDamageOutgoing_Percentage( pa
 	return self.dmg_boost_percent
 end
 --------------------------------------------------------------------------------
+
+function e_whirling_winds_modifier:GetModifierAttackSpeedPercentage()
+	return self.as_boost
+  end
 
 

@@ -6,8 +6,6 @@ LinkLuaModifier("cheese_modifier", "player/rat/modifier/cheese_modifier", LUA_MO
 function q_eat_cheese:OnSpellStart()
     if IsServer() then
 
-        self:GetCaster():StartGestureWithPlaybackRate(ACT_DOTA_CAST_ABILITY_2, 1.0)
-
         self:GetCaster():AddNewModifier(
             self:GetCaster(), -- player source
             self, -- ability source

@@ -51,7 +51,18 @@ function rat_stacks:OnStackCountChanged(iStackCount)
 		ParticleManager:SetParticleControl(self.particle, 0, self:GetParent():GetAbsOrigin())
 		ParticleManager:SetParticleControl(self.particle, 1, Vector(0, self:GetStackCount(), 0))
 	end
+end
 
+function rat_stacks:DeclareFunctions()
+	local funcs = {
+		MODIFIER_PROPERTY_ATTACKSPEED_PERCENTAGE,
+	}
+
+	return funcs
+end
+
+function rat_stacks:GetModifierAttackSpeedPercentage()
+	return self:GetStackCount() * self:GetCaster():FindAbilityByName("rat_passive"):GetSpecialValueFor( "attack_speed_per_stack" )
 end
 
 function rat_stacks:OnRefresh( kv )

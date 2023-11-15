@@ -53,6 +53,7 @@ function e_whirling_winds_modifier_thinker:OnIntervalThink()
                     duration = 2.0,
                     dmg_boost_percent =  self:GetAbility():GetSpecialValueFor("dmg_increase"),
                     ms_boost = self:GetAbility():GetSpecialValueFor("ms_increase"),
+                    as_boost = self:GetAbility():GetSpecialValueFor("as_boost")
                 })
             end
         end

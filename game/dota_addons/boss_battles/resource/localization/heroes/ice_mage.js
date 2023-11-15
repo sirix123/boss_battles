@@ -33,18 +33,18 @@ function GenerateLocalizationData() {
     Modifiers.push({
         modifier_classname: "bonechill_modifier",
         name: "Bonechill",
-        description: "Regenerates {" + "MODIFIER_PROPERTY_MANA_REGEN_CONSTANT" /* MANA_REGEN_CONSTANT */ + "} mana per second."
+        description: "Regenerates {".concat("MODIFIER_PROPERTY_MANA_REGEN_CONSTANT" /* LocalizationModifierProperty.MANA_REGEN_CONSTANT */, "} mana per second.")
     });
     Modifiers.push({
         modifier_classname: "q_iceblock_modifier",
         name: "Ice Block",
-        description: "Regenerates {" + "MODIFIER_PROPERTY_HEALTH_REGEN_PERCENTAGE" /* HEALTH_REGEN_PERCENTAGE */ + "}% of max health per second."
+        description: "Regenerates {".concat("MODIFIER_PROPERTY_HEALTH_REGEN_PERCENTAGE" /* LocalizationModifierProperty.HEALTH_REGEN_PERCENTAGE */, "}% of max health per second.")
     });
     // abilities
     Abilities.push({
         ability_classname: "m1_iceshot",
         name: "Frost Bolt",
-        description: "Rylai fires an icy projectile that deals damage and " + chillscolour + ", generating one stack of " + shatterColour + " on hit.",
+        description: "Rylai fires an icy projectile that deals damage and ".concat(chillscolour, ", generating one stack of ").concat(shatterColour, " on hit."),
         ability_specials: [
             {
                 ability_special: "dmg",
@@ -64,9 +64,9 @@ function GenerateLocalizationData() {
     Abilities.push({
         ability_classname: "m2_icelance",
         name: "Ice Lance",
-        description: "Rylai launches {max_proj} long range frozen projectiles that deal damage and explode upon impact, dealing additional damage based on the number of " + shatterColour + " stacks. If " + icelanceColour + " consumes 3 " + shatterColour + " stacks this way, it grants " + boneChill + ".",
+        description: "Rylai launches {max_proj} long range frozen projectiles that deal damage and explode upon impact, dealing additional damage based on the number of ".concat(shatterColour, " stacks. If ").concat(icelanceColour, " consumes 3 ").concat(shatterColour, " stacks this way, it grants ").concat(boneChill, "."),
         notes: [
-            "Consumes all " + shatterColour + " stacks.",
+            "Consumes all ".concat(shatterColour, " stacks."),
         ],
         ability_specials: [
             {
@@ -119,7 +119,7 @@ function GenerateLocalizationData() {
     Abilities.push({
         ability_classname: "e_icefall",
         name: "Blizzard",
-        description: "Rylai summons a violent blizzard at the target location dealing damage and " + chillscolour + " all enemies. Enemies affected by " + blizzard + " for 2 seconds are frozen in place.",
+        description: "Rylai summons a violent blizzard at the target location dealing damage and ".concat(chillscolour, " all enemies. Enemies affected by ").concat(blizzard, " for 2 seconds are frozen in place."),
         notes: [
             "Bosses cannot be frozen.",
         ],
@@ -145,7 +145,7 @@ function GenerateLocalizationData() {
     Abilities.push({
         ability_classname: "r_frostbomb",
         name: "Frost Strike",
-        description: "Rylai conjures a sphere of frost above target location. After a delay the sphere hits the ground and explodes, dealing damage over time to all enemies. " + froststrikeColour + " can consume " + shatterColour + " and " + boneChill + " to empower its duration and damage.",
+        description: "Rylai conjures a sphere of frost above target location. After a delay the sphere hits the ground and explodes, dealing damage over time to all enemies. ".concat(froststrikeColour, " can consume ").concat(shatterColour, " and ").concat(boneChill, " to empower its duration and damage."),
         notes: [
             "Consumes Bonechill.",
             "Shatter only affects the damage over time debuff."
@@ -184,7 +184,7 @@ function GenerateLocalizationData() {
     Abilities.push({
         ability_classname: "space_frostblink",
         name: "Blink",
-        description: "Rylai teleports forward and " + chillscolour + " enemies at the start and end location.",
+        description: "Rylai teleports forward and ".concat(chillscolour, " enemies at the start and end location."),
         ability_specials: [
             {
                 ability_special: "mana_gain_percent",
@@ -195,11 +195,11 @@ function GenerateLocalizationData() {
     Abilities.push({
         ability_classname: "ice_mage_passive",
         name: "Cold Blood",
-        description: "Rylai passively generates " + shatterColour + " stacks through her abilities and can grant her " + boneChill + " by consuming them. Additionally, certain abilities will also " + chillcolour + " enemies on hit.",
+        description: "Rylai passively generates ".concat(shatterColour, " stacks through her abilities and can grant her ").concat(boneChill, " by consuming them. Additionally, certain abilities will also ").concat(chillcolour, " enemies on hit."),
         notes: [
-            shatterColour + " Modifies " + icelanceColour + " and " + froststrikeColour + ".",
-            chillcolour + " does not affect bosses.",
-            chillcolour + " applies to both movement and attack speed.",
+            "".concat(shatterColour, " Modifies ").concat(icelanceColour, " and ").concat(froststrikeColour, "."),
+            "".concat(chillcolour, " does not affect bosses."),
+            "".concat(chillcolour, " applies to both movement and attack speed."),
         ],
         ability_specials: [
             {

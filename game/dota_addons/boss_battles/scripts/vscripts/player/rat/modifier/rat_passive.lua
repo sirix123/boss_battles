@@ -15,7 +15,7 @@ LinkLuaModifier("rat_stacks", "player/rat/modifier/rat_stacks", LUA_MODIFIER_MOT
 -----------------------------------------------------------------------------------------------------------------------
 
 function rat_passive_modifier:IsHidden()
-	return true
+	return false
 end
 
 function rat_passive_modifier:OnCreated( params )
@@ -31,10 +31,10 @@ function rat_passive_modifier:OnCreated( params )
         Timers:CreateTimer(self:GetCaster():FindAbilityByName("rat_passive"):GetSpecialValueFor( "rat_stack_generate_time" ), function()
 
             --if self:GetParent():HasModifier("stim_pack_debuff") == true then return self:GetCaster():FindAbilityByName("rat_passive"):GetSpecialValueFor( "rat_stack_generate_time" ) end
-            if self.stutter_flag == true then return self:GetCaster():FindAbilityByName("rat_passive"):GetSpecialValueFor( "rat_stack_generate_time" ) end
+            -- if self.stutter_flag == true then return self:GetCaster():FindAbilityByName("rat_passive"):GetSpecialValueFor( "rat_stack_generate_time" ) end
             if self:GetParent():HasModifier("stim_pack_buff") == true then return self:GetCaster():FindAbilityByName("rat_passive"):GetSpecialValueFor( "rat_stack_generate_time" ) end
 
-            if self.rat_moving == false or self:GetParent():HasModifier("casting_modifier_thinker") == true or self:GetParent():HasModifier("burrow_modifier") == true then
+            if self.rat_moving == false or self:GetParent():HasModifier("burrow_modifier") == true then
 
                 self:GetParent():AddNewModifier(
                     self:GetParent(), -- player source
@@ -51,7 +51,7 @@ function rat_passive_modifier:OnCreated( params )
         Timers:CreateTimer(self:GetCaster():FindAbilityByName("rat_passive"):GetSpecialValueFor( "rat_stack_generate_time" ) / 2 , function() -- lose rat stacks at double the rate if moving
 
             --if self:GetParent():HasModifier("stim_pack_debuff") == true then return self:GetCaster():FindAbilityByName("rat_passive"):GetSpecialValueFor( "rat_stack_generate_time" ) end
-            if self.stutter_flag == true then return self:GetCaster():FindAbilityByName("rat_passive"):GetSpecialValueFor( "rat_stack_generate_time" ) / 2 end
+            -- if self.stutter_flag == true then return self:GetCaster():FindAbilityByName("rat_passive"):GetSpecialValueFor( "rat_stack_generate_time" ) / 2 end
             if self:GetParent():HasModifier("stim_pack_buff") == true then return self:GetCaster():FindAbilityByName("rat_passive"):GetSpecialValueFor( "rat_stack_generate_time" ) / 2 end
 
             if self.rat_moving == true then
@@ -64,13 +64,13 @@ function rat_passive_modifier:OnCreated( params )
         end)
 
         -- sutter step flag
-        Timers:CreateTimer(self:GetCaster():FindAbilityByName("rat_basic_attack"):GetCastPoint() , function() -- lose rat stacks at double the rate if moving
+        -- Timers:CreateTimer(self:GetCaster():FindAbilityByName("rat_basic_attack"):GetCastPoint() , function() -- lose rat stacks at double the rate if moving
 
-            -- reset stutter flag.. might need a faster timer for this.... as cp for m1 is shorter then this
-            self.stutter_flag = false
+        --     -- reset stutter flag.. might need a faster timer for this.... as cp for m1 is shorter then this
+        --     self.stutter_flag = false
 
-            return self:GetCaster():FindAbilityByName("rat_basic_attack"):GetCastPoint()
-        end)
+        --     return self:GetCaster():FindAbilityByName("rat_basic_attack"):GetCastPoint()
+        -- end)
     end
 end
 
@@ -108,12 +108,13 @@ function rat_passive_modifier:OnIntervalThink()
         return
     end]]
 
-	if parent.direction.x ~= 0 or parent.direction.y ~= 0 then
+	-- if parent.direction.x ~= 0 or parent.direction.y ~= 0 then
+    if parent:IsMoving() then
 		if parent:IsStunned() or parent:IsCommandRestricted() or parent:IsRooted() then
-            --print("rat is not moving")
+            -- print("rat is not moving")
             self.rat_moving = false
 		else
-            --print("rat is moving")
+            -- print("rat is moving")
             self.rat_moving = true
             if self.stutter_flag == false then
                 if self:GetParent():HasModifier("rat_stacks") and self:GetParent():HasModifier("casting_modifier_thinker") == false then
@@ -123,7 +124,35 @@ function rat_passive_modifier:OnIntervalThink()
             end
 		end
 	else
-        --print("rat is not moving")
+        -- print("rat is not moving")
         self.rat_moving = false
 	end
+
+end
+
+function rat_passive_modifier:DeclareFunctions()
+    local funcs = {
+        MODIFIER_EVENT_ON_ATTACK_LANDED,
+    }
+    return funcs
+end
+
+function rat_passive_modifier:OnAttackLanded(params)
+    if IsServer() then
+        local caster = self:GetCaster()
+        local target = params.target
+        local attacker = params.attacker
+
+        -- check attacker is the modifier parent
+        if attacker ~= self:GetParent() then
+            return
+        end
+
+        if target == nil and target:GetTeamNumber() == self:GetParent():GetTeamNumber() then
+            return
+        end
+
+        caster:ManaOnHit(self:GetAbility():GetSpecialValueFor( "mana_gain_percent" ))
+    end
+
 end

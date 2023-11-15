@@ -62,7 +62,7 @@ _G.HERO_NAME_LIST =
     "npc_dota_hero_omniknight",
     "npc_dota_hero_queenofpain",
     "npc_dota_hero_windrunner",
-    --"npc_dota_hero_hoodwink",
+    "npc_dota_hero_hoodwink",
     "npc_dota_hero_huskar",
     --"npc_dota_hero_pugna",
     "npc_dota_hero_oracle",
@@ -74,11 +74,14 @@ _G.tCORE_MODIFIERS =
     "modifier_grace_period",
     "qop_passive_modifier",
     "ice_mage_passive_modifier",
+    "ranger_passive_modifier",
     "blademaster_death_enable_spells",
     "modifier_arcana_cosmetics",
     "rat_passive_modifier",
+    "rat_stacks",
     "templar_passive_modifier",
-    "modifier_cleave"
+    "modifier_cleave",
+    "mana_on_hit_modifier",
 }
 
 _G.PLAYERS_HANDSHAKE_READY = 0
