@@ -19,7 +19,7 @@ end
 function m2_energy_buff:OnCreated( kv )
     --if IsServer() then
         -- references
-		self.energy_regen_bonus = self:GetAbility():GetSpecialValueFor( "energy_regen_bonus" )
+		self.energy_regen_bonus = kv.energy_regen_bonus
 
     --end
 end

@@ -82,6 +82,7 @@ _G.tCORE_MODIFIERS =
     "templar_passive_modifier",
     "modifier_cleave",
     "mana_on_hit_modifier",
+    "rogue_passive_modifier",
 }
 
 _G.PLAYERS_HANDSHAKE_READY = 0

@@ -38,6 +38,16 @@ function GenerateLocalizationData() {
         name: "Envenom",
         description: "Current Envenom stacks.",
     });
+    Modifiers.push({
+        modifier_classname: "e_swallow_potion_modifier_ability",
+        name: "Envenom",
+        description: "Your next attack is embued with venom.",
+    });
+    Modifiers.push({
+        modifier_classname: "m2_combo_breaker_modifier",
+        name: "Assassinate",
+        description: "Your next attack strikes with precision.",
+    });
     // abilities
     Abilities.push({
         ability_classname: "m1_combo_hit_1_2",
@@ -218,6 +228,31 @@ function GenerateLocalizationData() {
         description: "Return to start location.",
         notes: [],
         ability_specials: []
+    });
+    Abilities.push({
+        ability_classname: "rogue_passive",
+        name: "Lacerate",
+        description: 'Rogue basic attack has cleave and applies a bleed to all enemies in front of her. Bleeds dealt by this ability are amplified by <b><font color=\"#6f92fc\">Envenom</font></b>.',
+        notes: [],
+        ability_specials: [
+            {
+                ability_special: "bleed_duration",
+                text: "BLEED DURATION:"
+            },
+            {
+                ability_special: "dmg_dot_base",
+                text: "BLEED DAMAGE:",
+            },
+            {
+                ability_special: "damage_interval",
+                text: "INTERVAL:",
+            },
+            {
+                ability_special: "bonus_bleed_percent",
+                text: "BONUS BLEED DAMAGE",
+                percentage: true
+            },
+        ]
     });
     // Return data to compiler
     return localization_info;

@@ -445,6 +445,8 @@ function GameSetup:OnEntityHurt(keys)
                     damagingAbility = EntIndexToHScript(keys.entindex_inflictor)
                 end
 
+                -- print("GameSetup:OnEntityHurt(keys) ",entVictim:GetUnitName()," ",entAttacker:GetUnitName()," ",damagingAbility:GetName()," ",keys.damage)
+
                 local word_length = string.len(tostring(math.floor(keys.damage)))
 
                 local color =  Vector(255, 255, 255)
