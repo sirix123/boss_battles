@@ -5,15 +5,6 @@ LinkLuaModifier( "templar_power_charge", "player/templar/modifiers/templar_power
 function templar_m2_leap:OnAbilityPhaseStart()
     if IsServer() then
 
-        -- start casting animation
-        self:GetCaster():StartGestureWithPlaybackRate(ACT_DOTA_ATTACK_EVENT, 1.0)
-
-        -- add casting modifier
-        self:GetCaster():AddNewModifier(self:GetCaster(), self, "casting_modifier_thinker",
-        {
-            duration = self:GetCastPoint(),
-        })
-
         --- particle effect on cast
         local particle = "particles/econ/items/huskar/huskar_searing_dominator/huskar_searing_lifebreak_cast.vpcf"
         local nfx = ParticleManager:CreateParticle(particle, PATTACH_POINT_FOLLOW, self:GetCaster())
@@ -32,24 +23,14 @@ end
 function templar_m2_leap:OnAbilityPhaseInterrupted()
     if IsServer() then
 
-        -- remove casting animation
-        self:GetCaster():FadeGesture(ACT_DOTA_ATTACK_EVENT)
-
-        -- remove casting modifier
-        self:GetCaster():RemoveModifierByName("casting_modifier_thinker")
-
     end
 end
 ---------------------------------------------------------------------------
 function templar_m2_leap:OnSpellStart()
 
-    self:GetCaster():FadeGesture(ACT_DOTA_ATTACK_EVENT)
-
-    self:GetCaster():RemoveModifierByName("casting_modifier_thinker")
-
     local caster = self:GetCaster()
     local point = nil
-    point = Clamp(caster:GetAbsOrigin(), Vector(caster.mouse.x, caster.mouse.y, caster.mouse.z), self:GetCastRange(Vector(0,0,0), nil), 0)
+    point = self:GetCursorPosition()
 
     local distance = (point - caster:GetAbsOrigin()):Length2D()
 

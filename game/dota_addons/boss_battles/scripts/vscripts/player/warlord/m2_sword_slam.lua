@@ -10,19 +10,6 @@ function m2_sword_slam:OnAbilityPhaseStart()
 
         self.mana = self:GetCaster():GetMana()
 
-        -- add casting modifier
-        self:GetCaster():AddNewModifier(self:GetCaster(), self, "casting_modifier_thinker",
-        {
-            duration = self:GetCastPoint(),
-        })
-
-        local particle = nil
-        if self:GetCaster().arcana_equipped == true then
-            particle = "particles/warlord/jugg_mk_ti7_immortal_strike_cast.vpcf"
-        else
-            particle = "particles/units/heroes/hero_monkey_king/monkey_king_strike_cast.vpcf"
-        end
-
         --- particle effect on cast
         local nfx = ParticleManager:CreateParticle(particle, PATTACH_POINT_FOLLOW, self:GetCaster())
         ParticleManager:SetParticleControl(nfx, 0, self:GetCaster():GetAbsOrigin())
@@ -41,12 +28,6 @@ end
 function m2_sword_slam:OnAbilityPhaseInterrupted()
     if IsServer() then
 
-        -- remove casting animation
-        self:GetCaster():FadeGesture(ACT_DOTA_ATTACK_EVENT)
-
-        -- remove casting modifier
-        self:GetCaster():RemoveModifierByName("casting_modifier_thinker")
-
     end
 end
 ---------------------------------------------------------------------------
@@ -54,14 +35,8 @@ function m2_sword_slam:OnSpellStart()
 	self.caster = self:GetCaster()
 	local origin = self.caster:GetOrigin()
 
-	-- remove casting animation
-    self:GetCaster():FadeGesture(ACT_DOTA_ATTACK_EVENT)
-
-	-- function in utility_functions
-	--local point = Clamp(origin, self:GetCursorPosition(), self:GetCastRange(Vector(0,0,0), nil), self:GetCastRange(Vector(0,0,0), nil))
-
     local vTargetPos = nil
-    vTargetPos = Vector(self.caster.mouse.x, self.caster.mouse.y, self.caster.mouse.z)
+    vTargetPos = Vector(self:GetCursorPosition().x, self:GetCursorPosition().y, self:GetCursorPosition().z)
     local projectile_direction = (Vector( vTargetPos.x - origin.x, vTargetPos.y - origin.y, 0 )):Normalized()
 
     -- Find all enemy units

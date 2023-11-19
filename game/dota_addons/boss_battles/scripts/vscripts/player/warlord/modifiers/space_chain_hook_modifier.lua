@@ -84,7 +84,6 @@ function space_chain_hook_modifier:OnDestroy( kv )
         self.parent:FadeGesture(ACT_DOTA_FLAIL)
 
         --if self.caster:HasModifier("r_whirlwind_modifier") == false then
-            self.caster:FindAbilityByName("m1_sword_slash"):SetActivated(true)
             self.caster:FindAbilityByName("m2_sword_slam"):SetActivated(true)
             self.caster:FindAbilityByName("q_conq_shout"):SetActivated(true)
             self.caster:FindAbilityByName("e_warlord_shout"):SetActivated(true)

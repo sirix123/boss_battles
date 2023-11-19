@@ -5,37 +5,16 @@ LinkLuaModifier("q_arcane_cage_modifier_templar", "player/templar/modifiers/q_ar
 function q_arcane_cage:OnAbilityPhaseStart()
     if IsServer() then
 
-        local units = FindUnitsInRadius(
-            self:GetCaster():GetTeamNumber(),
-            Clamp(self:GetCaster():GetOrigin(), Vector(self:GetCaster().mouse.x, self:GetCaster().mouse.y, self:GetCaster().mouse.z), self:GetCastRange(Vector(0,0,0), nil), 0),
-            nil,
-            200,
-            DOTA_UNIT_TARGET_TEAM_FRIENDLY,
-            DOTA_UNIT_TARGET_HERO,
-            DOTA_UNIT_TARGET_FLAG_MAGIC_IMMUNE_ENEMIES + DOTA_UNIT_TARGET_FLAG_INVULNERABLE,
-            FIND_CLOSEST,
-            false)
+        self.hTarget = self:GetCursorTarget()
 
-        if units == nil or #units == 0 then
-            local playerID = self:GetCaster():GetPlayerID()
-            local player = PlayerResource:GetPlayer(playerID)
-            CustomGameEventManager:Send_ServerToPlayer( player, "no_target", { } )
+        -- init
+        self.caster = self:GetCaster()
+
+        -- if caster == target return
+        if self.caster == self.hTarget then
             return false
         else
-
-            self.target = units[1]
-
-            if self.target:GetUnitName() == "npc_dota_hero_huskar" then
-                local playerID = self:GetCaster():GetPlayerID()
-                local player = PlayerResource:GetPlayer(playerID)
-                CustomGameEventManager:Send_ServerToPlayer( player, "no_target", { } )
-                return false
-            else
-                self:GetCaster():StartGestureWithPlaybackRate(ACT_DOTA_CAST_ABILITY_2, 1.0)
-
-                return true
-
-            end
+            return true
         end
     end
 end
@@ -44,9 +23,6 @@ end
 function q_arcane_cage:OnAbilityPhaseInterrupted()
     if IsServer() then
 
-        -- remove casting animation
-        self:GetCaster():FadeGesture(ACT_DOTA_CAST_ABILITY_2)
-
     end
 end
 
@@ -54,14 +30,7 @@ end
 
 function q_arcane_cage:OnSpellStart()
     if IsServer() then
-
-        -- when spell starts fade gesture
-        self:GetCaster():FadeGesture(ACT_DOTA_CAST_ABILITY_2)
-
-        -- init
-        self.caster = self:GetCaster()
-
-        self.target:AddNewModifier(
+        self.hTarget:AddNewModifier(
             self:GetCaster(), -- player source
             self, -- ability source
             "q_arcane_cage_modifier", -- modifier name
@@ -76,7 +45,7 @@ function q_arcane_cage:OnSpellStart()
         )
 
         -- sound
-        EmitSoundOnLocationWithCaster(self.target:GetAbsOrigin(), "Hero_Huskar.Inner_Fire.Cast", self.caster)
+        EmitSoundOnLocationWithCaster(self.hTarget:GetAbsOrigin(), "Hero_Huskar.Inner_Fire.Cast", self.caster)
 
 	end
 end

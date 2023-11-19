@@ -17,6 +17,7 @@ function templar_passive_modifier:IsHidden() return true end
 function templar_passive_modifier:DeclareFunctions()
 	local funcs = {
         MODIFIER_PROPERTY_TOTAL_CONSTANT_BLOCK,
+        MODIFIER_EVENT_ON_ATTACK_LANDED,
 	}
 
 	return funcs

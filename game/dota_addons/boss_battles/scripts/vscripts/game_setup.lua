@@ -810,6 +810,7 @@ function GameSetup:AddDefaultModifiersToHeroes(hero)
 
     if hero:GetUnitName() == "npc_dota_hero_juggernaut" then
         hero:AddNewModifier( hero, nil, "modifier_cleave", { duration = -1 } )
+        hero:AddNewModifier( hero, nil, "modifier_mana_on_hit", { duration = -1 } )
     end
 
     if hero:GetUnitName() == "npc_dota_hero_lina" then
@@ -821,7 +822,7 @@ function GameSetup:AddDefaultModifiersToHeroes(hero)
     end
 
     if hero:GetUnitName() == "npc_dota_hero_windrunner" then
-
+        
     end
 
     if hero:GetUnitName() == "npc_dota_hero_queenofpain" then

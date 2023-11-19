@@ -4,64 +4,13 @@ LinkLuaModifier( "q_conq_shout_modifier", "player/warlord/modifiers/q_conq_shout
 
 function space_chain_hook:OnAbilityPhaseStart()
     if IsServer() then
-
-        --self:GetCaster():EmitSound("rattletrap_ratt_ability_hook_03")
-
-        self.caster = self:GetCaster()
-        local find_radius = self:GetSpecialValueFor( "find_radius" )
-        local vTargetPos = Clamp(self.caster:GetOrigin(), Vector(self.caster.mouse.x, self.caster.mouse.y, self.caster.mouse.z), self:GetCastRange(Vector(0,0,0), nil), 0)
-
-        local units = FindUnitsInRadius(
-            self:GetCaster():GetTeamNumber(),
-            vTargetPos,
-            nil,
-            find_radius,
-            DOTA_UNIT_TARGET_TEAM_BOTH,
-            DOTA_UNIT_TARGET_ALL,
-            DOTA_UNIT_TARGET_FLAG_MAGIC_IMMUNE_ENEMIES + DOTA_UNIT_TARGET_FLAG_INVULNERABLE,
-            FIND_CLOSEST,
-            false)
-
-        if #units == 0 or units == nil then
-            --FireGameEvent("dota_hud_error_message", { reason = 80, message = "Out of range or no target" })
-            return false
-        end
-
-        if #units ~= 0 and units ~= nil then
-
-            for _, unit in pairs(units) do
-                if unit:GetUnitName() == "furnace_1" or unit:GetUnitName() == "furnace_2" or unit:GetUnitName() == "furnace_3" or unit:GetUnitName() == "furnace_4" then
-                    return false
-                end
-            end
-
-            -- start casting animation
-            self:GetCaster():StartGestureWithPlaybackRate(ACT_DOTA_ATTACK, 1.5)
-
-            self.target = units[1]
-
-            -- add casting modifier
-            self:GetCaster():AddNewModifier(self:GetCaster(), self, "casting_modifier_thinker",
-            {
-                duration = self:GetCastPoint(),
-            })
-
-            return true
-        end
+        return true
     end
 end
 ---------------------------------------------------------------------------
 
 function space_chain_hook:OnAbilityPhaseInterrupted()
     if IsServer() then
-
-        -- remove casting animation
-        self:GetCaster():FadeGesture(ACT_DOTA_ATTACK)
-
-        -- remove casting modifier
-        self:GetCaster():RemoveModifierByName("casting_modifier_thinker")
-
-        caster:FindAbilityByName("m1_sword_slash"):SetActivated(true)
         caster:FindAbilityByName("m2_sword_slam"):SetActivated(true)
         caster:FindAbilityByName("q_conq_shout"):SetActivated(true)
         caster:FindAbilityByName("e_warlord_shout"):SetActivated(true)
@@ -75,14 +24,10 @@ end
 function space_chain_hook:OnSpellStart()
     if IsServer() then
 
-        -- when spell starts fade gesture
-        self:GetCaster():FadeGesture(ACT_DOTA_ATTACK)
-
         -- init
 		local caster = self:GetCaster()
         local origin = caster:GetAbsOrigin()
 
-        caster:FindAbilityByName("m1_sword_slash"):SetActivated(false)
         caster:FindAbilityByName("m2_sword_slam"):SetActivated(false)
         caster:FindAbilityByName("q_conq_shout"):SetActivated(false)
         caster:FindAbilityByName("e_warlord_shout"):SetActivated(false)
@@ -91,11 +36,7 @@ function space_chain_hook:OnSpellStart()
 
         self:GetCaster():EmitSound("Hero_Pudge.AttackHookRetract")
 
-        --local target = self:GetCursorTarget()
-
-        --EmitSoundOn("rattletrap_ratt_ability_hook_02", caster)
-
-        self.point = self.target:GetAbsOrigin()
+        self.point = self:GetCursorTarget():GetAbsOrigin()
 
         local direction = (self.point - origin):Normalized()
         direction.z = 0
