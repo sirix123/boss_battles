@@ -27,8 +27,6 @@ function r_blade_vortex_thinker:OnCreated( kv )
         -- ref from spell
         self.currentTarget = self.parent:GetAbsOrigin()                -- Vector( kv.target_x, kv.target_y, kv.target_z )
         self.previous_location = nil
-        self.base_mana = self.caster:FindAbilityByName("m1_sword_slash"):GetSpecialValueFor( "mana_gain_percent" )
-        self.bonus_mana = self.caster:FindAbilityByName("m1_sword_slash"):GetSpecialValueFor( "mana_gain_percent_bonus" )
 
         -- do on create stuff
         self:PlayEffectsOnCreated()
@@ -178,7 +176,7 @@ function r_blade_vortex_thinker:OnIntervalThink()
                 elseif #enemies == 3 then
                     self.caster:ManaOnHit( self.base_mana + ( math.fmod(#enemies,self.bonus_mana) ))
                 else
-                    self.caster:ManaOnHit( self.base_mana + self.bonus_mana )
+                    self.caster:ManaOnHit( self.base_mana )
                 end
             end
         end
