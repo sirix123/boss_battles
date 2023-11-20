@@ -33,14 +33,14 @@ end
 ---------------------------------------------------------------------------
 function m2_sword_slam:OnSpellStart()
 	self.caster = self:GetCaster()
-	local origin = self.caster:GetOrigin()
+	local origin = self.caster:GetAbsOrigin()
 
     local vTargetPos = nil
-    vTargetPos = Vector(self:GetCursorPosition().x, self:GetCursorPosition().y, self:GetCursorPosition().z)
+    vTargetPos = self:GetCursorPosition()
     local projectile_direction = (Vector( vTargetPos.x - origin.x, vTargetPos.y - origin.y, 0 )):Normalized()
 
     -- Find all enemy units
-    local vEndPos = origin + self.caster:GetForwardVector() * self:GetCastRange(Vector(0,0,0), nil)
+    local vEndPos = origin + projectile_direction * self:GetCastRange(Vector(0,0,0), nil)
     local width = self:GetSpecialValueFor("width")
     local teams = DOTA_UNIT_TARGET_TEAM_ENEMY
     local types = DOTA_UNIT_TARGET_HERO + DOTA_UNIT_TARGET_CREEP
@@ -98,17 +98,12 @@ function m2_sword_slam:OnSpellStart()
 
     -- slam effect
 
-    local particle = nil
-    if self.caster.arcana_equipped == true then
-        particle = "particles/warlord/juggmk_ti7_immortal_strike.vpcf"
-    else
-        particle = "particles/warlord/sword_slam_monkey_king_strike.vpcf"
-    end
-
+    local particle = "particles/warlord/sword_slam_monkey_king_strike.vpcf"
     local nfx = ParticleManager:CreateParticle(particle, PATTACH_POINT, self.caster)
-    ParticleManager:SetParticleControlForward(nfx, 0, projectile_direction)
+    ParticleManager:SetParticleControlForward(nfx, 0, origin)
+    ParticleManager:SetParticleControl(nfx, 0, origin)
     ParticleManager:SetParticleControl(nfx, 1, vEndPos)
-    ParticleManager:ReleaseParticleIndex(nfx)
+
 
     -- slam sound
     EmitSoundOn( "Hero_MonkeyKing.Strike.Impact", self:GetCaster() )

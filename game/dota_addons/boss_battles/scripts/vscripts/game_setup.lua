@@ -208,7 +208,7 @@ function GameSetup:OnNPCSpawned(keys)
         self:AddDefaultModifiersToHeroes(npc)
 
         if IsInToolsMode() == true then
-            -- npc:AddNewModifier( npc,  nil, "admin_god_mode", { } )
+            npc:AddNewModifier( npc,  nil, "admin_god_mode", { } )
         end
         
         -- level up abilities for all heroes to level 1
