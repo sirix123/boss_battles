@@ -74,37 +74,37 @@ let hotkeys = [
 
 (function () 
 {
-    $.Msg("init all custom mouse and movement controls")
+    // $.Msg("init all custom mouse and movement controls")
 
-    var random_string = makeid(10);
+    // var random_string = makeid(10);
 
-    for(var i in hotkeys) {
-        Game.CreateCustomKeyBind(hotkeys[i], "+" + hotkeys[i] + random_string);
-    }
+    // for(var i in hotkeys) {
+    //     Game.CreateCustomKeyBind(hotkeys[i], "+" + hotkeys[i] + random_string);
+    // }
 
-    Game.AddCommand( "+Q" + random_string, function(){ AbilityToCast(0) }, "", 0 );
-    Game.AddCommand( "-Q" + random_string, EmptyCallBack, "", 0 );   
+    // Game.AddCommand( "+Q" + random_string, function(){ AbilityToCast(0) }, "", 0 );
+    // Game.AddCommand( "-Q" + random_string, EmptyCallBack, "", 0 );   
 
-    Game.AddCommand( "+W" + random_string, function(){ AbilityToCast(1) }, "", 0 );
-    Game.AddCommand( "-W" + random_string, EmptyCallBack, "", 0 );   
+    // Game.AddCommand( "+W" + random_string, function(){ AbilityToCast(1) }, "", 0 );
+    // Game.AddCommand( "-W" + random_string, EmptyCallBack, "", 0 );   
 
-    Game.AddCommand( "+E" + random_string, function(){ AbilityToCast(2) }, "", 0 );
-    Game.AddCommand( "-E" + random_string, EmptyCallBack, "", 0 );   
+    // Game.AddCommand( "+E" + random_string, function(){ AbilityToCast(2) }, "", 0 );
+    // Game.AddCommand( "-E" + random_string, EmptyCallBack, "", 0 );   
 
-    Game.AddCommand( "+R" + random_string, function(){ AbilityToCast(3) }, "", 0 );
-    Game.AddCommand( "-R" + random_string, EmptyCallBack, "", 0 );   
+    // Game.AddCommand( "+R" + random_string, function(){ AbilityToCast(3) }, "", 0 );
+    // Game.AddCommand( "-R" + random_string, EmptyCallBack, "", 0 );   
 
-    Game.AddCommand( "+T" + random_string, function(){ AbilityToCast(4) }, "", 0 );
-    Game.AddCommand( "-T" + random_string, EmptyCallBack, "", 0 );   
+    // Game.AddCommand( "+T" + random_string, function(){ AbilityToCast(4) }, "", 0 );
+    // Game.AddCommand( "-T" + random_string, EmptyCallBack, "", 0 );   
 
-    Game.AddCommand( "+1" + random_string, function(){ UseItem(0) }, "", 0 );
-    Game.AddCommand( "-1" + random_string, EmptyCallBack, "", 0 );   
+    // Game.AddCommand( "+1" + random_string, function(){ UseItem(0) }, "", 0 );
+    // Game.AddCommand( "-1" + random_string, EmptyCallBack, "", 0 );   
 
-    Game.AddCommand( "+L" + random_string, ShowScoreboard, "", 0 );
-    Game.AddCommand( "-L" + random_string, HideScoreboard, "", 0 );
+    // Game.AddCommand( "+L" + random_string, ShowScoreboard, "", 0 );
+    // Game.AddCommand( "-L" + random_string, HideScoreboard, "", 0 );
 
-    Game.AddCommand( "+Space" + random_string, function(){ AbilityToCast(5, true) }, "", 0 );
-    Game.AddCommand( "-Space" + random_string, EmptyCallBack, "", 0 );
+    // Game.AddCommand( "+Space" + random_string, function(){ AbilityToCast(5, true) }, "", 0 );
+    // Game.AddCommand( "-Space" + random_string, EmptyCallBack, "", 0 );
 
 })();
 

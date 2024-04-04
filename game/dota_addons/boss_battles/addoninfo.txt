@@ -8,38 +8,7 @@
 	IsPlayable = 1
 	Default_Keys = 
 	[
-		{
-			Key = "Q"
-			Command = "+Q"
-		},
-		{
-			Key = "W"
-			Command = "+W"
-		},
-		{
-			Key = "E"
-			Command = "+E"
-		},
-		{
-			Key = "R"
-			Command = "+R"
-		},
-		{
-			Key = "T"
-			Command = "+R"
-		},
-		{
-			Key = "L"
-			Command = "+L"
-		},
-		{
-			Key = "SPACE"
-			Command = "+Space"
-		},
-		{
-			Key = "1"
-			Command = "+1"
-		},
+
 	]
 	map_options = 
 	[

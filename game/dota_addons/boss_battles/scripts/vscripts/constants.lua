@@ -41,6 +41,7 @@ _G.HERO_LIST = {}
 _G.SOLO_MODE = true
 _G.NORMAL_MODE = false
 _G.HARD_MODE = false
+_G.ENDLESS_MODE = false
 _G.DEBUG_MODE = false
 
 -- set before a release

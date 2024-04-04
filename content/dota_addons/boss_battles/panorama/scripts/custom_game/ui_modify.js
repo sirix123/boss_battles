@@ -133,7 +133,7 @@ function Init(){
         top_panel = top_panel.GetParent();
     }
 
-    ModifyHotkeyBoxes(top_panel);
+    // ModifyHotkeyBoxes(top_panel);
     HideDefaults();
     HideOther(top_panel);
 }
