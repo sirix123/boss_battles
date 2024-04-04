@@ -7,7 +7,7 @@ function item_rock:OnSpellStart()
     local origin = caster:GetOrigin()
 
     local vTargetPos = nil
-    vTargetPos = Clamp(caster:GetOrigin(), Vector(caster.mouse.x, caster.mouse.y, caster.mouse.z), self:GetCastRange(Vector(0,0,0), nil), 0)
+    vTargetPos = self:GetCursorPosition()
 
     -- create it at players location, then throw it... in an arc...
     local rock = CreateUnitByName("npc_rock_techies", origin, true, caster, caster, DOTA_TEAM_GOODGUYS)
