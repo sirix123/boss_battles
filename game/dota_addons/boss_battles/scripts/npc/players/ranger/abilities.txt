@@ -5,8 +5,9 @@
 		"BaseClass"						"ability_lua"
 		"ScriptFile"					"player/ranger/ranger_passive"
 		"MaxLevel"						"1"
+		"Innate" 						"1"
 		"AbilityTextureName"			"windrunner_focusfire"
-        "AbilityBehavior"				"DOTA_ABILITY_BEHAVIOR_PASSIVE"
+        "AbilityBehavior"				"DOTA_ABILITY_BEHAVIOR_PASSIVE | DOTA_ABILITY_BEHAVIOR_INNATE_UI"
         
 		"AbilitySpecial"
 		{

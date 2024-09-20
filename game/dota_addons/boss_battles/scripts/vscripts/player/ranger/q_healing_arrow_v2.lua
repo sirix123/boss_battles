@@ -1,5 +1,12 @@
 q_healing_arrow_v2 = class({})
 
+function q_healing_arrow_v2:Precache( context )
+    PrecacheResource( "particle", "particles/ranger/ranger_windrunner_spell_powershot_ti6.vpcf", context )
+    PrecacheResource( "particle", "particles/ranger/ranger_windrunner_spell_powershot_channel_ti6.vpcf", context )
+    PrecacheResource( "particle", "particles/units/heroes/hero_windrunner/windrunner_base_attack_explosion_flash.vpcf", context )
+    PrecacheResource( "soundfile", "soundevents/game_sounds_heroes/game_sounds_windrunner.vsndevts", context )
+end
+
 function q_healing_arrow_v2:OnAbilityPhaseStart()
     if IsServer() then
 
@@ -8,7 +15,8 @@ function q_healing_arrow_v2:OnAbilityPhaseStart()
         EmitSoundOnLocationForAllies(self:GetCaster():GetAbsOrigin(), "Ability.PowershotPull", self:GetCaster())
 
         self.nfx = ParticleManager:CreateParticle("particles/ranger/ranger_windrunner_spell_powershot_channel_ti6.vpcf", PATTACH_POINT, self.caster)
-        ParticleManager:SetParticleControlEnt(self.nfx, 0, self.caster, PATTACH_POINT_FOLLOW, "attach_bow_mid", self.caster:GetAbsOrigin(), true)
+        -- ParticleManager:SetParticleControlEnt(self.nfx, 0, self.caster, PATTACH_POINT_FOLLOW, "bow_1", self.caster:GetAbsOrigin(), true)
+        ParticleManager:SetParticleControl(self.nfx, 0, self.caster:GetAbsOrigin())
         ParticleManager:SetParticleControl(self.nfx, 1, self.caster:GetAbsOrigin())
         ParticleManager:SetParticleControlForward(self.nfx, 1, self.caster:GetForwardVector())
 
@@ -51,6 +59,7 @@ function q_healing_arrow_v2:OnSpellStart()
 
         -- ensure to heal self on cast
         self.caster:Heal(heal + 100, self.caster)
+
 
         local projectile = {
             EffectName = enEffect,

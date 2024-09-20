@@ -1,35 +1,69 @@
-<!-- kv3 encoding:text:version{e21c7f3c-8a33-41c5-9977-a76d3a32aa0d} format:vpcf27:version{36c3961f-02a4-4c52-bf8f-6e3147d7d142} -->
+<!-- kv3 encoding:text:version{e21c7f3c-8a33-41c5-9977-a76d3a32aa0d} format:vpcf61:version{39d3ce1d-9442-4407-9b78-8317145b1732} -->
 {
 	_class = "CParticleSystemDefinition"
 	m_bShouldHitboxesFallbackToRenderBounds = false
 	m_nMaxParticles = 16
 	m_flConstantRadius = 2.0
 	m_bShouldSort = false
-	m_Renderers = 
+	m_nBehaviorVersion = 12
+	m_nFirstMultipleOverride_BackwardCompat = 3
+	m_controlPointConfigurations = 
 	[
 		{
-			_class = "C_OP_RenderModels"
-			m_nOpEndCapState = 0
-			m_ModelList = 
+			m_name = "preview"
+			m_drivers = 
 			[
 				{
-					m_model = resource:"models/projectiles/windrunner_arrow.vmdl"
+					m_iAttachType = "PATTACH_WORLDORIGIN"
+					m_entityName = "self"
+				},
+				{
+					m_iControlPoint = 1
+					m_iAttachType = "PATTACH_WORLDORIGIN"
+					m_vecOffset = [ 1.0, 1.0, 1.0 ]
+					m_entityName = "self"
 				},
 			]
-			m_bAnimated = true
-			m_nLOD = 1
-			m_bForceLoopingAnimation = true
+		},
+	]
+	m_Emitters = 
+	[
+		{
+			_class = "C_OP_InstantaneousEmitter"
+			m_nParticlesToEmit = 
+			{
+				m_nType = "PF_TYPE_LITERAL"
+				m_flLiteralValue = 1.0
+			}
+		},
+	]
+	m_Initializers = 
+	[
+		{
+			_class = "C_INIT_CreateWithinSphereTransform"
 		},
 		{
-			_class = "C_OP_RenderDeferredLight"
-			m_flStartFalloff = 0.1
-			m_flAlphaScale = 8.0
-			m_flRadiusScale = 220.0
-			m_hTexture = resource:"materials/models/heroes/mirana/javelin_color.vtex"
-			m_vecColorScale = 
+			_class = "C_INIT_InitFloat"
+			m_InputValue = 
 			{
-				m_nType = "PVEC_TYPE_LITERAL_COLOR"
-				m_LiteralColor = [ 155, 255, 36 ]
+				m_nType = "PF_TYPE_LITERAL"
+				m_flLiteralValue = 0.2
+			}
+			m_nOutputField = 1
+		},
+		{
+			_class = "C_INIT_NormalAlignToCP"
+		},
+		{
+			_class = "C_INIT_VelocityFromCP"
+			m_velocityInput = 
+			{
+				m_nType = "PVEC_TYPE_CP_VALUE"
+				m_nControlPoint = 1
+			}
+			m_transformInput = 
+			{
+				m_nType = "PT_TYPE_INVALID"
 			}
 		},
 	]
@@ -40,7 +74,7 @@
 		},
 		{
 			_class = "C_OP_Decay"
-			m_nOpEndCapState = 1
+			m_nOpEndCapState = "PARTICLE_ENDCAP_ENDCAP_ON"
 		},
 		{
 			_class = "C_OP_SetControlPointsToParticle"
@@ -49,7 +83,7 @@
 		},
 		{
 			_class = "C_OP_RampScalarLinear"
-			m_nField = "4"
+			m_nField = 4
 			m_RateMin = 8.0
 			m_RateMax = 9.0
 		},
@@ -75,32 +109,34 @@
 			m_nRefCP1 = 3
 		},
 	]
-	m_Initializers = 
+	m_Renderers = 
 	[
 		{
-			_class = "C_INIT_CreateWithinSphere"
-		},
-		{
-			_class = "C_INIT_RandomLifeTime"
-			m_fLifetimeMax = 0.2
-			m_fLifetimeMin = 0.2
-		},
-		{
-			_class = "C_INIT_NormalAlignToCP"
-		},
-		{
-			_class = "C_INIT_VelocityFromCP"
-			m_nControlPoint = 1
-		},
-	]
-	m_Emitters = 
-	[
-		{
-			_class = "C_OP_InstantaneousEmitter"
-			m_nParticlesToEmit = 
+			_class = "C_OP_RenderModels"
+			m_nOpEndCapState = "PARTICLE_ENDCAP_ENDCAP_OFF"
+			m_ModelList = 
+			[
+				{
+					m_model = resource:"models/projectiles/windrunner_arrow.vmdl"
+				},
+			]
+			m_bAnimated = true
+			m_nLOD = 1
+			m_bForceLoopingAnimation = true
+			m_modelInput = 
 			{
-				m_nType = "PF_TYPE_LITERAL"
-				m_flLiteralValue = 1.0
+			}
+		},
+		{
+			_class = "C_OP_RenderDeferredLight"
+			m_flStartFalloff = 0.1
+			m_flAlphaScale = 8.0
+			m_flRadiusScale = 220.0
+			m_hTexture = resource:"materials/models/heroes/mirana/javelin_color.vtex"
+			m_vecColorScale = 
+			{
+				m_nType = "PVEC_TYPE_LITERAL_COLOR"
+				m_LiteralColor = [ 155, 255, 36 ]
 			}
 		},
 	]
@@ -108,30 +144,6 @@
 	[
 		{
 			m_ChildRef = resource:"particles/econ/items/windrunner/windrunner_ti6/windrunner_spell_powershot_ti6_base.vpcf"
-		},
-	]
-	m_nBehaviorVersion = 5
-	m_nFirstMultipleOverride_BackwardCompat = 3
-	m_controlPointConfigurations = 
-	[
-		{
-			m_name = "preview"
-			m_drivers = 
-			[
-				{
-					m_iAttachType = "PATTACH_WORLDORIGIN"
-					m_vecOffset = [ 0.0, 0.0, 0.0 ]
-					m_angOffset = [ null, null, null ]
-					m_entityName = "self"
-				},
-				{
-					m_iControlPoint = 1
-					m_iAttachType = "PATTACH_WORLDORIGIN"
-					m_vecOffset = [ 1.0, 1.0, 1.0 ]
-					m_angOffset = [ null, null, null ]
-					m_entityName = "self"
-				},
-			]
 		},
 	]
 }

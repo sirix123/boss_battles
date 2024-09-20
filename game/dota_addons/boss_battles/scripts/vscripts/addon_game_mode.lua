@@ -14,7 +14,15 @@ require('libraries/animations')
 require('utility_functions')
 require('precache')
 
+g_ParticleFolderPrecache = {
+  "particles",
+}
+
 function Precache( context ) -- this needs to be in a seperate file
+
+  -- testing precache
+  PrecacheResource("particle", "particles/custom_msg_damage.vpcf", context)
+
   -- gyro precache:
   PrecacheResource("soundfile", "soundevents/game_sounds_heroes/game_sounds_gyrocopter.vsndevts", context)
   PrecacheResource("soundfile", "soundevents/voscripts/game_sounds_vo_gyrocopter.vsndevts", context)
@@ -154,6 +162,10 @@ function Precache( context ) -- this needs to be in a seperate file
 
   for k, _ in pairs(npcs) do
     PrecacheUnitByNameSync(k, context)
+  end
+
+  for _,ParticleFolder in pairs( g_ParticleFolderPrecache ) do
+    PrecacheResource( "particle_folder", Particle, context )
   end
 
 end
