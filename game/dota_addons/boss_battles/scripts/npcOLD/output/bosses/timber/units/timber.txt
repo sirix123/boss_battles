@@ -1,0 +1,398 @@
+
+"DOTAUnits"
+{
+	
+
+	//=================================================================================	
+	//  Timber 
+	//=================================================================================
+	"npc_timber"	
+	{
+		// script
+		//"vscripts"					"bosses/timber/timber_ai.lua"
+		"vscripts"						"bosses/timber/timber_ai_v2.lua"
+		
+
+		// General
+		//----------------------------------------------------------------
+		"Model"						"models/heroes/shredder/shredder.vmdl"	// Model.
+		"BaseClass"					"npc_dota_creature"
+		"SoundSet"					"Hero_Shredder"
+		"GameSoundsFile"			"soundevents/game_sounds_heroes/game_sounds_shredder.vsndevts"
+		"Level"						"1"
+		"ModelScale" 				"1.5"
+
+		// Abilities
+		//----------------------------------------------------------------
+		"Ability1"					"saw_blade"					// Ability 1
+		"Ability2"					"return_saw_blades"			// Ability 2
+		"Ability3"					"chain"						// Ability 3
+		"Ability4"					"fire_shell"				// Ability 4
+		"Ability5"					"energy_start_zero"			// Ability 5
+		"Ability6"					"timber_droid_support"		// Ability 6
+		"Ability7"					"blast_wave_v2"				// Ability 7
+		"Ability8"					"chain_map_edge"			// Ability 6
+		"Ability9"					"vertical_saw_blade"		// Ability 7
+
+		// Armor
+		//----------------------------------------------------------------
+		"ArmorPhysical"				"0"			
+
+		// Attack
+		//----------------------------------------------------------------
+		"AttackCapabilities"		"DOTA_UNIT_CAP_MELEE_ATTACK"
+		"AttackDamageMin"			"20"		
+		"AttackDamageMax"			"40"		
+		"AttackRate"				"0.9"		// Speed of attack.
+		"AttackAnimationPoint"		"0.1"		// Normalized time in animation cycle to attack.
+		"AttackAcquisitionRange"	"10000"		// Range within a target can be acquired.
+		"AttackRange"				"50"		
+
+		// Bounds
+		//----------------------------------------------------------------
+		"RingRadius"				"40"
+		"HealthBarOffset"			"170"
+
+		// Movement
+		//----------------------------------------------------------------
+		"MovementCapabilities"		"DOTA_UNIT_CAP_MOVE_GROUND"
+		"MovementSpeed"				"350"					
+
+		// Status
+		//----------------------------------------------------------------
+		"StatusHealth"				"140000"	//"90000"		// Base health.
+		"StatusHealthRegen"			"0.0"		// Health regeneration rate.
+		"StatusMana"				"100"		// Base mana.
+		"StatusManaRegen"			"0.5"		// Mana regeneration rate.		 
+		
+		// Vision
+		//----------------------------------------------------------------
+		"VisionDaytimeRange"		"5000"		// Range of vision during day light.
+		"VisionNighttimeRange"		"5000"		// Range of vision at night time.
+
+		// Team
+		//----------------------------------------------------------------
+		"TeamName"					"DOTA_TEAM_BADGUYS"						// Team name.
+		"CombatClassAttack"			"DOTA_COMBAT_CLASS_ATTACK_PIERCE"
+		"CombatClassDefend"			"DOTA_COMBAT_CLASS_DEFEND_BASIC"
+		"UnitRelationshipClass"		"DOTA_NPC_UNIT_RELATIONSHIP_TYPE_DEFAULT"
+
+		"Creature"
+		{
+			"AttachWearables"
+			{
+				"Wearable1" 	{ "ItemDef" "9545" }
+				"Wearable2" 	{ "ItemDef" "9550" }
+				"Wearable3" 	{ "ItemDef" "9552" }
+				"Wearable4" 	{ "ItemDef" "9543" }
+				"Wearable5" 	{ "ItemDef" "9542" }
+				"Wearable6"		{ "ItemDef" "9547" }
+			}
+		}
+	}
+
+	//=================================================================================	
+	//  Stun Droid 
+	//=================================================================================
+	"npc_stun_droid"	
+	{
+		// script
+		"vscripts"					"bosses/timber/stun_droid_ai.lua"
+
+		// General
+		//----------------------------------------------------------------
+		"Model"						"models/heroes/rattletrap/rattletrap.vmdl"	// Model.
+		"BaseClass"					"npc_dota_creature"
+		"SoundSet"					"Hero_Rattletrap"
+		"GameSoundsFile"			"soundevents/game_sounds_heroes/game_sounds_shredder.vsndevts"
+		"Level"						"1"
+		"ModelScale" 				"1.3"
+
+		// Abilities
+		//----------------------------------------------------------------
+		"Ability1"					"stun_droid_zap"			// Ability 1
+
+		// Armor
+		//----------------------------------------------------------------
+		"ArmorPhysical"				"0"			
+
+		// Attack
+		//----------------------------------------------------------------
+		"AttackCapabilities"		"DOTA_UNIT_CAP_MELEE_ATTACK"
+		"AttackDamageMin"			"1"		
+		"AttackDamageMax"			"1"		
+		"AttackRate"				"1.7"			// Speed of attack.
+		"AttackAnimationPoint"		"0.6"		// Normalized time in animation cycle to attack.
+		"AttackAcquisitionRange"	"100"		// Range within a target can be acquired.
+		"AttackRange"				"100"		
+
+		// Bounds
+		//----------------------------------------------------------------
+		"RingRadius"				"40"
+		"HealthBarOffset"			"170"
+
+		// Movement
+		//----------------------------------------------------------------
+		"MovementCapabilities"		"DOTA_UNIT_CAP_MOVE_GROUND"
+		"MovementSpeed"				"300"					
+
+		// Status
+		//----------------------------------------------------------------
+		"StatusHealth"				"500"		// Base health.
+		"StatusHealthRegen"			"0.5"		// Health regeneration rate.
+		"StatusMana"				"0"			// Base mana.
+		"StatusManaRegen"			"0.0"		// Mana regeneration rate.		 
+		
+		// Vision
+		//----------------------------------------------------------------
+		"VisionDaytimeRange"		"1800"		// Range of vision during day light.
+		"VisionNighttimeRange"		"1800"		// Range of vision at night time.
+
+		// Team
+		//----------------------------------------------------------------
+		"TeamName"					"DOTA_TEAM_BADGUYS"						// Team name.
+
+		"Creature"
+		{
+			"AttachWearables"
+			{
+				"Wearable1" { "ItemDef" "5934" }
+				"Wearable2" { "ItemDef" "5935" }
+				"Wearable3" { "ItemDef" "5936" }
+				"Wearable4" { "ItemDef" "5937" }
+				"Wearable5" { "ItemDef" "5938" }
+				"Wearable6" { "ItemDef" "5939" }
+			}
+		}
+
+	}
+
+	//=================================================================================	
+	//  Smelter Droid 
+	//=================================================================================
+	"npc_smelter_droid"	
+	{
+		// script
+		"vscripts"					"bosses/timber/smelter_droid_ai.lua"
+
+		// General
+		//----------------------------------------------------------------
+		"Model"						"models/heroes/rattletrap/rattletrap.vmdl"	// Model.
+		"BaseClass"					"npc_dota_creature"
+		"SoundSet"					"Hero_Rattletrap"
+		"GameSoundsFile"			"soundevents/game_sounds_heroes/game_sounds_shredder.vsndevts"
+		"Level"						"1"
+		"ModelScale" 				"1.3"
+
+		// Abilities
+		//----------------------------------------------------------------
+		"Ability1"					"smelter_droid_enhance"			// Ability 1
+
+		// Armor
+		//----------------------------------------------------------------
+		"ArmorPhysical"				"0"			
+
+		// Attack
+		//----------------------------------------------------------------
+		"AttackCapabilities"		"DOTA_UNIT_CAP_MELEE_ATTACK"
+		"AttackDamageMin"			"1"		
+		"AttackDamageMax"			"1"		
+		"AttackRate"				"1.7"			// Speed of attack.
+		"AttackAnimationPoint"		"0.6"		// Normalized time in animation cycle to attack.
+		"AttackAcquisitionRange"	"0"		// Range within a target can be acquired.
+		"AttackRange"				"0"		
+
+		// Bounds
+		//----------------------------------------------------------------
+		"RingRadius"				"40"
+		"HealthBarOffset"			"170"
+
+		// Movement
+		//----------------------------------------------------------------
+		"MovementCapabilities"		"DOTA_UNIT_CAP_MOVE_GROUND"
+		"MovementSpeed"				"400"					
+
+		// Status
+		//----------------------------------------------------------------
+		"StatusHealth"				"2000"		// Base health.
+		"StatusHealthRegen"			"0.5"		// Health regeneration rate.
+		"StatusMana"				"0"			// Base mana.
+		"StatusManaRegen"			"0.0"		// Mana regeneration rate.		 
+		
+		// Vision
+		//----------------------------------------------------------------
+		"VisionDaytimeRange"		"5000"		// Range of vision during day light.
+		"VisionNighttimeRange"		"5000"		// Range of vision at night time.
+
+		// Team
+		//----------------------------------------------------------------
+		"TeamName"					"DOTA_TEAM_BADGUYS"						// Team name.
+
+
+		"Creature"
+		{
+			"AttachWearables"
+			{
+				"Wearable1" { "ItemDef" "5934" }
+				"Wearable2" { "ItemDef" "5935" }
+				"Wearable3" { "ItemDef" "5936" }
+				"Wearable4" { "ItemDef" "5937" }
+				"Wearable5" { "ItemDef" "5938" }
+				"Wearable6" { "ItemDef" "5939" }
+			}
+		}
+
+	}
+
+	//=================================================================================	
+	//  Mine Droid 
+	//=================================================================================
+	"npc_mine_droid"	
+	{
+		// script
+		"vscripts"					"bosses/timber/mine_droid_ai.lua"
+
+		// General
+		//----------------------------------------------------------------
+		"Model"						"models/heroes/rattletrap/rattletrap.vmdl"	// Model.
+		"BaseClass"					"npc_dota_creature"
+		"SoundSet"					"Hero_Rattletrap"
+		"GameSoundsFile"			"soundevents/game_sounds_heroes/game_sounds_shredder.vsndevts"
+		"Level"						"1"
+		"ModelScale" 				"0.9"
+
+		// Abilities
+		//----------------------------------------------------------------
+		"Ability1"					"mine_droid_laymine"			// Ability 1
+
+		// Armor
+		//----------------------------------------------------------------
+		"ArmorPhysical"				"5"			
+
+		// Attack
+		//----------------------------------------------------------------
+		"AttackCapabilities"		"DOTA_UNIT_CAP_MELEE_ATTACK"
+		"AttackDamageMin"			"1"		
+		"AttackDamageMax"			"1"		
+		"AttackRate"				"1.7"			// Speed of attack.
+		"AttackAnimationPoint"		"0.6"		// Normalized time in animation cycle to attack.
+		"AttackAcquisitionRange"	"100"		// Range within a target can be acquired.
+		"AttackRange"				"100"		
+
+		// Bounds
+		//----------------------------------------------------------------
+		"RingRadius"				"40"
+		"HealthBarOffset"			"170"
+
+		// Movement
+		//----------------------------------------------------------------
+		"MovementCapabilities"		"DOTA_UNIT_CAP_MOVE_GROUND"
+		"MovementSpeed"				"400"					
+
+		// Status
+		//----------------------------------------------------------------
+		"StatusHealth"				"500"		// Base health.
+		"StatusHealthRegen"			"0.5"		// Health regeneration rate.
+		"StatusMana"				"0"			// Base mana.
+		"StatusManaRegen"			"0.0"		// Mana regeneration rate.		 
+		
+		// Vision
+		//----------------------------------------------------------------
+		"VisionDaytimeRange"		"1800"		// Range of vision during day light.
+		"VisionNighttimeRange"		"1800"		// Range of vision at night time.
+
+		// Team
+		//----------------------------------------------------------------
+		"TeamName"					"DOTA_TEAM_BADGUYS"						// Team name.
+
+
+		"Creature"
+		{
+			"AttachWearables"
+			{
+				"Wearable1" { "ItemDef" "5934" }
+				"Wearable2" { "ItemDef" "5935" }
+				"Wearable3" { "ItemDef" "5936" }
+				"Wearable4" { "ItemDef" "5937" }
+				"Wearable5" { "ItemDef" "5938" }
+				"Wearable6" { "ItemDef" "5939" }
+			}
+		}
+	}
+
+	//=================================================================================	
+	//  Furion 
+	//=================================================================================
+	"npc_furion"	
+	{
+		// script
+		"vscripts"					"bosses/timber/furion_ai.lua"
+
+		// General
+		//----------------------------------------------------------------
+		"Model"						"models/heroes/furion/furion.vmdl"	// Model.
+		"BaseClass"					"npc_dota_creature"
+		"SoundSet"					"Hero_Furion"
+		"GameSoundsFile"			"soundevents/game_sounds_heroes/game_sounds_furion.vsndevts"
+		"Level"						"1"
+		"ModelScale" 				"1.5"
+
+		// Abilities
+		//----------------------------------------------------------------
+
+		// Armor
+		//----------------------------------------------------------------
+		"ArmorPhysical"				"0"			
+
+		// Attack
+		//----------------------------------------------------------------
+		"AttackCapabilities"		"DOTA_UNIT_CAP_NO_ATTACK"
+		"AttackDamageMin"			"20"		
+		"AttackDamageMax"			"40"		
+		"AttackRate"				"0.9"		// Speed of attack.
+		"AttackAnimationPoint"		"0.1"		// Normalized time in animation cycle to attack.
+		"AttackAcquisitionRange"	"10000"		// Range within a target can be acquired.
+		"AttackRange"				"50"		
+
+		// Bounds
+		//----------------------------------------------------------------
+		"RingRadius"				"40"
+		"HealthBarOffset"			"170"
+
+		// Movement
+		//----------------------------------------------------------------
+		"MovementCapabilities"		"DOTA_UNIT_CAP_MOVE_NONE"
+		"MovementSpeed"				"350"					
+
+		// Status
+		//----------------------------------------------------------------
+		"StatusHealth"				"140000"	//"90000"		// Base health.
+		"StatusHealthRegen"			"0.0"		// Health regeneration rate.
+		"StatusMana"				"100"		// Base mana.
+		"StatusManaRegen"			"0.5"		// Mana regeneration rate.		 
+		
+		// Vision
+		//----------------------------------------------------------------
+		"VisionDaytimeRange"		"5000"		// Range of vision during day light.
+		"VisionNighttimeRange"		"5000"		// Range of vision at night time.
+
+		// Team
+		//----------------------------------------------------------------
+		"TeamName"					"DOTA_TEAM_BADGUYS"						// Team name.
+		"CombatClassAttack"			"DOTA_COMBAT_CLASS_ATTACK_PIERCE"
+		"CombatClassDefend"			"DOTA_COMBAT_CLASS_DEFEND_BASIC"
+		"UnitRelationshipClass"		"DOTA_NPC_UNIT_RELATIONSHIP_TYPE_DEFAULT"
+
+		"Creature"
+		{
+			"AttachWearables"
+			{
+				"Wearable1" 	{ "ItemDef" "29" }
+				"Wearable2" 	{ "ItemDef" "30" }
+				"Wearable3" 	{ "ItemDef" "31" }
+				"Wearable4" 	{ "ItemDef" "32" }
+				"Wearable5" 	{ "ItemDef" "33" }
+			}
+		}
+	}
+}

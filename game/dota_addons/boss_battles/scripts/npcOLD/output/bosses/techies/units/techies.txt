@@ -1,0 +1,386 @@
+
+"DOTAUnits"
+{
+	//=================================================================================	
+	//  Techies 
+	//=================================================================================
+	"npc_techies"	
+	{
+		// script
+		"vscripts"					"bosses/techies/techies_ai_v3.lua"
+
+		// General
+		//----------------------------------------------------------------
+		"Model"						"models/heroes/techies/techies.vmdl"	// Model.
+		"BaseClass"					"npc_dota_creature"
+		"SoundSet"					"Hero_Techies"
+		"GameSoundsFile"			"soundevents/game_sounds_heroes/game_sounds_techies.vsndevts"
+		"Level"						"1"
+		"ModelScale" 				"0.9"
+
+		// Abilities
+		//----------------------------------------------------------------
+		"Ability1"					"cluster_mine_throw"					// Ability 1
+		"Ability2"					"blast_off"					// Ability 2
+		"Ability3"					"explode_proxy_mines"					// Ability 3
+		"Ability4"					"summon_electric_vortex_turret"					// Ability 4
+		"Ability5"					"choking_gas"					// Ability 5
+		"Ability6"					"sticky_bomb"					// Ability 6
+		"Ability7"					""					// Ability 7
+		"Ability8"					""					// Ability 7
+		
+		// Armor
+		//----------------------------------------------------------------
+		"ArmorPhysical"				"0"			
+
+		// Attack
+		//----------------------------------------------------------------
+		"AttackCapabilities"		"DOTA_UNIT_CAP_NO_ATTACK"
+		"AttackDamageMin"			"1"		
+		"AttackDamageMax"			"2"		
+		"AttackRate"				"1.6"		// Speed of attack.
+		"AttackAnimationPoint"		"0.9"		// Normalized time in animation cycle to attack.
+		"AttackAcquisitionRange"	"10000"		// Range within a target can be acquired.
+		"AttackRange"				"50"		
+
+		// Bounds
+		//----------------------------------------------------------------
+		"RingRadius"				"40"
+		"HealthBarOffset"			"170"
+
+		// Movement
+		//----------------------------------------------------------------
+		"MovementCapabilities"		"DOTA_UNIT_CAP_MOVE_GROUND"//"DOTA_UNIT_CAP_MOVE_NONE"
+		"MovementSpeed"				"300"					
+
+		// Status
+		//----------------------------------------------------------------
+		"StatusHealth"				"10000"		// Base health.
+		"StatusHealthRegen"			"0.0"		// Health regeneration rate.
+		"StatusMana"				"100"		// Base mana.
+		"StatusManaRegen"			"0.0"		// Mana regeneration rate.		 
+		
+		// Vision
+		//----------------------------------------------------------------
+		"VisionDaytimeRange"		"5000"		// Range of vision during day light.
+		"VisionNighttimeRange"		"5000"		// Range of vision at night time.
+
+		// Team
+		//----------------------------------------------------------------
+		"TeamName"					"DOTA_TEAM_BADGUYS"						// Team name.
+		"CombatClassAttack"			"DOTA_COMBAT_CLASS_ATTACK_PIERCE"
+		"CombatClassDefend"			"DOTA_COMBAT_CLASS_DEFEND_BASIC"
+		"UnitRelationshipClass"		"DOTA_NPC_UNIT_RELATIONSHIP_TYPE_DEFAULT"
+
+		"Creature"
+		{
+			"AttachWearables"
+			{
+				"1" { "ItemDef" "491" } // Techies Squee Costume
+				"2" { "ItemDef" "490" } // Techies Cart
+				"3" { "ItemDef" "492" } // Techies Spleen Costume
+				"4" { "ItemDef" "394" } // Techies Bomb Arsenal
+				"5" { "ItemDef" "487" } // Techies Spoon Costume
+				"6" { "ItemDef" "489" } // Techies Slingshot
+				"7" { "ItemDef" "499" } // Techies Sign
+			}
+		}
+	}
+
+	//=================================================================================	
+	//  npc_electric_vortex_turret 
+	//=================================================================================
+	"npc_electric_vortex_turret"	
+	{
+		// script
+		"vscripts"					"bosses/techies/electric_vortex_ai.lua"
+
+		// General
+		//----------------------------------------------------------------
+		"Model"						"models/heroes/techies/fx_techiesfx_stasis.vmdl"	// Model.
+		"BaseClass"					"npc_dota_creature"
+		"SoundSet"					"Hero_Shredder"
+		"GameSoundsFile"			"soundevents/game_sounds_heroes/game_sounds_shredder.vsndevts"
+		"Level"						"1"
+		"ModelScale" 				"1.3"
+
+		// Abilities
+		//----------------------------------------------------------------
+		"Ability1"					"electric_vortex"	// Ability 1
+		"Ability2"					""					// Ability 2
+		"Ability3"					""					// Ability 3
+		"Ability4"					""					// Ability 4
+		"Ability5"					""					// Ability 5
+		"Ability6"					""					// Ability 6
+		"Ability7"					""					// Ability 7
+
+		// Armor
+		//----------------------------------------------------------------
+		"ArmorPhysical"				"0"			
+
+		// Attack
+		//----------------------------------------------------------------
+		"AttackCapabilities"		"DOTA_UNIT_CAP_NO_ATTACK"
+		"AttackDamageMin"			"1"		
+		"AttackDamageMax"			"2"		
+		"AttackRate"				"0.8"		// Speed of attack.
+		"AttackAnimationPoint"		"0.1"		// Normalized time in animation cycle to attack.
+		"AttackAcquisitionRange"	"10000"		// Range within a target can be acquired.
+		"AttackRange"				"50"		
+
+		// Bounds
+		//----------------------------------------------------------------
+		"RingRadius"				"40"
+		"HealthBarOffset"			"170"
+
+		// Movement
+		//----------------------------------------------------------------
+		"MovementCapabilities"		"DOTA_UNIT_CAP_MOVE_NONE"//"DOTA_UNIT_CAP_MOVE_NONE"
+		"MovementSpeed"				"480"					
+
+		// Status
+		//----------------------------------------------------------------
+		"StatusHealth"				"1600"		// Base health.
+		"StatusHealthRegen"			"0.0"		// Health regeneration rate.
+		"StatusMana"				"100"		// Base mana.
+		"StatusManaRegen"			"0.0"		// Mana regeneration rate.		 
+		
+		// Vision
+		//----------------------------------------------------------------
+		"VisionDaytimeRange"		"5000"		// Range of vision during day light.
+		"VisionNighttimeRange"		"5000"		// Range of vision at night time.
+
+		// Team
+		//----------------------------------------------------------------
+		"TeamName"					"DOTA_TEAM_BADGUYS"						// Team name.
+		"CombatClassAttack"			"DOTA_COMBAT_CLASS_ATTACK_PIERCE"
+		"CombatClassDefend"			"DOTA_COMBAT_CLASS_DEFEND_BASIC"
+		"UnitRelationshipClass"		"DOTA_NPC_UNIT_RELATIONSHIP_TYPE_DEFAULT"
+
+	}
+
+	//=================================================================================	
+	//  npc_guard 
+	//=================================================================================
+	"npc_guard"	
+	{
+		// script
+		"vscripts"					"bosses/techies/assistant_ai.lua"
+
+		// General
+		//----------------------------------------------------------------
+		"Model"						"models/heroes/earthshaker/earthshaker.vmdl"	// Model.
+		"BaseClass"					"npc_dota_creature"
+		"SoundSet"					"Hero_Earthshaker"
+		"GameSoundsFile"			"soundevents/game_sounds_heroes/game_sounds_earthshaker.vsndevts"
+		"Level"						"1"
+		"ModelScale" 				"1.6"
+
+		// Abilities
+		//----------------------------------------------------------------
+		"Ability1"					"stomp_push"					// Ability 1
+		"Ability2"					"assistant_sweep"					// Ability 2
+		"Ability3"					"magnetic_totem"					// Ability 3
+		"Ability4"					""					// Ability 4
+		"Ability5"					""					// Ability 5
+		"Ability6"					""					// Ability 6
+		"Ability7"					""					// Ability 7
+
+		// Armor
+		//----------------------------------------------------------------
+		"ArmorPhysical"				"0"			
+
+		// Attack
+		//----------------------------------------------------------------
+		"AttackCapabilities"		"DOTA_UNIT_CAP_MELEE_ATTACK" //DOTA_UNIT_CAP_NO_ATTACK DOTA_UNIT_CAP_MELEE_ATTACK
+		"AttackDamageMin"			"50"		
+		"AttackDamageMax"			"55"		
+		"AttackRate"				"1.2"		// Speed of attack.
+		"AttackAnimationPoint"		"0.2"		// Normalized time in animation cycle to attack.
+		"AttackAcquisitionRange"	"13000"		// Range within a target can be acquired.
+		"AttackRange"				"100"		
+
+		// Bounds
+		//----------------------------------------------------------------
+		"RingRadius"				"100"
+		"HealthBarOffset"			"500"
+
+		// Movement
+		//----------------------------------------------------------------
+		"MovementCapabilities"		"DOTA_UNIT_CAP_MOVE_GROUND"//"DOTA_UNIT_CAP_MOVE_NONE"
+		"MovementSpeed"				"310"					
+
+		// Status
+		//----------------------------------------------------------------
+		"StatusHealth"				"220000"//"100000"		// Base health.
+		"StatusHealthRegen"			"0.0"		// Health regeneration rate.
+		"StatusMana"				"100"		// Base mana.
+		"StatusManaRegen"			"0.0"		// Mana regeneration rate.		 
+		
+		// Vision
+		//----------------------------------------------------------------
+		"VisionDaytimeRange"		"5000"		// Range of vision during day light.
+		"VisionNighttimeRange"		"5000"		// Range of vision at night time.
+
+		// Team
+		//----------------------------------------------------------------
+		"TeamName"					"DOTA_TEAM_BADGUYS"						// Team name.
+		"CombatClassAttack"			"DOTA_COMBAT_CLASS_ATTACK_PIERCE"
+		"CombatClassDefend"			"DOTA_COMBAT_CLASS_DEFEND_BASIC"
+		"UnitRelationshipClass"		"DOTA_NPC_UNIT_RELATIONSHIP_TYPE_DEFAULT"
+
+		"Creature"
+		{
+			"AttachWearables"
+			{
+				"1" { "ItemDef" "5629" } // Belt of the Forest Hermit
+				"2" { "ItemDef" "5626" } // Totem of the Forest Hermit
+				"3" { "ItemDef" "5628" } // Shoulders of the Forest Hermit
+				"4" { "ItemDef" "5630" } // Head of the Forest Hermit
+			}
+		}
+
+	}
+
+	"npc_rock_techies"	
+	{
+		// script
+		"vscripts"					"bosses/techies/npc_rock_techies_ai.lua"
+
+		// General
+		//----------------------------------------------------------------
+		"Model"						"models/items/rubick/rubick_arcana/rubick_arcana_cube.vmdl"	// Model.
+		"BaseClass"					"npc_dota_creature"
+		//"SoundSet"				"Hero_WarlockGolem"
+		//"GameSoundsFile"			"soundevents/game_sounds_heroes/game_sounds_warlock.vsndevts"
+		"Level"						"1"
+		"ModelScale" 				"0.3"
+
+		// Abilities
+		//----------------------------------------------------------------
+		"Ability1"					""					// Ability 1
+		"Ability2"					""					// Ability 2
+		"Ability3"					""					// Ability 3
+		"Ability4"					""					// Ability 4
+		"Ability5"					""					// Ability 5
+		"Ability6"					""					// Ability 6
+		"Ability7"					""					// Ability 7
+
+		// Armor
+		//----------------------------------------------------------------
+		"ArmorPhysical"				"0"			
+
+		// Attack
+		//----------------------------------------------------------------
+		"AttackCapabilities"		"DOTA_UNIT_CAP_NO_ATTACK"
+		"AttackDamageMin"			"35"		
+		"AttackDamageMax"			"55"		
+		"AttackRate"				"1.2"		// Speed of attack.
+		"AttackAnimationPoint"		"0.2"		// Normalized time in animation cycle to attack.
+		"AttackAcquisitionRange"	"10000"		// Range within a target can be acquired.
+		"AttackRange"				"100"		
+
+		// Bounds
+		//----------------------------------------------------------------
+		"RingRadius"				"100"
+		"HealthBarOffset"			"170"
+
+		// Movement
+		//----------------------------------------------------------------
+		"MovementCapabilities"		"DOTA_UNIT_CAP_MOVE_GROUND"//"DOTA_UNIT_CAP_MOVE_NONE" DOTA_UNIT_CAP_MOVE_GROUND
+		"MovementSpeed"				"400"					
+
+		// Status
+		//----------------------------------------------------------------
+		"StatusHealth"				"800"//"100000"		// Base health.
+		"StatusHealthRegen"			"0.0"		// Health regeneration rate.
+		"StatusMana"				"0"		// Base mana.
+		"StatusManaRegen"			"0.0"		// Mana regeneration rate.		 
+		
+		// Vision
+		//----------------------------------------------------------------
+		"VisionDaytimeRange"		"5000"		// Range of vision during day light.
+		"VisionNighttimeRange"		"5000"		// Range of vision at night time.
+
+		// Team
+		//----------------------------------------------------------------
+		//"TeamName"					"DOTA_TEAM_GOODGUYS"						// Team name.
+		//"CombatClassAttack"			"DOTA_COMBAT_CLASS_ATTACK_PIERCE"
+		//"CombatClassDefend"			"DOTA_COMBAT_CLASS_DEFEND_BASIC"
+		//"UnitRelationshipClass"		"DOTA_NPC_UNIT_RELATIONSHIP_TYPE_DEFAULT"
+
+	}
+
+	//=================================================================================
+	//	Techies: Proximity Mine
+	//=================================================================================
+	"npc_imba_techies_land_mines"
+	{
+		// General
+		//----------------------------------------------------------------
+		"Model"						"models/heroes/techies/fx_techiesfx_mine.vmdl"
+		"BaseClass"					"npc_dota_techies_mines"
+		"SoundSet"					"0"
+		"Level"						"1"
+		"ModelScale"				"1"
+		"SelectionGroup"			"techies_land_mines"
+		"BoundsHullName"			"DOTA_HULL_SIZE_SMALL"
+
+		// Abilities
+		//----------------------------------------------------------------
+		"Ability1"					""
+		"Ability2"					""
+		"Ability3"					""
+		"Ability4"					""
+
+		// Armor
+		//----------------------------------------------------------------
+		"ArmorPhysical"				"0"
+
+		// Attack
+		//----------------------------------------------------------------
+		"AttackCapabilities"		"DOTA_UNIT_CAP_NO_ATTACK"
+		"AttackDamageMin"			"0"
+		"AttackDamageMax"			"0"
+		"AttackRate"				"1.0"
+		"AttackAnimationPoint"		"0.0"
+		"AttackAcquisitionRange"	"0"
+		"AttackRange"				"0"
+		"ProjectileModel"			""
+		"ProjectileSpeed"			"0"
+
+		// Bounds
+		//----------------------------------------------------------------
+		"HealthBarOffset"			"140"
+
+		// Bounty
+		//----------------------------------------------------------------
+		"BountyXP"					"0"
+		"BountyGoldMin"				"50"
+		"BountyGoldMax"				"50"
+
+		// Movement
+		//----------------------------------------------------------------
+		"MovementCapabilities"		"DOTA_UNIT_CAP_MOVE_GROUND"
+		"MovementSpeed"				"0"
+		"MovementTurnRate"			"0.0"
+
+		// Status
+		//----------------------------------------------------------------
+		"StatusHealth"				"1"
+		"StatusHealthRegen"			"0"
+		
+		// Vision
+		//----------------------------------------------------------------
+		"VisionDaytimeRange"		"64"
+		"VisionNighttimeRange"		"64"
+
+		// Team
+		//----------------------------------------------------------------
+		"TeamName"					"DOTA_TEAM_NEUTRALS"
+		"CombatClassAttack"			"DOTA_COMBAT_CLASS_ATTACK_BASIC"
+		"CombatClassDefend"			"DOTA_COMBAT_CLASS_DEFEND_BASIC"
+		"UnitRelationshipClass"		"DOTA_NPC_UNIT_RELATIONSHIP_TYPE_DEFAULT"
+	}
+}
+

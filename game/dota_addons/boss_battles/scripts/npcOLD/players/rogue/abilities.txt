@@ -1,0 +1,272 @@
+"DOTAAbilities"
+{
+	"rogue_passive"
+	{
+		"BaseClass"						"ability_lua"
+		"ScriptFile"					"player/rogue/rogue_passive"
+		"MaxLevel"						"1"
+		"AbilityTextureName"			"pangolier_swashbuckle"
+        "AbilityBehavior"				"DOTA_ABILITY_BEHAVIOR_PASSIVE"
+		"AbilityUnitDamageType"			"DAMAGE_TYPE_PHYSICAL"
+        
+		"AbilitySpecial"
+		{
+			"01"{ "var_type"			"FIELD_INTEGER"		"bleed_duration"		"5"    	}	
+			"02"{ "var_type"			"FIELD_INTEGER"		"dmg_dot_base"		    "50"    }	
+            "03"{ "var_type"			"FIELD_FLOAT"		"damage_interval"		"1"   	}	
+			"04"{ "var_type"			"FIELD_FLOAT"		"bonus_bleed_percent"	"30"   }
+		}
+	}
+
+	"m1_combo_hit_1_2"
+    {
+		"BaseClass"						"ability_lua"
+		"ScriptFile"					"player/rogue/m1_combo_hit_1_2"
+		"MaxLevel"						"1"
+
+		"AbilityTextureName"			"pangolier_swashbuckle"
+		"AbilityUnitTargetTeam"			"DOTA_UNIT_TARGET_TEAM_ENEMY"
+		"AbilityUnitDamageType"			"DAMAGE_TYPE_PHYSICAL"	
+		//"SpellImmunityType"				"SPELL_IMMUNITY_ENEMIES_YES"
+        "AbilityBehavior"				"DOTA_ABILITY_BEHAVIOR_POINT | DOTA_ABILITY_BEHAVIOR_IGNORE_PSEUDO_QUEUE"
+		"AbilityCastRange" 				"350"
+        "AbilityCooldown"				"0"
+        "AbilityCastPoint"              "0.3"
+		"AbilityManaCost"        		"0"
+
+		"TargetingIndicator"
+		{
+			"Type"						"TARGETING_INDICATOR_CONE"
+			"Fixed"						"1"
+		}
+        
+		"AbilitySpecial"
+		{
+			"01"{ "var_type"			"FIELD_INTEGER"		"radius"				"250" }	 
+			"02"{ "var_type"			"FIELD_INTEGER"		"damage"				"60" }
+			"03"{ "var_type"			"FIELD_INTEGER"		"bleed_duration"		"5"    	}	
+			"04"{ "var_type"			"FIELD_INTEGER"		"dmg_dot_base"		    "50"    }	
+            "05"{ "var_type"			"FIELD_FLOAT"		"damage_interval"		"1"   	}	
+			"06"{ "var_type"			"FIELD_FLOAT"		"bonus_bleed_percent"	"30"   }
+		}
+	}
+
+    "m2_combo_breaker"
+    {
+		"BaseClass"						"ability_lua"
+		"ScriptFile"					"player/rogue/m2_combo_breaker"
+		"MaxLevel"						"1"
+
+		"AbilityTextureName"			"phantom_assassin_coup_de_grace"
+		"AbilityUnitTargetTeam"			"DOTA_UNIT_TARGET_TEAM_ENEMY"
+		"AbilityUnitDamageType"			"DAMAGE_TYPE_PHYSICAL"	
+		//"SpellImmunityType"			"SPELL_IMMUNITY_ENEMIES_YES"
+        "AbilityBehavior"				"DOTA_ABILITY_BEHAVIOR_NO_TARGET | DOTA_ABILITY_BEHAVIOR_IGNORE_PSEUDO_QUEUE | DOTA_ABILITY_BEHAVIOR_IGNORE_BACKSWING"
+		"AbilityCastRange" 				"350"
+        "AbilityCooldown"				"0"
+        "AbilityCastPoint"              "0.0"
+		"AbilityManaCost"        		"50"
+
+		"TargetingIndicator"
+		{
+			"Type"						"TARGETING_INDICATOR_CONE"
+			"Fixed"						"1"
+		}
+        
+		"AbilitySpecial"
+		{
+			"01"{ "var_type"			"FIELD_INTEGER"		"radius"					"250"   }	 
+			"02"{ "var_type"			"FIELD_INTEGER"		"damage"					"250"   }
+			"03"{ "var_type"			"FIELD_INTEGER"		"duration"					"10"   }
+			"04"{ "var_type"			"FIELD_INTEGER"		"energy_regen_bonus"		"10"   }
+			"05"{ "var_type"			"FIELD_FLOAT"		"bleed_pop_dmg_reduction"	"1.3"   }
+		} 
+	}
+
+    "q_smoke_bomb"
+    {
+		"BaseClass"						"ability_lua"
+		"ScriptFile"					"player/rogue/q_smoke_bomb"
+		"MaxLevel"						"1"
+
+		"AbilityTextureName"			"riki_smoke_screen"
+		//"SpellImmunityType"				"SPELL_IMMUNITY_ENEMIES_YES"
+        "AbilityBehavior"				"DOTA_ABILITY_BEHAVIOR_NO_TARGET | DOTA_ABILITY_BEHAVIOR_IGNORE_BACKSWING | DOTA_ABILITY_BEHAVIOR_ROOT_DISABLES | DOTA_ABILITY_BEHAVIOR_IGNORE_PSEUDO_QUEUE | DOTA_ABILITY_BEHAVIOR_IGNORE_PSEUDO_QUEUE"
+		//"AbilityCastRange" 				"1500"
+        "AbilityCooldown"				"25.0"
+
+		"TargetingIndicator"
+		{
+			//"Type" 						"TARGETING_INDICATOR_HALF_CIRCLE"
+		}
+        
+		"AbilitySpecial"
+		{
+			"01"{ "var_type"			"FIELD_INTEGER"		"duration"				"2.5"   }	 
+			"02"{ "var_type"			"FIELD_INTEGER"		"movespeed_bonus_pct"	"50"   }
+			"03"{ "var_type"			"FIELD_FLOAT"		"invul_time"		    "0.5"    }	
+		}
+	}
+
+    "e_swallow_potion"
+    {
+		"BaseClass"						"ability_lua"
+		"ScriptFile"					"player/rogue/e_swallow_potion"
+		"MaxLevel"						"1"
+
+		"AbilityTextureName"			"slark_essence_shift"
+		"AbilityUnitTargetTeam"			"DOTA_UNIT_TARGET_TEAM_ENEMY"
+		"AbilityUnitDamageType"			"DAMAGE_TYPE_PHYSICAL"	
+		//"SpellImmunityType"			"SPELL_IMMUNITY_ENEMIES_YES"
+        "AbilityBehavior"				"DOTA_ABILITY_BEHAVIOR_NO_TARGET | DOTA_ABILITY_BEHAVIOR_IGNORE_PSEUDO_QUEUE | DOTA_ABILITY_BEHAVIOR_IGNORE_BACKSWING"
+		"AbilityCastRange" 				"350"
+        "AbilityCooldown"				"5"
+        "AbilityCastPoint"              "0.0"
+		"AbilityManaCost"        		"15"
+
+		"TargetingIndicator"
+		{
+			"Type"						"TARGETING_INDICATOR_CONE"
+			"Fixed"						"1"
+		}
+        
+		"AbilitySpecial"
+		{ 
+			"01"{ "var_type"			"FIELD_INTEGER"		"damage"					"100"   }
+			"02"{ "var_type"			"FIELD_INTEGER"		"duration"					"15"   	}
+			"03"{ "var_type"			"FIELD_INTEGER"		"energy_regen_bonus"		"10"   	}
+			"04"{ "var_type"			"FIELD_INTEGER"		"radius"					"250"   }
+			"05"{ "var_type"			"FIELD_INTEGER"		"heal_tick"					"15"   }
+		}
+	}
+
+	"r_rupture"
+	{
+		"BaseClass"						"ability_lua"
+		"ScriptFile"					"player/rogue/r_rupture"
+		"MaxLevel"						"1"
+
+		"AbilityTextureName"			"phantom_assassin_stifling_dagger"
+		"AbilityUnitTargetTeam"			"DOTA_UNIT_TARGET_TEAM_ENEMY"
+		"AbilityUnitDamageType"			"DAMAGE_TYPE_PHYSICAL"	
+		//"SpellImmunityType"				"SPELL_IMMUNITY_ENEMIES_YES"
+        "AbilityBehavior"				"DOTA_ABILITY_BEHAVIOR_POINT"
+		"AbilityCastRange" 				"1500"
+        //"AbilityCooldown"				"15"
+        "AbilityCastPoint"              "0.1"
+		"AbilityManaCost"        		"30"
+		"AbilityCharges"				"2"
+		"AbilityChargeRestoreTime"		"15"
+
+		"TargetingIndicator"
+		{
+			"Type"						"TARGETING_INDICATOR_LINE"
+			"Fixed"						"1"
+		}
+        
+		"AbilitySpecial"
+		{
+			"01"{ "var_type"			"FIELD_INTEGER"		"dmg"							"220" 	}
+			"02"{ "var_type"			"FIELD_INTEGER"		"hit_box"						"200" 	}
+			"03"{ "var_type"			"FIELD_INTEGER"		"proj_speed"					"1200" 	}
+			"04"{ "var_type"			"FIELD_INTEGER"		"duration"						"12" 	}
+			"05"{ "var_type"			"FIELD_INTEGER"		"dmg_dot_base"		    		"80"    }	
+			"06"{ "var_type"			"FIELD_FLOAT"		"bonus_bleed_percent"			"30"    }
+            "07"{ "var_type"			"FIELD_FLOAT"		"damage_interval"				"1"    }		
+		}
+	}
+
+	"space_shadowstep"
+	{
+		"BaseClass"						"ability_lua"
+		"ScriptFile"					"player/rogue/space_shadowstep"
+		"MaxLevel"						"1"
+
+		"AbilityTextureName"			"phantom_assassin_blur"
+		"AbilityUnitDamageType"			"DAMAGE_TYPE_PHYSICAL"	
+        "AbilityBehavior"				"DOTA_ABILITY_BEHAVIOR_POINT | DOTA_ABILITY_BEHAVIOR_ROOT_DISABLES"
+		"AbilityCastAnimation"          "ACT_DOTA_CAST_ABILITY_1"
+		"AbilityCastRange" 				"1200"
+        "AbilityCooldown"				"15"
+        "AbilityCastPoint"              "0"
+
+		"TargetingIndicator"
+		{
+			"Type"						"TARGETING_INDICATOR_AOE"
+			"Fixed"						"1"
+		}
+        
+		"AbilitySpecial"
+		{
+			"01"{ "var_type"			"FIELD_INTEGER"		"duration"				"5" }
+		}
+
+		"precache"
+		{
+			"soundfile"	"soundevents/game_sounds_heroes/game_sounds_ember_spirit.vsndevts"
+			"particle" 	"particles/status_fx/status_effect_ghost.vpcf"
+		}
+	}
+
+	"space_shadowstep_teleport"
+	{
+		"BaseClass"						"ability_lua"
+		"ScriptFile"					"player/rogue/space_shadowstep_teleport"
+		"MaxLevel"						"1"
+
+		"AbilityTextureName"			"phantom_assassin_blur"
+		"AbilityUnitDamageType"			"DAMAGE_TYPE_PHYSICAL"	
+        "AbilityBehavior"				"DOTA_ABILITY_BEHAVIOR_NO_TARGET | DOTA_ABILITY_BEHAVIOR_IGNORE_BACKSWING | DOTA_ABILITY_BEHAVIOR_ROOT_DISABLES | DOTA_ABILITY_BEHAVIOR_HIDDEN | DOTA_ABILITY_BEHAVIOR_IGNORE_PSEUDO_QUEUE" 
+		"AbilityCastAnimation"          "ACT_DOTA_CAST_ABILITY_1"
+		"AbilityCastRange" 				"1200"
+        "AbilityCooldown"				"0"
+        "AbilityCastPoint"              "0.0"
+
+		"TargetingIndicator"
+		{
+			//"Type"						"TARGETING_INDICATOR_AOE"
+			//"Fixed"						"1"
+		}
+        
+		"AbilitySpecial"
+		{
+			"01"{ "var_type"			"FIELD_INTEGER"		"duration"				"5" }
+		}
+
+		"precache"
+		{
+			
+		}
+	}
+
+	"space_shadowstep_teleport_back"
+	{
+		"BaseClass"						"ability_lua"
+		"ScriptFile"					"player/rogue/space_shadowstep_teleport_back"
+		"MaxLevel"						"1"
+
+		"AbilityTextureName"			"phantom_assassin_blur"
+		"AbilityUnitDamageType"			"DAMAGE_TYPE_PHYSICAL"	
+        "AbilityBehavior"				"DOTA_ABILITY_BEHAVIOR_NO_TARGET | DOTA_ABILITY_BEHAVIOR_IGNORE_BACKSWING | DOTA_ABILITY_BEHAVIOR_ROOT_DISABLES | DOTA_ABILITY_BEHAVIOR_HIDDEN | DOTA_ABILITY_BEHAVIOR_IGNORE_PSEUDO_QUEUE"
+		"AbilityCastAnimation"          "ACT_DOTA_CAST_ABILITY_1"
+		"AbilityCastRange" 				"1200"
+        "AbilityCooldown"				"0.5"
+        "AbilityCastPoint"              "0.0"
+
+		"TargetingIndicator"
+		{
+			//"Type"						"TARGETING_INDICATOR_AOE"
+			//"Fixed"						"1"
+		}
+        
+		"AbilitySpecial"
+		{
+			"01"{ "var_type"			"FIELD_INTEGER"		"duration"				"5" }
+		}
+
+		"precache"
+		{
+			
+		}
+	}
+}

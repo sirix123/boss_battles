@@ -1,0 +1,65 @@
+"DOTAHeroes"
+{
+	//=================================================================================================================
+	// HERO: Ice Mage - Player Character
+	//=================================================================================================================
+	"npc_dota_hero_crystal_maiden"
+	{
+		"override_hero"			"npc_dota_hero_crystal_maiden" 			// Hero to override
+		"Ability1"              "m2_icelance" 
+        "Ability2"              "q_iceblock" 
+        "Ability3"              "e_icefall" 
+        "Ability4"              "r_frostbomb"
+        "Ability5"              "space_frostblink"
+        "Ability6"              "ice_mage_passive"
+        "Ability7"              ""
+        "Ability8"              ""
+        "Ability9"              ""
+        "Ability10"             ""
+        "Ability11"             ""
+        "Ability12"             ""
+        "Ability13"             ""
+        "Ability14"             ""
+        "Ability15"             ""
+        "Ability16"             ""
+        "Ability17"             ""
+
+        "ArmorPhysical"             "0"
+        "MagicalResistance"         "0"
+
+        "AttackCapabilities"        "DOTA_UNIT_CAP_RANGED_ATTACK"
+        "AttackDamageMin"           "55"
+        "AttackDamageMax"           "55"
+        "AttackRate"                 "1.0"     // Speed of attack. 1.7 cm defualt
+        "AttackAnimationPoint"       "0.45"    // Normalized time in animation cycle to attack.
+        "AttackAcquisitionRange"     "1000"     // Range within a target can be acquired.
+        "AttackRange"                "1000"     // Range within a target can be attacked.
+        "AttackRangeBuffer"          "250"     // Extra range the target can move without canceling the attack
+        "ProjectileModel"            "particles/units/heroes/hero_crystalmaiden/maiden_base_attack.vpcf"
+        "ProjectileSpeed"            "1200"
+
+        //"AttributePrimary"        "DOTA_ATTRIBUTE_STRENGTH"
+        "AttributeBaseStrength"     "0"
+        "AttributeStrengthGain"     "0"
+        "AttributeBaseIntelligence" "0"
+        "AttributeIntelligenceGain" "0"
+        "AttributeBaseAgility"      "0"
+        "AttributeAgilityGain"      "0"
+
+        "BountyXP"                  "0"
+        "BountyGoldMin"             "0"
+        "BountyGoldMax"             "0"
+
+        "MovementCapabilities"      "DOTA_UNIT_CAP_MOVE_GROUND"
+        "MovementSpeed"             "400"
+        "MovementTurnRate"          "1.0"
+
+        "StatusHealth"              "500" //500 50000
+        "StatusHealthRegen"         "0"
+        "StatusMana"                "100"
+        "StatusManaRegen"           "0.0"
+
+        "VisionDaytimeRange"        "5000"
+        "VisionNighttimeRange"      "5000"
+	}
+}

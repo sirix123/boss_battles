@@ -1,0 +1,236 @@
+
+"DOTAUnits"
+{
+	//=================================================================================	
+	//  primalbeast 
+	//=================================================================================
+	"npc_primalbeast"	
+	{
+		// script
+		"vscripts"					"bosses/primalbeast/primalbeast_ai.lua"
+
+		// General
+		//----------------------------------------------------------------
+		"Model"						"models/heroes/primal_beast/primal_beast_base.vmdl"	// Model.
+		"BaseClass"					"npc_dota_creature"
+		"SoundSet"					"Hero_Primalbeast"
+		"GameSoundsFile"			"soundevents/game_sounds_heroes/game_sounds_primal_beast.vsndevts"
+		"Level"						"1"
+		"ModelScale" 				"1.7"
+
+		// Abilities
+		//----------------------------------------------------------------
+		"Ability1"					"cone_smash_rocks"					// Ability 1
+		"Ability2"					"primal_cave_in"					// Ability 2
+		"Ability3"					"primal_rock_prison"					// Ability 3
+		"Ability4"					"primal_beast_shaper_balls"					// Ability 4
+		"Ability5"					""					// Ability 5
+		"Ability6"					""					// Ability 6
+		"Ability7"					""					// Ability 7
+		"Ability8"					""					// Ability 7
+		
+		// Armor
+		//----------------------------------------------------------------
+		"ArmorPhysical"				"0"			
+
+		// Attack
+		//----------------------------------------------------------------
+		"AttackCapabilities"		"DOTA_UNIT_CAP_MELEE_ATTACK"
+		"AttackDamageMin"			"40"		// Damage range min.
+		"AttackDamageMax"			"60"		// Damage range max.
+		"AttackRate"				"1.3"		// Speed of attack.
+		"AttackAnimationPoint"		"0.3"		// Normalized time in animation cycle to attack.
+		"AttackAcquisitionRange"	"2500"		// Range within a target can be acquired.
+		"AttackRange"				"200"		// Range within a target can be attacked.     	
+
+		// Bounds
+		//----------------------------------------------------------------
+		"RingRadius"				"40"
+		"HealthBarOffset"			"170"
+
+		// Movement
+		//----------------------------------------------------------------
+		"MovementCapabilities"		"DOTA_UNIT_CAP_MOVE_GROUND"//"DOTA_UNIT_CAP_MOVE_NONE"
+		"MovementSpeed"				"250"					
+
+		// Status
+		//----------------------------------------------------------------
+		"StatusHealth"				"150000"		// Base health.
+		"StatusHealthRegen"			"0.0"		// Health regeneration rate.
+		"StatusMana"				"100"		// Base mana.
+		"StatusManaRegen"			"1.5"		// Mana regeneration rate.		 
+		
+		// Vision
+		//----------------------------------------------------------------
+		"VisionDaytimeRange"		"5000"		// Range of vision during day light.
+		"VisionNighttimeRange"		"5000"		// Range of vision at night time.
+
+		// Team
+		//----------------------------------------------------------------
+		"TeamName"					"DOTA_TEAM_BADGUYS"						// Team name.
+		"CombatClassAttack"			"DOTA_COMBAT_CLASS_ATTACK_PIERCE"
+		"CombatClassDefend"			"DOTA_COMBAT_CLASS_DEFEND_BASIC"
+		"UnitRelationshipClass"		"DOTA_NPC_UNIT_RELATIONSHIP_TYPE_DEFAULT"
+
+		"Creature"
+		{
+			"AttachWearables"
+			{
+				"1" { "ItemDef" "769" }
+				"2" { "ItemDef" "770" }
+				"3" { "ItemDef" "771" }
+				"4" { "ItemDef" "772" }
+			}
+		}
+	}
+
+	"npc_rock_primal"	
+	{
+		// script
+		"vscripts"					"bosses/primalbeast/npc_rock_primal_ai.lua"
+
+		// General
+		//----------------------------------------------------------------
+		"Model"						"models/particle/tormented_spike.vmdl"	// Model.
+		"BaseClass"					"npc_dota_creature"
+		//"SoundSet"				"Hero_WarlockGolem"
+		//"GameSoundsFile"			"soundevents/game_sounds_heroes/game_sounds_warlock.vsndevts"
+		"Level"						"1"
+		"ModelScale" 				"12.0"
+
+		// Abilities
+		//----------------------------------------------------------------
+		"Ability1"					""					// Ability 1
+		"Ability2"					""					// Ability 2
+		"Ability3"					""					// Ability 3
+		"Ability4"					""					// Ability 4
+		"Ability5"					""					// Ability 5
+		"Ability6"					""					// Ability 6
+		"Ability7"					""					// Ability 7
+
+		// Armor
+		//----------------------------------------------------------------
+		"ArmorPhysical"				"0"			
+
+		// Attack
+		//----------------------------------------------------------------
+		"AttackCapabilities"		"DOTA_UNIT_CAP_NO_ATTACK"
+		"AttackDamageMin"			"35"		
+		"AttackDamageMax"			"55"		
+		"AttackRate"				"1.2"		// Speed of attack.
+		"AttackAnimationPoint"		"0.2"		// Normalized time in animation cycle to attack.
+		"AttackAcquisitionRange"	"10000"		// Range within a target can be acquired.
+		"AttackRange"				"100"		
+
+		// Bounds
+		//----------------------------------------------------------------
+		"RingRadius"				"100"
+		"HealthBarOffset"			"50"
+
+		// Movement
+		//----------------------------------------------------------------
+		"MovementCapabilities"		"DOTA_UNIT_CAP_MOVE_GROUND"//"DOTA_UNIT_CAP_MOVE_NONE" DOTA_UNIT_CAP_MOVE_GROUND
+		"MovementSpeed"				"400"					
+
+		// Status
+		//----------------------------------------------------------------
+		"StatusHealth"				"2000"//"100000"		// Base health.
+		"StatusHealthRegen"			"0.0"		// Health regeneration rate.
+		"StatusMana"				"0"		// Base mana.
+		"StatusManaRegen"			"0.0"		// Mana regeneration rate.		 
+		
+		// Vision
+		//----------------------------------------------------------------
+		"VisionDaytimeRange"		"5000"		// Range of vision during day light.
+		"VisionNighttimeRange"		"5000"		// Range of vision at night time.
+
+		// Team
+		//----------------------------------------------------------------
+		//"TeamName"					"DOTA_TEAM_GOODGUYS"						// Team name.
+		//"CombatClassAttack"			"DOTA_COMBAT_CLASS_ATTACK_PIERCE"
+		//"CombatClassDefend"			"DOTA_COMBAT_CLASS_DEFEND_BASIC"
+		//"UnitRelationshipClass"		"DOTA_NPC_UNIT_RELATIONSHIP_TYPE_DEFAULT"
+
+	}
+
+	//=================================================================================	
+	//  root minion 
+	//=================================================================================
+	"npc_primalbeast_baby"	
+	{
+		// script
+		"vscripts"					"bosses/primalbeast/primalbeast_baby_ai.lua"
+
+		// General
+		//----------------------------------------------------------------
+		"Model"						"models/props_structures/bad_statue001.vmdl"	// Model.
+		"BaseClass"					"npc_dota_creature"
+		"SoundSet"					"Hero_Primalbeast"
+		"GameSoundsFile"			"soundevents/game_sounds_heroes/game_sounds_primal_beast.vsndevts"
+		"Level"						"1"
+		"ModelScale" 				"2.1"
+
+		// Abilities
+		//----------------------------------------------------------------
+		"Ability1"					""					// Ability 1
+		"Ability2"					""					// Ability 2
+		"Ability3"					""					// Ability 3
+		"Ability4"					""					// Ability 4
+		"Ability5"					""					// Ability 5
+		"Ability6"					""					// Ability 6
+		"Ability7"					""					// Ability 7
+		"Ability8"					""					// Ability 7
+		
+		// Armor
+		//----------------------------------------------------------------
+		"ArmorPhysical"				"0"			
+
+		// Attack
+		//----------------------------------------------------------------
+		"AttackCapabilities"		"DOTA_UNIT_CAP_NO_ATTACK"
+		"AttackDamageMin"			"10"		// Damage range min.
+		"AttackDamageMax"			"20"		// Damage range max.
+		"AttackRate"				"1.3"		// Speed of attack.
+		"AttackAnimationPoint"		"0.3"		// Normalized time in animation cycle to attack.
+		"AttackAcquisitionRange"	"2500"		// Range within a target can be acquired.
+		"AttackRange"				"200"		// Range within a target can be attacked.     	
+
+		// Bounds
+		//----------------------------------------------------------------
+		"RingRadius"				"40"
+		"HealthBarOffset"			"170"
+
+		// Movement
+		//----------------------------------------------------------------
+		"MovementCapabilities"		"DOTA_UNIT_CAP_MOVE_NONE"//"DOTA_UNIT_CAP_MOVE_NONE"
+		"MovementSpeed"				"400"					
+
+		// Status
+		//----------------------------------------------------------------
+		"StatusHealth"				"1000"		// Base health.
+		"StatusHealthRegen"			"0.0"		// Health regeneration rate.
+		"StatusMana"				"0"		// Base mana.
+		"StatusManaRegen"			"1.0"		// Mana regeneration rate.		 
+		
+		// Vision
+		//----------------------------------------------------------------
+		"VisionDaytimeRange"		"5000"		// Range of vision during day light.
+		"VisionNighttimeRange"		"5000"		// Range of vision at night time.
+
+		// Team
+		//----------------------------------------------------------------
+		"TeamName"					"DOTA_TEAM_BADGUYS"						// Team name.
+		"CombatClassAttack"			"DOTA_COMBAT_CLASS_ATTACK_PIERCE"
+		"CombatClassDefend"			"DOTA_COMBAT_CLASS_DEFEND_BASIC"
+		"UnitRelationshipClass"		"DOTA_NPC_UNIT_RELATIONSHIP_TYPE_DEFAULT"
+
+		"Creature"
+		{
+			"AttachWearables"
+			{
+
+			}
+		}
+	}
+}
+

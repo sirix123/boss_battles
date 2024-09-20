@@ -1,0 +1,242 @@
+"DOTAAbilities"
+{
+	"ranger_passive"
+	{
+		"BaseClass"						"ability_lua"
+		"ScriptFile"					"player/ranger/ranger_passive"
+		"MaxLevel"						"1"
+		"Innate" 						"1"
+		"AbilityTextureName"			"windrunner_focusfire"
+        "AbilityBehavior"				"DOTA_ABILITY_BEHAVIOR_PASSIVE | DOTA_ABILITY_BEHAVIOR_INNATE_UI"
+        
+		"AbilitySpecial"
+		{
+			"01"{ "var_type"			"FIELD_INTEGER"		"base_dmg"							"15" }
+			"02"{ "var_type"			"FIELD_INTEGER"		"dmg_dist_multi"					"9" }
+			"03"{ "var_type"			"FIELD_FLOAT"		"rain_of_arrows_bonus_proj_speed"	"800" }
+			"04"{ "var_type"			"FIELD_INTEGER"		"mana_gain_percent"             	"12" }
+		}
+	}
+
+	"m1_trackingshot"
+	{
+		"BaseClass"						"ability_lua"
+		"ScriptFile"					"player/ranger/m1_trackingshot"
+		"MaxLevel"						"1"
+
+		"AbilityTextureName"			"windrunner_focusfire"
+		"AbilityUnitTargetTeam"			"DOTA_UNIT_TARGET_TEAM_ENEMY"
+		"AbilityUnitDamageType"			"DAMAGE_TYPE_PHYSICAL"	
+		"SpellImmunityType"				"SPELL_IMMUNITY_ENEMIES_YES"
+        "AbilityBehavior"				"DOTA_ABILITY_BEHAVIOR_POINT | DOTA_ABILITY_BEHAVIOR_IGNORE_PSEUDO_QUEUE"
+		"AbilityCastRange" 				"1400"
+        "AbilityCooldown"				"0"
+        "AbilityCastPoint"              "0.4"
+
+
+		"TargetingIndicator"
+		{
+			"Type"						"TARGETING_INDICATOR_LINE"
+			"Fixed"						"1"
+		}
+        
+		"AbilityValues"
+		{
+			"hit_box"							"80"
+			"proj_speed"						"1600" 
+			"base_dmg"							"15"
+			"dmg_dist_multi"					"9"
+			"rain_of_arrows_bonus_proj_speed"	"800"
+			"mana_gain_percent"             	"12"
+		}
+
+		"precache"
+		{
+			"soundfile"	"soundevents/game_sounds_heroes/game_sounds_windrunner.vsndevts"
+		}
+	}
+
+	"m2_serratedarrow"
+	{
+		"BaseClass"						"ability_lua"
+		"ScriptFile"					"player/ranger/m2_serratedarrow"
+		"MaxLevel"						"1"
+
+		"AbilityTextureName"			"windrunner_powershot"
+		"AbilityUnitTargetTeam"			"DOTA_UNIT_TARGET_TEAM_ENEMY"
+		"AbilityUnitDamageType"			"DAMAGE_TYPE_PHYSICAL"	
+		"SpellImmunityType"				"SPELL_IMMUNITY_ENEMIES_YES"
+        "AbilityBehavior"				"DOTA_ABILITY_BEHAVIOR_POINT"
+		"AbilityCastRange" 				"1400"
+        "AbilityCooldown"				"0"
+        "AbilityCastPoint"              "0.8"
+		"AbilityManaCost"        		"24"
+
+
+		"TargetingIndicator"
+		{
+			"Type"						"TARGETING_INDICATOR_LINE"
+			"Fixed"						"1"
+		}
+        
+		"AbilitySpecial"
+		{
+			"01"{ "var_type"			"FIELD_INTEGER"		"dmg"							"100" 	}
+			"02"{ "var_type"			"FIELD_INTEGER"		"hit_box"						"80" 	}
+			"03"{ "var_type"			"FIELD_INTEGER"		"proj_speed"					"1600" 	}
+			"04"{ "var_type"			"FIELD_INTEGER"		"dmg_dist_multi"             	"18" 	}
+			//"05"{ "var_type"			"FIELD_INTEGER"		"mana_gain_percent"             "30" 	}
+			
+		}
+	}
+
+	"q_healing_arrow_v2"
+	{
+		"BaseClass"						"ability_lua"
+		"ScriptFile"					"player/ranger/q_healing_arrow_v2"
+		"MaxLevel"						"1"
+
+		"AbilityTextureName"			"furion_wrath_of_nature"
+		"AbilityUnitTargetTeam"			"DOTA_UNIT_TARGET_TEAM_FRIENDLY"
+		"SpellImmunityType"				"SPELL_IMMUNITY_ENEMIES_YES"
+        "AbilityBehavior"				"DOTA_ABILITY_BEHAVIOR_POINT"
+		"AbilityCastRange" 				"2000"
+        "AbilityCooldown"				"20"
+        "AbilityCastPoint"              "0.5"
+
+
+		"TargetingIndicator"
+		{
+			"Type"						"TARGETING_INDICATOR_LINE"
+			"Fixed"						"1"
+		}
+        
+		"AbilityValues"
+		{
+			"hit_box"							"200" 
+			"proj_speed"						"1600" 
+			"heal"								"100" 
+			"heal_dist_multi"					"4" 
+			"mana_gain_per_hit"             	"3" 
+		}
+
+		"precache"
+		{
+			"soundfile"	"soundevents/game_sounds_heroes/game_sounds_windrunner.vsndevts"
+		}
+	}
+
+	"e_whirling_winds"
+	{
+		"BaseClass"						"ability_lua"
+		"ScriptFile"					"player/ranger/e_whirling_winds"
+		"MaxLevel"						"1"
+
+		"AbilityTextureName"			"hoodwink_sharpshooter"
+		"AbilityUnitDamageType"			"DAMAGE_TYPE_PHYSICAL"	
+		"SpellImmunityType"				"SPELL_IMMUNITY_ENEMIES_YES"
+        "AbilityBehavior"				"DOTA_ABILITY_BEHAVIOR_POINT | DOTA_ABILITY_BEHAVIOR_AOE" //
+		"AbilityCastRange" 				"1500"
+        "AbilityCooldown"				"40"//"50"
+        "AbilityCastPoint"              "0.2"
+		"AbilityManaCost"        		"30"
+
+		"TargetingIndicator"
+		{
+			"Type"						"TARGETING_INDICATOR_AOE"
+			//"Fixed"						"1"
+		}
+        
+		"AbilitySpecial"
+		{
+			"01"{ "var_type"			"FIELD_INTEGER"		"radius"				"300" 	}
+			"02"{ "var_type"			"FIELD_INTEGER"		"duration"				"14" 	}
+			"03"{ "var_type"			"FIELD_FLOAT"		"cast_point_reduction"	"25" 	}
+			"04"{ "var_type"			"FIELD_FLOAT"		"proj_speed_increase"	"25" 	}
+			"05"{ "var_type"			"FIELD_INTEGER"		"dmg_increase"			"30" 	}
+			"06"{ "var_type"			"FIELD_INTEGER"		"ms_increase"			"30" 	}
+			"07"{ "var_type"			"FIELD_INTEGER"		"as_boost"			"30" 	}
+		}
+
+		"precache"
+		{
+			"particle"		"particles/ranger/ranger_tornado_ambient.vpcf"
+			"soundfile" 	"sounds/weapons/creep/neutral/wildkin_tornado_loop.vsnd"
+			"soundfile" 	"soundevents/game_sounds_creeps.vsndevts"
+		}
+	}
+
+	"r_explosive_arrow"
+	{
+		"BaseClass"						"ability_lua"
+		"ScriptFile"					"player/ranger/r_explosive_arrow"
+		"MaxLevel"						"1"
+
+		"AbilityTextureName"			"huskar_burning_spear"
+		"SpellImmunityType"				"SPELL_IMMUNITY_ENEMIES_YES"
+		"AbilityUnitDamageType"			"DAMAGE_TYPE_PHYSICAL"
+		"AbilityBehavior"				"DOTA_ABILITY_BEHAVIOR_POINT | DOTA_ABILITY_BEHAVIOR_CHANNELLED | DOTA_ABILITY_BEHAVIOR_AOE"
+		"AbilityCastAnimation"   		"ACT_DOTA_GENERIC_CHANNEL_1"
+		"AbilityChannelTime"			"1.1"
+		"AbilityCastRange" 				"3000"
+        "AbilityCooldown"				"15"
+        "AbilityCastPoint"              "0.1"
+		"AbilityManaCost"        		"50"
+		"AbilityDuration"				"1.1"
+
+		"TargetingIndicator"
+		{
+			"Type"						"TARGETING_INDICATOR_AOE"
+			"Fixed"						"1"
+		}
+        
+		"AbilitySpecial"
+		{
+			"01"{ "var_type"			"FIELD_INTEGER"		"radius"				"275" 	}
+			"02"{ "var_type"			"FIELD_INTEGER"		"damage"				"700" 	}
+			"03"{ "var_type"			"FIELD_INTEGER"		"projectile_speed"		"1300" 	}
+			"04"{ "var_type"			"FIELD_INTEGER"		"proj_count"			"1" 	}
+			"05"{ "var_type"			"FIELD_FLOAT"		"tick_rate"				"0.5" 	}
+		}
+
+		"precache"
+		{
+			"particle"	"particles/units/heroes/hero_snapfire/snapfire_lizard_blobs_arced_explosion.vpcf"
+			"particle"	"particles/ranger/ranger_snapfire_lizard_blobs_arced.vpcf"
+			"particle"	"particles/units/heroes/hero_snapfire/hero_snapfire_ultimate_calldown.vpcf"
+			"soundfile" "sounds/weapons/hero/snapfire/lizard_blob_launch.vsnd"
+		}
+	}
+
+	"space_sprint"
+	{
+		"BaseClass"						"ability_lua"
+		"ScriptFile"					"player/ranger/space_sprint"
+		"MaxLevel"						"1"
+
+		"AbilityTextureName"			"windrunner_windrun_sylvan"
+		"SpellImmunityType"				"SPELL_IMMUNITY_ENEMIES_YES"
+        "AbilityBehavior"				"DOTA_ABILITY_BEHAVIOR_NO_TARGET | DOTA_ABILITY_BEHAVIOR_IGNORE_BACKSWING | DOTA_ABILITY_BEHAVIOR_ROOT_DISABLES | DOTA_ABILITY_BEHAVIOR_IGNORE_PSEUDO_QUEUE"
+		"AbilityCastRange" 				"1500"
+        "AbilityCooldown"				"20"
+
+
+		"TargetingIndicator"
+		{
+			//"Type"						"TARGETING_INDICATOR_AOE"
+			//"Fixed"						"1"
+		}
+        
+		"AbilitySpecial"
+		{
+			"01"{ "var_type"			"FIELD_INTEGER"		"duration"					"7" 	}
+			"02"{ "var_type"			"FIELD_INTEGER"		"movespeed_bonus_pct"		"60" 	}
+			
+		}
+
+		"precache"
+		{
+			
+		}
+	}
+}

@@ -1,6 +1,14 @@
 m2_serratedarrow = class({})
 LinkLuaModifier("r_explosive_tip_modifier_target", "player/ranger/modifiers/r_explosive_tip_modifier_target", LUA_MODIFIER_MOTION_NONE)
 
+function m2_serratedarrow:Precache( context )
+    PrecacheResource( "particle", "particles/econ/items/windrunner/windranger_arcana/windranger_arcana_powershot_channel.vpcf", context )
+    PrecacheResource( "particle", "particles/econ/items/windrunner/windrunner_ti6/windrunner_spell_powershot_channel_ti6.vpcf", context )
+    PrecacheResource( "particle", "particles/units/heroes/hero_windrunner/windrunner_spell_powershot.vpcf", context )
+    PrecacheResource( "particle", "particles/units/heroes/hero_windrunner/windrunner_base_attack_explosion_flash.vpcf", context )
+    PrecacheResource( "soundfile", "soundevents/game_sounds_heroes/game_sounds_windrunner.vsndevts", context )
+end
+
 function m2_serratedarrow:OnAbilityPhaseStart()
     if IsServer() then
 
@@ -16,7 +24,7 @@ function m2_serratedarrow:OnAbilityPhaseStart()
         end
 
         self.nfx = ParticleManager:CreateParticle(enEffect, PATTACH_ABSORIGIN_FOLLOW, self.caster)
-        ParticleManager:SetParticleControlEnt(self.nfx, 0, self.caster, PATTACH_POINT_FOLLOW, "bow_mid1", self.caster:GetAbsOrigin(), true)
+        ParticleManager:SetParticleControl(self.nfx, 0, self.caster:GetAbsOrigin())
         ParticleManager:SetParticleControl(self.nfx, 1, self.caster:GetAbsOrigin())
         ParticleManager:SetParticleControlForward(self.nfx, 1, self.caster:GetForwardVector())
 

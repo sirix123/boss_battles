@@ -1,0 +1,99 @@
+"DOTAAbilities"
+{
+
+    // techies rock
+    "item_rock"	
+	{	
+		"ID"							"2008"
+		"BaseClass"						"item_lua"	
+		"AbilityTextureName" 			"custom/item_cube"	
+        "ScriptFile"                    "bosses/techies/player_item_throw_rock.lua"
+        "Model"							"models/items/rubick/rubick_arcana/rubick_arcana_cube.vmdl"
+
+		//"ItemCost"					"3"
+		"ItemShopTags"				    "consumable"
+		"ItemQuality"					"consumable"
+		"ItemShareability"				"ITEM_FULLY_SHAREABLE"
+		"ItemDroppable" 				"0"
+        "ItemStackable"					"1"
+        "ItemInitialCharges" 			"1" 
+        "ItemDisplayCharges" 			"1" 
+		"ItemPermanent" 				"0"
+		"ItemRequiresCharges" 			"1"
+		
+		"AbilityBehavior"				"DOTA_ABILITY_BEHAVIOR_POINT | DOTA_ABILITY_BEHAVIOR_AOE"
+		"AbilityCastRange"				"1500"
+		"AbilityManaCost"				"0"
+		"AbilityCooldown"				"0.0"	
+        "AbilityCastPoint"              "0.0"
+
+		"TargetingIndicator"
+		{
+			"Type"						"TARGETING_INDICATOR_AOE"
+		}
+
+		"AbilitySpecial"	
+		{
+
+		}
+    }	
+
+	// gyro fire water gun
+    "item_water_gun"	
+	{	
+		"ID"							"3008"
+		"BaseClass"						"item_lua"	
+		"AbilityTextureName" 			"item_ocean_heart"
+        "ScriptFile"                    "bosses/gyrocopter/item_water_gun.lua"
+        "Model"							"models/items/sniper/machine_gun_charlie/machine_gun_charlie.vmdl"
+
+		//"ItemCost"					"3"
+		//"ItemShopTags"				"consumable"
+		//"ItemQuality"					"consumable"
+		"ItemShareability"				"ITEM_FULLY_SHAREABLE"
+		"ItemDroppable" 				"0"
+        "ItemStackable"					"0"
+        "ItemInitialCharges" 			"5" 
+		"ItemRequiresCharges"			"1"
+		"ItemDisplayCharges"			"1"
+		"ItemPermanent" 				"1"
+		
+		"AbilityBehavior"				"DOTA_ABILITY_BEHAVIOR_POINT | DOTA_ABILITY_BEHAVIOR_AOE"
+		"AbilityCastRange"				"1500"
+		"AbilityManaCost"				"0"
+		"AbilityCooldown"				"0.0"	
+        "AbilityCastPoint"              "0.0"
+
+		"TargetingIndicator"
+		{
+			"Type"						"TARGETING_INDICATOR_AOE"
+		}
+
+		"AbilitySpecial"	
+		{
+			"01"
+			{
+				"var_type"				"FIELD_INTEGER"
+				"max_charges"			"5"
+			}
+
+			"02"
+			{
+				"var_type"				"FIELD_INTEGER"
+				"replen_time"			"15"
+			}
+		}
+
+		"Precache"
+		{
+			"soundfile" "sounds/physics/footsteps/common/waterstep_01.vsnd",
+			"soundfile" "sounds/physics/footsteps/common/waterstep_02.vsnd",
+			"soundfile" "sounds/physics/footsteps/common/waterstep_03.vsnd",
+			"soundfile" "sounds/physics/footsteps/common/waterstep_04.vsnd",
+			"soundfile" "sounds/physics/footsteps/common/wade5.vsnd",
+			"soundfile" "sounds/physics/footsteps/common/wade6.vsnd",
+			"soundfile" "sounds/physics/footsteps/common/wade7.vsnd",
+			"soundfile" "sounds/physics/footsteps/common/wade8.vsnd",
+		}
+    }	
+}

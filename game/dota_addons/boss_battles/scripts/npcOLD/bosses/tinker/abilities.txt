@@ -1,0 +1,1320 @@
+
+"DOTAAbilities"
+{
+    //=================================================================================================================
+    // Crystal: green_beam
+    //=================================================================================================================
+    "green_beam"
+    { 
+        "BaseClass"                     "ability_lua"
+        "ScriptFile"                    "bosses/tinker/green_beam"
+        "MaxLevel"						"4"
+
+        // General
+        //-------------------------------------------------------------------------------------------------------------
+        "AbilityBehavior"               "DOTA_ABILITY_BEHAVIOR_NO_TARGET"
+        "AbilityUnitDamageType"         "DAMAGE_TYPE_PHYSICAL"  
+
+        // Casting
+        //-------------------------------------------------------------------------------------------------------------
+        "AbilityCastPoint"              "3.0 3.0 3.0 3.0"
+        "AbilityCastRange" 				"60"
+
+        // Time     
+        //-------------------------------------------------------------------------------------------------------------
+        "AbilityCooldown"               "50 1 1 1"
+
+        // Cost
+        //-------------------------------------------------------------------------------------------------------------
+        "AbilityManaCost"               "0"
+
+        // Special
+        //-------------------------------------------------------------------------------------------------------------
+		"AbilitySpecial"
+		{
+            "01"{ "var_type"			"FIELD_INTEGER"		"beam_length"		            "2900" }
+            "02"{ "var_type"			"FIELD_INTEGER"		"radius"		                "30" }
+            "03"{ "var_type"			"FIELD_INTEGER"		"damage"		                "50" }
+            "04"{ "var_type"			"FIELD_FLOAT"		"beam_speed_angle_increment"    "0.6" }
+            "05"{ "var_type"			"FIELD_INTEGER"		"wave_dmg"                   "500" }
+            "06"{ "var_type"			"FIELD_FLOAT"		"mana_regen"                   "1.7" } //1.7
+            
+		}
+
+        "precache"
+		{
+			//"soundfile"  "sounds/weapons/hero/techies/land_mine_plant.vsnd"
+            //"soundfile"  "soundevents/game_sounds_heroes/game_sounds_techies.vsndevts"
+		}
+    }
+
+    //=================================================================================================================
+    // Crystal: crystal rock
+    //=================================================================================================================
+    "spawn_rocks"
+    { 
+        "BaseClass"                     "ability_lua"
+        "ScriptFile"                    "bosses/tinker/spawn_rocks"
+        "MaxLevel"						"4"
+
+        // General
+        //-------------------------------------------------------------------------------------------------------------
+        "AbilityBehavior"               "DOTA_ABILITY_BEHAVIOR_NO_TARGET"
+        "AbilityUnitDamageType"         "DAMAGE_TYPE_PHYSICAL"  
+
+        // Casting
+        //-------------------------------------------------------------------------------------------------------------
+        "AbilityCastPoint"              "0.0 0.0 0.0 0.0"
+        "AbilityCastRange" 				"0"
+
+        // Time     
+        //-------------------------------------------------------------------------------------------------------------
+        "AbilityCooldown"               "10 1 1 1"
+
+        // Cost
+        //-------------------------------------------------------------------------------------------------------------
+        "AbilityManaCost"               "0"
+
+        // Special
+        //-------------------------------------------------------------------------------------------------------------
+		"AbilitySpecial"
+		{
+            //"01"{ "var_type"			"FIELD_INTEGER"		"max_mines"		        "5" }
+		}
+
+        "precache"
+		{
+			//"soundfile"  "sounds/weapons/hero/techies/land_mine_plant.vsnd"
+            //"soundfile"  "soundevents/game_sounds_heroes/game_sounds_techies.vsndevts"
+		}
+    }
+
+    //=================================================================================================================
+    // Tinker: chain_light
+    //=================================================================================================================
+    "chain_light_v2"
+	{
+		"BaseClass"						"ability_lua"
+		"ScriptFile"					"bosses/tinker/chain_light_v2"
+		"MaxLevel"						"1"
+
+        "AbilityBehavior"               "DOTA_ABILITY_BEHAVIOR_NO_TARGET"
+        "AbilityUnitDamageType"         "DAMAGE_TYPE_PHYSICAL"
+		"AbilityCastRange" 				"2000"
+        "AbilityCooldown"				"24"
+        "AbilityCastPoint"              "2.0"
+
+
+		"TargetingIndicator"
+		{
+			//"Type"						"TARGETING_INDICATOR_LINE"
+			//"Fixed"						"1"
+		}
+        
+		"AbilitySpecial"
+		{
+			"01"{ "var_type"			"FIELD_INTEGER"		"duration"				"20" 	}
+			"02"{ "var_type"			"FIELD_INTEGER"		"bounce_range"			"800" 	}	
+			"03"{ "var_type"			"FIELD_INTEGER"		"speed"					"500" 	}	
+			"04"{ "var_type"			"FIELD_INTEGER"		"max_bounces"			"6" 	}	
+            "05"{ "var_type"			"FIELD_INTEGER"		"dmg"			        "100" 	}		
+		}
+
+		"precache"
+		{
+            "soundfile"     "soundevents/game_sounds_heroes/game_sounds_zuus.vsndevts"
+			"soundfile"     "sounds/weapons/hero/zuus/arc_lightning.vsnd"
+            "soundfile"     "sounds/items/item_mael_lightning_01.vsnd"
+            "soundfile"     "sounds/items/item_mael_lightning_02.vsnd"
+            "soundfile"     "sounds/items/item_mael_lightning_03.vsnd"
+            "soundfile"     "sounds/items/item_mael_lightning_04.vsnd"
+            "soundfile"     "sounds/items/item_mael_lightning_05.vsnd"
+		}
+	}
+
+    //=================================================================================================================
+    // Tinker: electric_field
+    //=================================================================================================================
+    "electric_field"
+    { 
+        "BaseClass"                     "ability_lua"
+        "ScriptFile"                    "bosses/tinker/electric_field"
+        "MaxLevel"						"4"
+
+        // General
+        //-------------------------------------------------------------------------------------------------------------
+        "AbilityBehavior"               "DOTA_ABILITY_BEHAVIOR_NO_TARGET"
+        "AbilityUnitDamageType"         "DAMAGE_TYPE_PHYSICAL"  
+
+        // Casting
+        //-------------------------------------------------------------------------------------------------------------
+        "AbilityCastPoint"              "1 0.0 0.0 0.0"
+        "AbilityCastRange" 				"0"
+
+        // Time     
+        //-------------------------------------------------------------------------------------------------------------
+        "AbilityCooldown"               "5 1 1 1"
+
+        // Cost
+        //-------------------------------------------------------------------------------------------------------------
+        "AbilityManaCost"               "0"
+
+        // Special
+        //-------------------------------------------------------------------------------------------------------------
+		"AbilitySpecial"
+		{
+            //"01"{ "var_type"			"FIELD_INTEGER"		"max_mines"		        "5" }
+		}
+
+        "precache"
+		{
+			"particle"  "particles/units/heroes/hero_razor/razor_plasmafield.vpcf"
+			"soundfile" "soundevents/game_sounds_heroes/game_sounds_razor.vsndevts"
+		}
+    }
+
+    //=================================================================================================================
+    // Tinker: electric_field_v2
+    //=================================================================================================================
+    "electric_field_v2"
+    { 
+        "BaseClass"                     "ability_lua"
+        "ScriptFile"                    "bosses/tinker/electric_field_v2"
+        "MaxLevel"						"4"
+
+        // General
+        //-------------------------------------------------------------------------------------------------------------
+        "AbilityBehavior"               "DOTA_ABILITY_BEHAVIOR_NO_TARGET"
+        "AbilityUnitDamageType"         "DAMAGE_TYPE_PHYSICAL"  
+
+        // Casting
+        //-------------------------------------------------------------------------------------------------------------
+        "AbilityCastPoint"              "1 0.0 0.0 0.0"
+        "AbilityCastRange" 				"0"
+
+        // Time     
+        //-------------------------------------------------------------------------------------------------------------
+        "AbilityCooldown"               "5 1 1 1"
+
+        // Cost
+        //-------------------------------------------------------------------------------------------------------------
+        "AbilityManaCost"               "0"
+
+        // Special
+        //-------------------------------------------------------------------------------------------------------------
+		"AbilitySpecial"
+		{
+            "01"{ "var_type"			"FIELD_INTEGER"		"duration"				"20" 	}
+			"02"{ "var_type"			"FIELD_INTEGER"		"bounce_range"			"4000" 	}	
+			"03"{ "var_type"			"FIELD_INTEGER"		"speed"					"2000" 	}	
+			"04"{ "var_type"			"FIELD_INTEGER"		"max_bounces"			"8" 	}
+            "05"{ "var_type"			"FIELD_INTEGER"		"dmg"			        "50" 	}	
+		}
+
+        "precache"
+		{
+			//"particle"  "particles/units/heroes/hero_razor/razor_plasmafield.vpcf"
+			//"soundfile" "soundevents/game_sounds_heroes/game_sounds_razor.vsndevts"
+		}
+    }
+
+    //=================================================================================================================
+    // Tinker: ice_shot_tinker
+    //=================================================================================================================
+    "ice_shot_tinker"
+    { 
+        "BaseClass"                     "ability_lua"
+        "ScriptFile"                    "bosses/tinker/ice_shot_tinker"
+        "MaxLevel"						"4"
+        "AbilityTextureName"			"crystal_maiden_crystal_nova"
+
+        // General
+        //-------------------------------------------------------------------------------------------------------------
+        "AbilityBehavior"               "DOTA_ABILITY_BEHAVIOR_NO_TARGET"
+        "AbilityUnitDamageType"         "DAMAGE_TYPE_PHYSICAL"  
+
+        // Casting
+        //-------------------------------------------------------------------------------------------------------------
+        "AbilityCastPoint"              "1 0.0 0.0 0.0"
+        "AbilityCastRange" 				"2000"
+
+        // Time     
+        //-------------------------------------------------------------------------------------------------------------
+        "AbilityCooldown"               "20 10 10 10" //15
+
+        // Cost
+        //-------------------------------------------------------------------------------------------------------------
+        "AbilityManaCost"               "0"
+
+        // Special
+        //-------------------------------------------------------------------------------------------------------------
+		"AbilitySpecial"
+		{
+            "01"{ "var_type"			"FIELD_INTEGER"		"speed"		        "700" }
+            "02"{ "var_type"			"FIELD_INTEGER"		"dmg"		        "20" }
+            "03"{ "var_type"			"FIELD_INTEGER"		"radius"		    "100" }
+            "04"{ "var_type"			"FIELD_INTEGER"		"interval"		    "2" }
+            "05"{ "var_type"			"FIELD_INTEGER"		"duration"		    "60" }
+		}
+
+        "precache"
+		{
+			//"particle"  "particles/units/heroes/hero_razor/razor_plasmafield.vpcf"
+			"soundfile" "sounds/vo/rubick/rub_arc_attack_03.vsnd"
+		}
+    }
+
+    //=================================================================================================================
+    // Tinker: summon_bird
+    //=================================================================================================================
+    "summon_bird_tinker"
+    { 
+        "BaseClass"                     "ability_lua"
+        "ScriptFile"                    "bosses/tinker/summon_bird_tinker"
+        "MaxLevel"						"4"
+        "AbilityTextureName"			""
+
+        // General
+        //-------------------------------------------------------------------------------------------------------------
+        "AbilityBehavior"               "DOTA_ABILITY_BEHAVIOR_NO_TARGET"
+        "AbilityUnitDamageType"         "DAMAGE_TYPE_PHYSICAL"  
+
+        // Casting
+        //-------------------------------------------------------------------------------------------------------------
+        "AbilityCastPoint"              "0.5 0.0 0.0 0.0"
+        "AbilityCastRange" 				"2000"
+
+        // Time     
+        //-------------------------------------------------------------------------------------------------------------
+        "AbilityCooldown"               "25 25 25 25"
+
+        // Cost
+        //-------------------------------------------------------------------------------------------------------------
+        "AbilityManaCost"               "0"
+
+        // Special
+        //-------------------------------------------------------------------------------------------------------------
+		"AbilitySpecial"
+		{
+            "01"{ "var_type"			"FIELD_INTEGER"		"num_birds"		        "3" }
+		}
+
+        "precache"
+		{
+			//"particle"  "particles/units/heroes/hero_razor/razor_plasmafield.vpcf"
+			//"soundfile" "sounds/vo/rubick/rub_arc_attack_03.vsnd"
+		}
+    }
+
+    //=================================================================================================================
+    // Tinker: summon_green_bird
+    //=================================================================================================================
+    "summon_green_bird"
+    { 
+        "BaseClass"                     "ability_lua"
+        "ScriptFile"                    "bosses/tinker/summon_green_bird"
+        "MaxLevel"						"4"
+        "AbilityTextureName"			""
+
+        // General
+        //-------------------------------------------------------------------------------------------------------------
+        "AbilityBehavior"               "DOTA_ABILITY_BEHAVIOR_NO_TARGET"
+        "AbilityUnitDamageType"         "DAMAGE_TYPE_PHYSICAL"  
+
+        // Casting
+        //-------------------------------------------------------------------------------------------------------------
+        "AbilityCastPoint"              "0.0 0.0 0.0 0.0"
+        "AbilityCastRange" 				"2000"
+
+        // Time     
+        //-------------------------------------------------------------------------------------------------------------
+        "AbilityCooldown"               "1 1 1 1"
+
+        // Cost
+        //-------------------------------------------------------------------------------------------------------------
+        "AbilityManaCost"               "0"
+
+        // Special
+        //-------------------------------------------------------------------------------------------------------------
+		"AbilitySpecial"
+		{
+            //"01"{ "var_type"			"FIELD_INTEGER"		"max_mines"		        "5" }
+		}
+
+        "precache"
+		{
+			//"particle"  "particles/units/heroes/hero_razor/razor_plasmafield.vpcf"
+			//"soundfile" "sounds/vo/rubick/rub_arc_attack_03.vsnd"
+		}
+    }
+
+    //=================================================================================================================
+    // Tinker: bird_wave_spell
+    //=================================================================================================================
+    "bird_wave_spell"
+    { 
+        "BaseClass"                     "ability_lua"
+        "ScriptFile"                    "bosses/tinker/bird_wave_spell"
+        "MaxLevel"						"4"
+        "AbilityTextureName"			""
+
+        // General
+        //-------------------------------------------------------------------------------------------------------------
+        "AbilityBehavior"               "DOTA_ABILITY_BEHAVIOR_NO_TARGET"
+        "AbilityUnitDamageType"         "DAMAGE_TYPE_PHYSICAL"  
+
+        // Casting
+        //-------------------------------------------------------------------------------------------------------------
+        "AbilityCastPoint"              "1.0 1.0 1.0 1.0"
+        "AbilityCastRange" 				"2000"
+
+        // Time     
+        //-------------------------------------------------------------------------------------------------------------
+        "AbilityCooldown"               "1 1 1 1"
+
+        // Cost
+        //-------------------------------------------------------------------------------------------------------------
+        "AbilityManaCost"               "0"
+
+        // Special
+        //-------------------------------------------------------------------------------------------------------------
+		"AbilitySpecial"
+		{
+            "01"{ "var_type"			"FIELD_INTEGER"		"dmg"		        "100" }
+		}
+
+        "precache"
+		{
+			//"particle"  "particles/units/heroes/hero_razor/razor_plasmafield.vpcf"
+			//"soundfile" "sounds/vo/rubick/rub_arc_attack_03.vsnd"
+		}
+    }
+
+    //=================================================================================================================
+    // Tinker: bird_aoe_spell
+    //=================================================================================================================
+    "bird_aoe_spell"
+    { 
+        "BaseClass"                     "ability_lua"
+        "ScriptFile"                    "bosses/tinker/bird_aoe_spell"
+        "MaxLevel"						"4"
+        "AbilityTextureName"			""
+
+        // General
+        //-------------------------------------------------------------------------------------------------------------
+        "AbilityBehavior"               "DOTA_ABILITY_BEHAVIOR_NO_TARGET"
+        "AbilityUnitDamageType"         "DAMAGE_TYPE_PHYSICAL"  
+
+        // Casting
+        //-------------------------------------------------------------------------------------------------------------
+        "AbilityCastPoint"              "1.0 1.0 1.0 1.0"
+        "AbilityCastRange" 				"2000"
+
+        // Time     
+        //-------------------------------------------------------------------------------------------------------------
+        "AbilityCooldown"               "1 1 1 1"
+
+        // Cost
+        //-------------------------------------------------------------------------------------------------------------
+        "AbilityManaCost"               "0"
+
+        // Special
+        //-------------------------------------------------------------------------------------------------------------
+		"AbilitySpecial"
+		{
+            //"01"{ "var_type"			"FIELD_INTEGER"		"max_mines"		        "5" }
+		}
+
+        "precache"
+		{
+			//"particle"  "particles/units/heroes/hero_razor/razor_plasmafield.vpcf"
+			//"soundfile" "sounds/vo/rubick/rub_arc_attack_03.vsnd"
+		}
+    }
+
+    //=================================================================================================================
+    // Tinker: summon_ice_ele
+    //=================================================================================================================
+    "summon_ice_ele"
+    { 
+        "BaseClass"                     "ability_lua"
+        "ScriptFile"                    "bosses/tinker/summon_ice_ele"
+        "MaxLevel"						"4"
+        "AbilityTextureName"			""
+
+        // General
+        //-------------------------------------------------------------------------------------------------------------
+        "AbilityBehavior"               "DOTA_ABILITY_BEHAVIOR_NO_TARGET"
+        "AbilityUnitDamageType"         "DAMAGE_TYPE_PHYSICAL"  
+
+        // Casting
+        //-------------------------------------------------------------------------------------------------------------
+        "AbilityCastPoint"              "2.0 0.0 0.0 0.0"
+        "AbilityCastRange" 				"2000"
+
+        // Time     
+        //-------------------------------------------------------------------------------------------------------------
+        "AbilityCooldown"               "35 35 35 35"
+
+        // Cost
+        //-------------------------------------------------------------------------------------------------------------
+        "AbilityManaCost"               "0"
+
+        // Special
+        //-------------------------------------------------------------------------------------------------------------
+		"AbilitySpecial"
+		{
+            //"01"{ "var_type"			"FIELD_INTEGER"		"max_mines"		        "5" }
+		}
+
+        "precache"
+		{
+			//"particle"  "particles/units/heroes/hero_razor/razor_plasmafield.vpcf"
+			//"soundfile" "sounds/vo/rubick/rub_arc_attack_03.vsnd"
+		}
+    }
+
+    //=================================================================================================================
+    // Tinker: summon_fire_ele
+    //=================================================================================================================
+    "summon_fire_ele"
+    { 
+        "BaseClass"                     "ability_lua"
+        "ScriptFile"                    "bosses/tinker/summon_fire_ele"
+        "MaxLevel"						"4"
+        "AbilityTextureName"			""
+
+        // General
+        //-------------------------------------------------------------------------------------------------------------
+        "AbilityBehavior"               "DOTA_ABILITY_BEHAVIOR_NO_TARGET"
+        "AbilityUnitDamageType"         "DAMAGE_TYPE_PHYSICAL"  
+
+        // Casting
+        //-------------------------------------------------------------------------------------------------------------
+        "AbilityCastPoint"              "2.0 0.0 0.0 0.0"
+        "AbilityCastRange" 				"2000"
+
+        // Time     
+        //-------------------------------------------------------------------------------------------------------------
+        "AbilityCooldown"               "35 35 35 35"
+
+        // Cost
+        //-------------------------------------------------------------------------------------------------------------
+        "AbilityManaCost"               "0"
+
+        // Special
+        //-------------------------------------------------------------------------------------------------------------
+		"AbilitySpecial"
+		{
+            //"01"{ "var_type"			"FIELD_INTEGER"		"max_mines"		        "5" }
+		}
+
+        "precache"
+		{
+			//"particle"  "particles/units/heroes/hero_razor/razor_plasmafield.vpcf"
+			//"soundfile" "sounds/vo/rubick/rub_arc_attack_03.vsnd"
+		}
+    }
+
+    //=================================================================================================================
+    // Tinker: summon elec ele
+    //=================================================================================================================
+    "summon_elec_ele"
+    { 
+        "BaseClass"                     "ability_lua"
+        "ScriptFile"                    "bosses/tinker/summon_elec_ele"
+        "MaxLevel"						"4"
+        "AbilityTextureName"			""
+
+        // General
+        //-------------------------------------------------------------------------------------------------------------
+        "AbilityBehavior"               "DOTA_ABILITY_BEHAVIOR_NO_TARGET"
+        "AbilityUnitDamageType"         "DAMAGE_TYPE_PHYSICAL"  
+
+        // Casting
+        //-------------------------------------------------------------------------------------------------------------
+        "AbilityCastPoint"              "2.0 0.0 0.0 0.0"
+        "AbilityCastRange" 				"2000"
+
+        // Time     
+        //-------------------------------------------------------------------------------------------------------------
+        "AbilityCooldown"               "35 35 35 35"
+
+        // Cost
+        //-------------------------------------------------------------------------------------------------------------
+        "AbilityManaCost"               "0"
+
+        // Special
+        //-------------------------------------------------------------------------------------------------------------
+		"AbilitySpecial"
+		{
+            //"01"{ "var_type"			"FIELD_INTEGER"		"max_mines"		        "5" }
+		}
+
+        "precache"
+		{
+			//"particle"  "particles/units/heroes/hero_razor/razor_plasmafield.vpcf"
+			//"soundfile" "sounds/vo/rubick/rub_arc_attack_03.vsnd"
+		}
+    }
+
+    //=================================================================================================================
+    // ice_ele_attack
+    //=================================================================================================================
+    "ice_ele_attack_v2"
+    {
+        // General
+        //-------------------------------------------------------------------------------------------------------------
+        "BaseClass"                     "ability_lua"
+        "ScriptFile"                    "bosses/tinker/ice_ele_attack_v2"
+        "AbilityTextureName"            "mirana_arrow"
+
+        "AbilityBehavior"               "DOTA_ABILITY_BEHAVIOR_POINT"
+        "AbilityUnitTargetTeam"         "DOTA_UNIT_TARGET_TEAM_ENEMY"
+        "AbilityUnitTargetType"         "DOTA_UNIT_TARGET_HERO | DOTA_UNIT_TARGET_BASIC"
+        "AbilityUnitDamageType"         "DAMAGE_TYPE_PURE"
+        "SpellImmunityType"             "SPELL_IMMUNITY_ENEMIES_NO"
+        "MaxLevel"                      "1"
+        "AbilityDuration"               "3 3 3 3"
+
+        "AbilityCastAnimation"          "ACT_DOTA_ATTACK"
+
+        //"IsOnCastBar"                   "0"
+        
+        // Casting
+        //-------------------------------------------------------------------------------------------------------------
+        "AbilityCastRange"              "1500"
+        "AbilityCastPoint"              "1.2" // "1.334"
+        "AnimationPlaybackRate"         "0.7"
+        "AnimationIgnoresModelScale"    "1"
+
+        // Time     
+        //-------------------------------------------------------------------------------------------------------------
+        "AbilityCooldown"               "6"
+
+        // Cost
+        //-------------------------------------------------------------------------------------------------------------
+        "AbilityManaCost"               "0"
+
+        // Special
+        //-------------------------------------------------------------------------------------------------------------
+        "AbilitySpecial"
+        {
+            "01"
+            {
+                "var_type"                  "FIELD_INTEGER"
+                "attack_speed"              "700"
+            }
+            "02"
+            {
+                "var_type"                  "FIELD_INTEGER"
+                "attack_width_initial"      "100"
+            }
+            "03"
+            {
+                "var_type"                  "FIELD_INTEGER"
+                "attack_width_end"          "100"
+            }
+            "04"
+            {
+                "var_type"                  "FIELD_INTEGER"
+                "attack_distance"           "1500"
+            }
+            "05"
+            {
+                "var_type"                  "FIELD_INTEGER"
+                "attack_damage"             "150"
+                //"attack_damage"             "600"
+            }
+            "06"
+            {
+                "var_type"                  "FIELD_FLOAT"
+                "duration"                  "3.0"
+            }
+            "07"{ "var_type"			"FIELD_INTEGER"		"radius"				"275" 	}
+			"08"{ "var_type"			"FIELD_INTEGER"		"damage"				"200" 	}
+			"09"{ "var_type"			"FIELD_INTEGER"		"max_travel"			"2" 	}
+			"10"{ "var_type"			"FIELD_INTEGER"		"min_range"				"600" 	}
+			"11"{ "var_type"			"FIELD_FLOAT"		"min_travel"			"0.8" 	}
+			"12"{ "var_type"			"FIELD_FLOAT"		"max_travel"			"2.0" 	}
+			"13"{ "var_type"			"FIELD_INTEGER"		"projectile_speed"		"1300" 	}
+			"14"{ "var_type"			"FIELD_INTEGER"		"proj_count"			"3" 	}
+        }
+    }
+
+    //=================================================================================================================
+    // fire_ele_attack
+    //=================================================================================================================
+    "fire_ele_attack"
+    { 
+        "BaseClass"                     "ability_lua"
+        "ScriptFile"                    "bosses/tinker/fire_ele_attack"
+        "MaxLevel"						"4"
+
+        // General
+        //-------------------------------------------------------------------------------------------------------------
+        "AbilityBehavior"               "DOTA_ABILITY_BEHAVIOR_UNIT_TARGET"
+        "AbilityUnitDamageType"         "DAMAGE_TYPE_PHYSICAL"
+        "AbilityTextureName"			"forged_spirit_melting_strike"
+		"AbilityUnitTargetTeam"			"DOTA_UNIT_TARGET_TEAM_ENEMY"
+        "AbilityUnitTargetType"		    "DOTA_UNIT_TARGET_HERO | DOTA_UNIT_TARGET_CREEP"
+
+        // Casting
+        //-------------------------------------------------------------------------------------------------------------
+        "AbilityCastPoint"              "0.4 0.4 0.4 0.4"
+        "AbilityCooldown"               "7 7 7 7"
+        "AbilityManaCost"               "0"
+        "AbilityCastRange" 				"900"
+
+        // Special
+        //-------------------------------------------------------------------------------------------------------------
+		"AbilitySpecial"
+		{
+            "01"{ "var_type"			"FIELD_INTEGER"		"speed"		            "600" }
+            "02"{ "var_type"			"FIELD_INTEGER"		"damage"		        "60" }
+            "03"{ "var_type"			"FIELD_INTEGER"		"max_stacks"		    "5" }
+            "04"{ "var_type"			"FIELD_INTEGER"		"duration"		        "7" }
+		}
+
+        "precache"
+		{
+
+		}
+    }
+
+    //=================================================================================================================
+    // elec_ele_atack/explode
+    //=================================================================================================================
+    "elec_explode"
+    { 
+        "BaseClass"                     "ability_lua"
+        "ScriptFile"                    "bosses/tinker/elec_explode"
+        "MaxLevel"						"4"
+
+        // General
+        //-------------------------------------------------------------------------------------------------------------
+        "AbilityBehavior"               "DOTA_ABILITY_BEHAVIOR_NO_TARGET | DOTA_ABILITY_BEHAVIOR_DONT_CANCEL_MOVEMENT"
+        "AbilityUnitDamageType"         "DAMAGE_TYPE_PHYSICAL"
+        "AbilityTextureName"			"forged_spirit_melting_strike"
+		"AbilityUnitTargetTeam"			"DOTA_UNIT_TARGET_TEAM_ENEMY"
+        "AbilityUnitTargetType"		    "DOTA_UNIT_TARGET_HERO | DOTA_UNIT_TARGET_CREEP"
+
+        // Casting
+        //-------------------------------------------------------------------------------------------------------------
+        "AbilityCastPoint"              "0.4 0.4 0.4 0.4"
+        "AbilityCooldown"               "5 5 5 5"
+        "AbilityManaCost"               "0"
+        "AbilityCastRange" 				"600"
+
+        // Special
+        //-------------------------------------------------------------------------------------------------------------
+		"AbilitySpecial"
+		{
+            "01"{ "var_type"			"FIELD_INTEGER"		"dmg"		            "300" }
+		}
+
+        "precache"
+		{
+
+		}
+    }
+
+    //=================================================================================================================
+    // tinker TP
+    //=================================================================================================================
+    "tinker_teleport"
+    { 
+        "BaseClass"                     "ability_lua"
+        "ScriptFile"                    "bosses/tinker/tinker_teleport"
+        "MaxLevel"						"4"
+
+        // General
+        //-------------------------------------------------------------------------------------------------------------
+        "AbilityBehavior"               "DOTA_ABILITY_BEHAVIOR_NO_TARGET"
+        "AbilityTextureName"			"forged_spirit_melting_strike"
+
+        // Casting
+        //-------------------------------------------------------------------------------------------------------------
+        "AbilityCastPoint"              "1.5 1.5 1.5 1.5"
+        "AbilityCooldown"               "40 40 40 40"
+        "AbilityManaCost"               "0"
+        "AbilityCastRange" 				"600"
+
+        // Special
+        //-------------------------------------------------------------------------------------------------------------
+		"AbilitySpecial"
+		{
+
+		}
+
+        "precache"
+		{
+
+		}
+    }
+
+    //=================================================================================================================
+    // tinker TP
+    //=================================================================================================================
+    "tinker_teleport_beam_phase"
+    { 
+        "BaseClass"                     "ability_lua"
+        "ScriptFile"                    "bosses/tinker/tinker_teleport_beam_phase"
+        "MaxLevel"						"4"
+
+        // General
+        //-------------------------------------------------------------------------------------------------------------
+        "AbilityBehavior"               "DOTA_ABILITY_BEHAVIOR_NO_TARGET"
+        "AbilityTextureName"			"forged_spirit_melting_strike"
+
+        // Casting
+        //-------------------------------------------------------------------------------------------------------------
+        "AbilityCastPoint"              "0.0 0.0 0.0 0.0 "
+        "AbilityCooldown"               "5 5 5 5"
+        "AbilityManaCost"               "0"
+        "AbilityCastRange" 				"600"
+
+        // Special
+        //-------------------------------------------------------------------------------------------------------------
+		"AbilitySpecial"
+		{
+
+		}
+
+        "precache"
+		{
+
+		}
+    }
+
+    //=================================================================================================================
+    // green_bird explode
+    //=================================================================================================================
+    "green_bird_explode"
+    { 
+        "BaseClass"                     "ability_lua"
+        "ScriptFile"                    "bosses/tinker/green_bird_explode"
+        "MaxLevel"						"4"
+
+        // General
+        //-------------------------------------------------------------------------------------------------------------
+        "AbilityBehavior"               "DOTA_ABILITY_BEHAVIOR_NO_TARGET | DOTA_ABILITY_BEHAVIOR_DONT_CANCEL_MOVEMENT"
+        "AbilityUnitDamageType"         "DAMAGE_TYPE_PHYSICAL"
+        "AbilityTextureName"			"forged_spirit_melting_strike"
+		"AbilityUnitTargetTeam"			"DOTA_UNIT_TARGET_TEAM_ENEMY"
+        "AbilityUnitTargetType"		    "DOTA_UNIT_TARGET_HERO | DOTA_UNIT_TARGET_CREEP"
+
+        // Casting
+        //-------------------------------------------------------------------------------------------------------------
+        "AbilityCastPoint"              "0.4 0.4 0.4 0.4"
+        "AbilityCooldown"               "5 5 5 5"
+        "AbilityManaCost"               "0"
+        "AbilityCastRange" 				"600"
+
+        // Special
+        //-------------------------------------------------------------------------------------------------------------
+		"AbilitySpecial"
+		{
+            "01"{ "var_type"			"FIELD_INTEGER"		"dmg"		            "250" }
+            "02"{ "var_type"			"FIELD_INTEGER"		"radius"		        "400" }
+		}
+
+        "precache"
+		{
+            "soundfile"  "sounds/weapons/hero/templar_assassin/trap_explode.vsnd" 
+		}
+    }
+
+
+    //=================================================================================================================
+    // phase 2 spells
+    //=================================================================================================================
+
+    //=================================================================================================================
+    // missile
+    //=================================================================================================================
+    "missile"
+    { 
+        "BaseClass"                     "ability_lua"
+        "ScriptFile"                    "bosses/tinker/missile"
+        "MaxLevel"						"4"
+
+        // General
+        //-------------------------------------------------------------------------------------------------------------
+        "AbilityBehavior"               "DOTA_ABILITY_BEHAVIOR_NO_TARGET"
+        "AbilityTextureName"			"forged_spirit_melting_strike"
+
+        // Casting
+        //-------------------------------------------------------------------------------------------------------------
+        "AbilityCastPoint"              "1 1 1 1"
+        "AbilityCooldown"               "40 40 40 40"
+        "AbilityManaCost"               "0"
+        "AbilityCastRange" 				"600"
+
+        // Special
+        //-------------------------------------------------------------------------------------------------------------
+		"AbilitySpecial"
+		{
+
+		}
+
+        "precache"
+		{
+
+		}
+    }
+
+    //=================================================================================================================
+    // laser
+    //=================================================================================================================
+    "laser"
+    { 
+        "BaseClass"                     "ability_lua"
+        "ScriptFile"                    "bosses/tinker/laser"
+        "MaxLevel"						"4"
+
+        // General
+        //-------------------------------------------------------------------------------------------------------------
+        "AbilityBehavior"               "DOTA_ABILITY_BEHAVIOR_UNIT_TARGET"
+        "AbilityTextureName"			"forged_spirit_melting_strike"
+        "AbilityUnitTargetTeam"			"DOTA_UNIT_TARGET_TEAM_ENEMY"
+        "AbilityUnitTargetType"		    "DOTA_UNIT_TARGET_HERO"
+        "AbilityUnitTargetFlags"		"DOTA_UNIT_TARGET_FLAG_INVULNERABLE"
+
+        // Casting
+        //-------------------------------------------------------------------------------------------------------------
+        "AbilityCastPoint"              "4 4 4 4"
+        "AbilityCooldown"               "7 7 7 7"
+        "AbilityManaCost"               "0"
+        "AbilityCastRange" 				"5000"
+
+        // Special
+        //-------------------------------------------------------------------------------------------------------------
+		"AbilitySpecial"
+		{
+
+		}
+
+        "precache"
+		{
+
+		}
+    }
+
+    //=================================================================================================================
+    // march
+    //=================================================================================================================
+    "march"
+    { 
+        "BaseClass"                     "ability_lua"
+        "ScriptFile"                    "bosses/tinker/march"
+        "MaxLevel"						"4"
+
+        // General
+        //-------------------------------------------------------------------------------------------------------------
+        "AbilityBehavior"               "DOTA_ABILITY_BEHAVIOR_NO_TARGET | DOTA_ABILITY_BEHAVIOR_DONT_CANCEL_MOVEMENT"
+        "AbilityTextureName"			"forged_spirit_melting_strike"
+
+        // Casting
+        //-------------------------------------------------------------------------------------------------------------
+        "AbilityCastPoint"              "1 1 1 1"
+        "AbilityCooldown"               "16 16 16 16"
+        "AbilityManaCost"               "0"
+        "AbilityCastRange" 				"600"
+
+        // Special
+        //-------------------------------------------------------------------------------------------------------------
+		"AbilitySpecial"
+		{
+
+		}
+
+        "precache"
+		{
+
+		}
+    }
+
+    //=================================================================================================================
+    // prisonbeam
+    //=================================================================================================================
+    "prisonbeam"
+    { 
+        "BaseClass"                     "ability_lua"
+        "ScriptFile"                    "bosses/tinker/prisonbeam"
+        "MaxLevel"						"4"
+
+        // General
+        //-------------------------------------------------------------------------------------------------------------
+        "AbilityBehavior"               "DOTA_ABILITY_BEHAVIOR_NO_TARGET"
+        "AbilityTextureName"			"forged_spirit_melting_strike"
+
+        // Casting
+        //-------------------------------------------------------------------------------------------------------------
+        "AbilityCastPoint"              "1 1 1 1"
+        "AbilityCooldown"               "12 20 20 20"
+        "AbilityManaCost"               "0"
+        "AbilityCastRange" 				"600"
+
+        // Special
+        //-------------------------------------------------------------------------------------------------------------
+		"AbilitySpecial"
+		{
+
+		}
+
+        "precache"
+		{
+
+		}
+    }
+
+    //=================================================================================================================
+    // charge bot shoot
+    //=================================================================================================================
+    "quick_strike"
+    { 
+        "BaseClass"                     "ability_lua"
+        "ScriptFile"                    "bosses/tinker/quick_strike"
+        "MaxLevel"						"4"
+
+        // General
+        //-------------------------------------------------------------------------------------------------------------
+        "AbilityBehavior"               "DOTA_ABILITY_BEHAVIOR_DONT_CANCEL_MOVEMENT | DOTA_ABILITY_BEHAVIOR_POINT"
+        "AbilityTextureName"			"forged_spirit_melting_strike"
+
+        // Casting
+        //-------------------------------------------------------------------------------------------------------------
+        "AbilityCastPoint"              "0.1 0.1 0.1 0.1 "
+        "AbilityCooldown"               "0.3 0.0 0.0 0.0"
+        "AbilityManaCost"               "2"
+        "AbilityCastRange" 				"8000"
+
+        // Special
+        //-------------------------------------------------------------------------------------------------------------
+		"AbilitySpecial"
+		{
+
+		}
+
+        "precache"
+		{
+            "soundfile"	"soundevents/game_sounds_heroes/game_sounds_witchdoctor.vsndevts"
+		}
+    }
+
+    //=================================================================================================================
+    // charge bot mana drain
+    //=================================================================================================================
+    "mana_drain"
+    { 
+        "BaseClass"                     "ability_lua"
+        "ScriptFile"                    "bosses/tinker/mana_drain"
+        "MaxLevel"						"4"
+
+        // General
+        //-------------------------------------------------------------------------------------------------------------
+        "AbilityBehavior"               "DOTA_ABILITY_BEHAVIOR_UNIT_TARGET | DOTA_ABILITY_BEHAVIOR_CHANNELLED"
+        "AbilityTextureName"			"forged_spirit_melting_strike"
+        "AbilityUnitTargetFlags"		"DOTA_UNIT_TARGET_FLAG_INVULNERABLE"
+        "AbilityUnitTargetTeam"			"DOTA_UNIT_TARGET_TEAM_FRIENDLY"
+        "AbilityUnitTargetType"		    "DOTA_UNIT_TARGET_HERO | DOTA_UNIT_TARGET_CREEP"
+
+        // Casting
+        //-------------------------------------------------------------------------------------------------------------
+        "AbilityCastPoint"              "0.1 0.1 0.1 0.1 "
+        "AbilityCooldown"               "1 1 1 1"
+        "AbilityManaCost"               "0"
+        "AbilityCastRange" 				"500"
+        "AbilityChannelTime"            "999 999 999 999"
+        "AbilityDuration"               "999 999 999 999"
+        "AbilityCastAnimation"          "ACT_DOTA_GENERIC_CHANNEL_1"
+
+        // Special
+        //-------------------------------------------------------------------------------------------------------------
+		"AbilitySpecial"
+		{
+
+		}
+
+        "precache"
+		{
+
+		}
+    }
+
+    //=================================================================================================================
+    // charge summon
+    //=================================================================================================================
+    "summon_charge_bot"
+    { 
+        "BaseClass"                     "ability_lua"
+        "ScriptFile"                    "bosses/tinker/summon_charge_bot"
+        "MaxLevel"						"4"
+
+        // General
+        //-------------------------------------------------------------------------------------------------------------
+        "AbilityBehavior"               "DOTA_ABILITY_BEHAVIOR_NO_TARGET | DOTA_ABILITY_BEHAVIOR_IMMEDIATE"
+        "AbilityTextureName"			"forged_spirit_melting_strike"
+
+        // Casting
+        //-------------------------------------------------------------------------------------------------------------
+        "AbilityCastPoint"              "0.1 0.1 0.1 0.1 "
+        "AbilityCooldown"               "1 1 1 1"
+        "AbilityManaCost"               "0"
+        "AbilityCastRange" 				"8000"
+
+        // Special
+        //-------------------------------------------------------------------------------------------------------------
+		"AbilitySpecial"
+		{
+
+		}
+
+        "precache"
+		{
+
+		}
+    }
+
+    //=================================================================================================================
+    // Tinker: red missile
+    //=================================================================================================================
+    "red_missile"
+    { 
+        "BaseClass"                     "ability_lua"
+        "ScriptFile"                    "bosses/tinker/red_missile"
+        "MaxLevel"						"4"
+        "AbilityTextureName"			"crystal_maiden_crystal_nova"
+
+        // General
+        //-------------------------------------------------------------------------------------------------------------
+        "AbilityBehavior"               "DOTA_ABILITY_BEHAVIOR_NO_TARGET"
+        "AbilityUnitDamageType"         "DAMAGE_TYPE_PHYSICAL"  
+
+        // Casting
+        //-------------------------------------------------------------------------------------------------------------
+        "AbilityCastPoint"              "1 0.0 0.0 0.0"
+        "AbilityCastRange" 				"2000"
+
+        // Time     
+        //-------------------------------------------------------------------------------------------------------------
+        "AbilityCooldown"               "20 20 20 20" //15
+
+        // Cost
+        //-------------------------------------------------------------------------------------------------------------
+        "AbilityManaCost"               "0"
+
+        // Special
+        //-------------------------------------------------------------------------------------------------------------
+		"AbilitySpecial"
+		{
+            "01"{ "var_type"			"FIELD_INTEGER"		"speed"		        "700" }
+            "02"{ "var_type"			"FIELD_INTEGER"		"dmg"		        "10" }
+            "03"{ "var_type"			"FIELD_INTEGER"		"radius"		    "100" }
+            "04"{ "var_type"			"FIELD_INTEGER"		"interval"		    "2" }
+            "05"{ "var_type"			"FIELD_INTEGER"		"duration"		    "30" }
+		}
+
+        "precache"
+		{
+			//"particle"  "particles/units/heroes/hero_razor/razor_plasmafield.vpcf"
+			"soundfile" "sounds/vo/rubick/rub_arc_attack_03.vsnd"
+		}
+    }
+
+    //=================================================================================================================
+    // link_crystals_tinker
+    //=================================================================================================================
+    "link_crystals_tinker"
+    { 
+        "BaseClass"                     "ability_lua"
+        "ScriptFile"                    "bosses/tinker/link_crystals_tinker"
+        "MaxLevel"						"4"
+
+        // General
+        //-------------------------------------------------------------------------------------------------------------
+        "AbilityBehavior"               "DOTA_ABILITY_BEHAVIOR_NO_TARGET | DOTA_ABILITY_BEHAVIOR_DONT_CANCEL_MOVEMENT"
+        "AbilityTextureName"			"forged_spirit_melting_strike"
+
+        // Casting
+        //-------------------------------------------------------------------------------------------------------------
+        "AbilityCastPoint"              "2.0 2.0 2.0 2.0"
+        "AbilityCooldown"               "40 40 40 40"
+        "AbilityManaCost"               "0"
+        "AbilityCastRange" 				"5000"
+
+        // Special
+        //-------------------------------------------------------------------------------------------------------------
+		"AbilitySpecial"
+		{
+
+		}
+
+        "precache"
+		{
+
+		}
+    }
+
+    //=================================================================================================================
+    // tinker TP
+    //=================================================================================================================
+    "tinker_teleport_phase2"
+    { 
+        "BaseClass"                     "ability_lua"
+        "ScriptFile"                    "bosses/tinker/tinker_teleport_phase2"
+        "MaxLevel"						"4"
+
+        // General
+        //-------------------------------------------------------------------------------------------------------------
+        "AbilityBehavior"               "DOTA_ABILITY_BEHAVIOR_UNIT_TARGET | DOTA_ABILITY_BEHAVIOR_DONT_CANCEL_MOVEMENT"
+        "AbilityTextureName"			"forged_spirit_melting_strike"
+        "AbilityUnitTargetTeam"			"DOTA_UNIT_TARGET_TEAM_BOTH"
+        "AbilityUnitTargetType"		    "DOTA_UNIT_TARGET_HERO | DOTA_UNIT_TARGET_CREEP"
+        "AbilityUnitTargetFlags"		"DOTA_UNIT_TARGET_FLAG_INVULNERABLE"
+
+        // Casting
+        //-------------------------------------------------------------------------------------------------------------
+        "AbilityCastPoint"              "1.5 1.5 1.5 1.5"
+        "AbilityCooldown"               "25 25 25 25"
+        "AbilityManaCost"               "0"
+        "AbilityCastRange" 				"5000"
+
+        // Special
+        //-------------------------------------------------------------------------------------------------------------
+		"AbilitySpecial"
+		{
+
+		}
+
+        "precache"
+		{
+
+		}
+    }
+
+    //=================================================================================================================
+    // health_drain_tinker
+    //=================================================================================================================
+    "health_drain_tinker"
+    { 
+        "BaseClass"                     "ability_lua"
+        "ScriptFile"                    "bosses/tinker/health_drain_tinker"
+        "MaxLevel"						"4"
+
+        // General
+        //-------------------------------------------------------------------------------------------------------------
+        "AbilityBehavior"               "DOTA_ABILITY_BEHAVIOR_UNIT_TARGET | DOTA_ABILITY_BEHAVIOR_CHANNELLED"
+        "AbilityTextureName"			"forged_spirit_melting_strike"
+        "AbilityUnitTargetFlags"		"DOTA_UNIT_TARGET_FLAG_INVULNERABLE"
+        "AbilityUnitTargetTeam"			"DOTA_UNIT_TARGET_TEAM_FRIENDLY"
+        "AbilityUnitTargetType"		    "DOTA_UNIT_TARGET_HERO | DOTA_UNIT_TARGET_CREEP"
+
+        // Casting
+        //-------------------------------------------------------------------------------------------------------------
+        "AbilityCastPoint"              "0.1 0.1 0.1 0.1"
+        "AbilityCooldown"               "35 35 35 35"
+        "AbilityManaCost"               "0"
+        "AbilityChannelTime"            "999 999 999 999"
+        "AbilityDuration"               "999 999 999 999"
+        "AbilityCastAnimation"          "ACT_DOTA_GENERIC_CHANNEL_1"
+        "AbilityCastRange" 				"5000"
+
+        // Special
+        //-------------------------------------------------------------------------------------------------------------
+		"AbilitySpecial"
+		{
+
+		}
+
+        "precache"
+		{
+
+		}
+    }
+
+    //=================================================================================================================
+    // channel_tinker_buff_lava_mob
+    //=================================================================================================================
+    "channel_tinker_buff_lava_mob"
+    { 
+        "BaseClass"                     "ability_lua"
+        "ScriptFile"                    "bosses/tinker/channel_tinker_buff_lava_mob"
+        "MaxLevel"						"4"
+
+        // General
+        //-------------------------------------------------------------------------------------------------------------
+        "AbilityBehavior"               "DOTA_ABILITY_BEHAVIOR_UNIT_TARGET | DOTA_ABILITY_BEHAVIOR_CHANNELLED"
+        "AbilityTextureName"			"forged_spirit_melting_strike"
+        "AbilityUnitTargetFlags"		"DOTA_UNIT_TARGET_FLAG_INVULNERABLE"
+        "AbilityUnitTargetTeam"			"DOTA_UNIT_TARGET_TEAM_FRIENDLY"
+        "AbilityUnitTargetType"		    "DOTA_UNIT_TARGET_HERO | DOTA_UNIT_TARGET_CREEP"
+
+        // Casting
+        //-------------------------------------------------------------------------------------------------------------
+        "AbilityCastPoint"              "0.1 0.1 0.1 0.1"
+        "AbilityCooldown"               "1 1 1 1"
+        "AbilityManaCost"               "0"
+        "AbilityChannelTime"            "15 15 15 15"
+        "AbilityDuration"               "15 15 15 15"
+        //"AbilityCastAnimation"          "ACT_DOTA_FLAIL"
+        "AbilityCastRange" 				"10000"
+
+        // Special
+        //-------------------------------------------------------------------------------------------------------------
+		"AbilitySpecial"
+		{
+
+		}
+
+        "precache"
+		{
+
+		}
+    }
+
+    //=================================================================================================================
+    // tinker: lava bolt
+    //=================================================================================================================
+    "lava_bolt"
+    { 
+        "BaseClass"                     "ability_lua"
+        "ScriptFile"                    "bosses/tinker/lava_bolt"
+        "MaxLevel"						"4"
+
+        // General
+        //-------------------------------------------------------------------------------------------------------------
+        "AbilityBehavior"               "DOTA_ABILITY_BEHAVIOR_NO_TARGET | DOTA_ABILITY_BEHAVIOR_IMMEDIATE | DOTA_ABILITY_BEHAVIOR_IGNORE_BACKSWING | DOTA_ABILITY_BEHAVIOR_DONT_CANCEL_MOVEMENT"
+        "AbilityUnitDamageType"         "DAMAGE_TYPE_PHYSICAL"  
+
+        // Casting
+        //-------------------------------------------------------------------------------------------------------------
+        "AbilityCastPoint"              "0 0 0 0"
+        "AbilityCastRange" 				"5000"
+
+        // Time     
+        //-------------------------------------------------------------------------------------------------------------
+        "AbilityCooldown"               "40 40 40 40"
+
+        // Cost
+        //-------------------------------------------------------------------------------------------------------------
+        "AbilityManaCost"               "0"
+
+        // Special
+        //-------------------------------------------------------------------------------------------------------------
+		"AbilitySpecial"
+		{
+            "01"{ "var_type"			"FIELD_INTEGER"		"distance"		                "15000 15000 15000 15000" }
+            "02"{ "var_type"			"FIELD_INTEGER"		"radius"		                "80" }
+            "03"{ "var_type"			"FIELD_INTEGER"		"ball_speed"		            "1500 1500 1500 1500" }
+            "04"{ "var_type"			"FIELD_INTEGER"		"damage"		                "200" }
+		}
+
+        "precache"
+		{
+		}
+    }
+
+}
+

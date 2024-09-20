@@ -1,0 +1,248 @@
+"DOTAAbilities"
+{
+	"rat_passive"
+	{
+		"BaseClass"						"ability_lua"
+		"ScriptFile"					"player/rat/modifier/rat_passive"
+		"MaxLevel"						"1"
+		"AbilityTextureName"			"hoodwink_acorn_shot"
+        "AbilityBehavior"				"DOTA_ABILITY_BEHAVIOR_PASSIVE"
+        
+		"AbilitySpecial"
+		{
+			"01"{ "var_type"			"FIELD_INTEGER"		"attack_speed_per_stack"						"20" 	}
+			"02"{ "var_type"			"FIELD_FLOAT"		"rat_stack_generate_time"						"1.75" 	}
+			"03"{ "var_type"			"FIELD_INTEGER"		"rat_stack_max"									"5" 	}
+			"04"{ "var_type"			"FIELD_INTEGER"		"mana_gain_percent"								"4" }
+			"05"{ "var_type"			"FIELD_INTEGER"		"castpoint_reduction"							"20" }
+
+		}
+	}
+
+
+	"rat_basic_attack"
+	{
+		"BaseClass"						"ability_lua"
+		"ScriptFile"					"player/rat/rat_basic_attack"
+		"MaxLevel"						"1"
+
+		"AbilityTextureName"			"hoodwink_bushwhack"
+		"AbilityUnitTargetTeam"			"DOTA_UNIT_TARGET_TEAM_ENEMY"
+		"AbilityUnitDamageType"			"DAMAGE_TYPE_PHYSICAL"	
+        "AbilityBehavior"				"DOTA_ABILITY_BEHAVIOR_POINT | DOTA_ABILITY_BEHAVIOR_IGNORE_PSEUDO_QUEUE"
+		"AbilityCastRange" 				"1200"
+        "AbilityCooldown"				"0.0"
+        "AbilityCastPoint"              "0.8"
+
+		"TargetingIndicator"
+		{
+			"Type"						"TARGETING_INDICATOR_LINE"
+			"Fixed"						"1"
+		}
+        
+		"AbilitySpecial"
+		{
+			"01"{ "var_type"			"FIELD_INTEGER"		"dmg"							"25" } 
+			"02"{ "var_type"			"FIELD_INTEGER"		"hit_box"						"100" }
+			"03"{ "var_type"			"FIELD_INTEGER"		"proj_speed"					"1200" }
+			"04"{ "var_type"			"FIELD_INTEGER"		"mana_gain_percent"				"4" }
+		}
+	}
+
+	"rat_m2"
+	{
+		"BaseClass"						"ability_lua"
+		"ScriptFile"					"player/rat/rat_m2"
+		"MaxLevel"						"1"
+
+		"AbilityTextureName"			"hoodwink_hunters_boomerang"
+		"AbilityUnitDamageType"			"DAMAGE_TYPE_PHYSICAL"
+		"AbilityUnitTargetTeam"			"DOTA_UNIT_TARGET_TEAM_ENEMY"
+        "AbilityBehavior"				"DOTA_ABILITY_BEHAVIOR_UNIT_TARGET"
+		"AbilityCastAnimation"   		"ACT_DOTA_CAST_ABILITY_1"
+		"AbilityUnitTargetType"			"DOTA_UNIT_TARGET_HERO | DOTA_UNIT_TARGET_BASIC"
+		"AbilityCastRange" 				"1200"
+        "AbilityCooldown"				"0"
+        "AbilityCastPoint"              "0.7"
+		"AbilityManaCost"        		"20"
+
+		"TargetingIndicator"
+		{
+			"Type"						"TARGETING_INDICATOR_LINE"
+			"Fixed"						"1"
+		}
+        
+		"AbilitySpecial"
+		{
+			"01"{ "var_type"			"FIELD_INTEGER"		"dmg"							"320" 	}
+			"02"{ "var_type"			"FIELD_INTEGER"		"hit_box"						"110" 	}
+			"03"{ "var_type"			"FIELD_INTEGER"		"proj_speed"					"1200" 	}
+		}
+	}
+
+	"q_eat_cheese"
+	{
+		"BaseClass"						"ability_lua"
+		"ScriptFile"					"player/rat/q_eat_cheese"
+		"MaxLevel"						"1"
+
+		"AbilityTextureName"			"hoodwink_decoy"
+        "AbilityBehavior"				"DOTA_ABILITY_BEHAVIOR_NO_TARGET | DOTA_ABILITY_BEHAVIOR_IMMEDIATE | DOTA_ABILITY_BEHAVIOR_IGNORE_BACKSWING | DOTA_ABILITY_BEHAVIOR_DONT_CANCEL_MOVEMENT | DOTA_ABILITY_BEHAVIOR_IGNORE_PSEUDO_QUEUE"
+		"AbilityCastRange" 				"750" //750
+        "AbilityCooldown"				"0"
+        "AbilityCastPoint"              "0.0"
+		"AbilityManaCost"        		"10"
+
+		"TargetingIndicator"
+		{
+			//"Type"						"TARGETING_INDICATOR_AOE"
+			//"Fixed"						"1"
+		}
+        
+		"AbilitySpecial"
+		{
+			"01"{ "var_type"			"FIELD_INTEGER"		"heal"				"10" }
+			"02"{ "var_type"			"FIELD_INTEGER"		"duration"			"5" }
+			"03"{ "var_type"			"FIELD_INTEGER"		"max_stacks"		"5" }
+			
+		}
+
+		"precache"
+		{
+			"soundfile"	"soundevents/game_sounds_items.vsndevts"
+		}
+
+	}
+
+	"e_stim_pack"
+	{
+		"BaseClass"						"ability_lua"
+		"ScriptFile"					"player/rat/e_stim_pack"
+		"MaxLevel"						"1"
+
+		"AbilityTextureName"			"hoodwink_scurry"
+        "AbilityBehavior"				"DOTA_ABILITY_BEHAVIOR_NO_TARGET | DOTA_ABILITY_BEHAVIOR_IMMEDIATE | DOTA_ABILITY_BEHAVIOR_IGNORE_BACKSWING | DOTA_ABILITY_BEHAVIOR_DONT_CANCEL_MOVEMENT | DOTA_ABILITY_BEHAVIOR_IGNORE_PSEUDO_QUEUE"
+		"AbilityCastRange" 				"750" //750
+        "AbilityCooldown"				"35"
+        "AbilityCastPoint"              "0.0"
+		"AbilityManaCost"        		"20"
+
+		"TargetingIndicator"
+		{
+			//"Type"						"TARGETING_INDICATOR_AOE"
+			//"Fixed"						"1"
+		}
+        
+		"AbilitySpecial"
+		{
+			"01"{ "var_type"			"FIELD_INTEGER"		"buff_duration"				"10" }
+			"02"{ "var_type"			"FIELD_INTEGER"		"duration_debuff"			"5" }
+			"03"{ "var_type"			"FIELD_INTEGER"		"ms_slow"					"80" }
+		}
+
+		"precache"
+		{
+
+		}
+
+	}
+
+	"r_infest"
+	{
+		"BaseClass"						"ability_lua"
+		"ScriptFile"					"player/rat/r_infest"
+		"MaxLevel"						"1"
+
+		"AbilityTextureName"			"bristleback_viscous_nasal_goo"
+		"AbilityUnitDamageType"			"DAMAGE_TYPE_PHYSICAL"	
+		"AbilityUnitTargetTeam"			"DOTA_UNIT_TARGET_TEAM_ENEMY"
+        "AbilityBehavior"				"DOTA_ABILITY_BEHAVIOR_UNIT_TARGET"
+		"AbilityCastAnimation"   		"ACT_DOTA_CAST_ABILITY_1"
+		"AbilityUnitTargetType"			"DOTA_UNIT_TARGET_HERO | DOTA_UNIT_TARGET_BASIC"
+		"AbilityCastRange" 				"1200"
+        "AbilityCooldown"				"40"
+        "AbilityCastPoint"              "0.4"
+		"AbilityManaCost"        		"20"
+
+		"TargetingIndicator"
+		{
+			//"Type"						"TARGETING_INDICATOR_AOE"
+			//"Fixed"						"1"
+		}
+        
+		"AbilitySpecial"
+		{
+			"01"{ "var_type"			"FIELD_INTEGER"		"duration"									"15" }
+			"02"{ "var_type"			"FIELD_INTEGER"		"dot_duration"								"5" }
+			
+		}
+
+		"precache"
+		{
+
+		}
+	}
+
+	"space_burrow_v2"
+	{
+		"BaseClass"						"ability_lua"
+		"ScriptFile"					"player/rat/space_burrow_v2"
+		"MaxLevel"						"1"
+
+		"AbilityTextureName"			"nyx_assassin_burrow"
+		"AbilityUnitDamageType"			"DAMAGE_TYPE_PHYSICAL"	
+        "AbilityBehavior"				"DOTA_ABILITY_BEHAVIOR_POINT | DOTA_ABILITY_BEHAVIOR_IGNORE_PSEUDO_QUEUE" // | DOTA_ABILITY_BEHAVIOR_AOE
+		"AbilityCastRange" 				"2000"
+        "AbilityCooldown"				"25"
+        "AbilityCastPoint"              "0.4"
+		"AbilityManaCost"        		"0"
+
+		"TargetingIndicator"
+		{
+			//"Type"						"TARGETING_INDICATOR_AOE"
+			//"Fixed"						"1"
+		}
+        
+		"AbilitySpecial"
+		{
+			"01"{ "var_type"			"FIELD_INTEGER"		"duration"									"20" }
+			"02"{ "var_type"			"FIELD_INTEGER"		"radius"									"120" }
+			"03"{ "var_type"			"FIELD_INTEGER"		"duration_cooldown"							"5" }
+		}
+
+		"precache"
+		{
+
+		}
+	}
+
+	"space_burrow"
+	{
+		"BaseClass"						"ability_lua"
+		"ScriptFile"					"player/rat/space_burrow"
+		"MaxLevel"						"1"
+
+		"AbilityTextureName"			"nyx_assassin_burrow"
+        "AbilityBehavior"				"DOTA_ABILITY_BEHAVIOR_NO_TARGET | DOTA_ABILITY_BEHAVIOR_IMMEDIATE | DOTA_ABILITY_BEHAVIOR_IGNORE_BACKSWING | DOTA_ABILITY_BEHAVIOR_DONT_CANCEL_MOVEMENT | DOTA_ABILITY_BEHAVIOR_IGNORE_PSEUDO_QUEUE"
+		//"AbilityCastAnimation"          "ACT_DOTA_CAST_ABILITY_1"
+		"AbilityCastRange" 				"1000"
+        "AbilityCooldown"				"25"//"20" 0
+        "AbilityCastPoint"              "0" // 0.4
+
+		"TargetingIndicator"
+		{
+			//"Type"						"TARGETING_INDICATOR_AOE"
+			//"Fixed"						"1"
+		}
+        
+		"AbilitySpecial"
+		{
+			"01"{ "var_type"			"FIELD_INTEGER"		"duration"	"15" }
+		}
+
+		"precache"
+		{
+			"soundfile"	"soundevents/game_sounds_heroes/game_sounds_nyx_assassin.vsndevts"
+		}
+	}
+}

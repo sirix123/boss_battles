@@ -1,0 +1,227 @@
+"DOTAAbilities"
+{
+	"m1_trackingshot"
+	{
+		"BaseClass"						"ability_lua"
+		"ScriptFile"					"player/ranger/m1_trackingshot"
+		"MaxLevel"						"1"
+
+		"AbilityTextureName"			"windrunner_focusfire"
+		"AbilityUnitTargetTeam"			"DOTA_UNIT_TARGET_TEAM_ENEMY"
+		"AbilityUnitDamageType"			"DAMAGE_TYPE_PHYSICAL"	
+		"SpellImmunityType"				"SPELL_IMMUNITY_ENEMIES_YES"
+        "AbilityBehavior"				"DOTA_ABILITY_BEHAVIOR_POINT"
+		"AbilityCastRange" 				"1400"
+        "AbilityCooldown"				"0"
+        "AbilityCastPoint"              "0.5"
+
+
+		"TargetingIndicator"
+		{
+			"Type"						"TARGETING_INDICATOR_LINE"
+			"Fixed"						"1"
+		}
+        
+		"AbilitySpecial"
+		{
+			"01"{ "var_type"			"FIELD_INTEGER"		"hit_box"							"80" }
+			"02"{ "var_type"			"FIELD_INTEGER"		"proj_speed"						"1000" }
+			"03"{ "var_type"			"FIELD_INTEGER"		"base_dmg"							"20" }
+			"04"{ "var_type"			"FIELD_FLOAT"		"dmg_dist_multi"					"0.08" }
+			"05"{ "var_type"			"FIELD_FLOAT"		"rain_of_arrows_bonus_proj_speed"	"800" }
+			"06"{ "var_type"			"FIELD_INTEGER"		"mana_gain_percent"             	"5" }
+		}
+
+		"precache"
+		{
+			"soundfile"	"soundevents/game_sounds_heroes/game_sounds_windrunner.vsndevts"
+		}
+	}
+
+	"m2_serratedarrow"
+	{
+		"BaseClass"						"ability_lua"
+		"ScriptFile"					"player/ranger/m2_serratedarrow"
+		"MaxLevel"						"1"
+
+		"AbilityTextureName"			"windrunner_powershot"
+		"AbilityUnitTargetTeam"			"DOTA_UNIT_TARGET_TEAM_ENEMY"
+		"AbilityUnitDamageType"			"DAMAGE_TYPE_PHYSICAL"	
+		"SpellImmunityType"				"SPELL_IMMUNITY_ENEMIES_YES"
+        "AbilityBehavior"				"DOTA_ABILITY_BEHAVIOR_POINT"
+		"AbilityCastRange" 				"1400"
+        "AbilityCooldown"				"15"
+        "AbilityCastPoint"              "0.8"
+
+
+		"TargetingIndicator"
+		{
+			"Type"						"TARGETING_INDICATOR_LINE"
+			"Fixed"						"1"
+		}
+        
+		"AbilitySpecial"
+		{
+			"01"{ "var_type"			"FIELD_INTEGER"		"dmg"							"100" 	}
+			"02"{ "var_type"			"FIELD_INTEGER"		"hit_box"						"80" 	}
+			"03"{ "var_type"			"FIELD_INTEGER"		"proj_speed"					"1400" 	}
+			"04"{ "var_type"			"FIELD_FLOAT"		"dmg_dist_multi"             	"0.3" 	}
+			//"05"{ "var_type"			"FIELD_INTEGER"		"mana_gain_percent"             "30" 	}
+			
+		}
+	}
+
+	"q_healing_arrow_v2"
+	{
+		"BaseClass"						"ability_lua"
+		"ScriptFile"					"player/ranger/q_healing_arrow_v2"
+		"MaxLevel"						"1"
+
+		"AbilityTextureName"			"furion_wrath_of_nature"
+		"AbilityUnitTargetTeam"			"DOTA_UNIT_TARGET_TEAM_FRIENDLY"
+		"AbilityUnitDamageType"			"DAMAGE_TYPE_PHYSICAL"	
+		"SpellImmunityType"				"SPELL_IMMUNITY_ENEMIES_YES"
+        "AbilityBehavior"				"DOTA_ABILITY_BEHAVIOR_POINT"
+		"AbilityCastRange" 				"1400"
+        "AbilityCooldown"				"15"
+        "AbilityCastPoint"              "0.5"
+
+
+		"TargetingIndicator"
+		{
+			"Type"						"TARGETING_INDICATOR_LINE"
+			"Fixed"						"1"
+		}
+        
+		"AbilitySpecial"
+		{
+			"01"{ "var_type"			"FIELD_INTEGER"		"hit_box"							"150" }
+			"02"{ "var_type"			"FIELD_INTEGER"		"proj_speed"						"1600" }
+			"03"{ "var_type"			"FIELD_INTEGER"		"heal"								"120" }
+			"04"{ "var_type"			"FIELD_FLOAT"		"heal_dist_multi"					"0.08" }
+		}
+
+		"precache"
+		{
+			"soundfile"	"soundevents/game_sounds_heroes/game_sounds_windrunner.vsndevts"
+		}
+	}
+
+	"e_rainofarrows"
+	{
+		"BaseClass"						"ability_lua"
+		"ScriptFile"					"player/ranger/e_rainofarrows"
+		"MaxLevel"						"1"
+
+		"AbilityTextureName"			"legion_commander_overwhelming_odds"
+		"AbilityUnitDamageType"			"DAMAGE_TYPE_PHYSICAL"	
+		"SpellImmunityType"				"SPELL_IMMUNITY_ENEMIES_YES"
+        "AbilityBehavior"				"DOTA_ABILITY_BEHAVIOR_POINT | DOTA_ABILITY_BEHAVIOR_AOE"
+		"AbilityCastRange" 				"1500"
+        "AbilityCooldown"				"45"//"50"
+        "AbilityCastPoint"              "0.2"
+
+		"TargetingIndicator"
+		{
+			//"Type"						"TARGETING_INDICATOR_AOE"
+			//"Fixed"						"1"
+		}
+        
+		"AbilitySpecial"
+		{
+			"01"{ "var_type"			"FIELD_INTEGER"		"radius"				"300" 	}
+			"02"{ "var_type"			"FIELD_INTEGER"		"dmg"					"2000" 	}
+		}
+
+		"precache"
+		{
+			"soundfile"	"soundevents/game_sounds_heroes/game_sounds_legion_commander.vsndevts"
+		}
+	}
+
+	"r_explosive_tip"
+	{
+		"BaseClass"						"ability_lua"
+		"ScriptFile"					"player/ranger/r_explosive_tip"
+		"MaxLevel"						"1"
+
+		"AbilityTextureName"			"huskar_burning_spear"
+		"SpellImmunityType"				"SPELL_IMMUNITY_ENEMIES_YES"
+		"AbilityUnitDamageType"			"DAMAGE_TYPE_PHYSICAL"
+        "AbilityBehavior"				"DOTA_ABILITY_BEHAVIOR_NO_TARGET"
+		"AbilityCastRange" 				"1500"
+        "AbilityCooldown"				"40"
+        "AbilityCastPoint"              "0.1"
+		"AbilityManaCost"        		"0"
+        
+		"AbilitySpecial"
+		{
+			"01"{ "var_type"			"FIELD_INTEGER"		"base_duration"				"20" 	}
+			"02"{ "var_type"			"FIELD_INTEGER"		"max_stacks"				"5" 	}
+			"03"{ "var_type"			"FIELD_INTEGER"		"dmg_per_stack"				"70" 	}
+			"04"{ "var_type"			"FIELD_INTEGER"		"aoe_radius"				"150" 	}
+		}
+
+		"precache"
+		{
+
+		}
+	}
+
+	"r_explosive_tip_explode"
+	{
+		"BaseClass"						"ability_lua"
+		"ScriptFile"					"player/ranger/r_explosive_tip_explode"
+		"MaxLevel"						"1"
+
+		"AbilityTextureName"			"lina_light_strike_array"
+		"SpellImmunityType"				"SPELL_IMMUNITY_ENEMIES_YES"
+        "AbilityBehavior"				"DOTA_ABILITY_BEHAVIOR_NO_TARGET | DOTA_ABILITY_BEHAVIOR_HIDDEN"
+		"AbilityCastRange" 				"1500"
+        "AbilityCooldown"				"0.0"
+        "AbilityCastPoint"              "0.1"
+		"AbilityManaCost"        		"0"
+        
+		"AbilitySpecial"
+		{
+
+		}
+
+		"precache"
+		{
+
+		}
+	}
+
+	"space_sprint"
+	{
+		"BaseClass"						"ability_lua"
+		"ScriptFile"					"player/ranger/space_sprint"
+		"MaxLevel"						"1"
+
+		"AbilityTextureName"			"windrunner_windrun_sylvan"
+		"SpellImmunityType"				"SPELL_IMMUNITY_ENEMIES_YES"
+        "AbilityBehavior"				"DOTA_ABILITY_BEHAVIOR_NO_TARGET | DOTA_ABILITY_BEHAVIOR_IGNORE_BACKSWING | DOTA_ABILITY_BEHAVIOR_ROOT_DISABLES"
+		"AbilityCastRange" 				"1500"
+        "AbilityCooldown"				"20"
+
+
+		"TargetingIndicator"
+		{
+			//"Type"						"TARGETING_INDICATOR_AOE"
+			//"Fixed"						"1"
+		}
+        
+		"AbilitySpecial"
+		{
+			"01"{ "var_type"			"FIELD_INTEGER"		"duration"					"9" 	}
+			"02"{ "var_type"			"FIELD_INTEGER"		"movespeed_bonus_pct"		"60" 	}
+			
+		}
+
+		"precache"
+		{
+			
+		}
+	}
+}

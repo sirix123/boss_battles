@@ -1,0 +1,506 @@
+
+"DOTAAbilities"
+{
+    //=================================================================================================================
+    // Gyro: swoop_v2
+    //=================================================================================================================
+    "swoop_v2"
+    { 
+        "BaseClass"                     "ability_lua"
+        "ScriptFile"                    "bosses/gyrocopter/swoop_v2"
+        "MaxLevel"						"4"
+
+        // General
+        //-------------------------------------------------------------------------------------------------------------
+        "AbilityBehavior"               "DOTA_ABILITY_BEHAVIOR_UNIT_TARGET"
+        "AbilityUnitDamageType"         "DAMAGE_TYPE_PHYSICAL"  
+        "AbilityUnitTargetTeam"         "DOTA_UNIT_TARGET_TEAM_ENEMY"
+        "AbilityUnitTargetType"         "DOTA_UNIT_TARGET_HERO"
+
+        // Casting
+        //-------------------------------------------------------------------------------------------------------------
+        "AbilityCastPoint"              "1.0 1.0 1.0 1.0"
+        "AbilityCastRange" 				"5000"
+
+        // Time     
+        //-------------------------------------------------------------------------------------------------------------
+        "AbilityCooldown"               "25 25 25 25"
+
+        // Cost
+        //-------------------------------------------------------------------------------------------------------------
+        "AbilityManaCost"               "0"
+
+        // Special
+        //-------------------------------------------------------------------------------------------------------------
+		"AbilitySpecial"
+		{
+            "01"{ "var_type"			"FIELD_INTEGER"		"barrage_duration"		            "5" }
+            "02"{ "var_type"			"FIELD_INTEGER"		"charge_speed"		                "1200" }
+            "03"{ "var_type"			"FIELD_FLOAT"		"oil_drop_freq"		                "0.5" }
+            "04"{ "var_type"			"FIELD_INTEGER"		"barrage_dmg"                       "14" }
+            "05"{ "var_type"			"FIELD_FLOAT"		"barrage_tick_rate"                 "0.1" }
+		}
+
+        "precache"
+		{
+			//"soundfile"  "sounds/weapons/hero/techies/land_mine_plant.vsnd"
+            "soundfile"  "soundevents/game_sounds_heroes/game_sounds_disruptor.vsndevts"
+            "particle"	"particles/units/heroes/hero_huskar/huskar_burning_spear_debuff.vpcf"
+		}
+    }
+
+    //=================================================================================================================
+    // Gyro: flee_v2
+    //=================================================================================================================
+    "flee_v2"
+    { 
+        "BaseClass"                     "ability_lua"
+        "ScriptFile"                    "bosses/gyrocopter/flee_v2"
+        "MaxLevel"						"4"
+
+        // General
+        //-------------------------------------------------------------------------------------------------------------
+        "AbilityBehavior"               "DOTA_ABILITY_BEHAVIOR_POINT"
+        "AbilityUnitDamageType"         "DAMAGE_TYPE_PHYSICAL"  
+
+        // Casting
+        //-------------------------------------------------------------------------------------------------------------
+        "AbilityCastPoint"              "1.0 1.0 1.0 1.0"
+        "AbilityCastRange" 				"2000"
+
+        // Time     
+        //-------------------------------------------------------------------------------------------------------------
+        "AbilityCooldown"               "40 40 40 40"
+
+        // Cost
+        //-------------------------------------------------------------------------------------------------------------
+        "AbilityManaCost"               "0"
+
+        // Special
+        //-------------------------------------------------------------------------------------------------------------
+		"AbilitySpecial"
+		{
+            "01"{ "var_type"			"FIELD_INTEGER"		"speed"		                        "1500" }
+            "02"{ "var_type"			"FIELD_FLOAT"		"oil_drop_freq"		                "0.2" }
+		}
+
+        "precache"
+		{
+			//"soundfile"  "sounds/weapons/hero/techies/land_mine_plant.vsnd"
+            //"soundfile"  "soundevents/game_sounds_heroes/game_sounds_disruptor.vsndevts"
+		}
+    }
+
+    //=================================================================================================================
+    // Gyro: flame_thrower
+    //=================================================================================================================
+    "flame_thrower"
+    { 
+        "BaseClass"                     "ability_lua"
+        "ScriptFile"                    "bosses/gyrocopter/flame_thrower"
+        "MaxLevel"						"4"
+
+        // General
+        //-------------------------------------------------------------------------------------------------------------
+        "AbilityBehavior"               "DOTA_ABILITY_BEHAVIOR_NO_TARGET"
+        "AbilityUnitDamageType"         "DAMAGE_TYPE_PHYSICAL"  
+
+        // Casting
+        //-------------------------------------------------------------------------------------------------------------
+        "AbilityCastPoint"              "3.0 3.0 3.0 3.0"
+        "AbilityCastRange" 				"5000"
+
+        // Time     
+        //-------------------------------------------------------------------------------------------------------------
+        "AbilityCooldown"               "30 30 30 30"
+
+        // Cost
+        //-------------------------------------------------------------------------------------------------------------
+        "AbilityManaCost"               "0"
+
+        // Special
+        //-------------------------------------------------------------------------------------------------------------
+		"AbilitySpecial"
+		{
+            "01"{ "var_type"			"FIELD_INTEGER"		"duration"		                        "10 12 13 14" }
+            "02"{ "var_type"			"FIELD_INTEGER"		"dmg"		                            "25 25 25 25" }
+		}
+
+        "precache"
+		{
+			//"soundfile"  "sounds/weapons/hero/techies/land_mine_plant.vsnd"
+            //"soundfile"  "soundevents/game_sounds_heroes/game_sounds_disruptor.vsndevts"
+		}
+    }
+
+    //=================================================================================================================
+    // Gyro: flak_cannon
+    //=================================================================================================================
+    "flak_cannon"
+    { 
+        "BaseClass"                     "ability_lua"
+        "ScriptFile"                  "bosses/gyrocopter/flak_cannon"
+        "MaxLevel"						"4"
+
+        // General
+        //-------------------------------------------------------------------------------------------------------------
+        "AbilityBehavior"               "DOTA_ABILITY_BEHAVIOR_NO_TARGET"
+        "AbilityUnitDamageType"         "DAMAGE_TYPE_PHYSICAL"  
+
+        // Casting
+        //-------------------------------------------------------------------------------------------------------------
+        "AbilityCastPoint"              "0.5 0.5 0.5 0.5"
+        "AbilityCastRange" 				"2000"
+
+        // Time     
+        //-------------------------------------------------------------------------------------------------------------
+        "AbilityCooldown"               "30 28 28 26"
+
+        // Cost
+        //-------------------------------------------------------------------------------------------------------------
+        "AbilityManaCost"               "0"
+
+        // Special
+        //-------------------------------------------------------------------------------------------------------------
+		"AbilitySpecial"
+		{
+            "01"{ "var_type"			"FIELD_INTEGER"		"duration"		                        "40 40 40 40" }
+            "02"{ "var_type"			"FIELD_INTEGER"		"radius"		                        "1000" }
+            "03"{ "var_type"			"FIELD_INTEGER"		"dmg"		                            "50" }
+		}
+
+        "precache"
+		{
+			//"soundfile"  "sounds/weapons/hero/techies/land_mine_plant.vsnd"
+            //"soundfile"  "soundevents/game_sounds_heroes/game_sounds_disruptor.vsndevts"
+		}
+    }
+
+    //=================================================================================================================
+    // Gyro: cannon ball
+    //=================================================================================================================
+    "cannon_ball"
+    { 
+        "BaseClass"                     "ability_lua"
+        "ScriptFile"                    "bosses/gyrocopter/cannon_ball"
+        "MaxLevel"						"4"
+
+        // General
+        //-------------------------------------------------------------------------------------------------------------
+        "AbilityBehavior"               "DOTA_ABILITY_BEHAVIOR_POINT"
+        "AbilityUnitDamageType"         "DAMAGE_TYPE_PHYSICAL"  
+
+        // Casting
+        //-------------------------------------------------------------------------------------------------------------
+        "AbilityCastPoint"              "1.5 1.5 1.5 1.5"
+        "AbilityCastRange" 				"5000"
+
+        // Time     
+        //-------------------------------------------------------------------------------------------------------------
+        "AbilityCooldown"               "15 15 15 15"
+
+        // Cost
+        //-------------------------------------------------------------------------------------------------------------
+        "AbilityManaCost"               "0"
+
+        // Special
+        //-------------------------------------------------------------------------------------------------------------
+		"AbilitySpecial"
+		{
+            "01"{ "var_type"			"FIELD_INTEGER"		"distance"		                "15000 18000 20000 25000" }
+            "02"{ "var_type"			"FIELD_INTEGER"		"radius"		                "180" }
+            "03"{ "var_type"			"FIELD_INTEGER"		"ball_speed"		            "1000 1000 1000 1000" }
+            "04"{ "var_type"			"FIELD_INTEGER"		"damage"		                "200" }
+            "05"{ "var_type"			"FIELD_INTEGER"		"balls_to_summon"		        "1 2 3 4" }
+		}
+
+        "precache"
+		{
+			"particle"  "particles/gyrocopter/gyro_cannon_ball.vpcf"
+            //"soundfile"  "soundevents/game_sounds_heroes/game_sounds_disruptor.vsndevts"
+		}
+    }
+
+    //=================================================================================================================
+    // Gyro: intermission_flee
+    //=================================================================================================================
+    "intermission_flee"
+    { 
+        "BaseClass"                     "ability_lua"
+        "ScriptFile"                    "bosses/gyrocopter/intermission_flee"
+        "MaxLevel"						"4"
+
+        // General
+        //-------------------------------------------------------------------------------------------------------------
+        "AbilityBehavior"               "DOTA_ABILITY_BEHAVIOR_POINT"
+        "AbilityUnitDamageType"         "DAMAGE_TYPE_PHYSICAL"  
+
+        // Casting
+        //-------------------------------------------------------------------------------------------------------------
+        "AbilityCastPoint"              "1.0 1.0 1.0 1.0"
+        "AbilityCastRange" 				"5000"
+
+        // Time     
+        //-------------------------------------------------------------------------------------------------------------
+        "AbilityCooldown"               "15 15 15 15"
+
+        // Cost
+        //-------------------------------------------------------------------------------------------------------------
+        "AbilityManaCost"               "0"
+
+        // Special
+        //-------------------------------------------------------------------------------------------------------------
+		"AbilitySpecial"
+		{
+            "01"{ "var_type"			"FIELD_INTEGER"		"speed"		                        "1500" }
+            "02"{ "var_type"			"FIELD_FLOAT"		"oil_drop_freq"		                "1.0" }
+            "03"{ "var_type"			"FIELD_FLOAT"		"return_value"		                "15" }
+            "04"{ "var_type"			"FIELD_FLOAT"		"gap_between_rings"		            "300" }
+            "05"{ "var_type"			"FIELD_FLOAT"		"max_rings"		                    "2 2 3 3" } // first level not used
+		}
+
+        "precache"
+		{
+			//"soundfile"  "sounds/weapons/hero/techies/land_mine_plant.vsnd"
+            //"soundfile"  "soundevents/game_sounds_heroes/game_sounds_disruptor.vsndevts"
+		}
+    }
+
+    //=================================================================================================================
+    // Gyro: fire_cross_grenade
+    //=================================================================================================================
+    "fire_cross_grenade"
+    { 
+        "BaseClass"                     "ability_lua"
+        "ScriptFile"                    "bosses/gyrocopter/fire_cross_grenade"
+        "MaxLevel"						"4"
+
+        // General
+        //-------------------------------------------------------------------------------------------------------------
+        "AbilityBehavior"               "DOTA_ABILITY_BEHAVIOR_NO_TARGET | DOTA_ABILITY_BEHAVIOR_IMMEDIATE | DOTA_ABILITY_BEHAVIOR_IGNORE_BACKSWING | DOTA_ABILITY_BEHAVIOR_DONT_CANCEL_MOVEMENT"
+        "AbilityUnitDamageType"         "DAMAGE_TYPE_PHYSICAL"  
+
+        // Casting
+        //-------------------------------------------------------------------------------------------------------------
+        "AbilityCastPoint"              "0 0 0 0"
+        "AbilityCastRange" 				"5000"
+
+        // Time     
+        //-------------------------------------------------------------------------------------------------------------
+        "AbilityCooldown"               "10 10 10 6"
+
+        // Cost
+        //-------------------------------------------------------------------------------------------------------------
+        "AbilityManaCost"               "0"
+
+        // Special
+        //-------------------------------------------------------------------------------------------------------------
+		"AbilitySpecial"
+		{
+            "01"{ "var_type"			"FIELD_INTEGER"		"start_delay"		                    "2 2 2 2" }
+            "02"{ "var_type"			"FIELD_INTEGER"		"dmg"		                            "400 400 400 400" }
+            "03"{ "var_type"			"FIELD_INTEGER"		"max_waves"		                        "5 6 7 8" }
+		}
+
+        "precache"
+		{
+			//"soundfile"  "sounds/weapons/hero/techies/land_mine_plant.vsnd"
+            //"soundfile"  "soundevents/game_sounds_heroes/game_sounds_disruptor.vsndevts"
+		}
+    }
+
+    //=================================================================================================================
+    // Gyro: spawn cleaning botr
+    //=================================================================================================================
+    "spawn_cleaning_bot"
+    { 
+        "BaseClass"                     "ability_lua"
+        "ScriptFile"                    "bosses/gyrocopter/spawn_cleaning_bot"
+        "MaxLevel"						"4"
+
+        // General
+        //-------------------------------------------------------------------------------------------------------------
+        "AbilityBehavior"               "DOTA_ABILITY_BEHAVIOR_NO_TARGET | DOTA_ABILITY_BEHAVIOR_DONT_CANCEL_MOVEMENT | DOTA_ABILITY_BEHAVIOR_IMMEDIATE"
+        "AbilityUnitDamageType"         "DAMAGE_TYPE_PHYSICAL"  
+
+        // Casting
+        //-------------------------------------------------------------------------------------------------------------
+        "AbilityCastPoint"              "0.0 0.0 0.0 0.0"
+        "AbilityCastRange" 				"5000"
+
+        // Time     
+        //-------------------------------------------------------------------------------------------------------------
+        "AbilityCooldown"               "1 1 1 1"
+
+        // Cost
+        //-------------------------------------------------------------------------------------------------------------
+        "AbilityManaCost"               "0"
+
+        // Special
+        //-------------------------------------------------------------------------------------------------------------
+		"AbilitySpecial"
+		{
+		}
+
+        "precache"
+		{
+			//"soundfile"  "sounds/weapons/hero/techies/land_mine_plant.vsnd"
+            //"soundfile"  "soundevents/game_sounds_heroes/game_sounds_obsidian_destroyer.vsndevts"
+		}
+    }
+
+    //=================================================================================================================
+    // Gyro: homing missile
+    //=================================================================================================================
+    "gyro_intermission_homing_missile"
+    { 
+        "BaseClass"                     "ability_lua"
+        "ScriptFile"                    "bosses/gyrocopter/gyro_intermission_homing_missile"
+        "MaxLevel"						"4"
+
+        // General
+        //-------------------------------------------------------------------------------------------------------------
+        "AbilityBehavior"               "DOTA_ABILITY_BEHAVIOR_NO_TARGET | DOTA_ABILITY_BEHAVIOR_DONT_CANCEL_MOVEMENT | DOTA_ABILITY_BEHAVIOR_IMMEDIATE"
+        "AbilityUnitDamageType"         "DAMAGE_TYPE_PHYSICAL"  
+
+        // Casting
+        //-------------------------------------------------------------------------------------------------------------
+        "AbilityCastPoint"              "0.3 0.3 0.3 0.3"
+        "AbilityCastRange" 				"5000"
+
+        // Time     
+        //-------------------------------------------------------------------------------------------------------------
+        "AbilityCooldown"               "1 1 1 1"
+
+        // Cost
+        //-------------------------------------------------------------------------------------------------------------
+        "AbilityManaCost"               "0"
+
+        // Special
+        //-------------------------------------------------------------------------------------------------------------
+		"AbilitySpecial"
+		{
+		}
+
+        "precache"
+		{
+			//"soundfile"  "sounds/weapons/hero/techies/land_mine_plant.vsnd"
+            //"soundfile"  "soundevents/game_sounds_heroes/game_sounds_obsidian_destroyer.vsndevts"
+		}
+    }
+
+    //=================================================================================================================
+    // cleaning_bot_explode
+    //=================================================================================================================
+    "cleaning_bot_explode"
+    { 
+        "BaseClass"                     "ability_lua"
+        "ScriptFile"                    "bosses/gyrocopter/cleaning_bot_explode"
+        "MaxLevel"						"4"
+
+        // General
+        //-------------------------------------------------------------------------------------------------------------
+        "AbilityBehavior"               "DOTA_ABILITY_BEHAVIOR_NO_TARGET | DOTA_ABILITY_BEHAVIOR_DONT_CANCEL_MOVEMENT | DOTA_ABILITY_BEHAVIOR_IMMEDIATE"
+        "AbilityUnitDamageType"         "DAMAGE_TYPE_PHYSICAL"  
+
+        // Casting
+        //-------------------------------------------------------------------------------------------------------------
+        "AbilityCastPoint"              "0.0 0.0 0.0 0.0"
+        "AbilityCastRange" 				"5000"
+
+        // Time     
+        //-------------------------------------------------------------------------------------------------------------
+        "AbilityCooldown"               "0 0 0 0"
+
+        // Cost
+        //-------------------------------------------------------------------------------------------------------------
+        "AbilityManaCost"               "0"
+
+        // Special
+        //-------------------------------------------------------------------------------------------------------------
+		"AbilitySpecial"
+		{
+		}
+
+        "precache"
+		{
+			"soundfile"  "sounds/vo/tinker/tink_ability_heatseekingmissile_03.vsnd"
+            "soundfile"  "soundevents/game_sounds_heroes/game_sounds_obsidian_destroyer.vsndevts"
+		}
+    }
+
+    //=================================================================================================================
+    // tornado_intermission_phase
+    //=================================================================================================================
+    "tornado_intermission_phase"
+    { 
+        "BaseClass"                     "ability_lua"
+        "ScriptFile"                    "bosses/gyrocopter/tornado_intermission_phase"
+        "MaxLevel"						"4"
+
+        // General
+        //-------------------------------------------------------------------------------------------------------------
+        "AbilityBehavior"               "DOTA_ABILITY_BEHAVIOR_NO_TARGET | DOTA_ABILITY_BEHAVIOR_DONT_CANCEL_MOVEMENT"
+        "AbilityUnitDamageType"         "DAMAGE_TYPE_PHYSICAL"  
+
+        // Casting
+        //-------------------------------------------------------------------------------------------------------------
+        "AbilityCastPoint"              "1.0 1.0 1.0 1.0"
+        "AbilityCastRange" 				"5000"
+
+        // Time     
+        //-------------------------------------------------------------------------------------------------------------
+        "AbilityCooldown"               "9 9 9 9"
+
+        // Cost
+        //-------------------------------------------------------------------------------------------------------------
+        "AbilityManaCost"               "0"
+
+        // Special
+        //-------------------------------------------------------------------------------------------------------------
+		"AbilitySpecial"
+		{
+		}
+
+        "precache"
+		{
+			//"soundfile"  "sounds/weapons/hero/techies/land_mine_plant.vsnd"
+            //"soundfile"  "soundevents/game_sounds_heroes/game_sounds_obsidian_destroyer.vsndevts"
+		}
+    }
+
+    //=================================================================================================================
+    // gattling_gun
+    //=================================================================================================================
+    "gattling_gun"
+    { 
+        "BaseClass"                     "ability_lua"
+        "ScriptFile"                    "bosses/gyrocopter/gattling_gun"
+
+        // General
+        //-------------------------------------------------------------------------------------------------------------
+        "AbilityBehavior"               "DOTA_ABILITY_BEHAVIOR_NO_TARGET | DOTA_ABILITY_BEHAVIOR_CHANNELLED"
+        "AbilityUnitDamageType"         "DAMAGE_TYPE_PHYSICAL"  
+		"AbilityCooldown"               "40 40 40 40"
+        "AbilityManaCost"               "0"
+        "AbilityCastRange" 				"5000"
+        "AbilityChannelTime"            "10 10 10 10"
+		"AbilityCastPoint"              "0.5 0.5 0.5 0.5"
+        "AbilityCastAnimation"          "ACT_DOTA_GENERIC_CHANNEL_1"
+ 
+		"precache"
+		{
+			//"soundfile"	"soundevents/voscripts/game_sounds_vo_shredder.vsndevts"
+			//"particle"	"particles/timber/napalm_wave_basedtidehuntergushupgrade.vpcf"
+		}
+
+        // Special
+        //-------------------------------------------------------------------------------------------------------------
+        "AbilitySpecial"
+		{
+
+		}
+    }
+}
+
+

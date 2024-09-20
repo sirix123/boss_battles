@@ -1,0 +1,567 @@
+"DOTAUnits"
+{
+	
+
+	//=================================================================================	
+	//  Gyrocopter 
+	//=================================================================================
+	"npc_gyrocopter"	
+	{
+		// script
+		"vscripts"					"bosses/gyrocopter/gyro_ai.lua"
+
+		// General
+		//----------------------------------------------------------------
+		"Model"						"models/heroes/gyro/gyro.vmdl"	// Model.
+		"BaseClass"					"npc_dota_creature"
+		"SoundSet"					"n_creep_Melee"
+		"GameSoundsFile"			"soundevents/game_sounds_heroes/game_sounds_gyrocopter.vsndevts"
+		"Level"						"1"
+		"ModelScale" 				"1.25"
+
+		// Abilities
+		//----------------------------------------------------------------
+		"Ability1"					"swoop_v2"			
+		"Ability2"					"flee_v2"
+		"Ability3"					"flak_cannon"
+		"Ability5"					"cannon_ball"
+		"Ability6"					"flame_thrower"
+		"Ability7"					"fire_cross_grenade"			
+		"Ability8"					"intermission_flee"
+		"Ability9"					"spawn_cleaning_bot"
+		"Ability10"					"gyro_intermission_homing_missile"
+		"Ability11"					"tornado_intermission_phase"
+		"Ability12"					"gattling_gun"
+		"Ability13"					""
+		"Ability14"					""
+		"Ability15"					""
+		"Ability16"					""
+		"Ability17"					""
+		"Ability18"					""
+
+		// Precache
+		//-------------------------------------------------------------------------------------------------------------
+		"precache"
+		{
+			"missile"					"models/heroes/gyro/gyro_missile.vmdl"
+		}
+
+		// Armor
+		//----------------------------------------------------------------
+		"ArmorPhysical"				"0"			
+
+		// Attack
+		//----------------------------------------------------------------
+		"AttackCapabilities"		"DOTA_UNIT_CAP_RANGED_ATTACK"
+		"AttackDamageMin"			"20"		
+		"AttackDamageMax"			"40"		
+		"AttackRate"				"1"		// Speed of attack.
+		"AttackAnimationPoint"		"0.4"		// Normalized time in animation cycle to attack.
+		"AttackAcquisitionRange"	"3000"		// Range within a target can be acquired.
+		"AttackRange"				"300"
+		"ProjectileModel" 			"particles/econ/items/gyrocopter/hero_gyrocopter_gyrotechnics/gyro_base_attack.vpcf"
+		"ProjectileSpeed" 			"1100"		
+
+		// Bounds
+		//----------------------------------------------------------------
+		"RingRadius"				"40"
+		"HealthBarOffset"			"170"
+
+		// Movement
+		//----------------------------------------------------------------
+		"MovementCapabilities"		"DOTA_UNIT_CAP_MOVE_GROUND" // or DOTA_UNIT_CAP_MOVE_FLY
+		"MovementSpeed"				"350"				
+		"MovementTurnRate"          "2.0"        // Turning rate. 	
+
+		// Status
+		//----------------------------------------------------------------
+		"StatusHealth"				"190000"		// Base health.
+		"StatusHealthRegen"			"0.0"		// Health regeneration rate.
+		"StatusMana"				"0"			// Base mana.
+		"StatusManaRegen"			"0.0"		// Mana regeneration rate.		 
+		
+		// Vision
+		//----------------------------------------------------------------
+		"VisionDaytimeRange"		"5000"		// Range of vision during day light.
+		"VisionNighttimeRange"		"5000"		// Range of vision at night time.
+
+		// Team
+		//----------------------------------------------------------------
+		"TeamName"					"DOTA_TEAM_BADGUYS"						// Team name.
+		"CombatClassAttack"			"DOTA_COMBAT_CLASS_ATTACK_PIERCE"
+		"CombatClassDefend"			"DOTA_COMBAT_CLASS_DEFEND_BASIC"
+		"UnitRelationshipClass"		"DOTA_NPC_UNIT_RELATIONSHIP_TYPE_DEFAULT"
+
+		"Creature"
+		{
+			"AttachWearables" //https://github.com/TheEnigmaBlade/dota2-unit-asset-data/blob/master/wearables.txt
+			{
+				"Wearable1" { "ItemDef" "126" }
+				"Wearable2" { "ItemDef" "131" }
+				"Wearable3" { "ItemDef" "176" }
+				"Wearable4" { "ItemDef" "177" }
+				"Wearable5" { "ItemDef" "178" }
+				"Wearable6"	{ "ItemDef" "179" }
+				"Wearable7"	{ "ItemDef" "527" }
+			}
+		}
+	}
+
+	//=================================================================================	
+	//  npc_gyro_ring_blocker 
+	//=================================================================================
+	"npc_gyro_ring_blocker"	
+	{
+		// script
+		"vscripts"					"bosses/gyrocopter/rock_ai_gyro.lua"
+
+		// General
+		//----------------------------------------------------------------
+		"Model"						"models/items/rubick/rubick_arcana/rubick_arcana_cube.vmdl"	// Model. models/props_rock/stalagmite_01.vmdl models/items/rubick/rubick_arcana/rubick_arcana_cube.vmdl
+		"BaseClass"					"npc_dota_creature"
+		"SoundSet"					"Hero_Techies"
+		"GameSoundsFile"			"soundevents/game_sounds_heroes/game_sounds_techies.vsndevts"
+		"Level"						"1"
+		"ModelScale" 				"0.7"
+
+		// Abilities
+		//----------------------------------------------------------------
+		"Ability1"					""					// Ability 1
+		"Ability2"					""					// Ability 2
+		"Ability3"					""					// Ability 3
+		"Ability4"					""					// Ability 4
+		"Ability5"					""					// Ability 5
+		"Ability6"					""					// Ability 6
+		"Ability7"					""					// Ability 7
+		"Ability8"					""					// Ability 7
+		
+		// Armor
+		//----------------------------------------------------------------
+		"ArmorPhysical"				"0"			
+
+		// Attack
+		//----------------------------------------------------------------
+		"AttackCapabilities"		"DOTA_UNIT_CAP_NO_ATTACK"
+		"AttackDamageMin"			"1"		
+		"AttackDamageMax"			"2"		
+		"AttackRate"				"1.6"		// Speed of attack.
+		"AttackAnimationPoint"		"0.9"		// Normalized time in animation cycle to attack.
+		"AttackAcquisitionRange"	"10000"		// Range within a target can be acquired.
+		"AttackRange"				"50"		
+
+		// Bounds
+		//----------------------------------------------------------------
+		"RingRadius"				"40"
+		"HealthBarOffset"			"50"
+
+		// Movement
+		//----------------------------------------------------------------
+		"MovementCapabilities"		"DOTA_UNIT_CAP_MOVE_GROUND"//"DOTA_UNIT_CAP_MOVE_NONE"
+		"MovementSpeed"				"220"					
+
+		// Status
+		//----------------------------------------------------------------
+		"StatusHealth"				"5000"		// Base health.
+		"StatusHealthRegen"			"0.0"		// Health regeneration rate.
+		"StatusMana"				"100"		// Base mana.
+		"StatusManaRegen"			"0.0"		// Mana regeneration rate.		 
+		
+		// Vision
+		//----------------------------------------------------------------
+		"VisionDaytimeRange"		"5000"		// Range of vision during day light.
+		"VisionNighttimeRange"		"5000"		// Range of vision at night time.
+
+		// Team
+		//----------------------------------------------------------------
+		"TeamName"					"DOTA_TEAM_BADGUYS"						// Team name.
+		"CombatClassAttack"			"DOTA_COMBAT_CLASS_ATTACK_PIERCE"
+		"CombatClassDefend"			"DOTA_COMBAT_CLASS_DEFEND_BASIC"
+		"UnitRelationshipClass"		"DOTA_NPC_UNIT_RELATIONSHIP_TYPE_DEFAULT"
+
+	}
+
+	//=================================================================================	
+	//  npc_gyro_ring_blocker_blue
+	//=================================================================================
+	"npc_gyro_ring_blocker_blue"	
+	{
+		// script
+		"vscripts"					"bosses/gyrocopter/rock_ai_gyro.lua"
+
+		// General
+		//----------------------------------------------------------------
+		"Model"						"models/props_structures/crystal002.vmdl"
+		"BaseClass"					"npc_dota_creature"
+		"SoundSet"					"Hero_Techies"
+		"GameSoundsFile"			"soundevents/game_sounds_heroes/game_sounds_techies.vsndevts"
+		"Level"						"1"
+		"ModelScale" 				"1.0"
+
+		// Abilities
+		//----------------------------------------------------------------
+		"Ability1"					""					// Ability 1
+		"Ability2"					""					// Ability 2
+		"Ability3"					""					// Ability 3
+		"Ability4"					""					// Ability 4
+		"Ability5"					""					// Ability 5
+		"Ability6"					""					// Ability 6
+		"Ability7"					""					// Ability 7
+		"Ability8"					""					// Ability 7
+		
+		// Armor
+		//----------------------------------------------------------------
+		"ArmorPhysical"				"0"			
+
+		// Attack
+		//----------------------------------------------------------------
+		"AttackCapabilities"		"DOTA_UNIT_CAP_NO_ATTACK"
+		"AttackDamageMin"			"1"		
+		"AttackDamageMax"			"2"		
+		"AttackRate"				"1.6"		// Speed of attack.
+		"AttackAnimationPoint"		"0.9"		// Normalized time in animation cycle to attack.
+		"AttackAcquisitionRange"	"10000"		// Range within a target can be acquired.
+		"AttackRange"				"50"		
+
+		// Bounds
+		//----------------------------------------------------------------
+		"RingRadius"				"40"
+		"HealthBarOffset"			"250"
+
+		// Movement
+		//----------------------------------------------------------------
+		"MovementCapabilities"		"DOTA_UNIT_CAP_MOVE_GROUND"//"DOTA_UNIT_CAP_MOVE_NONE"
+		"MovementSpeed"				"220"					
+
+		// Status
+		//----------------------------------------------------------------
+		"StatusHealth"				"5"		// Base health.
+		"StatusHealthRegen"			"0.0"		// Health regeneration rate.
+		"StatusMana"				"100"		// Base mana.
+		"StatusManaRegen"			"0.0"		// Mana regeneration rate.		 
+		
+		// Vision
+		//----------------------------------------------------------------
+		"VisionDaytimeRange"		"5000"		// Range of vision during day light.
+		"VisionNighttimeRange"		"5000"		// Range of vision at night time.
+
+		// Team
+		//----------------------------------------------------------------
+		"TeamName"					"DOTA_TEAM_BADGUYS"						// Team name.
+		"CombatClassAttack"			"DOTA_COMBAT_CLASS_ATTACK_PIERCE"
+		"CombatClassDefend"			"DOTA_COMBAT_CLASS_DEFEND_BASIC"
+		"UnitRelationshipClass"		"DOTA_NPC_UNIT_RELATIONSHIP_TYPE_DEFAULT"
+
+	}
+
+	//=================================================================================	
+	//  npc_gyro_ring_blocker_red
+	//=================================================================================
+	"npc_gyro_ring_blocker_red"	
+	{
+		// script
+		"vscripts"					"bosses/gyrocopter/rock_ai_gyro.lua"
+
+		// General
+		//----------------------------------------------------------------
+		"Model"						"models/props_structures/crystal002.vmdl"
+		"BaseClass"					"npc_dota_creature"
+		"SoundSet"					"Hero_Techies"
+		"GameSoundsFile"			"soundevents/game_sounds_heroes/game_sounds_techies.vsndevts"
+		"Level"						"1"
+		"ModelScale" 				"1.0"
+
+		// Abilities
+		//----------------------------------------------------------------
+		"Ability1"					""					// Ability 1
+		"Ability2"					""					// Ability 2
+		"Ability3"					""					// Ability 3
+		"Ability4"					""					// Ability 4
+		"Ability5"					""					// Ability 5
+		"Ability6"					""					// Ability 6
+		"Ability7"					""					// Ability 7
+		"Ability8"					""					// Ability 7
+		
+		// Armor
+		//----------------------------------------------------------------
+		"ArmorPhysical"				"0"			
+
+		// Attack
+		//----------------------------------------------------------------
+		"AttackCapabilities"		"DOTA_UNIT_CAP_NO_ATTACK"
+		"AttackDamageMin"			"1"		
+		"AttackDamageMax"			"2"		
+		"AttackRate"				"1.6"		// Speed of attack.
+		"AttackAnimationPoint"		"0.9"		// Normalized time in animation cycle to attack.
+		"AttackAcquisitionRange"	"10000"		// Range within a target can be acquired.
+		"AttackRange"				"50"		
+
+		// Bounds
+		//----------------------------------------------------------------
+		"RingRadius"				"40"
+		"HealthBarOffset"			"250"
+
+		// Movement
+		//----------------------------------------------------------------
+		"MovementCapabilities"		"DOTA_UNIT_CAP_MOVE_GROUND"//"DOTA_UNIT_CAP_MOVE_NONE"
+		"MovementSpeed"				"220"					
+
+		// Status
+		//----------------------------------------------------------------
+		"StatusHealth"				"1500"		// Base health.
+		"StatusHealthRegen"			"0.0"		// Health regeneration rate.
+		"StatusMana"				"100"		// Base mana.
+		"StatusManaRegen"			"0.0"		// Mana regeneration rate.		 
+		
+		// Vision
+		//----------------------------------------------------------------
+		"VisionDaytimeRange"		"5000"		// Range of vision during day light.
+		"VisionNighttimeRange"		"5000"		// Range of vision at night time.
+
+		// Team
+		//----------------------------------------------------------------
+		"TeamName"					"DOTA_TEAM_BADGUYS"						// Team name.
+		"CombatClassAttack"			"DOTA_COMBAT_CLASS_ATTACK_PIERCE"
+		"CombatClassDefend"			"DOTA_COMBAT_CLASS_DEFEND_BASIC"
+		"UnitRelationshipClass"		"DOTA_NPC_UNIT_RELATIONSHIP_TYPE_DEFAULT"
+
+	}
+
+	//=================================================================================	
+	//  npc_gyro_ring_blocker_purple
+	//=================================================================================
+	"npc_gyro_ring_blocker_purple"	
+	{
+		// script
+		"vscripts"					"bosses/gyrocopter/rock_ai_gyro.lua"
+
+		// General
+		//----------------------------------------------------------------
+		"Model"						"models/props_structures/crystal002.vmdl"
+		"BaseClass"					"npc_dota_creature"
+		"SoundSet"					"Hero_Techies"
+		"GameSoundsFile"			"soundevents/game_sounds_heroes/game_sounds_techies.vsndevts"
+		"Level"						"1"
+		"ModelScale" 				"1.0"
+
+		// Abilities
+		//----------------------------------------------------------------
+		"Ability1"					""					// Ability 1
+		"Ability2"					""					// Ability 2
+		"Ability3"					""					// Ability 3
+		"Ability4"					""					// Ability 4
+		"Ability5"					""					// Ability 5
+		"Ability6"					""					// Ability 6
+		"Ability7"					""					// Ability 7
+		"Ability8"					""					// Ability 7
+		
+		// Armor
+		//----------------------------------------------------------------
+		"ArmorPhysical"				"0"			
+
+		// Attack
+		//----------------------------------------------------------------
+		"AttackCapabilities"		"DOTA_UNIT_CAP_NO_ATTACK"
+		"AttackDamageMin"			"1"		
+		"AttackDamageMax"			"2"		
+		"AttackRate"				"1.6"		// Speed of attack.
+		"AttackAnimationPoint"		"0.9"		// Normalized time in animation cycle to attack.
+		"AttackAcquisitionRange"	"10000"		// Range within a target can be acquired.
+		"AttackRange"				"50"		
+
+		// Bounds
+		//----------------------------------------------------------------
+		"RingRadius"				"40"
+		"HealthBarOffset"			"250"
+
+		// Movement
+		//----------------------------------------------------------------
+		"MovementCapabilities"		"DOTA_UNIT_CAP_MOVE_GROUND"//"DOTA_UNIT_CAP_MOVE_NONE"
+		"MovementSpeed"				"220"					
+
+		// Status
+		//----------------------------------------------------------------
+		"StatusHealth"				"1000"		// Base health.
+		"StatusHealthRegen"			"0.0"		// Health regeneration rate.
+		"StatusMana"				"100"		// Base mana.
+		"StatusManaRegen"			"0.0"		// Mana regeneration rate.		 
+		
+		// Vision
+		//----------------------------------------------------------------
+		"VisionDaytimeRange"		"5000"		// Range of vision during day light.
+		"VisionNighttimeRange"		"5000"		// Range of vision at night time.
+
+		// Team
+		//----------------------------------------------------------------
+		"TeamName"					"DOTA_TEAM_BADGUYS"						// Team name.
+		"CombatClassAttack"			"DOTA_COMBAT_CLASS_ATTACK_PIERCE"
+		"CombatClassDefend"			"DOTA_COMBAT_CLASS_DEFEND_BASIC"
+		"UnitRelationshipClass"		"DOTA_NPC_UNIT_RELATIONSHIP_TYPE_DEFAULT"
+
+	}
+
+	//=================================================================================	
+	//  Cleaning bot 
+	//=================================================================================
+	"npc_cleaning_bot"	
+	{
+		// script
+		"vscripts"					"bosses/gyrocopter/cleaning_bot_ai.lua"
+
+		// General
+		//----------------------------------------------------------------
+		"Model"						"models/items/courier/deathripper/deathripper.vmdl"	// Model.
+		"BaseClass"					"npc_dota_creature"
+		"SoundSet"					"n_creep_Melee"
+		"GameSoundsFile"			"soundevents/game_sounds_heroes/game_sounds_gyrocopter.vsndevts"
+		"Level"						"1"
+		"ModelScale" 				"1.7"
+
+		// Abilities
+		//----------------------------------------------------------------
+		"Ability1"					"cleaning_bot_explode"			
+		"Ability2"					""
+		"Ability3"					""
+		"Ability5"					""
+		"Ability6"					""
+		"Ability7"					""			
+		"Ability8"					""
+		"Ability9"					""
+		"Ability10"					""
+		"Ability11"					""
+		"Ability12"					""
+		"Ability13"					""
+		"Ability14"					""
+		"Ability15"					""
+		"Ability16"					""
+		"Ability17"					""
+		"Ability18"					""
+
+		// Armor
+		//----------------------------------------------------------------
+		"ArmorPhysical"				"0"			
+
+		// Attack
+		//----------------------------------------------------------------
+		"AttackCapabilities"		"DOTA_UNIT_CAP_NO_ATTACK"
+		"AttackDamageMin"			"30"		
+		"AttackDamageMax"			"50"		
+		"AttackRate"				"1"		// Speed of attack.
+		"AttackAnimationPoint"		"0.4"		// Normalized time in animation cycle to attack.
+		"AttackAcquisitionRange"	"3000"		// Range within a target can be acquired.
+		"AttackRange"				"500"
+
+		// Bounds
+		//----------------------------------------------------------------
+		"RingRadius"				"40"
+		"HealthBarOffset"			"170"
+
+		// Movement
+		//----------------------------------------------------------------
+		"MovementCapabilities"		"DOTA_UNIT_CAP_MOVE_GROUND" // or DOTA_UNIT_CAP_MOVE_FLY
+		"MovementSpeed"				"500"				
+		"MovementTurnRate"          "2.0"        // Turning rate. 	
+
+		// Status
+		//----------------------------------------------------------------
+		"StatusHealth"				"1300"		// Base health.
+		"StatusHealthRegen"			"0.0"		// Health regeneration rate.
+		"StatusMana"				"0"			// Base mana.
+		"StatusManaRegen"			"0.0"		// Mana regeneration rate.		 
+		
+		// Vision
+		//----------------------------------------------------------------
+		"VisionDaytimeRange"		"5000"		// Range of vision during day light.
+		"VisionNighttimeRange"		"5000"		// Range of vision at night time.
+
+		// Team
+		//----------------------------------------------------------------
+		"TeamName"					"DOTA_TEAM_BADGUYS"						// Team name.
+		"CombatClassAttack"			"DOTA_COMBAT_CLASS_ATTACK_PIERCE"
+		"CombatClassDefend"			"DOTA_COMBAT_CLASS_DEFEND_BASIC"
+		"UnitRelationshipClass"		"DOTA_NPC_UNIT_RELATIONSHIP_TYPE_DEFAULT"
+
+	}
+
+	//=================================================================================	
+	//  missile
+	//=================================================================================
+	"npc_gyrocopter_homing_missile"	
+	{
+		// script
+		//"vscripts"					"bosses/gyrocopter/cleaning_bot_ai.lua"
+
+		// General
+		//----------------------------------------------------------------
+		"Model"						"models/items/gyrocopter/gyro_ti10_immortal_missile/gyro_ti10_immortal_missile.vmdl"	// Model.
+		"BaseClass"					"npc_dota_creature"
+		"SoundSet"					"n_creep_Melee"
+		"GameSoundsFile"			"soundevents/game_sounds_heroes/game_sounds_gyrocopter.vsndevts"
+		"Level"						"1"
+		"ModelScale" 				"1.7"
+
+		// Abilities
+		//----------------------------------------------------------------
+		"Ability1"					""			
+		"Ability2"					""
+		"Ability3"					""
+		"Ability5"					""
+		"Ability6"					""
+		"Ability7"					""			
+		"Ability8"					""
+		"Ability9"					""
+		"Ability10"					""
+		"Ability11"					""
+		"Ability12"					""
+		"Ability13"					""
+		"Ability14"					""
+		"Ability15"					""
+		"Ability16"					""
+		"Ability17"					""
+		"Ability18"					""
+
+		// Armor
+		//----------------------------------------------------------------
+		"ArmorPhysical"				"0"			
+
+		// Attack
+		//----------------------------------------------------------------
+		"AttackCapabilities"		"DOTA_UNIT_CAP_NO_ATTACK"
+		"AttackDamageMin"			"20"		
+		"AttackDamageMax"			"40"		
+		"AttackRate"				"1"		// Speed of attack.
+		"AttackAnimationPoint"		"0.4"		// Normalized time in animation cycle to attack.
+		"AttackAcquisitionRange"	"3000"		// Range within a target can be acquired.
+		"AttackRange"				"500"
+
+		// Bounds
+		//----------------------------------------------------------------
+		"RingRadius"				"40"
+		"HealthBarOffset"			"170"
+
+		// Movement
+		//----------------------------------------------------------------
+		"MovementCapabilities"		"DOTA_UNIT_CAP_MOVE_GROUND" // or DOTA_UNIT_CAP_MOVE_FLY
+		"MovementSpeed"				"350"				
+		"MovementTurnRate"          "2.0"        // Turning rate. 	
+
+		// Status
+		//----------------------------------------------------------------
+		"StatusHealth"				"1000"		// Base health.
+		"StatusHealthRegen"			"0.0"		// Health regeneration rate.
+		"StatusMana"				"0"			// Base mana.
+		"StatusManaRegen"			"0.0"		// Mana regeneration rate.		 
+		
+		// Vision
+		//----------------------------------------------------------------
+		"VisionDaytimeRange"		"5000"		// Range of vision during day light.
+		"VisionNighttimeRange"		"5000"		// Range of vision at night time.
+
+		// Team
+		//----------------------------------------------------------------
+		"TeamName"					"DOTA_TEAM_BADGUYS"						// Team name.
+		"CombatClassAttack"			"DOTA_COMBAT_CLASS_ATTACK_PIERCE"
+		"CombatClassDefend"			"DOTA_COMBAT_CLASS_DEFEND_BASIC"
+		"UnitRelationshipClass"		"DOTA_NPC_UNIT_RELATIONSHIP_TYPE_DEFAULT"
+
+	}
+}

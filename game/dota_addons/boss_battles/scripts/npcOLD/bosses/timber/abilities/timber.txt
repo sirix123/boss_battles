@@ -1,0 +1,645 @@
+
+"DOTAAbilities"
+{
+    //=================================================================================================================
+    // Timber: Saw Blade
+    //=================================================================================================================
+    "saw_blade"
+    { 
+        "BaseClass"                     "ability_lua"
+        "ScriptFile"                    "bosses/timber/saw_blade"
+
+        // General
+        //-------------------------------------------------------------------------------------------------------------
+        "AbilityBehavior"               "DOTA_ABILITY_BEHAVIOR_POINT | DOTA_ABILITY_BEHAVIOR_AOE | DOTA_ABILITY_BEHAVIOR_IGNORE_BACKSWING"
+        "AbilityUnitDamageType"         "DAMAGE_TYPE_PHYSICAL"  
+ 
+		"precache"
+		{
+			"soundfile"	"soundevents/game_sounds_heroes/game_sounds_shredder.vsndevts"
+			"particle"	"particles/units/heroes/hero_shredder/shredder_chakram.vpcf"
+			"particle"	"particles/units/heroes/hero_shredder/shredder_chakram_stay.vpcf"
+			"particle"	"particles/units/heroes/hero_shredder/shredder_chakram_return.vpcf"
+		}
+
+        // Casting
+        //-------------------------------------------------------------------------------------------------------------
+        "AbilityCastPoint"              "1.0 1.0 1.0 1.0"
+
+        // Time     
+        //-------------------------------------------------------------------------------------------------------------
+        "AbilityCooldown"               "8 7 7 5"
+
+        // Cost
+        //-------------------------------------------------------------------------------------------------------------
+        "AbilityManaCost"               "0"
+
+        // Special
+        //-------------------------------------------------------------------------------------------------------------
+		"AbilitySpecial"
+		{
+			"01"
+			{
+				"var_type"			                "FIELD_INTEGER"
+				"nMaxSawBlades"		                "8 9 9 10" 
+			}
+            "02"
+			{
+				"var_type"			                "FIELD_INTEGER"
+				"speed"		                        "600 600 600 600"
+			}
+            "03"
+			{
+				"var_type"			                "FIELD_INTEGER"
+				"destroy_tree_radius"		        "80 80 80 80"
+			}
+            "04"
+			{
+				"var_type"			                "FIELD_INTEGER"
+				"radius"		                    "190 190 190 190"
+			}
+            "05"
+			{
+				"var_type"			                "FIELD_INTEGER"
+				"stay_duration"		                "4 4 3 3"
+			}
+            "06"
+			{
+				"var_type"			                "FIELD_INTEGER"
+				"damage"		                    "3 3 3 3"
+			}
+            "07"
+			{
+				"var_type"			                "FIELD_FLOAT"
+                "manaAmount"		                "0.15 0.15 0.15 0.15"
+			}
+		}
+    }
+
+    
+	//=================================================================================================================
+	// Timber: Return Saw Blade 
+	//=================================================================================================================
+	"return_saw_blades"
+	{
+		//-------------------------------------------------------------------------------------------------------------
+		"BaseClass"						"ability_lua"
+		"ScriptFile"					"bosses/timber/return_saw_blades"
+		
+		// Ability General
+		//-------------------------------------------------------------------------------------------------------------
+		"AbilityBehavior"				"DOTA_ABILITY_BEHAVIOR_NO_TARGET"
+        "AbilityUnitDamageType"         "DAMAGE_TYPE_PHYSICAL"
+
+		// Ability Casting
+		//-------------------------------------------------------------------------------------------------------------
+		"AbilityCastPoint"				"0.0 0.0 0.0 0.0"
+
+		// Ability Resource
+		//-------------------------------------------------------------------------------------------------------------
+		"AbilityCooldown"				"10 10 10 10"
+
+		// Damage
+		//-------------------------------------------------------------------------------------------------------------
+
+        // Cost
+        //-------------------------------------------------------------------------------------------------------------
+        "AbilityManaCost"               "0"
+
+		// Special
+		//-------------------------------------------------------------------------------------------------------------
+	}
+
+    //=================================================================================================================
+    // Timber: Chain
+    //=================================================================================================================
+    "chain"
+    { 
+        "BaseClass"                     "ability_lua"
+        "ScriptFile"                    "bosses/timber/chain"
+
+        // General
+        //-------------------------------------------------------------------------------------------------------------
+        "AbilityBehavior"               "DOTA_ABILITY_BEHAVIOR_NO_TARGET"
+        "AbilityUnitDamageType"         "DAMAGE_TYPE_PHYSICAL"  
+
+        "precache"
+		{
+			"soundfile"	"soundevents/game_sounds_heroes/game_sounds_shredder.vsndevts"
+			"particle"	"particles/units/heroes/hero_shredder/shredder_timberchain.vpcf"
+			"particle"	"particles/units/heroes/hero_shredder/shredder_timber_dmg.vpcf"
+		}
+
+        // Casting
+        //-------------------------------------------------------------------------------------------------------------
+        "AbilityCastPoint"              "0.9 0.9 0.9 0.9"
+        "AbilityCastRange"				"10000 10000 10000 10000"
+
+        // Time     
+        //-------------------------------------------------------------------------------------------------------------
+        "AbilityCooldown"               "15 10 8 8"
+
+        // Cost
+        //-------------------------------------------------------------------------------------------------------------
+        "AbilityManaCost"               "0"
+
+		// Damage
+		//-------------------------------------------------------------------------------------------------------------
+
+		// Special
+		//-------------------------------------------------------------------------------------------------------------
+		"AbilitySpecial"
+		{
+			"01"
+			{
+				"var_type"			"FIELD_INTEGER"
+				"chain_radius"		"100 100 100 100"
+			}
+			"02"
+			{
+				"var_type"			"FIELD_INTEGER"
+				"range"				"10000 10000 10000 10000"
+			}
+			"03"
+			{
+				"var_type"			"FIELD_INTEGER"
+				"radius"		    "225 225 225 225"
+			}
+			"04"
+			{	
+				"var_type"			"FIELD_INTEGER"
+				"speed"				"2000 2500 3000 3500"
+			}
+			"05"
+			{	
+				"var_type"			"FIELD_INTEGER"
+				"damage"			"100 100 100 100"
+			}
+            "06"
+			{
+				"var_type"			"FIELD_INTEGER"
+				"wd_radius"		    "300 300 300 300"
+			}
+			"07"
+			{
+				"var_type"			"FIELD_INTEGER"
+				"wd_damage"		    "100 100 100 100"
+			}
+			"08"
+			{	
+				"var_type"			"FIELD_INTEGER"
+				"wd_duration"		"1 2 3 4"
+			}
+			"09"
+			{	
+				"var_type"			"FIELD_INTEGER"
+				"wd_tree_damage"	"2 2 2 2"
+			}
+		}
+    }
+
+    //=================================================================================================================
+    // Timber: Fire Shell
+    //=================================================================================================================
+    "fire_shell"
+    { 
+        "BaseClass"                     "ability_lua"
+        "ScriptFile"                    "bosses/timber/fire_shell"
+
+        // General
+        //-------------------------------------------------------------------------------------------------------------
+        "AbilityBehavior"               "DOTA_ABILITY_BEHAVIOR_NO_TARGET"
+        "AbilityUnitDamageType"         "DAMAGE_TYPE_PHYSICAL"  
+ 
+		"precache"
+		{
+			"soundfile"	"soundevents/voscripts/game_sounds_vo_shredder.vsndevts"
+			"particle"	"particles/timber/napalm_wave_basedtidehuntergushupgrade.vpcf"
+		}
+
+        // Casting
+        //-------------------------------------------------------------------------------------------------------------
+        "AbilityCastPoint"              "2.5 2.5 2.5 2.5"
+
+        // Time     
+        //-------------------------------------------------------------------------------------------------------------
+        "AbilityCooldown"               "60 60 60 60"
+
+        // Cost
+        //-------------------------------------------------------------------------------------------------------------
+        "AbilityManaCost"               "100"
+
+        // Special
+        //-------------------------------------------------------------------------------------------------------------
+        "AbilitySpecial"
+		{
+			"01"
+			{
+				"var_type"			"FIELD_INTEGER"
+				"radius"		    "110 110 110 110"
+			}
+            "02"
+			{
+				"var_type"			"FIELD_INTEGER"
+				"projectile_speed"  "600 600 600 600"
+			}
+            "03"
+			{
+				"var_type"			"FIELD_INTEGER"
+				"nMaxWaves"         "4 5 6 7"
+			}
+            "04"
+			{
+				"var_type"			"FIELD_FLOAT"
+				"fTimeBetweenWaves" "2 2 1.5 1.5"
+			}
+            "05"
+			{
+				"var_type"			"FIELD_INTEGER"
+				"nMinProjPerWave"   "3 4 4 5"
+			}
+            "06"
+			{
+				"var_type"			"FIELD_INTEGER"
+				"nMaxProjPerWave"   "5 5 6 7"
+			}
+            "07"
+			{
+				"var_type"			"FIELD_INTEGER"
+				"damage"            "100 100 100 100"
+			}
+			"08"
+			{
+				"var_type"			"FIELD_INTEGER"
+				"nProjPerWave"   	"7 8 9 10"
+			}
+		}
+    }
+
+	//=================================================================================================================
+    // Stun droid: Zap
+    //=================================================================================================================
+    "stun_droid_zap"
+    { 
+        "BaseClass"                     "ability_lua"
+        "ScriptFile"                    "bosses/timber/stun_droid_zap"
+
+        // General
+        //-------------------------------------------------------------------------------------------------------------
+        "AbilityBehavior"               "DOTA_ABILITY_BEHAVIOR_NO_TARGET | DOTA_ABILITY_BEHAVIOR_IMMEDIATE"
+        "AbilityUnitDamageType"         "DAMAGE_TYPE_PHYSICAL"  
+ 
+		"precache"
+		{
+			"soundfile"	"soundevents/game_sounds_heroes/game_sounds_stormspirit.vsndevts"
+			"particle"	"particles/timber/droid_caststun_stormspirit_electric_vortex.vpcf"
+			"soundfile"	"soundevents/game_sounds_heroes/game_sounds_alchemist.vsndevts"
+		}
+
+        // Casting
+        //-------------------------------------------------------------------------------------------------------------
+        "AbilityCastPoint"              "0.0 0.0 0.0 0.0"
+
+        // Time     
+        //-------------------------------------------------------------------------------------------------------------
+        "AbilityCooldown"               "60 60 60 60"
+
+        // Cost
+        //-------------------------------------------------------------------------------------------------------------
+        "AbilityManaCost"               "0"
+
+        // Special
+        //-------------------------------------------------------------------------------------------------------------
+        "AbilitySpecial"
+		{
+			"01"
+			{
+				"var_type"			"FIELD_INTEGER"
+				"radius"            "400 400 400 400"
+			}
+            "02"
+			{
+				"var_type"			"FIELD_INTEGER"
+				"debuff_duration"   "5 5 5 5"
+            }
+			"03"
+			{
+				"var_type"			"FIELD_INTEGER"
+				"duration"   		"5 5 5 5"
+            }
+		}
+    }
+
+	//=================================================================================================================
+    // Smelter Droid: enhance
+    //=================================================================================================================
+    "smelter_droid_enhance"
+    { 
+        "BaseClass"                     "ability_lua"
+        "ScriptFile"                    "bosses/timber/smelter_droid_enhance"
+
+        // General
+        //-------------------------------------------------------------------------------------------------------------
+        "AbilityBehavior"               "DOTA_ABILITY_BEHAVIOR_NO_TARGET | DOTA_ABILITY_BEHAVIOR_CHANNELLED | DOTA_ABILITY_BEHAVIOR_IGNORE_BACKSWING"
+        "AbilityUnitTargetType"			"DOTA_UNIT_TARGET_HERO | DOTA_UNIT_TARGET_BASIC"
+        "AbilityCastRange"				"500"
+ 
+		"precache"
+		{
+			"soundfile" "soundevents/game_sounds_heroes/game_sounds_lion.vsndevts"
+			"particle"	"particles/units/heroes/hero_pugna/pugna_life_give.vpcf"
+		}
+
+        // Casting
+        //-------------------------------------------------------------------------------------------------------------
+        "AbilityCastPoint"              "0.0 0.0 0.0 0.0"
+        "AbilityCastRange"              "1000 1000 1000 1000"
+
+        // Time     
+        //-------------------------------------------------------------------------------------------------------------
+        "AbilityCooldown"               "1.0 1.0 1.0 1.0"
+
+        // Cost
+        //-------------------------------------------------------------------------------------------------------------
+        "AbilityManaCost"               "0"
+
+        // Special
+        //-------------------------------------------------------------------------------------------------------------
+        // for some reason the way the spell works means that values can be here... edit them in lua instead...
+    }
+
+    //=================================================================================================================
+    // Mine Droid: laymine
+    //=================================================================================================================
+    "mine_droid_laymine"
+    { 
+        "BaseClass"                     "ability_lua"
+        "ScriptFile"                    "bosses/timber/mine_droid_laymine"
+
+        // General
+        //-------------------------------------------------------------------------------------------------------------
+        "AbilityBehavior"               "DOTA_ABILITY_BEHAVIOR_POINT | DOTA_ABILITY_BEHAVIOR_IGNORE_BACKSWING"
+ 
+		"precache"
+		{
+			"soundfile" "soundevents/game_sounds_heroes/game_sounds_techies.vsndevts"
+			"particle"	"particles/units/heroes/hero_pugna/pugna_life_give.vpcf"
+		}
+
+        // Casting
+        //-------------------------------------------------------------------------------------------------------------
+        "AbilityCastPoint"              "0.0 0.0 0.0 0.0"
+
+        // Time     
+        //-------------------------------------------------------------------------------------------------------------
+        "AbilityCooldown"               "5.0 5.0 5.0 5.0"
+
+        // Cost
+        //-------------------------------------------------------------------------------------------------------------
+        "AbilityManaCost"               "0"
+
+        // Special
+        //-------------------------------------------------------------------------------------------------------------
+    }
+
+    //=================================================================================================================
+    // Droid Support
+    //=================================================================================================================
+    "timber_droid_support"
+    { 
+        "BaseClass"                     "ability_lua"
+        "ScriptFile"                    "bosses/timber/timber_droid_support"
+
+        // General
+        //-------------------------------------------------------------------------------------------------------------
+        "AbilityBehavior"               "DOTA_ABILITY_BEHAVIOR_NO_TARGET"
+ 
+		"precache"
+		{
+			"soundfile" "soundevents/game_sounds_heroes/game_sounds_invoker.vsndevts"
+            "soundfile" "soundevents/game_sounds_heroes/game_sounds_tinker.vsndevts"
+            "soundfile" "soundevents/voscripts/game_sounds_vo_tinker.vsndevts"
+			"particle"	"particles/units/heroes/hero_invoker/invoker_sun_strike.vpcf"
+            "particle"	"particles/units/heroes/hero_invoker/invoker_sun_strike_team.vpcf"
+		}
+
+        // Casting
+        //-------------------------------------------------------------------------------------------------------------
+        "AbilityCastPoint"              "0.0 0.0 0.0 0.0"
+
+        // Time     
+        //-------------------------------------------------------------------------------------------------------------
+        "AbilityCooldown"               "25 25 25 25"
+
+        // Cost
+        //-------------------------------------------------------------------------------------------------------------
+        "AbilityManaCost"               "0"
+
+        // Special
+        //-------------------------------------------------------------------------------------------------------------
+        "AbilitySpecial"
+		{
+			"01"
+			{
+				"var_type"			"FIELD_INTEGER"
+				"numberLocations"   "2 2 3 3"
+			}
+            "02"
+			{
+				"var_type"			"FIELD_INTEGER"
+				"droidsPerLocation" "3 4 4 6"
+            }
+		}
+    }
+
+    //=================================================================================================================
+    // Timber: Blast Wave
+    //=================================================================================================================
+    "blast_wave_v2"
+    { 
+        "BaseClass"                     "ability_lua"
+        "ScriptFile"                    "bosses/timber/blast_wave_v2"
+
+        // General
+        //-------------------------------------------------------------------------------------------------------------
+        "AbilityBehavior"               "DOTA_ABILITY_BEHAVIOR_NO_TARGET"
+        "AbilityUnitDamageType"         "DAMAGE_TYPE_PHYSICAL"  
+ 
+		"precache"
+		{
+			"soundfile"	"soundevents/voscripts/game_sounds_vo_shredder.vsndevts"
+			"particle"	"particles/timber/napalm_wave_basedtidehuntergushupgrade.vpcf"
+		}
+
+        // Casting
+        //-------------------------------------------------------------------------------------------------------------
+        "AbilityCastPoint"              "0.5 0.5 0.5 0.5"
+
+        // Time     
+        //-------------------------------------------------------------------------------------------------------------
+        "AbilityCooldown"               "15 14 13 10" //15
+
+        // Cost
+        //-------------------------------------------------------------------------------------------------------------
+        "AbilityManaCost"               "0"
+
+        // Special
+        //-------------------------------------------------------------------------------------------------------------
+        "AbilitySpecial"
+		{
+			"01"
+			{
+				"var_type"			"FIELD_INTEGER"
+				"projectile_speed"   "1100 1100 1100 1100"
+			}
+            "02"
+			{
+				"var_type"			"FIELD_INTEGER"
+				"radius"            "300 300 300 300"
+            }
+            "03"
+			{
+				"var_type"			    "FIELD_INTEGER"
+				"destroy_tree_radius"   "100 100 100 100"
+            }
+            "04"
+			{
+				"var_type"			"FIELD_INTEGER"
+				"duration"          "20 20 20 20"
+            }
+            "05"
+			{
+				"var_type"			"FIELD_INTEGER"
+				"damage_1"          "1000 1000 1000 1000"
+            }
+            "06"
+			{
+				"var_type"			"FIELD_INTEGER"
+				"damage_2"          "1000 1000 1000 1000"
+            }
+		}
+    }
+
+	//=================================================================================================================
+    // vertical_saw_blade
+    //=================================================================================================================
+    "vertical_saw_blade"
+    { 
+        "BaseClass"                     "ability_lua"
+        "ScriptFile"                    "bosses/timber/vertical_saw_blade"
+
+        // General
+        //-------------------------------------------------------------------------------------------------------------
+        "AbilityBehavior"               "DOTA_ABILITY_BEHAVIOR_NO_TARGET | DOTA_ABILITY_BEHAVIOR_CHANNELLED"
+        "AbilityUnitDamageType"         "DAMAGE_TYPE_PHYSICAL"  
+		"AbilityCooldown"               "1 1 1 1"
+        "AbilityManaCost"               "0"
+        "AbilityCastRange" 				"5000"
+        "AbilityChannelTime"            "999 999 999 999"
+        "AbilityDuration"               "999 999 999 999"
+		"AbilityCastPoint"              "0.1 0.1 0.1 0.1"
+        "AbilityCastAnimation"          "ACT_DOTA_GENERIC_CHANNEL_1"
+ 
+		"precache"
+		{
+			//"soundfile"	"soundevents/voscripts/game_sounds_vo_shredder.vsndevts"
+			//"particle"	"particles/timber/napalm_wave_basedtidehuntergushupgrade.vpcf"
+		}
+
+        // Special
+        //-------------------------------------------------------------------------------------------------------------
+        "AbilitySpecial"
+		{
+
+		}
+    }
+
+    //=================================================================================================================
+    // Timber: chain_map_edge
+    //=================================================================================================================
+    "chain_map_edge"
+    { 
+        "BaseClass"                     "ability_lua"
+        "ScriptFile"                    "bosses/timber/chain_map_edge"
+
+        // General
+        //-------------------------------------------------------------------------------------------------------------
+        "AbilityBehavior"               "DOTA_ABILITY_BEHAVIOR_POINT"
+        "AbilityUnitDamageType"         "DAMAGE_TYPE_PHYSICAL"  
+
+        "precache"
+		{
+			"soundfile"	"soundevents/game_sounds_heroes/game_sounds_shredder.vsndevts"
+			"particle"	"particles/units/heroes/hero_shredder/shredder_timberchain.vpcf"
+			"particle"	"particles/units/heroes/hero_shredder/shredder_timber_dmg.vpcf"
+		}
+
+        // Casting
+        //-------------------------------------------------------------------------------------------------------------
+        "AbilityCastPoint"              "0.2 0.2 0.2 0.2"
+        "AbilityCastRange"				"10000 10000 10000 10000"
+
+        // Time     
+        //-------------------------------------------------------------------------------------------------------------
+        "AbilityCooldown"               "80 80 80 80"
+
+        // Cost
+        //-------------------------------------------------------------------------------------------------------------
+        "AbilityManaCost"               "0"
+
+		// Damage
+		//-------------------------------------------------------------------------------------------------------------
+
+		// Special
+		//-------------------------------------------------------------------------------------------------------------
+		"AbilitySpecial"
+		{
+			"01"
+			{
+				"var_type"			"FIELD_INTEGER"
+				"chain_radius"		"100 100 100 100"
+			}
+			"02"
+			{
+				"var_type"			"FIELD_INTEGER"
+				"range"				"10000 10000 10000 10000"
+			}
+			"03"
+			{
+				"var_type"			"FIELD_INTEGER"
+				"radius"		    "225 225 225 225"
+			}
+			"04"
+			{	
+				"var_type"			"FIELD_INTEGER"
+				"speed"				"1500 1500 1500 1500"
+			}
+			"05"
+			{	
+				"var_type"			"FIELD_INTEGER"
+				"damage"			"100 100 100 100"
+			}
+            "06"
+			{
+				"var_type"			"FIELD_INTEGER"
+				"wd_radius"		    "300 300 300 300"
+			}
+			"07"
+			{
+				"var_type"			"FIELD_INTEGER"
+				"wd_damage"		    "100 100 100 100"
+			}
+			"08"
+			{	
+				"var_type"			"FIELD_INTEGER"
+				"wd_duration"		"1 2 3 4"
+			}
+			"09"
+			{	
+				"var_type"			"FIELD_INTEGER"
+				"wd_tree_damage"	"2 2 2 2"
+			}
+		}
+    }
+}
+

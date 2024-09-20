@@ -1,0 +1,84 @@
+Date : 2023-05-26 19:49:49
+Directory : d:\repos\boss_battles\content\dota_addons\boss_battles\panorama
+Total : 52 files,  5347 codes, 1066 comments, 1372 blanks, all 7785 lines
+
+Languages
++------------+------------+------------+------------+------------+------------+
+| language   | files      | code       | comment    | blank      | total      |
++------------+------------+------------+------------+------------+------------+
+| JavaScript |         23 |      2,723 |        673 |        805 |      4,201 |
+| CSS        |         15 |      2,035 |        209 |        416 |      2,660 |
+| XML        |         14 |        589 |        184 |        151 |        924 |
++------------+------------+------------+------------+------------+------------+
+
+Directories
++---------------------------------------------------------------------------------------------------------------------+------------+------------+------------+------------+------------+
+| path                                                                                                                | files      | code       | comment    | blank      | total      |
++---------------------------------------------------------------------------------------------------------------------+------------+------------+------------+------------+------------+
+| .                                                                                                                   |         52 |      5,347 |      1,066 |      1,372 |      7,785 |
+| layout                                                                                                              |         14 |        589 |        184 |        151 |        924 |
+| layout\custom_game                                                                                                  |         14 |        589 |        184 |        151 |        924 |
+| scripts                                                                                                             |         23 |      2,723 |        673 |        805 |      4,201 |
+| scripts\custom_game                                                                                                 |         23 |      2,723 |        673 |        805 |      4,201 |
+| styles                                                                                                              |         15 |      2,035 |        209 |        416 |      2,660 |
+| styles\custom_game                                                                                                  |         15 |      2,035 |        209 |        416 |      2,660 |
++---------------------------------------------------------------------------------------------------------------------+------------+------------+------------+------------+------------+
+
+Files
++---------------------------------------------------------------------------------------------------------------------+------------+------------+------------+------------+------------+
+| filename                                                                                                            | language   | code       | comment    | blank      | total      |
++---------------------------------------------------------------------------------------------------------------------+------------+------------+------------+------------+------------+
+| d:\repos\boss_battles\content\dota_addons\boss_battles\panorama\layout\custom_game\custom_hotkeys_players.xml       | XML        |         10 |          0 |          4 |         14 |
+| d:\repos\boss_battles\content\dota_addons\boss_battles\panorama\layout\custom_game\custom_loading_screen.xml        | XML        |        103 |         69 |         32 |        204 |
+| d:\repos\boss_battles\content\dota_addons\boss_battles\panorama\layout\custom_game\custom_ui_manifest.xml           | XML        |         29 |          0 |          5 |         34 |
+| d:\repos\boss_battles\content\dota_addons\boss_battles\panorama\layout\custom_game\game_scoreboard.xml              | XML        |         80 |         25 |         24 |        129 |
+| d:\repos\boss_battles\content\dota_addons\boss_battles\panorama\layout\custom_game\help_box.xml                     | XML        |         63 |          3 |          7 |         73 |
+| d:\repos\boss_battles\content\dota_addons\boss_battles\panorama\layout\custom_game\hero_selection.xml               | XML        |         57 |         55 |         23 |        135 |
+| d:\repos\boss_battles\content\dota_addons\boss_battles\panorama\layout\custom_game\lag_message.xml                  | XML        |         15 |          0 |          3 |         18 |
+| d:\repos\boss_battles\content\dota_addons\boss_battles\panorama\layout\custom_game\mode_selector.xml                | XML        |         31 |          7 |          4 |         42 |
+| d:\repos\boss_battles\content\dota_addons\boss_battles\panorama\layout\custom_game\post_game_screen.xml             | XML        |         25 |          1 |          4 |         30 |
+| d:\repos\boss_battles\content\dota_addons\boss_battles\panorama\layout\custom_game\precache.xml                     | XML        |         15 |          0 |          3 |         18 |
+| d:\repos\boss_battles\content\dota_addons\boss_battles\panorama\layout\custom_game\progress_bars.xml                | XML        |         24 |          4 |          7 |         35 |
+| d:\repos\boss_battles\content\dota_addons\boss_battles\panorama\layout\custom_game\raid_status.xml                  | XML        |         69 |         17 |         18 |        104 |
+| d:\repos\boss_battles\content\dota_addons\boss_battles\panorama\layout\custom_game\shop.xml                         | XML        |         59 |          2 |         13 |         74 |
+| d:\repos\boss_battles\content\dota_addons\boss_battles\panorama\layout\custom_game\target_indicator.xml             | XML        |          9 |          1 |          4 |         14 |
+| d:\repos\boss_battles\content\dota_addons\boss_battles\panorama\scripts\custom_game\camera.js                       | JavaScript |         99 |         19 |         31 |        149 |
+| d:\repos\boss_battles\content\dota_addons\boss_battles\panorama\scripts\custom_game\client_handshake.js             | JavaScript |          5 |          0 |          4 |          9 |
+| d:\repos\boss_battles\content\dota_addons\boss_battles\panorama\scripts\custom_game\commands.js                     | JavaScript |          5 |          0 |          3 |          8 |
+| d:\repos\boss_battles\content\dota_addons\boss_battles\panorama\scripts\custom_game\custom_hotkeys_players.js       | JavaScript |        235 |         99 |         54 |        388 |
+| d:\repos\boss_battles\content\dota_addons\boss_battles\panorama\scripts\custom_game\custom_hotkeys_players_old.js   | JavaScript |        322 |         85 |         81 |        488 |
+| d:\repos\boss_battles\content\dota_addons\boss_battles\panorama\scripts\custom_game\custom_hotkeys_players_old_2.js | JavaScript |        327 |         29 |         70 |        426 |
+| d:\repos\boss_battles\content\dota_addons\boss_battles\panorama\scripts\custom_game\custom_hud_messages.js          | JavaScript |          9 |          0 |          3 |         12 |
+| d:\repos\boss_battles\content\dota_addons\boss_battles\panorama\scripts\custom_game\custom_loading_screen.js        | JavaScript |        126 |         43 |         54 |        223 |
+| d:\repos\boss_battles\content\dota_addons\boss_battles\panorama\scripts\custom_game\firebase.js                     | JavaScript |          0 |          0 |          1 |          1 |
+| d:\repos\boss_battles\content\dota_addons\boss_battles\panorama\scripts\custom_game\game_scoreboard.js              | JavaScript |        179 |         51 |         55 |        285 |
+| d:\repos\boss_battles\content\dota_addons\boss_battles\panorama\scripts\custom_game\help_box.js                     | JavaScript |         27 |         10 |         13 |         50 |
+| d:\repos\boss_battles\content\dota_addons\boss_battles\panorama\scripts\custom_game\hero_selection.js               | JavaScript |        214 |         83 |         75 |        372 |
+| d:\repos\boss_battles\content\dota_addons\boss_battles\panorama\scripts\custom_game\lag_message.js                  | JavaScript |         12 |          3 |          8 |         23 |
+| d:\repos\boss_battles\content\dota_addons\boss_battles\panorama\scripts\custom_game\mode_selector.js                | JavaScript |        105 |         44 |         24 |        173 |
+| d:\repos\boss_battles\content\dota_addons\boss_battles\panorama\scripts\custom_game\player_movement.js              | JavaScript |         60 |          6 |         18 |         84 |
+| d:\repos\boss_battles\content\dota_addons\boss_battles\panorama\scripts\custom_game\player_name.js                  | JavaScript |         12 |          1 |          5 |         18 |
+| d:\repos\boss_battles\content\dota_addons\boss_battles\panorama\scripts\custom_game\post_game_screen.js             | JavaScript |         16 |          8 |          8 |         32 |
+| d:\repos\boss_battles\content\dota_addons\boss_battles\panorama\scripts\custom_game\progress_bars.js                | JavaScript |        247 |         84 |         86 |        417 |
+| d:\repos\boss_battles\content\dota_addons\boss_battles\panorama\scripts\custom_game\raid_status.js                  | JavaScript |        154 |         26 |         50 |        230 |
+| d:\repos\boss_battles\content\dota_addons\boss_battles\panorama\scripts\custom_game\shop.js                         | JavaScript |        249 |         45 |         76 |        370 |
+| d:\repos\boss_battles\content\dota_addons\boss_battles\panorama\scripts\custom_game\target_indicator.js             | JavaScript |        192 |         14 |         39 |        245 |
+| d:\repos\boss_battles\content\dota_addons\boss_battles\panorama\scripts\custom_game\ui_modify.js                    | JavaScript |        108 |         23 |         41 |        172 |
+| d:\repos\boss_battles\content\dota_addons\boss_battles\panorama\scripts\custom_game\util.js                         | JavaScript |         20 |          0 |          6 |         26 |
+| d:\repos\boss_battles\content\dota_addons\boss_battles\panorama\styles\custom_game\admin_panel.css                  | CSS        |         22 |          0 |          6 |         28 |
+| d:\repos\boss_battles\content\dota_addons\boss_battles\panorama\styles\custom_game\custom_hotkeys_players.css       | CSS        |          0 |          0 |          1 |          1 |
+| d:\repos\boss_battles\content\dota_addons\boss_battles\panorama\styles\custom_game\custom_loading_screen.css        | CSS        |        261 |         25 |         35 |        321 |
+| d:\repos\boss_battles\content\dota_addons\boss_battles\panorama\styles\custom_game\examples.css                     | CSS        |          0 |         18 |         19 |         37 |
+| d:\repos\boss_battles\content\dota_addons\boss_battles\panorama\styles\custom_game\game_scoreboard.css              | CSS        |        318 |         36 |         82 |        436 |
+| d:\repos\boss_battles\content\dota_addons\boss_battles\panorama\styles\custom_game\help_box.css                     | CSS        |        123 |          7 |         18 |        148 |
+| d:\repos\boss_battles\content\dota_addons\boss_battles\panorama\styles\custom_game\lag_message.css                  | CSS        |         29 |          0 |          3 |         32 |
+| d:\repos\boss_battles\content\dota_addons\boss_battles\panorama\styles\custom_game\mode_selector.css                | CSS        |        140 |         12 |         25 |        177 |
+| d:\repos\boss_battles\content\dota_addons\boss_battles\panorama\styles\custom_game\picking_screen.css               | CSS        |        252 |         35 |         36 |        323 |
+| d:\repos\boss_battles\content\dota_addons\boss_battles\panorama\styles\custom_game\post_game_screen.css             | CSS        |         69 |          0 |         10 |         79 |
+| d:\repos\boss_battles\content\dota_addons\boss_battles\panorama\styles\custom_game\progress_bars.css                | CSS        |        312 |         27 |         80 |        419 |
+| d:\repos\boss_battles\content\dota_addons\boss_battles\panorama\styles\custom_game\raid_status.css                  | CSS        |        287 |         31 |         65 |        383 |
+| d:\repos\boss_battles\content\dota_addons\boss_battles\panorama\styles\custom_game\shop.css                         | CSS        |        204 |         18 |         30 |        252 |
+| d:\repos\boss_battles\content\dota_addons\boss_battles\panorama\styles\custom_game\target_indicator.css             | CSS        |          0 |          0 |          1 |          1 |
+| d:\repos\boss_battles\content\dota_addons\boss_battles\panorama\styles\custom_game\ui_modify.css                    | CSS        |         18 |          0 |          5 |         23 |
+| Total                                                                                                               |            |      5,347 |      1,066 |      1,372 |      7,785 |
++---------------------------------------------------------------------------------------------------------------------+------------+------------+------------+------------+------------+

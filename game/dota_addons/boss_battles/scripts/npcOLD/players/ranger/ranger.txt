@@ -1,0 +1,65 @@
+"DOTAHeroes"
+{
+	//=================================================================================================================
+	// HERO: Ranger - Player Character
+	//=================================================================================================================
+	"npc_dota_hero_windrunner" //"npc_dota_hero_medusa"
+	{
+		"override_hero"			"npc_dota_hero_windrunner" 			// Hero to override
+		"Ability1"              "m2_serratedarrow" 
+        "Ability2"              "q_healing_arrow_v2" 
+        "Ability3"              "e_whirling_winds" 
+        "Ability4"              "r_explosive_arrow"
+        "Ability5"              "space_sprint"
+        "Ability6"              "ranger_passive"
+        "Ability7"              ""
+        "Ability8"              ""
+        "Ability9"              ""
+        "Ability10"             ""
+        "Ability11"             ""
+        "Ability12"             ""
+        "Ability13"             ""
+        "Ability14"             ""
+        "Ability15"             ""
+        "Ability16"             ""
+        "Ability17"             ""
+
+        "ArmorPhysical"             "0"
+        "MagicalResistance"         "0"
+
+        "AttackCapabilities"        "DOTA_UNIT_CAP_RANGED_ATTACK"
+        "AttackDamageMin"           "15"
+        "AttackDamageMax"           "15"
+        "AttackRate"                 "1.0"     // Speed of attack. 1.7 cm defualt
+        "AttackAnimationPoint"       "0.45"    // Normalized time in animation cycle to attack.
+        "AttackAcquisitionRange"     "1400"     // Range within a target can be acquired.
+        "AttackRange"                "1400"     // Range within a target can be attacked.
+        "AttackRangeBuffer"          "250"     // Extra range the target can move without canceling the attack
+        "ProjectileModel"            "particles/econ/items/windrunner/windranger_arcana/windranger_arcana_base_attack_v2.vpcf"
+        "ProjectileSpeed"            "1200"
+
+        //"AttributePrimary"        "DOTA_ATTRIBUTE_STRENGTH"
+        "AttributeBaseStrength"     "0"
+        "AttributeStrengthGain"     "0"
+        "AttributeBaseIntelligence" "0"
+        "AttributeIntelligenceGain" "0"
+        "AttributeBaseAgility"      "0"
+        "AttributeAgilityGain"      "0"
+
+        "BountyXP"                  "0"
+        "BountyGoldMin"             "0"
+        "BountyGoldMax"             "0"
+
+        "MovementCapabilities"      "DOTA_UNIT_CAP_MOVE_GROUND"
+        "MovementSpeed"             "400"
+        "MovementTurnRate"          "1.0"
+
+        "StatusHealth"              "500"
+        "StatusHealthRegen"         "0.0"
+        "StatusMana"                "100"
+        "StatusManaRegen"           "0.0"
+
+        "VisionDaytimeRange"        "5000"
+        "VisionNighttimeRange"      "5000"
+	}
+}

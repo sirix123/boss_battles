@@ -1,0 +1,228 @@
+// mechanical raid
+#base "bosses/beastmaster/abilities/beastmaster.txt"
+#base "bosses/gyrocopter/abilities/gyrocopter.txt"
+#base "bosses/clock/abilities/clock.txt"
+#base "bosses/timber/abilities/timber.txt"
+#base "bosses/techies/abilities/techies.txt"
+#base "bosses/tinker/abilities.txt"
+#base "bosses/primalbeast/abilities/primalbeast.txt"
+
+// player
+#base "players/warrior/abilities.txt"
+
+//ice mage
+#base "players/icemage/abilities.txt"
+
+//ranger
+#base "players/ranger/abilities.txt"
+
+//warlord
+#base "players/warlord/abilities.txt"
+
+//rogue
+#base "players/rogue/abilities.txt"
+
+//painter
+#base "players/painter/abilities.txt"
+
+//firemage
+#base "players/firemage/abilities.txt"
+#base "players/firemage/firemage_unit_spells.txt"
+
+//pally
+#base "players/pally/abilities.txt"
+
+//qop
+#base "players/queenofpain/abilities.txt"
+
+//rat
+#base "players/rat/abilities.txt"
+
+//mars
+#base "players/templar/abilities.txt"
+
+//pugna
+#base "players/pugna/abilities.txt"
+
+//priest
+#base "players/priest/abilities.txt"
+
+"DOTAAbilities"
+{
+
+    "abs_coord_debug"
+    { 
+        "BaseClass"                     "ability_lua"
+        "ScriptFile"                    "examples\abs_coord_debug.lua"
+
+        // General
+        //-------------------------------------------------------------------------------------------------------------
+        "AbilityBehavior"               "DOTA_ABILITY_BEHAVIOR_POINT"
+        "AbilityUnitDamageType"         "DAMAGE_TYPE_PHYSICAL"  
+
+        // Casting
+        //-------------------------------------------------------------------------------------------------------------
+        "AbilityCastPoint"              "0.0 0.0 0.0 0.0"
+
+        // Time     
+        //-------------------------------------------------------------------------------------------------------------
+        "AbilityCooldown"               "1.0 1.0 1.0 1.0"
+
+        // Cost
+        //-------------------------------------------------------------------------------------------------------------
+        "AbilityManaCost"               "0"
+
+    }
+
+    "test_oil_watergun_debug"
+    { 
+        "BaseClass"                     "ability_lua"
+        "ScriptFile"                    "bosses/gyrocopter/test_oil_watergun_debug"
+
+        // General
+        //-------------------------------------------------------------------------------------------------------------
+        "AbilityBehavior"               "DOTA_ABILITY_BEHAVIOR_NO_TARGET"
+        "AbilityUnitDamageType"         "DAMAGE_TYPE_PHYSICAL"  
+
+        // Casting
+        //-------------------------------------------------------------------------------------------------------------
+        "AbilityCastPoint"              "0.0 0.0 0.0 0.0"
+
+        // Time     
+        //-------------------------------------------------------------------------------------------------------------
+        "AbilityCooldown"               "1.0 1.0 1.0 1.0"
+
+        // Cost
+        //-------------------------------------------------------------------------------------------------------------
+        "AbilityManaCost"               "0"
+
+    }
+
+    "create_item_on_floor_testing"
+    { 
+        "BaseClass"                     "ability_lua"
+        "ScriptFile"                    "player\generic\create_item_on_floor_testing.lua"
+
+        // General
+        //-------------------------------------------------------------------------------------------------------------
+        "AbilityBehavior"               "DOTA_ABILITY_BEHAVIOR_POINT"
+        "AbilityUnitDamageType"         "DAMAGE_TYPE_PHYSICAL"  
+
+        // Casting
+        //-------------------------------------------------------------------------------------------------------------
+        "AbilityCastPoint"              "0.0 0.0 0.0 0.0"
+
+        // Time     
+        //-------------------------------------------------------------------------------------------------------------
+        "AbilityCooldown"               "1.0 1.0 1.0 1.0"
+
+        // Cost
+        //-------------------------------------------------------------------------------------------------------------
+        "AbilityManaCost"               "0"
+
+    }
+    
+
+    "powerShot"
+    { 
+        "BaseClass"                     "ability_lua"
+        "ScriptFile"                    "examples\powerShot.lua"
+
+        // General
+        //-------------------------------------------------------------------------------------------------------------
+        "AbilityBehavior"               "DOTA_ABILITY_BEHAVIOR_NO_TARGET"
+        "AbilityUnitDamageType"         "DAMAGE_TYPE_PHYSICAL"  
+
+        // Casting
+        //-------------------------------------------------------------------------------------------------------------
+        "AbilityCastPoint"              "0.0 0.0 0.0 0.0"
+
+        // Time     
+        //-------------------------------------------------------------------------------------------------------------
+        "AbilityCooldown"               "0.0 0.0 0.0 0.0"
+
+        // Cost
+        //-------------------------------------------------------------------------------------------------------------
+        "AbilityManaCost"               "10"
+
+    }
+
+    "slingShot"
+    { 
+        "BaseClass"                     "ability_lua"
+        "ScriptFile"                    "examples\slingShot.lua"
+
+        // General
+        //-------------------------------------------------------------------------------------------------------------
+        "AbilityBehavior"               "DOTA_ABILITY_BEHAVIOR_POINT"
+        "AbilityUnitDamageType"         "DAMAGE_TYPE_PHYSICAL"  
+
+        // Casting
+        //-------------------------------------------------------------------------------------------------------------
+        "AbilityCastPoint"              "0.0 0.0 0.0 0.0"
+
+        // Time     
+        //-------------------------------------------------------------------------------------------------------------
+        "AbilityCooldown"               "0.0 0.0 0.0 0.0"
+
+        // Cost
+        //-------------------------------------------------------------------------------------------------------------
+        "AbilityManaCost"               "10"
+
+    }
+
+
+    "vector_info"
+    { 
+        "BaseClass"                     "ability_lua"
+        "ScriptFile"                    "examples\vector_info.lua"
+
+        // General
+        //-------------------------------------------------------------------------------------------------------------
+        "AbilityBehavior"               "DOTA_ABILITY_BEHAVIOR_NO_TARGET"
+        "AbilityUnitDamageType"         "DAMAGE_TYPE_PHYSICAL"  
+
+        // Casting
+        //-------------------------------------------------------------------------------------------------------------
+        "AbilityCastPoint"              "0.0 0.0 0.0 0.0"
+
+        // Time     
+        //-------------------------------------------------------------------------------------------------------------
+        "AbilityCooldown"               "1.0 1.0 1.0 1.0"
+
+        // Cost
+        //-------------------------------------------------------------------------------------------------------------
+        "AbilityManaCost"               "10"
+
+    }
+
+    "vaal_fireball"
+    { 
+        "BaseClass"                     "ability_lua"
+        "ScriptFile"                    "examples\vaal_fireball.lua"
+
+        // General
+        //-------------------------------------------------------------------------------------------------------------
+        "AbilityBehavior"               "DOTA_ABILITY_BEHAVIOR_NO_TARGET"
+        "AbilityUnitDamageType"         "DAMAGE_TYPE_PHYSICAL"  
+
+        // Casting
+        //-------------------------------------------------------------------------------------------------------------
+        "AbilityCastPoint"              "0.0 0.0 0.0 0.0"
+
+        // Time     
+        //-------------------------------------------------------------------------------------------------------------
+        "AbilityCooldown"               "1.0 1.0 1.0 1.0"
+
+        // Cost
+        //-------------------------------------------------------------------------------------------------------------
+        "AbilityManaCost"               "10"
+
+        "precache"
+        {
+            "soundfile" "soundevents/voscripts/game_sounds_vo_shredder.vsndevts"
+            "particle"  "particles/timber/napalm_wave_basedtidehuntergushupgrade.vpcf"
+        }
+    }
+
+}

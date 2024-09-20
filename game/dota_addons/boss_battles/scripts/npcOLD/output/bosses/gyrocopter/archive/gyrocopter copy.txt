@@ -1,0 +1,118 @@
+"DOTAUnits"
+{
+	
+
+	//=================================================================================	
+	//  Gyrocopter 
+	//=================================================================================
+	"npc_gyrocopter"	
+	{
+		// script
+		"vscripts"					"bosses/gyrocopter/gyrocopter_v2.lua"
+
+		// General
+		//----------------------------------------------------------------
+		"Model"						"models/heroes/gyro/gyro.vmdl"	// Model.
+		"BaseClass"					"npc_dota_creature"
+		"SoundSet"					"n_creep_Melee"
+		"GameSoundsFile"			"soundevents/game_sounds_heroes/game_sounds_gyrocopter.vsndevts"
+		"Level"						"1"
+		"ModelScale" 				"1.25"
+
+		// Abilities
+		//----------------------------------------------------------------
+		"Ability1"					"gyro_base_attack"			
+		"Ability2"					"radar_scan"
+		"Ability3"					"radar_pulse"
+
+		"Ability5"					"dumb_homing_missile_v2"
+		"Ability6"					"smart_homing_missile_v2"
+
+		"Ability7"					"swoop"			
+		"Ability8"					"flee"
+
+		"Ability9"					"barrage"
+		"Ability10"					"barrage_radius_melee"
+		"Ability11"					"barrage_radius_ranged"
+		"Ability12"					"barrage_radius_attack"
+
+		"Ability13"					"absorbing_shell"
+		"Ability14"					"call_down"
+		"Ability15"					"continuous_radar_scan"
+		"Ability16"					"dumb_rocket_waves"
+
+		"Ability17"					"whirlwind"
+		"Ability18"					"whirlwind_attack"
+		
+		
+
+
+		// Precache
+		//-------------------------------------------------------------------------------------------------------------
+		"precache"
+		{
+			"missile"					"models/heroes/gyro/gyro_missile.vmdl"
+		}
+
+		// Armor
+		//----------------------------------------------------------------
+		"ArmorPhysical"				"0"			
+
+		// Attack
+		//----------------------------------------------------------------
+		"AttackCapabilities"		"DOTA_UNIT_CAP_RANGED_ATTACK"
+		"AttackDamageMin"			"20"		
+		"AttackDamageMax"			"40"		
+		"AttackRate"				"1"		// Speed of attack.
+		"AttackAnimationPoint"		"0.4"		// Normalized time in animation cycle to attack.
+		"AttackAcquisitionRange"	"3000"		// Range within a target can be acquired.
+		"AttackRange"				"1000"
+		"ProjectileModel" 			"particles/units/heroes/hero_tinker/tinker_base_attack.vpcf"
+		"ProjectileSpeed" 			"900"		
+
+		// Bounds
+		//----------------------------------------------------------------
+		"RingRadius"				"40"
+		"HealthBarOffset"			"170"
+
+		// Movement
+		//----------------------------------------------------------------
+		"MovementCapabilities"		"DOTA_UNIT_CAP_MOVE_GROUND" // or DOTA_UNIT_CAP_MOVE_FLY
+		"MovementSpeed"				"350"					
+
+		// Status
+		//----------------------------------------------------------------
+		"StatusHealth"				"200000"		// Base health.
+		"StatusHealthRegen"			"0.0"		// Health regeneration rate.
+		"StatusMana"				"0"			// Base mana.
+		"StatusManaRegen"			"0.0"		// Mana regeneration rate.		 
+		
+		// Vision
+		//----------------------------------------------------------------
+		"VisionDaytimeRange"		"1800"		// Range of vision during day light.
+		"VisionNighttimeRange"		"1800"		// Range of vision at night time.
+
+		// Team
+		//----------------------------------------------------------------
+		"TeamName"					"DOTA_TEAM_BADGUYS"						// Team name.
+		"CombatClassAttack"			"DOTA_COMBAT_CLASS_ATTACK_PIERCE"
+		"CombatClassDefend"			"DOTA_COMBAT_CLASS_DEFEND_BASIC"
+		"UnitRelationshipClass"		"DOTA_NPC_UNIT_RELATIONSHIP_TYPE_DEFAULT"
+
+		"Creature"
+		{
+			"AttachWearables" //https://github.com/TheEnigmaBlade/dota2-unit-asset-data/blob/master/wearables.txt
+			{
+				"Wearable1" { "ItemDef" "126" }
+				"Wearable2" { "ItemDef" "131" }
+				"Wearable3" { "ItemDef" "176" }
+				"Wearable4" { "ItemDef" "177" }
+				"Wearable5" { "ItemDef" "178" }
+				"Wearable6"	{ "ItemDef" "179" }
+				"Wearable7"	{ "ItemDef" "527" }
+			}
+		}
+		
+
+	}
+}

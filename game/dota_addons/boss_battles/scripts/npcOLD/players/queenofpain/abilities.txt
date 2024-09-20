@@ -1,0 +1,232 @@
+"DOTAAbilities"
+{
+	"qop_passive"
+	{
+		"BaseClass"						"ability_lua"
+		"ScriptFile"					"player/queenofpain/qop_passive"
+		"MaxLevel"						"1"
+		"AbilityTextureName"			"queenofpain_sonic_wave"
+        "AbilityBehavior"				"DOTA_ABILITY_BEHAVIOR_PASSIVE"
+        
+		"AbilitySpecial"
+		{
+			"01"{ "var_type"			"FIELD_FLOAT"		"dmg_to_heal_reduction"			"20" 	}
+			"02"{ "var_type"			"FIELD_INTEGER"		"duration_main_buff"			"12" 	}
+		}
+	}
+
+
+	"m1_qop_basic_attack"
+	{
+		"BaseClass"						"ability_lua"
+		"ScriptFile"					"player/queenofpain/m1_qop_basic_attack"
+		"MaxLevel"						"1"
+
+		"AbilityTextureName"			"queenofpain_shadow_strike"
+		"AbilityUnitTargetTeam"			"DOTA_UNIT_TARGET_TEAM_ENEMY"
+		"AbilityUnitDamageType"			"DAMAGE_TYPE_PHYSICAL"	
+        "AbilityBehavior"				"DOTA_ABILITY_BEHAVIOR_POINT | DOTA_ABILITY_BEHAVIOR_IGNORE_PSEUDO_QUEUE"
+		"AbilityCastRange" 				"1300"
+        "AbilityCooldown"				"0.0"
+        "AbilityCastPoint"              "0.4"
+
+
+		"TargetingIndicator"
+		{
+			"Type"						"TARGETING_INDICATOR_LINE"
+			"Fixed"						"1"
+		}
+        
+		"AbilitySpecial"
+		{
+			"01"{ "var_type"			"FIELD_INTEGER"		"dmg"							"90" } 
+			"02"{ "var_type"			"FIELD_INTEGER"		"hit_box"						"80" }
+			"03"{ "var_type"			"FIELD_INTEGER"		"proj_speed"					"1200" }
+			"04"{ "var_type"			"FIELD_INTEGER"		"mana_gain_percent"             "5" }
+		}
+	}
+
+	"m2_qop_direct_heal"
+	{
+		"BaseClass"						"ability_lua"
+		"ScriptFile"					"player/queenofpain/m2_qop_direct_heal"
+		"MaxLevel"						"1"
+
+		"AbilityTextureName"			"queenofpain_blink"
+		"AbilityUnitTargetTeam"			"DOTA_UNIT_TARGET_TEAM_FRIENDLY"
+        "AbilityBehavior"				"DOTA_ABILITY_BEHAVIOR_UNIT_TARGET"
+		"AbilityCastAnimation"   		"ACT_DOTA_CAST_ABILITY_1"
+		"AbilityUnitTargetType"			"DOTA_UNIT_TARGET_HERO | DOTA_UNIT_TARGET_BASIC"
+		"AbilityCastRange" 				"1300"
+        "AbilityCooldown"				"0"
+        "AbilityCastPoint"              "0.4"
+		"AbilityManaCost"        		"6.5"
+
+		"TargetingIndicator"
+		{
+			//"Type"						"TARGETING_INDICATOR_AOE"
+			//"Fixed"						"1"
+		}
+        
+		"AbilitySpecial"
+		{
+			"01"{ "var_type"			"FIELD_INTEGER"		"duration_main_buff"		"12" }
+			"02"{ "var_type"			"FIELD_INTEGER"		"duration_debuff"			"7" }
+			"03"{ "var_type"			"FIELD_INTEGER"		"base_heal"					"60" }
+		}
+
+		"precache"
+		{
+			//"soundfile"	"soundevents/game_sounds_heroes/game_sounds_winter_wyvern.vsndevts"
+			//"particle"	"particles/units/heroes/hero_winter_wyvern/wyvern_cold_embrace_buff.vpcf"
+		}
+	}
+
+	"q_pen"
+	{
+		"BaseClass"						"ability_lua"
+		"ScriptFile"					"player/queenofpain/q_pen"
+		"MaxLevel"						"1"
+
+		"AbilityTextureName"			"shadow_demon_demonic_purge"
+		"AbilityUnitTargetTeam"			"DOTA_UNIT_TARGET_TEAM_BOTH"
+		"AbilityBehavior"				"DOTA_ABILITY_BEHAVIOR_UNIT_TARGET | DOTA_ABILITY_BEHAVIOR_CHANNELLED"
+		"AbilityUnitTargetType"			"DOTA_UNIT_TARGET_HERO | DOTA_UNIT_TARGET_BASIC"
+		"AbilityCastAnimation"   		"ACT_DOTA_GENERIC_CHANNEL_1"
+		"AbilityUnitDamageType"			"DAMAGE_TYPE_PHYSICAL"
+		"AbilityCastRange" 				"1300"
+        "AbilityCooldown"				"20"
+        "AbilityCastPoint"              "0.3"
+		"AbilityChannelTime"			"1.6"
+		"AbilityManaCost"        		"0"
+
+		"TargetingIndicator"
+		{
+			//"Type"						"TARGETING_INDICATOR_AOE"
+			//"Fixed"						"1"
+		}
+        
+		"AbilitySpecial"
+		{
+			"01"{ "var_type"			"FIELD_INTEGER"		"duration_main_buff"	"12" }
+			"02"{ "var_type"			"FIELD_INTEGER"		"max_ticks"				"4" }
+			"03"{ "var_type"			"FIELD_FLOAT"		"tick_rate"				"0.3" }
+			"04"{ "var_type"			"FIELD_INTEGER"		"dmg"					"100" }
+			"05"{ "var_type"			"FIELD_INTEGER"		"base_heal"				"60" }
+		}
+
+		"precache"
+		{
+			"soundfile"	"soundevents/game_sounds_heroes/game_sounds_winter_wyvern.vsndevts"
+			"particle"	"particles/units/heroes/hero_winter_wyvern/wyvern_cold_embrace_buff.vpcf"
+		}
+
+	}
+
+	"e_qop_shield"
+	{
+		"BaseClass"						"ability_lua"
+		"ScriptFile"					"player/queenofpain/e_qop_shield"
+		"MaxLevel"						"1"
+
+		"AbilityTextureName"			"shadow_demon_disruption"
+		"AbilityUnitTargetTeam"			"DOTA_UNIT_TARGET_TEAM_BOTH"
+        "AbilityBehavior"				"DOTA_ABILITY_BEHAVIOR_UNIT_TARGET"
+		"AbilityCastAnimation"   		"ACT_DOTA_CAST_ABILITY_1"
+		"AbilityUnitTargetType"			"DOTA_UNIT_TARGET_HERO | DOTA_UNIT_TARGET_BASIC"
+		"AbilityCastRange" 				"1300"
+        "AbilityCooldown"				"0"
+        "AbilityCastPoint"              "0.4"
+		"AbilityManaCost"        		"0"
+
+		"TargetingIndicator"
+		{
+			//"Type"						"TARGETING_INDICATOR_AOE"
+			//"Fixed"						"1"
+		}
+        
+		"AbilitySpecial"
+		{
+			//"01"{ "var_type"			"FIELD_INTEGER"		"duration"				"15" }
+			"02"{ "var_type"			"FIELD_INTEGER"		"base_bubble"			"50 100 200 400" }
+			"03"{ "var_type"			"FIELD_FLOAT"		"dmg_multiplier"		"2.5 5 10 20" }
+			"04"{ "var_type"			"FIELD_INTEGER"		"enemy_cooldown"		"2" }
+			"05"{ "var_type"			"FIELD_INTEGER"		"ally_cooldown"			"1" }
+			"06"{ "var_type"			"FIELD_INTEGER"		"enemy_duration"		"1" }
+			"07"{ "var_type"			"FIELD_INTEGER"		"ally_duration"			"1" }
+		}
+
+		"precache"
+		{
+			//"soundfile"	"soundevents/game_sounds_heroes/game_sounds_winter_wyvern.vsndevts"
+			//"particle"	"particles/units/heroes/hero_winter_wyvern/wyvern_cold_embrace_buff.vpcf"
+		}
+	}
+
+	"r_delayed_aoe_heal"
+	{
+		"BaseClass"						"ability_lua"
+		"ScriptFile"					"player/queenofpain/r_delayed_aoe_heal"
+		"MaxLevel"						"1"
+
+		"AbilityTextureName"			"bloodseeker_blood_bath"
+		"AbilityUnitDamageType"			"DAMAGE_TYPE_PHYSICAL"	
+        "AbilityBehavior"				"DOTA_ABILITY_BEHAVIOR_POINT | DOTA_ABILITY_BEHAVIOR_AOE"
+		"AbilityCastAnimation"          "ACT_DOTA_CAST_ABILITY_1"
+		"AbilityCastRange" 				"1300"
+        "AbilityCooldown"				"30"
+        "AbilityCastPoint"              "0.2"
+		"AbilityManaCost"        		"0"
+
+		"TargetingIndicator"
+		{
+			"Type"						"TARGETING_INDICATOR_AOE"
+			//"Fixed"						"1"
+		}
+        
+		"AbilitySpecial"
+		{
+			"01"{ "var_type"			"FIELD_INTEGER"		"radius"			"400" }
+			"02"{ "var_type"			"FIELD_INTEGER"		"duration"			"10" }
+			"03"{ "var_type"			"FIELD_INTEGER"		"dmg"				"70" }
+			"04"{ "var_type"			"FIELD_INTEGER"		"radius"			"400" }
+			"05"{ "var_type"			"FIELD_FLOAT"		"damage_interval"	"0.5" }
+			"06"{ "var_type"			"FIELD_INTEGER"		"mana"				"2" }
+		}
+
+		"precache"
+		{
+			"soundfile"	"sounds/weapons/hero/bloodseeker/rupture.vsnd"
+			"soundfile"	"sounds/weapons/hero/bloodseeker/blood_rite_cast.vsnd"
+			//"particle"	"particles/units/heroes/hero_winter_wyvern/wyvern_cold_embrace_buff.vpcf"
+		}
+	}
+
+    "space_leap_of_grip"
+    { 
+        "BaseClass"                     "ability_lua"
+        "ScriptFile"					"player/queenofpain/space_leap_of_grip"
+        "MaxLevel"						"1"
+
+		"AbilityTextureName"			"shadow_demon_shadow_poison"
+		"AbilityUnitTargetTeam"			"DOTA_UNIT_TARGET_TEAM_FRIENDLY"
+        "AbilityBehavior"				"DOTA_ABILITY_BEHAVIOR_UNIT_TARGET"
+		"AbilityCastAnimation"   		"ACT_DOTA_CAST_ABILITY_1"
+		"AbilityUnitTargetType"			"DOTA_UNIT_TARGET_HERO | DOTA_UNIT_TARGET_BASIC"
+		"AbilityCastRange" 				"1300"
+        "AbilityCastPoint"              "0.0"
+		"AbilityManaCost"        		"0"
+		"AbilityCharges"				"2"
+		"AbilityChargeRestoreTime"		"25"
+
+		"AbilitySpecial"
+		{
+            "01"{ "var_type"			"FIELD_INTEGER"		"speed"		            "1900" }
+		}
+
+        "precache"
+		{
+
+		}
+    }
+}

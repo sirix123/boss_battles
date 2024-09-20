@@ -1,0 +1,515 @@
+
+"DOTAUnits"
+{
+	//=================================================================================	
+	// Creature: Beastmaster Bear
+	//=================================================================================
+	"npc_beastmaster_bear"	
+	{
+		// script
+		"vscripts"					"bosses/beastmaster/ai_bear.lua"
+
+		// General
+		//----------------------------------------------------------------
+		"Model"						"models/items/lone_druid/bear/dark_wood_bear/dark_wood_bear.vmdl"	// Model.
+		"BaseClass"					"npc_dota_creature"
+		"SoundSet"					"Hero_Beastmaster_Boar"
+		"GameSoundsFile"			"soundevents/game_sounds_heroes/game_sounds_beastmaster.vsndevts"
+		"Level"						"1"
+		"ModelScale" 				"1"
+
+		// Abilities
+		//----------------------------------------------------------------
+		"Ability1"					"bear_claw"			// Ability 1
+		"Ability2"					"bear_bloodlust"	// Ability 2
+		"Ability3"					"bear_charge"		// Ability 3
+		"Ability4"					""					// Ability 4
+
+		// Armor
+		//----------------------------------------------------------------
+		"ArmorPhysical"				"0"			// Physical protection.
+
+		// Attack
+		//----------------------------------------------------------------
+		"AttackCapabilities"		"DOTA_UNIT_CAP_MELEE_ATTACK"
+		"AttackDamageMin"			"25"		// Damage range min.
+		"AttackDamageMax"			"25"		// Damage range max.
+		"AttackRate"				"0.7"		// Speed of attack.
+		"AttackAnimationPoint"		"0.1"		// Normalized time in animation cycle to attack.
+		"AttackAcquisitionRange"	"2500"		// Range within a target can be acquired.
+		"AttackRange"				"150"		// Range within a target can be attacked.     
+
+		// Bounds
+		//----------------------------------------------------------------
+		"RingRadius"				"40"
+		"HealthBarOffset"			"170"
+
+		// Bounty
+		//----------------------------------------------------------------
+		"BountyXP"					"0"		// Experience earn.
+		"BountyGoldMin"				"0"		// Gold earned min.
+		"BountyGoldMax"				"0"		// Gold earned max.
+
+		// Movement
+		//----------------------------------------------------------------
+		"MovementCapabilities"		"DOTA_UNIT_CAP_MOVE_GROUND"
+		"MovementSpeed"				"200"		// Speed.			
+
+		// Status
+		//----------------------------------------------------------------
+		"StatusHealth"				"53000"//"4000"//"5000"		// Base health.
+		"StatusHealthRegen"			"1"			// Health regeneration rate.
+		"StatusMana"				"0"			// Base mana.
+		"StatusManaRegen"			"0.0"		// Mana regeneration rate.		 
+		
+		// Vision
+		//----------------------------------------------------------------
+		"VisionDaytimeRange"		"5000"		// Range of vision during day light.
+		"VisionNighttimeRange"		"5000"		// Range of vision at night time.
+
+		// Team
+		//----------------------------------------------------------------
+		"TeamName"					"DOTA_TEAM_BADGUYS"						// Team name.
+		"CombatClassAttack"			"DOTA_COMBAT_CLASS_ATTACK_PIERCE"
+		"CombatClassDefend"			"DOTA_COMBAT_CLASS_DEFEND_BASIC"
+		"UnitRelationshipClass"		"DOTA_NPC_UNIT_RELATIONSHIP_TYPE_DEFAULT"
+
+		// Creature Data
+		//----------------------------------------------------------------
+		"Creature"
+		{
+			//Level Up
+			"HPGain"					"0"
+			"DamageGain"				"0"
+			"ArmorGain"					"0"
+			"MagicResistGain"			"0"
+			"MoveSpeedGain"				"0"
+			"BountyGain"				"0"
+			"XPGain"					"0"
+		}
+	}
+
+	//=================================================================================	
+	// Creature: Beastmaster 
+	//=================================================================================
+	"npc_beastmaster"	
+	{
+		// script
+		"vscripts"					"bosses/beastmaster/ai_beastmaster_v4.lua"
+
+		// General
+		//----------------------------------------------------------------
+		"Model"						"models/heroes/beastmaster/beastmaster.vmdl"	// Model.
+		"BaseClass"					"npc_dota_creature"
+		"SoundSet"					"Hero_Beastmaster"
+		"GameSoundsFile"			"soundevents/game_sounds_heroes/game_sounds_beastmaster.vsndevts"
+		"Level"						"10"
+		"ModelScale" 				"1.4"
+
+		// Abilities
+		//----------------------------------------------------------------
+		"Ability1"					"beastmaster_mark"			// Ability 1
+		"Ability2"					"summon_bear"				// Ability 2
+		"Ability3"					"summon_quillboar"			// Ability 3
+		"Ability4"					"beastmaster_net"			// Ability 4
+		"Ability5"					"beastmaster_break"			// Ability 5
+		"Ability6"					"summon_bird"				// Ability 5
+		"Ability7"					"roar"						// Ability 5
+		"Ability8"					"puddle_projectile_spell"	// Ability 5
+		"Ability9"					"fish_puddle"	// Ability 5
+		
+		
+		// Armor
+		//----------------------------------------------------------------
+		"ArmorPhysical"				"0"			// Physical protection.
+
+		// Attack
+		//----------------------------------------------------------------
+		"AttackCapabilities"		"DOTA_UNIT_CAP_MELEE_ATTACK"
+		"AttackDamageMin"			"25"		// Damage range min.
+		"AttackDamageMax"			"35"		// Damage range max.
+		"AttackRate"				"2.0"		// Speed of attack.
+		"AttackAnimationPoint"		"0.1"		// Normalized time in animation cycle to attack.
+		"AttackAcquisitionRange"	"4000"		// Range within a target can be acquired.
+		"AttackRange"				"150"		// Range within a target can be attacked.     
+
+		// Bounds
+		//----------------------------------------------------------------
+		"RingRadius"				"40"
+		"HealthBarOffset"			"170"
+
+		// Bounty
+		//----------------------------------------------------------------
+		"BountyXP"					"0"		// Experience earn.
+		"BountyGoldMin"				"0"		// Gold earned min.
+		"BountyGoldMax"				"0"		// Gold earned max.
+
+		// Movement
+		//----------------------------------------------------------------
+		"MovementCapabilities"		"DOTA_UNIT_CAP_MOVE_GROUND" //DOTA_UNIT_CAP_MOVE_NONE DOTA_UNIT_CAP_MOVE_GROUND
+		"MovementSpeed"				"420"		// Speed.			
+
+		// Status
+		//----------------------------------------------------------------
+		"StatusHealth"				"165000"//""		// Base health. 150000
+		"StatusHealthRegen"			"0.0"		// Health regeneration rate.
+		"StatusMana"				"100"			// Base mana.
+		"StatusManaRegen"			"2"		// Mana regeneration rate.		 
+		
+		// Vision
+		//----------------------------------------------------------------
+		"VisionDaytimeRange"		"5000"		// Range of vision during day light.
+		"VisionNighttimeRange"		"5000"		// Range of vision at night time.
+
+		// Team
+		//----------------------------------------------------------------
+		"TeamName"					"DOTA_TEAM_BADGUYS"						// Team name.
+		"CombatClassAttack"			"DOTA_COMBAT_CLASS_ATTACK_PIERCE"
+		"CombatClassDefend"			"DOTA_COMBAT_CLASS_DEFEND_BASIC"
+		"UnitRelationshipClass"		"DOTA_NPC_UNIT_RELATIONSHIP_TYPE_DEFAULT"
+
+		"Creature"
+		{
+			"AttachWearables"
+			{
+            "1" { "ItemDef" "8512" } // Chieftain Helm of the Chaos Wastes
+            "2" { "ItemDef" "8514" } // Chieftain Raven of the Chaos Wastes
+            "3" { "ItemDef" "8510" } // Chieftain Belt of the Chaos Wastes
+            "4" { "ItemDef" "8513" } // Chieftain Guard of the Chaos Wastes
+            "5" { "ItemDef" "8515" } // Chieftain Warhound of the Chaos Wastes
+            "6" { "ItemDef" "8509" } // Chieftain Axes of the Chaos Wastes
+            "7" { "ItemDef" "8511" } // Chieftain Vambraces of the Chaos Wastes
+			}
+		}
+	}
+
+	//=================================================================================	
+	// Creature: Beastmaster QuilBoar
+	//=================================================================================
+	"npc_quilboar"	
+	{
+		// script
+		"vscripts"					"bosses/beastmaster/ai_quilboar_v2.lua"
+
+		// General
+		//----------------------------------------------------------------
+		"Model"						"models/items/beastmaster/boar/ti9_cache_beast_master_dinosaurs_telepathy_beast/ti9_cache_beast_master_dinosaurs_telepathy_beast.vmdl"	// Model.
+		"BaseClass"					"npc_dota_creature"
+		"SoundSet"					"Hero_Beastmaster_Boar"
+		"GameSoundsFile"			"soundevents/game_sounds_creeps.vsndevts"
+		"Level"						"1"
+		"ModelScale" 				"0.8"
+
+		// Abilities
+		//----------------------------------------------------------------
+		"Ability1"					"quilboar_puddle"			// Ability 1
+		"Ability2"					""			// Ability 2
+		"Ability3"					""			// Ability 3
+		"Ability4"					""			// Ability 4
+
+		// Armor
+		//----------------------------------------------------------------
+		"ArmorPhysical"				"0"			// Physical protection.
+
+		// Attack
+		//----------------------------------------------------------------
+		"AttackCapabilities"		"DOTA_UNIT_CAP_RANGED_ATTACK"
+		"AttackDamageMin"			"15"			// Damage range min.
+		"AttackDamageMax"			"20"		// Damage range max.
+		"AttackRate"				"1.5"		// Speed of attack.
+		"AttackAnimationPoint"		"0.3"		// Normalized time in animation cycle to attack.
+		"AttackAcquisitionRange"	"10000"		// Range within a target can be acquired.
+		"AttackRange"				"900"		// Range within a target can be attacked. 
+		"ProjectileModel" 			"particles/units/heroes/hero_beastmaster/beastmaster_boar_attack.vpcf"
+		"ProjectileSpeed" 			"900"	    
+
+		// Bounds
+		//----------------------------------------------------------------
+		"RingRadius"				"40"
+		"HealthBarOffset"			"170"
+
+		// Bounty
+		//----------------------------------------------------------------
+		"BountyXP"					"0"		// Experience earn.
+		"BountyGoldMin"				"0"		// Gold earned min.
+		"BountyGoldMax"				"0"		// Gold earned max.
+
+		// Movement
+		//----------------------------------------------------------------
+		"MovementCapabilities"		"DOTA_UNIT_CAP_MOVE_GROUND"
+		"MovementSpeed"				"200"		// Speed.			
+
+		// Status
+		//----------------------------------------------------------------
+		"StatusHealth"				"800"		// Base health.
+		"StatusHealthRegen"			"0.5"		// Health regeneration rate.
+		"StatusMana"				"0"			// Base mana.
+		"StatusManaRegen"			"0.0"		// Mana regeneration rate.		 
+		
+		// Vision
+		//----------------------------------------------------------------
+		"VisionDaytimeRange"		"5000"		// Range of vision during day light.
+		"VisionNighttimeRange"		"5000"		// Range of vision at night time.
+
+		// Team
+		//----------------------------------------------------------------
+		"TeamName"					"DOTA_TEAM_BADGUYS"						// Team name.
+		"CombatClassAttack"			"DOTA_COMBAT_CLASS_ATTACK_PIERCE"
+		"CombatClassDefend"			"DOTA_COMBAT_CLASS_DEFEND_BASIC"
+		"UnitRelationshipClass"		"DOTA_NPC_UNIT_RELATIONSHIP_TYPE_DEFAULT"
+
+		// Creature Data
+		//----------------------------------------------------------------
+		"Creature"
+		{
+			//Level Up
+			"HPGain"					"0"
+			"DamageGain"				"0"
+			"ArmorGain"					"0"
+			"MagicResistGain"			"0"
+			"MoveSpeedGain"				"0"
+			"BountyGain"				"0"
+			"XPGain"					"0"
+		}
+	}
+
+	//=================================================================================	
+	// Creature: Beastmaster Stampede Unit
+	//=================================================================================
+	"npc_stampede_unit"
+	{										
+		// General
+		//----------------------------------------------------------------
+		"Model"						"models/creeps/neutral_creeps/n_creep_centaur_med/n_creep_centaur_med.vmdl"	// Model.
+		"BaseClass"					"npc_dota_creature"
+		"SoundSet"					"n_creep_Ranged"
+		"GameSoundsFile"			"soundevents/game_sounds_creeps.vsndevts"
+		"Level"						"1"
+		"ModelScale" 				"0.5"
+
+		// Abilities
+		//----------------------------------------------------------------
+		"Ability1"					""			// Ability 1
+		"Ability2"					""			// Ability 2
+		"Ability3"					""			// Ability 3
+		"Ability4"					""			// Ability 4
+
+		// Armor
+		//----------------------------------------------------------------
+		"ArmorPhysical"				"1"			// Physical protection.
+
+		"AttackCapabilities"	"DOTA_UNIT_CAP_NO_ATTACK"
+
+		// Bounds
+		//----------------------------------------------------------------
+		"RingRadius"				"40"
+		"HealthBarOffset"			"170"
+
+		// Bounty
+		//----------------------------------------------------------------
+		"BountyXP"					"24"		// Experience earn.
+		"BountyGoldMin"				"21"		// Gold earned min.
+		"BountyGoldMax"				"29"		// Gold earned max.
+
+		// Movement
+		//----------------------------------------------------------------
+		"MovementCapabilities"		"DOTA_UNIT_CAP_MOVE_GROUND"
+		"MovementSpeed"				"350"		// Speed.			
+
+		// Status
+		//----------------------------------------------------------------
+		"StatusHealth"				"18"		// Base health.
+		"StatusHealthRegen"			"0.5"		// Health regeneration rate.
+		"StatusMana"				"0"			// Base mana.
+		"StatusManaRegen"			"0.0"		// Mana regeneration rate.		 
+		
+		// Vision
+		//----------------------------------------------------------------
+		"VisionDaytimeRange"		"5000"		// Range of vision during day light.
+		"VisionNighttimeRange"		"5000"		// Range of vision at night time.
+
+		// Team
+		//----------------------------------------------------------------
+		"TeamName"					"DOTA_TEAM_NEUTRALS"						// Team name.
+		"CombatClassAttack"			"DOTA_COMBAT_CLASS_ATTACK_PIERCE"
+		"CombatClassDefend"			"DOTA_COMBAT_CLASS_DEFEND_BASIC"
+		"UnitRelationshipClass"		"DOTA_NPC_UNIT_RELATIONSHIP_TYPE_DEFAULT"
+	}
+
+	//=================================================================================	
+	// Creature: Beastmaster bird
+	//=================================================================================
+	"npc_beastmaster_bird"	
+	{
+		// script
+		"vscripts"					"bosses/beastmaster/ai_bird.lua"
+
+		// General
+		//----------------------------------------------------------------
+		"Model"						"models/items/beastmaster/hawk/ti9_cache_beast_master_dinosaurs_telepathy_hawk/ti9_cache_beast_master_dinosaurs_telepathy_hawk.vmdl"	// Model.
+		"BaseClass"					"npc_dota_creature"
+		"SoundSet"					"Hero_Beastmaster_Boar"
+		"GameSoundsFile"			"soundevents/game_sounds_creeps.vsndevts"
+		"Level"						"1"
+		"ModelScale" 				"2.5"
+
+		// Abilities
+		//----------------------------------------------------------------
+		"Ability1"					"grab_player"			// Ability 1
+		"Ability2"					""						// Ability 2
+		"Ability3"					""						// Ability 3
+		"Ability4"					""						// Ability 4
+
+		// Armor
+		//----------------------------------------------------------------
+		"ArmorPhysical"				"0"			// Physical protection.
+
+		// Attack
+		//----------------------------------------------------------------
+		"AttackCapabilities"		"DOTA_UNIT_CAP_NO_ATTACK"
+		"AttackDamageMin"			"10"		// Damage range min.
+		"AttackDamageMax"			"10"		// Damage range max.
+		"AttackRate"				"1.6"		// Speed of attack.
+		"AttackAnimationPoint"		"0.4"		// Normalized time in animation cycle to attack.
+		"AttackAcquisitionRange"	"4000"		// Range within a target can be acquired.
+		"AttackRange"				"50"		// Range within a target can be attacked.     
+
+		// Bounds
+		//----------------------------------------------------------------
+		"RingRadius"				"40"
+		"HealthBarOffset"			"800"
+
+		// Bounty
+		//----------------------------------------------------------------
+		"BountyXP"					"24"		// Experience earn.
+		"BountyGoldMin"				"21"		// Gold earned min.
+		"BountyGoldMax"				"29"		// Gold earned max.
+
+		// Movement
+		//----------------------------------------------------------------
+		"MovementCapabilities"		"DOTA_UNIT_CAP_MOVE_GROUND" // DOTA_UNIT_CAP_MOVE_GROUND DOTA_UNIT_CAP_MOVE_NONE
+		"MovementSpeed"				"600"		// Speed.			
+
+		// Status
+		//----------------------------------------------------------------
+		"StatusHealth"				"5000"		// Base health. 4000 3000 100
+		"StatusHealthRegen"			"30"		// Health regeneration rate.
+		"StatusMana"				"0"			// Base mana.
+		"StatusManaRegen"			"0.0"		// Mana regeneration rate.		 
+		
+		// Vision
+		//----------------------------------------------------------------
+		"VisionDaytimeRange"		"5000"		// Range of vision during day light.
+		"VisionNighttimeRange"		"5000"		// Range of vision at night time.
+
+		// Team
+		//----------------------------------------------------------------
+		"TeamName"					"DOTA_TEAM_BADGUYS"						// Team name.
+		"CombatClassAttack"			"DOTA_COMBAT_CLASS_ATTACK_PIERCE"
+		"CombatClassDefend"			"DOTA_COMBAT_CLASS_DEFEND_BASIC"
+		"UnitRelationshipClass"		"DOTA_NPC_UNIT_RELATIONSHIP_TYPE_DEFAULT"
+
+		// Creature Data
+		//----------------------------------------------------------------
+		"Creature"
+		{
+			//Level Up
+			"HPGain"					"0"
+			"DamageGain"				"0"
+			"ArmorGain"					"0"
+			"MagicResistGain"			"0"
+			"MoveSpeedGain"				"0"
+			"BountyGain"				"0"
+			"XPGain"					"0"
+		}
+	}
+
+	//=================================================================================	
+	// Creature: Beastmaster dino
+	//=================================================================================
+	"npc_beastmaster_dino"	
+	{
+		// script
+		"vscripts"					"bosses/beastmaster/ai_dino.lua"
+
+		// General
+		//----------------------------------------------------------------
+		"Model"						"models/creeps/neutral_creeps/n_creep_thunder_lizard/n_creep_thunder_lizard_big.vmdl"	// Model.
+		"BaseClass"					"npc_dota_creature"
+		"SoundSet"					"Hero_Beastmaster_Boar"
+		"GameSoundsFile"			"soundevents/game_sounds_creeps.vsndevts"
+		"Level"						"1"
+		"ModelScale" 				"1.5"
+
+		// Abilities
+		//----------------------------------------------------------------
+		"Ability1"					"dino_charge"			// Ability 1
+		"Ability2"					""						// Ability 2
+		"Ability3"					""						// Ability 3
+		"Ability4"					""						// Ability 4
+
+		// Armor
+		//----------------------------------------------------------------
+		"ArmorPhysical"				"0"			// Physical protection.
+
+		// Attack
+		//----------------------------------------------------------------
+		"AttackCapabilities"		"DOTA_UNIT_CAP_NO_ATTACK"
+		"AttackDamageMin"			"10"		// Damage range min.
+		"AttackDamageMax"			"10"		// Damage range max.
+		"AttackRate"				"1.6"		// Speed of attack.
+		"AttackAnimationPoint"		"0.4"		// Normalized time in animation cycle to attack.
+		"AttackAcquisitionRange"	"4000"		// Range within a target can be acquired.
+		"AttackRange"				"50"		// Range within a target can be attacked.     
+
+		// Bounds
+		//----------------------------------------------------------------
+		"RingRadius"				"40"
+		"HealthBarOffset"			"800"
+
+		// Bounty
+		//----------------------------------------------------------------
+		"BountyXP"					"24"		// Experience earn.
+		"BountyGoldMin"				"21"		// Gold earned min.
+		"BountyGoldMax"				"29"		// Gold earned max.
+
+		// Movement
+		//----------------------------------------------------------------
+		"MovementCapabilities"		"DOTA_UNIT_CAP_MOVE_GROUND" // DOTA_UNIT_CAP_MOVE_GROUND DOTA_UNIT_CAP_MOVE_NONE
+		"MovementSpeed"				"300"		// Speed.			
+
+		// Status
+		//----------------------------------------------------------------
+		"StatusHealth"				"4000"		// Base health. 3000 100
+		"StatusHealthRegen"			"10"		// Health regeneration rate.
+		"StatusMana"				"0"			// Base mana.
+		"StatusManaRegen"			"0.0"		// Mana regeneration rate.		 
+		
+		// Vision
+		//----------------------------------------------------------------
+		"VisionDaytimeRange"		"5000"		// Range of vision during day light.
+		"VisionNighttimeRange"		"5000"		// Range of vision at night time.
+
+		// Team
+		//----------------------------------------------------------------
+		"TeamName"					"DOTA_TEAM_BADGUYS"						// Team name.
+		"CombatClassAttack"			"DOTA_COMBAT_CLASS_ATTACK_PIERCE"
+		"CombatClassDefend"			"DOTA_COMBAT_CLASS_DEFEND_BASIC"
+		"UnitRelationshipClass"		"DOTA_NPC_UNIT_RELATIONSHIP_TYPE_DEFAULT"
+
+		// Creature Data
+		//----------------------------------------------------------------
+		"Creature"
+		{
+			//Level Up
+			"HPGain"					"0"
+			"DamageGain"				"0"
+			"ArmorGain"					"0"
+			"MagicResistGain"			"0"
+			"MoveSpeedGain"				"0"
+			"BountyGain"				"0"
+			"XPGain"					"0"
+		}
+	}
+
+}

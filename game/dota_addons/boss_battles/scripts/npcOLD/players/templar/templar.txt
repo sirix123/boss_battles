@@ -1,0 +1,62 @@
+"DOTAHeroes"
+{
+	//=================================================================================================================
+	// HERO: Templar - Player Character
+	//=================================================================================================================
+	"npc_dota_hero_huskar"
+	{
+		"override_hero"			"npc_dota_hero_huskar" 			// Hero to override
+		"Ability1"              "templar_basic" 
+        "Ability2"              "templar_m2_leap" 
+        "Ability3"              "q_arcane_cage" 
+        "Ability4"              "e_sigil_of_power"
+        "Ability5"              "r_arcane_surge"
+        "Ability6"              "space_evocate"
+        "Ability7"              "templar_passive"
+        "Ability8"              ""
+        "Ability9"              ""
+        "Ability10"             ""
+        "Ability11"             ""
+        "Ability12"             ""
+        "Ability13"             ""
+        "Ability14"             ""
+        "Ability15"             ""
+        "Ability16"             ""
+        "Ability17"             ""
+
+        "ArmorPhysical"             "0"
+        "MagicalResistance"         "0"
+
+        "AttackCapabilities"		"DOTA_UNIT_CAP_MELEE_ATTACK"
+		"AttackDamageMin"			"20"		// Damage range min.
+		"AttackDamageMax"			"20"		// Damage range max.
+		"AttackRate"				"1.0"		// Speed of attack.
+		"AttackAnimationPoint"		"0.45"		// Normalized time in animation cycle to attack.
+		"AttackAcquisitionRange"	"600"		// Range within a target can be acquired.
+		"AttackRange"				"600"		// Range within a target can be attacked.  
+
+        //"AttributePrimary"        "DOTA_ATTRIBUTE_STRENGTH"
+        "AttributeBaseStrength"     "0"
+        "AttributeStrengthGain"     "0"
+        "AttributeBaseIntelligence" "0"
+        "AttributeIntelligenceGain" "0"
+        "AttributeBaseAgility"      "0"
+        "AttributeAgilityGain"      "0"
+
+        "BountyXP"                  "0"
+        "BountyGoldMin"             "0"
+        "BountyGoldMax"             "0"
+
+        "MovementCapabilities"      "DOTA_UNIT_CAP_MOVE_GROUND"
+        "MovementSpeed"             "400"
+        "MovementTurnRate"          "1.0"
+
+        "StatusHealth"              "500" //500 50000
+        "StatusHealthRegen"         "0"
+        "StatusMana"                "300"
+        "StatusManaRegen"           "0.0"
+
+        "VisionDaytimeRange"        "5000"
+        "VisionNighttimeRange"      "5000"
+	}
+}
