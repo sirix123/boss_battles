@@ -17,24 +17,59 @@ require('precache')
 g_ParticleFolderPrecache = {
   "particles",
   "primalbeast",
+  "gyrocopter",
 }
 
 function Precache( context ) -- this needs to be in a seperate file
-
-
   -- testing precache
   PrecacheResource("particle", "particles/custom_msg_damage.vpcf", context)
 
   -- gyro precache:
   PrecacheResource("soundfile", "soundevents/game_sounds_heroes/game_sounds_gyrocopter.vsndevts", context)
   PrecacheResource("soundfile", "soundevents/voscripts/game_sounds_vo_gyrocopter.vsndevts", context)
-
-
+  PrecacheResource("particle", "particles/gyrocopter/gyro_wisp_relocate_timer_custom.vpcf", context)
+  PrecacheResource("particle", "particles/techies/wisp_relocate_timer_custom.vpcf", context)
+	PrecacheResource( "particle", "particles/gyrocopter/gyro_rubick_blackhole.vpcf", context )
+  PrecacheResource( "particle", "particles/clock/green_clock_npx_moveto_arrow.vpcf", context )
+	PrecacheResource( "particle", "particles/econ/items/gyrocopter/hero_gyrocopter_gyrotechnics/gyro_rocket_barrage.vpcf", context )
+  PrecacheResource( "particle", "particles/clock/green_clock_npx_moveto_arrow.vpcf", context )
+  PrecacheResource( "particle", "particles/gyrocopter/gyro_invoker_chaos_meteor.vpcf", context )
+  PrecacheResource( "particle", "particles/units/heroes/hero_earth_spirit/earth_dust_hit.vpcf", context )
+  PrecacheResource( "particle", "particles/gyrocopter/gyro_cannon_ball.vpcf", context )
+	PrecacheResource( "particle", "particles/gyrocopter/crumber_metal_ball.vpcf", context )
+	PrecacheResource( "particle", "particles/custom/sirix_mouse/range_finder_cone.vpcf", context )
+	PrecacheResource( "particle", "particles/econ/items/weaver/weaver_immortal_ti6/weaver_immortal_ti6_shukuchi_portal.vpcf", context )
+  PrecacheResource( "particle", "particles/econ/items/tidehunter/tidehunter_divinghelmet/tidehunter_gush_splash_diving_helmet.vpcf", context )
+  PrecacheResource( "particle", "particles/units/heroes/hero_necrolyte/necrolyte_pulse_enemy.vpcf", context )
+  PrecacheResource( "particle", "particles/units/heroes/hero_obsidian_destroyer/obsidian_destroyer_sanity_eclipse_mana_loss.vpcf", context )
+  PrecacheResource( "particle", "particles/gyrocopter/gyro_flame_debuff.vpcf", context )
+  PrecacheResource( "particle", "particles/custom/ui_mouseactions/flame_thrower_range_finder_cone.vpcf", context )
+  PrecacheResource( "particle", "particles/gyrocopter/gyro_shredder_flame_thrower.vpcf", context )
+  PrecacheResource( "particle", "particles/gyrocopter/higher_gyro_flak_cannon_overhead.vpcf", context )
+  PrecacheResource( "particle", "particles/gyrocopter/gyro_fountain_attack.vpcf", context )
+  PrecacheResource( "particle", "particles/base_attacks/fountain_attack_attack_explosion.vpcf", context )
+  PrecacheResource( "particle", "particles/gyrocopter/gyro_rocket_barrage.vpcf", context )
+  PrecacheResource( "particle", "particles/econ/items/gyrocopter/hero_gyrocopter_gyrotechnics/gyro_homing_missile_fuse.vpcf", context )
+  PrecacheResource( "particle", "particles/econ/items/gyrocopter/hero_gyrocopter_gyrotechnics/gyro_homing_missile_target.vpcf", context )
+  PrecacheResource( "particle", "particles/econ/items/gyrocopter/hero_gyrocopter_gyrotechnics/gyro_homing_missile.vpcf", context )
+  PrecacheResource( "particle", "particles/tinker/tinker_medusa_daughters_mana_shield.vpcf", context )
+  PrecacheResource( "particle", "particles/gyrocopter/viper_poison_crimson_debuff_ti7_oil_puddle.vpcf", context )
+  PrecacheResource( "particle", "particles/gyrocopter/oil_viper_immortal_ti8_nethertoxin_bubbles.vpcf", context )
+  PrecacheResource( "particle", "particles/units/heroes/hero_disruptor/disruptor_base_attack.vpcf", context )
+  PrecacheResource( "particle", "particles/gyrocopter/gyro_barrage_debuff.vpcf", context )
+  PrecacheResource( "particle", "particles/econ/events/darkmoon_2017/darkmoon_calldown_marker.vpcf", context )
+  PrecacheResource( "particle", "particles/units/heroes/hero_centaur/centaur_warstomp.vpcf", context )
+  PrecacheResource( "soundfile", "soundevents/game_sounds_heroes/game_sounds_disruptor.vsndevts", context )
+  PrecacheResource( "soundfile", "soundevents/game_sounds_heroes/game_sounds_gyrocopter.vsndevts", context )
   PrecacheResource("soundfile", "soundevents/game_sounds_heroes/game_sounds_tusk.vsndevts", context)
   PrecacheResource("soundfile", "soundevents/game_sounds_heroes/game_sounds_beastmaster.vsndevts", context)
   PrecacheResource("soundfile", "soundevents/voscripts/game_sounds_vo_beastmaster.vsndevts", context)
   PrecacheResource("soundfile", "soundevents/voscripts/game_sounds_vo_lone_druid.vsndevts", context)
   PrecacheResource("soundfile", "soundevents/game_sounds_heroes/game_sounds_lone_druid.vsndevts", context)
+  PrecacheResource("soundfile", "particles/units/heroes/hero_invoker/invoker_tornado.vpcf", context)
+  PrecacheResource("soundfile", "obsidian_destroyer_sanity_eclipse_area", context)
+  
+  
 
   -- timber Precache
   PrecacheResource("soundfile", "soundevents/voscripts/game_sounds_vo_shredder.vsndevts", context)
@@ -163,13 +198,10 @@ function Precache( context ) -- this needs to be in a seperate file
   local npcs = LoadKeyValues("scripts/npc/npc_units_custom.txt")
 
   for k, _ in pairs(npcs) do
-    print("Precaching unit: " .. k)
     PrecacheUnitByNameSync(k, context)
   end
 
   for k,ParticleFolder in pairs( g_ParticleFolderPrecache ) do
-    print("Precaching particle folder: " .. ParticleFolder)
-
     PrecacheResource( "particle_folder", Particle, context )
 
   end

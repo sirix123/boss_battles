@@ -1,6 +1,7 @@
 
 swoop_v2 = class({})
 LinkLuaModifier( "modifier_generic_arc_lua", "player/generic/modifier_generic_arc_lua", LUA_MODIFIER_MOTION_BOTH )
+LinkLuaModifier("modifier_generic_stunned", "core/modifier_generic_stunned", LUA_MODIFIER_MOTION_NONE)
 LinkLuaModifier( "gyro_barrage", "bosses/gyrocopter/gyro_barrage", LUA_MODIFIER_MOTION_NONE )
 LinkLuaModifier( "oil_drop_thinker", "bosses/gyrocopter/oil_drop_thinker", LUA_MODIFIER_MOTION_NONE )
 LinkLuaModifier( "modifier_gyro_barrage_debuff", "bosses/gyrocopter/modifier_gyro_barrage_debuff", LUA_MODIFIER_MOTION_NONE )

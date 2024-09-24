@@ -4,6 +4,7 @@ end
 
 RAID_TABLES = require('managers/raid_init_tables')
 
+LinkLuaModifier( "modifier_hide_hero", "player/generic/modifier_hide_hero", LUA_MODIFIER_MOTION_NONE )
 LinkLuaModifier( "modifier_grace_period", "player/generic/modifier_grace_period", LUA_MODIFIER_MOTION_NONE )
 LinkLuaModifier( "modifier_mana_on_hit", "player/generic/modifier_mana_on_hit", LUA_MODIFIER_MOTION_NONE )
 LinkLuaModifier( "modifier_cleave", "player/generic/modifier_cleave", LUA_MODIFIER_MOTION_NONE )

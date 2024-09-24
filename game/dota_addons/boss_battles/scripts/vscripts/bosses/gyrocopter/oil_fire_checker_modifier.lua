@@ -1,9 +1,5 @@
 oil_fire_checker_modifier = class({})
 
-function oil_fire_checker_modifier:Precache( context )
-    PrecacheResource( "particle", "particles/gyrocopter/gyro_wisp_relocate_timer_custom.vpcf", context )
-end
-
 function oil_fire_checker_modifier:IsHidden()
 	return false
 end
