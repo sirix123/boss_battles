@@ -109,12 +109,12 @@
 
 			</Panel>
 
-			<Panel id="wasdcontainer" class="wasdcontainer" >
+			<!-- <Panel id="wasdcontainer" class="wasdcontainer" >
 				<Panel id="wasdcontainerLabelContainer" class="wasdcontainerLabelContainer">
 					<Label id="wasdLabel" class="wasdLabel" text="This game uses WASD controls." />
 					<Label id="ToolTipInfo" class="ToolTipInfo" text="i" />
 				</Panel>
-			</Panel>
+			</Panel> -->
 
 			<Panel id="herocompContainer" class="herocompContainer" >
 				<Panel id="herocompContainerLabelContainer" class="herocompContainerLabelContainer">
@@ -126,9 +126,9 @@
 			<Panel id="ToolTip" class="ToolTip"> 
             	<Label id="ToolTipTxt" text="ToolTipText" />
         	</Panel>
-
+<!-- 
 			<Panel id="Event" class="Event"> 
-        	</Panel>
+        	</Panel> -->
 
 		</Panel>
 	</Panel>

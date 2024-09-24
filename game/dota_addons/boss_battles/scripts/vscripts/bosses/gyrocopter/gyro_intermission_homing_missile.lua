@@ -4,6 +4,11 @@ LinkLuaModifier( "homing_missile_modifier", "bosses/gyrocopter/homing_missile_mo
 LinkLuaModifier( "homing_missile_modifier_preflight", "bosses/gyrocopter/homing_missile_modifier_preflight", LUA_MODIFIER_MOTION_NONE )
 LinkLuaModifier( "gyro_homing_missile_stun_check", "bosses/gyrocopter/gyro_homing_missile_stun_check", LUA_MODIFIER_MOTION_NONE )
 
+function gyro_intermission_homing_missile:Precache(context)
+    PrecacheResource( "particle", "particles/econ/items/gyrocopter/hero_gyrocopter_gyrotechnics/gyro_homing_missile_fuse.vpcf", context )
+    PrecacheResource( "particle", "particles/econ/items/gyrocopter/hero_gyrocopter_gyrotechnics/gyro_homing_missile_target.vpcf", context )
+    PrecacheResource( "particle", "particles/econ/items/gyrocopter/hero_gyrocopter_gyrotechnics/gyro_homing_missile.vpcf", context )
+end
 
 function gyro_intermission_homing_missile:OnAbilityPhaseStart()
     if IsServer() then

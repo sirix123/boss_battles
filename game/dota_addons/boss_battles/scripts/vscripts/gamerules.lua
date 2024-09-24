@@ -5,7 +5,10 @@ end
 function GameRules:Init()
 
     -- testing custom hero select
-    -- GameRules:GetGameModeEntity():SetCustomGameForceHero( "npc_dota_hero_wisp" )
+    if CUSTOM_HERO_SELECT_SCREEN == true then
+        GameRules:GetGameModeEntity():SetCustomGameForceHero( "npc_dota_hero_wisp" )
+        GameRules:SetSameHeroSelectionEnabled(true)
+    end
 
     GameRules:SetCustomGameTeamMaxPlayers(DOTA_TEAM_GOODGUYS, 4)
     GameRules:SetCustomGameTeamMaxPlayers(DOTA_TEAM_BADGUYS, 0)
@@ -18,7 +21,7 @@ function GameRules:Init()
     GameRules:SetPreGameTime(0)
     GameRules:SetShowcaseTime(0)
     GameRules:SetPostGameTime(5)
-    -- GameRules:SetSameHeroSelectionEnabled(true)
+    
     GameRules:SetHeroRespawnEnabled(true)
     GameRules:SetStartingGold( 0 )
 	GameRules:SetGoldTickTime( 999999.0 )

@@ -1,6 +1,12 @@
 gattling_gun = class({})
 LinkLuaModifier( "modifier_generic_arc_lua", "player/generic/modifier_generic_arc_lua", LUA_MODIFIER_MOTION_BOTH )
 
+function gattling_gun:Precache( context )
+    PrecacheResource( "particle", "particles/gyrocopter/higher_gyro_flak_cannon_overhead.vpcf", context )
+    PrecacheResource( "particle", "particles/gyrocopter/gyro_fountain_attack.vpcf", context )
+    PrecacheResource( "particle", "particles/base_attacks/fountain_attack_attack_explosion.vpcf", context )
+end
+
 function gattling_gun:OnAbilityPhaseStart()
     if IsServer() then
 

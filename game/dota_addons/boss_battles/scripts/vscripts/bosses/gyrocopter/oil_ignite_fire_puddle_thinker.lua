@@ -1,6 +1,11 @@
 oil_ignite_fire_puddle_thinker = class({})
 LinkLuaModifier( "fire_puddle_modifier", "bosses/gyrocopter/fire_puddle_modifier", LUA_MODIFIER_MOTION_NONE )
 
+function oil_ignite_fire_puddle_thinker:Precache( context )
+	PrecacheResource( "particle", "particles/gyrocopter/gyro_jakiro_ti10_macropyre_line_flames.vpcf", context )
+	PrecacheResource( "particle", "particles/units/heroes/hero_phoenix/phoenix_supernova_death_steam.vpcf", context )
+end
+
 --------------------------------------------------------------------------------
 function oil_ignite_fire_puddle_thinker:IsHidden()
 	return false

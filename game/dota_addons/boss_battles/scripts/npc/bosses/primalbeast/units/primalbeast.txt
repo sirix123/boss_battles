@@ -45,7 +45,7 @@
 
 		// Bounds
 		//----------------------------------------------------------------
-		"RingRadius"				"40"
+		"RingRadius"				"400"
 		"HealthBarOffset"			"170"
 
 		// Movement

@@ -5,8 +5,9 @@
 		"BaseClass"						"ability_lua"
 		"ScriptFile"					"player/rat/modifier/rat_passive"
 		"MaxLevel"						"1"
+		"Innate" 						"1"
 		"AbilityTextureName"			"hoodwink_acorn_shot"
-        "AbilityBehavior"				"DOTA_ABILITY_BEHAVIOR_PASSIVE"
+        "AbilityBehavior"				"DOTA_ABILITY_BEHAVIOR_PASSIVE | DOTA_ABILITY_BEHAVIOR_INNATE_UI"
         
 		"AbilityValues"
         {

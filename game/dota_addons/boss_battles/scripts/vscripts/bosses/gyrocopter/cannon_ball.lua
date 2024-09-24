@@ -1,6 +1,13 @@
 
 cannon_ball = class({})
 
+function cannon_ball:Precache(context)
+	PrecacheResource( "particle", "particles/gyrocopter/gyro_cannon_ball.vpcf", context )
+	PrecacheResource( "particle", "particles/gyrocopter/crumber_metal_ball.vpcf", context )
+	PrecacheResource( "particle", "particles/custom/sirix_mouse/range_finder_cone.vpcf", context )
+	PrecacheResource( "particle", "particles/econ/items/weaver/weaver_immortal_ti6/weaver_immortal_ti6_shukuchi_portal.vpcf", context )
+end
+
 function cannon_ball:OnAbilityPhaseStart()
     if IsServer() then
 

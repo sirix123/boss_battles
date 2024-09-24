@@ -15,7 +15,7 @@
         "Ability6"              "space_shadowstep_teleport" 
         "Ability7"              "space_shadowstep_teleport_back" 
         "Ability8"              "rogue_passive" 
-        "Ability9"             ""
+        "Ability9"              ""
         "Ability10"             ""
         "Ability11"             ""
         "Ability12"             ""
@@ -23,6 +23,8 @@
         "Ability14"             ""
         "Ability15"             ""
         "Ability16"             ""
+
+        "Facets"    ""
 
         "ArmorPhysical"             "0"
         "MagicalResistance"         "0"

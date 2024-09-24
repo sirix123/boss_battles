@@ -1,6 +1,11 @@
 
 cleaning_bot_explode = class({})
 
+function cleaning_bot_explode:Precache(context)
+    PrecacheResource( "particle", "particles/units/heroes/hero_necrolyte/necrolyte_pulse_enemy.vpcf", context )
+    PrecacheResource( "particle", "particles/units/heroes/hero_obsidian_destroyer/obsidian_destroyer_sanity_eclipse_mana_loss.vpcf", context )
+end
+
 function cleaning_bot_explode:OnSpellStart()
 	if IsServer() then
 

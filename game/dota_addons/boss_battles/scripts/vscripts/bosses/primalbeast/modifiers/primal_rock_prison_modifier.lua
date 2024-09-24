@@ -1,5 +1,9 @@
 primal_rock_prison_modifier = class({})
 
+function primal_rock_prison_modifier:Precache(context)
+	PrecacheResource( "particle", "particles/units/heroes/hero_ursa/ursa_dust_hit.vpcf", context )
+end
+
 --------------------------------------------------------------------------------
 -- Classifications
 function primal_rock_prison_modifier:IsHidden()

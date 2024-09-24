@@ -3,6 +3,13 @@ homing_missile_modifier = class({})
 
 -----------------------------------------------------------------------------
 
+function homing_missile_modifier:Precache(context)
+    PrecacheResource( "particle", "particles/units/heroes/hero_gyrocopter/gyro_guided_missile.vpcf", context )
+    PrecacheResource( "particle", "particles/units/heroes/hero_gyrocopter/gyro_guided_missile_target.vpcf", context )
+    PrecacheResource( "particle", "particles/units/heroes/hero_gyrocopter/gyro_guided_missile_explosion.vpcf", context )
+    PrecacheResource( "soundfile", "soundevents/game_sounds_heroes/game_sounds_gyrocopter.vsndevts", context )
+end
+
 function homing_missile_modifier:IsHidden()
 	return false
 end

@@ -67,7 +67,7 @@ function OnResetPicksForPlayers( data ) {
 /* Wait for the server to tell us when to start hero select */
 function StartHeroSelect( data ) {
 	$.Msg("got start event from server to open the hero select screen")
-	//DisplayHeroSelect( data )
+	DisplayHeroSelect( data )
 	DisplayWASDToolTip()
 }
 
@@ -78,7 +78,7 @@ function OnPickingDone( data ) {
 
 	//$('#wasdcontainer').DeleteAsync( 0.0 );
 	$('#herocompContainer').DeleteAsync( 0.0 );
-	$('#Event').DeleteAsync( 0.0 );
+	// $('#Event').DeleteAsync( 0.0 );
     $('#ToolTip').DeleteAsync( 0.0 );
 	EnterGame()
 }
@@ -120,7 +120,7 @@ function SelectHero( heroName, containerPanel ) {
 		}
 
 		// enable and show the pick hero button.. beneath the right hero...
-		$.Msg("containerPanel ",containerPanel)
+		// $.Msg("containerPanel ",containerPanel)
 		//var heroPickButtonSelected = containerPanel.FindChildInLayoutFile("HeroPickHeroBtn");
 		var heroPickButtonTextSelected = containerPanel.FindChildInLayoutFile("HeroPickHeroBtnTxt");
 		containerPanel.RemoveClass( "disabled" );
@@ -132,7 +132,7 @@ function SelectHero( heroName, containerPanel ) {
 		// tells lua the local player has selected a hero
 		GameEvents.SendCustomGameEventToServer( "hero_selected", { HeroName: heroName } );
 	}else{
-		$.Msg("[SelectHero - Error] hero is not in the list ",heroName)
+		// $.Msg("[SelectHero - Error] hero is not in the list ",heroName)
 	}
 }
 
@@ -257,24 +257,17 @@ function EnterGame() {
 	$('#PickingScreen').DeleteAsync( 0.0 );
 }
 
-/* Initialisation - runs when the element is created
-=========================================================================*/
-// used later to store the hero panels created
 let heroFramePanels = {};
-
-// used later to display the peds in the map
 let heroPedPanels = {};
-
-// hero list
 let heroes = [];
-
-// container for the ped on the scene
 let PedRowContainer = $("#PedList");
 
-//(function () {
 function DisplayHeroSelect( data ){
+	if (!data.hero_list || data.hero_list.length === 0) {
+        $.Msg("hero_list is undefined or empty, custome hero selection will not work");
+        return;
+    }
 
-	//let heroes = [];
 	for (let i = 1; data.hero_list[i] !== undefined; i++) {
 		heroes.push(data.hero_list[i]);
     }
@@ -325,24 +318,23 @@ function DisplayHeroSelect( data ){
 		heroFramePanels[i] = containerPanel
 	}
 }
-//})();
 
 function DisplayWASDToolTip(){
-	let wasdContainer = $("#wasdcontainer");
-	let wasdLabel = wasdContainer.FindChildInLayoutFile("wasdcontainerLabelContainer");
+	// let wasdContainer = $("#wasdcontainer");
+	// let wasdLabel = wasdContainer.FindChildInLayoutFile("wasdcontainerLabelContainer");
 
 	let toolTipContainer = $("#ToolTip");
 	toolTipContainer.style.visibility = 'collapse';
 
-	wasdLabel.SetPanelEvent( 'onmouseover', function () {
-		toolTipContainer.style.visibility = 'visible';
-		var tooltipText = toolTipContainer.FindChildInLayoutFile("ToolTipTxt")
-		tooltipText.text = "Very rarely when you intially spawn or if you lag a movement key might get 'stuck' down. To fix this type !reset in chat."
-	});
+	// wasdLabel.SetPanelEvent( 'onmouseover', function () {
+	// 	toolTipContainer.style.visibility = 'visible';
+	// 	var tooltipText = toolTipContainer.FindChildInLayoutFile("ToolTipTxt")
+	// 	tooltipText.text = "Very rarely when you intially spawn or if you lag a movement key might get 'stuck' down. To fix this type !reset in chat."
+	// });
 
-	wasdLabel.SetPanelEvent( 'onmouseout', function () {
-		toolTipContainer.style.visibility = 'collapse';
-	});
+	// wasdLabel.SetPanelEvent( 'onmouseout', function () {
+	// 	toolTipContainer.style.visibility = 'collapse';
+	// });
 
 	let herocompContainer = $("#herocompContainer");
 	let herocompLabel = herocompContainer.FindChildInLayoutFile("herocompContainerLabelContainer");

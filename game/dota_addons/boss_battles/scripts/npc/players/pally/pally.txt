@@ -11,7 +11,7 @@
         "Ability3"              "r_outgoing_dmg" 
         "Ability4"              "e_regen_aura"
         "Ability5"              "space_judgement"
-        "Ability6"              ""
+        "Ability6"              "nocens_passive"
         "Ability7"              ""
         "Ability8"              ""
         "Ability9"              ""
@@ -24,6 +24,8 @@
         "Ability16"             ""
         "Ability17"             ""
         "Ability18"             ""
+
+        "Facets"    ""
 
         "ArmorPhysical"             "0"
         "MagicalResistance"         "0"

@@ -1,5 +1,9 @@
 cone_smash_rocks_modifier = class({})
 
+function cone_smash_rocks_modifier:Precache( context )
+	PrecacheResource( "particle", "particles/icemage/primal_blast_rock.vpcf", context )
+end
+
 --------------------------------------------------------------------------------
 -- Classifications
 function cone_smash_rocks_modifier:IsHidden()

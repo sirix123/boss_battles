@@ -16,9 +16,11 @@ require('precache')
 
 g_ParticleFolderPrecache = {
   "particles",
+  "primalbeast",
 }
 
 function Precache( context ) -- this needs to be in a seperate file
+
 
   -- testing precache
   PrecacheResource("particle", "particles/custom_msg_damage.vpcf", context)
@@ -161,11 +163,15 @@ function Precache( context ) -- this needs to be in a seperate file
   local npcs = LoadKeyValues("scripts/npc/npc_units_custom.txt")
 
   for k, _ in pairs(npcs) do
+    print("Precaching unit: " .. k)
     PrecacheUnitByNameSync(k, context)
   end
 
-  for _,ParticleFolder in pairs( g_ParticleFolderPrecache ) do
+  for k,ParticleFolder in pairs( g_ParticleFolderPrecache ) do
+    print("Precaching particle folder: " .. ParticleFolder)
+
     PrecacheResource( "particle_folder", Particle, context )
+
   end
 
 end

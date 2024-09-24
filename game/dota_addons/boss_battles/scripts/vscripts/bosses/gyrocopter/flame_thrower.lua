@@ -1,6 +1,12 @@
 flame_thrower = class({})
 LinkLuaModifier( "modifier_generic_npc_reduce_turnrate", "core/modifier_generic_npc_reduce_turnrate", LUA_MODIFIER_MOTION_NONE )
 
+function flame_thrower:Precache( context )
+    PrecacheResource( "particle", "particles/gyrocopter/gyro_flame_debuff.vpcf", context )
+    PrecacheResource( "particle", "particles/custom/ui_mouseactions/flame_thrower_range_finder_cone.vpcf", context )
+    PrecacheResource( "particle", "particles/gyrocopter/gyro_shredder_flame_thrower.vpcf", context )
+end
+
 function flame_thrower:OnAbilityPhaseStart()
     if IsServer() then
         self:GetCaster():StartGestureWithPlaybackRate(ACT_DOTA_CAST_ABILITY_1, 0.4)

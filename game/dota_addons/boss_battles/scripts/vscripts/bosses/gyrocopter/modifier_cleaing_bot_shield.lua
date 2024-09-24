@@ -1,5 +1,9 @@
 modifier_cleaing_bot_shield = class({})
 
+function modifier_cleaing_bot_shield:Precache( context )
+    PrecacheResource( "particle", "particles/tinker/tinker_medusa_daughters_mana_shield.vpcf", context )
+end
+
 function modifier_cleaing_bot_shield:IsHidden()
 	return false
 end

@@ -1,5 +1,9 @@
 primal_circle_target_iceshot = class({})
 
+function primal_circle_target_iceshot:Precache( context )
+	PrecacheResource( "particle", "particles/units/heroes/hero_snapfire/hero_snapfire_ultimate_calldown.vpcf", context )
+end
+
 function primal_circle_target_iceshot:OnCreated( kv )
 	if not IsServer() then return end
 

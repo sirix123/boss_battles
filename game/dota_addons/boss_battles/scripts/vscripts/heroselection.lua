@@ -25,7 +25,7 @@ function HeroSelection:Start()
 
 	if PICKING_DONE == false and PLAYERS_HANDSHAKE_READY == PlayerResource:GetPlayerCount()  then
 
-		--print("are we sending the open hero select event?")
+		print("are we sending the open hero select event?")
 
 		local copy_hero_name_list = HERO_NAME_LIST
 
@@ -33,8 +33,8 @@ function HeroSelection:Start()
 
 			table.insert(copy_hero_name_list,"npc_dota_hero_templar_assassin")
 			table.insert(copy_hero_name_list,"npc_dota_hero_kunkka")
-			table.insert(copy_hero_name_list,"npc_dota_hero_grimstroke")
-			table.insert(copy_hero_name_list,"npc_dota_hero_hoodwink")
+			-- table.insert(copy_hero_name_list,"npc_dota_hero_grimstroke")
+			-- table.insert(copy_hero_name_list,"npc_dota_hero_hoodwink")
 
 		end
 
@@ -99,8 +99,8 @@ function HeroSelection:HeroPicked( event )
 	CustomGameEventManager:Send_ServerToAllClients( "picking_player_pick",
 	{ PlayerID = 1, HeroName = "npc_dota_hero_phantom_assassin" } )]]
 
-	print("HeroSelection.playersPicked ", HeroSelection.playersPicked)
-	print("HeroSelection.numPickers ", HeroSelection.numPickers)
+	-- print("HeroSelection.playersPicked ", HeroSelection.playersPicked)
+	-- print("HeroSelection.numPickers ", HeroSelection.numPickers)
 
 	--Check if all heroes have been picked
 	if HeroSelection.playersPicked >= HeroSelection.numPickers then
@@ -129,11 +129,11 @@ function HeroSelection:HeroPicked( event )
 		end
 
 		for player_id, hero_name in pairs(HeroSelection.playerPicks) do
-			print("player_id: ",player_id,"hero_name ",hero_name)
+			-- print("player_id: ",player_id,"hero_name ",hero_name)
 		end
 
 		-- send an event to clients and reset picking process for those players, when they pick new heroes it should run this check again or end the picking screen
-		print("#table_players_duplicate ",#table_players_duplicate)
+		-- print("#table_players_duplicate ",#table_players_duplicate)
 		if #table_players_duplicate ~= 0 then
 			for _, player in pairs(table_players_duplicate) do
 				CustomGameEventManager:Send_ServerToPlayer( player, "reset_picks_for_players", { hero_duplicates = table_heroes_duplicate_names} )
@@ -168,6 +168,7 @@ function HeroSelection:EndPicking()
 
 		--Signal the picking screen to disappear 9also calls other front end things)
 		CustomGameEventManager:Send_ServerToAllClients( "picking_done", { } )
+		PICKING_DONE = true
 
 		return false
 	end)

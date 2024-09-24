@@ -2,6 +2,13 @@ m2_icelance = class({})
 LinkLuaModifier("shatter_modifier", "player/icemage/modifiers/shatter_modifier", LUA_MODIFIER_MOTION_NONE)
 LinkLuaModifier("bonechill_modifier", "player/icemage/modifiers/bonechill_modifier", LUA_MODIFIER_MOTION_NONE)
 
+function m2_icelance:Precache( context )
+    PrecacheResource( "particle", "particles/icemage/m2_icelance_mars_ti9_immortal_crimson_spear.vpcf", context )
+    PrecacheResource( "particle", "particles/units/heroes/hero_crystalmaiden/maiden_base_attack_explosion.vpcf", context )
+    PrecacheResource( "particle", "particles/icemage/shatter_maxstacks_explode_maiden_crystal_nova.vpcf", context )
+    PrecacheResource( "soundfile", "soundevents/game_sounds_heroes/game_sounds_crystalmaiden.vsndevts", context )
+end
+
 function m2_icelance:OnAbilityPhaseStart()
     if IsServer() then
 

@@ -6,6 +6,16 @@ LinkLuaModifier( "oil_drop_thinker", "bosses/gyrocopter/oil_drop_thinker", LUA_M
 LinkLuaModifier( "modifier_gyro_barrage_debuff", "bosses/gyrocopter/modifier_gyro_barrage_debuff", LUA_MODIFIER_MOTION_NONE )
 
 --------------------------------------------------------------------------------
+ 
+function swoop_v2:Precache( context )
+    PrecacheResource( "particle", "particles/units/heroes/hero_disruptor/disruptor_base_attack.vpcf", context )
+    PrecacheResource( "particle", "particles/gyrocopter/gyro_barrage_debuff.vpcf", context )
+    PrecacheResource( "particle", "particles/econ/events/darkmoon_2017/darkmoon_calldown_marker.vpcf", context )
+    PrecacheResource( "particle", "particles/units/heroes/hero_centaur/centaur_warstomp.vpcf", context )
+    PrecacheResource( "soundfile", "soundevents/game_sounds_heroes/game_sounds_disruptor.vsndevts", context )
+    PrecacheResource( "soundfile", "soundevents/game_sounds_heroes/game_sounds_gyrocopter.vsndevts", context )
+end
+
 
 function swoop_v2:OnAbilityPhaseStart()
     if IsServer() then

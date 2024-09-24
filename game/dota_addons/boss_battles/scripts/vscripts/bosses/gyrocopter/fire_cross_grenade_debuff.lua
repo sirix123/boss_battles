@@ -24,6 +24,10 @@ function fire_cross_grenade_debuff:GetTexture()
 	return "huskar_inner_fire"
 end
 
+function fire_cross_grenade_debuff:Precache( context )
+    PrecacheResource( "particle", "particles/econ/events/ti8/mjollnir_shield_ti8.vpcf", context )
+end
+
 ---------------------------------------------------------------------------
 
 function fire_cross_grenade_debuff:OnCreated( kv )

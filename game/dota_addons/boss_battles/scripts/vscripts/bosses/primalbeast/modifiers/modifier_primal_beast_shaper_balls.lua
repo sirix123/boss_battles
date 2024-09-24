@@ -1,5 +1,11 @@
 modifier_primal_beast_shaper_balls = class({})
 
+function modifier_primal_beast_shaper_balls:Precache( context )
+	PrecacheResource( "particle", "particles/primalbeast/primal_warlock_upheaval.vpcf", context )
+	PrecacheResource( "particle", "particles/primalbeast/primal_underlord_2021_immortal_portal.vpcf", context )
+	--PrecacheResource( "particle", "particles/beastmaster/boar_viper_immortal_ti8_nethertoxin_bubbles.vpcf", context )
+end
+
 --------------------------------------------------------------------------------
 function modifier_primal_beast_shaper_balls:IsHidden()
 	return false

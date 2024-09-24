@@ -2,6 +2,13 @@
 fire_cross_grenade_thinker = class({})
 -----------------------------------------------------------------------------
 
+function fire_cross_grenade_thinker:Precache( context )
+    PrecacheResource( "particle", "particles/gyrocopter/gyro_rubick_blackhole.vpcf", context )
+    PrecacheResource( "particle", "particles/clock/green_clock_npx_moveto_arrow.vpcf", context )
+    PrecacheResource( "particle", "particles/gyrocopter/gyro_invoker_chaos_meteor.vpcf", context )
+    PrecacheResource( "particle", "particles/units/heroes/hero_earth_spirit/earth_dust_hit.vpcf", context )
+end
+
 function fire_cross_grenade_thinker:IsHidden()
 	return false
 end

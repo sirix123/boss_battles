@@ -56,6 +56,7 @@ function GameSetup:OnStateChange()
     end
 
     if GameRules:State_Get() == DOTA_GAMERULES_STATE_HERO_SELECTION then
+        
     end
 
     if GameRules:State_Get() == DOTA_GAMERULES_STATE_GAME_IN_PROGRESS then
@@ -67,12 +68,13 @@ function GameSetup:OnStateChange()
                 
                 SessionManager:Init()
 
-                -- use in lua in gamesetup to control other things
-                PICKING_DONE = true
-
-                CustomGameEventManager:Send_ServerToAllClients( "begin_hero_select", {}) --  hero_list = copy_hero_name_list
-
-                CustomGameEventManager:Send_ServerToAllClients( "picking_done", { } )
+                if CUSTOM_HERO_SELECT_SCREEN == true then
+                    HeroSelection:Start()
+                else
+                    PICKING_DONE = true
+                    CustomGameEventManager:Send_ServerToAllClients( "begin_hero_select", {})
+                    CustomGameEventManager:Send_ServerToAllClients( "picking_done", { } )
+                end
 
                 -- reg player name events
                 CustomGameEventManager:RegisterListener( "player_name_listener", GameSetup.PlayerNameSent )

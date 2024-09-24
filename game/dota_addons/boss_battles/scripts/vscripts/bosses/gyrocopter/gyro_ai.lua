@@ -5,6 +5,16 @@ LinkLuaModifier( "modifier_generic_disable_movement_abilities", "player/generic/
 LinkLuaModifier( "modifier_generic_disable_auto_attack", "core/modifier_generic_disable_auto_attack", LUA_MODIFIER_MOTION_NONE )
 LinkLuaModifier( "gyro_rocket_modifier", "bosses/gyrocopter/gyro_rocket_modifier", LUA_MODIFIER_MOTION_NONE )
 
+function gyro_ai:Precache(context)
+	PrecacheResource("particle", "particles/gyrocopter/gyro_wisp_relocate_timer_custom.vpcf", context)
+	PrecacheResource( "particle", "particles/gyrocopter/gyro_rubick_blackhole.vpcf", context )
+    PrecacheResource( "particle", "particles/clock/green_clock_npx_moveto_arrow.vpcf", context )
+	PrecacheResource( "particle", "particles/econ/items/gyrocopter/hero_gyrocopter_gyrotechnics/gyro_rocket_barrage.vpcf", context )
+	PrecacheResource( "particle", "particles/gyrocopter/gyro_rubick_blackhole.vpcf", context )
+    PrecacheResource( "particle", "particles/clock/green_clock_npx_moveto_arrow.vpcf", context )
+    PrecacheResource( "particle", "particles/gyrocopter/gyro_invoker_chaos_meteor.vpcf", context )
+    PrecacheResource( "particle", "particles/units/heroes/hero_earth_spirit/earth_dust_hit.vpcf", context )
+end
 
 function Spawn( entityKeyValues )
 

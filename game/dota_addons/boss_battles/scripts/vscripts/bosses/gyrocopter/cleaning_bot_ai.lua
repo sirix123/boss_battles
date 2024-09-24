@@ -4,6 +4,10 @@ LinkLuaModifier( "modifier_cleaing_bot_shield", "bosses/gyrocopter/modifier_clea
 
 --------------------------------------------------------------------------------
 
+function cleaning_bot_ai:Precache( context )
+    PrecacheResource( "particle", "particles/econ/items/tidehunter/tidehunter_divinghelmet/tidehunter_gush_splash_diving_helmet.vpcf", context )
+end
+
 function Spawn( entityKeyValues )
     if not IsServer() then return end
     if thisEntity == nil then return end

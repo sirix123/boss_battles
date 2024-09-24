@@ -3,6 +3,13 @@ modifier_flak_cannon = class({})
 LinkLuaModifier( "oil_drop_thinker", "bosses/gyrocopter/oil_drop_thinker", LUA_MODIFIER_MOTION_NONE )
 -----------------------------------------------------------------------------
 
+function modifier_flak_cannon:Precache( context )
+    PrecacheResource( "particle", "particles/gyrocopter/higher_gyro_flak_cannon_overhead.vpcf", context )
+    PrecacheResource( "particle", "particles/gyrocopter/no_arrows_gyro_darkmoon_calldown_marker.vpcf", context )
+    PrecacheResource( "particle", "particles/units/heroes/hero_gyrocopter/gyro_base_attack.vpcf", context )
+    PrecacheResource( "particle", "particles/units/heroes/hero_phoenix/phoenix_base_attack.vpcf", context )
+end
+
 function modifier_flak_cannon:IsHidden()
 	return false
 end

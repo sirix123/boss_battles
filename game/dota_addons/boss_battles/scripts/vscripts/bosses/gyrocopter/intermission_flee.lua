@@ -4,6 +4,10 @@ LinkLuaModifier( "modifier_generic_arc_lua", "player/generic/modifier_generic_ar
 LinkLuaModifier( "oil_drop_thinker", "bosses/gyrocopter/oil_drop_thinker", LUA_MODIFIER_MOTION_NONE )
 --------------------------------------------------------------------------------
 
+function intermission_flee:Precache( context )
+    PrecacheResource( "particle", "particles/econ/events/new_bloom/dragon_cast_dust.vpcf", context )
+end
+
 function intermission_flee:OnAbilityPhaseStart()
     if IsServer() then
 
