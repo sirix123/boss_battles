@@ -40,7 +40,7 @@ function item_rock:OnSpellStart()
         --rock:AddNewModifier( caster, self, "green_cube_on_attacked", { duration = -1 } )
     end)
 
-    self:SpendCharge()
+    self:SpendCharge(1)
 
 end
 ---------------------------------------------------------------------------------------------------------------------------------------------------------------------

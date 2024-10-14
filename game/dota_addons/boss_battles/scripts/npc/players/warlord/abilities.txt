@@ -1,5 +1,24 @@
 "DOTAAbilities"
 {
+	"warlord_passive"
+	{
+		"BaseClass"						"ability_lua"
+		"ScriptFile"					"player/warlord/warlord_passive"
+		"MaxLevel"						"1"
+		"Innate" 						"1"
+		"AbilityTextureName"			"pangolier_swashbuckle"
+        "AbilityBehavior"				"DOTA_ABILITY_BEHAVIOR_PASSIVE | DOTA_ABILITY_BEHAVIOR_INNATE_UI"
+		"AbilityUnitDamageType"			"DAMAGE_TYPE_PHYSICAL"
+        
+		"AbilityValues"
+        {
+            "radius" "350"
+            "damage" "70"
+            "mana_gain_percent" "7"
+            "mana_gain_percent_bonus" "5"
+        }
+	}
+
 	"m1_sword_slash"
 	{
 		"BaseClass"						"ability_lua"

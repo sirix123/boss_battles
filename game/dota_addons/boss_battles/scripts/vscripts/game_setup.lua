@@ -13,13 +13,11 @@ LinkLuaModifier( "blademaster_death_enable_spells", "player/warlord/modifiers/bl
 LinkLuaModifier( "SOLO_MODE_modifier", "core/SOLO_MODE_modifier", LUA_MODIFIER_MOTION_NONE )
 
 function GameSetup:init()
+    client_handshake:Init()
 
     self.player_deaths = {}
 
     self.mode_selected_finsihed = false
-
-    -- init client handshake
-    client_handshake:Init()
 
     -- default game rules our mod needs to run
     GameRules:Init()
@@ -64,14 +62,19 @@ function GameSetup:OnStateChange()
 
         print("does this run on reconnect? (GameRules:State_Get() == DOTA_GAMERULES_STATE_GAME_IN_PROGRESS) ")
 
+        print( "CDOTA_PlayerResource:GetNumConnectedHumanPlayers() ", PlayerResource:GetNumConnectedHumanPlayers() )
+
+        print (" PlayerResource:GetPlayerCount() " , PlayerResource:GetPlayerCount())
+
         Timers:CreateTimer(2.0, function()
-            if PLAYERS_HANDSHAKE_READY == PlayerResource:GetPlayerCount() then
-                
+            if PLAYERS_HANDSHAKE_READY == PlayerResource:GetPlayerCount() then                
                 SessionManager:Init()
 
                 if CUSTOM_HERO_SELECT_SCREEN == true then
+                    print("starting custom hero slect")
                     HeroSelection:Start()
                 else
+                    print("starting default hero slect")
                     PICKING_DONE = true
                     CustomGameEventManager:Send_ServerToAllClients( "begin_hero_select", {})
                     CustomGameEventManager:Send_ServerToAllClients( "picking_done", { } )
@@ -178,6 +181,7 @@ function GameSetup:OnNPCSpawned(keys)
     -- this runs on intial spawn
     if npc:IsRealHero() and npc:GetUnitName() ~= "npc_dota_hero_wisp" and npc.bFirstSpawned == nil then
         -- npc.bFirstSpawned is set to true during initlize()
+        print("game setup is this running during hero select")
 
         Timers:CreateTimer(2, function()
             local playerID = npc:GetPlayerID()
@@ -200,6 +204,11 @@ function GameSetup:OnNPCSpawned(keys)
 
         npc:Initialize()
         npc.class_name = GetClassName(npc:GetUnitName())
+        npc.playerId = npc:GetPlayerID()
+        npc.steamId = PlayerResource:GetSteamID(npc:GetPlayerID())
+        npc.playerName = PlayerResource:GetPlayerName(npc:GetPlayerID())
+
+        CustomGameEventManager:Send_ServerToAllClients( "player_name", { })
 
         -- set player hero team
         npc:SetTeam(DOTA_TEAM_GOODGUYS)
@@ -780,16 +789,18 @@ function GameSetup:FinishModeSelection()
         end
     end
 
-    CustomGameEventManager:Send_ServerToAllClients( "player_name", { })
-
 end
 
 function GameSetup:PlayerNameSent( event )
-    -- print("PlayerNameSent server id " , event.id)
-
     local playerName = event.PlayerName
 
+    print("HERO_LIST.count  " , #HERO_LIST)
+
     for _,hero in pairs(HERO_LIST) do
+        print("PlayerNameSent server name  " , event.PlayerName)
+        print("PlayerNameSent server id  " , event.PlayerID)
+        print("PlayerNameSent hero.playerId  " , hero.playerId)
+        print("-------------")
         if event.PlayerID == hero.playerId then
             hero.playerName = playerName
         end

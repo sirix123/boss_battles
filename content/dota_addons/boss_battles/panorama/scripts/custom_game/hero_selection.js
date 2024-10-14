@@ -149,7 +149,7 @@ function PlayerSelected( player, hero ) {
 	//$.CreatePanelWithProperties("PanelType", panelParent, "panelID", tableOfProperties)
 	//{ class: "PedSceneHeroSelected", selectionpos: "auto" }
 	heroPedPanels[player].FindChildInLayoutFile("HeroPed").RemoveAndDeleteChildren()
-	ped_panel = $.CreatePanelWithProperties("DOTAScenePanel", heroPedPanels[player].FindChildInLayoutFile("HeroPed"), "HeroPed", { class: "PedSceneHeroSelected", selectionpos: "auto",  unit: hero, particleonly: "false"  });
+	ped_panel = $.CreatePanel("DOTAScenePanel", heroPedPanels[player].FindChildInLayoutFile("HeroPed"), "HeroPed", { class: "PedSceneHeroSelected", selectionpos: "auto",  unit: hero, particleonly: "false"  });
 	//pedHeroImage.AddClass("PedSceneHeroSelected")
 
 	// add the players name to the bottom of the pedestal

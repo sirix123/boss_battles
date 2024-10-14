@@ -4,6 +4,6 @@
 
     $.Msg("client handshake started")
 
-    GameEvents.SendCustomGameEventToServer( "client_handshake", { } );	
+    GameEvents.SendCustomGameEventToServer( "client_handshake", {} );	
 
 })();

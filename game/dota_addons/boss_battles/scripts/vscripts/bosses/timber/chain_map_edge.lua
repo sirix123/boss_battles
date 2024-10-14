@@ -1,4 +1,5 @@
 LinkLuaModifier( "chain_modifier", "bosses/timber/chain_modifier", LUA_MODIFIER_MOTION_HORIZONTAL )
+LinkLuaModifier("chain_edge_bubble", "bosses/timber/chain_edge_bubble", LUA_MODIFIER_MOTION_NONE)
 
 chain_map_edge = class({})
 

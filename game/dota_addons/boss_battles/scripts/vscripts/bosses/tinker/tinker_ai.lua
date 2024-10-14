@@ -22,7 +22,12 @@ function Spawn( entityKeyValues )
 
 	thisEntity.PHASE = 1
 	thisEntity.stack_count = 0 --0
-	thisEntity.max_beam_stacks = 3 --3
+
+	if IsInToolsMode() == true then
+		thisEntity.max_beam_stacks = 0
+	else
+		thisEntity.max_beam_stacks = 3 --3
+	end
 
 	thisEntity.rearm = true
 

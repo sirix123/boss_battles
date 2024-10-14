@@ -5,7 +5,7 @@ function OnSocialButtonOnePressed(){
     $.Msg("click social button 1 website");
 
     //$.DispatchEvent("ExternalBrowserGoToURL", "your_url");
-    $.DispatchEvent("ExternalBrowserGoToURL", "https://bossbattles.co/Leaderboard");
+    $.DispatchEvent("ExternalBrowserGoToURL", "https://www.sdgames.co/boss_battles/leaderboard");
 
 }
 

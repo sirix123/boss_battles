@@ -1,6 +1,7 @@
 mine_droid_laymine = class({})
 
 LinkLuaModifier( "mine_droid_laymine_thinker", "bosses/timber/mine_droid_laymine_thinker", LUA_MODIFIER_MOTION_NONE )
+LinkLuaModifier( "droid_colour_modifier_red", "bosses/timber/droid_colour_modifier_red", LUA_MODIFIER_MOTION_NONE )
 
 function mine_droid_laymine:OnSpellStart()
     local caster = self:GetCaster()

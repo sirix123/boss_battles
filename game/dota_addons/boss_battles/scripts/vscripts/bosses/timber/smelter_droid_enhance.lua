@@ -1,7 +1,9 @@
 smelter_droid_enhance = class({})
 LinkLuaModifier( "smelter_droid_enhance_modifier_thinker", "bosses/timber/smelter_droid_enhance_modifier_thinker", LUA_MODIFIER_MOTION_NONE )
 LinkLuaModifier( "smelter_droid_enhance_modifier", "bosses/timber/smelter_droid_enhance_modifier", LUA_MODIFIER_MOTION_NONE )
---------------------------------------------------------------------------------
+LinkLuaModifier( "droid_colour_modifier_green", "bosses/timber/droid_colour_modifier_green", LUA_MODIFIER_MOTION_NONE )
+LinkLuaModifier("modifier_flying_movement_ground", "core/modifier_flying_movement_ground", LUA_MODIFIER_MOTION_NONE)
+-------------------------------------------------------------------------------
 
 smelter_droid_enhance.modifiers = {}
 function smelter_droid_enhance:OnSpellStart()

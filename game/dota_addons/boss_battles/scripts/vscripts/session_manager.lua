@@ -15,6 +15,7 @@ function SessionManager:Init()
     self.session_data["guid"] = GenerateGUID()
     self.session_data["releaseNumber"] = sRELEASE_NUMBER
     self.session_data["timeStampStart"] = GetSystemDate() .. " " .. GetSystemTime()
+    self.session_data["mapName"] = GetMapName()
     if IsInToolsMode() == true then
         self.session_data["testingMode"] = true
     else

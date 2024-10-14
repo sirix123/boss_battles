@@ -17,7 +17,7 @@ function Spawn( entityKeyValues )
     end
 
     if IsInToolsMode() == true then
-        thisEntity:SetBaseManaRegen(10)
+        thisEntity:SetBaseManaRegen(20)
     end
 
     thisEntity.green_beam = thisEntity:FindAbilityByName( "green_beam" )

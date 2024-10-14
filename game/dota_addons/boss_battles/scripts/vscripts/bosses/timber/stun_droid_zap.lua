@@ -3,6 +3,9 @@
 stun_droid_zap = class({})
 LinkLuaModifier( "stun_droid_zap_modifier_thinker", "bosses/timber/stun_droid_zap_modifier_thinker", LUA_MODIFIER_MOTION_NONE )
 LinkLuaModifier( "modifier_generic_stunned", "core/modifier_generic_stunned", LUA_MODIFIER_MOTION_NONE )
+LinkLuaModifier( "droid_colour_modifier_blue", "bosses/timber/droid_colour_modifier_blue", LUA_MODIFIER_MOTION_NONE )
+LinkLuaModifier( "blue_droid_death_modifier", "bosses/timber/blue_droid_death_modifier", LUA_MODIFIER_MOTION_NONE )
+LinkLuaModifier("modifier_flying_movement_ground", "core/modifier_flying_movement_ground", LUA_MODIFIER_MOTION_NONE)
 
 function stun_droid_zap:OnSpellStart()
     local caster = self:GetCaster()

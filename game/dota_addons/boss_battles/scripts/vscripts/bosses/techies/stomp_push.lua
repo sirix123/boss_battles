@@ -70,11 +70,41 @@ function stomp_push:OnSpellStart()
     if self.units ~= nil or #self.units ~= 0 then
         for _, unit in pairs(self.units) do
             EmitSoundOn("DOTA_Item.ForceStaff.Activate", unit)
-            unit:AddNewModifier(self:GetCaster(), ability, "modifier_stomp_push", {duration = 1})
+
+
+            -- unit:AddNewModifier(self:GetCaster(), ability, "modifier_stomp_push", {duration = 1})
             --unit:AddNewModifier(self:GetCaster(), ability, "modifier_stomp_pull", {duration = 1})
+
+            local distance = 900
+            local knockback =
+            {
+                should_stun = false,
+                knockback_duration = 0.5,
+                duration = 0.5,
+                knockback_distance = distance,
+                knockback_height = 0,
+                center_x = self:GetCaster():GetAbsOrigin().x,
+                center_y = self:GetCaster():GetAbsOrigin().y,
+                center_z = self:GetCaster():GetAbsOrigin().z
+            }
+            unit:AddNewModifier(self:GetCaster(), self, "modifier_knockback", knockback)
         end
     end
 
     self:GetCaster():AddNewModifier(self:GetCaster(), ability, "assistant_enchant_totem", {duration = 30})
 
 end
+
+-- local distance = radius - (target:GetAbsOrigin() - vPos):Length2D()
+-- local knockback =
+-- 	{
+-- 		should_stun = false,
+-- 		knockback_duration = 0.3,
+-- 		duration = 0.3,
+-- 		knockback_distance = distance,
+-- 		knockback_height = 0,
+-- 		center_x = vPos.x,
+-- 		center_y = vPos.y,
+-- 		center_z = vPos.z
+-- 	}
+-- target:AddNewModifier(caster, self, "modifier_knockback", knockback)

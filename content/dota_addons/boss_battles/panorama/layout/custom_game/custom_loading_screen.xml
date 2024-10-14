@@ -195,9 +195,9 @@
 				<Button id="socials_button_1" class="social_buttons" onactivate="OnSocialButtonOnePressed()" >
 					<Label id="socials_button_1_text" class="social_buttons_text" text="Leaderboard" />
 				</Button>
-				<Button id="socials_button_2" class="social_buttons" onactivate="OnSocialButtonTwoPressed()" >
+				<!-- <Button id="socials_button_2" class="social_buttons" onactivate="OnSocialButtonTwoPressed()" >
 					<Label id="socials_button_1_text" class="social_buttons_text" text="Discord" />
-				</Button>
+				</Button> -->
 			</Panel>
 		</Panel>
 	</Panel>

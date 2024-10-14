@@ -338,9 +338,10 @@ function saw_blade_thinker:PlayStayEffects()
 	ParticleManager:ReleaseParticleIndex( self.effect_cast )
 
 	-- Get Resources
-	local particle_cast = "particles/units/heroes/hero_shredder/shredder_chakram_stay.vpcf"
+	local particle_cast = "particles/econ/items/shredder/hero_shredder_icefx/shredder_chakram_stay_ice.vpcf"
 
-	-- Create Particle
+	-- "particles/units/heroes/hero_shredder/shredder_chakram_stay.vpcf"
+	-- Create Particle`
 	self.effect_cast = ParticleManager:CreateParticle( particle_cast, PATTACH_WORLDORIGIN, nil )
 	ParticleManager:SetParticleControl( self.effect_cast, 0, self.parent:GetOrigin() )
 	ParticleManager:SetParticleControl( self.effect_cast, 16, Vector( 0, 0, 0 ) )

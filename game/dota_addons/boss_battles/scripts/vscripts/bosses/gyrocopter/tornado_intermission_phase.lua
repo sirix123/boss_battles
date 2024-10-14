@@ -16,7 +16,7 @@ function tornado_intermission_phase:OnSpellStart()
     if IsServer() then
 
         local caster = self:GetCaster()
-        local caster_origin = caster:GetAbsOrigin()
+        self.caster_origin = caster:GetAbsOrigin()
         self.radius = 100
 
         local particle = "particles/units/heroes/hero_invoker/invoker_tornado.vpcf"
@@ -35,7 +35,7 @@ function tornado_intermission_phase:OnSpellStart()
             local hProjectile = {
                 Source = caster,
                 Ability = self,
-                vSpawnOrigin = caster_origin,
+                vSpawnOrigin = self.caster_origin,
                 bDeleteOnHit = false,
                 iUnitTargetTeam = DOTA_UNIT_TARGET_TEAM_ENEMY,
                 iUnitTargetFlags = DOTA_UNIT_TARGET_FLAG_INVULNERABLE,
@@ -74,22 +74,36 @@ function tornado_intermission_phase:OnProjectileHit_ExtraData(hTarget, location,
 
             --PrintTable(ExtraData)
 
-            hTarget:AddNewModifier(
-                hTarget,
-                self,
-                "modifier_generic_arc_lua",
-                {
-                    dir_x = ExtraData.direction_x,
-                    dir_y = ExtraData.direction_y,
-                    speed = ExtraData.velocity,
-                    distance = 1000,
-                    fix_end = true,
-                    isStun = true,
-                    fix_height = true,
-                    activity = ACT_DOTA_FLAIL,
-                    isForward = true,
-                }
-            )
+            local distance = 1000
+            local knockback =
+            	{
+            		should_stun = true,
+            		knockback_duration = 1.5,
+            		duration = 1.5,
+            		knockback_distance = distance,
+            		knockback_height = 0,
+            		center_x = self.caster_origin.x,
+            		center_y = self.caster_origin.y,
+            		center_z = self.caster_origin.z
+            	}
+            hTarget:AddNewModifier(caster, self, "modifier_knockback", knockback)
+
+            -- hTarget:AddNewModifier(
+            --     hTarget,
+            --     self,
+            --     "modifier_generic_arc_lua",
+            --     {
+            --         dir_x = ExtraData.direction_x,
+            --         dir_y = ExtraData.direction_y,
+            --         speed = ExtraData.velocity,
+            --         distance = 1000,
+            --         fix_end = true,
+            --         isStun = true,
+            --         fix_height = true,
+            --         activity = ACT_DOTA_FLAIL,
+            --         isForward = true,
+            --     }
+            -- )
 
             return true
         end

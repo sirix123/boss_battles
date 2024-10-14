@@ -11,7 +11,7 @@
         "Ability3"              "q_conq_shout"  
         "Ability4"              "r_blade_vortex"
         "Ability5"              "space_chain_hook"
-        "Ability6"              ""
+        "Ability6"              "warlord_passive"
         "Ability7"              ""
         "Ability8"              ""
         "Ability9"              ""

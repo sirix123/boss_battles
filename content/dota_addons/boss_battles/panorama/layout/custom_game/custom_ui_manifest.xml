@@ -3,9 +3,7 @@
 		<include src="file://{resources}/scripts/custom_game/client_handshake.js" />
 		<include src="file://{resources}/scripts/custom_game/player_name.js" />
 		<include src="file://{resources}/scripts/custom_game/util.js" />
-		<include src="file://{resources}/scripts/custom_game/camera.js" />
 		<include src="file://{resources}/scripts/custom_game/ui_modify.js" />
-		<include src="file://{resources}/scripts/custom_game/player_movement.js" />
 		<include src="file://{resources}/scripts/custom_game/commands.js" />
 		<include src="file://{resources}/scripts/custom_game/custom_hud_messages.js" />
 	</scripts>
@@ -15,18 +13,12 @@
 	</styles>
 		
 	<Panel>
-		<CustomUIElement type="Hud"			layoutfile="file://{resources}/layout/custom_game/custom_hotkeys_players.xml" />
-		<CustomUIElement type="Hud"			layoutfile="file://{resources}/layout/custom_game/target_indicator.xml" />
-		<CustomUIElement type="Hud" 		layoutfile="file://{resources}/layout/custom_game/progress_bars.xml" />
 		<CustomUIElement type="Hud" 		layoutfile="file://{resources}/layout/custom_game/game_scoreboard.xml" />
-		<CustomUIElement type="Hud" 		layoutfile="file://{resources}/layout/custom_game/precache.xml" />
 		<CustomUIElement type="Hud" 		layoutfile="file://{resources}/layout/custom_game/raid_status.xml" /> 
 		<CustomUIElement type="Hud" 		layoutfile="file://{resources}/layout/custom_game/hero_selection.xml" />
 		<CustomUIElement type="Hud" 		layoutfile="file://{resources}/layout/custom_game/mode_selector.xml" />
-		<CustomUIElement type="Hud" 		layoutfile="file://{resources}/layout/custom_game/lag_message.xml" />
 		<CustomUIElement type="Hud" 		layoutfile="file://{resources}/layout/custom_game/help_box.xml" />
 		<CustomUIElement type="Hud" 		layoutfile="file://{resources}/layout/custom_game/post_game_screen.xml" />
-		<CustomUIElement type="Hud" 		layoutfile="file://{resources}/layout/custom_game/shop.xml" />
 	</Panel>
 </root>
 

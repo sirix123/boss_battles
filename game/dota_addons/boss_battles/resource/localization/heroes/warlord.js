@@ -102,12 +102,13 @@ function GenerateLocalizationData() {
     Abilities.push({
         ability_classname: "q_conq_shout",
         name: "Inspire",
-        description: "Blademaster inspires his allies near him and his ".concat(bladeVortexColour, ". ").concat(inspireColour, " also generates one stack of ").concat(fightingSpiritColour, "."),
+        description: "Blademaster inspires his allies near him and his ".concat(bladeVortexColour, ". ").concat(inspireColour, " also generates one stack of ").concat(fightingSpiritColour, ".\n        Fighting Spirit regenerates 5 health per second and 2 mana per second.\n        Fighting Spirit can stack up to three times.\n        "),
         //lore: `Blademaster's military experience allows him to inspire his allies to push forward against overwhelming odds.`,
-        notes: [
-            "Fighting Spirit regenerates 5 health per second and 2 mana per second.",
-            "Fighting Spirit can stack up to three times.",
-        ],
+        // notes:
+        // [
+        //     `Fighting Spirit regenerates 5 health per second and 2 mana per second.`,
+        //     `Fighting Spirit can stack up to three times.`,
+        // ],
         ability_specials: [
             {
                 ability_special: "vortex_dmg_inc",
@@ -123,12 +124,13 @@ function GenerateLocalizationData() {
     Abilities.push({
         ability_classname: "e_warlord_shout",
         name: "Barricade",
-        description: "Blademaster defends his allies near him and his ".concat(bladeVortexColour, ", granting them a shield. ").concat(barricadeColour, " also generates one stack of ").concat(fightingSpiritColour, "."),
+        description: "Blademaster defends his allies near him and his ".concat(bladeVortexColour, ", granting them a shield. ").concat(barricadeColour, " also generates one stack of ").concat(fightingSpiritColour, ". \n        Fighting Spirit regenerates 5 health per second and 2 mana per second.\n        Fighting Spirit can stack up to three times.\n        "),
         //lore: `The long and bitter war against the Templars revealed the importance of proper defence.`,
-        notes: [
-            "Fighting Spirit regenerates 5 health per second and 2 mana per second.",
-            "Fighting Spirit can stack up to three times.",
-        ],
+        // notes:
+        // [
+        //     `Fighting Spirit regenerates 5 health per second and 2 mana per second.`,
+        //     `Fighting Spirit can stack up to three times.`,
+        // ],
         ability_specials: [
             {
                 ability_special: "duration",
@@ -165,12 +167,25 @@ function GenerateLocalizationData() {
         ability_classname: "space_chain_hook",
         name: "Chain Hook",
         description: "Blademaster throws a hook out that attaches to an friendly or enemy target, pulling himself towards it.",
-        //lore: `Every fighter needs a trick up his sleeve.`,
+        lore: "Every fighter needs a trick up his sleeve.",
         notes: [
             "Blademaster is not invulnerable during the movement.",
             "Friendly and enemy targets include structures or summons."
         ],
         ability_specials: []
+    });
+    Abilities.push({
+        ability_classname: "warlord_passive",
+        name: "Blade Mastery",
+        description: 'Blademaster basic attack has cleave and grants mana on hit.',
+        notes: [],
+        ability_specials: [
+            {
+                ability_special: "mana_gain_percent",
+                text: "MANA GAIN:",
+                percentage: true
+            },
+        ]
     });
     // Return data to compiler
     return localization_info;
